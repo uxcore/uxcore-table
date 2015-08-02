@@ -1,0 +1,36 @@
+*, *:after, *:before {
+    box-sizing: border-box;
+}
+.kuma-grid {
+  display: table;
+  border:0px solid #ebebeb;
+  border-collapse: collapse;
+}
+.kuma-grid-header {
+  background-color: #f2f2f2;
+}
+.kuma-grid-header:hover{}
+.kuma-grid-row {
+  display: table-row;
+}
+.kuma-grid-row:hover {
+  background-color: #fbfbfb;
+}
+.kuma-grid-cell{
+  display: table-cell;
+  border: 1px  solid #ebebeb;
+  text-align: center;
+  height:100%;
+  padding: 0px;
+}
+
+.kuma-grid-cell >span{
+  height: 30px;
+  line-height: 30px;
+  width: 100%;
+  display: inline-block;
+}
+
+.kuma-grid-cell .kuma-input{
+  height: 30px;
+}
