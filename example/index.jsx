@@ -34,14 +34,15 @@ var gen = (function(){
 })()
 
 
+// title, width, type, hidden
 var columns = [
     { name: 'checked', title: '', width: 30,type:'checkbox'},
-    { name: 'id', title: '#', width: 50},
-    { name: 'country', width: 200},
-    { name: 'city', width: 150 },
-    { name: 'firstName' },  
-    { name: 'lastName'  },
-    { name: 'email', width: 200 ,type:"text"}
+    { name: 'id', title: 'ID', width: 50,hidden:true},
+    { name: 'country', title:'国家', width: 200, type:'text'},
+    { name: 'city',title:'城市', width: 150 },
+    { name: 'firstName',title:"FristName" },  
+    { name: 'lastName' ,title:"LastName",type:'text'},
+    { name: 'email',title:"Email",width: 200 ,type:"text"}
 ]
 
 var data= gen(20);
@@ -58,7 +59,12 @@ var rowSelection = {
   }
 };
 
+var onModifyRow= function(record){
+    //console.info("onModifyRow:",record);
+    //doValidate
+    return true;
+};
 
-React.render((
-    <App jsxcolumns={columns} jsxdata={data} rowSelection={rowSelection}/>
+React.render((  //
+    <App jsxcolumns={columns} jsxdata={data} rowSelection={rowSelection} onModifyRow={onModifyRow} columnPicker fixed />
 ), document.getElementById('content'))

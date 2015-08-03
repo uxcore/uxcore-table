@@ -11,10 +11,13 @@ class TextField extends React.Component {
         };
     }
     componentDidMount() {
-        this.refs.txtfield.getDOMNode().focus();
+        this.focus();
     }
     componentDidUpdate() {
 
+    }
+    focus() {
+        this.refs.txtfield.getDOMNode().focus();
     }
     componentWillUnmount () {
        

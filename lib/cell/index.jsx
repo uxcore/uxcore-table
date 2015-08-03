@@ -35,21 +35,32 @@ class Cell extends React.Component {
             mode:"edit"
         })
     }
-    handleChange(e){
-        console.info(e.target.value);
+    handleCheckChange(e) {
+        var _props= this.props,v=_props.data[_props.index];
+        v.checked=e.target.checked;
+        this.setState({});
+    }
+    handleTxtChange(e){
         var _props= this.props;
         _props.data[_props.index][_props.column.name]=e.target.value;
     }
-    onblur() {
-       this.setState({
-            mode:"view"
-        })
+    onblur(e) {
+       var _props= this.props;
+       
+        var isValid=_props.onModifyRow.apply(null,[_props.data[_props.index]]);
+        if(isValid) {
+            this.setState({
+                mode:"view"
+            });
+        }else {
+           e.target.focus?e.target.focus():"";
+        }
     }
     render() {
         
         let props= this.props,_column=props.column, _width=_column.width, _style={
             width: _width?_width:100
-        },_v=props.data[props.index];
+        },_v=props.data[props.index],renderProps;
 
         if(_column.type=='checkbox') {
             let checked;
@@ -58,9 +69,15 @@ class Cell extends React.Component {
             }else {
                 checked="";
             }
-            _v=<CheckBox checked={checked} ref="checkbox" onchange={this.handleChange.bind(this)}/>
+            console.info("111:",checked);
+            _v=<CheckBox checked={checked} ref="checkbox" onchange={this.handleCheckChange.bind(this)}/>
         }else if(_column.type=='text' && this.state.mode=='edit') {
-            _v=<TextField value={_v[_column.name]} onchange={this.handleChange.bind(this)} onblur={this.onblur.bind(this)}/>
+            renderProps={
+                value: _v[_column.name],
+                onchange:this.handleTxtChange.bind(this),
+                onblur:this.onblur.bind(this)
+            }
+            _v=<TextField {...renderProps}/>
         }
         else {
             _v=<span>{props.data[props.index][_column.name]}</span>;

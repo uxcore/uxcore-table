@@ -25,7 +25,7 @@ class Row extends React.Component {
        
     }
     handleClick() {
-        console.log("+++++handleClick row+++");
+
     }
     render() {
         let props= this.props,_columns=props.columns,_style={},_data=props.data;
@@ -33,10 +33,14 @@ class Row extends React.Component {
         return (<div className={this.props.jsxprefixCls} onClick={this.handleClick.bind(this)}>
             {
                 _columns.map(function(item){
+
+                    if(item.hidden) return;
+                
                    let renderProps={
                         column: item,
                         index: props.index,
-                        data:_data
+                        data:_data,
+                        onModifyRow: props.onModifyRow
                     };
                    return <Cell {...renderProps} />
                 })

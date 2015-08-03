@@ -7,9 +7,6 @@ class CheckBox extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state= {
-            
-        };
     }
 
     componentDidMount() {
@@ -20,7 +17,6 @@ class CheckBox extends React.Component {
 
     }
     
-
     componentWillUnmount () {
        
     }
@@ -28,15 +24,26 @@ class CheckBox extends React.Component {
     prepareStyle() {
 
     }
-    handleClick(e) {
-
+    handleChange(e) {
+        let v= this.getValue();
+        v=v?'checked':'';
+        this.props.onchange.apply(null,[e])
+        /*this.setState({
+            checked: v
+        })*/
     }
+    
     getValue () {
         return this.refs.checkbox.getDOMNode().checked;
     }
-    // why defaultChecked not work, 
+
     render() {
-        return <div><input type="checkbox" defaultChecked={this.props.checked}  onChange={this.props.onchange.bind(this)} ref="checkbox"/></div>
+        let renderProps= {
+            className: "kuma-checkbox",
+            checked: this.props.checked,
+            onChange: this.handleChange.bind(this)
+        }
+        return <label><input  type="checkbox" ref="checkbox" {...renderProps}/><s></s></label>
     }
 
 };

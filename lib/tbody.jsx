@@ -42,7 +42,8 @@ class Tbody extends React.Component {
                 let renderProps={
                     columns: _columns,
                     index: index,
-                    data:_data
+                    data:_data,
+                    onModifyRow: _props.onModifyRow
                 };
                 return <Row {...renderProps} />
             })}
