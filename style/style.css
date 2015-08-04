@@ -7,9 +7,17 @@
   border-collapse: collapse;
 }
 .kuma-grid-header {
+  position: relative;
   background-color: #f2f2f2;
 }
-.kuma-grid-header:hover{}
+.kuma-grid-header:hover{
+  
+}
+
+.kuma-grid-body {
+  border:1px solid #ebebeb;
+}
+
 .kuma-grid-row {
   display: table-row;
 }
@@ -24,6 +32,7 @@
   padding: 0px;
   vertical-align: middle;
   position: relative;
+  word-break:break-all;
 }
 
 .kuma-grid-cell >span{
@@ -58,8 +67,24 @@
   padding: 4px 20px;
   cursor: pointer;
   text-align: left;
+  line-height: 21px;
+}
+
+.kuma-column-picker-container{
+  position: absolute;
+  right: 12px;
+  top: 0px;
 }
 
 .kuma-grid-colmnpicker > li:hover{
 
+}
+
+.kuma-grid-pagination{
+  text-align: right;
+  padding: 10px 0px;
+}
+
+.kuma-grid .kuma-pagination {
+  display: inline-block;
 }

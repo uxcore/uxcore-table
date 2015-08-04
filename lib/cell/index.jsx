@@ -35,14 +35,24 @@ class Cell extends React.Component {
             mode:"edit"
         })
     }
+
+    getSelectionRows() {
+        var _props= this.props;
+        return _props.data.filter(function(item) {
+            return item.jsxchecked
+        });
+    }
     handleCheckChange(e) {
         var _props= this.props,v=_props.data[_props.index];
-        v.checked=e.target.checked;
+        v.jsxchecked=e.target.checked;
         this.setState({});
+        if( _props.rowSelection) {
+            _props.rowSelection.onSelect.apply(null,[v.jsxchecked,v,this.getSelectionRows()])
+        }
     }
     handleTxtChange(e){
         var _props= this.props;
-        _props.data[_props.index][_props.column.name]=e.target.value;
+        _props.data[_props.index][_props.column.dataKey]=e.target.value;
     }
     onblur(e) {
        var _props= this.props;
@@ -64,23 +74,23 @@ class Cell extends React.Component {
 
         if(_column.type=='checkbox') {
             let checked;
-            if(_v.checked){
+            if(_v.jsxchecked){
                 checked='checked'
             }else {
                 checked="";
             }
-            console.info("111:",checked);
-            _v=<CheckBox checked={checked} ref="checkbox" onchange={this.handleCheckChange.bind(this)}/>
+            _v=<CheckBox jsxchecked={checked} ref="checkbox" onchange={this.handleCheckChange.bind(this)}/>
+
         }else if(_column.type=='text' && this.state.mode=='edit') {
             renderProps={
-                value: _v[_column.name],
+                value: _v[_column.dataKey],
                 onchange:this.handleTxtChange.bind(this),
                 onblur:this.onblur.bind(this)
             }
             _v=<TextField {...renderProps}/>
         }
         else {
-            _v=<span>{props.data[props.index][_column.name]}</span>;
+            _v=<span>{props.data[props.index][_column.dataKey]}</span>;
         }
         return (<div className={props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
             {_v}

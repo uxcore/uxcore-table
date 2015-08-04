@@ -60,11 +60,12 @@ class Header extends React.Component {
     //prepare the column picker html fragement
     preparePicker() {
         let me= this;
-        return (<div>
+        return (<div className="kuma-column-picker-container">
             <i className="kuma-icon kuma-icon-target-list kuma-column-picker" onClick={this.handleColumnPicker.bind(this)}></i>
             <ul className="kuma-grid-colmnpicker" ref="columnpicker">
                 {
                     this.props.columns.map(function(item,index) {
+                        if(item.dataKey=='jsxchecked') return;
                         if(item.hidden) {
                             return <li ref="" onClick={me.handleColumns.bind(me,index)}>{item.title}</li>
                         }else {
@@ -85,13 +86,10 @@ class Header extends React.Component {
              _picker=this.preparePicker();
         }
 
-        let _style={ }
-
-        if(props.fixed) {
-            _style={
-                position:'fixed',
-                zIndex:100
-            }
+        let _style={ 
+            height: props.headerHeight?props.headerHeight:40,
+            width: props.width,
+            lineHeight: (props.headerHeight?props.headerHeight:40)+"px"
         }
 
         return (<div className={props.jsxprefixCls} style={_style}>
@@ -112,12 +110,12 @@ class Header extends React.Component {
                     return (
                             <div className="kuma-grid-cell" style={_style} >
                             <span>{_v}</span>
-                            {_picker}
                     </div>)
                 }else {
                     return <div className="kuma-grid-cell" style={_style}><span>{_v}</span></div>
                 }
             })}
+            {_picker}
         </div>);
     }
 

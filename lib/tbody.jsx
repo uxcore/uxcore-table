@@ -30,20 +30,23 @@ class Tbody extends React.Component {
     prepareStyle() {
 
     }
-    //TODO:add scroller feature for tbody
-    render() {
 
-        console.log("+++++tbody+++++");
+    render() {
         
         let _props= this.props, _columns= _props.columns, _data= _props.data;
-
-        return (<div className={this.props.jsxprefixCls}>
+        let _style={
+            width: _props.width,
+            height: _props.height,
+            overflowY:'scroll'
+        }
+        return (<div className={this.props.jsxprefixCls} style={_style}>
            { _data.map(function(item,index) {
                 let renderProps={
                     columns: _columns,
                     index: index,
                     data:_data,
-                    onModifyRow: _props.onModifyRow
+                    onModifyRow: _props.onModifyRow,
+                    rowSelection: _props.rowSelection
                 };
                 return <Row {...renderProps} />
             })}

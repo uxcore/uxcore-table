@@ -40,7 +40,8 @@ class Row extends React.Component {
                         column: item,
                         index: props.index,
                         data:_data,
-                        onModifyRow: props.onModifyRow
+                        onModifyRow: props.onModifyRow,
+                        rowSelection: props.rowSelection
                     };
                    return <Cell {...renderProps} />
                 })
