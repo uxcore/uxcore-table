@@ -19,14 +19,16 @@
 }
 
 .kuma-grid-row {
-  display: table-row;
+    display: inline-block;
+    width: 100%;
+    border-bottom: 1px solid #efefef;
+    line-height: 34px;
 }
 .kuma-grid-row:hover {
   background-color: #fbfbfb;
 }
 .kuma-grid-cell{
   display: table-cell;
-  border: 1px  solid #ebebeb;
   text-align: center;
   height:100%;
   padding: 0px;

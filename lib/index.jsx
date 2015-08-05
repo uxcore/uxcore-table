@@ -89,7 +89,7 @@ class Grid extends React.Component {
 
     renderPager() {
         if(this.props.onPageChange) {
-            return (<div className="kuma-grid-pagination"><Pagination total={this.props.jsxdata.length} onChange={this.onPageChange.bind(this)} current={this.state.currentPage}/></div>)
+            return (<div className="kuma-grid-pagination"><Pagination className="mini" total={this.props.jsxdata.length} onChange={this.onPageChange.bind(this)} current={this.state.currentPage}/></div>)
         }
     }
 
