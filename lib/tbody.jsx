@@ -43,10 +43,11 @@ class Tbody extends React.Component {
            { _data.map(function(item,index) {
                 let renderProps={
                     columns: _columns,
-                    index: index,
+                    rowIndex: index,
                     data:_data,
                     onModifyRow: _props.onModifyRow,
-                    rowSelection: _props.rowSelection
+                    rowSelection: _props.rowSelection,
+                    subComp: _props.subComp
                 };
                 return <Row {...renderProps} />
             })}

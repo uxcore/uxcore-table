@@ -99,7 +99,8 @@ class Header extends React.Component {
                 if(item.hidden) return;
 
                 let _style={
-                    width: item.width? item.width:100
+                    width: item.width? item.width:100,
+                    textAlign:item.align?item.align:"center"
                 },_v;
                 if(item.type=='checkbox') {
                     _v=<CheckBox  ref="checkbox" onchange={me.handleCheckBoxChange.bind(me)}/>

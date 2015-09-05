@@ -10,7 +10,8 @@ class Cell extends React.Component {
     constructor(props) {
         super(props);
         this.state= {
-            'mode':'view'
+            'mode':'view',
+            'fold':1   // 1- fold  0-unfold
         };
     }
 
@@ -21,7 +22,6 @@ class Cell extends React.Component {
     componentDidUpdate() {
 
     }
-    
 
     componentWillUnmount () {
        
@@ -43,7 +43,7 @@ class Cell extends React.Component {
         });
     }
     handleCheckChange(e) {
-        var _props= this.props,v=_props.data[_props.index];
+        var _props= this.props,v=_props.rowData;
         v.jsxchecked=e.target.checked;
         this.setState({});
         if( _props.rowSelection) {
@@ -52,12 +52,12 @@ class Cell extends React.Component {
     }
     handleTxtChange(e){
         var _props= this.props;
-        _props.data[_props.index][_props.column.dataKey]=e.target.value;
+        _props.rowData[_props.column.dataKey]=e.target.value;
     }
     onblur(e) {
-       var _props= this.props;
+       var _props= this.props,record=_props.rowData,value=record[_props.column.dataKey]
        
-        var isValid=_props.onModifyRow.apply(null,[_props.data[_props.index]]);
+        var isValid=_props.onModifyRow.apply(null,[value,_props.column.dataKey,record]);
         if(isValid) {
             this.setState({
                 mode:"view"
@@ -66,11 +66,26 @@ class Cell extends React.Component {
            e.target.focus?e.target.focus():"";
         }
     }
+
+    showSubComp() {
+        this.props.showSubCompCallback.call(this.props.ctx);
+    }
+
+    renderChildIcon() {
+        if(this.props.cellIndex==0 && this.props.hasSubComp) {
+            if(this.props.st_showSubComp) {
+                return (<span className="kuma-grid-tree-icon" onClick={this.showSubComp.bind(this)}><i className="kuma-icon kuma-icon-tree-open"></i></span>);
+            }else {
+                return (<span className="kuma-grid-tree-icon" onClick={this.showSubComp.bind(this)}><i className="kuma-icon kuma-icon-tree-close"></i></span>);
+            }
+        }
+    }
     render() {
         
         let props= this.props,_column=props.column, _width=_column.width, _style={
-            width: _width?_width:100
-        },_v=props.data[props.index],renderProps;
+            width: _width?_width:100,
+            textAlign:props.align?props.align:"center"
+        },_v=props.rowData,renderProps;
 
         if(_column.type=='checkbox') {
             let checked;
@@ -79,7 +94,7 @@ class Cell extends React.Component {
             }else {
                 checked="";
             }
-            _v=<CheckBox jsxchecked={checked} ref="checkbox" onchange={this.handleCheckChange.bind(this)}/>
+            _v=<CheckBox align={props.align} jsxchecked={checked} ref="checkbox" onchange={this.handleCheckChange.bind(this)}/>
 
         }else if(_column.type=='text' && this.state.mode=='edit') {
             renderProps={
@@ -90,15 +105,13 @@ class Cell extends React.Component {
             _v=<TextField {...renderProps}/>
         }
         else {
-            _v=<span>{props.data[props.index][_column.dataKey]}</span>;
+            _v=<span>{props.rowData[_column.dataKey]}</span>;
         }
         return (<div className={props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
+            {this.renderChildIcon()}
             {_v}
-        </div>);
-
-        
+        </div>);   
     }
-
 };
 
 Cell.propTypes= {

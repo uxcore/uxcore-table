@@ -1,5 +1,5 @@
 {
-  "name": "grid",
+  "name": "uxcore-grid",
   "version": "1.0.0",
   "description": "grid ui component for react",
   "main": "lib/index.js",

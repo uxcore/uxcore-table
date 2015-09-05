@@ -5,6 +5,7 @@ import React from 'react';
 import Header from "./header"
 import Tbody  from "./tbody"
 import Pagination  from "uxcore-pagination"
+import Mask from "./mask"
 
 class Grid extends React.Component {
 
@@ -29,9 +30,43 @@ class Grid extends React.Component {
        
     }
 
-    processData() {
-        let props=this.props, columns= props.jsxcolumns,hasCheckedColumn;
+    fetchData() {
+        let ctx=this,queryStr="";
+        //__rowData right now use as subComp row data, if has __rowData
+        //that means subComp it is
+        if(this.props.__rowData) {
+            let queryObj={};
+            this.props.params.forEach(function(key) {
+                if(ctx.props.__rowData[key]) {
+                    queryObj[key]= ctx.props.__rowData[key];
+                }
+            })
+            queryStr= $.param(queryObj)+"&";
+        }
+        $.ajax({
+            url: this.props.jsxurl+"?"+queryStr+new Date().getTime(),
+            success: function(result) {
+                let _data= result.content.datas;
+                if(result.success) {
+                    ctx.props.jsxdata=_data;
+                    ctx.props.mask=false;
+                    ctx.setState({
+                        data: _data,
+                        mask:false
+                    })
+                }
+            }
+        })
+    }
 
+    processData() {
+
+        let props=this.props, columns= props.jsxcolumns,hasCheckedColumn;
+        if(!this.props.jsxdata){
+            this.props.jsxdata=[];
+            //this.props.mask=true;
+            this.fetchData();
+        }
         this.state.data= this.props.jsxdata;
         columns=columns.map(function(item,index){
             if(item.hidden==undefined) {
@@ -46,7 +81,11 @@ class Grid extends React.Component {
         //if has rowSelection, also attach checked column
         //{ dataKey: 'jsxchecked', width: 30,type:'checkbox'}
         if(props.rowSelection && !hasCheckedColumn) {
-           this.props.jsxcolumns= [{ dataKey: 'jsxchecked', width: 30,type:'checkbox'}].concat(columns)
+           if(props.subComp) {
+                this.props.jsxcolumns= [{ dataKey: 'jsxchecked', width: 60,type:'checkbox', align:'right'}].concat(columns)
+           }else {
+                this.props.jsxcolumns= [{ dataKey: 'jsxchecked', width: 30,type:'checkbox'}].concat(columns)
+           }
         }
 
     }
@@ -62,7 +101,6 @@ class Grid extends React.Component {
     }
 
     selectAll(checked) {
-
         let _data=this.state.data.map(function(item,index){
             item.jsxchecked=checked;
             item.country=item.country;
@@ -81,10 +119,7 @@ class Grid extends React.Component {
 
     onPageChange (index) {
         this.state.currentPage=index;
-        /*this.setState({
-            currentPage:index
-        })*/
-        this.props.onPageChange.apply(null,[index])
+        this.props.onPageChange.apply(null,[index]);
     }
 
     renderPager() {
@@ -102,7 +137,8 @@ class Grid extends React.Component {
             width: props.width,
             height: props.height,
             onModifyRow: props.onModifyRow?props.onModifyRow: function(){},
-            rowSelection: props.rowSelection
+            rowSelection: props.rowSelection,
+            subComp: props.subComp
         },
         renderHeaderProps={
             columns:  props.jsxcolumns,
@@ -114,10 +150,15 @@ class Grid extends React.Component {
             width: props.width
         };
 
+        let gridHeader;
+        if(props.headerHeight) {
+            gridHeader=<Header {...renderHeaderProps} />
+        }
         return (<div className={props.jsxprefixCls}>
-            <Header {...renderHeaderProps} />
+            {gridHeader}
             <Tbody  {...renderBodyProps}/>
             {this.renderPager()}
+            <Mask visible={props.mask}/>
         </div>);
 
     }

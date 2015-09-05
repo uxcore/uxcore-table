@@ -38,11 +38,11 @@ var gen = (function(){
 // title, width, type, hidden,dataKey
 var columns = [
     { dataKey: 'id', title: 'ID', width: 50,hidden:true},
-    { dataKey: 'country', title:'国家', width: 200, type:'text'},
+    { dataKey: 'country', title:'国家', width: 200},
     { dataKey: 'city',title:'城市', width: 150 },
     { dataKey: 'firstName',title:"FristName" },  
-    { dataKey: 'lastName' ,title:"LastName",type:'text'},
-    { dataKey: 'email',title:"Email",width: 200 ,type:"text"}
+    { dataKey: 'lastName' ,title:"LastName"},
+    { dataKey: 'email',title:"Email",width: 200 }
 ]
 
 var data= gen(20);
@@ -67,15 +67,36 @@ var App = React.createClass({
         }
       },
       onPageChange: function(pageIndex) {
+
           this.setState({
-             data: gen(20)
+             mask: true
           })
+
+          setTimeout(function() {
+            this.setState({
+             data: gen(20),
+             mask: false
+            });
+          }.bind(this),1000);
+          
       },
-      onModifyRow: function(record) {
+      onModifyRow: function(value,dataKey,record) {
         //doValidate
+        //debugger;
+        //return false;
         return true;
       },
       render: function() {
+
+        var renderSubProps={
+            width: 700,
+            height:200,
+            jsxcolumns:columns,
+            jsxurl:"http://localhost:9090/example/data.json",
+            params:["dataKey","firstName"],
+            onModifyRow: this.onModifyRow
+        };
+
         var renderProps={
             headerHeight:50,
             width:700,
@@ -84,8 +105,11 @@ var App = React.createClass({
             onPageChange: this.onPageChange,
             onModifyRow: this.onModifyRow,
             rowSelection: rowSelection,
-            jsxdata:this.state.data,
-            jsxcolumns:columns
+            //jsxdata:this.state.data,
+            jsxurl:"http://localhost:9090/example/data.json",
+            subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
+            jsxcolumns:columns,
+            mask: this.state.mask
         };
         return (<Grid {...renderProps}  ref="grid"/>);
       }
