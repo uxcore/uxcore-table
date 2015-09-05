@@ -2,7 +2,7 @@
  * Grid Component for uxcore
  * @author zhouquan.yezq
  *
- * Copyright 2014-2015, Uxcore Team, Alinw.
+ * Copyright 2014-2015, UXCore Team, Alinw.
  * All rights reserved.
  */
 import React from 'react';

@@ -76,6 +76,7 @@ gulp.task('server', [
         server: {
             baseDir: './'
         },
+
         open: 'external'
     });
 
