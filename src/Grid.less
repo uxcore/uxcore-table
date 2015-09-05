@@ -1,17 +1,23 @@
-*, *:after, *:before {
-    box-sizing: border-box;
-}
-.kuma-grid {
+/**
+ * Grid Component Style for uxcore
+ * @author zhouquan.yezq
+ *
+ * Copyright 2014-2015, Uxcore Team, Alinw.
+ * All rights reserved.
+ */
+
+ .kuma-grid {
   display: table;
   border:0px solid #ebebeb;
   border-collapse: collapse;
+  position: relative;
 }
 .kuma-grid-header {
   position: relative;
   background-color: #f2f2f2;
 }
 .kuma-grid-header:hover{
-  
+
 }
 
 .kuma-grid-body {
@@ -78,6 +84,15 @@
   top: 0px;
 }
 
+.kuma-grid-subrow {
+
+}
+
+.kuma-grid-tree-icon{
+  margin-right:8px;
+  cursor:pointer;
+}
+
 .kuma-grid-colmnpicker > li:hover{
 
 }
@@ -89,4 +104,35 @@
 
 .kuma-grid .kuma-pagination {
   display: inline-block;
+}
+
+
+.kuma-mask {
+	  position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 100;
+    left: 0px;
+    top: 0px;
+    opacity:.2;
+    display:block;
+}
+
+.kuma-mask-hide {
+    display:none;
+}
+
+.kuma-mask-centerblk {
+	color: #fff;
+	font-size: 14px;
+	text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+.kuma-mask-centerblk:after {
+  content: '';  
+  height: 50%;  
+  display:inline-block;
 }

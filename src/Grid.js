@@ -1,11 +1,15 @@
 /**
- * Created by xy on 15/4/13.
+ * Grid Component for uxcore
+ * @author zhouquan.yezq
+ *
+ * Copyright 2014-2015, Uxcore Team, Alinw.
+ * All rights reserved.
  */
 import React from 'react';
-import Header from "./header"
-import Tbody  from "./tbody"
+import Header from "./Header"
+import Tbody  from "./Tbody"
 import Pagination  from "uxcore-pagination"
-import Mask from "./mask"
+import Mask from "./Mask"
 
 class Grid extends React.Component {
 
@@ -165,11 +169,14 @@ class Grid extends React.Component {
 
 };
 
-Grid.propTypes= {
-};
-
 Grid.defaultProps = {
-    jsxprefixCls: "kuma-grid"
-};
+}
 
-export default Grid;
+
+// http://facebook.github.io/react/docs/reusable-components.html
+Grid.propTypes = {
+}
+
+Grid.displayName = Grid;
+
+module.exports = Grid;

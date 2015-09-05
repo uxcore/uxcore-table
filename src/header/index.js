@@ -2,7 +2,7 @@
  * Created by xy on 15/4/13.
  */
 import React from 'react';
-import CheckBox from '../cell/checkBox';
+import CheckBox from '../cell/CheckBox';
 
 class Header extends React.Component {
 

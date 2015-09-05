@@ -2,49 +2,45 @@
   "name": "uxcore-grid",
   "version": "1.0.0",
   "description": "grid ui component for react",
-  "main": "lib/index.js",
+  "repository": "https://github.com/uxcore/uxcore-grid.git",
+  "author": "zhouquan.yezq",
+  "main": "src/index.js",
   "scripts": {
-    "test": "mocha --recursive --reporter spec --require should",
-    "dev": "webpack-dev-server --progress --colors --port  9090"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:uxcore/grid.git"
+    "dev": "gulp server",
+    "deploy": "git subtree push --prefix build origin gh-pages"
   },
   "bugs": {
-    "url": "http://github.com/uxcore/grid/issues"
+    "url": "http://github.com/uxcore/uxcore-grid/issues"
   },
   "keywords": [
     "react",
     "react-component",
-    "react-grid",
-    "grid"
+    "uxcore-grid",
+    "Grid",
+    "uxcore",
+    "gird",
+    "table"
   ],
   "devDependencies": {
-    "babel-core": "^5.1.13",
-    "babel-loader": "^5.0.0",
-    "css-loader": "^0.9.0",
-    "less": "^2.5.1",
-    "less-loader": "^2.2.0",
-    "faker": "^2.1.2",
-    "file-loader": "^0.8.1",
-    "guid": "0.0.12",
-    "gulp": "^3.8.11",
-    "gulp-react": "^3.0.0",
-    "jquery": "2.1.4",
-    "sorty": "^1.2.0",
-    "style-loader": "^0.8.2",
-    "webpack": "^1.8.4",
+    "babel-core": "^5.6.18",
+    "babel-loader": "^5.3.1",
+    "browser-sync": "~2.8.2",
+    "console-polyfill": "~0.2.1",
+    "es5-shim": "~4.1.10",
+    "gulp": "~3.9.0",
+    "gulp-concat": "~2.6.0",
+    "gulp-just-replace": "~1.0.2",
+    "gulp-less": "~3.0.3",
+    "gulp-sourcemaps": "~1.5.2",
+    "webpack": "^1.10.5",
     "uxcore-pagination":"0.1.0"
   },
   "dependencies": {
-    "es6-promise": "^2.1.1",
-    "object-assign": "^2.0.0"
+    "classnames": "^2.1.2",
+    "object-assign": "^2.0.0",
+    "react": "^0.13.3",
+    "uxcore-kuma": "~1.0.3"
   },
-  "peerDependencies": {
-    "react": ">=0.13.0"
-  },
-  "author": "",
   "contributors": [],
   "license": "MIT"
 }

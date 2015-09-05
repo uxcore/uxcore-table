@@ -3,7 +3,7 @@
  */
 import React from 'react';
 
-import Row from "./row"
+import Row from "./Row"
 
 class Tbody extends React.Component {
 

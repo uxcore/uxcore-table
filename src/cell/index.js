@@ -2,8 +2,8 @@
  * Created by xy on 15/4/13.
  */
 import React from 'react';
-import CheckBox from './checkBox';
-import TextField from './textField';
+import CheckBox from './CheckBox';
+import TextField from './TextField';
 
 class Cell extends React.Component {
 

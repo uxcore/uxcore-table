@@ -8,10 +8,10 @@ uxcore gird, will including checkbox, edit text field, column pick etc
 ## how to run
 
 ```sh
-$ git clone https://github.com/uxcore/grid
+$ git clone https://github.com/uxcore/uxcore-grid
 $ cd grid
 $ npm install
-$ npm run dev
+$ gulp server
 ```
 
 ## Best Practice
