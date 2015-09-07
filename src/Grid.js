@@ -5,11 +5,12 @@
  * Copyright 2014-2015, UXCore Team, Alinw.
  * All rights reserved.
  */
+
+
 import React from 'react';
 import Header from "./Header"
 import Tbody  from "./Tbody"
 import Pagination  from "uxcore-pagination"
-import Mask from "./Mask"
 
 class Grid extends React.Component {
 
@@ -18,7 +19,8 @@ class Grid extends React.Component {
         this.state= {
             currentPage:1,
             data: this.props.jsxdata,
-            columns: this.props.jsxcolumns
+            columns: this.props.jsxcolumns,
+            activeColumn:null
         };
     }
 
@@ -34,21 +36,52 @@ class Grid extends React.Component {
        
     }
 
-    fetchData() {
-        let ctx=this,queryStr="";
+    // pagination 
+    // column order 
+    // filter 
+
+    getQueryStr() {
+       let ctx=this,queryStr=[];
         //__rowData right now use as subComp row data, if has __rowData
         //that means subComp it is
         if(this.props.__rowData) {
+
             let queryObj={};
+
             this.props.params.forEach(function(key) {
                 if(ctx.props.__rowData[key]) {
                     queryObj[key]= ctx.props.__rowData[key];
                 }
             })
-            queryStr= $.param(queryObj)+"&";
+            queryStr= [$.param(queryObj)];
         }
+
+        //pagination
+        queryStr.push($.param({pageSize:10,currentPage:this.state.currentPage}))
+
+        //column order
+
+        queryStr.push($.param({timeStamp:new Date().getTime()}))
+
+        let  _activeColumn= this.state.activeColumn
+        if(_activeColumn) {
+            queryStr.push($.param({
+               orderColumn: _activeColumn.dataKey,
+               orderType: _activeColumn.orderType
+            }));
+        }
+        return queryStr;
+    }
+
+    fetchData() {
+
+       let ctx=this
+        // pagination 
+        // column order 
+        // filter 
+
         $.ajax({
-            url: this.props.jsxurl+"?"+queryStr+new Date().getTime(),
+            url: this.props.fetchUrl+"?"+this.getQueryStr().join("&"),
             success: function(result) {
                 let _data= result.content.datas;
                 if(result.success) {
@@ -123,13 +156,28 @@ class Grid extends React.Component {
 
     onPageChange (index) {
         this.state.currentPage=index;
-        this.props.onPageChange.apply(null,[index]);
+        this.fetchData();
+        //this.props.onPageChange.apply(null,[index]);
     }
 
     renderPager() {
-        if(this.props.onPageChange) {
-            return (<div className="kuma-grid-pagination"><Pagination className="mini" total={this.props.jsxdata.length} onChange={this.onPageChange.bind(this)} current={this.state.currentPage}/></div>)
-        }
+        //if(this.props.onPageChange) {
+        return (<div className="kuma-grid-pagination"><Pagination className="mini" total={this.props.jsxdata.length} onChange={this.onPageChange.bind(this)} current={this.state.currentPage}/></div>)
+        //}
+    }
+
+    handleOrderColumnCB(type, column) {
+
+       console.log("111");
+       console.info(this);
+       console.info(this.setState);
+       this.setState({
+          test:1,
+          activeColumn: column
+       });
+
+       console.info(this.state);
+       this.fetchData();
     }
 
     render() {
@@ -142,16 +190,19 @@ class Grid extends React.Component {
             height: props.height,
             onModifyRow: props.onModifyRow?props.onModifyRow: function(){},
             rowSelection: props.rowSelection,
-            subComp: props.subComp
+            subComp: props.subComp,
+            mask: props.mask
         },
         renderHeaderProps={
             columns:  props.jsxcolumns,
+            activeColumn: this.state.activeColumn,
             checkAll: this.selectAll.bind(this),
             columnPicker: props.columnPicker,
-            fixed: props.fixed,
+            //fixed: props.fixed,
             handleCP: this.handleCP.bind(this),
             headerHeight: props.headerHeight,
-            width: props.width
+            width: props.width,
+            orderColumnCB: this.handleOrderColumnCB.bind(this)
         };
 
         let gridHeader;
@@ -162,7 +213,6 @@ class Grid extends React.Component {
             {gridHeader}
             <Tbody  {...renderBodyProps}/>
             {this.renderPager()}
-            <Mask visible={props.mask}/>
         </div>);
 
     }
@@ -171,7 +221,6 @@ class Grid extends React.Component {
 
 Grid.defaultProps = {
 }
-
 
 // http://facebook.github.io/react/docs/reusable-components.html
 Grid.propTypes = {

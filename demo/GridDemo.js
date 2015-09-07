@@ -23,11 +23,11 @@ let rowSelection = {
 // title, width, type, hidden,dataKey
 let columns = [
     { dataKey: 'id', title: 'ID', width: 50,hidden:true},
-    { dataKey: 'country', title:'国家', width: 200},
-    { dataKey: 'city',title:'城市', width: 150 },
+    { dataKey: 'country', title:'国家', width: 200,ordered:true},
+    { dataKey: 'city',title:'城市', width: 150,ordered:true },
     { dataKey: 'firstName',title:"FristName" },  
     { dataKey: 'lastName' ,title:"LastName"},
-    { dataKey: 'email',title:"Email",width: 200 }
+    { dataKey: 'email',title:"Email",width: 200,ordered:true }
 ]
 
 
@@ -66,7 +66,7 @@ class Demo extends React.Component {
             width: 700,
             height:200,
             jsxcolumns:columns,
-            jsxurl:"http://localhost:3000/demo/data.json",
+            fetchUrl:"http://localhost:3000/demo/data.json",
             params:["dataKey","firstName"],
             onModifyRow: this.onModifyRow
         };
@@ -76,14 +76,14 @@ class Demo extends React.Component {
             width:700,
             height:500,
             columnPicker: true,
-            onPageChange: this.onPageChange,
+            //onPageChange: this.onPageChange,
             onModifyRow: this.onModifyRow,
             rowSelection: rowSelection,
             //jsxdata:this.state.data,
-            jsxurl:"http://localhost:3000/demo/data.json",
+            fetchUrl:"http://localhost:3000/demo/data.json",
             subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
             jsxcolumns:columns,
-            mask: this.state.mask
+            mask: true
         };
         return (<Grid {...renderProps}  ref="grid"/>);
       }

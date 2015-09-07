@@ -78,9 +78,34 @@ class Header extends React.Component {
         </div>)
     }
 
+    handleColumnOrder(type,column) {
+
+      column.orderType=type;
+      this.props.orderColumnCB.apply(null, [type, column]);
+
+    }
+
+    renderOrderIcon(column) {
+      let ctx= this;
+      if(column.ordered) {
+          let desc="sort-down", asc="sort-up";
+          if(this.props.activeColumn  && column.dataKey== this.props.activeColumn.dataKey) {
+             if(column.orderType=="desc") {
+                desc="sort-down-active";
+             }else {
+                asc ="sort-up-active";
+             }
+          }
+          return (<span className="kuma-grid-h-sort">
+            <i className={asc} onClick={this.handleColumnOrder.bind(ctx,'asc', column)}/>
+            <i className={desc} onClick={this.handleColumnOrder.bind(ctx,'desc',column)}/>
+            </span>)
+      }
+    }
+
     render() {
 
-        let props= this.props, me=this,_picker;
+        let props= this.props, ctx=this,_picker;
 
         if(this.props.columnPicker) {
              _picker=this.preparePicker();
@@ -103,7 +128,7 @@ class Header extends React.Component {
                     textAlign:item.align?item.align:"center"
                 },_v;
                 if(item.type=='checkbox') {
-                    _v=<CheckBox  ref="checkbox" onchange={me.handleCheckBoxChange.bind(me)}/>
+                    _v=<CheckBox  ref="checkbox" onchange={ctx.handleCheckBoxChange.bind(ctx)}/>
                 }else {
                     _v=item.title
                 }
@@ -111,9 +136,13 @@ class Header extends React.Component {
                     return (
                             <div className="kuma-grid-cell" style={_style} >
                             <span>{_v}</span>
+                            {ctx.renderOrderIcon(item)}
                     </div>)
                 }else {
-                    return <div className="kuma-grid-cell" style={_style}><span>{_v}</span></div>
+                    return <div className="kuma-grid-cell" style={_style}>
+                              <span>{_v}</span>
+                              {ctx.renderOrderIcon(item)}
+                           </div>
                 }
             })}
             {_picker}

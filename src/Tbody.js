@@ -4,6 +4,7 @@
 import React from 'react';
 
 import Row from "./Row"
+import Mask from "./Mask"
 
 class Tbody extends React.Component {
 
@@ -51,6 +52,7 @@ class Tbody extends React.Component {
                 };
                 return <Row {...renderProps} />
             })}
+            <Mask visible={_props.mask}/>
         </div>);
     }
 
