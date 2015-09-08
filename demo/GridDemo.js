@@ -63,7 +63,7 @@ class Demo extends React.Component {
       render () {
 
         let renderSubProps={
-            width: 700,
+            width: 1000,
             height:200,
             jsxcolumns:columns,
             fetchUrl:"http://localhost:3000/demo/data.json",
@@ -72,18 +72,28 @@ class Demo extends React.Component {
         };
 
         let renderProps={
+
             headerHeight:50,
-            width:700,
+            width:1000,
             height:500,
-            columnPicker: true,
-            //onPageChange: this.onPageChange,
-            onModifyRow: this.onModifyRow,
-            rowSelection: rowSelection,
-            //jsxdata:this.state.data,
+            actionBar: {
+               'new': function(){ alert('new'); },
+               'import': function(){ alert('import'); },
+               'export': function(){ alert('export'); },
+               'search': true,
+               'subComp':'' //TODO
+            },
             fetchUrl:"http://localhost:3000/demo/data.json",
-            subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
             jsxcolumns:columns,
-            mask: true
+            pagination:true,
+            columnPicker: true,
+            mask: true,
+            subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
+
+            //onModifyRow: this.onModifyRow,
+            rowSelection: rowSelection
+            //jsxdata:this.state.data,
+           
         };
         return (<Grid {...renderProps}  ref="grid"/>);
       }

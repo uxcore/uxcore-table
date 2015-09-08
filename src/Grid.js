@@ -10,12 +10,14 @@
 import React from 'react';
 import Header from "./Header"
 import Tbody  from "./Tbody"
+import ActionBar from "./ActionBar"
 import Pagination  from "uxcore-pagination"
 
 class Grid extends React.Component {
 
     constructor(props) {
         super(props);
+
         this.state= {
             currentPage:1,
             data: this.props.jsxdata,
@@ -61,7 +63,6 @@ class Grid extends React.Component {
 
         //column order
 
-        queryStr.push($.param({timeStamp:new Date().getTime()}))
 
         let  _activeColumn= this.state.activeColumn
         if(_activeColumn) {
@@ -70,16 +71,27 @@ class Grid extends React.Component {
                orderType: _activeColumn.orderType
             }));
         }
+
+        //search query
+        let  _queryTxt= this.state.searchTxt
+        if(_queryTxt) {
+            queryStr.push($.param({
+               searchTxt: _queryTxt
+            }));
+        }
+
+        queryStr.push($.param({timeStamp:new Date().getTime()}))
+
+
         return queryStr;
     }
-
+    // pagination 
+    // column order 
+    // filter 
     fetchData() {
 
        let ctx=this
-        // pagination 
-        // column order 
-        // filter 
-
+        
         $.ajax({
             url: this.props.fetchUrl+"?"+this.getQueryStr().join("&"),
             success: function(result) {
@@ -155,34 +167,51 @@ class Grid extends React.Component {
     }
 
     onPageChange (index) {
-        this.state.currentPage=index;
-        this.fetchData();
-        //this.props.onPageChange.apply(null,[index]);
+
+       this.setState({
+          currentPage: index
+       },function(){
+            this.fetchData();
+       });
+
     }
 
     renderPager() {
-        //if(this.props.onPageChange) {
-        return (<div className="kuma-grid-pagination"><Pagination className="mini" total={this.props.jsxdata.length} onChange={this.onPageChange.bind(this)} current={this.state.currentPage}/></div>)
-        //}
+        if(this.props.pagination) {
+            return (<div className="kuma-grid-pagination"><Pagination className="mini" total={this.props.jsxdata.length} onChange={this.onPageChange.bind(this)} current={this.state.currentPage}/></div>)
+        }
     }
 
     handleOrderColumnCB(type, column) {
 
-       console.log("111");
-       console.info(this);
-       console.info(this.setState);
        this.setState({
-          test:1,
           activeColumn: column
+       },function(){
+            this.fetchData();
        });
+       
+    }
 
-       console.info(this.state);
-       this.fetchData();
+    actionBarCB(type,txt) {
+        if(type=='SEARCH') {
+           this.setState({
+              searchTxt: txt
+           },function(){
+                this.fetchData();
+           });
+        }else {
+            let _actionCofig= this.props.actionBar;
+            _actionCofig[type]?_actionCofig[type].apply():"";
+        }
+       
     }
 
     render() {
         this.processData();
         let props= this.props,
+        _style= {
+            width: props.width
+        },
         renderBodyProps={
             columns: props.jsxcolumns,
             data: this.state.data,
@@ -205,11 +234,24 @@ class Grid extends React.Component {
             orderColumnCB: this.handleOrderColumnCB.bind(this)
         };
 
-        let gridHeader;
+
+
+
+        let gridHeader, actionBar;
         if(props.headerHeight) {
             gridHeader=<Header {...renderHeaderProps} />
         }
-        return (<div className={props.jsxprefixCls}>
+
+        if(props.actionBar) {
+            let renderActionProps={
+                actionBarConfig: this.props.actionBar,
+                actionBarCB: this.actionBarCB.bind(this)
+            };
+            actionBar=<ActionBar {...renderActionProps}/>
+        }
+
+        return (<div className={props.jsxprefixCls} style={_style}>
+            {actionBar}
             {gridHeader}
             <Tbody  {...renderBodyProps}/>
             {this.renderPager()}
