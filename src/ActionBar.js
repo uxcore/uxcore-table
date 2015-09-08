@@ -43,7 +43,8 @@ class ActionBar extends React.Component {
        let  _props=this.props,
        _config=_props.actionBarConfig,
        renderSearchBarProps= {
-            actionBarCB: this.props.actionBarCB
+            actionBarCB: this.props.actionBarCB,
+            key:'searchbar'
         };
 
        if( type =='new' && !!_config[type] ) {

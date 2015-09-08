@@ -48,7 +48,8 @@ class Tbody extends React.Component {
                     data:_data,
                     onModifyRow: _props.onModifyRow,
                     rowSelection: _props.rowSelection,
-                    subComp: _props.subComp
+                    subComp: _props.subComp,
+                    key:'row'+index
                 };
                 return <Row {...renderProps} />
             })}

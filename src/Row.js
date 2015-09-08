@@ -68,7 +68,8 @@ class Row extends React.Component {
                         st_showSubComp: ctx.state.st_showSubComp,
                         ctx:ctx,
                         onModifyRow: props.onModifyRow,
-                        rowSelection: props.rowSelection
+                        rowSelection: props.rowSelection,
+                        key:"cell"+index
                     };
                     //if have vertical data structure, how to process it
                    return <Cell {...renderProps} />

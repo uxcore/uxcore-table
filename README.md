@@ -3,9 +3,10 @@
 ---
 
 uxcore gird, will including checkbox, edit text field, column pick etc
+
 ![](demo/screenshot.png)
 
-## how to run
+## How to run
 
 ```sh
 $ git clone https://github.com/uxcore/uxcore-grid
@@ -38,9 +39,11 @@ $ gulp server
 	},
 
 	renderProps={
+
      	headerHeight:50,
         width:1000,
         height:500,
+
         actionBar: {
            'new': function(){ alert('new'); },
            'import': function(){ alert('import'); },
@@ -49,6 +52,7 @@ $ gulp server
            'subComp':'' //TODO
         },
         fetchUrl:"http://localhost:3000/demo/data.json",
+        fetchParams:'' , 
         jsxdata:null,
         jsxcolumns:columns,
         pagination:true,
@@ -59,6 +63,7 @@ $ gulp server
 	};
 
 	<Grid {...renderProps} />
+	
 ```
 
 ### API

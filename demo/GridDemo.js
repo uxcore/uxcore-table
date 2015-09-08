@@ -83,6 +83,7 @@ class Demo extends React.Component {
                'search': true,
                'subComp':'' //TODO
             },
+            params:'',
             fetchUrl:"http://localhost:3000/demo/data.json",
             jsxcolumns:columns,
             pagination:true,

@@ -6,7 +6,6 @@
  * All rights reserved.
  */
 
-
 import React from 'react';
 import Header from "./Header"
 import Tbody  from "./Tbody"
@@ -22,6 +21,8 @@ class Grid extends React.Component {
             currentPage:1,
             data: this.props.jsxdata,
             columns: this.props.jsxcolumns,
+            __rowData:null,
+            params:null,
             activeColumn:null
         };
     }
@@ -43,10 +44,10 @@ class Grid extends React.Component {
     // filter 
 
     getQueryStr() {
-       let ctx=this,queryStr=[];
+       let ctx=this,queryStr=[],_props= this.props;
         //__rowData right now use as subComp row data, if has __rowData
         //that means subComp it is
-        if(this.props.__rowData) {
+        if(_props.__rowData) {
 
             let queryObj={};
 
@@ -58,12 +59,15 @@ class Grid extends React.Component {
             queryStr= [$.param(queryObj)];
         }
 
+        //params, like form-grid 
+        if(!!_props.fetchParams) {
+            queryStr.push(_props.fetchParams);
+        }
+
         //pagination
         queryStr.push($.param({pageSize:10,currentPage:this.state.currentPage}))
 
         //column order
-
-
         let  _activeColumn= this.state.activeColumn
         if(_activeColumn) {
             queryStr.push($.param({
@@ -97,7 +101,7 @@ class Grid extends React.Component {
             success: function(result) {
                 let _data= result.content.datas;
                 if(result.success) {
-                    ctx.props.jsxdata=_data;
+                    //ctx.props.jsxdata=_data;
                     ctx.props.mask=false;
                     ctx.setState({
                         data: _data,
@@ -111,12 +115,13 @@ class Grid extends React.Component {
     processData() {
 
         let props=this.props, columns= props.jsxcolumns,hasCheckedColumn;
-        if(!this.props.jsxdata){
-            this.props.jsxdata=[];
+        if(!this.state.data){
+            //this.props.jsxdata=[];
             //this.props.mask=true;
             this.fetchData();
+
         }
-        this.state.data= this.props.jsxdata;
+        //this.state.data= this.props.jsxdata;
         columns=columns.map(function(item,index){
             if(item.hidden==undefined) {
                 item.hidden=false;
@@ -168,17 +173,17 @@ class Grid extends React.Component {
 
     onPageChange (index) {
 
-       this.setState({
+       this.setState( {
           currentPage: index
-       },function(){
+       },function() {
             this.fetchData();
        });
 
     }
 
     renderPager() {
-        if(this.props.pagination) {
-            return (<div className="kuma-grid-pagination"><Pagination className="mini" total={this.props.jsxdata.length} onChange={this.onPageChange.bind(this)} current={this.state.currentPage}/></div>)
+        if(this.props.pagination && this.state.data) {
+            return (<div className="kuma-grid-pagination"><Pagination className="mini" total={this.state.data.length} onChange={this.onPageChange.bind(this)} current={this.state.currentPage}/></div>)
         }
     }
 
@@ -214,13 +219,14 @@ class Grid extends React.Component {
         },
         renderBodyProps={
             columns: props.jsxcolumns,
-            data: this.state.data,
+            data: this.state.data?this.state.data:[],
             width: props.width,
             height: props.height,
             onModifyRow: props.onModifyRow?props.onModifyRow: function(){},
             rowSelection: props.rowSelection,
             subComp: props.subComp,
-            mask: props.mask
+            mask: props.mask,
+            key:'grid-body'
         },
         renderHeaderProps={
             columns:  props.jsxcolumns,
@@ -231,7 +237,9 @@ class Grid extends React.Component {
             handleCP: this.handleCP.bind(this),
             headerHeight: props.headerHeight,
             width: props.width,
-            orderColumnCB: this.handleOrderColumnCB.bind(this)
+            orderColumnCB: this.handleOrderColumnCB.bind(this),
+            key:'grid-header'
+
         };
 
 
@@ -245,7 +253,8 @@ class Grid extends React.Component {
         if(props.actionBar) {
             let renderActionProps={
                 actionBarConfig: this.props.actionBar,
-                actionBarCB: this.actionBarCB.bind(this)
+                actionBarCB: this.actionBarCB.bind(this),
+                key:'grid-actionbar'
             };
             actionBar=<ActionBar {...renderActionProps}/>
         }
