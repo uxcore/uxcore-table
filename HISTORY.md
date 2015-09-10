@@ -2,18 +2,22 @@
 
 ---
 
+# 1.0.3
+
+`ISSUE` fix the grid height issue
+
 # 1.0.2
 
 `CHANGE` __rowData change to passedData
-'FIXED' #6 #8 #9 #11 #12 #13 #14 #15 
+'ISSUE' #6 #8 #9 #11 #12 #13 #14 #15 
 
 # 1.0.1
 
-`feature` column order, actionbar, subComponent
+`FEATURE` column order, actionbar, subComponent
 
 
 # 1.0.0
 
-`feature` common grid (pagination, column picker)
+`FEATURE` common grid (pagination, column picker)
 
 

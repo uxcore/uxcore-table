@@ -245,8 +245,8 @@ class Grid extends React.Component {
         renderBodyProps={
             columns: props.jsxcolumns,
             data: this.state.data?this.state.data.datas:[],
-            width: props.width,
-            height: props.height,
+            width: props.width=="100%"?props.width:(props.width-props.headerHeight),
+            height: props.height=="100%"?props.height:(props.height-props.headerHeight-props.actionBarHeight-(props.showPager?50:0)),
             onModifyRow: props.onModifyRow?props.onModifyRow: function(){},
             rowSelection: props.rowSelection,
             subComp: props.subComp,
@@ -297,6 +297,7 @@ Grid.defaultProps = {
     width:"100%",
     height:"100%",
     headerHeight:50,
+    actionBarHeight:40,
     showPager:true,
     showColumnPicker: true,
     showMask: true,

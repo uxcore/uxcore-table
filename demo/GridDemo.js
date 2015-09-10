@@ -79,7 +79,7 @@ class Demo extends React.Component {
         };
 
         let renderProps={
-
+            height: 400,
             actionBar: {
                'new': function(){ alert('new'); },
                'import': function(){ alert('import'); },
