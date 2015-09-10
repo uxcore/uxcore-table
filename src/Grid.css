@@ -168,5 +168,10 @@ i.sort-down-active {
   bottom: -9px;
   left: 2px;
 }
+.action-container .action {
+  cursor: pointer;
+  margin: 0px 4px;
+  display: inline-block;
+}
 
 /*# sourceMappingURL=Grid.css.map */

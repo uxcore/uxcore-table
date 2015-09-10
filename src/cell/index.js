@@ -80,6 +80,22 @@ class Cell extends React.Component {
             }
         }
     }
+    doAction(rowData,items,e) {
+
+        let el=$(e.target);
+          if(el.hasClass('action')) {
+             if( el.data('type') =='inlineEdit') {
+                this.showSubComp();
+                return ;
+             }
+             items.map(function(item){
+                if(item.type ==el.data('type')) {
+                    item.cb.apply(null,[rowData]);
+                }
+             })
+          }
+    }
+
     render() {
         
         let props= this.props,_column=props.column, _width=_column.width, _style={
@@ -87,7 +103,19 @@ class Cell extends React.Component {
             textAlign:props.align?props.align:"center"
         },_v=props.rowData,renderProps;
 
-        if(_column.type=='checkbox') {
+        if(_column.render) {
+           _v= _column.render.apply(null,[_v]);
+        }
+        else if(_column.type=='action') {
+            _v =<div className="action-container" onClick={this.doAction.bind(this,_v,_column.items)}>
+            { 
+              _column.items.map(function(child) {
+                return <span className="action" data-type={child.type} >{child.title}</span>
+              })
+            }
+            </div>
+        }
+        else if(_column.type=='checkbox') {
             let checked;
             if(_v.jsxchecked){
                 checked='checked'
