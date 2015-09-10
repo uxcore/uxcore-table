@@ -91,11 +91,11 @@ passedData       |  null           | Parent Component passed data |
 
 
 Key Name       |  require  |  value type  | Note   | 
------------    |  ------   | -- |-----    |
-dataKey        |  yes      |  string   | use key |
-title          |  yes      |  string  |column display name |
-width          |  yes      |  number | |
-hidden         |  optional |  boolean | |
+-----------    |  ------   |   ---------- | -----  |
+dataKey        |  yes      |  string       | use key |
+title          |  yes      |  string       |  column display name |
+width          |  yes      |  number       |   |
+hidden         |  optional |  boolean      |   |
 order          |  optional |  boolean | need order feature or not |
 type           |  optional |  string  | right now support {type:'action'} |
 items          |  yes      |  array   | when type=='action', we need this attr |
