@@ -44,18 +44,24 @@ class Grid extends React.Component {
     // filter 
 
     getQueryStr() {
+
        let ctx=this,queryStr=[],_props= this.props;
         //__rowData right now use as subComp row data, if has __rowData
         //that means subComp it is
+
         if(_props.__rowData) {
 
-            let queryObj={};
+            let queryObj={},params=_props.params;
+            if(!params) {
+                params=_props.__rowData;
+            }
 
-            this.props.params.forEach(function(key) {
-                if(ctx.props.__rowData[key]) {
-                    queryObj[key]= ctx.props.__rowData[key];
+            params.forEach(function(key) {
+                if(_props.__rowData[key]) {
+                    queryObj[key]= _props.__rowData[key];
                 }
             })
+
             queryStr= [$.param(queryObj)];
         }
 
@@ -65,7 +71,7 @@ class Grid extends React.Component {
         }
 
         //pagination
-        queryStr.push($.param({pageSize:10,currentPage:this.state.currentPage}))
+        queryStr.push($.param({pageSize:_props.pageSize,currentPage:this.state.currentPage}))
 
         //column order
         let  _activeColumn= this.state.activeColumn
@@ -99,13 +105,13 @@ class Grid extends React.Component {
         $.ajax({
             url: this.props.fetchUrl+"?"+this.getQueryStr().join("&"),
             success: function(result) {
-                let _data= result.content.datas;
+                let _data= result.content;
                 if(result.success) {
                     //ctx.props.jsxdata=_data;
-                    ctx.props.mask=false;
+                    ctx.props.showMask=false;
                     ctx.setState({
                         data: _data,
-                        mask:false
+                        showMask:false
                     })
                 }
             }
@@ -155,7 +161,7 @@ class Grid extends React.Component {
     }
 
     selectAll(checked) {
-        let _data=this.state.data.map(function(item,index){
+        let _data=this.state.data.datas.map(function(item,index){
             item.jsxchecked=checked;
             item.country=item.country;
             return item;
@@ -182,8 +188,8 @@ class Grid extends React.Component {
     }
 
     renderPager() {
-        if(this.props.pagination && this.state.data) {
-            return (<div className="kuma-grid-pagination"><Pagination className="mini" total={this.state.data.length} onChange={this.onPageChange.bind(this)} current={this.state.currentPage}/></div>)
+        if(this.props.showPager && this.state.data) {
+            return (<div className="kuma-grid-pagination"><Pagination className="mini" total={this.state.data.totalCount} onChange={this.onPageChange.bind(this)} current={this.state.currentPage} pageSize={this.props.pageSize} /></div>)
         }
     }
 
@@ -215,24 +221,25 @@ class Grid extends React.Component {
         this.processData();
         let props= this.props,
         _style= {
-            width: props.width
+            width: props.width,
+            height: props.height
         },
         renderBodyProps={
             columns: props.jsxcolumns,
-            data: this.state.data?this.state.data:[],
+            data: this.state.data?this.state.data.datas:[],
             width: props.width,
             height: props.height,
             onModifyRow: props.onModifyRow?props.onModifyRow: function(){},
             rowSelection: props.rowSelection,
             subComp: props.subComp,
-            mask: props.mask,
+            mask: props.showMask,
             key:'grid-body'
         },
         renderHeaderProps={
             columns:  props.jsxcolumns,
             activeColumn: this.state.activeColumn,
             checkAll: this.selectAll.bind(this),
-            columnPicker: props.columnPicker,
+            columnPicker: props.showColumnPicker,
             //fixed: props.fixed,
             handleCP: this.handleCP.bind(this),
             headerHeight: props.headerHeight,
@@ -242,11 +249,8 @@ class Grid extends React.Component {
 
         };
 
-
-
-
         let gridHeader, actionBar;
-        if(props.headerHeight) {
+        if(props.showHeader) {
             gridHeader=<Header {...renderHeaderProps} />
         }
 
@@ -271,6 +275,18 @@ class Grid extends React.Component {
 };
 
 Grid.defaultProps = {
+    showHeader:true,
+    width:"100%",
+    height:"100%",
+    headerHeight:50,
+    showPager:true,
+    showColumnPicker: true,
+    showMask: true,
+    pageSize:10,
+    fetchParams:'',
+    //like subComp, we have fetchUrl, but also need query key like id to 
+    //query data
+    queryKeys:[]
 }
 
 // http://facebook.github.io/react/docs/reusable-components.html

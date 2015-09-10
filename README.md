@@ -60,13 +60,68 @@ $ gulp server
         mask: true,
         subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
         rowSelection: rowSelection
+	},
+	
+	renderSubProps={
+        width: 1000,
+        height:200,
+        jsxcolumns:columns,
+        fetchUrl:"http://localhost:3000/demo/data.json",
+        params:["dataKey","firstName"],
+        onModifyRow: this.onModifyRow
 	};
 
 	<Grid {...renderProps} />
-	
+
 ```
 
-### API
 
- * TODO
+### Props
+
+props name       |  defalut Value  |  Note   | 
+-----------      |  ------         | -----    |
+width            |  100%           | grid width |
+height           |  100%           | gird height |
+showColumnPicker |  true           | |
+showPager        |  true           | |
+pageSize         |  10             | |
+showHeader       |  true           | |
+headerHeight     |  50             | |
+showMask         |  true           | |
+queryKeys        |  []             | like subComp,it need some query key/value form parent|
+fetchUrl         |  ""             | dynamic get data from server |
+fetchParams      |  ""             | in form-grid mode, form will pass fetch params for grid|
+actionBar        |  null           | actionBar configuration |
+jsxcolumns       |  null           | columns config |
+jsxdata          |  null           | grid data |
+
+### Rules
+
+ * return data format [here](http://gitlab.alibaba-inc.com/alinw/yosemite/issues/18) 
+ ```
+   {
+	"content":{
+			"datas":[
+				{	
+					"id":'1'
+					"grade":"grade1",
+					"email":"email1",
+					"firstName":"firstName1",
+					"lastName":"lastName1",
+					"birthDate":"birthDate1",
+					"country":"country1",
+					"city":"city1"
+				}
+				...
+		
+			],
+			"currentPage":1,
+			"totalCount":30
+		},
+		"success":true,
+		"errorCode":"",
+		"errorMsg":""
+	}
+
+ ```
 

@@ -9,11 +9,12 @@ class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state= {
+           display:'none'
         };
     }
 
     componentDidMount() {
-        window.addEventListener('click', this.handleGlobalClick.bind(this));
+        $(document).on('click.uxcore-grid-header',this.handleGlobalClick.bind(this));
     }
 
     componentDidUpdate() {
@@ -21,16 +22,17 @@ class Header extends React.Component {
     }
     
     componentWillUnmount () {
-        window.removeEventListener('click', this.handleGlobalClick.bind(this));
+        $(document).off('click.uxcore-grid-header');
+        //window.removeEventListener('click', this.handleGlobalClick.bind(this));
     }
 
     prepareStyle() {
 
     }
 
-    handleGlobalClick() {
+    handleGlobalClick(e) {
         if(this.props.columnPicker) {
-            this.hideColumnPick();
+            this.hideColumnPick(e);
         }
     }
     handleCheckBoxChange() {
@@ -39,18 +41,25 @@ class Header extends React.Component {
     }
 
     handleColumnPicker(e) {
+
         e.stopPropagation();
-        var node=this.refs.columnpicker.getDOMNode();
-        if(node.style.display=='block') {
-            node.style.display='none';
+        if(this.state.display=='block') {
+           this.setState({
+              display:'none'
+           });
         }else {
-            node.style.display='block';
+           this.setState({
+              display:'block'
+           });
         }
     }
 
-    hideColumnPick() {
-        var node=this.refs.columnpicker.getDOMNode();
-        node.style.display='none';
+    hideColumnPick(e) {
+       if(!$(e.target).hasClass('kuma-column-picker')) {
+          this.setState({
+              display:'none'
+          });
+       } 
     }
 
     handleColumns(index) {
@@ -58,19 +67,23 @@ class Header extends React.Component {
     }
 
     //prepare the column picker html fragement
-    preparePicker() {
-        let me= this;
+
+    renderPicker() {
+        let me= this,
+        _style= {
+            display: this.state.display
+        };
+
         return (<div className="kuma-column-picker-container">
             <i className="kuma-icon kuma-icon-target-list kuma-column-picker" onClick={this.handleColumnPicker.bind(this)}></i>
-            <ul className="kuma-grid-colmnpicker" ref="columnpicker">
+            <ul className="kuma-grid-colmnpicker" style={_style} ref="columnpicker">
                 {
                     this.props.columns.map(function(item,index) {
                         if(item.dataKey=='jsxchecked') return;
                         if(item.hidden) {
-                            return <li ref="" onClick={me.handleColumns.bind(me,index)}>{item.title}</li>
+                            return <li ref=""  onClick={me.handleColumns.bind(me,index)}>{item.title}</li>
                         }else {
                             return <li ref="" onClick={me.handleColumns.bind(me,index)}><i className="kuma-icon kuma-icon-choose"></i>{item.title}</li>
-
                         }
                     })
                 }
@@ -85,6 +98,7 @@ class Header extends React.Component {
 
     }
 
+   
     renderOrderIcon(column) {
       let ctx= this;
       if(column.ordered) {
@@ -108,7 +122,7 @@ class Header extends React.Component {
         let props= this.props, ctx=this,_picker;
 
         if(this.props.columnPicker) {
-             _picker=this.preparePicker();
+             _picker=this.renderPicker();
         }
 
         let _style={ 
