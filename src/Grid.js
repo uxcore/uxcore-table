@@ -21,7 +21,7 @@ class Grid extends React.Component {
             currentPage:1,
             data: this.props.jsxdata,
             columns: this.props.jsxcolumns,
-            __rowData:null,
+            passedData:null,
             params:null,
             activeColumn:null
         };
@@ -39,6 +39,24 @@ class Grid extends React.Component {
        
     }
 
+    notEmpty(obj) {
+        var hasOwnProperty = Object.prototype.hasOwnProperty;
+        // null and undefined are "empty"
+        if (obj == null) return true;
+
+        // Assume if it has a length property with a non-zero value
+        // that that property is correct.
+        if (obj.length > 0)    return false;
+        if (obj.length === 0)  return true;
+        // Otherwise, does it have any properties of its own?
+        // Note that this doesn't handle
+        // toString and valueOf enumeration bugs in IE < 9
+        for (var key in obj) {
+            if (hasOwnProperty.call(obj, key)) return false;
+        }
+        return true;
+    }
+
     // pagination 
     // column order 
     // filter 
@@ -46,19 +64,19 @@ class Grid extends React.Component {
     getQueryStr() {
 
        let ctx=this,queryStr=[],_props= this.props;
-        //__rowData right now use as subComp row data, if has __rowData
+        //passedData right now use as subComp row data, if has passedData
         //that means subComp it is
 
-        if(_props.__rowData) {
+        if(_props.passedData) {
 
-            let queryObj={},params=_props.params;
-            if(!params) {
-                params=_props.__rowData;
+            let queryObj={},queryKeys=_props.queryKeys;
+            if(!queryKeys) {
+                queryKeys=_props.passedData;
             }
 
-            params.forEach(function(key) {
-                if(_props.__rowData[key]) {
-                    queryObj[key]= _props.__rowData[key];
+            queryKeys.forEach(function(key) {
+                if(ctx.notEmpty(_props.passedData[key])) {
+                    queryObj[key]= _props.passedData[key];
                 }
             })
 

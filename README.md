@@ -39,11 +39,6 @@ $ gulp server
 	},
 
 	renderProps={
-
-     	headerHeight:50,
-        width:1000,
-        height:500,
-
         actionBar: {
            'new': function(){ alert('new'); },
            'import': function(){ alert('import'); },
@@ -52,22 +47,15 @@ $ gulp server
            'subComp':'' //TODO
         },
         fetchUrl:"http://localhost:3000/demo/data.json",
-        fetchParams:'' , 
-        jsxdata:null,
         jsxcolumns:columns,
-        pagination:true,
-        columnPicker: true,
-        mask: true,
         subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
         rowSelection: rowSelection
 	},
 	
 	renderSubProps={
-        width: 1000,
-        height:200,
         jsxcolumns:columns,
         fetchUrl:"http://localhost:3000/demo/data.json",
-        params:["dataKey","firstName"],
+        queryKeys:["dataKey","firstName"],
         onModifyRow: this.onModifyRow
 	};
 
@@ -94,6 +82,7 @@ fetchParams      |  ""             | in form-grid mode, form will pass fetch par
 actionBar        |  null           | actionBar configuration |
 jsxcolumns       |  null           | columns config |
 jsxdata          |  null           | grid data |
+passedData       |  null           | Parent Component passed data |
 
 ### Rules
 

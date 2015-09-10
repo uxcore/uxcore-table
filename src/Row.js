@@ -40,7 +40,7 @@ class Row extends React.Component {
         if(props.subComp && this.state.st_showSubComp) {
             //return false; 
             let subComp= React.cloneElement(props.subComp,{
-                __rowData: this.props.data[this.props.rowIndex]
+                passedData: this.props.data[this.props.rowIndex]
             });
             return (<div className="kuma-grid-subrow" ref="subRow">{subComp}</div>)
         }else {
