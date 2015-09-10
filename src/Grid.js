@@ -18,12 +18,10 @@ class Grid extends React.Component {
         super(props);
 
         this.state= {
-            currentPage:1,
             data: this.props.jsxdata,
             columns: this.props.jsxcolumns,
             passedData:null,
             params:null,
-            activeColumn:null
         };
     }
 
@@ -89,10 +87,10 @@ class Grid extends React.Component {
         }
 
         //pagination
-        queryStr.push($.param({pageSize:_props.pageSize,currentPage:this.state.currentPage}))
+        queryStr.push($.param({pageSize:_props.pageSize,currentPage:this.props.currentPage}))
 
         //column order
-        let  _activeColumn= this.state.activeColumn
+        let  _activeColumn= this.props.activeColumn
         if(_activeColumn) {
             queryStr.push($.param({
                orderColumn: _activeColumn.dataKey,
@@ -101,7 +99,7 @@ class Grid extends React.Component {
         }
 
         //search query
-        let  _queryTxt= this.state.searchTxt
+        let  _queryTxt= this.props.searchTxt
         if(_queryTxt) {
             queryStr.push($.param({
                searchTxt: _queryTxt
@@ -116,7 +114,7 @@ class Grid extends React.Component {
     // pagination 
     // column order 
     // filter 
-    fetchData() {
+    fetchData(obj) {
 
        let ctx=this
         
@@ -125,25 +123,26 @@ class Grid extends React.Component {
             success: function(result) {
                 let _data= result.content;
                 if(result.success) {
-                    //ctx.props.jsxdata=_data;
+                    ctx.props.jsxdata=_data;
                     ctx.props.showMask=false;
-                    ctx.setState({
-                        data: _data,
-                        showMask:false
+                    let updateObj= $.extend({},obj?obj:{},{
+                      data: _data,
+                      showMask:false
                     })
+                    ctx.setState(updateObj)
                 }
             }
         })
     }
 
+    //just call once when init
     processData() {
 
         let props=this.props, columns= props.jsxcolumns,hasCheckedColumn;
-        if(!this.state.data){
-            //this.props.jsxdata=[];
-            //this.props.mask=true;
+        if(!this.props.jsxdata){
+            this.props.jsxdata=[];
+            this.props.mask=true;
             this.fetchData();
-
         }
         //this.state.data= this.props.jsxdata;
         columns=columns.map(function(item,index){
@@ -197,37 +196,28 @@ class Grid extends React.Component {
 
     onPageChange (index) {
 
-       this.setState( {
-          currentPage: index
-       },function() {
-            this.fetchData();
-       });
+      this.props.currentPage=index;
+      this.fetchData();
 
     }
 
     renderPager() {
         if(this.props.showPager && this.state.data) {
-            return (<div className="kuma-grid-pagination"><Pagination className="mini" total={this.state.data.totalCount} onChange={this.onPageChange.bind(this)} current={this.state.currentPage} pageSize={this.props.pageSize} /></div>)
+            return (<div className="kuma-grid-pagination"><Pagination className="mini" total={this.state.data.totalCount} onChange={this.onPageChange.bind(this)} current={this.props.currentPage} pageSize={this.props.pageSize} /></div>)
         }
     }
 
     handleOrderColumnCB(type, column) {
 
-       this.setState({
-          activeColumn: column
-       },function(){
-            this.fetchData();
-       });
-       
+       this.props.activeColumn=column;
+       this.fetchData();
+
     }
 
     actionBarCB(type,txt) {
         if(type=='SEARCH') {
-           this.setState({
-              searchTxt: txt
-           },function(){
-                this.fetchData();
-           });
+           this.props.searchTxt=txt;
+           this.fetchData();
         }else {
             let _actionCofig= this.props.actionBar;
             _actionCofig[type]?_actionCofig[type].apply():"";
@@ -235,8 +225,17 @@ class Grid extends React.Component {
        
     }
 
-    render() {
+    componentWillMount() {
         this.processData();
+    }
+
+    componentWillUpdate() {
+
+    }
+
+    render() {
+        console.log("++++grid render+++");
+        
         let props= this.props,
         _style= {
             width: props.width,
@@ -255,7 +254,7 @@ class Grid extends React.Component {
         },
         renderHeaderProps={
             columns:  props.jsxcolumns,
-            activeColumn: this.state.activeColumn,
+            activeColumn: this.props.activeColumn,
             checkAll: this.selectAll.bind(this),
             columnPicker: props.showColumnPicker,
             //fixed: props.fixed,
@@ -303,9 +302,11 @@ Grid.defaultProps = {
     showMask: true,
     pageSize:10,
     fetchParams:'',
+    currentPage:1,
     //like subComp, we have fetchUrl, but also need query key like id to 
     //query data
-    queryKeys:[]
+    queryKeys:[],
+    searchTxt:''
 }
 
 // http://facebook.github.io/react/docs/reusable-components.html

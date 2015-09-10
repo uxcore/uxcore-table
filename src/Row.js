@@ -7,9 +7,7 @@ class Row extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state= {
-            st_showSubComp:false //默认隐藏
-        };
+        console.log("++row++");
     }
 
     componentDidMount() {
@@ -30,19 +28,18 @@ class Row extends React.Component {
     }
 
     showSubComp() {
-        this.setState({
-            st_showSubComp:!this.state.st_showSubComp
-        })
+        this.props.showSubComp=!this.props.showSubComp;
+        this.setState();
     }
 
     renderSubComp() {
+
         let props= this.props;
-        if(props.subComp && this.state.st_showSubComp) {
-            //return false; 
-            let subComp= React.cloneElement(props.subComp,{
-                passedData: this.props.data[this.props.rowIndex]
-            });
-            return (<div className="kuma-grid-subrow" ref="subRow">{subComp}</div>)
+        if(props.subComp && this.props.showSubComp ) {
+          let subComp= React.cloneElement(props.subComp,{
+            passedData: this.props.data[this.props.rowIndex]
+          });
+          return (<div className="kuma-grid-subrow" ref="subRow">{subComp}</div>)
         }else {
             return false;
         }
@@ -65,7 +62,7 @@ class Row extends React.Component {
                         hasSubComp:props.subComp?true:false,
                         data:_data,
                         showSubCompCallback:ctx.showSubComp,
-                        st_showSubComp: ctx.state.st_showSubComp,
+                        st_showSubComp: ctx.props.showSubComp,
                         ctx:ctx,
                         onModifyRow: props.onModifyRow,
                         rowSelection: props.rowSelection,
@@ -83,6 +80,7 @@ class Row extends React.Component {
 };
 
 Row.propTypes= {
+  showSubComp:false
 };
 
 Row.defaultProps = {
