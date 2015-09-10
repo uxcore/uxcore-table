@@ -70,15 +70,15 @@ props name       |  defalut Value  |  Note   |
 -----------      |  ------         | -----    |
 width            |  100%           | grid width |
 height           |  100%           | gird height |
-showColumnPicker |  true           | |
-showPager        |  true           | |
-pageSize         |  10             | |
-showHeader       |  true           | |
-headerHeight     |  50             | |
-showMask         |  true           | |
-queryKeys        |  []             | like subComp,it need some query key/value form parent|
+showColumnPicker |  true           |   |
+showPager        |  true           |   |
+pageSize         |  10             |   |
+showHeader       |  true           |   |
+headerHeight     |  50             |   |
+showMask         |  true           |   |
+queryKeys        |  []             | like subComp,it need some query key/value form parent |
 fetchUrl         |  ""             | dynamic get data from server |
-fetchParams      |  ""             | in form-grid mode, form will pass fetch params for grid|
+fetchParams      |  ""             | in form-grid mode, form will pass fetch params for grid |
 actionBar        |  null           | actionBar configuration |
 jsxcolumns       |  null           | columns config |
 jsxdata          |  null           | grid data |
