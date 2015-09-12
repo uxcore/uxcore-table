@@ -46,9 +46,11 @@ class Row extends React.Component {
     }
 
     render() {
-        let props= this.props,_columns=props.columns,_style={},_data=props.data,ctx=this;
+        let props= this.props,_columns=props.columns,_style={
+          //height: props.rowHeight
+        },_data=props.data,ctx=this;
 
-        return (<div className={this.props.jsxprefixCls} onClick={this.handleClick.bind(this)}>
+        return (<div className={this.props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
             {
                 _columns.map(function(item,index){
 

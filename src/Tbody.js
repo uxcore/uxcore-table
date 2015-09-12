@@ -34,12 +34,13 @@ class Tbody extends React.Component {
 
     render() {
         
-        let _props= this.props, _columns= _props.columns, _data= _props.data;
+        let _props= this.props, _columns= _props.columns, _data= _props.data.length>0?_props.data:[];
         let _style={
             width: _props.width,
             height: _props.height,
             overflowY:'scroll'
         }
+
         return (<div className={this.props.jsxprefixCls} style={_style}>
            { _data.map(function(item,index) {
                 let renderProps={
@@ -50,6 +51,7 @@ class Tbody extends React.Component {
                     rowSelection: _props.rowSelection,
                     subComp: _props.subComp,
                     key:'row'+index,
+                    rowHeight: _props.rowHeight,
                     ts: new Date().getTime()
                 };
                 return <Row {...renderProps} />

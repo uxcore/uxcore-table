@@ -34,6 +34,7 @@ class Demo extends React.Component {
         let rowSelection = {
           onSelect: function(record, selected, selectedRows) {
             console.log(record, selected, selectedRows);
+            me.setState();
           },
           onSelectAll: function(selected, selectedRows) {
             console.log(selected, selectedRows);
@@ -63,7 +64,7 @@ class Demo extends React.Component {
               {title:'删除', type:"del", cb: function(rowData){console.info(rowData)}}
             ]},
             { dataKey: 'action', title:'链接', width:100,render: function(rowData){
-               return <div><a href="#">{rowData.email}</a></div>
+               return <div><a href="#">{rowData.lastName}</a></div>
               }
             }
         ]

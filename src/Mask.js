@@ -26,7 +26,7 @@ class Mask extends React.Component {
         
         let props= this.props,visible=props.visible,loadTips= props.tips?props.tips:"Loading...";
         let _className=props.jsxprefixCls;
-
+        console.log("visible:",visible);
         if(!visible) {
             _className= _className+" kuma-mask-hide";
         }

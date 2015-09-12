@@ -19,14 +19,15 @@ class Grid extends React.Component {
 
         this.state= {
             data: this.props.jsxdata,
-            columns: this.props.jsxcolumns,
+            columns: this.processColumn(),
+            showMask: this.props.showMask,
             passedData:null,
             params:null,
         };
     }
 
     componentDidMount() {
-
+        console.log("showMask:",this.props.showMask);
     }
 
     componentDidUpdate() {
@@ -116,6 +117,12 @@ class Grid extends React.Component {
     // filter 
     fetchData(obj) {
 
+       if(!this.state.showMask) {
+          this.setState({
+             showMask:true
+          })
+       }
+
        let ctx=this
         
         $.ajax({
@@ -123,8 +130,6 @@ class Grid extends React.Component {
             success: function(result) {
                 let _data= result.content;
                 if(result.success) {
-                    ctx.props.jsxdata=_data;
-                    ctx.props.showMask=false;
                     let updateObj= $.extend({},obj?obj:{},{
                       data: _data,
                       showMask:false
@@ -134,17 +139,12 @@ class Grid extends React.Component {
             }
         })
     }
+    
 
-    //just call once when init
-    processData() {
+    processColumn() {
 
         let props=this.props, columns= props.jsxcolumns,hasCheckedColumn;
-        if(!this.props.jsxdata){
-            this.props.jsxdata=[];
-            this.props.mask=true;
-            this.fetchData();
-        }
-        //this.state.data= this.props.jsxdata;
+
         columns=columns.map(function(item,index){
             if(item.hidden==undefined) {
                 item.hidden=false;
@@ -159,26 +159,38 @@ class Grid extends React.Component {
         //{ dataKey: 'jsxchecked', width: 30,type:'checkbox'}
         if(props.rowSelection && !hasCheckedColumn) {
            if(props.subComp) {
-                this.props.jsxcolumns= [{ dataKey: 'jsxchecked', width: 60,type:'checkbox', align:'right'}].concat(columns)
+                columns= [{ dataKey: 'jsxchecked', width: 60,type:'checkbox', align:'right'}].concat(columns)
            }else {
-                this.props.jsxcolumns= [{ dataKey: 'jsxchecked', width: 30,type:'checkbox'}].concat(columns)
+                columns= [{ dataKey: 'jsxchecked', width: 30,type:'checkbox'}].concat(columns)
            }
+        }
+
+        return columns;
+    }
+
+    //just call once when init
+    processData() {
+
+        if(!this.props.jsxdata) {
+            this.fetchData();
         }
 
     }
 
     //hancle column picker
     handleCP(index) {
-        let props= this.props,hidden=props.jsxcolumns[index].hidden;
+        let _columns= [].concat(this.state.columns),hidden=_columns[index].hidden;
         if(hidden==undefined) hidden=true;
-        props.jsxcolumns[index].hidden= !!hidden ? false: true;
+        _columns[index].hidden= !!hidden ? false: true;
         this.setState({
-            columns: props.jsxcolumns
+            columns: _columns
         })
     }
 
     selectAll(checked) {
-        let _data=this.state.data.datas.map(function(item,index){
+
+        let _data=$.extend(true,{},this.state.data);
+        _data.datas.map(function(item,index){
             item.jsxchecked=checked;
             item.country=item.country;
             return item;
@@ -234,26 +246,27 @@ class Grid extends React.Component {
     }
 
     render() {
-        console.log("++++grid render+++");
-        
+
+        console.log("++++grid render+++",this.props.showMask);
         let props= this.props,
         _style= {
             width: props.width,
             height: props.height
         },
         renderBodyProps={
-            columns: props.jsxcolumns,
+            columns: this.state.columns,
             data: this.state.data?this.state.data.datas:[],
             width: props.width=="100%"?props.width:(props.width-props.headerHeight),
             height: props.height=="100%"?props.height:(props.height-props.headerHeight-props.actionBarHeight-(props.showPager?50:0)),
             onModifyRow: props.onModifyRow?props.onModifyRow: function(){},
             rowSelection: props.rowSelection,
             subComp: props.subComp,
-            mask: props.showMask,
+            mask: this.state.showMask,
+            rowHeight: this.props.rowHeight,
             key:'grid-body'
         },
         renderHeaderProps={
-            columns:  props.jsxcolumns,
+            columns:  this.state.columns,
             activeColumn: this.props.activeColumn,
             checkAll: this.selectAll.bind(this),
             columnPicker: props.showColumnPicker,
@@ -301,6 +314,7 @@ Grid.defaultProps = {
     showColumnPicker: true,
     showMask: true,
     pageSize:10,
+    rowHeight: 76,
     fetchParams:'',
     currentPage:1,
     //like subComp, we have fetchUrl, but also need query key like id to 

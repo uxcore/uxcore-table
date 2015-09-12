@@ -47,10 +47,16 @@
   word-break:break-all;
 }
 
-.kuma-grid-cell >span{
-  height: 30px;
-  line-height: 30px;
-  display: inline-block;
+
+.kuma-grid-header .kuma-grid-cell > span{
+   overflow : visible;
+}
+
+.kuma-grid-cell > span{
+    line-height: 30px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .kuma-grid-cell .kuma-input{

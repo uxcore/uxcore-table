@@ -133,7 +133,7 @@ class Cell extends React.Component {
             _v=<TextField {...renderProps}/>
         }
         else {
-            _v=<span>{props.rowData[_column.dataKey]}</span>;
+            _v=<span title={props.rowData[_column.dataKey]}>{props.rowData[_column.dataKey]}</span>;
         }
         return (<div className={props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
             {this.renderChildIcon()}
