@@ -75,7 +75,7 @@ a.kuma-button-swhite {
   display: inline-block;
   width: 100%;
   border-bottom: 1px solid #efefef;
-  line-height: 34px;
+  line-height: 40px;
 }
 .kuma-grid-row:hover {
   background-color: #fbfbfb;
@@ -89,14 +89,16 @@ a.kuma-button-swhite {
   position: relative;
   word-break: break-all;
 }
-.kuma-grid-header .kuma-grid-cell > span {
+.kuma-grid-header .kuma-grid-cell > div {
   overflow: visible;
 }
-.kuma-grid-cell > span {
-  line-height: 30px;
+.kuma-grid-cell > div {
+  line-height: 40px;
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
+  vertical-align: middle;
+  height: 40px;
 }
 .kuma-grid-cell .kuma-input {
   height: 100%;
