@@ -155,3 +155,9 @@ let columns = [
 
  ```
 
+### API
+
+* getData
+* insertData(objAux)
+* removeData(objAux)
+* fetchData()

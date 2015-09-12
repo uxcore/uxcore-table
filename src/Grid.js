@@ -301,6 +301,44 @@ class Grid extends React.Component {
         </div>);
 
     }
+    getData() {
+       return this.state.data;
+    }
+    // some time, UI new some data, but not sync with db, 
+    // need cache on the client, then use save action, get
+    // all grid data to sync with db
+    //[{name:'',email:''}]
+
+    insertData(objAux) {
+       let _data=$.extend(true,{},this.state.data);
+       if(Object.prototype.toString.call(objAux)!=="[object Array]") {
+          objAux=[objAux];
+       }
+       _data.datas= objAux.concat(_data.datas);
+       this.setState({
+          data: _data
+       });
+    }
+
+    removeData(objAux) {
+
+       let _data=$.extend(true,{},this.state.data),_newArr;
+       if(Object.prototype.toString.call(objAux)!=="[object Array]") {
+          objAux=[objAux];
+       }
+
+        objAux.map(function(item) {
+            let index= _data.datas.indexOf(item);
+            if(index!=-1) {
+                _data.datas.splice(index,1);
+            }
+        })
+
+        this.setState({
+          data: _data
+        });
+
+    }
 
 };
 
