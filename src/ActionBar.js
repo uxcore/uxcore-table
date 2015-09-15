@@ -48,17 +48,17 @@ class ActionBar extends React.Component {
         };
 
        if( type =='new' && !!_config[type] ) {
-          return <a href="javascript:;" className="kuma-button kuma-button-swhite" onClick={this.doAction.bind(this,'new')}>新增</a>
+          return <a key={type} href="javascript:;" className="kuma-button kuma-button-swhite" onClick={this.doAction.bind(this,'new')}>新增</a>
        }
        if( type =='import' && !!_config[type] ) {
-          return <a href="javascript:;" className="kuma-button kuma-button-swhite" onClick={this.doAction.bind(this,'import')}>导入</a>
+          return <a key={type} href="javascript:;" className="kuma-button kuma-button-swhite" onClick={this.doAction.bind(this,'import')}>导入</a>
        }
         if(type =='export' && !!_config[type] ) {
-          return  <a href="javascript:;" className="kuma-button kuma-button-swhite" onClick={this.doAction.bind(this,'export')}>导出</a>
+          return  <a key={type} href="javascript:;" className="kuma-button kuma-button-swhite" onClick={this.doAction.bind(this,'export')}>导出</a>
        }
 
         if(type =='search' && !!_config[type] ) {
-          return   <SearchBar {...renderSearchBarProps}/>
+          return   <SearchBar key={type} {...renderSearchBarProps}/>
 
        }
 

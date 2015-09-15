@@ -81,9 +81,9 @@ class Header extends React.Component {
                     this.props.columns.map(function(item,index) {
                         if(item.dataKey=='jsxchecked') return;
                         if(item.hidden) {
-                            return <li ref=""  onClick={me.handleColumns.bind(me,index)}>{item.title}</li>
+                            return <li ref="" key={index} onClick={me.handleColumns.bind(me,index)}>{item.title}</li>
                         }else {
-                            return <li ref="" onClick={me.handleColumns.bind(me,index)}><i className="kuma-icon kuma-icon-choose"></i>{item.title}</li>
+                            return <li ref="" key={index} onClick={me.handleColumns.bind(me,index)}><i className="kuma-icon kuma-icon-choose"></i>{item.title}</li>
                         }
                     })
                 }
@@ -148,12 +148,12 @@ class Header extends React.Component {
                 }
                 if(index==props.columns.length-1) {
                     return (
-                            <div className="kuma-grid-cell" style={_style} >
+                            <div key={index} className="kuma-grid-cell" style={_style} >
                             <span>{_v}</span>
                             {ctx.renderOrderIcon(item)}
                     </div>)
                 }else {
-                    return <div className="kuma-grid-cell" style={_style}>
+                    return <div key={index} className="kuma-grid-cell" style={_style}>
                               <span>{_v}</span>
                               {ctx.renderOrderIcon(item)}
                            </div>

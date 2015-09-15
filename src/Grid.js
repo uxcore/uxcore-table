@@ -228,6 +228,7 @@ class Grid extends React.Component {
 
     actionBarCB(type,txt) {
         if(type=='SEARCH') {
+           // TODO: Don't set props 
            this.props.searchTxt=txt;
            this.fetchData();
         }else {
@@ -249,35 +250,35 @@ class Grid extends React.Component {
 
         console.log("++++grid render+++",this.props.showMask);
         let props= this.props,
-        _style= {
-            width: props.width,
-            height: props.height
-        },
-        renderBodyProps={
-            columns: this.state.columns,
-            data: this.state.data?this.state.data.datas:[],
-            width: props.width=="100%"?props.width:(props.width-props.headerHeight),
-            height: props.height=="100%"?props.height:(props.height-props.headerHeight-props.actionBarHeight-(props.showPager?50:0)),
-            onModifyRow: props.onModifyRow?props.onModifyRow: function(){},
-            rowSelection: props.rowSelection,
-            subComp: props.subComp,
-            mask: this.state.showMask,
-            rowHeight: this.props.rowHeight,
-            key:'grid-body'
-        },
-        renderHeaderProps={
-            columns:  this.state.columns,
-            activeColumn: this.props.activeColumn,
-            checkAll: this.selectAll.bind(this),
-            columnPicker: props.showColumnPicker,
-            //fixed: props.fixed,
-            handleCP: this.handleCP.bind(this),
-            headerHeight: props.headerHeight,
-            width: props.width,
-            orderColumnCB: this.handleOrderColumnCB.bind(this),
-            key:'grid-header'
+            _style= {
+                width: props.width,
+                height: props.height
+            },
+            renderBodyProps={
+                columns: this.state.columns,
+                data: this.state.data?this.state.data.datas:[],
+                width: props.width=="100%"?props.width:(props.width-props.headerHeight),
+                height: props.height=="100%"?props.height:(props.height-props.headerHeight-props.actionBarHeight-(props.showPager?50:0)),
+                onModifyRow: props.onModifyRow?props.onModifyRow: function(){},
+                rowSelection: props.rowSelection,
+                subComp: props.subComp,
+                mask: this.state.showMask,
+                rowHeight: this.props.rowHeight,
+                key:'grid-body'
+            },
+            renderHeaderProps={
+                columns:  this.state.columns,
+                activeColumn: this.props.activeColumn,
+                checkAll: this.selectAll.bind(this),
+                columnPicker: props.showColumnPicker,
+                //fixed: props.fixed,
+                handleCP: this.handleCP.bind(this),
+                headerHeight: props.headerHeight,
+                width: props.width,
+                orderColumnCB: this.handleOrderColumnCB.bind(this),
+                key:'grid-header'
 
-        };
+            };
 
         let gridHeader, actionBar;
         if(props.showHeader) {

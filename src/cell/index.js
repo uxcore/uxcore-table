@@ -4,6 +4,7 @@
 import React from 'react';
 import CheckBox from './CheckBox';
 import TextField from './TextField';
+import util from './util';
 
 class Cell extends React.Component {
 
@@ -55,7 +56,7 @@ class Cell extends React.Component {
         _props.rowData[_props.column.dataKey]=e.target.value;
     }
     onblur(e) {
-       var _props= this.props,record=_props.rowData,value=record[_props.column.dataKey]
+        var _props= this.props,record=_props.rowData,value=record[_props.column.dataKey]
        
         var isValid=_props.onModifyRow.apply(null,[value,_props.column.dataKey,record]);
         if(isValid) {
@@ -109,8 +110,8 @@ class Cell extends React.Component {
         else if(_column.type=='action') {
             _v =<div className="action-container" onClick={this.doAction.bind(this,_v,_column.items)}>
             { 
-              _column.items.map(function(child) {
-                return <span className="action" data-type={child.type} >{child.title}</span>
+              _column.items.map(function(child, index) {
+                return <span className="action" key={index} data-type={child.type} >{child.title}</span>
               })
             }
             </div>
@@ -131,6 +132,9 @@ class Cell extends React.Component {
                 onblur:this.onblur.bind(this)
             }
             _v=<TextField {...renderProps}/>
+        }
+        else if (_column.type == 'money' || _column.type == "card" || _column.type == "cnmobile") {
+            _v = <div title={props.rowData[_column.dataKey]}>{util.formatValue(props.rowData[_column.dataKey], _column.type)}</div>;
         }
         else {
             _v=<div title={props.rowData[_column.dataKey]}>{props.rowData[_column.dataKey]}</div>;

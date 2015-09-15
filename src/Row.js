@@ -82,11 +82,13 @@ class Row extends React.Component {
 };
 
 Row.propTypes= {
-  showSubComp:false
+    jsxprefixCls: React.PropTypes.string,
+    showSubComp: React.PropTypes.bool
 };
 
 Row.defaultProps = {
-    jsxprefixCls: "kuma-grid-row"
+    jsxprefixCls: "kuma-grid-row",
+    showSubComp: false
 };
 
 export default Row;

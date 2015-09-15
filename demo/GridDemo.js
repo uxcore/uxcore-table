@@ -54,7 +54,7 @@ class Demo extends React.Component {
         // title, width, type, hidden,dataKey
         let columns = [
             { dataKey: 'id', title: 'ID', width: 50,hidden:true},
-            { dataKey: 'country', title:'国家', width: 200,ordered:true},
+            { dataKey: 'country', title:'国家', width: 200,ordered:true, type: "cnmobile"},
             { dataKey: 'city',title:'城市', width: 150,ordered:true },
             { dataKey: 'firstName',title:"FristName" },  
             { dataKey: 'lastName' ,title:"LastName"},
