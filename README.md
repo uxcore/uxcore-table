@@ -97,7 +97,7 @@ title          |  yes      |  string       |  column display name |
 width          |  yes      |  number       |   |
 hidden         |  optional |  boolean      |   |
 order          |  optional |  boolean | need order feature or not |
-type           |  optional |  string  | right now support {type:'action'} |
+type           |  optional |  string  | containing 'money', 'card', 'cnmobile' & 'action' |
 items          |  yes      |  array   | when type=='action', we need this attr |
 render         |  optional |  function | for custom cell
 

@@ -2,6 +2,11 @@
 
 ---
 
+# 1.0.4
+
+`NEW` add ROW util for formating values
+`NEW` add 3 new types for columns: "money", "card" & "cnmobile"
+
 # 1.0.3
 
 `ISSUE` fix the grid height issue
