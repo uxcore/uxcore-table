@@ -67,16 +67,22 @@ class Demo extends React.Component {
                return <div><a href="#">{rowData.lastName}</a></div>
               }
             }
+        ];
+
+        let subCols = [
+          {dataKey: 'firstName', title: 'firstName', width: 200},
+          {dataKey: 'city', title: '城市', width: 200}
         ]
 
         let renderSubProps={
-            showHeader:false,
+            showHeader:true,
             showPager:false,
             //showMask:false,
-            jsxcolumns:columns,
-            fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
-            queryKeys:["dataKey","firstName"],
-            onModifyRow: this.onModifyRow
+            jsxcolumns:subCols,
+            // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
+            queryKeys:["firstName", "city"],
+            onModifyRow: this.onModifyRow,
+            processData: (data) => { console.log(data); return {datas: [data]}}
         };
 
         let renderProps={

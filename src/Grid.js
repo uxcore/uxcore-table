@@ -152,19 +152,19 @@ class Grid extends React.Component {
 
         else if (!!ctx.props.passedData) {
 
-            if (!queryKeys) {
+            if (!ctx.props.queryKeys) {
                 ctx.setState({
-                    data: ctx.props.processData(passedData)
+                    data: ctx.props.processData(ctx.props.passedData)
                 });
             }
             else {
-                let keys = Object.keys(passedData);
                 let data = {};
-                keys.forEach((key, index) => {
-                    if (passedData[key] !== undefined) {
-                        data[key] = passedData[key];
+                ctx.props.queryKeys.forEach((key, index) => {
+                    if (ctx.props.passedData[key] !== undefined) {
+                        data[key] = ctx.props.passedData[key];
                     }
                 });
+                console.log(data);
                 ctx.setState({
                     data: ctx.props.processData(data)
                 });
@@ -387,7 +387,7 @@ Grid.defaultProps = {
     actionBarHeight:40,
     showPager:true,
     showColumnPicker: true,
-    showMask: true,
+    showMask: false,
     pageSize:10,
     rowHeight: 76,
     fetchParams:'',
