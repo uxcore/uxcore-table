@@ -92,11 +92,13 @@ class Demo extends React.Component {
                'edit': function() {},
                'del': function() {}
             },
-            fetchParams:'',
+            fetchParams: {},
             fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             jsxcolumns:columns,
             subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
-            rowSelection: rowSelection           
+            rowSelection: rowSelection,
+            beforeFetch: (sendData) => {console.log(sendData); sendData.id = 1; return sendData;},
+            processData: (data) => {console.log(data); return data;}           
         };
         return (<Grid {...renderProps}  ref="grid"/>);
       }

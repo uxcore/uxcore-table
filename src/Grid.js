@@ -28,7 +28,7 @@ class Grid extends React.Component {
 
 
     componentWillMount() {
-        this.processData();
+        this.fetchData();
     }
 
     componentDidMount() {
@@ -72,11 +72,14 @@ class Grid extends React.Component {
                 queryObj = ctx.props.passedData;
             }
 
-            queryKeys.forEach(function(key) {
-                if(ctx.props.passedData[key] !== undefined) {
-                    queryObj[key]= ctx.props.passedData[key];
-                }
-            })
+            else {
+                queryKeys.forEach(function(key) {
+                    if(ctx.props.passedData[key] !== undefined) {
+                        queryObj[key]= ctx.props.passedData[key];
+                    }
+                })
+            }
+
 
         }
 
@@ -105,10 +108,10 @@ class Grid extends React.Component {
 
         // fetchParams has the top priority 
         if(!!ctx.props.fetchParams) {
-            queryObj = assign({}, queryObj, fetchParams);
+            queryObj = assign({}, queryObj, ctx.props.fetchParams);
         }
 
-        return queryObj;
+        return ctx.props.beforeFetch(queryObj);
     }
     // pagination 
     // column order 
@@ -116,32 +119,67 @@ class Grid extends React.Component {
     fetchData(obj) {
 
         let ctx = this;
-        if(!ctx.state.showMask) {
+        
+
+        // fetchUrl has the top priority.
+        if (!!ctx.props.fetchUrl) {
+            if (!ctx.state.showMask) {
+                ctx.setState({
+                    showMask: true
+                });
+            }
+            let ajaxOptions = {
+                url: ctx.props.fetchUrl,
+                data: ctx.getQueryObj(),
+                success: function(result) {
+                    let _data = result.content;
+                    if(result.success) {
+                        let updateObj= {
+                          data: ctx.props.processData(_data),
+                          showMask: false
+                        };
+                        ctx.setState(updateObj)
+                    }
+                }
+            };
+
+            if (/\.jsonp/.test(ctx.props.fetchUrl)) {
+                ajaxOptions.dataType = "jsonp"
+            }
+            
+            $.ajax(ajaxOptions);
+        }
+
+        else if (!!ctx.props.passedData) {
+
+            if (!queryKeys) {
+                ctx.setState({
+                    data: ctx.props.processData(passedData)
+                });
+            }
+            else {
+                let keys = Object.keys(passedData);
+                let data = {};
+                keys.forEach((key, index) => {
+                    if (passedData[key] !== undefined) {
+                        data[key] = passedData[key];
+                    }
+                });
+                ctx.setState({
+                    data: ctx.props.processData(data)
+                });
+            }
+        }
+        else {
             ctx.setState({
-                showMask:true
+                "data": {
+                    datas: []
+                },
+                "currentPage": 1,
+                "totalCount": 0
             })
         }
 
-        let ajaxOptions = {
-            url: ctx.props.fetchUrl,
-            data: ctx.getQueryObj(),
-            success: function(result) {
-                let _data= result.content;
-                if(result.success) {
-                    let updateObj= $.extend({},obj?obj:{},{
-                      data: _data,
-                      showMask:false
-                    })
-                    ctx.setState(updateObj)
-                }
-            }
-        };
-
-        if (/\.jsonp/.test(ctx.props.fetchUrl)) {
-            ajaxOptions.dataType = "jsonp"
-        }
-        
-        $.ajax(ajaxOptions);
     }
     
 
@@ -173,13 +211,13 @@ class Grid extends React.Component {
     }
 
     //just call once when init
-    processData() {
+    // processData() {
 
-        if(!this.props.jsxdata) {
-            this.fetchData();
-        }
+    //     if(!this.props.jsxdata) {
+    //         this.fetchData();
+    //     }
 
-    }
+    // }
 
     //handle column picker
     handleCP(index) {
@@ -357,11 +395,15 @@ Grid.defaultProps = {
     //like subComp, we have fetchUrl, but also need query key like id to 
     //query data
     queryKeys:[],
-    searchTxt:''
+    searchTxt:'',
+    processData: (data) => {return data},
+    beforeFetch: (obj) => {return obj}
 }
 
 // http://facebook.github.io/react/docs/reusable-components.html
 Grid.propTypes = {
+    processData: React.PropTypes.func,
+    beforeFetch: React.PropTypes.func
 }
 
 Grid.displayName = Grid;
