@@ -6,11 +6,11 @@
  * All rights reserved.
  */
 
-import React from 'react';
-import Header from "./Header"
-import Tbody  from "./Tbody"
-import ActionBar from "./ActionBar"
-import Pagination  from "uxcore-pagination"
+let Header = require("./Header");
+let Tbody  = require("./Tbody");
+let ActionBar = require("./ActionBar");
+let Pagination  = require("uxcore-pagination");
+let assign = require('object-assign');
 
 class Grid extends React.Component {
 
@@ -26,107 +26,105 @@ class Grid extends React.Component {
         };
     }
 
+
+    componentWillMount() {
+        this.processData();
+    }
+
     componentDidMount() {
         console.log("showMask:",this.props.showMask);
     }
 
-    componentDidUpdate() {
+    // notEmpty seems useless;
+    // notEmpty(obj) {
+    //     var hasOwnProperty = Object.prototype.hasOwnProperty;
+    //     // null and undefined are "empty"
+    //     if (obj == null) return true;
 
-    }
-    
-    componentWillUnmount () {
-       
-    }
-
-    notEmpty(obj) {
-        var hasOwnProperty = Object.prototype.hasOwnProperty;
-        // null and undefined are "empty"
-        if (obj == null) return true;
-
-        // Assume if it has a length property with a non-zero value
-        // that that property is correct.
-        if (obj.length > 0)    return false;
-        if (obj.length === 0)  return true;
-        // Otherwise, does it have any properties of its own?
-        // Note that this doesn't handle
-        // toString and valueOf enumeration bugs in IE < 9
-        for (var key in obj) {
-            if (hasOwnProperty.call(obj, key)) return false;
-        }
-        return true;
-    }
+    //     // Assume if it has a length property with a non-zero value
+    //     // that that property is correct.
+    //     if (obj.length > 0)    return false;
+    //     if (obj.length === 0)  return true;
+    //     // Otherwise, does it have any properties of its own?
+    //     // Note that this doesn't handle
+    //     // toString and valueOf enumeration bugs in IE < 9
+    //     for (var key in obj) {
+    //         if (hasOwnProperty.call(obj, key)) return false;
+    //     }
+    //     return true;
+    // }
 
     // pagination 
     // column order 
     // filter 
 
-    getQueryStr() {
+    getQueryObj() {
 
-       let ctx=this,queryStr=[],_props= this.props;
+       let ctx = this, queryObj = {};
         //passedData right now use as subComp row data, if has passedData
         //that means subComp it is
 
-        if(_props.passedData) {
+        if (ctx.props.passedData) {
 
-            let queryObj={},queryKeys=_props.queryKeys;
-            if(!queryKeys) {
-                queryKeys=_props.passedData;
+            let queryKeys = ctx.props.queryKeys;
+
+            if (!queryKeys) {
+                queryObj = ctx.props.passedData;
             }
 
             queryKeys.forEach(function(key) {
-                if(ctx.notEmpty(_props.passedData[key])) {
-                    queryObj[key]= _props.passedData[key];
+                if(ctx.props.passedData[key] !== undefined) {
+                    queryObj[key]= ctx.props.passedData[key];
                 }
             })
 
-            queryStr= [$.param(queryObj)];
         }
 
-        //params, like form-grid 
-        if(!!_props.fetchParams) {
-            queryStr.push(_props.fetchParams);
+        // pagination
+        queryObj = assign({}, queryObj, {
+            pageSize: ctx.props.pageSize,
+            currentPage: ctx.props.currentPage
+        });
+
+        // column order
+        let activeColumn = this.props.activeColumn;
+        if(!!activeColumn) {
+            queryObj = assign({}, queryObj, {
+                orderColumn: activeColumn.dataKey,
+                orderType: activeColumn.orderType
+            })
         }
 
-        //pagination
-        queryStr.push($.param({pageSize:_props.pageSize,currentPage:this.props.currentPage}))
-
-        //column order
-        let  _activeColumn= this.props.activeColumn
-        if(_activeColumn) {
-            queryStr.push($.param({
-               orderColumn: _activeColumn.dataKey,
-               orderType: _activeColumn.orderType
-            }));
+        // search query
+        let searchTxt = ctx.props.searchTxt
+        if (!!searchTxt) {
+            queryObj = assign({}, queryObj, {
+               searchTxt: searchTxt
+            })
         }
 
-        //search query
-        let  _queryTxt= this.props.searchTxt
-        if(_queryTxt) {
-            queryStr.push($.param({
-               searchTxt: _queryTxt
-            }));
+        // fetchParams has the top priority 
+        if(!!ctx.props.fetchParams) {
+            queryObj = assign({}, queryObj, fetchParams);
         }
 
-        queryStr.push($.param({timeStamp:new Date().getTime()}))
-
-
-        return queryStr;
+        return queryObj;
     }
     // pagination 
     // column order 
     // filter 
     fetchData(obj) {
 
-       if(!this.state.showMask) {
-          this.setState({
-             showMask:true
-          })
-       }
+        let ctx = this;
+        if(!ctx.state.showMask) {
+            ctx.setState({
+                showMask:true
+            })
+        }
 
-       let ctx=this
-        
-        $.ajax({
-            url: this.props.fetchUrl+"?"+this.getQueryStr().join("&"),
+        let ajaxOptions = {
+            url: ctx.props.fetchUrl,
+            data: ctx.getQueryObj(),
             success: function(result) {
                 let _data= result.content;
                 if(result.success) {
@@ -137,7 +135,13 @@ class Grid extends React.Component {
                     ctx.setState(updateObj)
                 }
             }
-        })
+        };
+
+        if (/\.jsonp/.test(ctx.props.fetchUrl)) {
+            ajaxOptions.dataType = "jsonp"
+        }
+        
+        $.ajax(ajaxOptions);
     }
     
 
@@ -177,7 +181,7 @@ class Grid extends React.Component {
 
     }
 
-    //hancle column picker
+    //handle column picker
     handleCP(index) {
         let _columns= [].concat(this.state.columns),hidden=_columns[index].hidden;
         if(hidden==undefined) hidden=true;
@@ -227,7 +231,7 @@ class Grid extends React.Component {
     }
 
     actionBarCB(type,txt) {
-        if(type=='SEARCH') {
+        if(type == 'SEARCH') {
            // TODO: Don't set props 
            this.props.searchTxt=txt;
            this.fetchData();
@@ -238,11 +242,42 @@ class Grid extends React.Component {
        
     }
 
-    componentWillMount() {
-        this.processData();
+    getData() {
+       return this.state.data;
+    }
+    // some time, UI new some data, but not sync with db, 
+    // need cache on the client, then use save action, get
+    // all grid data to sync with db
+    //[{name:'',email:''}]
+
+    insertData(objAux) {
+       let _data=$.extend(true,{},this.state.data);
+       if(Object.prototype.toString.call(objAux)!=="[object Array]") {
+          objAux=[objAux];
+       }
+       _data.datas= objAux.concat(_data.datas);
+       this.setState({
+          data: _data
+       });
     }
 
-    componentWillUpdate() {
+    removeData(objAux) {
+
+       let _data=$.extend(true,{},this.state.data),_newArr;
+       if(Object.prototype.toString.call(objAux)!=="[object Array]") {
+          objAux=[objAux];
+       }
+
+        objAux.map(function(item) {
+            let index= _data.datas.indexOf(item);
+            if(index!=-1) {
+                _data.datas.splice(index,1);
+            }
+        })
+
+        this.setState({
+          data: _data
+        });
 
     }
 
@@ -302,44 +337,7 @@ class Grid extends React.Component {
         </div>);
 
     }
-    getData() {
-       return this.state.data;
-    }
-    // some time, UI new some data, but not sync with db, 
-    // need cache on the client, then use save action, get
-    // all grid data to sync with db
-    //[{name:'',email:''}]
-
-    insertData(objAux) {
-       let _data=$.extend(true,{},this.state.data);
-       if(Object.prototype.toString.call(objAux)!=="[object Array]") {
-          objAux=[objAux];
-       }
-       _data.datas= objAux.concat(_data.datas);
-       this.setState({
-          data: _data
-       });
-    }
-
-    removeData(objAux) {
-
-       let _data=$.extend(true,{},this.state.data),_newArr;
-       if(Object.prototype.toString.call(objAux)!=="[object Array]") {
-          objAux=[objAux];
-       }
-
-        objAux.map(function(item) {
-            let index= _data.datas.indexOf(item);
-            if(index!=-1) {
-                _data.datas.splice(index,1);
-            }
-        })
-
-        this.setState({
-          data: _data
-        });
-
-    }
+    
 
 };
 

@@ -74,7 +74,7 @@ class Demo extends React.Component {
             showPager:false,
             //showMask:false,
             jsxcolumns:columns,
-            fetchUrl:"http://localhost:3000/demo/data.json",
+            fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             queryKeys:["dataKey","firstName"],
             onModifyRow: this.onModifyRow
         };
@@ -93,10 +93,9 @@ class Demo extends React.Component {
                'del': function() {}
             },
             fetchParams:'',
-            fetchUrl:"http://localhost:3000/demo/data.json",
+            fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             jsxcolumns:columns,
             subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
-            //onModifyRow: this.onModifyRow,
             rowSelection: rowSelection           
         };
         return (<Grid {...renderProps}  ref="grid"/>);
