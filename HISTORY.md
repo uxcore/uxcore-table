@@ -2,6 +2,11 @@
 
 ---
 
+# 1.0.5
+
+`NEW` fix issue #18 #19
+
+
 # 1.0.4
 
 `NEW` add ROW util for formating values
