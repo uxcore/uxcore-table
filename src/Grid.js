@@ -164,7 +164,6 @@ class Grid extends React.Component {
                         data[key] = ctx.props.passedData[key];
                     }
                 });
-                console.log(data);
                 ctx.setState({
                     data: ctx.props.processData(data)
                 });
