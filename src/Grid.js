@@ -32,27 +32,8 @@ class Grid extends React.Component {
     }
 
     componentDidMount() {
-        console.log("showMask:",this.props.showMask);
+        // console.log("showMask:",this.props.showMask);
     }
-
-    // notEmpty seems useless;
-    // notEmpty(obj) {
-    //     var hasOwnProperty = Object.prototype.hasOwnProperty;
-    //     // null and undefined are "empty"
-    //     if (obj == null) return true;
-
-    //     // Assume if it has a length property with a non-zero value
-    //     // that that property is correct.
-    //     if (obj.length > 0)    return false;
-    //     if (obj.length === 0)  return true;
-    //     // Otherwise, does it have any properties of its own?
-    //     // Note that this doesn't handle
-    //     // toString and valueOf enumeration bugs in IE < 9
-    //     for (var key in obj) {
-    //         if (hasOwnProperty.call(obj, key)) return false;
-    //     }
-    //     return true;
-    // }
 
     // pagination 
     // column order 
@@ -200,7 +181,7 @@ class Grid extends React.Component {
         //{ dataKey: 'jsxchecked', width: 30,type:'checkbox'}
         if(props.rowSelection && !hasCheckedColumn) {
            if(props.subComp) {
-                columns= [{ dataKey: 'jsxchecked', width: 60,type:'checkbox', align:'right'}].concat(columns)
+                columns= [{ dataKey: 'jsxchecked', width: 92,type:'checkbox', align:'right'}].concat(columns)
            }else {
                 columns= [{ dataKey: 'jsxchecked', width: 30,type:'checkbox'}].concat(columns)
            }
@@ -208,15 +189,6 @@ class Grid extends React.Component {
 
         return columns;
     }
-
-    //just call once when init
-    // processData() {
-
-    //     if(!this.props.jsxdata) {
-    //         this.fetchData();
-    //     }
-
-    // }
 
     //handle column picker
     handleCP(index) {
@@ -320,7 +292,7 @@ class Grid extends React.Component {
 
     render() {
 
-        console.log("++++grid render+++",this.props.showMask);
+        // console.log("++++grid render+++",this.props.showMask);
         let props= this.props,
             _style= {
                 width: props.width,
@@ -343,7 +315,6 @@ class Grid extends React.Component {
                 activeColumn: this.props.activeColumn,
                 checkAll: this.selectAll.bind(this),
                 columnPicker: props.showColumnPicker,
-                //fixed: props.fixed,
                 handleCP: this.handleCP.bind(this),
                 headerHeight: props.headerHeight,
                 width: props.width,
@@ -366,11 +337,18 @@ class Grid extends React.Component {
             actionBar=<ActionBar {...renderActionProps}/>
         }
 
-        return (<div className={props.jsxprefixCls} style={_style}>
-            {actionBar}
-            {gridHeader}
-            <Tbody  {...renderBodyProps}/>
-            {this.renderPager()}
+        return (
+            <div className={props.jsxprefixCls} style={_style}>
+                {actionBar}
+                <div className="kuma-grid-content" style={{
+                    width: props.width
+                }}>
+                    <div className="kuma-grid-content-scroller">
+                        {gridHeader}
+                        <Tbody  {...renderBodyProps}/>
+                    </div>
+                </div>
+                {this.renderPager()}
         </div>);
 
     }
@@ -379,10 +357,11 @@ class Grid extends React.Component {
 };
 
 Grid.defaultProps = {
+    jsxprefixCls: "kuma-grid",
     showHeader:true,
     width:"100%",
     height:"100%",
-    headerHeight:50,
+    headerHeight:40,
     actionBarHeight:40,
     showPager:true,
     showColumnPicker: true,
@@ -391,8 +370,6 @@ Grid.defaultProps = {
     rowHeight: 76,
     fetchParams:'',
     currentPage:1,
-    //like subComp, we have fetchUrl, but also need query key like id to 
-    //query data
     queryKeys:[],
     searchTxt:'',
     processData: (data) => {return data},

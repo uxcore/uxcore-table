@@ -7,7 +7,7 @@ class Row extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log("++row++");
+        // console.log("++row++");
     }
 
     componentDidMount() {
@@ -29,7 +29,7 @@ class Row extends React.Component {
 
     showSubComp() {
         this.props.showSubComp=!this.props.showSubComp;
-        this.setState();
+        this.forceUpdate();
     }
 
     renderSubComp() {

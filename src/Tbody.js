@@ -36,7 +36,7 @@ class Tbody extends React.Component {
         
         let _props= this.props, _columns= _props.columns, _data= _props.data.length>0?_props.data:[];
         let _style={
-            width: _props.width,
+            // width: _props.width,
             height: _props.height,
             overflowY:'scroll'
         }

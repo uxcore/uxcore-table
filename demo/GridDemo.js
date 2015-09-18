@@ -28,7 +28,6 @@ class Demo extends React.Component {
     }
 
       render () {
-        console.log("demo render");
         let me=this;
         // 通过 rowSelection 对象表明需要行选择
         let rowSelection = {
@@ -54,7 +53,7 @@ class Demo extends React.Component {
         // title, width, type, hidden,dataKey
         let columns = [
             { dataKey: 'id', title: 'ID', width: 50,hidden:true},
-            { dataKey: 'country', title:'国家', width: 200,ordered:true, type: "cnmobile"},
+            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "cnmobile"},
             { dataKey: 'city',title:'城市', width: 150,ordered:true },
             { dataKey: 'firstName',title:"FristName" },  
             { dataKey: 'lastName' ,title:"LastName"},
@@ -82,11 +81,12 @@ class Demo extends React.Component {
             // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             queryKeys:["firstName", "city"],
             onModifyRow: this.onModifyRow,
-            processData: (data) => { console.log(data); return {datas: [data]}}
+            processData: (data) => {return {datas: [data]}}
         };
 
         let renderProps={
             height: 400,
+            width: 1000,
             actionBar: {
                'new': function(){ alert('new'); },
                'import': function(){ alert('import'); },
@@ -100,11 +100,12 @@ class Demo extends React.Component {
             },
             fetchParams: {},
             fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
+            // fetchUrl: "http://10.1.159.52:3002/demo/data.json",
             jsxcolumns:columns,
             subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
             rowSelection: rowSelection,
-            beforeFetch: (sendData) => {console.log(sendData); sendData.id = 1; return sendData;},
-            processData: (data) => {console.log(data); return data;}           
+            beforeFetch: (sendData) => {sendData.id = 1; return sendData;},
+            processData: (data) => {return data;}           
         };
         return (<Grid {...renderProps}  ref="grid"/>);
       }

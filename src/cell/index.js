@@ -101,7 +101,7 @@ class Cell extends React.Component {
         
         let props= this.props,_column=props.column, _width=_column.width, _style={
             width: _width?_width:100,
-            textAlign:props.align?props.align:"center"
+            textAlign:props.align?props.align:"left"
         },_v=props.rowData,renderProps;
 
         if(_column.render) {
@@ -117,6 +117,9 @@ class Cell extends React.Component {
             </div>
         }
         else if(_column.type=='checkbox') {
+
+            _style.paddingRight = 32;
+
             let checked;
             if(_v.jsxchecked){
                 checked='checked'

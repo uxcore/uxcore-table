@@ -6,19 +6,31 @@
  * All rights reserved.
  */
 
- @import "./Mask.less";
-  @import "./ActionBar.less";
+@import "./Mask.less";
+@import "./ActionBar.less";
 
- .kuma-grid {
-  display: table;
+.kuma-grid {
   border:0px solid #ebebeb;
   border-collapse: collapse;
   position: relative;
+  color: #666;
+  table-layout: fixed;
 }
 .kuma-grid-header {
   position: relative;
-  background-color: #f2f2f2;
+  background-color: #f5f5f5;
+  font-weight: 600;
+  white-space: nowrap;
 }
+
+.kuma-grid-content {
+  overflow-x: scroll;
+}
+
+.kuma-grid-content-scroller {
+  display: inline-block;
+}
+
 .kuma-grid-header:hover{
 
 }
@@ -32,17 +44,17 @@
     display: inline-block;
     width: 100%;
     border-bottom: 1px solid #efefef;
-    line-height: 40px;
+    line-height: 36px;
 }
 
 .kuma-grid-row:hover {
   background-color: #fbfbfb;
 }
 .kuma-grid-cell{
-  display: table-cell;
+  display: inline-block;
   text-align: center;
   height:100%;
-  padding: 0px;
+  padding: 0px 0px 0px 20px;
   vertical-align: middle;
   position: relative;
   word-break:break-all;
@@ -89,13 +101,16 @@
   cursor: pointer;
   text-align: left;
   line-height: 21px;
+  min-width: 120px;
 }
 
 .kuma-column-picker-container{
-  position: absolute;
-  right: 12px;
-  top: 0px;
-  cursor:pointer;
+  // position: absolute;
+  // right: 12px;
+  // top: 0px;
+  display: inline-block;
+  cursor: pointer;
+  margin-right: 20px;
 }
 
 .kuma-grid-subrow {
@@ -103,8 +118,11 @@
 }
 
 .kuma-grid-tree-icon{
-  margin-right:8px;
+  margin-right:12px;
   cursor:pointer;
+  > .kuma-icon {
+    font-size: 14px;
+  }
 }
 
 .kuma-grid-colmnpicker > li:hover{
@@ -124,6 +142,7 @@
 
 .kuma-grid-h-sort{
    position:relative;
+   top: -2px;
 }
 
 .kuma-grid-h-sort i{
@@ -164,6 +183,8 @@ i.sort-down-active {
 
 .action-container .action{
   cursor: pointer;
-  margin:0px 4px;
   display:inline-block;
+  & + .action {
+    margin-left: 8px
+  }
 }

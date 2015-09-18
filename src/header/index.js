@@ -1,8 +1,9 @@
 /**
  * Created by xy on 15/4/13.
  */
-import React from 'react';
-import CheckBox from '../cell/CheckBox';
+let CheckBox = require('../cell/CheckBox');
+let assign = require('object-assign');
+
 
 class Header extends React.Component {
 
@@ -23,7 +24,6 @@ class Header extends React.Component {
     
     componentWillUnmount () {
         $(document).off('click.uxcore-grid-header');
-        //window.removeEventListener('click', this.handleGlobalClick.bind(this));
     }
 
     prepareStyle() {
@@ -125,9 +125,20 @@ class Header extends React.Component {
              _picker=this.renderPicker();
         }
 
+        // calculate the total width for scrolling
+        // let width = 0;
+        // props.columns.forEach((item, i) => {
+        //     if (item.type == "checkbox") {
+        //         width += item.width ? item.width : 92;
+        //     }
+        //     else {
+        //         width += item.width ? item.width : 100;
+        //     }
+        // });
+
         let _style={ 
             height: props.headerHeight?props.headerHeight:40,
-            width: props.width,
+            // width: width,
             lineHeight: (props.headerHeight?props.headerHeight:40)+"px"
         }
 
@@ -139,9 +150,14 @@ class Header extends React.Component {
 
                 let _style={
                     width: item.width? item.width:100,
-                    textAlign:item.align?item.align:"center"
+                    textAlign:item.align?item.align:"left"
                 },_v;
                 if(item.type=='checkbox') {
+                    assign(_style, {
+                      paddingRight: 32,
+                      width: item.width ? item.width : 92
+                    });
+
                     _v=<CheckBox  ref="checkbox" onchange={ctx.handleCheckBoxChange.bind(ctx)}/>
                 }else {
                     _v=item.title
