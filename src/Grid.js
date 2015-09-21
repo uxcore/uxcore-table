@@ -165,26 +165,30 @@ class Grid extends React.Component {
 
     processColumn() {
 
-        let props=this.props, columns= props.jsxcolumns,hasCheckedColumn;
+        let props = this.props, 
+            columns = props.jsxcolumns,
+            hasCheckedColumn;
 
-        columns=columns.map(function(item,index){
-            if(item.hidden==undefined) {
-                item.hidden=false;
-            }
-            if(item.dataKey =='jsxchecked') {
-                hasCheckedColumn=true;
-            }
+        // filter the column which has a datakey 'jsxchecked'
+
+        columns = columns.filter((item) => {
+            return item.dataKey !== 'jsxchecked' && item.datakey !== 'jsxtreeIcon';
+        });
+
+        // if hidden is not set, then it's false
+
+        columns = columns.map((item,index) => {
+            item.hidden = item.hidden || false;
             return item;
         });
 
-        //if has rowSelection, also attach checked column
         //{ dataKey: 'jsxchecked', width: 30,type:'checkbox'}
-        if(props.rowSelection && !hasCheckedColumn) {
-           if(props.subComp) {
-                columns= [{ dataKey: 'jsxchecked', width: 92,type:'checkbox', align:'right'}].concat(columns)
-           }else {
-                columns= [{ dataKey: 'jsxchecked', width: 30,type:'checkbox'}].concat(columns)
-           }
+        if (!!props.rowSelection) {
+            columns = [{ dataKey: 'jsxchecked', width: 46, type:'checkbox', align:'right'}].concat(columns)
+        }
+
+        if (!!props.subComp) {
+            columns = [{dataKey: 'jsxtreeIcon', width: 34, type: 'treeIcon'}].concat(columns);
         }
 
         return columns;

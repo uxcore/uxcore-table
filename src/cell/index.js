@@ -53,18 +53,18 @@ class Cell extends React.Component {
     }
     handleTxtChange(e){
         var _props= this.props;
-        _props.rowData[_props.column.dataKey]=e.target.value;
+        _props.rowData[_props.column.dataKey] = e.target.value;
     }
     onblur(e) {
-        var _props= this.props,record=_props.rowData,value=record[_props.column.dataKey]
+        var _props = this.props,record=_props.rowData,value=record[_props.column.dataKey]
        
         var isValid=_props.onModifyRow.apply(null,[value,_props.column.dataKey,record]);
         if(isValid) {
             this.setState({
                 mode:"view"
             });
-        }else {
-           e.target.focus?e.target.focus():"";
+        } else {
+           e.target.focus ? e.target.focus() : "";
         }
     }
 
@@ -72,20 +72,22 @@ class Cell extends React.Component {
         this.props.showSubCompCallback.call(this.props.ctx);
     }
 
-    renderChildIcon() {
-        if(this.props.cellIndex==0 && this.props.hasSubComp) {
-            if(this.props.st_showSubComp) {
+    renderTreeIcon() {
+        if (this.props.cellIndex == 0 && this.props.hasSubComp) {
+            if (this.props.st_showSubComp) {
                 return (<span className="kuma-grid-tree-icon" onClick={this.showSubComp.bind(this)}><i className="kuma-icon kuma-icon-tree-open"></i></span>);
-            }else {
+            }
+            else {
                 return (<span className="kuma-grid-tree-icon" onClick={this.showSubComp.bind(this)}><i className="kuma-icon kuma-icon-tree-close"></i></span>);
             }
         }
     }
+
     doAction(rowData,items,e) {
 
         let el=$(e.target);
           if(el.hasClass('action')) {
-             if( el.data('type') =='inlineEdit') {
+             if( el.data('type') == 'inlineEdit') {
                 this.showSubComp();
                 return ;
              }
@@ -99,51 +101,62 @@ class Cell extends React.Component {
 
     render() {
         
-        let props= this.props,_column=props.column, _width=_column.width, _style={
-            width: _width?_width:100,
-            textAlign:props.align?props.align:"left"
-        },_v=props.rowData,renderProps;
+        let props = this.props,
+            ctx = this,
+            _column = props.column, 
+            _width = _column.width, 
+            _style = {
+                width: _width ? _width : 100,
+                textAlign: props.align ? props.align : "left"
+            },
+            _v = props.rowData,renderProps;
 
         if(_column.render) {
-           _v= _column.render.apply(null,[_v]);
+           _v = _column.render.apply(null,[_v]);
         }
-        else if(_column.type=='action') {
-            _v =<div className="action-container" onClick={this.doAction.bind(this,_v,_column.items)}>
-            { 
-              _column.items.map(function(child, index) {
-                return <span className="action" key={index} data-type={child.type} >{child.title}</span>
-              })
-            }
-            </div>
+        else if (_column.type=='action') {
+            _v = <div className="action-container" onClick={this.doAction.bind(this,_v,_column.items)}>
+                    { 
+                      _column.items.map(function(child, index) {
+                        return <span className="action" key={index} data-type={child.type} >{child.title}</span>
+                      })
+                    }
+                 </div>
         }
-        else if(_column.type=='checkbox') {
+        else if (_column.type=='checkbox') {
 
             _style.paddingRight = 32;
+            _style.paddingLeft = 12;
 
             let checked;
-            if(_v.jsxchecked){
+            if (_v.jsxchecked) {
                 checked='checked'
-            }else {
+            } else {
                 checked="";
             }
-            _v=<CheckBox align={props.align} jsxchecked={checked} ref="checkbox" onchange={this.handleCheckChange.bind(this)}/>
+            _v = <CheckBox align={props.align} jsxchecked={checked} ref="checkbox" onchange={this.handleCheckChange.bind(this)}/>
 
-        }else if(_column.type=='text' && this.state.mode=='edit') {
+        }
+        else if (_column.type == 'treeIcon') {
+            _v = ctx.renderTreeIcon();
+        }
+        else if (_column.type == 'text' && this.state.mode=='edit') {
             renderProps={
                 value: _v[_column.dataKey],
                 onchange:this.handleTxtChange.bind(this),
                 onblur:this.onblur.bind(this)
             }
-            _v=<TextField {...renderProps}/>
+            _v = <TextField {...renderProps}/>
         }
         else if (_column.type == 'money' || _column.type == "card" || _column.type == "cnmobile") {
             _v = <div title={props.rowData[_column.dataKey]}>{util.formatValue(props.rowData[_column.dataKey], _column.type)}</div>;
         }
         else {
-            _v=<div title={props.rowData[_column.dataKey]}>{props.rowData[_column.dataKey]}</div>;
+            _v = <div title={props.rowData[_column.dataKey]}>{props.rowData[_column.dataKey]}</div>;
         }
+
         return (<div className={props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
-            {this.renderChildIcon()}
+            {/*this.renderChildIcon()*/}
             {_v}
         </div>);   
     }

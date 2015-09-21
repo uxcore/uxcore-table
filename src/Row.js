@@ -61,7 +61,7 @@ class Row extends React.Component {
                         align:item.align,
                         rowData: _data[props.rowIndex],
                         cellIndex:index,
-                        hasSubComp:props.subComp?true:false,
+                        hasSubComp: props.subComp ? true : false,
                         data:_data,
                         showSubCompCallback:ctx.showSubComp,
                         st_showSubComp: ctx.props.showSubComp,

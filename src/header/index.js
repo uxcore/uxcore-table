@@ -119,64 +119,52 @@ class Header extends React.Component {
 
     render() {
 
-        let props= this.props, ctx=this,_picker;
+        let props= this.props, 
+            ctx = this,
+            _picker;
 
-        if(this.props.columnPicker) {
-             _picker=this.renderPicker();
+        if (this.props.columnPicker) {
+             _picker = this.renderPicker();
         }
-
-        // calculate the total width for scrolling
-        // let width = 0;
-        // props.columns.forEach((item, i) => {
-        //     if (item.type == "checkbox") {
-        //         width += item.width ? item.width : 92;
-        //     }
-        //     else {
-        //         width += item.width ? item.width : 100;
-        //     }
-        // });
 
         let _style={ 
-            height: props.headerHeight?props.headerHeight:40,
-            // width: width,
-            lineHeight: (props.headerHeight?props.headerHeight:40)+"px"
+            height: props.headerHeight ? props.headerHeight : 40,
+            lineHeight: (props.headerHeight ? props.headerHeight : 40) + "px"
         }
 
-        return (<div className={props.jsxprefixCls} style={_style}>
+        return (
+            <div className={props.jsxprefixCls} style={_style}>
 
-            {props.columns.map(function (item,index) {
+                {props.columns.map(function (item, index) {
 
-                if(item.hidden) return;
+                    if (item.hidden) return;
 
-                let _style={
-                    width: item.width? item.width:100,
-                    textAlign:item.align?item.align:"left"
-                },_v;
-                if(item.type=='checkbox') {
-                    assign(_style, {
-                      paddingRight: 32,
-                      width: item.width ? item.width : 92
-                    });
+                    let _style={
+                        width: item.width ? item.width : 100,
+                        textAlign: item.align ? item.align : "left"
+                    },_v;
 
-                    _v=<CheckBox  ref="checkbox" onchange={ctx.handleCheckBoxChange.bind(ctx)}/>
-                }else {
-                    _v=item.title
-                }
-                if(index==props.columns.length-1) {
-                    return (
-                            <div key={index} className="kuma-grid-cell" style={_style} >
-                            <span>{_v}</span>
-                            {ctx.renderOrderIcon(item)}
-                    </div>)
-                }else {
+                    if (item.type=='checkbox') {
+                        assign(_style, {
+                            paddingRight: 32,
+                            paddingLeft: 12,
+                            width: item.width ? item.width : 92
+                        });
+
+                        _v = <CheckBox  ref="checkbox" onchange={ctx.handleCheckBoxChange.bind(ctx)}/>
+                    } 
+                    else {
+                        _v = item.title;
+                    }
+
                     return <div key={index} className="kuma-grid-cell" style={_style}>
-                              <span>{_v}</span>
-                              {ctx.renderOrderIcon(item)}
+                                <span>{_v}</span>
+                                {ctx.renderOrderIcon(item)}
                            </div>
-                }
-            })}
-            {_picker}
-        </div>);
+                })}
+                {_picker}
+            </div>
+        );
     }
 
 };
