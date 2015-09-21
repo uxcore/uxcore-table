@@ -40,7 +40,8 @@
     "object-assign": "^2.0.0",
     "react": "^0.13.3",
     "react-mixin": "~1.7.0",
-    "uxcore-kuma": "~1.0.3"
+    "uxcore-kuma": "~1.0.3",
+    "uxcore-select2":"0.1.4"
   },
   "contributors": [],
   "license": "MIT"

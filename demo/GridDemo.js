@@ -54,15 +54,20 @@ class Demo extends React.Component {
         let columns = [
             { dataKey: 'id', title: 'ID', width: 50,hidden:true},
             { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "cnmobile"},
-            { dataKey: 'city',title:'城市', width: 150,ordered:true },
+            { dataKey: 'city',title:'城市', width: 180,ordered:true,type:'select' ,options:{
+               'hz':'杭州',
+               'bj':'北京',
+               'sh':'上海',
+               'ah':'安徽'
+            }},
             { dataKey: 'firstName',title:"FristName" },  
             { dataKey: 'lastName' ,title:"LastName"},
-            { dataKey: 'email',title:"Email",width: 200,ordered:true },
+            { dataKey: 'email',title:"Email",width: 200,ordered:true ,type:"text"},
             { dataKey: 'action1', title:'操作1', width:100, type:"action",items:[
               {title:'编辑', type:"inlineEdit", cb: function(rowData){console.info(rowData)}},
               {title:'删除', type:"del", cb: function(rowData){console.info(rowData)}}
             ]},
-            { dataKey: 'action', title:'链接', width:100,render: function(rowData){
+            { dataKey: 'action', title:'链接', width:150,render: function(rowData){
                return <div><a href="#">{rowData.lastName}</a></div>
               }
             }
@@ -86,7 +91,7 @@ class Demo extends React.Component {
 
         let renderProps={
             height: 400,
-            width: 1000,
+            width: 1200,
             actionBar: {
                'new': function(){ alert('new'); },
                'import': function(){ alert('import'); },
