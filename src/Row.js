@@ -37,7 +37,8 @@ class Row extends React.Component {
         let props= this.props;
         if(props.subComp && this.props.showSubComp ) {
           let subComp= React.cloneElement(props.subComp,{
-            passedData: this.props.data[this.props.rowIndex]
+            passedData: this.props.data[this.props.rowIndex],
+            parentHasCheckbox: !!this.props.rowSelection
           });
           return (<div className="kuma-grid-subrow" ref="subRow">{subComp}</div>)
         }else {
@@ -56,7 +57,7 @@ class Row extends React.Component {
 
                     if(item.hidden) return;
                 
-                   let renderProps={
+                    let renderProps={
                         column: item,
                         align:item.align,
                         rowData: _data[props.rowIndex],
@@ -71,7 +72,7 @@ class Row extends React.Component {
                         key:"cell"+index
                     };
                     //if have vertical data structure, how to process it
-                   return <Cell {...renderProps} />
+                    return <Cell {...renderProps} />
                 })
             }
             {this.renderSubComp()}

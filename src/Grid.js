@@ -187,8 +187,19 @@ class Grid extends React.Component {
             columns = [{ dataKey: 'jsxchecked', width: 46, type:'checkbox', align:'right'}].concat(columns)
         }
 
+        // no rowSelection but parentHasCheckbox, render placeholder
+        else if (!!props.parentHasCheckbox) {
+            columns = [{datakey: 'jsxwhite', width: 46, type: 'empty'}].concat(columns);
+        }
+
+
         if (!!props.subComp) {
             columns = [{dataKey: 'jsxtreeIcon', width: 34, type: 'treeIcon'}].concat(columns);
+        }
+        // no subComp but has passedData, means sub mode, parent should has tree icon,
+        // render tree icon placeholder
+        else if (!!props.passedData) {
+            columns = [{datakey: 'jsxwhite', width: 34,type: 'empty'}].concat(columns);
         }
 
         return columns;

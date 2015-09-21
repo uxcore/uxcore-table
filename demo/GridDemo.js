@@ -76,6 +76,7 @@ class Demo extends React.Component {
         let renderSubProps={
             showHeader:true,
             showPager:false,
+            rowSelection: rowSelection,
             //showMask:false,
             jsxcolumns:subCols,
             // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
@@ -103,7 +104,7 @@ class Demo extends React.Component {
             // fetchUrl: "http://10.1.159.52:3002/demo/data.json",
             jsxcolumns:columns,
             subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
-            // rowSelection: rowSelection,
+            rowSelection: rowSelection,
             beforeFetch: (sendData) => {sendData.id = 1; return sendData;},
             processData: (data) => {return data;}           
         };
