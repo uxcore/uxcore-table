@@ -77,13 +77,20 @@ pageSize         |  10             |   |
 showHeader       |  true           |   |
 headerHeight     |  50             |   |
 showMask         |  true           |   |
-queryKeys        |  []             | like subComp,it need some query key/value form parent |
+queryKeys        |  []             | in subComp mode, it tell parent what datas need to pass to child, like a filter, the parent will pass all his data to his child if queryKey is undefined|
 fetchUrl         |  ""             | dynamic get data from server |
 fetchParams      |  ""             | in form-grid mode, form will pass fetch params for grid |
 actionBar        |  null           | actionBar configuration |
 jsxcolumns       |  null           | columns config |
 jsxdata          |  null           | grid data |
-passedData       |  null           | Parent Component passed data |
+
+
+### Props you should define by yourself
+
+> Parent will pass this props to his child  
+
+props name       |  defalut Value  |  Note   | 
+passedData       |  null           |  Data passed from parent|
 
 
 
@@ -92,14 +99,15 @@ passedData       |  null           | Parent Component passed data |
 
 Key Name       |  require  |  value type  | Note   | 
 -----------    |  ------   |   ---------- | -----  |
-dataKey        |  yes      |  string       | use key |
-title          |  yes      |  string       |  column display name |
-width          |  yes      |  number       |   |
-hidden         |  optional |  boolean      |   |
-order          |  optional |  boolean | need order feature or not |
-type           |  optional |  string  | containing 'money', 'card', 'cnmobile' & 'action' |
-items          |  yes      |  array   | when type=='action', we need this attr |
-render         |  optional |  function | for custom cell
+dataKey        |  yes      |  string      | use key |
+title          |  yes      |  string      | column display name |
+width          |  yes      |  number      |   |
+hidden         |  optional |  boolean     |   |
+order          |  optional |  boolean     | need order feature or not |
+type           |  optional |  string      | containing 'money', 'card', 'cnmobile' & 'action' |
+items          |  yes      |  array       | when type =='action', we need this attr |
+render         |  optional |  function    | for custom cell |
+delimiter      |  optional |  string      | delimiter used in type 'money', 'card', 'cnmobile' formating|
 
 
 ```

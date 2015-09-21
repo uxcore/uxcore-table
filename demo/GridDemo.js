@@ -53,7 +53,7 @@ class Demo extends React.Component {
         // title, width, type, hidden,dataKey
         let columns = [
             { dataKey: 'id', title: 'ID', width: 50,hidden:true},
-            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "cnmobile"},
+            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
             { dataKey: 'city',title:'城市', width: 150,ordered:true },
             { dataKey: 'firstName',title:"FristName" },  
             { dataKey: 'lastName' ,title:"LastName"},
@@ -76,7 +76,7 @@ class Demo extends React.Component {
         let renderSubProps={
             showHeader:true,
             showPager:false,
-            rowSelection: rowSelection,
+            // rowSelection: rowSelection,
             //showMask:false,
             jsxcolumns:subCols,
             // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",

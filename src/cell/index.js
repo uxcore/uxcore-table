@@ -149,7 +149,7 @@ class Cell extends React.Component {
             _v = <TextField {...renderProps}/>
         }
         else if (_column.type == 'money' || _column.type == "card" || _column.type == "cnmobile") {
-            _v = <div title={props.rowData[_column.dataKey]}>{util.formatValue(props.rowData[_column.dataKey], _column.type)}</div>;
+            _v = <div title={props.rowData[_column.dataKey]}>{util.formatValue(props.rowData[_column.dataKey], _column.type, _column.delimiter)}</div>;
         }
         else {
             _v = <div title={props.rowData[_column.dataKey]}>{props.rowData[_column.dataKey]}</div>;
