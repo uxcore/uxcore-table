@@ -5,7 +5,7 @@ import React from 'react';
 import CheckBox from './CheckBox';
 import TextField from './TextField';
 import SelectField from "./SelectField";
-import util from './util';
+import util from './Util';
 
 class Cell extends React.Component {
 
@@ -177,7 +177,6 @@ class Cell extends React.Component {
         }
 
         return (<div className={props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
-            {/*this.renderChildIcon()*/}
             {_v}
         </div>);   
     }
