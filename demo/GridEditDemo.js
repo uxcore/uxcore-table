@@ -77,6 +77,11 @@ class Demo extends React.Component {
             },
             renderModel:'',//deep, flat, hierarchical
             fetchParams: {},
+            jsxdata:{
+                datas: [],
+                "currentPage": 1,
+                "totalCount": 0
+            },
             //fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             // fetchUrl: "http://10.1.159.52:3002/demo/data.json",
             jsxcolumns:columns,

@@ -101,7 +101,6 @@ class Grid extends React.Component {
 
         let ctx = this;
         
-
         // fetchUrl has the top priority.
         if (!!ctx.props.fetchUrl) {
             if (!ctx.state.showMask) {

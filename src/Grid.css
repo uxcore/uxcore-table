@@ -85,6 +85,11 @@ a.kuma-button-swhite {
   border: 1px solid #ebebeb;
   position: relative;
 }
+.kuma-gird-body-emptyword {
+  text-align: center;
+  vertical-align: middle;
+  line-height: 100px;
+}
 .kuma-grid-row {
   display: inline-block;
   width: 100%;
