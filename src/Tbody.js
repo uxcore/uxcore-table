@@ -32,6 +32,15 @@ class Tbody extends React.Component {
 
     }
 
+    renderEmptyData() {
+       if(this.props.data.length==0) {
+           let _style={
+             lineHeight: this.props.height-10+"px",
+           }
+          return (<div className="kuma-gird-body-emptyword" style={_style}>暂无数据.</div>);
+       }
+    }
+
     render() {
         
         let _props= this.props, _columns= _props.columns, _data= _props.data.length>0?_props.data:[];
@@ -42,6 +51,7 @@ class Tbody extends React.Component {
         }
 
         return (<div className={this.props.jsxprefixCls} style={_style}>
+           {this.renderEmptyData()}
            { _data.map(function(item,index) {
                 let renderProps={
                     columns: _columns,

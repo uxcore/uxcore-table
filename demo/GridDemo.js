@@ -79,7 +79,7 @@ class Demo extends React.Component {
             // rowSelection: rowSelection,
             //showMask:false,
             jsxcolumns:subCols,
-            // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
+            fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             queryKeys:["firstName", "city"],
             onModifyRow: this.onModifyRow,
             processData: (data) => {return {datas: [data]}}

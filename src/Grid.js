@@ -101,7 +101,6 @@ class Grid extends React.Component {
 
         let ctx = this;
         
-
         // fetchUrl has the top priority.
         if (!!ctx.props.fetchUrl) {
             if (!ctx.state.showMask) {
@@ -161,10 +160,10 @@ class Grid extends React.Component {
               "data": {
                   datas: [{
                     jsxid:0
-                  }]
-              },
-              "currentPage": 1,
-              "totalCount": 0
+                  }],
+                  "currentPage": 1,
+                  "totalCount": 0
+              }
           })
         }
 
