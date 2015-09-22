@@ -2,8 +2,6 @@
  * A editable  plain text field
  */
 import React from 'react';
-import reactMixin  from 'react-mixin';
-
 
 class TextField extends React.Component {
 
@@ -12,7 +10,6 @@ class TextField extends React.Component {
         this.state={
             value: this.props.value
         }
-
     }
     componentDidMount() {
         //this.focus();
@@ -24,34 +21,38 @@ class TextField extends React.Component {
         this.refs.txtfield.getDOMNode().focus();
     }
     componentWillUnmount () {
-       
     }
 
-    componentWillReceiveProps() {
+    componentWillReceiveProps(nextProps) {
        this.setState({
-          value: this.props.value
+          value: nextProps.value
        })
     }
 
+    handleChange(newValue) {
+       this.setState({value: newValue});
+    }
+
     render() {
+
         let props= this.props,
         renderProps= {
             className:"kuma-input",
             ref:'txtfield',
             onBlur: props.onblur.bind(this)
-        }
-        return <input  type="text" {...renderProps} valueLink={this.linkState('value')} />
+        };
+
+        let valueLink = {
+          value: this.state.value,
+          requestChange: this.handleChange.bind(this)
+        };
+        return <input  type="text" {...renderProps} valueLink={valueLink} />
     }
 
 };
 
-TextField.propTypes= {
-};
+TextField.propTypes= {};
 
-TextField.defaultProps = {
-
-};
-
-reactMixin.onClass(TextField,React.addons.LinkedStateMixin);
+TextField.defaultProps = {};
 
 export default TextField;

@@ -30,7 +30,12 @@ class SelectField extends React.Component {
     componentWillUnmount () {
        
     }
+    componentWillReceiveProps(nextProps) {
 
+        this.setState({
+            value: nextProps.value
+        })
+    }
     handleChange(value) {
 
         this.setState({
@@ -42,14 +47,14 @@ class SelectField extends React.Component {
     renderOptions(config) {
         let _arr=[];
         for(let key in config.options) {
-            _arr.push(<Option value={key}>{config.options[key]}</Option>) 
+            _arr.push(<Option value={key} key={key}>{config.options[key]}</Option>) 
         }
         return _arr;
     }
 
     render() {
        let  config= this.props.config;
-        return ( <Select  defaultValue={this.state.value} optionLabelProp="children" showSearch={false} style={{width:config.width-10}}  onChange={this.handleChange.bind(this)}>
+        return ( <Select  value={this.state.value} optionLabelProp="children" showSearch={false} style={{width:config.width-10}}  onChange={this.handleChange.bind(this)}>
                 {
                     this.renderOptions(config).map(function(item){
                         return item;

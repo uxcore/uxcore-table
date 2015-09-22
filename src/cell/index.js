@@ -98,10 +98,15 @@ class Cell extends React.Component {
              if( el.data('type') =='inlineEdit') {
                 this.showSubComp();
                 return ;
+             }else if(el.data('type') =='addRow') {
+                 this.props.actions['addRow'].apply();
+
+             }else if(el.data('type') =='delRow') {
+                 this.props.actions['delRow'].apply(null,[rowData]);
              }
              items.map(function(item){
                 if(item.type ==el.data('type')) {
-                    item.cb.apply(null,[rowData]);
+                    item.cb?item.cb.apply(null,[rowData]):'';
                 }
              })
           }

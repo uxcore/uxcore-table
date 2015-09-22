@@ -11,7 +11,7 @@ let Tbody  = require("./Tbody");
 let ActionBar = require("./ActionBar");
 let Pagination  = require("uxcore-pagination");
 let assign = require('object-assign');
-
+let uid=0;
 class Grid extends React.Component {
 
     constructor(props) {
@@ -150,14 +150,22 @@ class Grid extends React.Component {
                 });
             }
         }
+        else if(!!this.props.jsxdata) {
+          ctx.setState({
+             data: this.props.jsxdata
+          });
+        }
         else {
-            ctx.setState({
-                "data": {
-                    datas: []
-                },
-                "currentPage": 1,
-                "totalCount": 0
-            })
+          //default will create one row
+          ctx.setState({
+              "data": {
+                  datas: [{
+                    jsxid:0
+                  }]
+              },
+              "currentPage": 1,
+              "totalCount": 0
+          })
         }
 
     }
@@ -227,7 +235,7 @@ class Grid extends React.Component {
     }
 
     renderPager() {
-        if(this.props.showPager && this.state.data) {
+        if(this.props.showPager && this.state.data && this.state.data.totalCount) {
             return (<div className="kuma-grid-pagination"><Pagination className="mini" total={this.state.data.totalCount} onChange={this.onPageChange.bind(this)} current={this.props.currentPage} pageSize={this.props.pageSize} /></div>)
         }
     }
@@ -254,6 +262,17 @@ class Grid extends React.Component {
     getData() {
        return this.state.data;
     }
+
+    addRow() {
+        this.insertData({
+          jsxid: ++uid
+        });
+    }
+
+    delRow(rowData) {
+        this.removeData(rowData);
+    }
+
     // some time, UI new some data, but not sync with db, 
     // need cache on the client, then use save action, get
     // all grid data to sync with db
@@ -265,6 +284,7 @@ class Grid extends React.Component {
           objAux=[objAux];
        }
        _data.datas= objAux.concat(_data.datas);
+
        this.setState({
           data: _data
        });
@@ -278,10 +298,11 @@ class Grid extends React.Component {
        }
 
         objAux.map(function(item) {
-            let index= _data.datas.indexOf(item);
-            if(index!=-1) {
-                _data.datas.splice(index,1);
-            }
+            _data.datas.forEach(function(element, index, array) {
+                if(element.jsxid==item.jsxid) {
+                   _data.datas.splice(index,1);
+                }
+            })
         })
 
         this.setState({
@@ -306,6 +327,10 @@ class Grid extends React.Component {
                 onModifyRow: props.onModifyRow?props.onModifyRow: function(){},
                 rowSelection: props.rowSelection,
                 subComp: props.subComp,
+                actions:{
+                   'addRow': this.addRow.bind(this),
+                   'delRow': this.delRow.bind(this)
+                },
                 mask: this.state.showMask,
                 rowHeight: this.props.rowHeight,
                 key:'grid-body'
