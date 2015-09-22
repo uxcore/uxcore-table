@@ -7,11 +7,12 @@ class TextField extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state= {
-        };
+        this.state={
+            value: this.props.value
+        }
     }
     componentDidMount() {
-        this.focus();
+        //this.focus();
     }
     componentDidUpdate() {
 
@@ -20,27 +21,38 @@ class TextField extends React.Component {
         this.refs.txtfield.getDOMNode().focus();
     }
     componentWillUnmount () {
-       
     }
+
+    componentWillReceiveProps(nextProps) {
+       this.setState({
+          value: nextProps.value
+       })
+    }
+
+    handleChange(newValue) {
+       this.setState({value: newValue});
+    }
+
     render() {
+
         let props= this.props,
         renderProps= {
             className:"kuma-input",
             ref:'txtfield',
-            defaultValue: props.value,
-            onBlur: props.onblur.bind(this),
-            onChange:props.onchange.bind(this)
-        }
-        return <input  type="text" {...renderProps}/>
+            onBlur: props.onblur.bind(this)
+        };
+
+        let valueLink = {
+          value: this.state.value,
+          requestChange: this.handleChange.bind(this)
+        };
+        return <input  type="text" {...renderProps} valueLink={valueLink} />
     }
 
 };
 
-TextField.propTypes= {
-};
+TextField.propTypes= {};
 
-TextField.defaultProps = {
-
-};
+TextField.defaultProps = {};
 
 export default TextField;

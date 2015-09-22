@@ -50,6 +50,7 @@ class Tbody extends React.Component {
                     onModifyRow: _props.onModifyRow,
                     rowSelection: _props.rowSelection,
                     subComp: _props.subComp,
+                    actions: _props.actions,
                     key:'row'+index,
                     rowHeight: _props.rowHeight,
                     ts: new Date().getTime()

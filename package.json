@@ -1,6 +1,6 @@
 {
   "name": "uxcore-grid",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "grid ui component for react",
   "repository": "https://github.com/uxcore/uxcore-grid.git",
   "author": "zhouquan.yezq",
@@ -36,11 +36,13 @@
     "uxcore-pagination":"0.1.0"
   },
   "dependencies": {
+    "uxcore-validator":"^0.1.0",
     "classnames": "^2.1.2",
     "object-assign": "^2.0.0",
     "react": "^0.13.3",
     "react-mixin": "~1.7.0",
-    "uxcore-kuma": "~1.0.3"
+    "uxcore-kuma": "~1.0.3",
+    "uxcore-select2":"0.1.4"
   },
   "contributors": [],
   "license": "MIT"

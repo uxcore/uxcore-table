@@ -4,6 +4,7 @@
 import React from 'react';
 import CheckBox from './CheckBox';
 import TextField from './TextField';
+import SelectField from "./SelectField";
 import util from './Util';
 
 class Cell extends React.Component {
@@ -32,9 +33,9 @@ class Cell extends React.Component {
 
     }
     handleClick(e) {
-        this.setState({
+       /* this.setState({
             mode:"edit"
-        })
+        })*/
     }
 
     getSelectionRows() {
@@ -55,9 +56,17 @@ class Cell extends React.Component {
         var _props= this.props;
         _props.rowData[_props.column.dataKey] = e.target.value;
     }
+    handleChange(v) {
+       var _props= this.props;
+       _props.rowData[_props.column.dataKey]=v;
+    }
     onblur(e) {
-        var _props = this.props,record=_props.rowData,value=record[_props.column.dataKey]
-       
+
+       var _props= this.props;
+        _props.rowData[_props.column.dataKey]=e.target.value;
+
+        return ;
+        var _props= this.props,record=_props.rowData,value=record[_props.column.dataKey]       
         var isValid=_props.onModifyRow.apply(null,[value,_props.column.dataKey,record]);
         if(isValid) {
             this.setState({
@@ -90,10 +99,15 @@ class Cell extends React.Component {
              if( el.data('type') == 'inlineEdit') {
                 this.showSubComp();
                 return ;
+             }else if(el.data('type') =='addRow') {
+                 this.props.actions['addRow'].apply();
+
+             }else if(el.data('type') =='delRow') {
+                 this.props.actions['delRow'].apply(null,[rowData]);
              }
              items.map(function(item){
                 if(item.type ==el.data('type')) {
-                    item.cb.apply(null,[rowData]);
+                    item.cb?item.cb.apply(null,[rowData]):'';
                 }
              })
           }
@@ -140,13 +154,20 @@ class Cell extends React.Component {
         else if (_column.type == 'treeIcon') {
             _v = ctx.renderTreeIcon();
         }
-        else if (_column.type == 'text' && this.state.mode=='edit') {
+        else if(_column.type=='text') {
             renderProps={
                 value: _v[_column.dataKey],
                 onchange:this.handleTxtChange.bind(this),
                 onblur:this.onblur.bind(this)
             }
             _v = <TextField {...renderProps}/>
+        }else if(_column.type=='select') {
+            renderProps={
+                value: _v[_column.dataKey],
+                config:_column,
+                handleChange:this.handleChange.bind(this)
+            }
+            _v=<SelectField {...renderProps} />
         }
         else if (_column.type == 'money' || _column.type == "card" || _column.type == "cnmobile") {
             _v = <div title={props.rowData[_column.dataKey]}>{util.formatValue(props.rowData[_column.dataKey], _column.type, _column.delimiter)}</div>;
@@ -156,7 +177,6 @@ class Cell extends React.Component {
         }
 
         return (<div className={props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
-            {/*this.renderChildIcon()*/}
             {_v}
         </div>);   
     }

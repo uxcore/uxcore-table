@@ -7,7 +7,7 @@
  */
 
 let classnames = require('classnames');
-
+let Validator = require('uxcore-validator');
 let Grid = require('../src');
 
 
@@ -52,59 +52,34 @@ class Demo extends React.Component {
         }
         // title, width, type, hidden,dataKey
         let columns = [
-            { dataKey: 'id', title: 'ID', width: 50,hidden:true},
-            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-            { dataKey: 'city',title:'城市', width: 150,ordered:true },
-            { dataKey: 'firstName',title:"FristName" },  
-            { dataKey: 'lastName' ,title:"LastName"},
-            { dataKey: 'email',title:"Email",width: 200,ordered:true },
+            { dataKey: 'jsxid',title:"jsxid",width: 40 },  
+            { dataKey: 'city',title:'城市', width: 180,type:'select' ,options:{
+               'hz':'杭州',
+               'bj':'北京',
+               'sh':'上海',
+               'ah':'安徽'
+            }},
+            { dataKey: 'name',title:"姓名",width: 200,type:"text"},  
+            { dataKey: 'email',title:"Email",width: 200,type:"text"},
             { dataKey: 'action1', title:'操作1', width:100, type:"action",items:[
-              {title:'编辑', type:"inlineEdit", cb: function(rowData){console.info(rowData)}},
-              {title:'删除', type:"del", cb: function(rowData){console.info(rowData)}}
-            ]},
-            { dataKey: 'action', title:'链接', width:150,render: function(rowData){
-               return <div><a href="#">{rowData.lastName}</a></div>
-              }
-            }
+              {title:'增加', type:"addRow", cb: function(rowData){console.info(rowData)}},
+              {title:'删除', type:"delRow", cb: function(rowData){console.info(rowData)}}
+            ]}
         ];
 
-        let subCols = [
-          {dataKey: 'firstName', title: 'firstName', width: 200},
-          {dataKey: 'city', title: '城市', width: 200}
-        ]
-
-        let renderSubProps={
-            showHeader:true,
-            showPager:false,
-            // rowSelection: rowSelection,
-            //showMask:false,
-            jsxcolumns:subCols,
-            // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
-            queryKeys:["firstName", "city"],
-            onModifyRow: this.onModifyRow,
-            processData: (data) => {return {datas: [data]}}
-        };
 
         let renderProps={
             height: 400,
-            width: 1200,
-            actionBar: {
-               'new': function(){ alert('new'); },
-               'import': function(){ alert('import'); },
-               'export': function(){ alert('export'); },
-               'search': true,
-               'subComp':'' //TODO
-            },
+            width: 800,
             actionColumn: {
                'edit': function() {},
                'del': function() {}
             },
+            renderModel:'',//deep, flat, hierarchical
             fetchParams: {},
-            fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
+            //fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             // fetchUrl: "http://10.1.159.52:3002/demo/data.json",
             jsxcolumns:columns,
-            subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
-            rowSelection: rowSelection,
             beforeFetch: (sendData) => {sendData.id = 1; return sendData;},
             processData: (data) => {return data;}           
         };
