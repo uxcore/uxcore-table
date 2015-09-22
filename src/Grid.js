@@ -161,10 +161,10 @@ class Grid extends React.Component {
               "data": {
                   datas: [{
                     jsxid:0
-                  }]
-              },
-              "currentPage": 1,
-              "totalCount": 0
+                  }],
+                  "currentPage": 1,
+                  "totalCount": 0
+              }
           })
         }
 
