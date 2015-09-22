@@ -4,7 +4,7 @@
 import React from 'react';
 import CheckBox from './CheckBox';
 import TextField from './TextField';
-import util from './util';
+import util from './Util';
 
 class Cell extends React.Component {
 
