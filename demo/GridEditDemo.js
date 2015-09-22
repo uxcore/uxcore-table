@@ -7,7 +7,7 @@
  */
 
 let classnames = require('classnames');
-
+let Validator = require('uxcore-validator');
 let Grid = require('../src');
 
 
@@ -59,7 +59,7 @@ class Demo extends React.Component {
                'sh':'上海',
                'ah':'安徽'
             }},
-            { dataKey: 'name',title:"姓名",width: 200,type:"text" },  
+            { dataKey: 'name',title:"姓名",width: 200,type:"text"},  
             { dataKey: 'email',title:"Email",width: 200,type:"text"},
             { dataKey: 'action1', title:'操作1', width:100, type:"action",items:[
               {title:'增加', type:"addRow", cb: function(rowData){console.info(rowData)}},

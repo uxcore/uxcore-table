@@ -291,8 +291,13 @@ class Grid extends React.Component {
     }
 
     removeData(objAux) {
+      
+       //at least one record
+       if(this.state.data.datas.length==1){
+          return ;
+       }
+        let _data=$.extend(true,{},this.state.data),_newArr;
 
-       let _data=$.extend(true,{},this.state.data),_newArr;
        if(Object.prototype.toString.call(objAux)!=="[object Array]") {
           objAux=[objAux];
        }

@@ -36,6 +36,7 @@
     "uxcore-pagination":"0.1.0"
   },
   "dependencies": {
+    "uxcore-validator":"^0.1.0",
     "classnames": "^2.1.2",
     "object-assign": "^2.0.0",
     "react": "^0.13.3",
