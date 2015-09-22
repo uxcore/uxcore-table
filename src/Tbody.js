@@ -38,7 +38,7 @@ class Tbody extends React.Component {
         let _style={
             // width: _props.width,
             height: _props.height,
-            overflowY:'scroll'
+            overflowY:'auto'
         }
 
         return (<div className={this.props.jsxprefixCls} style={_style}>

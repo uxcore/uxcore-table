@@ -76,7 +76,7 @@ a.kuma-button-swhite {
   white-space: nowrap;
 }
 .kuma-grid-content {
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 .kuma-grid-content-scroller {
   display: inline-block;
