@@ -47,10 +47,11 @@ class Row extends React.Component {
     }
 
     render() {
+
         let props= this.props,_columns=props.columns,_style={
           //height: props.rowHeight
         },_data=props.data,ctx=this;
-
+        
         return (<div className={this.props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
             {
                 _columns.map(function(item,index){
@@ -69,6 +70,7 @@ class Row extends React.Component {
                         ctx:ctx,
                         onModifyRow: props.onModifyRow,
                         rowSelection: props.rowSelection,
+                        actions: props.actions,
                         key:"cell"+index
                     };
                     //if have vertical data structure, how to process it
