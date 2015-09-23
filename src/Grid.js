@@ -189,7 +189,6 @@ class Grid extends React.Component {
             return item;
         });
 
-        //{ dataKey: 'jsxchecked', width: 30,type:'checkbox'}
         if (!!props.rowSelection) {
             columns = [{ dataKey: 'jsxchecked', width: 46, type:'checkbox', align:'right'}].concat(columns)
         }
@@ -207,6 +206,20 @@ class Grid extends React.Component {
         // render tree icon placeholder
         else if (!!props.passedData) {
             columns = [{datakey: 'jsxwhite', width: 34,type: 'empty'}].concat(columns);
+        }
+
+        // calculate the total width of columns, if less than the form width, add an empty column
+        let totalWidth = 0;
+        columns.forEach((item, index) => {
+            if (!item.hidden) {
+                totalWidth += item.width || 100;
+            }
+        });
+
+        let deltaWidth = props.width - totalWidth;
+
+        if (deltaWidth > 0) {
+            columns = columns.concat([{datakey: 'jsxwhite', width: (deltaWidth - 2),type: 'empty'}])
         }
 
         return columns;
@@ -403,7 +416,7 @@ class Grid extends React.Component {
 Grid.defaultProps = {
     jsxprefixCls: "kuma-grid",
     showHeader:true,
-    width:"100%",
+    width:1000,
     height:"100%",
     headerHeight:40,
     actionBarHeight:40,

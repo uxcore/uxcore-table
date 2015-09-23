@@ -2,8 +2,6 @@
  * @author: zhouquan.yezq
  * @time : 8/12 2015
  */
-import React from 'react';
-
 class Mask extends React.Component {
 
     constructor(props) {

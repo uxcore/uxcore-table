@@ -1,7 +1,7 @@
 /**
  * Created by xy on 15/4/13.
  */
-let CheckBox = require('../cell/CheckBox');
+let CheckBox = require('../Cell/CheckBox');
 let assign = require('object-assign');
 
 

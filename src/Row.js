@@ -47,15 +47,25 @@ class Row extends React.Component {
 
     render() {
 
-        let props= this.props,_columns=props.columns,_style={
+        let props = this.props,
+        _columns = props.columns,
+        _style = {
           //height: props.rowHeight
-        },_data=props.data,ctx=this;
+        },
+        _data = props.data,
+        ctx = this,
+        isIE = /msie\s([\d\.]+)/i.test(navigator.userAgent);
+
         
         return (<div className={this.props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
             {
                 _columns.map(function(item,index){
 
                     if(item.hidden) return;
+
+                    if (index == _columns.length - 1 && isIE) {
+                        item.width -= 20;
+                    }
                 
                     let renderProps={
                         column: item,

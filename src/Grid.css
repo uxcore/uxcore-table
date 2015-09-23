@@ -75,6 +75,8 @@ a.kuma-button-swhite {
   font-weight: 600;
   white-space: nowrap;
   display: inline-block;
+  border-left: 1px solid #ebebeb;
+  border-right: 1px solid #ebebeb;
 }
 .kuma-grid-content {
   overflow-x: auto;
@@ -86,6 +88,7 @@ a.kuma-button-swhite {
   border: 1px solid #ebebeb;
   position: relative;
   display: inline-block;
+  min-width: 100%;
 }
 .kuma-gird-body-emptyword {
   text-align: center;
@@ -156,6 +159,7 @@ a.kuma-button-swhite {
   display: inline-block;
   cursor: pointer;
   margin-right: 20px;
+  font-weight: normal;
 }
 .kuma-grid-tree-icon {
   cursor: pointer;
