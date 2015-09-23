@@ -83,10 +83,10 @@ class Cell extends React.Component {
     renderTreeIcon() {
         if (this.props.cellIndex == 0 && this.props.hasSubComp) {
             if (this.props.st_showSubComp) {
-                return (<span className="kuma-grid-tree-icon" onClick={this.showSubComp.bind(this)}><i className="kuma-icon kuma-icon-tree-open"></i></span>);
+                return (<span className="kuma-grid-tree-icon" onClick={this.showSubComp.bind(this)}><i className="kuma-icon kuma-icon-tree-open-2"></i></span>);
             }
             else {
-                return (<span className="kuma-grid-tree-icon" onClick={this.showSubComp.bind(this)}><i className="kuma-icon kuma-icon-tree-close"></i></span>);
+                return (<span className="kuma-grid-tree-icon" onClick={this.showSubComp.bind(this)}><i className="kuma-icon kuma-icon-tree-close-2"></i></span>);
             }
         }
     }

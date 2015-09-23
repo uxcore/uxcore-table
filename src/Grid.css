@@ -166,6 +166,7 @@ a.kuma-button-swhite {
 }
 .kuma-grid-tree-icon > .kuma-icon {
   font-size: 14px;
+  color: #999999;
 }
 .kuma-grid-pagination {
   text-align: right;
