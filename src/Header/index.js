@@ -79,10 +79,11 @@ class Header extends React.Component {
             <ul className="kuma-grid-colmnpicker" style={_style} ref="columnpicker">
                 {
                     this.props.columns.map(function(item,index) {
-                        if(item.dataKey=='jsxchecked') return;
-                        if(item.hidden) {
+                        if (item.dataKey=='jsxchecked' || item.dataKey == "jsxtreeIcon" || item.dataKey == "jsxwhite") return;
+                        if (item.hidden) {
                             return <li ref="" key={index} onClick={me.handleColumns.bind(me,index)}>{item.title}</li>
-                        }else {
+                        }
+                        else {
                             return <li ref="" key={index} onClick={me.handleColumns.bind(me,index)}><i className="kuma-icon kuma-icon-choose"></i>{item.title}</li>
                         }
                     })

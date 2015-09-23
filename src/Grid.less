@@ -17,9 +17,9 @@
   table-layout: fixed;
 }
 .kuma-grid-header {
-  position: relative;
   background-color: #f5f5f5;
   font-weight: 600;
+  min-width: 100%;
   white-space: nowrap;
   display: inline-block;
   border-left: 1px solid #ebebeb;
@@ -33,6 +33,13 @@
 
 .kuma-grid-content-scroller {
   display: inline-block;
+}
+
+.kuma-grid-header-wrapper {
+  overflow: hidden;
+}
+.kuma-grid-body-wrapper {
+  overflow: auto;
 }
 
 .kuma-grid-header:hover{
@@ -55,6 +62,7 @@
 .kuma-grid-row {
     display: inline-block;
     width: 100%;
+    white-space: nowrap;
     border-bottom: 1px solid #efefef;
     line-height: 36px;
 }

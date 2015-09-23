@@ -33,7 +33,17 @@ class Grid extends React.Component {
 
     componentDidMount() {
         // console.log("showMask:",this.props.showMask);
+        $(".kuma-grid-body-wrapper").on("scroll", function(e) {
+            let scrollLeft = this.scrollLeft;
+            $(".kuma-grid-header-wrapper")[0].scrollLeft = scrollLeft;
+        })
     }
+
+    componentWillUnmount() {
+        $(".kuma-grid-body-wrapper").off("scroll");
+    }
+
+
 
     // pagination 
     // column order 
@@ -219,7 +229,7 @@ class Grid extends React.Component {
         let deltaWidth = props.width - totalWidth;
 
         if (deltaWidth > 0) {
-            columns = columns.concat([{datakey: 'jsxwhite', width: (deltaWidth - 2),type: 'empty'}])
+            columns = columns.concat([{dataKey: 'jsxwhite', width: (deltaWidth - 2),type: 'empty'}])
         }
 
         return columns;
@@ -351,11 +361,10 @@ class Grid extends React.Component {
                 width: props.width,
                 height: props.height
             },
+            bodyHeight = props.height == "100%" ? props.height : (props.height - props.headerHeight - props.actionBarHeight - (props.showPager ? 50 : 0)),
             renderBodyProps={
                 columns: this.state.columns,
                 data: this.state.data?this.state.data.datas:[],
-                width: props.width=="100%"?props.width:(props.width-props.headerHeight),
-                height: props.height=="100%"?props.height:(props.height-props.headerHeight-props.actionBarHeight-(props.showPager?50:0)),
                 onModifyRow: props.onModifyRow?props.onModifyRow: function(){},
                 rowSelection: props.rowSelection,
                 subComp: props.subComp,
@@ -400,8 +409,12 @@ class Grid extends React.Component {
                 <div className="kuma-grid-content" style={{
                     width: props.width
                 }}>
-                    <div className="kuma-grid-content-scroller">
+                    <div className="kuma-grid-header-wrapper">
                         {gridHeader}
+                    </div>
+                    <div className="kuma-grid-body-wrapper" style={{
+                        height: bodyHeight
+                    }}>
                         <Tbody  {...renderBodyProps}/>
                     </div>
                 </div>
