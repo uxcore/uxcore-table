@@ -1,10 +1,9 @@
 /**
  * Created by xy on 15/4/13.
  */
-import React from 'react';
 
-import Row from "./Row"
-import Mask from "./Mask"
+let Row = require("./Row");
+let Mask = require("./Mask");
 
 class Tbody extends React.Component {
 

@@ -6,8 +6,7 @@
  * All rights reserved.
  */
 
-import React from 'react';
-import Select from "uxcore-select2";
+let Select = require("uxcore-select2");
 let Option = Select.Option;
 
 class SelectField extends React.Component {

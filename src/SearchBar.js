@@ -6,8 +6,7 @@
  * All rights reserved.
  */
 
-import React from 'react';
-import reactMixin  from 'react-mixin';
+let reactMixin = require('react-mixin');
 
 class SearchBar extends React.Component {
 

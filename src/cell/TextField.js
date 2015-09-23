@@ -1,7 +1,6 @@
 /**
  * A editable  plain text field
  */
-import React from 'react';
 
 class TextField extends React.Component {
 

@@ -1,8 +1,7 @@
 /**
  * Created by xy on 15/4/13.
  */
-import React from 'react';
-import Cell from './cell/index';
+let Cell = require('./Cell');
 class Row extends React.Component {
 
     constructor(props) {

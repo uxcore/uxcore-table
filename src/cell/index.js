@@ -1,11 +1,10 @@
 /**
  * Created by xy on 15/4/13.
  */
-import React from 'react';
-import CheckBox from './CheckBox';
-import TextField from './TextField';
-import SelectField from "./SelectField";
-import util from './Util';
+let CheckBox = require('./CheckBox');
+let TextField = require('./TextField');
+let SelectField = require("./SelectField");
+let util = require('./Util');
 
 class Cell extends React.Component {
 

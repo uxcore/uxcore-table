@@ -6,8 +6,7 @@
  * All rights reserved.
  */
 
-import React from 'react';
-import SearchBar from "./SearchBar"
+let SearchBar = require("./SearchBar");
 
 
 class ActionBar extends React.Component {

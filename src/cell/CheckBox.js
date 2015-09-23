@@ -1,7 +1,6 @@
 /**
  * A checkbox field
  */
-import React from 'react';
 
 class CheckBox extends React.Component {
 
