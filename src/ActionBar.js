@@ -7,6 +7,7 @@
  */
 
 let SearchBar = require("./SearchBar");
+let classnames = require("classnames");
 
 
 class ActionBar extends React.Component {
@@ -64,9 +65,12 @@ class ActionBar extends React.Component {
     }
     // how to iterator json key use util method
     render() {
-        let me=this,_props=this.props,_className=_props.jsxprefixCls;
+        let me=this,_props=this.props;
 
-        return (<div className={_className}>
+        return (<div className={classnames({
+          [_props.jsxprefixCls]: _props.jsxprefixCls,
+          "fn-clear": true
+        })}>
             {  
               ['new','import','export','search'].map(function(item){
                   return me.renderActionBtn(item)
