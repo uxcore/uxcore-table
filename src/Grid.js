@@ -31,15 +31,18 @@ class Grid extends React.Component {
     }
 
     componentDidMount() {
+        let me = this;
+        me.el = React.findDOMNode(me);
         // console.log("showMask:",this.props.showMask);
-        $(".kuma-grid-body-wrapper").on("scroll", function(e) {
+        $(me.el).find(".kuma-grid-body-wrapper").on("scroll", function(e) {
             let scrollLeft = this.scrollLeft;
-            $(".kuma-grid-header-wrapper")[0].scrollLeft = scrollLeft;
+            $(me.el).find(".kuma-grid-header-wrapper")[0].scrollLeft = scrollLeft;
         })
     }
 
     componentWillUnmount() {
-        $(".kuma-grid-body-wrapper").off("scroll");
+        let me = this;
+        $(me.el).find(".kuma-grid-body-wrapper").off("scroll");
     }
 
 
@@ -217,20 +220,6 @@ class Grid extends React.Component {
             columns = [{dataKey: 'jsxwhite', width: 34,type: 'empty'}].concat(columns);
         }
 
-        // calculate the total width of columns, if less than the form width, add an empty column
-        let totalWidth = 0;
-        columns.forEach((item, index) => {
-            if (!item.hidden) {
-                totalWidth += item.width || 100;
-            }
-        });
-
-        let deltaWidth = props.width - totalWidth;
-
-        if (deltaWidth > 0) {
-            columns = columns.concat([{dataKey: 'jsxwhite', width: (deltaWidth - 2),type: 'empty'}])
-        }
-
         return columns;
     }
 
@@ -272,7 +261,15 @@ class Grid extends React.Component {
 
     renderPager() {
         if(this.props.showPager && this.state.data && this.state.data.totalCount) {
-            return (<div className="kuma-grid-pagination"><Pagination className="mini" total={this.state.data.totalCount} onChange={this.onPageChange.bind(this)} current={this.props.currentPage} pageSize={this.props.pageSize} /></div>)
+            return (
+                <div className="kuma-grid-pagination">
+                    <Pagination className="" 
+                                total={this.state.data.totalCount} 
+                                onChange={this.onPageChange.bind(this)} 
+                                current={this.props.currentPage} 
+                                pageSize={this.props.pageSize} />
+                </div>
+            );
         }
     }
 

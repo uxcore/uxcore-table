@@ -47,7 +47,7 @@ class ActionBar extends React.Component {
             key:'searchbar'
         };
 
-       if( type =='new' && !!_config[type] ) {
+       if ( type =='new' && !!_config[type] ) {
           return <a key={type} href="javascript:;" className="kuma-button kuma-button-swhite" onClick={this.doAction.bind(this,'new')}>新增</a>
        }
        if( type =='import' && !!_config[type] ) {

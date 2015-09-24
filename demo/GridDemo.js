@@ -76,10 +76,12 @@ class Demo extends React.Component {
         ]
 
         let renderSubProps={
+            height: 200,
+            width: 1196,
             showHeader:true,
             showPager:false,
             // rowSelection: rowSelection,
-            //showMask:false,
+            // showMask:false,
             jsxcolumns:subCols,
             fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             queryKeys:["firstName", "city"],

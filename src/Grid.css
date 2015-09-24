@@ -33,7 +33,6 @@
 }
 .kuma-grid-actionbar {
   width: 100%;
-  border: 1px solid #efefef;
   padding: 6px 0px 16px;
 }
 .kuma-grid-actionbar .kuma-button {
@@ -63,7 +62,6 @@ a.kuma-button-swhite {
   cursor: pointer;
 }
 .kuma-grid {
-  border: 0px solid #ebebeb;
   border-collapse: collapse;
   position: relative;
   color: #666;
@@ -75,8 +73,6 @@ a.kuma-button-swhite {
   min-width: 100%;
   white-space: nowrap;
   display: inline-block;
-  border-left: 1px solid #ebebeb;
-  border-right: 1px solid #ebebeb;
 }
 .kuma-grid-content {
   overflow-x: auto;
@@ -89,12 +85,14 @@ a.kuma-button-swhite {
 }
 .kuma-grid-body-wrapper {
   overflow: auto;
+  border: 1px solid #ebebeb;
+  border-top: none;
 }
 .kuma-grid-body {
-  border: 1px solid #ebebeb;
   position: relative;
   display: inline-block;
   min-width: 100%;
+  white-space: normal;
 }
 .kuma-gird-body-emptyword {
   text-align: center;
