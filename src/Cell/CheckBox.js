@@ -37,12 +37,21 @@ class CheckBox extends React.Component {
     }
 
     render() {
-        let renderProps= {
-            className: "kuma-checkbox",
-            checked: this.props.jsxchecked,
-            onChange: this.handleChange.bind(this)
+
+        let props= this.props ;
+
+        if (props.mode !== 'VIEW') {
+            let renderProps= {
+                className: "kuma-checkbox",
+                checked: this.props.jsxchecked,
+                onChange: this.handleChange.bind(this)
+            }
+            return <label><input  type="checkbox" ref="checkbox" {...renderProps}/><s></s></label>
+
+        }else {
+            return <span key="text"></span>;
         }
-        return <label><input  type="checkbox" ref="checkbox" {...renderProps}/><s></s></label>
+
     }
 
 };

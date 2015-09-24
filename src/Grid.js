@@ -354,7 +354,6 @@ class Grid extends React.Component {
 
     render() {
 
-        // console.log("++++grid render+++",this.props.showMask);
         let props= this.props,
             _style= {
                 width: props.width,
@@ -375,6 +374,7 @@ class Grid extends React.Component {
                 },
                 mask: this.state.showMask,
                 rowHeight: this.props.rowHeight,
+                mode: this.props.mode,
                 key:'grid-body'
             },
             renderHeaderProps={
