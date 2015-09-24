@@ -7,6 +7,8 @@
  */
 
 let classnames = require('classnames');
+let Hovercard = require("@ali/uxcore-hovercard");
+console.log(Hovercard);
 
 let Grid = require('../src');
 
@@ -54,10 +56,8 @@ class Demo extends React.Component {
         let columns = [
             { dataKey: 'id', title: 'ID', width: 50,hidden:true},
             { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-            { dataKey: 'city',title:'城市', width: 150,ordered:true },
+            { dataKey: 'city',title:'城市', width: 150,type:"person",plugin: Hovercard, token: "A8de4ec74-1145-4ae9-af1b-d8ff7adfa228C"},
             { dataKey: 'firstName',title:"FristName" },  
-            { dataKey: 'lastName' ,title:"LastName"},
-            { dataKey: 'lastName' ,title:"LastName"},
             { dataKey: 'lastName' ,title:"LastName"},
             { dataKey: 'email',title:"Email",width: 200,ordered:true },
             { dataKey: 'action1', title:'操作1', width:100, type:"action",items:[
@@ -93,19 +93,19 @@ class Demo extends React.Component {
             height: 400,
             width: 1200,
             actionBar: {
-               'new': function(){ alert('new'); },
-               'import': function(){ alert('import'); },
-               'export': function(){ alert('export'); },
+               'new': function() { alert('new'); },
+               'import': function() { alert('import'); },
+               'export': function() { alert('export'); },
+               'delete': function() { alert('delete'); },
                'search': true,
-               'subComp': '' //TODO
             },
             actionColumn: {
                'edit': function() {},
                'del': function() {}
             },
             fetchParams: {},
-            fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
-            // fetchUrl: "http://10.1.159.52:3002/demo/data.json",
+            // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
+            fetchUrl: "http://192.168.99.127:3000/demo/data.json",
             jsxcolumns:columns,
             subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
             rowSelection: rowSelection,

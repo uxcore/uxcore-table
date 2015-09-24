@@ -16,51 +16,35 @@ class ActionBar extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-
-    }
-
-    componentDidUpdate() {
-
-    }
-    
-
-    componentWillUnmount () {
-       
-    }
-
-    prepareStyle() {
-
-    }
-
     doAction(type) {
        this.props.actionBarCB(type);
     }
 
-    //TODO reduce code
+    //TODO throw away type & just support text & callback
     renderActionBtn(type) {
 
-       let  _props=this.props,
-       _config=_props.actionBarConfig,
-       renderSearchBarProps= {
+        let _props = this.props,
+        _config = _props.actionBarConfig,
+        renderSearchBarProps = {
             actionBarCB: this.props.actionBarCB,
             key:'searchbar'
         };
 
-       if ( type =='new' && !!_config[type] ) {
+        if ( type =='new' && !!_config[type]) {
           return <a key={type} href="javascript:;" className="kuma-button kuma-button-swhite" onClick={this.doAction.bind(this,'new')}>新增</a>
-       }
-       if( type =='import' && !!_config[type] ) {
+        }
+        if ( type =='import' && !!_config[type]) {
           return <a key={type} href="javascript:;" className="kuma-button kuma-button-swhite" onClick={this.doAction.bind(this,'import')}>导入</a>
-       }
-        if(type =='export' && !!_config[type] ) {
-          return  <a key={type} href="javascript:;" className="kuma-button kuma-button-swhite" onClick={this.doAction.bind(this,'export')}>导出</a>
-       }
-
-        if(type =='search' && !!_config[type] ) {
-          return   <SearchBar key={type} {...renderSearchBarProps}/>
-
-       }
+        }
+        if ( type == 'export' && !!_config[type]) {
+          return <a key={type} href="javascript:;" className="kuma-button kuma-button-swhite" onClick={this.doAction.bind(this,'export')}>导出</a>
+        }
+        if ( type == 'delete' && !!_config[type]) {
+          return <a key={type} href="javascript:;" className="kuma-button kuma-button-swhite" onClick={this.doAction.bind(this,'delete')}>批量删除</a>
+        }
+        if ( type =='search' && !!_config[type] ) {
+          return <SearchBar key={type} {...renderSearchBarProps}/>
+        }
 
     }
     // how to iterator json key use util method
@@ -72,7 +56,7 @@ class ActionBar extends React.Component {
           "fn-clear": true
         })}>
             {  
-              ['new','import','export','search'].map(function(item){
+              ['new','delete','import','export','search'].map(function(item){
                   return me.renderActionBtn(item)
               })
             }

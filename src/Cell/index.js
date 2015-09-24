@@ -160,7 +160,8 @@ class Cell extends React.Component {
                 onblur:this.onblur.bind(this)
             }
             _v = <TextField {...renderProps}/>
-        }else if(_column.type=='select') {
+        }
+        else if(_column.type=='select') {
             renderProps={
                 value: _v[_column.dataKey],
                 config:_column,
@@ -170,6 +171,17 @@ class Cell extends React.Component {
         }
         else if (_column.type == 'money' || _column.type == "card" || _column.type == "cnmobile") {
             _v = <div title={props.rowData[_column.dataKey]}>{util.formatValue(props.rowData[_column.dataKey], _column.type, _column.delimiter)}</div>;
+        }
+        else if (_column.type == "person" && !!_column.plugin && _column.token) {
+            try {
+                let Hovercard = _column.plugin;
+                _v = <Hovercard emplId={props.rowData[_column.dataKey]} placement="right" token={_column.token}>
+                        <div>{props.rowData[_column.dataKey]}</div>
+                     </Hovercard>
+            }
+            catch(e) {
+                console.log(e)
+            }
         }
         else {
             _v = <div title={props.rowData[_column.dataKey]}>{props.rowData[_column.dataKey]}</div>;

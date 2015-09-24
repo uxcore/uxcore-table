@@ -34,7 +34,7 @@ module.exports = {
                 // uxcore以外的modules都不需要经过babel解析
                 exclude: function (path) {
                     var isNpmModule = !!path.match(/node_modules/);
-                    var isUxcore = !!path.match(/node_modules\/uxcore/);
+                    var isUxcore = !!path.match(/node_modules\/uxcore/) || !!path.match(/node_modules\/@ali\/uxcore/);
                     return isNpmModule & !isUxcore;
                 },
                 loader: 'babel-loader?stage=1'
