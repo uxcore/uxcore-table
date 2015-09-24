@@ -11,12 +11,11 @@ let Tbody  = require("./Tbody");
 let ActionBar = require("./ActionBar");
 let Pagination  = require("uxcore-pagination");
 let assign = require('object-assign');
-let uid=0;
+let uid = 0;
 class Grid extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state= {
             data: this.props.jsxdata,
             columns: this.processColumn(),
@@ -205,7 +204,7 @@ class Grid extends React.Component {
 
         // no rowSelection but parentHasCheckbox, render placeholder
         else if (!!props.parentHasCheckbox) {
-            columns = [{datakey: 'jsxwhite', width: 46, type: 'empty'}].concat(columns);
+            columns = [{dataKey: 'jsxwhite', width: 46, type: 'empty'}].concat(columns);
         }
 
 
@@ -215,7 +214,7 @@ class Grid extends React.Component {
         // no subComp but has passedData, means sub mode, parent should has tree icon,
         // render tree icon placeholder
         else if (!!props.passedData) {
-            columns = [{datakey: 'jsxwhite', width: 34,type: 'empty'}].concat(columns);
+            columns = [{dataKey: 'jsxwhite', width: 34,type: 'empty'}].concat(columns);
         }
 
         // calculate the total width of columns, if less than the form width, add an empty column
