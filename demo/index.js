@@ -10,4 +10,4 @@
  var Demo2 = require('./GridEditDemo');
 
 React.render(<Demo />, document.getElementById('UXCoreDemo'));
-// React.render(<Demo2 />, document.getElementById('UXCoreDemo2'));
+ React.render(<Demo2 />, document.getElementById('UXCoreDemo2'));

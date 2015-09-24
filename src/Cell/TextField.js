@@ -34,18 +34,23 @@ class TextField extends React.Component {
 
     render() {
 
-        let props= this.props,
-        renderProps= {
-            className:"kuma-input",
-            ref:'txtfield',
-            onBlur: props.onblur.bind(this)
-        };
+        let props= this.props,renderProps ;
+        if (props.mode !== 'VIEW') {
+            renderProps= {
+                className:"kuma-input",
+                ref:'txtfield',
+                onBlur: props.onblur.bind(this)
+            };
 
-        let valueLink = {
-          value: this.state.value,
-          requestChange: this.handleChange.bind(this)
-        };
-        return <input  type="text" {...renderProps} valueLink={valueLink} />
+            let valueLink = {
+              value: this.state.value,
+              requestChange: this.handleChange.bind(this)
+            };
+            return <input  type="text" {...renderProps} valueLink={valueLink} />
+        }else {
+            return <span key="text">{this.state.value}</span>;
+        }
+
     }
 
 };

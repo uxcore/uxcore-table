@@ -52,14 +52,21 @@ class SelectField extends React.Component {
     }
 
     render() {
-       let  config= this.props.config;
-        return ( <Select  value={this.state.value} optionLabelProp="children" showSearch={false} style={{width:config.width-10}}  onChange={this.handleChange.bind(this)}>
+
+        let props= this.props,renderProps , config= props.config;
+        if (props.mode !== 'VIEW') {
+            return ( <Select  value={this.state.value} optionLabelProp="children" showSearch={false} style={{width:config.width-10}}  onChange={this.handleChange.bind(this)}>
                 {
                     this.renderOptions(config).map(function(item){
                         return item;
                     })
                 }
-                </Select>);
+            </Select>);
+        }else {
+            return <span key="text">{this.state.value}</span>;
+        }
+
+       
     }
 
 };

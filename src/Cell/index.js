@@ -127,7 +127,8 @@ class Cell extends React.Component {
         if(_column.render) {
            _v = _column.render.apply(null,[_v]);
         }
-        else if (_column.type=='action') {
+        else if (_column.type=='action' && props.mode =='EDIT') {
+
             _v = <div className="action-container" onClick={this.doAction.bind(this,_v,_column.items)}>
                     { 
                       _column.items.map(function(child, index) {
@@ -147,7 +148,7 @@ class Cell extends React.Component {
             } else {
                 checked="";
             }
-            _v = <CheckBox align={props.align} jsxchecked={checked} ref="checkbox" onchange={this.handleCheckChange.bind(this)}/>
+            _v = <CheckBox mode={props.mode} align={props.align} jsxchecked={checked} ref="checkbox" onchange={this.handleCheckChange.bind(this)}/>
 
         }
         else if (_column.type == 'treeIcon') {
@@ -156,6 +157,7 @@ class Cell extends React.Component {
         else if(_column.type=='text') {
             renderProps={
                 value: _v[_column.dataKey],
+                mode: props.mode,
                 onchange:this.handleTxtChange.bind(this),
                 onblur:this.onblur.bind(this)
             }
@@ -164,6 +166,7 @@ class Cell extends React.Component {
         else if(_column.type=='select') {
             renderProps={
                 value: _v[_column.dataKey],
+                mode: props.mode,
                 config:_column,
                 handleChange:this.handleChange.bind(this)
             }

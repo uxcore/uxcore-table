@@ -62,6 +62,7 @@ class Tbody extends React.Component {
                     actions: _props.actions,
                     key:'row'+index,
                     rowHeight: _props.rowHeight,
+                    mode: _props.mode,
                     ts: new Date().getTime()
                 };
                 return <Row {...renderProps} />

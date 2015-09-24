@@ -73,6 +73,7 @@ class Row extends React.Component {
                         onModifyRow: props.onModifyRow,
                         rowSelection: props.rowSelection,
                         actions: props.actions,
+                        mode: props.mode,
                         key:"cell"+index
                     };
                     //if have vertical data structure, how to process it
