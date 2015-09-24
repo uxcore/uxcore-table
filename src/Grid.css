@@ -80,6 +80,7 @@ a.kuma-button-swhite {
 }
 .kuma-grid-content {
   overflow-x: auto;
+  position: relative;
 }
 .kuma-grid-content-scroller {
   display: inline-block;

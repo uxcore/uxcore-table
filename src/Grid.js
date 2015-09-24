@@ -360,7 +360,9 @@ class Grid extends React.Component {
                 width: props.width,
                 height: props.height
             },
-            bodyHeight = props.height == "100%" ? props.height : (props.height - props.headerHeight - props.actionBarHeight - (props.showPager ? 50 : 0)),
+            actionBarHeight=props.actionBar?props.actionBarHeight:0,
+            pagerHeight= (this.props.showPager && this.state.data && this.state.data.totalCount)? 50:0,
+            bodyHeight = props.height == "100%" ? props.height : (props.height - props.headerHeight - actionBarHeight - pagerHeight),
             renderBodyProps={
                 columns: this.state.columns,
                 data: this.state.data?this.state.data.datas:[],
