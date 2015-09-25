@@ -32,17 +32,17 @@
     "gulp-just-replace": "~1.0.2",
     "gulp-less": "~3.0.3",
     "gulp-sourcemaps": "~1.5.2",
-    "webpack": "^1.10.5",
-    "uxcore-pagination":"0.1.0"
+    "webpack": "^1.10.5"
   },
   "dependencies": {
-    "uxcore-validator":"^0.1.0",
+    "uxcore-pagination":"~0.1.0",
+    "uxcore-validator":"~0.1.0",
     "classnames": "^2.1.2",
     "object-assign": "^2.0.0",
     "react": "^0.13.3",
     "react-mixin": "~1.7.0",
     "uxcore-kuma": "~1.0.3",
-    "uxcore-select2":"0.1.4"
+    "uxcore-select2":"~0.1.4"
   },
   "contributors": [],
   "license": "MIT"
