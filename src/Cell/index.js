@@ -93,23 +93,25 @@ class Cell extends React.Component {
 
     doAction(rowData,items,e) {
 
-        let el=$(e.target);
-          if(el.hasClass('action')) {
-             if( el.data('type') == 'inlineEdit') {
+        let el = $(e.target);
+        if (el.hasClass('action')) {
+            if( el.data('type') == 'inlineEdit') {
                 this.showSubComp();
                 return ;
-             }else if(el.data('type') =='addRow') {
-                 this.props.actions['addRow'].apply();
+            }
+            else if (el.data('type') =='addRow') {
+                this.props.actions['addRow'].apply();
 
-             }else if(el.data('type') =='delRow') {
-                 this.props.actions['delRow'].apply(null,[rowData]);
-             }
-             items.map(function(item){
-                if(item.type ==el.data('type')) {
-                    item.cb?item.cb.apply(null,[rowData]):'';
+            }
+            else if (el.data('type') =='delRow') {
+                this.props.actions['delRow'].apply(null,[rowData]);
+            }
+            items.map(function(item){
+                if (item.type == el.data('type')) {
+                    item.cb ? item.cb.apply(null,[rowData]):'';
                 }
-             })
-          }
+            });
+        }
     }
 
     render() {
@@ -124,7 +126,7 @@ class Cell extends React.Component {
             },
             _v = props.rowData,renderProps;
 
-        if(_column.render) {
+        if (_column.render) {
            _v = _column.render.apply(null,[_v]);
         }
         else if (_column.type=='action' && props.mode =='EDIT') {

@@ -429,6 +429,7 @@ Grid.defaultProps = {
     showHeader:true,
     width:1000,
     height:"100%",
+    mode: "EDIT",
     headerHeight:40,
     actionBarHeight:40,
     showPager:true,
