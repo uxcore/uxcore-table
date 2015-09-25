@@ -22,6 +22,8 @@ class Grid extends React.Component {
             showMask: this.props.showMask,
             passedData:null,
             params:null,
+            pageSize: props.pageSize,
+            currentPage: props.currentPage
         };
     }
 
@@ -78,8 +80,8 @@ class Grid extends React.Component {
 
         // pagination
         queryObj = assign({}, queryObj, {
-            pageSize: ctx.props.pageSize,
-            currentPage: ctx.props.currentPage
+            pageSize: ctx.state.pageSize,
+            currentPage: ctx.state.currentPage
         });
 
         // column order
@@ -252,22 +254,38 @@ class Grid extends React.Component {
         })
     }
 
-    onPageChange (index) {
+    onPageChange (current) {
 
-      this.props.currentPage=index;
-      this.fetchData();
+      let me = this;
+      me.setState({
+        currentPage: current
+      }, () => {
+        me.fetchData()
+      })
 
+    }
+
+    handleShowSizeChange(current, pageSize) {
+        let me = this;
+        me.setState({
+            currentPage: current,
+            pageSize: pageSize
+        }, () => {
+            me.fetchData();
+        });
     }
 
     renderPager() {
         if(this.props.showPager && this.state.data && this.state.data.totalCount) {
             return (
                 <div className="kuma-grid-pagination">
-                    <Pagination className="" 
+                    <Pagination className="mini" 
+                                showSizeChanger={true}
                                 total={this.state.data.totalCount} 
+                                onShowSizeChange={this.handleShowSizeChange.bind(this)}
                                 onChange={this.onPageChange.bind(this)} 
-                                current={this.props.currentPage} 
-                                pageSize={this.props.pageSize} />
+                                current={this.state.currentPage} 
+                                pageSize={this.state.pageSize} />
                 </div>
             );
         }

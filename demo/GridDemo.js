@@ -104,8 +104,8 @@ class Demo extends React.Component {
                'del': function() {}
             },
             fetchParams: {},
-            // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
-            fetchUrl: "http://192.168.99.127:3000/demo/data.json",
+            fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
+            // fetchUrl: "http://192.168.99.127:3000/demo/data.json",
             jsxcolumns:columns,
             subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
             rowSelection: rowSelection,
