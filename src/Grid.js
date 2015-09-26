@@ -11,6 +11,7 @@ let Tbody  = require("./Tbody");
 let ActionBar = require("./ActionBar");
 let Pagination  = require("uxcore-pagination");
 let assign = require('object-assign');
+let classnames = require("classnames");
 let uid = 0;
 class Grid extends React.Component {
 
@@ -370,8 +371,10 @@ class Grid extends React.Component {
     render() {
 
         let props= this.props,
+            // if grid is sub mode, people always want to align the parent
+            // and the sub grid, so width should not be cared.
             _style= {
-                width: props.width,
+                width: !!props.passedData ? "auto" : props.width,
                 height: props.height
             },
             actionBarHeight=props.actionBar?props.actionBarHeight:0,
@@ -420,10 +423,13 @@ class Grid extends React.Component {
         }
 
         return (
-            <div className={props.jsxprefixCls} style={_style}>
+            <div className={classnames({
+                [props.jsxprefixCls]: true,
+                "kuma-subgrid-mode": !!props.passedData
+            })} style={_style}>
                 {actionBar}
                 <div className="kuma-grid-content" style={{
-                    width: props.width
+                    width: !!props.passedData ? "auto" : props.width
                 }}>
                     <div className="kuma-grid-header-wrapper">
                         {gridHeader}

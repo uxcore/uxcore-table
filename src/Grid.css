@@ -175,6 +175,9 @@ a.kuma-button-swhite {
   font-size: 14px;
   color: #999999;
 }
+.kuma-subgrid-mode .kuma-grid-body-wrapper {
+  border: none;
+}
 .kuma-grid-pagination {
   text-align: right;
   padding: 10px 0px;
