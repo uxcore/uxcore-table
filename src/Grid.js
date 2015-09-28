@@ -126,6 +126,7 @@ class Grid extends React.Component {
             let ajaxOptions = {
                 url: ctx.props.fetchUrl,
                 data: ctx.getQueryObj(),
+                dataType: "json",
                 success: function(result) {
                     let _data = result.content;
                     if(result.success) {
@@ -134,6 +135,10 @@ class Grid extends React.Component {
                           showMask: false
                         };
                         ctx.setState(updateObj)
+                    }
+                    else {
+                        console.log("##ERROR##");
+                        console.log(result);
                     }
                 }
             };
