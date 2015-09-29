@@ -8,6 +8,7 @@
 
 let SearchBar = require("./SearchBar");
 let classnames = require("classnames");
+let Button = require("uxcore-button");
 
 
 class ActionBar extends React.Component {
@@ -25,8 +26,7 @@ class ActionBar extends React.Component {
         let _props = this.props,
         _config = _props.actionBarConfig;
 
-        return <a key={type} href="javascript:;" className="kuma-button kuma-button-swhite" onClick={this.doAction.bind(this,type)}>{type}</a>
-
+        return <Button type="secondary" size="medium" onClick={this.doAction.bind(this,type)}>{type}</Button>
     }
 
     renderSearchBar() {

@@ -465,7 +465,7 @@ Grid.defaultProps = {
     showPager:true,
     showColumnPicker: true,
     showMask: false,
-    showSearch:true,
+    showSearch:false,
     pageSize:10,
     rowHeight: 76,
     fetchParams:'',
