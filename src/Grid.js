@@ -446,7 +446,7 @@ class Grid extends React.Component {
                     </div>
                 </div>
                 {this.renderPager()}
-        </div>);
+            </div>);
 
     }
     
