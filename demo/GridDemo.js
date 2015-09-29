@@ -93,11 +93,11 @@ class Demo extends React.Component {
             height: 400,
             width: 1200,
             actionBar: {
-               'new': function() { alert('new'); },
+               '新增': function(type) { alert(type); },
                'import': function() { alert('import'); },
                'export': function() { alert('export'); },
                'delete': function() { alert('delete'); },
-               'search': true,
+               '黄山': function(type) {alert(type)}
             },
             actionColumn: {
                'edit': function() {},

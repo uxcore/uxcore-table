@@ -40,11 +40,9 @@ $ gulp server
 
 	renderProps={
         actionBar: {
-           'new': function(){ alert('new'); },
-           'import': function(){ alert('import'); },
-           'export': function(){ alert('export'); },
-           'search': true,
-           'subComp':'' //TODO
+           'new': function(type){ alert(type); },
+           'import': function(type){ alert(type); },
+           'export': function(type){ alert(type); }
         },
         fetchUrl:"http://localhost:3000/demo/data.json",
         jsxcolumns:columns,
@@ -77,6 +75,7 @@ pageSize         |  10             |   |
 showHeader       |  true           |   |
 headerHeight     |  50             |   |
 showMask         |  true           |   |
+showSearch       |  true           | action bar search  | 
 queryKeys        |  []             | in subComp mode, it tell parent what datas need to pass to child, like a filter, the parent will pass all his data to his child if queryKey is undefined|
 fetchUrl         |  ""             | dynamic get data from server |
 fetchParams      |  ""             | in form-grid mode, form will pass fetch params for grid |

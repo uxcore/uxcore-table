@@ -311,7 +311,7 @@ class Grid extends React.Component {
            this.fetchData();
         }else {
             let _actionCofig= this.props.actionBar;
-            _actionCofig[type]?_actionCofig[type].apply():"";
+            _actionCofig[type]?_actionCofig[type].apply(null,[type]):"";
         }
        
     }
@@ -418,9 +418,10 @@ class Grid extends React.Component {
             gridHeader=<Header {...renderHeaderProps} />
         }
 
-        if(props.actionBar) {
+        if(props.actionBar || props.showSearch) {
             let renderActionProps={
                 actionBarConfig: this.props.actionBar,
+                showSearch: this.props.showSearch,
                 actionBarCB: this.actionBarCB.bind(this),
                 key:'grid-actionbar'
             };
@@ -464,6 +465,7 @@ Grid.defaultProps = {
     showPager:true,
     showColumnPicker: true,
     showMask: false,
+    showSearch:true,
     pageSize:10,
     rowHeight: 76,
     fetchParams:'',
