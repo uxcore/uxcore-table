@@ -134,7 +134,7 @@ class Cell extends React.Component {
             _v = <div className="action-container" onClick={this.doAction.bind(this,_v,_column.items)}>
                     { 
                       _column.items.map(function(child, index) {
-                        return <span className="action" key={index} data-type={child.type} >{child.title}</span>
+                        return <span className="action" key={index} data-type={child.type}>{child.title}</span>
                       })
                     }
                  </div>

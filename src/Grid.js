@@ -54,7 +54,7 @@ class Grid extends React.Component {
     // column order 
     // filter 
 
-    getQueryObj() {
+    getQueryObj(from) {
 
        let ctx = this, queryObj = {};
         //passedData right now use as subComp row data, if has passedData
@@ -107,12 +107,15 @@ class Grid extends React.Component {
             queryObj = assign({}, queryObj, ctx.props.fetchParams);
         }
 
-        return ctx.props.beforeFetch(queryObj);
+        return ctx.props.beforeFetch(queryObj, from);
     }
-    // pagination 
-    // column order 
-    // filter 
-    fetchData(obj) {
+    /*
+     * fetch Data via Ajax
+     * @param from {string} tell fetchData where it is invoked, the param will be 
+     * passed to props.beforeFetch in order to help the user.
+     */
+
+    fetchData(from) {
 
         let ctx = this;
         
@@ -125,7 +128,7 @@ class Grid extends React.Component {
             }
             let ajaxOptions = {
                 url: ctx.props.fetchUrl,
-                data: ctx.getQueryObj(),
+                data: ctx.getQueryObj(from),
                 dataType: "json",
                 success: function(result) {
                     let _data = result.content;
@@ -169,7 +172,7 @@ class Grid extends React.Component {
                 });
             }
         }
-        else if(!!this.props.jsxdata) {
+        else if (!!this.props.jsxdata) {
           ctx.setState({
              data: this.props.jsxdata
           });
@@ -266,7 +269,7 @@ class Grid extends React.Component {
       me.setState({
         currentPage: current
       }, () => {
-        me.fetchData()
+        me.fetchData("pagination")
       })
 
     }
@@ -277,7 +280,7 @@ class Grid extends React.Component {
             currentPage: current,
             pageSize: pageSize
         }, () => {
-            me.fetchData();
+            me.fetchData("pagination");
         });
     }
 
@@ -300,7 +303,7 @@ class Grid extends React.Component {
     handleOrderColumnCB(type, column) {
 
        this.props.activeColumn=column;
-       this.fetchData();
+       this.fetchData("order");
 
     }
 
@@ -308,10 +311,10 @@ class Grid extends React.Component {
         if(type == 'SEARCH') {
            // TODO: Don't set props 
            this.props.searchTxt=txt;
-           this.fetchData();
+           this.fetchData("search");
         }else {
-            let _actionCofig= this.props.actionBar;
-            _actionCofig[type]?_actionCofig[type].apply(null,[type]):"";
+            let _actionCofig = this.props.actionBar;
+            _actionCofig[type] ? _actionCofig[type].apply(null,[type]) : "";
         }
        
     }

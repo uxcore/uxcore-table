@@ -2,6 +2,11 @@
 
 ---
 
+# 1.0.7
+
+`NEW` add the second param of props.beforeFetch which is 'from' to tell user where the fetch action is invoked.
+`CHANGED` props.actionBar is powerup, now support custom text and callback.
+
 # 1.0.6
 
 `NEW` fix issue #4 #5 #20 #21 #22 #23 #24

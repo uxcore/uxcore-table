@@ -42,21 +42,11 @@ class Demo extends React.Component {
           }
         };
 
-        let doAction= function(rowData,e) {
-            let el=$(e.target);
-            if(el.hasClass('action')) {
-               if( el.data('type') =='edit') {
-                  console.info(rowData,el.data('type'));
-               }else if(el.data('type') =='del') {
-                 console.info(rowData,el.data('type'));
-               }
-            }
-        }
         // title, width, type, hidden,dataKey
         let columns = [
             { dataKey: 'id', title: 'ID', width: 50,hidden:true},
             { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-            { dataKey: 'city',title:'城市', width: 150,type:"person",plugin: Hovercard, token: "A8de4ec74-1145-4ae9-af1b-d8ff7adfa228C"},
+            { dataKey: 'city',title:'城市', width: 150},
             { dataKey: 'firstName',title:"FristName" },  
             { dataKey: 'lastName' ,title:"LastName"},
             { dataKey: 'email',title:"Email",width: 200,ordered:true },
@@ -80,8 +70,6 @@ class Demo extends React.Component {
             width: 1196,
             showHeader:true,
             showPager:false,
-            // rowSelection: rowSelection,
-            // showMask:false,
             jsxcolumns:subCols,
             fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             queryKeys:["firstName", "city"],
@@ -99,6 +87,7 @@ class Demo extends React.Component {
                'delete': function() { alert('delete'); },
                '黄山': function(type) {alert(type)}
             },
+            showSearch: true,
             actionColumn: {
                'edit': function() {},
                'del': function() {}
@@ -109,7 +98,7 @@ class Demo extends React.Component {
             jsxcolumns:columns,
             subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
             rowSelection: rowSelection,
-            beforeFetch: (sendData) => {sendData.id = 1; return sendData;},
+            beforeFetch: (sendData, from) => {console.log(from); return sendData;},
             processData: (data) => {return data;}           
         };
         return (<Grid {...renderProps}  ref="grid"/>);
