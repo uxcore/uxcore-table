@@ -20,45 +20,56 @@ class ActionBar extends React.Component {
        this.props.actionBarCB(type);
     }
 
-    //TODO throw away type & just support text & callback
     renderActionBtn(type) {
 
         let _props = this.props,
-        _config = _props.actionBarConfig,
-        renderSearchBarProps = {
+        _config = _props.actionBarConfig;
+
+        return <a key={type} href="javascript:;" className="kuma-button kuma-button-swhite" onClick={this.doAction.bind(this,type)}>{type}</a>
+
+    }
+
+    renderSearchBar() {
+
+       let renderSearchBarProps = {
             actionBarCB: this.props.actionBarCB,
             key:'searchbar'
         };
-
-        if ( type =='new' && !!_config[type]) {
-          return <a key={type} href="javascript:;" className="kuma-button kuma-button-swhite" onClick={this.doAction.bind(this,'new')}>新增</a>
-        }
-        if ( type =='import' && !!_config[type]) {
-          return <a key={type} href="javascript:;" className="kuma-button kuma-button-swhite" onClick={this.doAction.bind(this,'import')}>导入</a>
-        }
-        if ( type == 'export' && !!_config[type]) {
-          return <a key={type} href="javascript:;" className="kuma-button kuma-button-swhite" onClick={this.doAction.bind(this,'export')}>导出</a>
-        }
-        if ( type == 'delete' && !!_config[type]) {
-          return <a key={type} href="javascript:;" className="kuma-button kuma-button-swhite" onClick={this.doAction.bind(this,'delete')}>批量删除</a>
-        }
-        if ( type =='search' && !!_config[type] ) {
-          return <SearchBar key={type} {...renderSearchBarProps}/>
+        if(this.props.showSearch) {
+            return <SearchBar key='searchbar' {...renderSearchBarProps}/>;
         }
 
     }
-    // how to iterator json key use util method
+
+    /**
+    * @param {JSON}
+    */
+    getActionItem(config) {
+       let items=[];
+       for(let i  in config) {
+          if(config.hasOwnProperty(i)) {
+             items.push(i);
+          }
+       }
+       return items;
+    }
+
     render() {
-        let me=this,_props=this.props;
+        let me=this,_props=this.props, _barConfig = _props.actionBarConfig;
 
         return (<div className={classnames({
           [_props.jsxprefixCls]: _props.jsxprefixCls,
           "fn-clear": true
         })}>
-            {  
-              ['new','delete','import','export','search'].map(function(item){
+            {
+
+              me.getActionItem(_barConfig).map(function(item){
                   return me.renderActionBtn(item)
               })
+            }
+
+            {
+                me.renderSearchBar()
             }
         </div>);
     }

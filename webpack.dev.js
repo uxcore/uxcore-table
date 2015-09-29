@@ -25,7 +25,7 @@ module.exports = {
         filename: "[name].js",
         sourceMapFilename: "[name].js.map"
     },
-    devtool: '#source-map', // 这个配置要和output.sourceMapFilename一起使用
+    //devtool: '#source-map', // 这个配置要和output.sourceMapFilename一起使用
     module: {
         loaders: [
             {
