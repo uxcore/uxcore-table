@@ -6,6 +6,7 @@
 
 `NEW` add the second param of props.beforeFetch which is 'from' to tell user where the fetch action is invoked.
 `CHANGED` props.actionBar is powerup, now support custom text and callback.
+`CHANGED` button in grid depends on uxcore-button now.
 
 # 1.0.6
 

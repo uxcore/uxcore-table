@@ -50,16 +50,15 @@ class Grid extends React.Component {
 
 
 
-    // pagination 
-    // column order 
-    // filter 
+    /*
+     * get Query Object by combining data from searchBar, column order, pagination
+     * and fetchParams.
+     * @param from {string} used in props.beforeFetch
+     */
 
     getQueryObj(from) {
 
-       let ctx = this, queryObj = {};
-        //passedData right now use as subComp row data, if has passedData
-        //that means subComp it is
-
+        let ctx = this, queryObj = {};
         if (ctx.props.passedData) {
 
             let queryKeys = ctx.props.queryKeys;
@@ -75,8 +74,6 @@ class Grid extends React.Component {
                     }
                 })
             }
-
-
         }
 
         // pagination
@@ -109,6 +106,7 @@ class Grid extends React.Component {
 
         return ctx.props.beforeFetch(queryObj, from);
     }
+    
     /*
      * fetch Data via Ajax
      * @param from {string} tell fetchData where it is invoked, the param will be 
