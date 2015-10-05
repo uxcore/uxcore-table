@@ -2,6 +2,10 @@
 
 ---
 
+# 1.0.8
+
+`FIXED` fix money formatting bug
+
 # 1.0.7
 
 `NEW` add the second param of props.beforeFetch which is 'from' to tell user where the fetch action is invoked.
