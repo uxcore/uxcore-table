@@ -12,13 +12,14 @@ let ActionBar = require("./ActionBar");
 let Pagination  = require("uxcore-pagination");
 let assign = require('object-assign');
 let classnames = require("classnames");
-let uid = 0;
+
 class Grid extends React.Component {
 
     constructor(props) {
         super(props);
+        this.uid=0;
         this.state= {
-            data: this.props.jsxdata,
+            data: this.addJSXIds(this.props.jsxdata),
             columns: this.processColumn(),
             showMask: this.props.showMask,
             passedData:null,
@@ -132,7 +133,7 @@ class Grid extends React.Component {
                     let _data = result.content;
                     if(result.success) {
                         let updateObj= {
-                          data: ctx.props.processData(_data),
+                          data: ctx.addJSXIds(ctx.props.processData(_data)),
                           showMask: false
                         };
                         ctx.setState(updateObj)
@@ -155,7 +156,7 @@ class Grid extends React.Component {
 
             if (!ctx.props.queryKeys) {
                 ctx.setState({
-                    data: ctx.props.processData(ctx.props.passedData)
+                    data: ctx.addJSXIds(ctx.props.processData(ctx.props.passedData))
                 });
             }
             else {
@@ -166,13 +167,13 @@ class Grid extends React.Component {
                     }
                 });
                 ctx.setState({
-                    data: ctx.props.processData(data)
+                    data: ctx.addJSXIds(ctx.props.processData(data))
                 });
             }
         }
         else if (!!this.props.jsxdata) {
           ctx.setState({
-             data: this.props.jsxdata
+             data: this.addJSXIds(this.props.jsxdata)
           });
         }
         else {
@@ -180,7 +181,7 @@ class Grid extends React.Component {
           ctx.setState({
               "data": {
                   datas: [{
-                    jsxid:0
+                    jsxid:ctx.uid++
                   }],
                   "currentPage": 1,
                   "totalCount": 0
@@ -321,16 +322,6 @@ class Grid extends React.Component {
        return this.state.data;
     }
 
-    addRow() {
-        this.insertData({
-          jsxid: ++uid
-        });
-    }
-
-    delRow(rowData) {
-        this.removeData(rowData);
-    }
-
     // some time, UI new some data, but not sync with db, 
     // need cache on the client, then use save action, get
     // all grid data to sync with db
@@ -392,10 +383,6 @@ class Grid extends React.Component {
                 onModifyRow: props.onModifyRow?props.onModifyRow: function(){},
                 rowSelection: props.rowSelection,
                 subComp: props.subComp,
-                actions:{
-                   'addRow': this.addRow.bind(this),
-                   'delRow': this.delRow.bind(this)
-                },
                 mask: this.state.showMask,
                 rowHeight: this.props.rowHeight,
                 mode: this.props.mode,
@@ -451,7 +438,76 @@ class Grid extends React.Component {
             </div>);
 
     }
+
+    /////////////////////////Util Method////////////////
+
+    //grid record use jsxid as record uid
+    //this method will service for init or fetch grid data
+
+    /**
+    * @param data {
+    *              datas:[{
+    *                   jsxid:0
+    *              }],
+    *              "currentPage": 1,
+    *              "totalCount": 0
+    *             }
+    */
+    addJSXIds(data) {
+        let me =this;
+        if(data && data.datas) {
+          data.datas=data.datas.map(item=> { if(!item.jsxid){
+             item.jsxid= me.uid++;
+             return item;
+          }})
+        }
+        return data;
+    }
     
+    //////////////////////// CURD for gird ////////////////
+
+    addEmptyRow() {
+       this.insertData({
+          jsxid: this.uid++
+      });
+    }
+
+    addRow(rowData) {
+        this.insertData(rowData);
+    }
+
+    updataRow(rowData) {
+        let _data= this.state.data;
+        if(_data && _data.datas) {
+          _data.datas=_data.datas.map(item=> { if(item.jsxid==rowData.jsxid){
+              return rowData;
+          }else {
+             return item;
+          }})
+        }
+        this.setState({
+          data: _data
+        })
+    }
+
+    delRow(rowData) {
+        this.removeData(rowData);
+    }
+
+    toggleSubComp(rowData) {
+        let _data= this.state.data;
+        if(_data && _data.datas) {
+          _data.datas=_data.datas.map(item=> { if(item.jsxid==rowData.jsxid){
+             item.showSubComp= !item.showSubComp;
+             return item;
+          }else {
+             return item;
+          }})
+        }
+        this.setState({
+          data: _data
+        })
+    }
 
 };
 

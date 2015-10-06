@@ -41,7 +41,9 @@ class Demo extends React.Component {
             console.log(selected, selectedRows);
           }
         };
-
+        //[{title:'编辑', type:"inlineEdit1", cb: function(rowData){ me.refs.grid.toggleSubComp(rowData)}},
+        //      {title:'删除', type:"del", cb: function(rowData){ me.refs.grid.delRow(rowData)}}
+        //  ]
         // title, width, type, hidden,dataKey
         let columns = [
             { dataKey: 'id', title: 'ID', width: 50,hidden:true},
@@ -50,10 +52,15 @@ class Demo extends React.Component {
             { dataKey: 'firstName',title:"FristName" },  
             { dataKey: 'lastName' ,title:"LastName"},
             { dataKey: 'email',title:"Email",width: 200,ordered:true },
-            { dataKey: 'action1', title:'操作1', width:100, type:"action",items:[
-              {title:'编辑', type:"inlineEdit", cb: function(rowData){console.info(rowData)}},
-              {title:'删除', type:"del", cb: function(rowData){console.info(rowData)}}
-            ]},
+            { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
+                "编辑": function(rowData) {
+                    me.refs.grid.toggleSubComp(rowData);
+                },
+                "删除": function(rowData) {
+                    me.refs.grid.delRow(rowData);
+                }
+              }
+            },
             { dataKey: 'action', title:'链接', width:150,render: function(rowData){
                return <div><a href="#">{rowData.lastName}</a></div>
               }
@@ -88,13 +95,9 @@ class Demo extends React.Component {
                '黄山': function(type) {alert(type)}
             },
             showSearch: true,
-            actionColumn: {
-               'edit': function() {},
-               'del': function() {}
-            },
             fetchParams: {},
             // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
-            fetchUrl: "http://192.168.31.117:3000/demo/data.json",
+            fetchUrl: "http://192.168.1.101:3000/demo/data.json",
             jsxcolumns:columns,
             subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
             rowSelection: rowSelection,

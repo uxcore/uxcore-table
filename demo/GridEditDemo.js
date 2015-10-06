@@ -61,10 +61,15 @@ class Demo extends React.Component {
             }},
             { dataKey: 'name',title:"姓名",width: 200,type:"text"},  
             { dataKey: 'email',title:"Email",width: 200,type:"text"},
-            { dataKey: 'action1', title:'操作1', width:100, type:"action",items:[
-              {title:'增加', type:"addRow", cb: function(rowData){console.info(rowData)}},
-              {title:'删除', type:"delRow", cb: function(rowData){console.info(rowData)}}
-            ]}
+            { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
+                "增加": function(rowData) {
+                    me.refs.grid.addEmptyRow();
+                },
+                "删除": function(rowData) {
+                    me.refs.grid.delRow(rowData);
+                }
+              }
+            }
         ];
 
 
@@ -72,10 +77,6 @@ class Demo extends React.Component {
             height: 200,
             width: 800,
             showPager:false,
-            actionColumn: {
-               'edit': function() {},
-               'del': function() {}
-            },
             renderModel:'',//deep, flat, hierarchical
             fetchParams: {},
             //fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",

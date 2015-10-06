@@ -83,7 +83,7 @@ class Cell extends React.Component {
 
     renderTreeIcon() {
         if (this.props.cellIndex == 0 && this.props.hasSubComp) {
-            let open = this.props.st_showSubComp;
+            let open = this.props.rowData.showSubComp;
             return <span className="kuma-grid-tree-icon" onClick={this.showSubComp.bind(this)}><i className={classnames({
                 "kuma-icon": true,
                 "kuma-icon-tree-open-2": open,
@@ -92,27 +92,25 @@ class Cell extends React.Component {
         }
     }
 
-    doAction(rowData,items,e) {
+    doAction(rowData,actions,e) {
 
         let el = $(e.target);
         if (el.hasClass('action')) {
-            if( el.data('type') == 'inlineEdit') {
-                this.showSubComp();
-                return ;
-            }
-            else if (el.data('type') =='addRow') {
-                this.props.actions['addRow'].apply();
-
-            }
-            else if (el.data('type') =='delRow') {
-                this.props.actions['delRow'].apply(null,[rowData]);
-            }
-            items.map(function(item){
-                if (item.type == el.data('type')) {
-                    item.cb ? item.cb.apply(null,[rowData]):'';
-                }
-            });
+            actions[el.data('type')].apply(null,[rowData]);
         }
+    }
+
+    /**
+    * @param {JSON}
+    */
+    getActionItems(actions) {
+       let items=[];
+       for(let i  in actions) {
+          if(actions.hasOwnProperty(i)) {
+             items.push(i);
+          }
+       }
+       return items;
     }
 
     render() {
@@ -126,16 +124,15 @@ class Cell extends React.Component {
                 textAlign: props.align ? props.align : "left"
             },
             _v = props.rowData,renderProps;
-
         if (_column.render) {
            _v = _column.render.apply(null,[_v]);
         }
         else if (_column.type=='action' && props.mode =='EDIT') {
 
-            _v = <div className="action-container" onClick={this.doAction.bind(this,_v,_column.items)}>
+            _v = <div className="action-container" onClick={this.doAction.bind(this,_v,_column.actions)}>
                     { 
-                      _column.items.map(function(child, index) {
-                        return <span className="action" key={index} data-type={child.type}>{child.title}</span>
+                      ctx.getActionItems(_column.actions).map(function(action, index) {
+                        return <span className="action" key={index} data-type={action}>{action}</span>
                       })
                     }
                  </div>
