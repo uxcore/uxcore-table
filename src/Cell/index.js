@@ -110,7 +110,12 @@ class Cell extends React.Component {
              items.push(i);
           }
        }
-       return items;
+
+      let props = this.props,_column = props.column,beforeRender= _column.beforeRender;
+      if(beforeRender) {
+         return beforeRender.apply(null,[props.rowData,items])
+      }
+      return items;
     }
 
     getCellData() {

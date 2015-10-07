@@ -61,6 +61,14 @@ class Demo extends React.Component {
                 "删除": function(rowData) {
                     me.refs.grid.delRow(rowData);
                 }
+              },
+              beforeRender: function(rowData,actionItems) {
+                 if(rowData.jsxid%2==0) {
+                    return ['编辑'];
+                 }else {
+                    return ['编辑','删除'];
+                 }
+                 
               }
             },
             { dataKey: 'action', title:'链接', width:150,render: function(cellData,rowData){
