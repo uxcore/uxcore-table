@@ -108,8 +108,8 @@ $ gulp server
 |order          |  optional |  boolean     | need order feature or not |
 |type           |  optional |  string      | containing 'money', 'card', 'cnmobile' & 'action' |
 |items          |  yes      |  array       | when type =='action', we need this attr |
-|render         |  optional |  function    | for custom cell |
-|beforeRender   |  optional |  function    | for custom cell data |
+|[render](https://github.com/uxcore/uxcore-grid/issues/30)         |  optional |  function    | for custom cell |
+| [beforeRender](https://github.com/uxcore/uxcore-grid/issues/30)  |  optional |  function    | for custom cell data |
 |delimiter      |  optional |  string      | delimiter used in type 'money', 'card', 'cnmobile' formating|
 
 
@@ -120,17 +120,20 @@ let columns = [
             { dataKey: 'country', title:'国家', width: 200,ordered:true},
             { dataKey: 'city',title:'城市', width: 150,ordered:true },
             { dataKey: 'firstName',title:"FristName" },  
-            { dataKey: 'lastName' ,title:"LastName"},
+            { dataKey: 'lastName' ,title:"LastName", beforeRender: function(rowData){
+            	//do logic , then return cell data
+            	return 'abc';
+            }},
             { dataKey: 'email',title:"Email",width: 200,ordered:true },
             { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
                 "编辑": function(rowData) {
                     me.refs.grid.toggleSubComp(rowData);
                 },
-                "删除": function(rowData) {
+                "删除": function(rowData) {	
                     me.refs.grid.delRow(rowData);
                 }
              }},
-            { dataKey: 'action', title:'链接', width:100,render: function(rowData){
+            { dataKey: 'action', title:'链接', width:100,render: function(cellData,rowData){
                return <div><a href="#">{rowData.email}</a></div>
               }
             }
