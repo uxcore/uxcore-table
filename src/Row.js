@@ -53,7 +53,7 @@ class Row extends React.Component {
         _columns = props.columns,
         _style = {},
         _data = props.data,
-        ctx = this;
+        me = this;
 
         
         return (<div className={this.props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
@@ -69,8 +69,7 @@ class Row extends React.Component {
                         cellIndex:index,
                         hasSubComp: props.subComp ? true : false,
                         data:_data,
-                        showSubCompCallback:ctx.showSubCompFunc,
-                        ctx:ctx,
+                        showSubCompCallback:me.showSubCompFunc.bind(me),
                         onModifyRow: props.onModifyRow,
                         rowSelection: props.rowSelection,
                         actions: props.actions,

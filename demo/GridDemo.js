@@ -49,7 +49,9 @@ class Demo extends React.Component {
             { dataKey: 'id', title: 'ID', width: 50,hidden:true},
             { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
             { dataKey: 'city',title:'城市', width: 150},
-            { dataKey: 'firstName',title:"FristName" },  
+            { dataKey: 'firstName',title:"FristName",beforeRender:function(rowData) {
+                return "abc";
+            } },  
             { dataKey: 'lastName' ,title:"LastName"},
             { dataKey: 'email',title:"Email",width: 200,ordered:true },
             { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
@@ -61,8 +63,10 @@ class Demo extends React.Component {
                 }
               }
             },
-            { dataKey: 'action', title:'链接', width:150,render: function(rowData){
-               return <div><a href="#">{rowData.lastName}</a></div>
+            { dataKey: 'action', title:'链接', width:150,render: function(cellData,rowData){
+               return <div><a href="#">{rowData.email}</a></div>
+              },beforeRender(rowData) {
+                return rowData.email;
               }
             }
         ];
@@ -88,10 +92,10 @@ class Demo extends React.Component {
             height: 400,
             width: 1200,
             actionBar: {
-               '新增': function(type) { alert(type); },
-               'import': function() { alert('import'); },
-               'export': function() { alert('export'); },
-               'delete': function() { alert('delete'); },
+               '新增': function(type) { console.info(this); alert(type) },
+               'import': function(type) { alert(type) },
+               'export': function(type) { alert(type) },
+               'delete': function(type) { alert(type) },
                '黄山': function(type) {alert(type)}
             },
             showSearch: true,

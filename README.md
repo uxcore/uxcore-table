@@ -109,6 +109,7 @@ $ gulp server
 |type           |  optional |  string      | containing 'money', 'card', 'cnmobile' & 'action' |
 |items          |  yes      |  array       | when type =='action', we need this attr |
 |render         |  optional |  function    | for custom cell |
+|beforeRender   |  optional |  function    | for custom cell data |
 |delimiter      |  optional |  string      | delimiter used in type 'money', 'card', 'cnmobile' formating|
 
 

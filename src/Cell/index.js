@@ -78,7 +78,7 @@ class Cell extends React.Component {
     }
 
     showSubComp() {
-        this.props.showSubCompCallback.call(this.props.ctx);
+        this.props.showSubCompCallback.apply();
     }
 
     renderTreeIcon() {
@@ -113,6 +113,15 @@ class Cell extends React.Component {
        return items;
     }
 
+    getCellData() {
+      let props = this.props,_column = props.column,beforeRender= _column.beforeRender;
+      let cellData=props.rowData[_column.dataKey];
+      if(beforeRender) {
+         return beforeRender.apply(null, [props.rowData,cellData])
+      }
+      return cellData;
+    }
+
     render() {
         
         let props = this.props,
@@ -124,8 +133,9 @@ class Cell extends React.Component {
                 textAlign: props.align ? props.align : "left"
             },
             _v = props.rowData,renderProps;
+
         if (_column.render) {
-           _v = _column.render.apply(null,[_v]);
+           _v = _column.render.apply(null,[this.getCellData(),_v]);
         }
         else if (_column.type=='action' && props.mode =='EDIT') {
 
@@ -156,7 +166,7 @@ class Cell extends React.Component {
         }
         else if(_column.type=='text') {
             renderProps={
-                value: _v[_column.dataKey],
+                value: this.getCellData(),
                 mode: props.mode,
                 onchange:this.handleTxtChange.bind(this),
                 onblur:this.onblur.bind(this)
@@ -165,7 +175,7 @@ class Cell extends React.Component {
         }
         else if(_column.type=='select') {
             renderProps={
-                value: _v[_column.dataKey],
+                value: this.getCellData(),
                 mode: props.mode,
                 config:_column,
                 handleChange:this.handleChange.bind(this)
@@ -173,13 +183,13 @@ class Cell extends React.Component {
             _v=<SelectField {...renderProps} />
         }
         else if (_column.type == 'money' || _column.type == "card" || _column.type == "cnmobile") {
-            _v = <div title={props.rowData[_column.dataKey]}>{util.formatValue(props.rowData[_column.dataKey], _column.type, _column.delimiter)}</div>;
+            _v = <div title={this.getCellData()}>{util.formatValue(this.getCellData(), _column.type, _column.delimiter)}</div>;
         }
         else if (_column.type == "person" && !!_column.plugin && _column.token) {
             try {
                 let Hovercard = _column.plugin;
-                _v = <Hovercard emplId={props.rowData[_column.dataKey]} placement="right" token={_column.token}>
-                        <div>{props.rowData[_column.dataKey]}</div>
+                _v = <Hovercard emplId={this.getCellData()} placement="right" token={_column.token}>
+                        <div>{this.getCellData()}</div>
                      </Hovercard>
             }
             catch(e) {
@@ -187,9 +197,8 @@ class Cell extends React.Component {
             }
         }
         else {
-            _v = <div title={props.rowData[_column.dataKey]}>{props.rowData[_column.dataKey]}</div>;
+            _v = <div title={this.getCellData()}>{this.getCellData()}</div>;
         }
-
         return (<div className={props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
             {_v}
         </div>);   
