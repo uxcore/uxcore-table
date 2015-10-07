@@ -122,10 +122,14 @@ let columns = [
             { dataKey: 'firstName',title:"FristName" },  
             { dataKey: 'lastName' ,title:"LastName"},
             { dataKey: 'email',title:"Email",width: 200,ordered:true },
-            { dataKey: 'action1', title:'操作1', width:100, type:"action",items:[
-              {title:'编辑', type:"inlineEdit", cb: function(rowData){console.info(rowData)}},
-              {title:'删除', type:"del", cb: function(rowData){console.info(rowData)}}
-            ]},
+            { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
+                "编辑": function(rowData) {
+                    me.refs.grid.toggleSubComp(rowData);
+                },
+                "删除": function(rowData) {
+                    me.refs.grid.delRow(rowData);
+                }
+             }},
             { dataKey: 'action', title:'链接', width:100,render: function(rowData){
                return <div><a href="#">{rowData.email}</a></div>
               }
