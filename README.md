@@ -172,5 +172,9 @@ let columns = [
 * fetchData(from): call this method when you want the grid to fetch Data via ajax again. 
     * @param from {string} optional: the param will be passed to props.beforeFetch, use it when you want to do something different by judging this param.
 * getData()
-* insertData(obj)
-* removeData(obj)
+* addEmptyRow()
+* addRow(rowData)
+* updataRow(rowData)
+* delRow(rowData)
+* toggleSubComp(rowData)
+  * show or hide sub comp
