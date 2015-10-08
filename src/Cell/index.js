@@ -78,12 +78,12 @@ class Cell extends React.Component {
     }
 
     showSubComp() {
-        this.props.showSubCompCallback.call(this.props.ctx);
+        this.props.showSubCompCallback.apply();
     }
 
     renderTreeIcon() {
         if (this.props.cellIndex == 0 && this.props.hasSubComp) {
-            let open = this.props.st_showSubComp;
+            let open = this.props.rowData.showSubComp;
             return <span className="kuma-grid-tree-icon" onClick={this.showSubComp.bind(this)}><i className={classnames({
                 "kuma-icon": true,
                 "kuma-icon-tree-open-2": open,
@@ -92,27 +92,39 @@ class Cell extends React.Component {
         }
     }
 
-    doAction(rowData,items,e) {
+    doAction(rowData,actions,e) {
 
         let el = $(e.target);
         if (el.hasClass('action')) {
-            if( el.data('type') == 'inlineEdit') {
-                this.showSubComp();
-                return ;
-            }
-            else if (el.data('type') =='addRow') {
-                this.props.actions['addRow'].apply();
-
-            }
-            else if (el.data('type') =='delRow') {
-                this.props.actions['delRow'].apply(null,[rowData]);
-            }
-            items.map(function(item){
-                if (item.type == el.data('type')) {
-                    item.cb ? item.cb.apply(null,[rowData]):'';
-                }
-            });
+            actions[el.data('type')].apply(null,[rowData]);
         }
+    }
+
+    /**
+    * @param {JSON}
+    */
+    getActionItems(actions) {
+       let items=[];
+       for(let i  in actions) {
+          if(actions.hasOwnProperty(i)) {
+             items.push(i);
+          }
+       }
+
+      let props = this.props,_column = props.column,beforeRender= _column.beforeRender;
+      if(beforeRender) {
+         return beforeRender.apply(null,[props.rowData,items])
+      }
+      return items;
+    }
+
+    getCellData() {
+      let props = this.props,_column = props.column,beforeRender= _column.beforeRender;
+      let cellData=props.rowData[_column.dataKey];
+      if(beforeRender) {
+         return beforeRender.apply(null, [props.rowData,cellData])
+      }
+      return cellData;
     }
 
     render() {
@@ -125,17 +137,18 @@ class Cell extends React.Component {
                 width: _width ? _width : 100,
                 textAlign: props.align ? props.align : "left"
             },
-            _v = props.rowData,renderProps;
+            _v = props.rowData,
+            renderProps;
 
         if (_column.render) {
-           _v = _column.render.apply(null,[_v]);
+           _v = _column.render.apply(null,[this.getCellData(),_v]);
         }
         else if (_column.type=='action' && props.mode =='EDIT') {
 
-            _v = <div className="action-container" onClick={this.doAction.bind(this,_v,_column.items)}>
+            _v = <div className="action-container" onClick={this.doAction.bind(this,_v,_column.actions)}>
                     { 
-                      _column.items.map(function(child, index) {
-                        return <span className="action" key={index} data-type={child.type}>{child.title}</span>
+                      ctx.getActionItems(_column.actions).map(function(action, index) {
+                        return <span className="action" key={index} data-type={action}>{action}</span>
                       })
                     }
                  </div>
@@ -159,7 +172,7 @@ class Cell extends React.Component {
         }
         else if(_column.type=='text') {
             renderProps={
-                value: _v[_column.dataKey],
+                value: this.getCellData(),
                 mode: props.mode,
                 onchange:this.handleTxtChange.bind(this),
                 onblur:this.onblur.bind(this)
@@ -168,7 +181,7 @@ class Cell extends React.Component {
         }
         else if(_column.type=='select') {
             renderProps={
-                value: _v[_column.dataKey],
+                value: this.getCellData(),
                 mode: props.mode,
                 config:_column,
                 handleChange:this.handleChange.bind(this)
@@ -176,13 +189,13 @@ class Cell extends React.Component {
             _v=<SelectField {...renderProps} />
         }
         else if (_column.type == 'money' || _column.type == "card" || _column.type == "cnmobile") {
-            _v = <div title={props.rowData[_column.dataKey]}>{util.formatValue(props.rowData[_column.dataKey], _column.type, _column.delimiter)}</div>;
+            _v = <div title={this.getCellData()}>{util.formatValue(this.getCellData(), _column.type, _column.delimiter)}</div>;
         }
         else if (_column.type == "person" && !!_column.plugin && _column.token) {
             try {
                 let Hovercard = _column.plugin;
-                _v = <Hovercard emplId={props.rowData[_column.dataKey]} placement="right" token={_column.token}>
-                        <div>{props.rowData[_column.dataKey]}</div>
+                _v = <Hovercard emplId={this.getCellData()} placement="right" token={_column.token}>
+                        <div>{this.getCellData()}</div>
                      </Hovercard>
             }
             catch(e) {
@@ -190,9 +203,8 @@ class Cell extends React.Component {
             }
         }
         else {
-            _v = <div title={props.rowData[_column.dataKey]}>{props.rowData[_column.dataKey]}</div>;
+            _v = <div title={this.getCellData()}>{this.getCellData()}</div>;
         }
-
         return (<div className={props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
             {_v}
         </div>);   

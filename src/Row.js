@@ -26,15 +26,17 @@ class Row extends React.Component {
 
     }
 
-    showSubComp() {
-        this.props.showSubComp=!this.props.showSubComp;
+    showSubCompFunc() {
+        let props= this.props, showSubComp=props.data[props.rowIndex].showSubComp;
+        props.data[props.rowIndex].showSubComp=!showSubComp;
         this.forceUpdate();
     }
 
     renderSubComp() {
 
         let props= this.props;
-        if(props.subComp && this.props.showSubComp ) {
+        //this.props.showSubComp
+        if(props.subComp &&  props.data[props.rowIndex].showSubComp ) {
           let subComp= React.cloneElement(props.subComp,{
             passedData: this.props.data[this.props.rowIndex],
             parentHasCheckbox: !!this.props.rowSelection
@@ -51,7 +53,7 @@ class Row extends React.Component {
         _columns = props.columns,
         _style = {},
         _data = props.data,
-        ctx = this;
+        me = this;
 
         
         return (<div className={this.props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
@@ -67,9 +69,7 @@ class Row extends React.Component {
                         cellIndex:index,
                         hasSubComp: props.subComp ? true : false,
                         data:_data,
-                        showSubCompCallback:ctx.showSubComp,
-                        st_showSubComp: ctx.props.showSubComp,
-                        ctx:ctx,
+                        showSubCompCallback:me.showSubCompFunc.bind(me),
                         onModifyRow: props.onModifyRow,
                         rowSelection: props.rowSelection,
                         actions: props.actions,

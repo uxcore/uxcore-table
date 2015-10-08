@@ -41,21 +41,40 @@ class Demo extends React.Component {
             console.log(selected, selectedRows);
           }
         };
-
+        //[{title:'编辑', type:"inlineEdit1", cb: function(rowData){ me.refs.grid.toggleSubComp(rowData)}},
+        //      {title:'删除', type:"del", cb: function(rowData){ me.refs.grid.delRow(rowData)}}
+        //  ]
         // title, width, type, hidden,dataKey
         let columns = [
             { dataKey: 'id', title: 'ID', width: 50,hidden:true},
             { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
             { dataKey: 'city',title:'城市', width: 150},
-            { dataKey: 'firstName',title:"FristName" },  
+            { dataKey: 'firstName',title:"FristName",beforeRender:function(rowData) {
+                return "abc";
+            } },  
             { dataKey: 'lastName' ,title:"LastName"},
             { dataKey: 'email',title:"Email",width: 200,ordered:true },
-            { dataKey: 'action1', title:'操作1', width:100, type:"action",items:[
-              {title:'编辑', type:"inlineEdit", cb: function(rowData){console.info(rowData)}},
-              {title:'删除', type:"del", cb: function(rowData){console.info(rowData)}}
-            ]},
-            { dataKey: 'action', title:'链接', width:150,render: function(rowData){
-               return <div><a href="#">{rowData.lastName}</a></div>
+            { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
+                "编辑": function(rowData) {
+                    me.refs.grid.toggleSubComp(rowData);
+                },
+                "删除": function(rowData) {
+                    me.refs.grid.delRow(rowData);
+                }
+              },
+              beforeRender: function(rowData,actionItems) {
+                 if(rowData.jsxid%2==0) {
+                    return ['编辑'];
+                 }else {
+                    return ['编辑','删除'];
+                 }
+                 
+              }
+            },
+            { dataKey: 'action', title:'链接', width:150,render: function(cellData,rowData){
+               return <div><a href="#">{rowData.email}</a></div>
+              },beforeRender(rowData) {
+                return rowData.email;
               }
             }
         ];
@@ -81,17 +100,13 @@ class Demo extends React.Component {
             height: 400,
             width: 1200,
             actionBar: {
-               '新增': function(type) { alert(type); },
-               'import': function() { alert('import'); },
-               'export': function() { alert('export'); },
-               'delete': function() { alert('delete'); },
+               '新增': function(type) { console.info(this); alert(type) },
+               'import': function(type) { alert(type) },
+               'export': function(type) { alert(type) },
+               'delete': function(type) { alert(type) },
                '黄山': function(type) {alert(type)}
             },
             showSearch: true,
-            actionColumn: {
-               'edit': function() {},
-               'del': function() {}
-            },
             fetchParams: {},
             fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             // fetchUrl: "http://192.168.31.117:3000/demo/data.json",

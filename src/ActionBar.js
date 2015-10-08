@@ -26,7 +26,7 @@ class ActionBar extends React.Component {
         let _props = this.props,
         _config = _props.actionBarConfig;
 
-        return <Button type="secondary" size="medium" onClick={this.doAction.bind(this,type)}>{type}</Button>
+        return <Button type="secondary" key={type} size="medium" onClick={this.doAction.bind(this,type)}>{type}</Button>
     }
 
     renderSearchBar() {

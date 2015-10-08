@@ -12,13 +12,14 @@ let ActionBar = require("./ActionBar");
 let Pagination  = require("uxcore-pagination");
 let assign = require('object-assign');
 let classnames = require("classnames");
-let uid = 0;
+
 class Grid extends React.Component {
 
     constructor(props) {
         super(props);
+        this.uid=0;
         this.state= {
-            data: this.props.jsxdata,
+            data: this.addJSXIdsForSD(this.props.jsxdata),
             columns: this.processColumn(),
             showMask: this.props.showMask,
             passedData:null,
@@ -132,7 +133,7 @@ class Grid extends React.Component {
                     let _data = result.content;
                     if(result.success) {
                         let updateObj= {
-                          data: ctx.props.processData(_data),
+                          data: ctx.addJSXIdsForSD(ctx.props.processData(_data)),
                           showMask: false
                         };
                         ctx.setState(updateObj)
@@ -155,7 +156,7 @@ class Grid extends React.Component {
 
             if (!ctx.props.queryKeys) {
                 ctx.setState({
-                    data: ctx.props.processData(ctx.props.passedData)
+                    data: ctx.addJSXIdsForSD(ctx.props.processData(ctx.props.passedData))
                 });
             }
             else {
@@ -166,13 +167,13 @@ class Grid extends React.Component {
                     }
                 });
                 ctx.setState({
-                    data: ctx.props.processData(data)
+                    data: ctx.addJSXIdsForSD(ctx.props.processData(data))
                 });
             }
         }
         else if (!!this.props.jsxdata) {
           ctx.setState({
-             data: this.props.jsxdata
+             data: this.addJSXIdsForSD(this.props.jsxdata)
           });
         }
         else {
@@ -180,7 +181,7 @@ class Grid extends React.Component {
           ctx.setState({
               "data": {
                   datas: [{
-                    jsxid:0
+                    jsxid:ctx.uid++
                   }],
                   "currentPage": 1,
                   "totalCount": 0
@@ -312,66 +313,13 @@ class Grid extends React.Component {
            this.fetchData("search");
         }else {
             let _actionCofig = this.props.actionBar;
-            _actionCofig[type] ? _actionCofig[type].apply(null,[type]) : "";
+            _actionCofig[type] ? _actionCofig[type].apply(this,[type]) : "";
         }
        
     }
 
     getData() {
        return this.state.data;
-    }
-
-    addRow() {
-        this.insertData({
-          jsxid: ++uid
-        });
-    }
-
-    delRow(rowData) {
-        this.removeData(rowData);
-    }
-
-    // some time, UI new some data, but not sync with db, 
-    // need cache on the client, then use save action, get
-    // all grid data to sync with db
-    //[{name:'',email:''}]
-
-    insertData(objAux) {
-       let _data=$.extend(true,{},this.state.data);
-       if(Object.prototype.toString.call(objAux)!=="[object Array]") {
-          objAux=[objAux];
-       }
-       _data.datas= objAux.concat(_data.datas);
-
-       this.setState({
-          data: _data
-       });
-    }
-
-    removeData(objAux) {
-      
-       //at least one record
-       if(this.state.data.datas.length==1){
-          return ;
-       }
-        let _data=$.extend(true,{},this.state.data),_newArr;
-
-       if(Object.prototype.toString.call(objAux)!=="[object Array]") {
-          objAux=[objAux];
-       }
-
-        objAux.map(function(item) {
-            _data.datas.forEach(function(element, index, array) {
-                if(element.jsxid==item.jsxid) {
-                   _data.datas.splice(index,1);
-                }
-            })
-        })
-
-        this.setState({
-          data: _data
-        });
-
     }
 
     render() {
@@ -392,10 +340,6 @@ class Grid extends React.Component {
                 onModifyRow: props.onModifyRow?props.onModifyRow: function(){},
                 rowSelection: props.rowSelection,
                 subComp: props.subComp,
-                actions:{
-                   'addRow': this.addRow.bind(this),
-                   'delRow': this.delRow.bind(this)
-                },
                 mask: this.state.showMask,
                 rowHeight: this.props.rowHeight,
                 mode: this.props.mode,
@@ -451,7 +395,148 @@ class Grid extends React.Component {
             </div>);
 
     }
+
+    /////////////////////////Util Method////////////////
+
+    //grid record use jsxid as record uid
+    //this method will service for init or fetch grid data
+
+    /**
+    * @param objAux 
+    *              [{
+    *                  a:'b',
+    *                  c:'d'
+    *              }]
+    */
+    addJSXIds(objAux) {
+       let me= this;
+       if(Object.prototype.toString.call(objAux) =="[object Array]") {
+          objAux=objAux.map(item=> { if(!item.jsxid){
+             item.jsxid= me.uid++;
+             return item;
+          }})
+        }else {
+           objAux.jsxid=me.uid++;
+        }
+        return objAux;
+    }
+
+   /**
+    * @param data {
+    *              datas:[{
+    *                   jsxid:0
+    *              }],
+    *              "currentPage": 1,
+    *              "totalCount": 0
+    *             }
+    */
+    //add jsxids for state data
+    addJSXIdsForSD(data) {
+        let me =this;
+        if(data && data.datas) {
+          data.datas=this.addJSXIds(data.datas);
+        }
+        return data;
+    }
+
+    // some time, UI new some data, but not sync with db, 
+    // need cache on the client, then use save action, get
+    // all grid data to sync with db
     
+    //Insert , should be insert new record to grid data, the totalCount will be +1
+
+    /***
+    * @param {objAux} {a:'b',c:'d'} or [{},{}]
+    */
+    insertRecords(objAux) {
+       let _data=$.extend(true,{},this.state.data);
+       if(Object.prototype.toString.call(objAux)!=="[object Array]") {
+          objAux=[objAux];
+       }
+
+       objAux= this.addJSXIds(objAux);
+       _data.datas= objAux.concat(_data.datas);
+       _data.totalCount++; 
+       this.setState({
+          data: _data
+       });
+    }
+
+    /***
+    * @param {objAux} {a:'b',c:'d',jsxid:''}
+    */
+    updataRecord(objAux) {
+        let _data= this.state.data;
+        if(_data && _data.datas) {
+          _data.datas=_data.datas.map(item=> { if(item.jsxid==objAux.jsxid){
+              return objAux;
+          }else {
+             return item;
+          }})
+        }
+        this.setState({
+          data: _data
+        })
+    }
+
+    removeRecords(objAux) {
+      
+       //at least one record
+       if(this.state.data.datas.length==1){
+          return ;
+       }
+        let _data=$.extend(true,{},this.state.data),_newArr;
+
+       if(Object.prototype.toString.call(objAux)!=="[object Array]") {
+          objAux=[objAux];
+       }
+
+        objAux.map(function(item) {
+            _data.datas.forEach(function(element, index, array) {
+                if(element.jsxid==item.jsxid) {
+                   _data.datas.splice(index,1);
+                }
+            })
+        })
+
+        this.setState({
+          data: _data
+        });
+
+    }
+    
+    //////////////////////// CURD for gird ////////////////
+
+    addEmptyRow() {
+       this.insertRecords({});
+    }
+
+    addRow(rowData) {
+        this.insertRecords(rowData);
+    }
+
+    updataRow(rowData) {
+        this.removeRecords(rowData);
+    }
+
+    delRow(rowData) {
+        this.removeRecords(rowData);
+    }
+
+    toggleSubComp(rowData) {
+        let _data= this.state.data;
+        if(_data && _data.datas) {
+          _data.datas=_data.datas.map(item=> { if(item.jsxid==rowData.jsxid){
+             item.showSubComp= !item.showSubComp;
+             return item;
+          }else {
+             return item;
+          }})
+        }
+        this.setState({
+          data: _data
+        })
+    }
 
 };
 
