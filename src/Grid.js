@@ -59,19 +59,16 @@ class Grid extends React.Component {
 
     getQueryObj(from) {
 
-        let ctx = this, queryObj = {};
-        if (ctx.props.passedData) {
-
-            let queryKeys = ctx.props.queryKeys;
-
+        let me = this, queryObj = {};
+        if (me.props.passedData) {
+            let queryKeys = me.props.queryKeys;
             if (!queryKeys) {
-                queryObj = ctx.props.passedData;
+                queryObj = me.props.passedData;
             }
-
             else {
                 queryKeys.forEach(function(key) {
-                    if(ctx.props.passedData[key] !== undefined) {
-                        queryObj[key]= ctx.props.passedData[key];
+                    if(me.props.passedData[key] !== undefined) {
+                        queryObj[key]= me.props.passedData[key];
                     }
                 })
             }
@@ -79,8 +76,8 @@ class Grid extends React.Component {
 
         // pagination
         queryObj = assign({}, queryObj, {
-            pageSize: ctx.state.pageSize,
-            currentPage: ctx.state.currentPage
+            pageSize: me.state.pageSize,
+            currentPage: me.state.currentPage
         });
 
         // column order
@@ -93,7 +90,7 @@ class Grid extends React.Component {
         }
 
         // search query
-        let searchTxt = ctx.props.searchTxt
+        let searchTxt = me.props.searchTxt
         if (!!searchTxt) {
             queryObj = assign({}, queryObj, {
                searchTxt: searchTxt
@@ -101,11 +98,11 @@ class Grid extends React.Component {
         }
 
         // fetchParams has the top priority 
-        if(!!ctx.props.fetchParams) {
-            queryObj = assign({}, queryObj, ctx.props.fetchParams);
+        if(!!me.props.fetchParams) {
+            queryObj = assign({}, queryObj, me.props.fetchParams);
         }
 
-        return ctx.props.beforeFetch(queryObj, from);
+        return me.props.beforeFetch(queryObj, from);
     }
     
     /*
@@ -116,27 +113,27 @@ class Grid extends React.Component {
 
     fetchData(from) {
 
-        let ctx = this;
+        let me = this;
         
         // fetchUrl has the top priority.
-        if (!!ctx.props.fetchUrl) {
-            if (!ctx.state.showMask) {
-                ctx.setState({
+        if (!!me.props.fetchUrl) {
+            if (!me.state.showMask) {
+                me.setState({
                     showMask: true
                 });
             }
             let ajaxOptions = {
-                url: ctx.props.fetchUrl,
-                data: ctx.getQueryObj(from),
+                url: me.props.fetchUrl,
+                data: me.getQueryObj(from),
                 dataType: "json",
                 success: function(result) {
                     let _data = result.content;
                     if(result.success) {
                         let updateObj= {
-                          data: ctx.addJSXIdsForSD(ctx.props.processData(_data)),
+                          data: me.addJSXIdsForSD(me.props.processData(_data)),
                           showMask: false
                         };
-                        ctx.setState(updateObj)
+                        me.setState(updateObj)
                     }
                     else {
                         console.log("##ERROR##");
@@ -145,43 +142,43 @@ class Grid extends React.Component {
                 }
             };
 
-            if (/\.jsonp/.test(ctx.props.fetchUrl)) {
+            if (/\.jsonp/.test(me.props.fetchUrl)) {
                 ajaxOptions.dataType = "jsonp"
             }
             
             $.ajax(ajaxOptions);
         }
 
-        else if (!!ctx.props.passedData) {
+        else if (!!me.props.passedData) {
 
-            if (!ctx.props.queryKeys) {
-                ctx.setState({
-                    data: ctx.addJSXIdsForSD(ctx.props.processData(ctx.props.passedData))
+            if (!me.props.queryKeys) {
+                me.setState({
+                    data: me.addJSXIdsForSD(me.props.processData(me.props.passedData))
                 });
             }
             else {
                 let data = {};
-                ctx.props.queryKeys.forEach((key, index) => {
-                    if (ctx.props.passedData[key] !== undefined) {
-                        data[key] = ctx.props.passedData[key];
+                me.props.queryKeys.forEach((key, index) => {
+                    if (me.props.passedData[key] !== undefined) {
+                        data[key] = me.props.passedData[key];
                     }
                 });
-                ctx.setState({
-                    data: ctx.addJSXIdsForSD(ctx.props.processData(data))
+                me.setState({
+                    data: me.addJSXIdsForSD(me.props.processData(data))
                 });
             }
         }
         else if (!!this.props.jsxdata) {
-          ctx.setState({
+          me.setState({
              data: this.addJSXIdsForSD(this.props.jsxdata)
           });
         }
         else {
           //default will create one row
-          ctx.setState({
+          me.setState({
               "data": {
                   datas: [{
-                    jsxid:ctx.uid++
+                    jsxid:me.uid++
                   }],
                   "currentPage": 1,
                   "totalCount": 0
@@ -207,7 +204,7 @@ class Grid extends React.Component {
         // if hidden is not set, then it's false
 
         columns = columns.map((item,index) => {
-            item.hidden = item.hidden || false;
+            item.hidden = !!item.hidden;
             return item;
         });
 
@@ -332,12 +329,12 @@ class Grid extends React.Component {
                 height: props.height
             },
             actionBarHeight=props.actionBar?props.actionBarHeight:0,
-            pagerHeight= (this.props.showPager && this.state.data && this.state.data.totalCount)? 50:0,
+            pagerHeight= (this.props.showPager && this.state.data && this.state.data.totalCount) ? 50 : 0,
             bodyHeight = props.height == "100%" ? props.height : (props.height - props.headerHeight - actionBarHeight - pagerHeight),
             renderBodyProps={
                 columns: this.state.columns,
-                data: this.state.data?this.state.data.datas:[],
-                onModifyRow: props.onModifyRow?props.onModifyRow: function(){},
+                data: this.state.data ? this.state.data.datas : [],
+                onModifyRow: props.onModifyRow ? props.onModifyRow : function(){},
                 rowSelection: props.rowSelection,
                 subComp: props.subComp,
                 mask: this.state.showMask,

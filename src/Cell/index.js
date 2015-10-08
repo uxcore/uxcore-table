@@ -130,7 +130,7 @@ class Cell extends React.Component {
     render() {
         
         let props = this.props,
-            ctx = this,
+            ctx   = this,
             _column = props.column, 
             _width = _column.width, 
             _style = {
@@ -147,9 +147,9 @@ class Cell extends React.Component {
 
             _v = <div className="action-container" onClick={this.doAction.bind(this,_v,_column.actions)}>
                     { 
-                      ctx.getActionItems(_column.actions).map(function(action, index) {
-                        return <span className="action" key={index} data-type={action}>{action}</span>
-                      })
+                        ctx.getActionItems(_column.actions).map(function(action, index) {
+                            return <span className="action" key={index} data-type={action}>{action}</span>
+                         })
                     }
                  </div>
         }

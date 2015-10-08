@@ -6,20 +6,6 @@ class Row extends React.Component {
 
     constructor(props) {
         super(props);
-        // console.log("++row++");
-    }
-
-    componentDidMount() {
-
-    }
-
-    componentDidUpdate() {
-
-    }
-    
-
-    componentWillUnmount () {
-       
     }
 
     handleClick() {
@@ -35,7 +21,6 @@ class Row extends React.Component {
     renderSubComp() {
 
         let props= this.props;
-        //this.props.showSubComp
         if(props.subComp &&  props.data[props.rowIndex].showSubComp ) {
           let subComp= React.cloneElement(props.subComp,{
             passedData: this.props.data[this.props.rowIndex],
@@ -54,12 +39,10 @@ class Row extends React.Component {
         _style = {},
         _data = props.data,
         me = this;
-
         
-        return (<div className={this.props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
-            {
-                _columns.map(function(item,index){
-
+        return (
+            <div className={this.props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
+                {_columns.map(function(item,index){
                     if(item.hidden) return;
 
                     let renderProps={
@@ -78,11 +61,11 @@ class Row extends React.Component {
                     };
                     //if have vertical data structure, how to process it
                     return <Cell {...renderProps} />
-                })
-            }
-            {this.renderSubComp()}
+                })}
+                {this.renderSubComp()}
             
-        </div>);
+            </div>
+        );
     }
 
 };
