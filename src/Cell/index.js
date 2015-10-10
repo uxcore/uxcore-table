@@ -6,6 +6,7 @@ let TextField = require('./TextField');
 let SelectField = require("./SelectField");
 let util = require('./Util');
 let classnames = require('classnames');
+let assign = require('object-assign');
 
 class Cell extends React.Component {
 
@@ -137,7 +138,7 @@ class Cell extends React.Component {
                 width: _width ? _width : 100,
                 textAlign: props.align ? props.align : "left"
             },
-            _v = props.rowData,
+            _v = assign({}, props.rowData),
             renderProps;
 
         if (_column.render) {

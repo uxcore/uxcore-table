@@ -22,7 +22,7 @@ class Row extends React.Component {
 
         let props= this.props;
         if(props.subComp &&  props.data[props.rowIndex].showSubComp ) {
-          let subComp= React.cloneElement(props.subComp,{
+          let subComp = React.cloneElement(props.subComp,{
             passedData: this.props.data[this.props.rowIndex],
             parentHasCheckbox: !!this.props.rowSelection
           });

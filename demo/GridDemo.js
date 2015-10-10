@@ -90,10 +90,10 @@ class Demo extends React.Component {
             showHeader:true,
             showPager:false,
             jsxcolumns:subCols,
-            fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
+            // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             queryKeys:["firstName", "city"],
             onModifyRow: this.onModifyRow,
-            processData: (data) => {return data;}
+            processData: (data) => {console.log(data); return {datas: [data]};}
         };
 
         let renderProps={
@@ -112,7 +112,7 @@ class Demo extends React.Component {
             // fetchUrl: "http://192.168.31.117:3000/demo/data.json",
             jsxcolumns:columns,
             subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
-            rowSelection: rowSelection,
+            // rowSelection: rowSelection,
             beforeFetch: (sendData, from) => {console.log(from); return sendData;},
             processData: (data) => {return data;}           
         };
