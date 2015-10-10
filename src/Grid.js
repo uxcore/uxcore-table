@@ -407,13 +407,16 @@ class Grid extends React.Component {
     */
     addJSXIds(objAux) {
        let me= this;
-       if(Object.prototype.toString.call(objAux) =="[object Array]") {
-          objAux=objAux.map(item=> { if(!item.jsxid){
-             item.jsxid= me.uid++;
-             return item;
-          }})
-        }else {
-           objAux.jsxid=me.uid++;
+       if (Object.prototype.toString.call(objAux) =="[object Array]") {
+            objAux = objAux.map((item) => { 
+                if(!item.jsxid){
+                    item.jsxid = me.uid++;
+                }
+                return item;
+            });
+        }
+        else {
+           objAux.jsxid = me.uid++;
         }
         return objAux;
     }
