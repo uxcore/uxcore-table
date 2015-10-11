@@ -304,13 +304,14 @@ class Grid extends React.Component {
     }
 
     actionBarCB(type,txt) {
-        if(type == 'SEARCH') {
+        if (type == 'SEARCH') {
            // TODO: Don't set props 
            this.props.searchTxt=txt;
            this.fetchData("search");
-        }else {
+        }
+        else {
             let _actionCofig = this.props.actionBar;
-            _actionCofig[type] ? _actionCofig[type].apply(this,[type]) : "";
+            _actionCofig[type] ? _actionCofig[type].apply(null,[type, this]) : "";
         }
        
     }
@@ -339,6 +340,7 @@ class Grid extends React.Component {
                 subComp: props.subComp,
                 mask: this.state.showMask,
                 rowHeight: this.props.rowHeight,
+                root: this,
                 mode: this.props.mode,
                 key:'grid-body'
             },

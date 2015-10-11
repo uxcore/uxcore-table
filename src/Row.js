@@ -47,6 +47,7 @@ class Row extends React.Component {
 
                     let renderProps={
                         column: item,
+                        root: props.root,
                         align:item.align,
                         rowData: _data[props.rowIndex],
                         cellIndex:index,

@@ -94,10 +94,10 @@ class Cell extends React.Component {
     }
 
     doAction(rowData,actions,e) {
-
+        let me = this;
         let el = $(e.target);
         if (el.hasClass('action')) {
-            actions[el.data('type')].apply(null,[rowData]);
+            actions[el.data('type')].apply(null,[rowData, me.props.root]);
         }
     }
 
@@ -171,7 +171,7 @@ class Cell extends React.Component {
         else if (_column.type == 'treeIcon') {
             _v = ctx.renderTreeIcon();
         }
-        else if(_column.type=='text') {
+        else if (_column.type=='text') {
             renderProps={
                 value: this.getCellData(),
                 mode: props.mode,
@@ -180,7 +180,7 @@ class Cell extends React.Component {
             }
             _v = <TextField {...renderProps}/>
         }
-        else if(_column.type=='select') {
+        else if (_column.type=='select') {
             renderProps={
                 value: this.getCellData(),
                 mode: props.mode,
@@ -206,9 +206,11 @@ class Cell extends React.Component {
         else {
             _v = <div title={this.getCellData()}>{this.getCellData()}</div>;
         }
-        return (<div className={props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
-            {_v}
-        </div>);   
+        return (
+            <div className={props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
+                {_v}
+            </div>
+        );   
     }
 };
 

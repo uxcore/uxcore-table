@@ -31,11 +31,11 @@ class ActionBar extends React.Component {
 
     renderSearchBar() {
 
-       let renderSearchBarProps = {
+        let renderSearchBarProps = {
             actionBarCB: this.props.actionBarCB,
             key:'searchbar'
         };
-        if(this.props.showSearch) {
+        if (this.props.showSearch) {
             return <SearchBar key='searchbar' {...renderSearchBarProps}/>;
         }
 
@@ -45,33 +45,31 @@ class ActionBar extends React.Component {
     * @param {JSON}
     */
     getActionItem(config) {
-       let items=[];
-       for(let i  in config) {
-          if(config.hasOwnProperty(i)) {
-             items.push(i);
-          }
-       }
-       return items;
+        let items=[];
+        for(let i  in config) {
+            if(config.hasOwnProperty(i)) {
+                items.push(i);
+            }
+        }
+        return items;
     }
 
     render() {
-        let me=this,_props=this.props, _barConfig = _props.actionBarConfig;
+        let me = this,
+            _props = this.props, 
+            _barConfig = _props.actionBarConfig;
 
-        return (<div className={classnames({
-          [_props.jsxprefixCls]: _props.jsxprefixCls,
-          "fn-clear": true
-        })}>
-            {
-
-              me.getActionItem(_barConfig).map(function(item){
-                  return me.renderActionBtn(item)
-              })
-            }
-
-            {
-                me.renderSearchBar()
-            }
-        </div>);
+        return (
+            <div className={classnames({
+                [_props.jsxprefixCls]: _props.jsxprefixCls,
+                "fn-clear": true
+            })}>
+                {me.getActionItem(_barConfig).map(function(item){
+                    return me.renderActionBtn(item)
+                })}
+                {me.renderSearchBar()}
+            </div>
+        );
     }
 
 };

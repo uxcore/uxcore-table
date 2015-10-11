@@ -7,9 +7,6 @@
  */
 
 let classnames = require('classnames');
-let Hovercard = require("@ali/uxcore-hovercard");
-console.log(Hovercard);
-
 let Grid = require('../src');
 
 
@@ -55,7 +52,8 @@ class Demo extends React.Component {
             { dataKey: 'lastName' ,title:"LastName"},
             { dataKey: 'email',title:"Email",width: 200,ordered:true },
             { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
-                "编辑": function(rowData) {
+                "编辑": function(rowData, actions) {
+                    console.log(actions.addEmptyRow);
                     me.refs.grid.toggleSubComp(rowData);
                 },
                 "删除": function(rowData) {
@@ -93,14 +91,14 @@ class Demo extends React.Component {
             // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             queryKeys:["firstName", "city"],
             onModifyRow: this.onModifyRow,
-            processData: (data) => {console.log(data); return {datas: [data]};}
+            processData: (data) => {return {datas: [data]};}
         };
 
         let renderProps={
             height: 400,
             width: 1200,
             actionBar: {
-               '新增': function(type) { console.info(this); alert(type) },
+               '新增': function(type, actions) { console.info(actions); alert(type) },
                'import': function(type) { alert(type) },
                'export': function(type) { alert(type) },
                'delete': function(type) { alert(type) },
