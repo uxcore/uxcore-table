@@ -2,6 +2,12 @@
 
 ---
 
+# 1.1.0
+
+`CHANGED` column config `itmes` => `actions`, usage changed.
+`CHANGED` actionBar usage changed.
+`NEW` add props addRowClassName, user can use this to add className to the special Row, in order to custom the specific row.
+
 # 1.0.8
 
 `FIXED` fix money formatting bug

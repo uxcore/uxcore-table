@@ -106,17 +106,17 @@ a.kuma-button-swhite {
   width: 100%;
   white-space: nowrap;
   border-bottom: 1px solid #efefef;
-  line-height: 36px;
+  line-height: 40px;
 }
 .kuma-grid-row:hover {
   background-color: #fbfbfb;
 }
 .kuma-grid-cell {
   display: inline-block;
-  text-align: center;
+  text-align: left;
   height: 100%;
   padding: 0px 0px 0px 20px;
-  vertical-align: middle;
+  vertical-align: top;
   position: relative;
   word-break: break-all;
 }
@@ -128,21 +128,30 @@ a.kuma-button-swhite {
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
-  vertical-align: middle;
+  vertical-align: top;
   height: 40px;
   width: 100%;
   white-space: nowrap;
 }
 .kuma-grid-cell .kuma-input {
+  vertical-align: top;
   height: 100%;
   min-height: 30px;
   padding: 0px 10px;
+  margin-top: 5px;
 }
 .kuma-grid-cell .kuma-column-picker {
   cursor: pointer;
   position: absolute;
   right: 10px;
   top: 0px;
+}
+.kuma-grid-cell .kuma-select {
+  vertical-align: top;
+  margin-top: 5px;
+}
+.kuma-grid-cell .kuma-select-selection {
+  height: 30px;
 }
 .kuma-grid-colmnpicker {
   position: absolute;

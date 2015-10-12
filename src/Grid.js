@@ -337,6 +337,7 @@ class Grid extends React.Component {
                 data: this.state.data ? this.state.data.datas : [],
                 onModifyRow: props.onModifyRow ? props.onModifyRow : function(){},
                 rowSelection: props.rowSelection,
+                addRowClassName: props.addRowClassName,
                 subComp: props.subComp,
                 mask: this.state.showMask,
                 rowHeight: this.props.rowHeight,
@@ -561,13 +562,15 @@ Grid.defaultProps = {
     queryKeys:[],
     searchTxt:'',
     processData: (data) => {return data},
-    beforeFetch: (obj) => {return obj}
+    beforeFetch: (obj) => {return obj},
+    addRowClassName: () => {}
 }
 
 // http://facebook.github.io/react/docs/reusable-components.html
 Grid.propTypes = {
     processData: React.PropTypes.func,
-    beforeFetch: React.PropTypes.func
+    beforeFetch: React.PropTypes.func,
+    addRowClassName: React.PropTypes.func
 }
 
 Grid.displayName = Grid;

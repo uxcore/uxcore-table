@@ -50,6 +50,9 @@ class Demo extends React.Component {
                 return "abc";
             } },  
             { dataKey: 'lastName' ,title:"LastName"},
+            { dataKey: 'lastName' ,title:"LastName"},
+            { dataKey: 'lastName' ,title:"LastName"},
+            { dataKey: 'lastName' ,title:"LastName"},
             { dataKey: 'email',title:"Email",width: 200,ordered:true },
             { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
                 "编辑": function(rowData, actions) {
@@ -111,6 +114,7 @@ class Demo extends React.Component {
             jsxcolumns:columns,
             subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
             // rowSelection: rowSelection,
+            addRowClassName: (rowData) => {console.log(rowData); if (rowData.id == 3) {return "back"}},
             beforeFetch: (sendData, from) => {console.log(from); return sendData;},
             processData: (data) => {return data;}           
         };

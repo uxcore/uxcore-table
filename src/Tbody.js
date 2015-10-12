@@ -39,6 +39,7 @@ class Tbody extends React.Component {
                         data: _data,
                         root: _props.root,
                         onModifyRow: _props.onModifyRow,
+                        addRowClassName: _props.addRowClassName,
                         rowSelection: _props.rowSelection,
                         subComp: _props.subComp,
                         actions: _props.actions,

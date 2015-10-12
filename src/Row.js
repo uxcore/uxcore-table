@@ -2,6 +2,8 @@
  * Created by xy on 15/4/13.
  */
 let Cell = require('./Cell');
+let classnames = require('classnames');
+
 class Row extends React.Component {
 
     constructor(props) {
@@ -35,13 +37,17 @@ class Row extends React.Component {
     render() {
 
         let props = this.props,
-        _columns = props.columns,
-        _style = {},
-        _data = props.data,
-        me = this;
+            _columns = props.columns,
+            _style = {},
+            _data = props.data,
+            me = this,
+            otherCls = props.addRowClassName(_data[props.rowIndex]);
         
         return (
-            <div className={this.props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
+            <div className={classnames({
+                [this.props.jsxprefixCls]: true,
+                [otherCls]: !!otherCls
+            })} style={_style} onClick={this.handleClick.bind(this)}>
                 {_columns.map(function(item,index){
                     if(item.hidden) return;
 
