@@ -192,17 +192,6 @@ class Cell extends React.Component {
         else if (_column.type == 'money' || _column.type == "card" || _column.type == "cnmobile") {
             _v = <div title={this.getCellData()}>{util.formatValue(this.getCellData(), _column.type, _column.delimiter)}</div>;
         }
-        else if (_column.type == "person" && !!_column.plugin && _column.token) {
-            try {
-                let Hovercard = _column.plugin;
-                _v = <Hovercard emplId={this.getCellData()} placement="right" token={_column.token}>
-                        <div>{this.getCellData()}</div>
-                     </Hovercard>
-            }
-            catch(e) {
-                console.log(e)
-            }
-        }
         else {
             _v = <div title={this.getCellData()}>{this.getCellData()}</div>;
         }
