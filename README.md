@@ -147,7 +147,9 @@ let columns = [
 
  * return data format [here](http://gitlab.alibaba-inc.com/alinw/yosemite/issues/18) 
 
- ```
+
+
+```
    {
 	"content":{
 		"datas":[
@@ -172,16 +174,38 @@ let columns = [
 	"errorMsg":""
 	}
 
- ```
+```
+
+> the above the data format which server should send, if you pass data via jsxdata, you just need passed the `content`, like below
+
+```
+{
+    "datas":[
+        {   
+            "id":'1'
+            "grade":"grade1",
+            "email":"email1",
+            "firstName":"firstName1",
+            "lastName":"lastName1",
+            "birthDate":"birthDate1",
+            "country":"country1",
+            "city":"city1"
+        }
+        ...
+
+    ],
+    "currentPage":1,
+    "totalCount":30
+}
+```
 
 ## API
 
 * fetchData(from): call this method when you want the grid to fetch Data via ajax again. 
-    * @param from {string} optional: the param will be passed to props.beforeFetch, use it when you want to do something different by judging this param.
+    * @param from {string} {optional}: the param will be passed to props.beforeFetch.
 * getData()
 * addEmptyRow()
 * addRow(rowData)
-* updataRow(rowData)
+* updataRow(rowData): used in inline edit
 * delRow(rowData)
-* toggleSubComp(rowData)
-  * show or hide sub comp
+* toggleSubComp(rowData): show or hide sub comp
