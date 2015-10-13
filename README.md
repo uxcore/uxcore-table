@@ -26,17 +26,17 @@ $ gulp server
 	    { dataKey: 'firstName',title:"FristName" },  
 	    { dataKey: 'lastName' ,title:"LastName"},
 	    { dataKey: 'email',title:"Email",width: 200,ordered:true }
-	],
+	];
 
 
-	rowSelection = {
-	  onSelect: function(record, selected, selectedRows) {
-	    console.log(record, selected, selectedRows);
-	  },
-	  onSelectAll: function(selected, selectedRows) {
-	    console.log(selected, selectedRows);
-	  }
-	},
+	let rowSelection = {
+      onSelect: function(record, selected, selectedRows) {
+        console.log(record, selected, selectedRows);
+      },
+      onSelectAll: function(record, data) {
+        console.log(record, data);
+      }
+    };
 
 	renderProps={
         actionBar: {

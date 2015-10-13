@@ -32,10 +32,9 @@ class Demo extends React.Component {
         let rowSelection = {
           onSelect: function(record, selected, selectedRows) {
             console.log(record, selected, selectedRows);
-            me.setState();
           },
-          onSelectAll: function(selected, selectedRows) {
-            console.log(selected, selectedRows);
+          onSelectAll: function(record, selectedRows) {
+            console.log(record, selectedRows);
           }
         };
         //[{title:'编辑', type:"inlineEdit1", cb: function(rowData){ me.refs.grid.toggleSubComp(rowData)}},
@@ -49,9 +48,6 @@ class Demo extends React.Component {
             { dataKey: 'firstName',title:"FristName",beforeRender:function(rowData) {
                 return "abc";
             } },  
-            { dataKey: 'lastName' ,title:"LastName"},
-            { dataKey: 'lastName' ,title:"LastName"},
-            { dataKey: 'lastName' ,title:"LastName"},
             { dataKey: 'lastName' ,title:"LastName"},
             { dataKey: 'email',title:"Email",width: 200,ordered:true },
             { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
@@ -86,7 +82,7 @@ class Demo extends React.Component {
         ]
 
         let renderSubProps={
-            height: 200,
+            height: 100,
             width: 1196,
             showHeader:true,
             showPager:false,
@@ -102,9 +98,6 @@ class Demo extends React.Component {
             width: 1200,
             actionBar: {
                '新增': function(type, actions) { console.info(actions); alert(type) },
-               'import': function(type) { alert(type) },
-               'export': function(type) { alert(type) },
-               'delete': function(type) { alert(type) },
                '黄山': function(type) {alert(type)}
             },
             showSearch: true,
@@ -113,9 +106,9 @@ class Demo extends React.Component {
             // fetchUrl: "http://192.168.31.117:3000/demo/data.json",
             jsxcolumns:columns,
             subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
-            // rowSelection: rowSelection,
-            addRowClassName: (rowData) => {console.log(rowData); if (rowData.id == 3) {return "back"}},
-            beforeFetch: (sendData, from) => {console.log(from); return sendData;},
+            rowSelection: rowSelection,
+            addRowClassName: (rowData) => {},
+            beforeFetch: (sendData, from) => { return sendData;},
             processData: (data) => {return data;}           
         };
         return (<Grid {...renderProps}  ref="grid"/>);
