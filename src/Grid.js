@@ -25,7 +25,8 @@ class Grid extends React.Component {
             passedData:null,
             params:null,
             pageSize: props.pageSize,
-            currentPage: props.currentPage
+            currentPage: props.currentPage,
+            selected: []
         };
     }
 
@@ -48,7 +49,6 @@ class Grid extends React.Component {
         let me = this;
         $(me.el).find(".kuma-grid-body-wrapper").off("scroll");
     }
-
 
 
     /*
@@ -192,15 +192,25 @@ class Grid extends React.Component {
     processColumn() {
 
         let props = this.props, 
+            me = this,
             columns = props.jsxcolumns,
-            hasCheckedColumn;
+            hasCheckboxColumn = false;
 
-        // filter the column which has a datakey 'jsxchecked'
+
+        columns.forEach((item) => {
+            if (item.type == 'checkbox') {
+                hasCheckboxColumn = true;
+                me.CheckboxColumnKey = item.dataKey;
+                item.width = item.width || 46;
+                item.align = item.align || 'right';
+            }
+        });
+
+        // filter the column which has a datakey 'jsxchecked' & 'jsxtreeIcon'
 
         columns = columns.filter((item) => {
             return item.dataKey !== 'jsxchecked' && item.datakey !== 'jsxtreeIcon';
         });
-
         // if hidden is not set, then it's false
 
         columns = columns.map((item,index) => {
@@ -208,7 +218,7 @@ class Grid extends React.Component {
             return item;
         });
 
-        if (!!props.rowSelection) {
+        if (!!props.rowSelection & !hasCheckboxColumn) {
             columns = [{ dataKey: 'jsxchecked', width: 46, type:'checkbox', align:'right'}].concat(columns)
         }
 
@@ -240,22 +250,70 @@ class Grid extends React.Component {
         })
     }
 
+    /*
+     * change SelectedRows data via checkbox, this function will pass to the Cell
+     * @param checked {boolean} the checkbox status
+     * @param rowIndex {number} the row Index
+     * @param fromMount {boolean} onSelect is called from cell Mount is not expected.
+     */
+
+    changeSelected(checked, rowIndex, fromMount) {
+        let oldState = assign({}, this.state);
+        let selected = oldState.selected;
+        let data = oldState.data;
+        let me = this;
+        data.datas[rowIndex][me.CheckboxColumnKey] = checked;
+
+        // 如果 checked 是 true,说明是从没有选中变成已选中，那么该值必然不在 selected 中。
+        // 否则该 rowIndex 必然在 selected 中，如果不在说明，cell mount 的时候传值不对。
+        if (checked) {
+            selected.push(rowIndex);
+            selected.sort((a, b) => {
+                return a - b;
+            });
+        }
+        else {
+            console.log(selected, rowIndex);
+            selected = selected.filter((item) => {
+                return item != rowIndex
+            });
+        }
+        
+        this.setState({
+            selected: selected,
+            data: data
+        }, () => {
+            let datas = me.state.data.datas;
+            let selectedRows = datas.filter((item, index) => {
+                return me.state.selected.indexOf(index) !== -1
+            });
+            if (!fromMount) {
+                !!me.props.rowSelection && !!me.props.rowSelection.onSelect && me.props.rowSelection.onSelect(checked, datas[rowIndex], selectedRows)
+            }
+        })
+    }
+
     selectAll(checked) {
 
-        let _data=$.extend(true,{},this.state.data);
-        _data.datas.map(function(item,index){
-            item.jsxchecked=checked;
-            item.country=item.country;
+        let me = this;
+        let _data = assign({}, me.state.data);
+        let rowSelection = me.props.rowSelection;
+        let selected = [];
+
+        _data.datas = _data.datas.map(function(item,index){
+            item[me.CheckboxColumnKey] = checked;
+            if (checked) {
+                selected.push(index);
+            }
             return item;
         });
-
-        let rowSelection=this.props.rowSelection
 
         if(rowSelection && rowSelection.onSelectAll) {
             rowSelection.onSelectAll.apply(null,[checked,_data])
         }
-        this.setState({
-            data:_data
+        me.setState({
+            data: _data,
+            selected: selected
         })
     }
 
@@ -321,7 +379,6 @@ class Grid extends React.Component {
     }
 
     render() {
-
         let props= this.props,
             // if grid is sub mode, people always want to align the parent
             // and the sub grid, so width should not be cared.
@@ -340,6 +397,7 @@ class Grid extends React.Component {
                 addRowClassName: props.addRowClassName,
                 subComp: props.subComp,
                 mask: this.state.showMask,
+                changeSelected: this.changeSelected.bind(this),
                 rowHeight: this.props.rowHeight,
                 root: this,
                 mode: this.props.mode,

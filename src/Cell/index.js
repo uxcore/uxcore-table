@@ -14,44 +14,44 @@ class Cell extends React.Component {
         super(props);
         this.state= {
             'mode':'view',
-            'fold':1   // 1- fold  0-unfold
+            'fold':1,   // 1- fold  0-unfold
+            'checked': !!this.getCellData()
         };
     }
 
-    componentDidMount() {
-
-    }
-
-    componentDidUpdate() {
-
-    }
-
-    componentWillUnmount () {
-       
-    }
-
-    prepareStyle() {
-
-    }
     handleClick(e) {
        /* this.setState({
             mode:"edit"
         })*/
     }
 
+    componentWillReceiveProps(nextProps) {
+        let me = this;
+        if (me.props.column.type == "checkbox") {
+            me.setState({
+                checked: !!me.getCellData(nextProps)
+            }) 
+        }
+    }
+
+    componentDidMount() {
+        let me = this;
+        if (me.props.column.type == "checkbox") {
+            me.props.changeSelected(me.state.checked, me.props.rowIndex, true);
+        }
+    }
+
     getSelectionRows() {
-        var _props= this.props;
+        var _props = this.props;
         return _props.data.filter(function(item) {
             return item.jsxchecked
         });
     }
     handleCheckChange(e) {
-        var _props= this.props,v=_props.rowData;
-        v.jsxchecked=e.target.checked;
-        this.setState({});
-        if( _props.rowSelection) {
-            _props.rowSelection.onSelect.apply(null,[v.jsxchecked,v,this.getSelectionRows()])
-        }
+        var me = this,
+            _props = this.props,
+            v=_props.rowData;
+            me.props.changeSelected(e.target.checked, _props.rowIndex, false);
     }
     handleTxtChange(e){
         var _props= this.props;
@@ -119,10 +119,12 @@ class Cell extends React.Component {
       return items;
     }
 
-    getCellData() {
-      let props = this.props,_column = props.column,beforeRender= _column.beforeRender;
-      let cellData=props.rowData[_column.dataKey];
-      if(beforeRender) {
+    getCellData(nextProps) {
+        let props = nextProps || this.props,
+            _column = props.column,
+            beforeRender = _column.beforeRender,
+            cellData = props.rowData[_column.dataKey];
+      if (beforeRender) {
          return beforeRender.apply(null, [props.rowData,cellData])
       }
       return cellData;
@@ -131,7 +133,7 @@ class Cell extends React.Component {
     render() {
         
         let props = this.props,
-            ctx   = this,
+            me   = this,
             _column = props.column, 
             _width = _column.width, 
             _style = {
@@ -148,7 +150,7 @@ class Cell extends React.Component {
 
             _v = <div className="action-container" onClick={this.doAction.bind(this,_v,_column.actions)}>
                     { 
-                        ctx.getActionItems(_column.actions).map(function(action, index) {
+                        me.getActionItems(_column.actions).map(function(action, index) {
                             return <span className="action" key={index} data-type={action}>{action}</span>
                          })
                     }
@@ -160,7 +162,7 @@ class Cell extends React.Component {
             _style.paddingLeft = 12;
 
             let checked;
-            if (_v.jsxchecked) {
+            if (me.state.checked) {
                 checked='checked'
             } else {
                 checked="";
@@ -169,7 +171,7 @@ class Cell extends React.Component {
 
         }
         else if (_column.type == 'treeIcon') {
-            _v = ctx.renderTreeIcon();
+            _v = me.renderTreeIcon();
         }
         else if (_column.type=='text') {
             renderProps={

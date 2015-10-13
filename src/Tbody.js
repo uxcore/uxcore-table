@@ -4,13 +4,13 @@
 
 let Row = require("./Row");
 let Mask = require("./Mask");
+let assign = require('object-assign');
 
 class Tbody extends React.Component {
 
     constructor(props) {
         super(props);
         this.state= {
-
         };
     }
 
@@ -25,7 +25,8 @@ class Tbody extends React.Component {
 
     render() {
         
-        let _props = this.props, 
+        let _props = this.props,
+            me = this, 
             _columns = _props.columns, 
             _data = _props.data.length > 0 ? _props.data : [];
 
@@ -41,6 +42,7 @@ class Tbody extends React.Component {
                         onModifyRow: _props.onModifyRow,
                         addRowClassName: _props.addRowClassName,
                         rowSelection: _props.rowSelection,
+                        changeSelected: me.props.changeSelected,
                         subComp: _props.subComp,
                         actions: _props.actions,
                         key: 'row'+index,

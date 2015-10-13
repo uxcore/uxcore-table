@@ -8,28 +8,10 @@ class CheckBox extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-
-    }
-
-    componentDidUpdate() {
-
-    }
-    
-    componentWillUnmount () {
-       
-    }
-
-    prepareStyle() {
-
-    }
     handleChange(e) {
         let v= this.getValue();
         v=v?'checked':'';
         this.props.onchange.apply(null,[e])
-        /*this.setState({
-            checked: v
-        })*/
     }
     
     getValue () {
@@ -38,7 +20,7 @@ class CheckBox extends React.Component {
 
     render() {
 
-        let props= this.props ;
+        let props = this.props;
 
         if (props.mode !== 'VIEW') {
             let renderProps= {
@@ -46,7 +28,7 @@ class CheckBox extends React.Component {
                 checked: this.props.jsxchecked,
                 onChange: this.handleChange.bind(this)
             }
-            return <label><input  type="checkbox" ref="checkbox" {...renderProps}/><s></s></label>
+            return <label><input type="checkbox" ref="checkbox" {...renderProps}/><s></s></label>
 
         }else {
             return <span key="text"></span>;

@@ -20,9 +20,6 @@ class Demo extends React.Component {
     }
 
     onModifyRow(value,dataKey,record) {
-        //doValidate
-        //debugger;
-        //return false;
         return true;
     }
 
@@ -42,6 +39,7 @@ class Demo extends React.Component {
         //  ]
         // title, width, type, hidden,dataKey
         let columns = [
+            { dataKey: 'check', title: '复选框', type: 'checkbox'},
             { dataKey: 'id', title: 'ID', width: 50,hidden:true},
             { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
             { dataKey: 'city',title:'城市', width: 150},
@@ -102,8 +100,8 @@ class Demo extends React.Component {
             },
             showSearch: true,
             fetchParams: {},
-            fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
-            // fetchUrl: "http://192.168.31.117:3000/demo/data.json",
+            // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
+            fetchUrl: "http://10.1.159.52:3000//demo/data.json",
             jsxcolumns:columns,
             subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
             rowSelection: rowSelection,

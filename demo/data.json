@@ -2,6 +2,7 @@
 	"content":{
 		"datas":[
 			{
+				"check": true,
 				"id":"1",
 				"grade":"grade1",
 				"email":"email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1",
@@ -23,6 +24,7 @@
 			},
 			{
 				"id":"3",
+				"check": true,
 				"grade":"grade3",
 				"email":"email3",
 				"firstName":"firstName3",

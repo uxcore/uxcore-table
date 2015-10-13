@@ -15,7 +15,7 @@ class Row extends React.Component {
     }
 
     showSubCompFunc() {
-        let props= this.props, showSubComp=props.data[props.rowIndex].showSubComp;
+        let props = this.props, showSubComp=props.data[props.rowIndex].showSubComp;
         props.data[props.rowIndex].showSubComp=!showSubComp;
         this.forceUpdate();
     }
@@ -56,15 +56,17 @@ class Row extends React.Component {
                         root: props.root,
                         align:item.align,
                         rowData: _data[props.rowIndex],
+                        rowIndex: props.rowIndex,
                         cellIndex:index,
                         hasSubComp: props.subComp ? true : false,
                         data:_data,
+                        changeSelected: me.props.changeSelected,
                         showSubCompCallback:me.showSubCompFunc.bind(me),
                         onModifyRow: props.onModifyRow,
                         rowSelection: props.rowSelection,
                         actions: props.actions,
                         mode: props.mode,
-                        key:"cell"+index
+                        key:"cell" + index
                     };
                     //if have vertical data structure, how to process it
                     return <Cell {...renderProps} />
