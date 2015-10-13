@@ -113,7 +113,7 @@ $ gulp server
 |delimiter      |  optional |  string     | delimiter used in type 'money', 'card', 'cnmobile' formating|
 
 
-```
+```javascript
 
 let columns = [
         { dataKey: 'id', title: 'ID', width: 50,hidden:true},
@@ -149,7 +149,7 @@ let columns = [
 
 
 
-```
+```javascript
    {
 	"content":{
 		"datas":[
@@ -178,7 +178,7 @@ let columns = [
 
 > the above the data format which server should send, if you pass data via jsxdata, you just need passed the `content`, like below
 
-```
+```javascript
 {
     "datas":[
         {   
