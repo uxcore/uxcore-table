@@ -37,8 +37,7 @@ class Grid extends React.Component {
 
     componentDidMount() {
         let me = this;
-        me.el = React.findDOMNode(me);
-        // console.log("showMask:",this.props.showMask);
+        me.el = ReactDOM.findDOMNode(me);
         $(me.el).find(".kuma-grid-body-wrapper").on("scroll", function(e) {
             let scrollLeft = this.scrollLeft;
             $(me.el).find(".kuma-grid-header-wrapper")[0].scrollLeft = scrollLeft;
@@ -273,7 +272,6 @@ class Grid extends React.Component {
             });
         }
         else {
-            console.log(selected, rowIndex);
             selected = selected.filter((item) => {
                 return item != rowIndex
             });

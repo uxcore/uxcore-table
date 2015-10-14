@@ -167,7 +167,7 @@ class Cell extends React.Component {
             } else {
                 checked="";
             }
-            _v = <CheckBox mode={props.mode} align={props.align} jsxchecked={checked} ref="checkbox" onchange={this.handleCheckChange.bind(this)}/>
+            _v = <CheckBox disable={_column.disable} mode={props.mode} align={props.align} jsxchecked={checked} ref="checkbox" onchange={this.handleCheckChange.bind(this)}/>
 
         }
         else if (_column.type == 'treeIcon') {

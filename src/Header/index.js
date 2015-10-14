@@ -152,7 +152,7 @@ class Header extends React.Component {
                             width: item.width ? item.width : 92
                         });
 
-                        _v = <CheckBox  ref="checkbox" onchange={ctx.handleCheckBoxChange.bind(ctx)}/>
+                        _v = <CheckBox ref="checkbox" disable={item.disable} onchange={ctx.handleCheckBoxChange.bind(ctx)}/>
                     } 
                     else {
                         _v = item.title;

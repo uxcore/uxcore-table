@@ -20,6 +20,7 @@ $ gulp server
 ```javascript
 
 	let columns = [
+        { dataKey: 'check', type: 'checkbox', disable: false}, // custom checkbox column, dataKey can be anyone, true means checked.
 	    { dataKey: 'id', title: 'ID', width: 50,hidden:true},
 	    { dataKey: 'country', title:'国家', width: 200,ordered:true},
 	    { dataKey: 'city',title:'城市', width: 150,ordered:true },
@@ -106,7 +107,8 @@ $ gulp server
 |width          |  required |  number     |   |
 |hidden         |  optional |  boolean    |   |
 |order          |  optional |  boolean    | need order feature or not |
-|type           |  optional |  string     | containing 'money', 'card', 'cnmobile' & 'action' |
+|type           |  optional |  string     | containing 'money', 'card', 'cnmobile', 'checkbox' & 'action' |
+|disable        |  optional |  boolean    | disable a column, now only support type 'checkbox'|
 |actions        |  required |  array      | when type =='action', we need this attr |
 |[render](https://github.com/uxcore/uxcore-grid/issues/30)        |  optional |  function    | for custom cell |
 |[beforeRender](https://github.com/uxcore/uxcore-grid/issues/30)  |  optional |  function    | for custom cell data |
@@ -116,7 +118,7 @@ $ gulp server
 ```javascript
 
 let columns = [
-        { dataKey: 'id', title: 'ID', width: 50,hidden:true},
+        { dataKey: 'check', type: 'checkbox', disable: false}, // custom checkbox column, dataKey can be anyone, true means checked.
         { dataKey: 'country', title:'国家', width: 200,ordered:true},
         { dataKey: 'city',title:'城市', width: 150,ordered:true },
         { dataKey: 'firstName',title:"FristName" },  

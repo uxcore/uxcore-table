@@ -28,6 +28,9 @@ class CheckBox extends React.Component {
                 checked: this.props.jsxchecked,
                 onChange: this.handleChange.bind(this)
             }
+            if (!!props.disable) {
+                renderProps.disabled = true;
+            }
             return <label><input type="checkbox" ref="checkbox" {...renderProps}/><s></s></label>
 
         }else {
