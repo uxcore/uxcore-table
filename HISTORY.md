@@ -2,6 +2,10 @@
 
 ---
 
+# 1.1.1
+
+`CHANGED` change react to ver. 0.1.4
+
 # 1.1.0
 
 `CHANGED` column config `itmes` => `actions`, usage changed.
