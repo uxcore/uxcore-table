@@ -339,7 +339,7 @@ class Grid extends React.Component {
     renderPager() {
         if(this.props.showPager && this.state.data && this.state.data.totalCount) {
             return (
-                <div className="kuma-grid-pagination">
+                <div className="kuma-grid-page">
                     <Pagination className="mini" 
                                 showSizeChanger={true}
                                 total={this.state.data.totalCount} 
