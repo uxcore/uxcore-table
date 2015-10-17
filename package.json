@@ -34,7 +34,7 @@
     "gulp-sourcemaps": "~1.5.2",
     "webpack": "^1.10.5",
     "react": "~0.14.0",
-    "uxcore-kuma": "~1.0.3"
+    "uxcore-kuma": "~1.1.0"
   },
   "dependencies": {
     "classnames": "^2.1.2",
@@ -43,7 +43,8 @@
     "uxcore-button": "~0.3.0",
     "uxcore-pagination": "~0.1.0",
     "uxcore-select2": "~0.1.4",
-    "uxcore-validator": "~0.1.0"
+    "uxcore-validator": "~0.1.0",
+    "uxcore-const":"~0.0.1"
   },
   "contributors": [],
   "license": "MIT"

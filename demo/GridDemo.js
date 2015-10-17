@@ -101,7 +101,7 @@ class Demo extends React.Component {
             showSearch: true,
             fetchParams: {},
             // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
-            fetchUrl: "http://10.1.159.52:3000//demo/data.json",
+            fetchUrl: "http://192.168.1.100:3000/demo/data.json",
             jsxcolumns:columns,
             subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
             rowSelection: rowSelection,

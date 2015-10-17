@@ -2,6 +2,8 @@
  * A checkbox field
  */
 
+let Const = require('uxcore-const');
+
 class CheckBox extends React.Component {
 
     constructor(props) {
@@ -15,14 +17,14 @@ class CheckBox extends React.Component {
     }
     
     getValue () {
-        return this.refs.checkbox.getDOMNode().checked;
+        return this.refs.checkbox.checked;
     }
 
     render() {
 
         let props = this.props;
 
-        if (props.mode !== 'VIEW') {
+        if (props.mode !== Const.MODE.VIEW) {
             let renderProps= {
                 className: "kuma-checkbox",
                 checked: this.props.jsxchecked,

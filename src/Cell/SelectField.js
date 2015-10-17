@@ -6,6 +6,7 @@
  * All rights reserved.
  */
 
+let Const = require('uxcore-const');
 let Select = require("uxcore-select2");
 let Option = Select.Option;
 
@@ -54,7 +55,7 @@ class SelectField extends React.Component {
     render() {
 
         let props= this.props,renderProps , config= props.config;
-        if (props.mode !== 'VIEW') {
+        if (props.mode !== Const.MODE.VIEW) {
             return ( <Select  value={this.state.value} optionLabelProp="children" showSearch={false} style={{width:config.width-10}}  onChange={this.handleChange.bind(this)}>
                 {
                     this.renderOptions(config).map(function(item){
