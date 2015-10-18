@@ -11,6 +11,7 @@ let Tbody  = require("./Tbody");
 let ActionBar = require("./ActionBar");
 let Pagination  = require("uxcore-pagination");
 let assign = require('object-assign');
+let deepcopy = require('deepcopy');
 let classnames = require("classnames");
 
 class Grid extends React.Component {
@@ -25,8 +26,7 @@ class Grid extends React.Component {
             passedData:null,
             params:null,
             pageSize: props.pageSize,
-            currentPage: props.currentPage,
-            selected: []
+            currentPage: props.currentPage
         };
     }
 
@@ -129,7 +129,7 @@ class Grid extends React.Component {
                     let _data = result.content;
                     if(result.success) {
                         let updateObj= {
-                          data: me.addJSXIdsForSD(me.props.processData(_data)),
+                          data: me.addJSXIdsForSD(me.props.processData(deepcopy(_data))),
                           showMask: false
                         };
                         me.setState(updateObj)
@@ -152,7 +152,7 @@ class Grid extends React.Component {
 
             if (!me.props.queryKeys) {
                 me.setState({
-                    data: me.addJSXIdsForSD(me.props.processData(me.props.passedData))
+                    data: me.addJSXIdsForSD(me.props.processData(deepcopy(me.props.passedData)))
                 });
             }
             else {
@@ -163,13 +163,13 @@ class Grid extends React.Component {
                     }
                 });
                 me.setState({
-                    data: me.addJSXIdsForSD(me.props.processData(data))
+                    data: me.addJSXIdsForSD(me.props.processData(deepcopy(data)))
                 });
             }
         }
         else if (!!this.props.jsxdata) {
           me.setState({
-             data: this.addJSXIdsForSD(this.props.jsxdata)
+             data: this.addJSXIdsForSD(deepcopy(this.props.jsxdata))
           });
         }
         else {
@@ -199,7 +199,7 @@ class Grid extends React.Component {
         columns.forEach((item) => {
             if (item.type == 'checkbox') {
                 hasCheckboxColumn = true;
-                me.CheckboxColumnKey = item.dataKey;
+                me.checkboxColumnKey = item.dataKey;
                 item.width = item.width || 46;
                 item.align = item.align || 'right';
             }
@@ -257,35 +257,19 @@ class Grid extends React.Component {
      */
 
     changeSelected(checked, rowIndex, fromMount) {
-        let oldState = assign({}, this.state);
-        let selected = oldState.selected;
-        let data = oldState.data;
-        let me = this;
-        data.datas[rowIndex][me.CheckboxColumnKey] = checked;
 
-        // 如果 checked 是 true,说明是从没有选中变成已选中，那么该值必然不在 selected 中。
-        // 否则该 rowIndex 必然在 selected 中，如果不在说明，cell mount 的时候传值不对。
-        if (checked) {
-            selected.push(rowIndex);
-            selected.sort((a, b) => {
-                return a - b;
-            });
-        }
-        else {
-            selected = selected.filter((item) => {
-                return item != rowIndex
-            });
-        }
-        
-        this.setState({
-            selected: selected,
+        let me = this;
+        let data = deepcopy(this.state.data);
+        data.datas[rowIndex][me.checkboxColumnKey] = checked;
+
+        me.setState({
             data: data
         }, () => {
-            let datas = me.state.data.datas;
-            let selectedRows = datas.filter((item, index) => {
-                return me.state.selected.indexOf(index) !== -1
-            });
             if (!fromMount) {
+                let datas = me.state.data.datas;
+                let selectedRows = datas.filter((item, index) => {
+                    return item[me.checkboxColumnKey] == true
+                });
                 !!me.props.rowSelection && !!me.props.rowSelection.onSelect && me.props.rowSelection.onSelect(checked, datas[rowIndex], selectedRows)
             }
         })
@@ -294,24 +278,19 @@ class Grid extends React.Component {
     selectAll(checked) {
 
         let me = this;
-        let _data = assign({}, me.state.data);
+        let _data = deepcopy(me.state.data);
         let rowSelection = me.props.rowSelection;
-        let selected = [];
 
         _data.datas = _data.datas.map(function(item,index){
-            item[me.CheckboxColumnKey] = checked;
-            if (checked) {
-                selected.push(index);
-            }
+            item[me.checkboxColumnKey] = checked;
             return item;
         });
 
-        if(rowSelection && rowSelection.onSelectAll) {
+        if(!!rowSelection && !!rowSelection.onSelectAll) {
             rowSelection.onSelectAll.apply(null,[checked,_data])
         }
         me.setState({
-            data: _data,
-            selected: selected
+            data: _data
         })
     }
 

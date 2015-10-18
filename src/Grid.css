@@ -33,7 +33,7 @@
 }
 .kuma-grid-actionbar {
   width: 100%;
-  padding: 6px 0px 16px;
+  padding: 6px 0px 4px;
 }
 .kuma-grid-actionbar .kuma-button {
   margin-right: 10px;
@@ -174,8 +174,9 @@ a.kuma-button-swhite {
   right: 0;
   display: inline-block;
   cursor: pointer;
-  margin-right: 20px;
+  padding-right: 20px;
   font-weight: normal;
+  background: #f5f5f5;
 }
 .kuma-grid-tree-icon {
   cursor: pointer;
@@ -187,11 +188,11 @@ a.kuma-button-swhite {
 .kuma-subgrid-mode .kuma-grid-body-wrapper {
   border: none;
 }
-.kuma-grid-pagination {
+.kuma-grid-page {
   text-align: right;
   padding: 10px 0px;
 }
-.kuma-grid .kuma-pagination {
+.kuma-grid .kuma-page {
   display: inline-block;
 }
 .kuma-grid-h-sort {

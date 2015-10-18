@@ -15,7 +15,7 @@ class CheckBox extends React.Component {
     }
     
     getValue () {
-        return this.refs.checkbox.getDOMNode().checked;
+        return this.refs.checkbox.checked;
     }
 
     render() {

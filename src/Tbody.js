@@ -4,7 +4,6 @@
 
 let Row = require("./Row");
 let Mask = require("./Mask");
-let assign = require('object-assign');
 
 class Tbody extends React.Component {
 
