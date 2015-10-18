@@ -51,7 +51,7 @@ class Demo extends React.Component {
     }
 
     componentWillUpdate() {
-        this.refs.grid.fetchData();
+        // this.refs.grid.fetchData();
     }
 
     onModifyRow(value,dataKey,record) {
@@ -135,8 +135,8 @@ class Demo extends React.Component {
             },
             showSearch: true,
             fetchParams: {},
-            jsxdata: mockData,
-            // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
+            // jsxdata: mockData,
+            fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             // fetchUrl: "http://10.1.159.52:3000//demo/data.json",
             jsxcolumns:columns,
             subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),

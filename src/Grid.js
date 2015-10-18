@@ -20,16 +20,13 @@ class Grid extends React.Component {
         super(props);
         this.uid=0;
         this.state= {
-            data: this.addJSXIdsForSD(this.props.jsxdata),
-            columns: this.processColumn(),
-            showMask: this.props.showMask,
-            passedData:null,
-            params:null,
-            pageSize: props.pageSize,
-            currentPage: props.currentPage
+            data: this.addJSXIdsForSD(this.props.jsxdata), // checkbox 内部交互
+            columns: this.processColumn(), // column 内部交互
+            showMask: this.props.showMask, // fetchData 时的内部状态改变
+            pageSize: props.pageSize, // pagination 相关
+            currentPage: props.currentPage // pagination 相关
         };
     }
-
 
     componentWillMount() {
         this.fetchData();
@@ -44,9 +41,35 @@ class Grid extends React.Component {
         })
     }
 
+    componentWillReceiveProps(nextProps) {
+        let me = this;
+        let newData = {};
+        if (!!nextProps.jsxdata && !!me.props.jsxdata && !me._isEqual(nextProps.jsxdata, me.props.jsxdata)) {
+            newData['data'] = me.addJSXIdsForSD(nextProps.jsxdata);
+        }
+        if (nextProps.pageSize != me.props.pageSize) {
+            newData['pageSize'] = nextProps.pageSize;
+        }
+        if (nextProps.currentPage != me.props.currentPage) {
+            newData['currentPage'] =  nextProps.currentPage;
+        }
+        me.setState(newData);
+
+    }
+
     componentWillUnmount() {
         let me = this;
         $(me.el).find(".kuma-grid-body-wrapper").off("scroll");
+    }
+
+
+    /*
+     * simple method to compare two datas, 
+     * only support the data which JSON can parse.
+     */
+
+    _isEqual(a, b) {
+        return JSON.parse(JSON.stringify(a)) == JSON.parse(JSON.stringify(b))
     }
 
 
@@ -192,7 +215,7 @@ class Grid extends React.Component {
 
         let props = this.props, 
             me = this,
-            columns = props.jsxcolumns,
+            columns = deepcopy(props.jsxcolumns),
             hasCheckboxColumn = false;
 
 
