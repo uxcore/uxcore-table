@@ -159,7 +159,9 @@
 				"lastName":"lastName3",
 				"birthDate":"birthDate3",
 				"country":"country3",
-				"city":"city3"
+				"city":"city3",
+				"check": true
+
 			},
 			{
 				"id":"7",
@@ -169,7 +171,9 @@
 				"lastName":"lastName1",
 				"birthDate":"birthDate1",
 				"country":"country1",
-				"city":"city1"
+				"city":"city1",
+				"check": true
+
 			},
 			{
 				"id":"8",
@@ -178,7 +182,8 @@
 				"lastName":"lastName2",
 				"birthDate":"birthDate2",
 				"country":"country2",
-				"city":"city2"
+				"city":"city2",
+				"check": false
 			},
 			{
 				"id":"9",
@@ -188,7 +193,8 @@
 				"lastName":"lastName3",
 				"birthDate":"birthDate3",
 				"country":"country3",
-				"city":"city3"
+				"city":"city3",
+				"check": false
 			},
 			{
 				"id":"10",
@@ -197,7 +203,8 @@
 				"lastName":"lastName1",
 				"birthDate":"birthDate1",
 				"country":"country1",
-				"city":"city1"
+				"city":"city1",
+				"check": false
 			}
 		],
 		"currentPage":1,

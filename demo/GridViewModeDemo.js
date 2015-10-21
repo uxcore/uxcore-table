@@ -8,6 +8,33 @@
 
 let classnames = require('classnames');
 let Grid = require('../src');
+let Button = require('uxcore-button');
+let mockData = {
+    "datas": [
+        {
+            "check": true,
+            "id":"1",
+            "grade":"grade1",
+            "email":"email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1",
+            "firstName":"firstName1",
+            "lastName":"lastName1",
+            "birthDate":"birthDate1",
+            "country":"086156529655931.121(xsxs)",
+            "city":"87181"
+        },
+        {
+            "check": false,
+            "id":"1",
+            "grade":"grade1",
+            "email":"email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1",
+            "firstName":"firstName1",
+            "lastName":"lastName1",
+            "birthDate":"birthDate1",
+            "country":"086156529655931.121(xsxs)",
+            "city":"87181"
+        }
+    ]
+}
 
 
 class Demo extends React.Component {
@@ -15,8 +42,16 @@ class Demo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-           data:this.props.data
         }
+    }
+
+    handleClick() {
+        mockData.datas[0].check = !mockData.datas[0].check;
+        this.forceUpdate();
+    }
+
+    componentWillUpdate() {
+        // this.refs.grid.fetchData();
     }
 
     onModifyRow(value,dataKey,record) {
@@ -40,7 +75,7 @@ class Demo extends React.Component {
         //  ]
         // title, width, type, hidden,dataKey
         let columns = [
-            //{ dataKey: 'check', title: '复选框', type: 'checkbox'},
+            { dataKey: 'check', title: '复选框', type: 'checkbox'},
             { dataKey: 'id', title: 'ID', width: 50,hidden:true},
             { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
             { dataKey: 'city',title:'城市', width: 150},
@@ -99,18 +134,25 @@ class Demo extends React.Component {
                '新增': function(type, actions) { console.info(actions); alert(type) },
                '黄山': function(type) {alert(type)}
             },
+            mode:'view',
             showSearch: true,
             fetchParams: {},
-            // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
+            // jsxdata: mockData,
+            //fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             fetchUrl: "http://192.168.1.102:3000/demo/data.json",
             jsxcolumns:columns,
-            renderModel:'tree',
+            //subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
             //rowSelection: rowSelection,
             addRowClassName: (rowData) => {},
             beforeFetch: (sendData, from) => { return sendData;},
             processData: (data) => {return data;}           
         };
-        return (<Grid {...renderProps}  ref="grid"/>);
+        return (
+            <div>
+                <Grid {...renderProps}  ref="grid"/>
+                <Button onClick={me.handleClick.bind(me)}>页面重新渲染</Button>
+            </div>
+        );
       }
 };
 

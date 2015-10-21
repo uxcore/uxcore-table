@@ -2,7 +2,8 @@
  * Created by xy on 15/4/13.
  */
 let CheckBox = require('../Cell/CheckBox');
-let assign = require('object-assign');
+let Assign = require('object-assign');
+let Const = require('uxcore-const');
 
 
 class Header extends React.Component {
@@ -146,13 +147,19 @@ class Header extends React.Component {
                     },_v;
 
                     if (item.type=='checkbox') {
-                        assign(_style, {
+                        Assign(_style, {
                             paddingRight: 32,
                             paddingLeft: 12,
                             width: item.width ? item.width : 92
                         });
+                         _v = <CheckBox ref="checkbox" disable={item.disable} onchange={ctx.handleCheckBoxChange.bind(ctx)}/>
 
-                        _v = <CheckBox ref="checkbox" disable={item.disable} onchange={ctx.handleCheckBoxChange.bind(ctx)}/>
+                        if(ctx.props.mode !== Const.MODE.VIEW) {
+                            _v = <CheckBox ref="checkbox" disable={item.disable} onchange={ctx.handleCheckBoxChange.bind(ctx)}/>
+                        }else {
+                            _v = <CheckBox ref="checkbox" disable={true} onchange={ctx.handleCheckBoxChange.bind(ctx)}/>
+                        }
+
                     } 
                     else {
                         _v = item.title;

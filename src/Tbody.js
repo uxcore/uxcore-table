@@ -36,7 +36,7 @@ class Tbody extends React.Component {
                 {_data.map(function(item,index) {
                     let renderProps={
                         columns: _columns,
-                        rowIndex: item.jsxid,
+                        rowIndex: item.jsxid,//tree mode, rowIndex need think more, so use jsxid
                         rowData: _data[index],
                         data: _data,
                         root: _props.root,

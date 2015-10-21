@@ -23,7 +23,7 @@ class CheckBox extends React.Component {
     render() {
 
         let props = this.props;
-
+  
         if (props.mode !== Const.MODE.VIEW) {
             let renderProps= {
                 className: "kuma-checkbox",
@@ -36,7 +36,13 @@ class CheckBox extends React.Component {
             return <label><input type="checkbox" ref="checkbox" {...renderProps}/><s></s></label>
 
         }else {
-            return <span key="text"></span>;
+
+            let renderProps= {
+                className: "kuma-checkbox",
+                checked: this.props.jsxchecked,
+                disabled:true
+            }
+            return <label><input type="checkbox" ref="checkbox"  {...renderProps}/><s></s></label>
         }
 
     }

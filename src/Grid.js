@@ -289,7 +289,14 @@ class Grid extends React.Component {
 
         let me = this;
         let data = deepcopy(this.state.data);
-        data.datas[rowIndex][me.checkboxColumnKey] = checked;
+
+        data.datas.map(function(item,index) {
+            if(item.jsxid==rowIndex) {
+                item[me.checkboxColumnKey]=checked;
+                return item;
+            }
+        });
+        //data.datas[rowIndex][me.checkboxColumnKey] = checked;
 
         me.setState({
             data: data
@@ -422,6 +429,7 @@ class Grid extends React.Component {
                 handleCP: this.handleCP.bind(this),
                 headerHeight: props.headerHeight,
                 width: props.width,
+                mode: props.mode,
                 orderColumnCB: this.handleOrderColumnCB.bind(this),
                 key:'grid-header'
 
