@@ -24,7 +24,14 @@ class Grid extends React.Component {
             columns: this.processColumn(), // column 内部交互
             showMask: this.props.showMask, // fetchData 时的内部状态改变
             pageSize: props.pageSize, // pagination 相关
-            currentPage: props.currentPage // pagination 相关
+            currentPage: props.currentPage, // pagination 相关
+            activeColumn:null,
+            searchTxt:"",
+            showMask: this.props.showMask,
+            passedData:null,
+            params:null,
+            selected: [],
+            expanded:false
         };
     }
 
@@ -103,7 +110,7 @@ class Grid extends React.Component {
         });
 
         // column order
-        let activeColumn = this.props.activeColumn;
+        let activeColumn = this.state.activeColumn;
         if(!!activeColumn) {
             queryObj = assign({}, queryObj, {
                 orderColumn: activeColumn.dataKey,
@@ -112,7 +119,7 @@ class Grid extends React.Component {
         }
 
         // search query
-        let searchTxt = me.props.searchTxt
+        let searchTxt = me.state.searchTxt
         if (!!searchTxt) {
             queryObj = assign({}, queryObj, {
                searchTxt: searchTxt
@@ -250,7 +257,7 @@ class Grid extends React.Component {
         }
 
 
-        if (!!props.subComp) {
+        if (!!props.subComp && props.renderModel!=='tree') {
             columns = [{dataKey: 'jsxtreeIcon', width: 34, type: 'treeIcon'}].concat(columns);
         }
         // no subComp but has passedData, means sub mode, parent should has tree icon,
@@ -356,7 +363,10 @@ class Grid extends React.Component {
 
     handleOrderColumnCB(type, column) {
 
-       this.props.activeColumn=column;
+       //this.props.activeColumn=column;
+       this.setState({
+         activeColumn: column
+       })
        this.fetchData("order");
 
     }
@@ -364,7 +374,7 @@ class Grid extends React.Component {
     actionBarCB(type,txt) {
         if (type == 'SEARCH') {
            // TODO: Don't set props 
-           this.props.searchTxt=txt;
+           this.state.searchTxt=txt;
            this.fetchData("search");
         }
         else {
@@ -400,12 +410,14 @@ class Grid extends React.Component {
                 changeSelected: this.changeSelected.bind(this),
                 rowHeight: this.props.rowHeight,
                 root: this,
-                mode: this.props.mode,
+                mode: props.mode,
+                renderModel: props.renderModel,
+                levels: props.levels,
                 key:'grid-body'
             },
             renderHeaderProps={
                 columns:  this.state.columns,
-                activeColumn: this.props.activeColumn,
+                activeColumn: this.state.activeColumn,
                 checkAll: this.selectAll.bind(this),
                 columnPicker: props.showColumnPicker,
                 handleCP: this.handleCP.bind(this),
@@ -466,7 +478,8 @@ class Grid extends React.Component {
     *                  c:'d'
     *              }]
     */
-    addJSXIds(objAux) {
+
+    addJSXIdsForRecord(objAux) {
        let me= this;
        if (Object.prototype.toString.call(objAux) =="[object Array]") {
             objAux = objAux.map((item) => { 
@@ -485,19 +498,28 @@ class Grid extends React.Component {
    /**
     * @param data {
     *              datas:[{
-    *                   jsxid:0
+    *                   jsxid:0,
+    *                   datas:[
+    *                     {
+    *                        jsxid:1
+    *                     }
+    *                   ]
     *              }],
     *              "currentPage": 1,
     *              "totalCount": 0
     *             }
     */
     //add jsxids for state data
-    addJSXIdsForSD(data) {
-        let me =this;
-        if(data && data.datas) {
-          data.datas=this.addJSXIds(data.datas);
-        }
-        return data;
+    addJSXIdsForSD(objAux) {
+      if ( !objAux || !objAux.datas) return;
+      var me = this;
+      objAux.datas.forEach(function(node) {
+        node.jsxid = me.uid++;
+        //_this.props.nodes.push(node);
+        me.addJSXIdsForSD(node);
+      });
+      return objAux;
+
     }
 
     // some time, UI new some data, but not sync with db, 
@@ -515,7 +537,7 @@ class Grid extends React.Component {
           objAux=[objAux];
        }
 
-       objAux= this.addJSXIds(objAux);
+       objAux= this.addJSXIdsForRecord(objAux);
        _data.datas= objAux.concat(_data.datas);
        _data.totalCount++; 
        this.setState({
@@ -607,6 +629,8 @@ Grid.defaultProps = {
     width:1000,
     height:"100%",
     mode: "EDIT",
+    renderModel:'',
+    levels:1,
     headerHeight:40,
     actionBarHeight:40,
     showPager:true,
@@ -618,7 +642,6 @@ Grid.defaultProps = {
     fetchParams:'',
     currentPage:1,
     queryKeys:[],
-    searchTxt:'',
     processData: (data) => {return data},
     beforeFetch: (obj) => {return obj},
     addRowClassName: () => {}

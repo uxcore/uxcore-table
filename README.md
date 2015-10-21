@@ -87,6 +87,9 @@ $ gulp server
 |beforeFetch     |function(data, from)|optional|noop   |invoked before the grid fetch data, two params `data` and `from`, `data` is the one which will be passed as querys in ajax, `from` means where the fetch is invoked containing 3 preset values `search`,`order` & `pagination`.return the data you really want ajax to send.|
 |processData     |function(data)      |optional|noop   |sometimes the data fetched via ajax is not the one which you or grid want, you can use this method to change the data and return it to grid. the param is the data which grid is ready to use for rendering|
 |addRowClassName |function(rowData)   |optional|noop   |user can use this to add className to the Row, in order to custom the specific row.|
+| renderModel | string | optional | 'tree' | render to tree model |
+| levels | number | optional | 1 | tree model, default expand level number |
+
 
 ### Props you should not define by yourself
 

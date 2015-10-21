@@ -8,33 +8,6 @@
 
 let classnames = require('classnames');
 let Grid = require('../src');
-let Button = require('uxcore-button');
-let mockData = {
-    "datas": [
-        {
-            "check": true,
-            "id":"1",
-            "grade":"grade1",
-            "email":"email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1",
-            "firstName":"firstName1",
-            "lastName":"lastName1",
-            "birthDate":"birthDate1",
-            "country":"086156529655931.121(xsxs)",
-            "city":"87181"
-        },
-        {
-            "check": false,
-            "id":"1",
-            "grade":"grade1",
-            "email":"email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1",
-            "firstName":"firstName1",
-            "lastName":"lastName1",
-            "birthDate":"birthDate1",
-            "country":"086156529655931.121(xsxs)",
-            "city":"87181"
-        }
-    ]
-}
 
 
 class Demo extends React.Component {
@@ -42,16 +15,8 @@ class Demo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+           data:this.props.data
         }
-    }
-
-    handleClick() {
-        mockData.datas[0].check = !mockData.datas[0].check;
-        this.forceUpdate();
-    }
-
-    componentWillUpdate() {
-        // this.refs.grid.fetchData();
     }
 
     onModifyRow(value,dataKey,record) {
@@ -136,21 +101,16 @@ class Demo extends React.Component {
             },
             showSearch: true,
             fetchParams: {},
-            // jsxdata: mockData,
-            fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
+            // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
+            fetchUrl: "http://10.1.157.111:3000/demo/data.json",
             jsxcolumns:columns,
-            subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
+            renderModel:'tree',
             //rowSelection: rowSelection,
             addRowClassName: (rowData) => {},
             beforeFetch: (sendData, from) => { return sendData;},
             processData: (data) => {return data;}           
         };
-        return (
-            <div>
-                <Grid {...renderProps}  ref="grid"/>
-                <Button onClick={me.handleClick.bind(me)}>页面重新渲染</Button>
-            </div>
-        );
+        return (<Grid {...renderProps}  ref="grid"/>);
       }
 };
 

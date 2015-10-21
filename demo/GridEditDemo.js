@@ -77,7 +77,6 @@ class Demo extends React.Component {
             height: 200,
             width: 800,
             showPager:false,
-            renderModel:'',//deep, flat, hierarchical
             fetchParams: {},
             //fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             // fetchUrl: "http://10.1.159.52:3002/demo/data.json",

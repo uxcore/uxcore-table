@@ -1,6 +1,9 @@
 /**
  * A editable  plain text field
  */
+ 
+ let Const = require('uxcore-const');
+
 
 class TextField extends React.Component {
 
@@ -17,7 +20,7 @@ class TextField extends React.Component {
 
     }
     focus() {
-        this.refs.txtfield.getDOMNode().focus();
+        this.refs.txtfield.focus();
     }
     componentWillUnmount () {
     }
@@ -35,7 +38,7 @@ class TextField extends React.Component {
     render() {
 
         let props= this.props,renderProps ;
-        if (props.mode !== 'VIEW') {
+        if (props.mode !== Const.MODE.VIEW) {
             renderProps= {
                 className:"kuma-input",
                 ref:'txtfield',

@@ -1,6 +1,8 @@
 /**
  * Created by xy on 15/4/13.
  */
+
+let Const = require('uxcore-const');
 let CheckBox = require('./CheckBox');
 let TextField = require('./TextField');
 let SelectField = require("./SelectField");
@@ -13,7 +15,7 @@ class Cell extends React.Component {
     constructor(props) {
         super(props);
         this.state= {
-            'mode':'view',
+            'mode':Const.MODE.VIEW,
             'fold':1,   // 1- fold  0-unfold
             'checked': !!this.getCellData()
         };
@@ -71,7 +73,7 @@ class Cell extends React.Component {
         var isValid=_props.onModifyRow.apply(null,[value,_props.column.dataKey,record]);
         if(isValid) {
             this.setState({
-                mode:"view"
+                mode: Const.MODE.VIEW
             });
         } else {
            e.target.focus ? e.target.focus() : "";
@@ -197,8 +199,11 @@ class Cell extends React.Component {
         else {
             _v = <div title={this.getCellData()}>{this.getCellData()}</div>;
         }
+
+        let child=this.props.children;
         return (
             <div className={props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
+                {child}
                 {_v}
             </div>
         );   
