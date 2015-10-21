@@ -199,8 +199,11 @@ class Cell extends React.Component {
         else {
             _v = <div title={this.getCellData()}>{this.getCellData()}</div>;
         }
+
+        let child=this.props.children;
         return (
             <div className={props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
+                {child}
                 {_v}
             </div>
         );   

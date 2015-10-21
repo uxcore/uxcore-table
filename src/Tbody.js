@@ -31,12 +31,13 @@ class Tbody extends React.Component {
             _data = _props.data.length > 0 ? _props.data : [];
 
         return (
-            <div className={this.props.jsxprefixCls}>
+            <ul className={this.props.jsxprefixCls}>
                 {this.renderEmptyData()}
                 {_data.map(function(item,index) {
                     let renderProps={
                         columns: _columns,
-                        rowIndex: index,
+                        rowIndex: item.jsxid,
+                        rowData: _data[index],
                         data: _data,
                         root: _props.root,
                         onModifyRow: _props.onModifyRow,
@@ -48,12 +49,15 @@ class Tbody extends React.Component {
                         key: 'row'+index,
                         rowHeight: _props.rowHeight,
                         mode: _props.mode,
-                        ts: new Date().getTime()
+                        renderModel: _props.renderModel,
+                        level:1,
+                        levels: _props.levels,
+                        visible:true
                     };
                     return <Row {...renderProps} />
                 })}
                 <Mask visible={_props.mask}/>
-            </div>
+            </ul>
         );
     }
 

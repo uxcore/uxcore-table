@@ -104,7 +104,7 @@ class Demo extends React.Component {
             // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             fetchUrl: "http://10.1.157.111:3000/demo/data.json",
             jsxcolumns:columns,
-            subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
+            renderModel:'tree',
             //rowSelection: rowSelection,
             addRowClassName: (rowData) => {},
             beforeFetch: (sendData, from) => { return sendData;},

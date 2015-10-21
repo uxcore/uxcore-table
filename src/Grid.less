@@ -62,11 +62,18 @@
 }
 
 .kuma-grid-row {
-    display: inline-block;
+    display: block;
     width: 100%;
     white-space: nowrap;
     border-bottom: 1px solid #efefef;
     line-height: 40px;
+}
+
+.kuma-grid-tree-row {
+   .kuma-grid-row{
+     border-bottom: 0px solid #efefef;
+     border-top: 1px solid #efefef;
+   }
 }
 
 .kuma-grid-row:hover {
@@ -153,10 +160,16 @@
 
 .kuma-grid-tree-icon{
   cursor:pointer;
+  margin-right:4px;
   > .kuma-icon {
     font-size: 14px;
     color: #999999;
   }
+}
+
+.kuma-grid-emptyicon{
+  width:20px;
+  display:inline-block;
 }
 
 .kuma-grid-colmnpicker > li:hover{
@@ -227,4 +240,9 @@ i.sort-down-active {
   & + .action {
     margin-left: 8px
   }
+}
+
+.kuma-grid span.indent {
+    margin-left: 10px;
+    margin-right: 10px;
 }

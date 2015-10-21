@@ -102,11 +102,15 @@ a.kuma-button-swhite {
   line-height: 100px;
 }
 .kuma-grid-row {
-  display: inline-block;
+  display: block;
   width: 100%;
   white-space: nowrap;
   border-bottom: 1px solid #efefef;
   line-height: 40px;
+}
+.kuma-grid-tree-row .kuma-grid-row {
+  border-bottom: 0px solid #efefef;
+  border-top: 1px solid #efefef;
 }
 .kuma-grid-row:hover {
   background-color: #fbfbfb;
@@ -179,10 +183,15 @@ a.kuma-button-swhite {
 }
 .kuma-grid-tree-icon {
   cursor: pointer;
+  margin-right: 4px;
 }
 .kuma-grid-tree-icon > .kuma-icon {
   font-size: 14px;
   color: #999999;
+}
+.kuma-grid-emptyicon {
+  width: 20px;
+  display: inline-block;
 }
 .kuma-subgrid-mode .kuma-grid-body-wrapper {
   border: none;
@@ -232,6 +241,10 @@ i.sort-down-active {
 }
 .action-container .action + .action {
   margin-left: 8px;
+}
+.kuma-grid span.indent {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 /*# sourceMappingURL=Grid.css.map */
