@@ -14,7 +14,8 @@ class Tbody extends React.Component {
     }
 
     renderEmptyData() {
-       if(this.props.data.length==0) {
+
+       if(this.props.data.length==0 && !this.props.mask ) {
            let _style={
              lineHeight: this.props.height-10+"px",
            }

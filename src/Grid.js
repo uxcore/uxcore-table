@@ -27,7 +27,6 @@ class Grid extends React.Component {
             currentPage: props.currentPage, // pagination 相关
             activeColumn:null,
             searchTxt:"",
-            showMask: this.props.showMask,
             passedData:null,
             params:null,
             selected: [],
