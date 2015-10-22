@@ -396,6 +396,7 @@ class Grid extends React.Component {
 
     render() {
         let props= this.props,
+            bodyHeight,
             // if grid is sub mode, people always want to align the parent
             // and the sub grid, so width should not be cared.
             _style= {
@@ -403,9 +404,14 @@ class Grid extends React.Component {
                 height: props.height
             },
             actionBarHeight=props.actionBar?props.actionBarHeight:0,
-            pagerHeight= (this.props.showPager && this.state.data && this.state.data.totalCount) ? 50 : 0,
-            bodyHeight = props.height == "100%" ? props.height : (props.height - props.headerHeight - actionBarHeight - pagerHeight),
-            renderBodyProps={
+            pagerHeight= (this.props.showPager && this.state.data && this.state.data.totalCount) ? 50 : 0;
+
+            if(props.height=='auto') {
+               bodyHeight ='auto';
+            }else {
+                bodyHeight = props.height == "100%" ? props.height : (props.height - props.headerHeight - actionBarHeight - pagerHeight);
+            }
+            let renderBodyProps={
                 columns: this.state.columns,
                 data: this.state.data ? this.state.data.datas : [],
                 onModifyRow: props.onModifyRow ? props.onModifyRow : function(){},
@@ -633,8 +639,8 @@ class Grid extends React.Component {
 Grid.defaultProps = {
     jsxprefixCls: "kuma-grid",
     showHeader:true,
-    width:1000,
-    height:"100%",
+    width:"auto",
+    height:"auto",
     mode: "EDIT",
     renderModel:'',
     levels:1,

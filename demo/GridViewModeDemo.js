@@ -139,7 +139,7 @@ class Demo extends React.Component {
             fetchParams: {},
             // jsxdata: mockData,
             //fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
-            fetchUrl: "http://192.168.1.102:3000/demo/data.json",
+            fetchUrl: "http://10.1.157.111:3000/demo/data.json",
             jsxcolumns:columns,
             //subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
             //rowSelection: rowSelection,
