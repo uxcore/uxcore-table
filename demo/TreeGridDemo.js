@@ -94,7 +94,7 @@ class Demo extends React.Component {
 
         let renderProps={
             height: 400,
-            width: 1200,
+            width: 500,
             actionBar: {
                '新增': function(type, actions) { console.info(actions); alert(type) },
                '黄山': function(type) {alert(type)}

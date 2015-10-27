@@ -9,14 +9,14 @@
 @import "./Mask.less";
 @import "./ActionBar.less";
 
-.kuma-grid {
+.kuma-uxtable {
   // border:0px solid #ebebeb;
   border-collapse: collapse;
   position: relative;
   color: #666;
   table-layout: fixed;
 }
-.kuma-grid-header {
+.kuma-uxtable-header {
   background-color: #f5f5f5;
   font-weight: 600;
   min-width: 100%;
@@ -24,29 +24,30 @@
   display: inline-block;
 }
 
-.kuma-grid-content {
+.kuma-uxtable-content {
   overflow-x: auto;
   position: relative;
 }
 
-.kuma-grid-content-scroller {
+.kuma-uxtable-content-scroller {
   display: inline-block;
 }
 
-.kuma-grid-header-wrapper {
+.kuma-uxtable-header-wrapper {
   overflow: hidden;
+  border:1px solid #ebebeb;
 }
-.kuma-grid-body-wrapper {
+.kuma-uxtable-body-wrapper {
   overflow: auto;
   border: 1px solid #ebebeb;
   border-top: none;
 }
 
-.kuma-grid-header:hover{
+.kuma-uxtable-header:hover{
 
 }
 
-.kuma-grid-body {
+.kuma-uxtable-body {
   // border: 1px solid #ebebeb;
   position:relative;
   display: inline-block;
@@ -55,13 +56,13 @@
   white-space: normal;
 }
 
-.kuma-gird-body-emptyword{
+.kuma-uxtable-body-emptyword{
    text-align: center;
    vertical-align: middle;
    line-height:100px;
 }
 
-.kuma-grid-row {
+.kuma-uxtable-row {
     display: block;
     width: 100%;
     white-space: nowrap;
@@ -69,17 +70,17 @@
     line-height: 40px;
 }
 
-.kuma-grid-tree-row {
-   .kuma-grid-row{
+.kuma-uxtable-tree-row {
+   .kuma-uxtable-row{
      border-bottom: 0px solid #efefef;
      border-top: 1px solid #efefef;
    }
 }
 
-.kuma-grid-row:hover {
+.kuma-uxtable-row:hover {
   background-color: #fbfbfb;
 }
-.kuma-grid-cell{
+.kuma-uxtable-cell{
   display: inline-block;
   text-align: left;
   height:100%;
@@ -87,14 +88,15 @@
   vertical-align: top;
   position: relative;
   word-break:break-all;
+  line-height:40px;
 }
 
 
-.kuma-grid-header .kuma-grid-cell > div{
+.kuma-uxtable-header .kuma-uxtable-cell > div{
    overflow : visible;
 }
 
-.kuma-grid-cell > div {
+.kuma-uxtable-cell > div {
     line-height: 40px;
     display: inline-block;
     overflow: hidden;
@@ -105,7 +107,7 @@
     white-space: nowrap;
 }
 
-.kuma-grid-cell {
+.kuma-uxtable-cell {
   .kuma-input{
     vertical-align: top;
     height: 100%;
@@ -128,7 +130,7 @@
   }
 }
 
-.kuma-grid-colmnpicker{
+.kuma-uxtable-colmnpicker{
   position: absolute;
   background-color: #f2f2f2;
   z-index: 2;
@@ -137,7 +139,7 @@
   padding: 0px;
   display: none;
 }
-.kuma-grid-colmnpicker > li{
+.kuma-uxtable-colmnpicker > li{
   padding: 4px 20px;
   cursor: pointer;
   text-align: left;
@@ -155,11 +157,11 @@
   background: #f5f5f5;
 }
 
-.kuma-grid-subrow {
+.kuma-uxtable-subrow {
 
 }
 
-.kuma-grid-tree-icon{
+.kuma-uxtable-tree-icon{
   cursor:pointer;
   margin-right:4px;
   > .kuma-icon {
@@ -168,22 +170,22 @@
   }
 }
 
-.kuma-grid-emptyicon{
+.kuma-uxtable-emptyicon{
   width:20px;
   display:inline-block;
 }
 
-.kuma-grid-colmnpicker > li:hover{
+.kuma-uxtable-colmnpicker > li:hover{
 
 }
 
 .kuma-subgrid-mode {
-  .kuma-grid-body-wrapper {
+  .kuma-uxtable-body-wrapper {
     border: none;
   }
 }
 
-.kuma-grid-page{
+.kuma-uxtable-page{
   text-align: right;
   padding: 10px 0px;
   .kuma-select2-selection__rendered {
@@ -191,18 +193,18 @@
   }
 }
 
-.kuma-grid .kuma-page {
+.kuma-uxtable .kuma-page {
   display: inline-block;
 }
 
 
 
-.kuma-grid-h-sort{
+.kuma-uxtable-h-sort{
    position:relative;
    top: -2px;
 }
 
-.kuma-grid-h-sort i{
+.kuma-uxtable-h-sort i{
     cursor: pointer;
     width: 0;
     height: 0;
@@ -246,7 +248,41 @@ i.sort-down-active {
   }
 }
 
-.kuma-grid span.indent {
+.kuma-uxtable span.indent {
     margin-left: 10px;
     margin-right: 10px;
+}
+
+.kuma-uxtable-body-fixed{
+   display:inline-block;
+   float:left;
+   overflow-y:auto;
+   overflow-x:hidden;
+   z-index:1;
+   height:100%;
+}
+.kuma-uxtable-body-scroll {
+   position:relative;
+   border-left:1px solid #efefef;
+   float:left;
+   overflow:auto;
+   z-index:1;
+   height:100%;
+}
+
+
+.kuma-uxtable-header-fixed{
+   display:inline-block;
+   float:left;
+   overflow:hidden;
+   z-index:1;
+   height:100%;
+}
+.kuma-uxtable-header-scroll {
+   position:relative;
+   border-left:1px solid #efefef;
+   float:left;
+   overflow:hidden;
+   z-index:1;
+   height:100%;
 }

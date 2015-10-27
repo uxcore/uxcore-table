@@ -77,7 +77,7 @@ class Header extends React.Component {
 
         return (<div className="kuma-column-picker-container">
             <i className="kuma-icon kuma-icon-target-list kuma-column-picker" onClick={this.handleColumnPicker.bind(this)}></i>
-            <ul className="kuma-grid-colmnpicker" style={_style} ref="columnpicker">
+            <ul className="kuma-uxtable-colmnpicker" style={_style} ref="columnpicker">
                 {
                     this.props.columns.map(function(item,index) {
                         if (item.dataKey=='jsxchecked' || item.dataKey == "jsxtreeIcon" || item.dataKey == "jsxwhite") return;
@@ -112,7 +112,7 @@ class Header extends React.Component {
                 asc ="sort-up-active";
              }
           }
-          return (<span className="kuma-grid-h-sort">
+          return (<span className="kuma-uxtable-h-sort">
             <i className={asc} onClick={this.handleColumnOrder.bind(ctx,'asc', column)}/>
             <i className={desc} onClick={this.handleColumnOrder.bind(ctx,'desc',column)}/>
             </span>)
@@ -123,9 +123,12 @@ class Header extends React.Component {
 
         let props= this.props, 
             ctx = this,
-            _picker;
+            _picker,
+            _width=0,
+            headerWrapClassName,
+            _columns;
 
-        if (this.props.columnPicker) {
+        if (props.columnPicker && (props.fixedColumn=='no')) {
              _picker = this.renderPicker();
         }
 
@@ -134,10 +137,51 @@ class Header extends React.Component {
             lineHeight: (props.headerHeight ? props.headerHeight : 40) + "px"
         }
 
-        return (
-            <div className={props.jsxprefixCls} style={_style}>
 
-                {props.columns.map(function (item, index) {
+
+        if(props.fixedColumn=='fixed') {
+           _columns= props.columns.filter((item)=>{
+              if(item.fixed) {
+                   if(!item.width) {
+                      item.width=100;
+                   }
+                   _width=item.width*1+_width;
+                   return true
+              }
+           })
+           _style={
+             width:_width,
+             minWidth:_width
+           }
+          headerWrapClassName="kuma-uxtable-header-fixed";
+
+        }else if(props.fixedColumn=='scroll') {
+           _columns= props.columns.filter( (item) =>{
+                if(!item.fixed) {
+                   return true
+                }else {
+                   if(!item.width) {
+                      item.width=100;
+                   }
+                   _width=item.width*1+_width;
+                }
+            })
+            _style={
+              width: props.width-_width-2,
+              minWidth:props.width-_width-2
+            }
+            headerWrapClassName="kuma-uxtable-header-scroll";
+        }else {
+            _columns= props.columns;
+            headerWrapClassName="kuma-uxtable-header-no";
+        }
+
+        return (
+          <div className={headerWrapClassName} style={_style}>
+
+            <div className={props.jsxprefixCls} >
+
+                {_columns.map(function (item, index) {
 
                     if (item.hidden) return;
 
@@ -165,13 +209,14 @@ class Header extends React.Component {
                         _v = item.title;
                     }
 
-                    return <div key={index} className="kuma-grid-cell" style={_style}>
+                    return <div key={index} className="kuma-uxtable-cell" style={_style}>
                                 <span>{_v}</span>
                                 {ctx.renderOrderIcon(item)}
                            </div>
                 })}
                 {_picker}
             </div>
+          </div>
         );
     }
 
@@ -181,7 +226,7 @@ Header.propTypes= {
 };
 
 Header.defaultProps = {
-    jsxprefixCls: "kuma-grid-header"
+    jsxprefixCls: "kuma-uxtable-header"
 };
 
 export default Header;

@@ -76,10 +76,10 @@ class Demo extends React.Component {
         // title, width, type, hidden,dataKey
         let columns = [
             { dataKey: 'check', title: '复选框', type: 'checkbox'},
-            { dataKey: 'id', title: 'ID', width: 50,hidden:true},
-            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
+            { dataKey: 'id', title: 'ID', width: 50,hidden:true,fixed:true},
+            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ',', fixed:true},
             { dataKey: 'city',title:'城市', width: 150},
-            { dataKey: 'firstName',title:"FristName",beforeRender:function(rowData) {
+            { dataKey: 'firstName',title:"FristName",fixed:true,beforeRender:function(rowData) {
                 return "abc";
             } },  
             { dataKey: 'lastName' ,title:"LastName"},

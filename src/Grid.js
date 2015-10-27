@@ -41,9 +41,9 @@ class Grid extends React.Component {
     componentDidMount() {
         let me = this;
         me.el = ReactDOM.findDOMNode(me);
-        $(me.el).find(".kuma-grid-body-wrapper").on("scroll", function(e) {
+        $(me.el).find(".kuma-uxtable-body-wrapper").on("scroll", function(e) {
             let scrollLeft = this.scrollLeft;
-            $(me.el).find(".kuma-grid-header-wrapper")[0].scrollLeft = scrollLeft;
+            $(me.el).find(".kuma-uxtable-header-wrapper")[0].scrollLeft = scrollLeft;
         })
     }
 
@@ -65,7 +65,7 @@ class Grid extends React.Component {
 
     componentWillUnmount() {
         let me = this;
-        $(me.el).find(".kuma-grid-body-wrapper").off("scroll");
+        $(me.el).find(".kuma-uxtable-body-wrapper").off("scroll");
     }
 
 
@@ -219,11 +219,10 @@ class Grid extends React.Component {
 
     processColumn() {
 
-        let props = this.props, 
+        let props = this.props,  
             me = this,
             columns = deepcopy(props.jsxcolumns),
             hasCheckboxColumn = false;
-
 
         columns.forEach((item) => {
             if (item.type == 'checkbox') {
@@ -354,7 +353,7 @@ class Grid extends React.Component {
     renderPager() {
         if(this.props.showPager && this.state.data && this.state.data.totalCount) {
             return (
-                <div className="kuma-grid-page">
+                <div className="kuma-uxtable-page">
                     <Pagination className="mini" 
                                 showSizeChanger={true}
                                 total={this.state.data.totalCount} 
@@ -394,6 +393,55 @@ class Grid extends React.Component {
        return this.state.data;
     }
 
+    hasFixColumn() {
+         let props= this.props,
+          _columns= props.jsxcolumns.filter( (item) =>{
+                if(item.fixed) {
+                   return true
+                }
+          })
+          if(_columns.length>0) {
+             return true;
+          }
+          return false
+    }
+
+    renderHeader(renderHeaderProps) {
+ 
+      if(!this.props.showHeader) {
+         return ;
+      }
+
+      if(this.hasFixColumn() ){
+         return <div className="kuma-uxtable-header-wrapper">
+                    <Header {...renderHeaderProps} fixedColumn='fixed' key="grid-header-fixed"/>
+                    <Header {...renderHeaderProps} fixedColumn='scroll' key="grid-header-scroll"/>
+                </div>
+       }else {
+          return <div className="kuma-uxtable-header-wrapper">
+                      <Header {...renderHeaderProps} fixedColumn="no" />
+                  </div>
+       }
+    }
+
+    renderTbody(renderBodyProps,bodyHeight) {
+      
+       if(this.hasFixColumn()){
+         return   <div className="kuma-uxtable-body-wrapper" style={{
+              height: bodyHeight
+          }}>
+              <Tbody  {...renderBodyProps} fixedColumn='fixed' key="grid-body-fixed"/>
+              <Tbody  {...renderBodyProps} fixedColumn='scroll' key="grid-body-scroll"/>
+          </div>
+       }else {
+          return  <div className="kuma-uxtable-body-wrapper" style={{
+              height: bodyHeight
+          }}>
+              <Tbody  {...renderBodyProps} fixedColumn='no'/>
+          </div>
+       }
+    }
+
     render() {
         let props= this.props,
             bodyHeight,
@@ -421,6 +469,8 @@ class Grid extends React.Component {
                 mask: this.state.showMask,
                 changeSelected: this.changeSelected.bind(this),
                 rowHeight: this.props.rowHeight,
+                height: bodyHeight,
+                width: props.width,
                 root: this,
                 mode: props.mode,
                 renderModel: props.renderModel,
@@ -441,10 +491,8 @@ class Grid extends React.Component {
 
             };
 
-        let gridHeader, actionBar;
-        if(props.showHeader) {
-            gridHeader=<Header {...renderHeaderProps} />
-        }
+        let  actionBar;
+        
 
         if(props.actionBar || props.showSearch) {
             let renderActionProps={
@@ -462,17 +510,11 @@ class Grid extends React.Component {
                 "kuma-subgrid-mode": !!props.passedData
             })} style={_style}>
                 {actionBar}
-                <div className="kuma-grid-content" style={{
+                <div className="kuma-uxtable-content" style={{
                     width: !!props.passedData ? "auto" : props.width
                 }}>
-                    <div className="kuma-grid-header-wrapper">
-                        {gridHeader}
-                    </div>
-                    <div className="kuma-grid-body-wrapper" style={{
-                        height: bodyHeight
-                    }}>
-                        <Tbody  {...renderBodyProps}/>
-                    </div>
+                   {this.renderHeader(renderHeaderProps)}
+                   {this.renderTbody(renderBodyProps,bodyHeight)}
                 </div>
                 {this.renderPager()}
             </div>);
@@ -637,7 +679,7 @@ class Grid extends React.Component {
 };
 
 Grid.defaultProps = {
-    jsxprefixCls: "kuma-grid",
+    jsxprefixCls: "kuma-uxtable",
     showHeader:true,
     width:"auto",
     height:"auto",

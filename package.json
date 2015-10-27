@@ -1,8 +1,8 @@
 {
-  "name": "uxcore-grid",
-  "version": "1.1.1",
-  "description": "grid ui component for react",
-  "repository": "https://github.com/uxcore/uxcore-grid.git",
+  "name": "uxcore-table",
+  "version": "1.1.2",
+  "description": "table ui component for react",
+  "repository": "https://github.com/uxcore/uxcore-table.git",
   "author": "zhouquan.yezq",
   "main": "src/index.js",
   "scripts": {
@@ -10,12 +10,12 @@
     "deploy": "git subtree push --prefix build origin gh-pages"
   },
   "bugs": {
-    "url": "http://github.com/uxcore/uxcore-grid/issues"
+    "url": "http://github.com/uxcore/uxcore-table/issues"
   },
   "keywords": [
     "react",
     "react-component",
-    "uxcore-grid",
+    "uxcore-table",
     "Grid",
     "uxcore",
     "gird",
@@ -32,17 +32,15 @@
     "gulp-just-replace": "~1.0.2",
     "gulp-less": "~3.0.3",
     "gulp-sourcemaps": "~1.5.2",
-    "react": "~0.14.0",
-    "uxcore-button": "~0.3.1",
-    "uxcore-kuma": "~1.1.0",
-    "webpack": "^1.10.5",
-    "deepcopy": "~0.5.0"
+    "webpack": "^1.10.5"
   },
   "dependencies": {
     "classnames": "^2.1.2",
-    "deepcopy": "~0.5.0",
     "object-assign": "^2.0.0",
     "react-mixin": "~1.7.0",
+    "react": "^0.14.0",
+    "uxcore-kuma": "~1.0.6",
+    "deepcopy": "~0.5.0",
     "uxcore-button": "~0.3.0",
     "uxcore-pagination": "~0.1.0",
     "uxcore-select2": "~0.1.4",

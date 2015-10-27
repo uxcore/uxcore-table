@@ -87,7 +87,7 @@ class Cell extends React.Component {
     renderTreeIcon() {
         if (this.props.cellIndex == 0 && this.props.hasSubComp) {
             let open = this.props.rowData.showSubComp;
-            return <span className="kuma-grid-tree-icon" onClick={this.showSubComp.bind(this)}><i className={classnames({
+            return <span className="kuma-uxtable-tree-icon" onClick={this.showSubComp.bind(this)}><i className={classnames({
                 "kuma-icon": true,
                 "kuma-icon-tree-open-2": open,
                 "kuma-icon-tree-close-2": !open
@@ -214,7 +214,7 @@ Cell.propTypes= {
 };
 
 Cell.defaultProps = {
-    jsxprefixCls: "kuma-grid-cell"
+    jsxprefixCls: "kuma-uxtable-cell"
 };
 
 export default Cell;

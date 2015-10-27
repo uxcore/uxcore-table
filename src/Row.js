@@ -38,7 +38,7 @@ class Row extends React.Component {
               passedData: this.props.rowData,
               parentHasCheckbox: !!this.props.rowSelection
             });
-            return (<div className="kuma-grid-subrow" ref="subRow">{subComp}</div>)
+            return (<div className="kuma-uxtable-subrow" ref="subRow">{subComp}</div>)
           }
           return false;
 
@@ -71,7 +71,7 @@ class Row extends React.Component {
 
           let renderProps={
             key: "treeRow"+this.props.rowData.jsxid,
-            className:"kuma-grid-tree-row"
+            className:"kuma-uxtable-tree-row"
           }
 
           children=<ul {...renderProps}>{children}</ul>;
@@ -79,42 +79,50 @@ class Row extends React.Component {
         return children;
     }
 
-    renderExpendIcon() {
+    renderExpendIcon(rowIndex) {
 
-        let expandCollapseIcon,props  = this.props;
+        let expandCollapseIcon,props  = this.props,_expandIconClass;
         if(props.renderModel!=='tree') {
            return false;
         }
 
         if (props.rowData.datas) {
           if (!this.state.expanded) {
+
+            _expandIconClass={
+              "kuma-icon": true,
+              "kuma-icon-tree-open-2": false,
+              "kuma-icon-tree-close-2": true
+            };
+            _expandIconClass["kuma-uxtable-expandIcon-"+props.fixedColumn+"-"+rowIndex]=true;
+
             expandCollapseIcon = (
-              <span className="kuma-grid-tree-icon"
+              <span className="kuma-uxtable-tree-icon" data-type={props.fixedColumn} data-index={rowIndex}
                     onClick={this.toggleExpanded.bind(this)}>
-                    <i className={classnames({
-                        "kuma-icon": true,
-                        "kuma-icon-tree-open-2": false,
-                        "kuma-icon-tree-close-2": true
-                    })}></i>
+                    <i className={classnames(_expandIconClass)}></i>
               </span>
             );
           }
           else {
+
+            _expandIconClass={
+              "kuma-icon": true,
+              "kuma-icon-tree-open-2": true,
+              "kuma-icon-tree-close-2": false
+            };
+            _expandIconClass["kuma-uxtable-expandIcon-"+props.fixedColumn+"-"+rowIndex]=true;
+
             expandCollapseIcon = (
-              <span className="kuma-grid-tree-icon"
+              <span className="kuma-uxtable-tree-icon" data-type={props.fixedColumn} data-index={rowIndex}
                     onClick={this.toggleExpanded.bind(this)}>
-                  <i className={classnames({
-                      "kuma-icon": true,
-                      "kuma-icon-tree-open-2": true,
-                      "kuma-icon-tree-close-2": false
-                  })}></i>
+                  <i className={classnames(_expandIconClass)}></i>
               </span>
             );
           }
         }
         else {
           expandCollapseIcon = (
-            <span className="kuma-grid-emptyicon"></span>
+            <span className="kuma-uxtable-emptyicon"></span>
           );
         }
         return expandCollapseIcon;
@@ -135,9 +143,18 @@ class Row extends React.Component {
         return indents;
     }
 
-    toggleExpanded(event) {
+    toggleExpanded(e) {
         this.setState({ expanded: !this.state.expanded });
-        event.stopPropagation();
+        e.stopPropagation();
+        let t=$(e.target);
+        if(!t.hasClass('kuma-uxtable-tree-icon')) {
+            t= t.parents('.kuma-uxtable-tree-icon');
+        }
+        if(t.data('type')=='fixed') {
+           $(".kuma-uxtable-expandIcon-scroll"+"-"+t.data('index')).trigger('click');
+        }else if(t.data('type')=='scroll') {
+          $(".kuma-uxtable-expandIcon-fixed"+"-"+t.data('index')).trigger('click');
+        }
     }
 
     render() {
@@ -148,7 +165,6 @@ class Row extends React.Component {
             _data = props.data,
             me = this,
             otherCls = props.addRowClassName(_data[props.rowIndex]);
-
 
         if (!this.props.visible) {
 
@@ -186,7 +202,7 @@ class Row extends React.Component {
                     };
 
                     if(firstVisableColumn==1) {
-                       return  <Cell {...renderProps} >{me.renderIndent()}{me.renderExpendIcon()}</Cell>
+                       return  <Cell {...renderProps} >{me.renderIndent()}{me.renderExpendIcon(props.rowIndex)}</Cell>
                     }
                     //if have vertical data structure, how to process it
                     return <Cell {...renderProps} ></Cell>
@@ -205,7 +221,7 @@ Row.propTypes= {
 };
 
 Row.defaultProps = {
-    jsxprefixCls: "kuma-grid-row",
+    jsxprefixCls: "kuma-uxtable-row",
     showSubComp: false
 };
 

@@ -2,6 +2,14 @@
 
 ---
 
+
+
+# 1.1.2
+
+`CHANGED` change uxcore-grid to uxcore-table, grid use for layout
+`NEW` add fixed column for table, make table more powerful
+
+
 # 1.1.1
 
 `CHANGED` change react to ver. 0.1.4

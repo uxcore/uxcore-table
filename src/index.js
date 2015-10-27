@@ -1,5 +1,5 @@
 /**
- * Grid Component for uxcore
+ * Table Component for uxcore
  * @author zhouquan.yezq
  *
  * Copyright 2014-2015, Uxcore Team, Alinw.

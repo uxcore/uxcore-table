@@ -61,7 +61,7 @@ SearchBar.propTypes= {
 };
 
 SearchBar.defaultProps = {
-    jsxprefixCls: "kuma-grid-searchbar"
+    jsxprefixCls: "kuma-uxtable-searchbar"
 };
 
 reactMixin.onClass(SearchBar,React.addons.LinkedStateMixin);

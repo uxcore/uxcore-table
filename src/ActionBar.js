@@ -78,7 +78,7 @@ ActionBar.propTypes= {
 };
 
 ActionBar.defaultProps = {
-    jsxprefixCls: "kuma-grid-actionbar"
+    jsxprefixCls: "kuma-uxtable-actionbar"
 };
 
 export default ActionBar;
