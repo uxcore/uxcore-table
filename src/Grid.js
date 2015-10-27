@@ -246,6 +246,7 @@ class Grid extends React.Component {
         });
 
         if (!!props.rowSelection & !hasCheckboxColumn) {
+            me.checkboxColumnKey = 'jsxchecked';
             columns = [{ dataKey: 'jsxchecked', width: 46, type:'checkbox', align:'right'}].concat(columns)
         }
 
