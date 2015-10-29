@@ -20,7 +20,7 @@ class Grid extends React.Component {
         super(props);
         this.uid=0;
         this.state= {
-            data: this.addJSXIdsForSD(this.props.jsxdata), // checkbox 内部交互
+            data: this.addJSXIdsForSD(deepcopy(this.props.jsxdata)), // checkbox 内部交互
             columns: this.processColumn(), // column 内部交互
             showMask: this.props.showMask, // fetchData 时的内部状态改变
             pageSize: props.pageSize, // pagination 相关
@@ -51,7 +51,7 @@ class Grid extends React.Component {
         let me = this;
         let newData = {};
         if (!!nextProps.jsxdata && !!me.props.jsxdata && !me._isEqual(nextProps.jsxdata, me.props.jsxdata)) {
-            newData['data'] = me.addJSXIdsForSD(nextProps.jsxdata);
+            newData['data'] = me.addJSXIdsForSD(deepcopy(nextProps.jsxdata));
         }
         if (nextProps.pageSize != me.props.pageSize) {
             newData['pageSize'] = nextProps.pageSize;
