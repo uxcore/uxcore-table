@@ -6,4 +6,4 @@
  * All rights reserved.
  */
 
-module.exports = require('./Grid');
+module.exports = require('./Table');
