@@ -2,6 +2,9 @@
  * @author: zhouquan.yezq
  * @time : 8/12 2015
  */
+
+let classnames = require("classnames");
+
 class Mask extends React.Component {
 
     constructor(props) {
@@ -23,13 +26,12 @@ class Mask extends React.Component {
     render() {
         
         let props= this.props,visible=props.visible,loadTips= props.tips?props.tips:"Loading...";
-        let _className=props.jsxprefixCls;
-        // console.log("visible:",visible);
-        if(!visible) {
-            _className= _className+" kuma-mask-hide";
-        }
+        let _className = classnames({
+            [props.jsxprefixCls]: true,
+            [props.jsxprefixCls + "-hide"]: !visible
+        })
         return (<div className={_className}>
-            <div className="kuma-mask-centerblk"><span>{loadTips}</span></div>
+            <div className={`${props.jsxprefixCls}-centerblk`}><span>{loadTips}</span></div>
         </div>);
     }
 
@@ -39,7 +41,7 @@ Mask.propTypes= {
 };
 
 Mask.defaultProps = {
-    jsxprefixCls: "kuma-mask"
+    jsxprefixCls: "kuma-uxmask"
 };
 
 export default Mask;
