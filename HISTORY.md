@@ -2,7 +2,9 @@
 
 ---
 
+# 1.1.3
 
+`FIXED` fix bug #53
 
 # 1.1.2
 
@@ -12,7 +14,7 @@
 
 # 1.1.1
 
-`CHANGED` change react to ver. 0.1.4
+`CHANGED` change react to ver. 0.14
 
 # 1.1.0
 
