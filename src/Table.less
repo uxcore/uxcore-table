@@ -31,9 +31,10 @@
     border:1px solid @table-border;
 }
 .@{uxtable-prefix}-body-wrapper {
-    overflow: auto;
     border: 1px solid @table-border;
     border-top: none;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .@{uxtable-prefix}-header {
@@ -62,7 +63,7 @@
     display: block;
     width: 100%;
     white-space: nowrap;
-    border-bottom: 1px solid #efefef;
+    border-bottom: 1px solid @table-border;
     line-height: 40px;
     &:hover {
         background-color: #fbfbfb;
@@ -71,8 +72,8 @@
 
 .@{uxtable-prefix}-tree-row {
     .@{uxtable-prefix}-row{
-        border-bottom: 0px solid #efefef;
-        border-top: 1px solid #efefef;
+        border-bottom: 0px solid @table-border;
+        border-top: 1px solid @table-border;
     }
 }
 
@@ -190,34 +191,35 @@
 .@{uxtable-prefix}-h-sort{
     position:relative;
     top: -2px;
+    margin-left: 4px;
     i {
         cursor: pointer;
         width: 0;
         height: 0;
-        border-width: 6px;
+        border-width: 6px 5px;
         border-style: solid;
         position: absolute;
         &.sort-up {
-            border-color: @table-header-bg @table-header-bg #aab2be;
+            border-color: transparent transparent #aab2be;
             bottom: 6px;
             left: 2px;
         }
 
         &.sort-up-active {
-            border-color: @table-header-bg @table-header-bg #f50;
+            border-color: transparent transparent @brand-primary;
             bottom: 6px;
             left: 2px;
         }
 
         &.sort-down {
-            border-color: #aab2be @table-header-bg @table-header-bg;
+            border-color: #aab2be transparent transparent;
             bottom: -9px;
             left: 2px;
         }
 
 
         &.sort-down-active {
-            border-color: #f50 @table-header-bg @table-header-bg;
+            border-color: @brand-primary transparent transparent;
             bottom: -9px;
             left: 2px;
         }
@@ -238,7 +240,6 @@
 }
 
 .@{uxtable-prefix}-body-fixed {
-    display:inline-block;
     float:left;
     overflow-y:auto;
     overflow-x:hidden;
@@ -247,7 +248,7 @@
 }
 .@{uxtable-prefix}-body-scroll {
     position:relative;
-    border-left:1px solid #efefef;
+    border-left:1px solid @table-border;
     float:left;
     overflow:auto;
     z-index:1;
@@ -255,7 +256,6 @@
 }
 
 .@{uxtable-prefix}-header-fixed {
-    display:inline-block;
     float:left;
     overflow:hidden;
     z-index:1;
@@ -263,9 +263,12 @@
 }
 .@{uxtable-prefix}-header-scroll {
     position:relative;
-    border-left:1px solid #efefef;
+    border-left:1px solid @table-border;
     float:left;
     overflow:hidden;
     z-index:1;
     height:100%;
+    .@{uxtable-prefix}-header {
+        background-color: @table-header-scroll-bg;
+    }
 }
