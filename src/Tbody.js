@@ -13,6 +13,12 @@ class Tbody extends React.Component {
         };
     }
 
+    componentDidMount() {
+       let uxtableBody= this.refs.uxtableBody;
+       ////onScroll={this.onScroll.bind(this)}
+       $(uxtableBody).on("scroll",this.onScroll.bind(this))
+    }
+
     renderEmptyData() {
 
        if(this.props.data.length==0 && !this.props.mask ) {
@@ -77,15 +83,15 @@ class Tbody extends React.Component {
                 }
             })
             _style={
-              width: _props.width-_width-2,
-              minWidth:_props.width-_width-2
+              width: _props.width-_width-3, //change 2 to 3, fix ie8 issue
+              minWidth:_props.width-_width-3
             }
             bodyWrapClassName="kuma-uxtable-body-scroll";
         }else {
             bodyWrapClassName="kuma-uxtable-body-no";
         }
         return (
-            <div className={bodyWrapClassName} style={_style} onScroll={this.onScroll.bind(this)}>
+            <div className={bodyWrapClassName}  ref="uxtableBody" style={_style} > 
               <ul className={this.props.jsxprefixCls} >
                   {this.renderEmptyData()}
                   {_data.map(function(item,index) {

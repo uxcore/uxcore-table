@@ -167,8 +167,8 @@ class Header extends React.Component {
                 }
             })
             _style={
-              width: props.width-_width-2,
-              minWidth:props.width-_width-2
+              width: props.width-_width-3,
+              minWidth:props.width-_width-3
             }
             headerWrapClassName="kuma-uxtable-header-scroll";
         }else {
