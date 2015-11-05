@@ -6,282 +6,269 @@
  * All rights reserved.
  */
 
+@uxtable-prefix: kuma-uxtable;
 @import "./Mask.less";
 @import "./ActionBar.less";
 
-.kuma-uxtable {
-  // border:0px solid #ebebeb;
-  border-collapse: collapse;
-  position: relative;
-  color: #666;
-  table-layout: fixed;
-}
-.kuma-uxtable-header {
-  background-color: #f5f5f5;
-  font-weight: 600;
-  min-width: 100%;
-  white-space: nowrap;
-  display: inline-block;
+.@{uxtable-prefix} {
+    border-collapse: collapse;
+    position: relative;
+    color: #666;
+    table-layout: fixed;
 }
 
-.kuma-uxtable-content {
-  overflow-x: auto;
-  position: relative;
+.@{uxtable-prefix}-content {
+    overflow-x: auto;
+    position: relative;
 }
 
-.kuma-uxtable-content-scroller {
-  display: inline-block;
+.@{uxtable-prefix}-content-scroller {
+    display: inline-block;
 }
 
-.kuma-uxtable-header-wrapper {
-  overflow: hidden;
-  border:1px solid #ebebeb;
+.@{uxtable-prefix}-header-wrapper {
+    overflow: hidden;
+    border:1px solid @table-border;
 }
-.kuma-uxtable-body-wrapper {
-  overflow: auto;
-  border: 1px solid #ebebeb;
-  border-top: none;
-}
-
-.kuma-uxtable-header:hover{
-
+.@{uxtable-prefix}-body-wrapper {
+    border: 1px solid @table-border;
+    border-top: none;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
-.kuma-uxtable-body {
-  // border: 1px solid #ebebeb;
-  position:relative;
-  display: inline-block;
-  min-width: 100%;
-  min-height: 100%;
-  white-space: normal;
+.@{uxtable-prefix}-header {
+    background-color: @table-header-bg;
+    font-weight: 600;
+    min-width: 100%;
+    white-space: nowrap;
+    display: inline-block;
+}
+.@{uxtable-prefix}-body {
+    position:relative;
+    display: inline-block;
+    min-width: 100%;
+    min-height: 100%;
+    white-space: normal;
+    background-color: @table-body-bg;
 }
 
-.kuma-uxtable-body-emptyword{
-   text-align: center;
-   vertical-align: middle;
-   line-height:100px;
+.@{uxtable-prefix}-body-emptyword {
+    text-align: center;
+    vertical-align: middle;
+    line-height:100px;
 }
 
-.kuma-uxtable-row {
+.@{uxtable-prefix}-row {
     display: block;
     width: 100%;
     white-space: nowrap;
-    border-bottom: 1px solid #efefef;
+    border-bottom: 1px solid @table-border;
     line-height: 40px;
+    &:hover {
+        background-color: #fbfbfb;
+    }
 }
 
-.kuma-uxtable-tree-row {
-   .kuma-uxtable-row{
-     border-bottom: 0px solid #efefef;
-     border-top: 1px solid #efefef;
-   }
+.@{uxtable-prefix}-tree-row {
+    .@{uxtable-prefix}-row{
+        border-bottom: 0px solid @table-border;
+        border-top: 1px solid @table-border;
+    }
 }
 
-.kuma-uxtable-row:hover {
-  background-color: #fbfbfb;
-}
-.kuma-uxtable-cell{
-  display: inline-block;
-  text-align: left;
-  height:100%;
-  padding: 0px 0px 0px 20px;
-  vertical-align: top;
-  position: relative;
-  word-break:break-all;
-  line-height:40px;
+.@{uxtable-prefix}-cell {
+    display: inline-block;
+    text-align: left;
+    height:100%;
+    padding: 0 0 0 20px;
+    vertical-align: top;
+    position: relative;
+    word-break:break-all;
+    line-height:40px;
+    & > div {
+        line-height: 40px;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: top;
+        height: 40px;
+        width: 100%;
+        white-space: nowrap;
+    }
+    input.kuma-input {
+        vertical-align: top;
+        height: 30px;
+        min-height: 28px;
+        padding: 0 10px;
+        margin-top: 5px;
+        line-height: 28px;
+    }
+    .kuma-column-picker {
+        cursor: pointer;
+        position: absolute;
+        right: 10px;
+        top:0;
+    }
+    .kuma-select2 {
+        vertical-align: top;
+        margin-top: 5px;
+    }
+    .kuma-select2-selection {
+        height: 30px;
+    }
 }
 
 
-.kuma-uxtable-header .kuma-uxtable-cell > div{
+.@{uxtable-prefix}-header .@{uxtable-prefix}-cell > div{
    overflow : visible;
 }
 
-.kuma-uxtable-cell > div {
-    line-height: 40px;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: top;
-    height: 40px;
-    width: 100%;
-    white-space: nowrap;
-}
-
-.kuma-uxtable-cell {
-  .kuma-input{
-    vertical-align: top;
-    height: 100%;
-    min-height: 30px;
-    padding: 0px 10px;
-    margin-top: 5px;
-  }
-  .kuma-column-picker{
-    cursor: pointer;
+.@{uxtable-prefix}-colmnpicker {
     position: absolute;
-    right: 10px;
-    top:0px;
-  }
-  .kuma-select2 {
-    vertical-align: top;
-    margin-top: 5px;
-  }
-  .kuma-select2-selection {
-    height: 30px;
-  }
-}
-
-.kuma-uxtable-colmnpicker{
-  position: absolute;
-  background-color: #f2f2f2;
-  z-index: 2;
-  right: 0px;
-  top: 32px;
-  padding: 0px;
-  display: none;
-}
-.kuma-uxtable-colmnpicker > li{
-  padding: 4px 20px;
-  cursor: pointer;
-  text-align: left;
-  line-height: 21px;
-  min-width: 120px;
+    background-color: @table-header-bg;
+    z-index: 2;
+    right: 0;
+    top: 32px;
+    padding: 0;
+    display: none;
+     > li {
+        padding: 4px 20px;
+        cursor: pointer;
+        text-align: left;
+        line-height: 21px;
+        min-width: 120px;
+        &:hover {}
+    }
 }
 
 .kuma-column-picker-container {
-  position: absolute;
-  right: 0;
-  display: inline-block;
-  cursor: pointer;
-  padding-right: 20px;
-  font-weight: normal;
-  background: #f5f5f5;
+    position: absolute;
+    right: 0;
+    display: inline-block;
+    cursor: pointer;
+    padding-right: 20px;
+    font-weight: normal;
+    background: @table-header-bg;
 }
 
-.kuma-uxtable-subrow {
+.@{uxtable-prefix}-subrow {
 
 }
 
-.kuma-uxtable-tree-icon{
-  cursor:pointer;
-  margin-right:4px;
-  > .kuma-icon {
-    font-size: 14px;
-    color: #999999;
-  }
+.@{uxtable-prefix}-tree-icon{
+    cursor:pointer;
+    margin-right:4px;
+    > .kuma-icon {
+        font-size: 14px;
+        color: #999999;
+    }
 }
 
-.kuma-uxtable-emptyicon{
-  width:20px;
-  display:inline-block;
-}
-
-.kuma-uxtable-colmnpicker > li:hover{
-
+.@{uxtable-prefix}-emptyicon{
+    width:20px;
+    display:inline-block;
 }
 
 .kuma-subgrid-mode {
-  .kuma-uxtable-body-wrapper {
-    border: none;
-  }
+    .@{uxtable-prefix}-body-wrapper {
+        border: none;
+    }
 }
 
-.kuma-uxtable-page{
-  text-align: right;
-  padding: 10px 0px;
-  .kuma-select2-selection__rendered {
-    text-align: left;
-  }
+.@{uxtable-prefix}-page{
+    text-align: right;
+    padding: 10px 0px;
+    .kuma-select2-selection__rendered {
+        text-align: left;
+    }
 }
 
-.kuma-uxtable .kuma-page {
-  display: inline-block;
+.@{uxtable-prefix} .kuma-page {
+    display: inline-block;
 }
 
+.@{uxtable-prefix}-h-sort{
+    position:relative;
+    top: -2px;
+    margin-left: 4px;
+    i {
+        cursor: pointer;
+        width: 0;
+        height: 0;
+        border-width: 6px 5px;
+        border-style: solid;
+        position: absolute;
+        &.sort-up {
+            border-color: transparent transparent #aab2be;
+            bottom: 6px;
+            left: 2px;
+        }
+
+        &.sort-up-active {
+            border-color: transparent transparent @brand-primary;
+            bottom: 6px;
+            left: 2px;
+        }
+
+        &.sort-down {
+            border-color: #aab2be transparent transparent;
+            bottom: -9px;
+            left: 2px;
+        }
 
 
-.kuma-uxtable-h-sort{
-   position:relative;
-   top: -2px;
-}
-
-.kuma-uxtable-h-sort i{
-    cursor: pointer;
-    width: 0;
-    height: 0;
-    border-width: 6px;
-    border-style: solid;
-    position: absolute;
- }
- 
- i.sort-up {
- 
-    border-color: #f2f2f2 #f2f2f2 #aab2be;
-    bottom: 6px;
-    left: 2px;
-}
-
-i.sort-up-active {
- 
-    border-color: #f2f2f2 #f2f2f2 #f50;
-    bottom: 6px;
-    left: 2px;
-}
-
-i.sort-down {
-    border-color: #aab2be #f2f2f2 #f2f2f2;
-    bottom: -9px;
-    left: 2px;
-}
-
-
-i.sort-down-active {
-    border-color: #f50 #f2f2f2 #f2f2f2;
-    bottom: -9px;
-    left: 2px;
+        &.sort-down-active {
+            border-color: @brand-primary transparent transparent;
+            bottom: -9px;
+            left: 2px;
+        }
+    }
 }
 
 .action-container .action{
-  cursor: pointer;
-  display:inline-block;
-  & + .action {
-    margin-left: 8px
-  }
+    cursor: pointer;
+    display:inline-block;
+    & + .action {
+        margin-left: 8px
+    }
 }
 
-.kuma-uxtable span.indent {
+.@{uxtable-prefix} span.indent {
     margin-left: 10px;
     margin-right: 10px;
 }
 
-.kuma-uxtable-body-fixed{
-   display:inline-block;
-   float:left;
-   overflow:hidden;
-   z-index:1;
-   height:100%;
+.@{uxtable-prefix}-body-fixed {
+    float:left;
+    overflow-y:auto;
+    overflow-x:hidden;
+    z-index:1;
+    height:100%;
 }
-.kuma-uxtable-body-scroll {
-   position:relative;
-   border-left:1px solid #efefef;
-   float:left;
-   overflow:auto;
-   z-index:1;
-   height:100%;
+.@{uxtable-prefix}-body-scroll {
+    position:relative;
+    border-left:1px solid @table-border;
+    float:left;
+    overflow:auto;
+    z-index:1;
+    height:100%;
 }
 
-
-.kuma-uxtable-header-fixed{
-   display:inline-block;
-   float:left;
-   overflow:hidden;
-   z-index:1;
-   height:100%;
+.@{uxtable-prefix}-header-fixed {
+    float:left;
+    overflow:hidden;
+    z-index:1;
+    height:100%;
 }
-.kuma-uxtable-header-scroll {
-   position:relative;
-   border-left:1px solid #efefef;
-   float:left;
-   overflow:hidden;
-   z-index:1;
-   height:100%;
+.@{uxtable-prefix}-header-scroll {
+    position:relative;
+    border-left:1px solid @table-border;
+    float:left;
+    overflow:hidden;
+    z-index:1;
+    height:100%;
+    .@{uxtable-prefix}-header {
+        background-color: @table-header-scroll-bg;
+    }
 }

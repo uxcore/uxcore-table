@@ -32,14 +32,15 @@
     "gulp-just-replace": "~1.0.2",
     "gulp-less": "~3.0.3",
     "gulp-sourcemaps": "~1.5.2",
-    "webpack": "^1.10.5"
+    "webpack": "^1.10.5",
+    "uxcore-kuma": "~1.2.1",
+    "react": "^0.14.0"
+
   },
   "dependencies": {
     "classnames": "^2.1.2",
     "object-assign": "^2.0.0",
     "react-mixin": "~1.7.0",
-    "react": "^0.14.0",
-    "uxcore-kuma": "~1.0.6",
     "deepcopy": "~0.5.0",
     "uxcore-button": "~0.3.0",
     "uxcore-pagination": "~0.1.0",
