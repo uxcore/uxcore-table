@@ -31,7 +31,7 @@ gulp.task('pack_demo', function(cb) {
 });
 
 gulp.task('less_demo', function(cb) {
-    gulp.src(['./src/*.less','./demo/**/*.less'])
+    gulp.src(['./demo/**/*.less'])
         .pipe(sourcemaps.init())
         .pipe(less())
         .pipe(concat('demo.css'))
