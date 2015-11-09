@@ -142,6 +142,8 @@ class Grid extends React.Component {
     fetchData(from) {
 
         let me = this;
+        // reset uid cause table data has changed
+        me.uid = 0; 
         
         // fetchUrl has the top priority.
         if (!!me.props.fetchUrl) {
