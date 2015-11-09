@@ -59,6 +59,9 @@ class Grid extends React.Component {
         if (nextProps.currentPage != me.props.currentPage) {
             newData['currentPage'] =  nextProps.currentPage;
         }
+        if (!!nextProps.jsxcolumns && !!me.props.jsxcolumns && !me._isEqual(nextProps.jsxcolumns, me.props.jsxcolumns)) {
+            newData['columns'] = me.processColumn()
+        }
         me.setState(newData);
 
     }

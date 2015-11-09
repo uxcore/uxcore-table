@@ -8,6 +8,7 @@
 
 let classnames = require('classnames');
 let Validator = require('uxcore-validator');
+let Button = require('uxcore-button');
 let Grid = require('../src');
 let mockData = {
     "datas": [
@@ -41,7 +42,8 @@ class Demo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-           data:this.props.data
+           data:this.props.data,
+           showOtherColumn: false
         }
     }
 
@@ -52,7 +54,13 @@ class Demo extends React.Component {
         return true;
     }
 
-      render () {
+    handleClick() {
+        this.setState({
+            showOtherColumn: !this.state.showOtherColumn
+        })
+    }
+
+    render () {
         let me=this;
         // 通过 rowSelection 对象表明需要行选择
         let rowSelection = {
@@ -100,38 +108,12 @@ class Demo extends React.Component {
         let columns = [
             { dataKey: 'check', title: '复选框', type: 'checkbox'},
             { dataKey: 'id', title: 'ID', width: 50,hidden:true},
-            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-            { dataKey: 'city',title:'城市', width: 150},
-            { dataKey: 'firstName',title:"FristName",beforeRender:function(rowData) {
-                return "abc";
-            } },  
-            { dataKey: 'lastName' ,title:"LastName"},
-            { dataKey: 'email',title:"Email",width: 200,ordered:true },
-            { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
-                "编辑": function(rowData, actions) {
-                    console.log(actions.addEmptyRow);
-                    me.refs.grid.toggleSubComp(rowData);
-                },
-                "删除": function(rowData) {
-                    me.refs.grid.delRow(rowData);
-                }
-              },
-              beforeRender: function(rowData,actionItems) {
-                 if(rowData.jsxid%2==0) {
-                    return ['编辑'];
-                 }else {
-                    return ['编辑','删除'];
-                 }
-                 
-              }
-            },
-            { dataKey: 'action', title:'链接', width:150,render: function(cellData,rowData){
-               return <div><a href="#">{rowData.email}</a></div>
-              },beforeRender(rowData) {
-                return rowData.email;
-              }
-            }
+            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','}
         ];
+
+        if (me.state.showOtherColumn) {
+            columns.push({ dataKey: 'city',title:'城市', width: 150})
+        }
 
 
         let renderProps={
@@ -147,7 +129,12 @@ class Demo extends React.Component {
             processData: (data) => {return data;},
             rowSelection: rowSelection           
         };
-        return (<Grid {...renderProps}  ref="grid"/>);
+        return (
+            <div>
+                <Grid {...renderProps}  ref="grid"/>
+                <Button onClick={me.handleClick.bind(me)}>手动修改column</Button>
+            </div>
+        );
       }
 };
 
