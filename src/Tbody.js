@@ -25,7 +25,7 @@ class Tbody extends React.Component {
            let _style={
              lineHeight: this.props.height-10+"px",
            }
-          return (<div className="kuma-gird-body-emptyword" style={_style}>暂无数据.</div>);
+          return (<div className="kuma-uxtable-body-emptyword" style={_style}>暂无数据.</div>);
        }
     }
 
