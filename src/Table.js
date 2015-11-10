@@ -62,7 +62,7 @@ class Grid extends React.Component {
             newData['currentPage'] =  nextProps.currentPage;
         }
         if (!!nextProps.jsxcolumns && !!me.props.jsxcolumns && !me._isEqual(nextProps.jsxcolumns, me.props.jsxcolumns)) {
-            newData['columns'] = me.processColumn()
+            newData['columns'] = me.processColumn(nextProps)
         }
         me.setState(newData);
 
@@ -224,10 +224,9 @@ class Grid extends React.Component {
     }
     
 
-    processColumn() {
-
-        let props = this.props,  
-            me = this,
+    processColumn(props) {
+        props = props || this.props;
+        let me = this,
             columns = deepcopy(props.jsxcolumns),
             hasCheckboxColumn = false;
 
