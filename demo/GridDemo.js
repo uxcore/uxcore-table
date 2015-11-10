@@ -77,7 +77,7 @@ class Demo extends React.Component {
         let columns = [
             { dataKey: 'check', title: '复选框', type: 'checkbox'},
             { dataKey: 'id', title: 'ID', width: 50,hidden:true,fixed:true},
-            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
+            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ',',fixed:true},
             { dataKey: 'city',title:'城市', width: 150},
             { dataKey: 'firstName',title:"FristName",fixed:true,beforeRender:function(rowData) {
                 return "abc";
@@ -137,7 +137,7 @@ class Demo extends React.Component {
             fetchParams: {},
             // jsxdata: mockData,
             //fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
-            fetchUrl: "http://192.168.1.103:3000/demo/data.json",
+            fetchUrl: "http://10.1.157.111:3000/demo/data.json",
             jsxcolumns:columns,
             //subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
             rowSelection: rowSelection,
