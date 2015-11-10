@@ -51,6 +51,7 @@ class Grid extends React.Component {
         let me = this;
         let newData = {};
         if (!!nextProps.jsxdata && !!me.props.jsxdata && !me._isEqual(nextProps.jsxdata, me.props.jsxdata)) {
+            // Data has changed, so uid which is used to mark the data should be reset.
             me.uid = 0;
             newData['data'] = me.addJSXIdsForSD(deepcopy(nextProps.jsxdata));
         }

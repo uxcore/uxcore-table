@@ -33,18 +33,16 @@ class Tbody extends React.Component {
         if(this.props.fixedColumn=='no') {
            return ;
         }
-        if (this.resizeTimer) {
-            clearTimeout(this.resizeTimer)
+        
+        let target= $(e.target);
+        if(target.hasClass('kuma-uxtable-body-scroll')) {
+            $('.kuma-uxtable-body-fixed').animate({scrollTop: $('.kuma-uxtable-body-scroll').scrollTop()}, 0)
+            $('.kuma-uxtable-header-scroll').animate({scrollLeft: $('.kuma-uxtable-body-scroll').scrollLeft()}, 0)
+        }else {
+            $('.kuma-uxtable-body-scroll').animate({scrollTop: $('.kuma-uxtable-body-fixed').scrollTop()}, 0)
         }
-        this.resizeTimer = setTimeout(function(){
-            let target= $(e.target);
-            if(target.hasClass('kuma-uxtable-body-scroll')) {
-                $('.kuma-uxtable-body-fixed').scrollTop($('.kuma-uxtable-body-scroll').scrollTop());
-                $('.kuma-uxtable-header-scroll').scrollLeft($('.kuma-uxtable-body-scroll').scrollLeft());
-            }else {
-                $('.kuma-uxtable-body-scroll').scrollTop($('.kuma-uxtable-body-fixed').scrollTop());
-            }
-        }, 0);
+
+        
     }
 
     render() {
