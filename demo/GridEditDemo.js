@@ -42,7 +42,7 @@ class Demo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-           data:this.props.data,
+           data:mockData,
            showOtherColumn: false
         }
     }
@@ -57,6 +57,24 @@ class Demo extends React.Component {
     handleClick() {
         this.setState({
             showOtherColumn: !this.state.showOtherColumn
+        })
+    }
+
+    handleChangeData() {
+        this.setState({
+            data: {
+                datas: this.state.data.datas.concat({
+                    "check": false,
+                    "id":"3",
+                    "grade":"grade3",
+                    "email":"email3email3email3email",
+                    "firstName":"firstName3",
+                    "lastName":"lastName3",
+                    "birthDate":"birthDate3",
+                    "country":"086156539655931.121(xsxs)",
+                    "city":"87181" 
+                })
+            }
         })
     }
 
@@ -121,7 +139,7 @@ class Demo extends React.Component {
             width: 800,
             showPager:false,
             fetchParams: {},
-            jsxdata: mockData,
+            jsxdata: me.state.data,
             // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             // fetchUrl: "http://10.1.159.52:3002/demo/data.json",
             jsxcolumns:columns,
@@ -132,7 +150,8 @@ class Demo extends React.Component {
         return (
             <div>
                 <Grid {...renderProps}  ref="grid"/>
-                <Button onClick={me.handleClick.bind(me)}>手动修改column</Button>
+                <Button onClick={me.handleClick.bind(me)}>手动修改 column</Button>
+                <Button onClick={me.handleChangeData.bind(me)}>手动修改 data</Button>
             </div>
         );
       }

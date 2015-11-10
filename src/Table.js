@@ -19,7 +19,7 @@ class Grid extends React.Component {
     constructor(props) {
         super(props);
         this.uid=0;
-        this.state= {
+        this.state = {
             data: this.addJSXIdsForSD(deepcopy(this.props.jsxdata)), // checkbox 内部交互
             columns: this.processColumn(), // column 内部交互
             showMask: this.props.showMask, // fetchData 时的内部状态改变
@@ -51,6 +51,7 @@ class Grid extends React.Component {
         let me = this;
         let newData = {};
         if (!!nextProps.jsxdata && !!me.props.jsxdata && !me._isEqual(nextProps.jsxdata, me.props.jsxdata)) {
+            me.uid = 0;
             newData['data'] = me.addJSXIdsForSD(deepcopy(nextProps.jsxdata));
         }
         if (nextProps.pageSize != me.props.pageSize) {
