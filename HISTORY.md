@@ -2,6 +2,10 @@
 
 ---
 
+# 1.1.4
+
+`FIXED` fix issue #54 #55 #56 #57 #58
+
 # 1.1.3
 
 `FIXED` fix bug #53
