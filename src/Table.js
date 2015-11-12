@@ -41,10 +41,10 @@ class Grid extends React.Component {
     componentDidMount() {
         let me = this;
         me.el = ReactDOM.findDOMNode(me);
-        $(me.el).find(".kuma-uxtable-body-wrapper").on("scroll", function(e) {
-            let scrollLeft = this.scrollLeft;
-            $(me.el).find(".kuma-uxtable-header-wrapper")[0].scrollLeft = scrollLeft;
-        })
+        // $(me.el).find(".kuma-uxtable-body-wrapper").on("scroll", function(e) {
+        //     let scrollLeft = this.scrollLeft;
+        //     $(me.el).find(".kuma-uxtable-header-wrapper")[0].scrollLeft = scrollLeft;
+        // })
     }
 
     componentWillReceiveProps(nextProps) {
@@ -70,7 +70,7 @@ class Grid extends React.Component {
 
     componentWillUnmount() {
         let me = this;
-        $(me.el).find(".kuma-uxtable-body-wrapper").off("scroll");
+        // $(me.el).find(".kuma-uxtable-body-wrapper").off("scroll");
     }
 
 
