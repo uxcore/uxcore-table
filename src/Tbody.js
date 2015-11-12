@@ -30,8 +30,12 @@ class Tbody extends React.Component {
     }
 
     onScroll(e) {
-        if(this.props.fixedColumn=='no') {
-           return ;
+        // TODO: remove jquery animation
+        //       merge classname scroll/no/fixed
+        if (this.props.fixedColumn=='no') {
+            console.log($('.kuma-uxtable-body-no').scrollLeft());
+           $('.kuma-uxtable-header-no').animate({scrollLeft: $('.kuma-uxtable-body-no').scrollLeft()}, 0)
+           return;
         }
         
         let target= $(e.target);
