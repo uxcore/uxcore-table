@@ -126,7 +126,7 @@ class Demo extends React.Component {
         let columns = [
             { dataKey: 'check', title: '复选框', type: 'checkbox'},
             { dataKey: 'id', title: 'ID', width: 50,hidden:true},
-            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
+            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ',', align: 'right'},
             { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
             { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
             { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
