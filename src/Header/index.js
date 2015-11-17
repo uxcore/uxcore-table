@@ -206,11 +206,11 @@ class Header extends React.Component {
 
                     } 
                     else {
-                        _v = item.title;
+                        _v = <span title={item.title}>{item.title}</span>;
                     }
 
                     return <div key={index} className="kuma-uxtable-cell" style={_style}>
-                                <span>{_v}</span>
+                                {_v}
                                 {ctx.renderOrderIcon(item)}
                            </div>
                 })}

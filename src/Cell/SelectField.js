@@ -56,7 +56,7 @@ class SelectField extends React.Component {
 
         let props= this.props,renderProps , config= props.config;
         if (props.mode !== Const.MODE.VIEW) {
-            return ( <Select  value={this.state.value} optionLabelProp="children" showSearch={false} style={{width:config.width-10}}  onChange={this.handleChange.bind(this)}>
+            return ( <Select  value={this.state.value} optionLabelProp="children" showSearch={false} style={{width:config.width-20}}  onChange={this.handleChange.bind(this)}>
                 {
                     this.renderOptions(config).map(function(item){
                         return item;

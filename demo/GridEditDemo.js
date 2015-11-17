@@ -104,7 +104,7 @@ class Demo extends React.Component {
         // title, width, type, hidden,dataKey
         let columns = [
             { dataKey: 'jsxid',title:"jsxid",width: 40 },  
-            { dataKey: 'city',title:'城市', width: 180,type:'select' ,options:{
+            { dataKey: 'city',title:'城市很长很长很长很长很长很长很长很长很长很长', width: 220,type:'select' ,options:{
                'hz':'杭州',
                'bj':'北京',
                'sh':'上海',
