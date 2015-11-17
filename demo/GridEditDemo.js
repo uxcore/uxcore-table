@@ -102,42 +102,42 @@ class Demo extends React.Component {
             }
         }
         // title, width, type, hidden,dataKey
-        let columns = [
-            { dataKey: 'jsxid',title:"jsxid",width: 40 },  
-            { dataKey: 'city',title:'城市很长很长很长很长很长很长很长很长很长很长', width: 220,type:'select' ,options:{
-               'hz':'杭州',
-               'bj':'北京',
-               'sh':'上海',
-               'ah':'安徽'
-            }},
-            { dataKey: 'name',title:"姓名",width: 200,type:"text"},  
-            { dataKey: 'email',title:"Email",width: 200,type:"text"},
-            { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
-                "增加": function(rowData) {
-                    me.refs.grid.addEmptyRow();
-                },
-                "删除": function(rowData) {
-                    me.refs.grid.delRow(rowData);
-                }
-              }
-            }
-        ];
+        // let columns = [
+        //     { dataKey: 'jsxid',title:"jsxid",width: 40 },  
+        //     { dataKey: 'city',title:'城市很长很长很长很长很长很长很长很长很长很长', width: 220,type:'select' ,options:{
+        //        'hz':'杭州',
+        //        'bj':'北京',
+        //        'sh':'上海',
+        //        'ah':'安徽'
+        //     }},
+        //     { dataKey: 'name',title:"姓名",width: 200,type:"text"},  
+        //     { dataKey: 'email',title:"Email",width: 200,type:"text"},
+        //     { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
+        //         "增加": function(rowData) {
+        //             me.refs.grid.addEmptyRow();
+        //         },
+        //         "删除": function(rowData) {
+        //             me.refs.grid.delRow(rowData);
+        //         }
+        //       }
+        //     }
+        // ];
 
         // Edit mode but no inline edit
-        // let columns = [
-        //     { dataKey: 'check', title: '复选框', type: 'checkbox'},
-        //     { dataKey: 'id', title: 'ID', width: 50,hidden:true},
-        //     { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ',', align: 'right'},
-        //     { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-        //     { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-        //     { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-        //     { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-        //     { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-        //     { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-        //     { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-        //     { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-        //     { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','}
-        // ];
+        let columns = [
+            { dataKey: 'check', title: '复选框', type: 'checkbox'},
+            { dataKey: 'id', title: 'ID', width: 50,hidden:true},
+            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ',', align: 'right'},
+            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
+            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
+            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
+            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
+            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
+            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
+            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
+            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
+            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','}
+        ];
 
         if (me.state.showOtherColumn) {
             columns.push({ dataKey: 'city',title:'城市', width: 150})
@@ -145,12 +145,12 @@ class Demo extends React.Component {
 
 
         let renderProps={
-            height: 200,
+            // height: 200,
             width: 800,
             showPager:false,
             fetchParams: {},
             // jsxdata: me.state.data,
-            // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
+            fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             // fetchUrl: "http://10.1.159.52:3002/demo/data.json",
             jsxcolumns:columns,
             beforeFetch: (sendData) => {sendData.id = 1; return sendData;},
