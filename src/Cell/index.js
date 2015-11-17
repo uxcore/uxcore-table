@@ -148,7 +148,7 @@ class Cell extends React.Component {
         if (_column.render) {
            _v = _column.render.apply(null,[this.getCellData(),_v]);
         }
-        else if (_column.type=='action' && props.mode =='EDIT') {
+        else if (_column.type=='action' && props.mode == Const.MODE.EDIT) {
 
             _v = <div className="action-container" onClick={this.doAction.bind(this,_v,_column.actions)}>
                     { 

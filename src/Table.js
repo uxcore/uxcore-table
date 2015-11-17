@@ -10,6 +10,7 @@ let Header = require("./Header");
 let Tbody  = require("./Tbody");
 let ActionBar = require("./ActionBar");
 let Pagination  = require("uxcore-pagination");
+let Const = require('uxcore-const');
 let assign = require('object-assign');
 let deepcopy = require('deepcopy');
 let classnames = require("classnames");
@@ -690,7 +691,7 @@ Grid.defaultProps = {
     showHeader:true,
     width:"auto",
     height:"auto",
-    mode: "EDIT",
+    mode: Const.MODE.EDIT,
     renderModel:'',
     levels:1,
     headerHeight:40,
@@ -717,5 +718,6 @@ Grid.propTypes = {
 }
 
 Grid.displayName = Grid;
+Grid.Constants = Const;
 
 module.exports = Grid;

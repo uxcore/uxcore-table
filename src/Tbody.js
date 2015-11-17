@@ -15,7 +15,6 @@ class Tbody extends React.Component {
 
     componentDidMount() {
        let uxtableBody= this.refs.uxtableBody;
-       ////onScroll={this.onScroll.bind(this)}
        $(uxtableBody).on("scroll",this.onScroll.bind(this))
     }
 
