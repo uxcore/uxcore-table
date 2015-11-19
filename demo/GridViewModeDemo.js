@@ -9,6 +9,7 @@
 let classnames = require('classnames');
 let Grid = require('../src');
 let Button = require('uxcore-button');
+let urlPrefix = 'http://10.1.159.52:3000/';
 let mockData = {
     "datas": [
         {
@@ -129,7 +130,7 @@ class Demo extends React.Component {
 
         let renderProps={
             height: 400,
-            width: 1200,
+            width: 1000,
             actionBar: {
                '新增': function(type, actions) { console.info(actions); alert(type) },
                '黄山': function(type) {alert(type)}
@@ -139,7 +140,7 @@ class Demo extends React.Component {
             fetchParams: {},
             // jsxdata: mockData,
             //fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
-            fetchUrl: "http://10.1.157.111:3000/demo/data.json",
+            fetchUrl: urlPrefix + "demo/data.json",
             jsxcolumns:columns,
             //subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
             //rowSelection: rowSelection,

@@ -31,17 +31,21 @@ class Tbody extends React.Component {
     onScroll(e) {
         // TODO: remove jquery animation
         //       merge classname scroll/no/fixed
-        if (this.props.fixedColumn=='no') {
-           $('.kuma-uxtable-header-no').animate({scrollLeft: $('.kuma-uxtable-body-no').scrollLeft()}, 0)
+
+        this.el = ReactDOM.findDOMNode(this);
+        console.log($tableEl);
+        if (this.props.fixedColumn == 'no') {
+           $tableEl.find('.kuma-uxtable-header-no').animate({scrollLeft: $tableEl.find('.kuma-uxtable-body-no').scrollLeft()}, 0)
            return;
         }
         
         let target= $(e.target);
         if(target.hasClass('kuma-uxtable-body-scroll')) {
-            $('.kuma-uxtable-body-fixed').animate({scrollTop: $('.kuma-uxtable-body-scroll').scrollTop()}, 0)
-            $('.kuma-uxtable-header-scroll').animate({scrollLeft: $('.kuma-uxtable-body-scroll').scrollLeft()}, 0)
+            
+            $tableEl.find('.kuma-uxtable-body-fixed').animate({scrollTop: $tableEl.find('.kuma-uxtable-body-scroll').scrollTop()}, 0)
+            $tableEl.find('.kuma-uxtable-header-scroll').animate({scrollLeft: $tableEl.find('.kuma-uxtable-body-scroll').scrollLeft()}, 0)
         }else {
-            $('.kuma-uxtable-body-scroll').animate({scrollTop: $('.kuma-uxtable-body-fixed').scrollTop()}, 0)
+            $tableEl.find('.kuma-uxtable-body-scroll').animate({scrollTop: $tableEl.find('.kuma-uxtable-body-fixed').scrollTop()}, 0)
         }
 
         

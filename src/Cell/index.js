@@ -191,7 +191,7 @@ class Cell extends React.Component {
                 config:_column,
                 handleChange:this.handleChange.bind(this)
             }
-            _v=<SelectField {...renderProps} />
+            _v = <SelectField {...renderProps} />
         }
         else if (_column.type == 'money' || _column.type == "card" || _column.type == "cnmobile") {
             _v = <div title={this.getCellData()}>{util.formatValue(this.getCellData(), _column.type, _column.delimiter)}</div>;

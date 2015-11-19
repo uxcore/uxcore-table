@@ -32,10 +32,10 @@
     "gulp-just-replace": "~1.0.2",
     "gulp-less": "~3.0.3",
     "gulp-sourcemaps": "~1.5.2",
-    "webpack": "^1.10.5",
+    "jquery": "~2.1.4",
+    "react": "^0.14.0",
     "uxcore-kuma": "~1.2.1",
-    "react": "^0.14.0"
-
+    "webpack": "^1.10.5"
   },
   "dependencies": {
     "classnames": "^2.1.2",
@@ -46,7 +46,7 @@
     "uxcore-pagination": "~0.1.0",
     "uxcore-select2": "~0.1.4",
     "uxcore-validator": "~0.1.0",
-    "uxcore-const":"~0.0.1"
+    "uxcore-const": "~0.0.1"
   },
   "contributors": [],
   "license": "MIT"

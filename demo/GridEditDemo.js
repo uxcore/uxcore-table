@@ -10,7 +10,6 @@ let classnames = require('classnames');
 let Validator = require('uxcore-validator');
 let Button = require('uxcore-button');
 let Grid = require('../src');
-console.log(Grid.Constants);
 let mockData = {
     "datas": [
         {
@@ -46,13 +45,6 @@ class Demo extends React.Component {
            data:mockData,
            showOtherColumn: false
         }
-    }
-
-    onModifyRow(value,dataKey,record) {
-        //doValidate
-        //debugger;
-        //return false;
-        return true;
     }
 
     handleClick() {
@@ -91,52 +83,26 @@ class Demo extends React.Component {
           }
         };
 
-        let doAction= function(rowData,e) {
-            let el=$(e.target);
-            if(el.hasClass('action')) {
-               if( el.data('type') =='edit') {
-                  console.info(rowData,el.data('type'));
-               }else if(el.data('type') =='del') {
-                 console.info(rowData,el.data('type'));
-               }
-            }
-        }
         // title, width, type, hidden,dataKey
-        // let columns = [
-        //     { dataKey: 'jsxid',title:"jsxid",width: 40 },  
-        //     { dataKey: 'city',title:'城市很长很长很长很长很长很长很长很长很长很长', width: 220,type:'select' ,options:{
-        //        'hz':'杭州',
-        //        'bj':'北京',
-        //        'sh':'上海',
-        //        'ah':'安徽'
-        //     }},
-        //     { dataKey: 'name',title:"姓名",width: 200,type:"text"},  
-        //     { dataKey: 'email',title:"Email",width: 200,type:"text"},
-        //     { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
-        //         "增加": function(rowData) {
-        //             me.refs.grid.addEmptyRow();
-        //         },
-        //         "删除": function(rowData) {
-        //             me.refs.grid.delRow(rowData);
-        //         }
-        //       }
-        //     }
-        // ];
-
-        // Edit mode but no inline edit
         let columns = [
-            { dataKey: 'check', title: '复选框', type: 'checkbox'},
-            { dataKey: 'id', title: 'ID', width: 50,hidden:true},
-            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ',', align: 'right'},
-            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','}
+            { dataKey: 'jsxid',title:"jsxid",width: 80 },  
+            { dataKey: 'city',title:'城市很长很长很长很长很长很长很长很长很长很长', width: 200,type:'select' ,options:{
+               'hz':'杭州',
+               'bj':'北京',
+               'sh':'上海',
+               'ah':'安徽'
+            }},
+            { dataKey: 'name',title:"姓名",width: 200,type:"text"},  
+            { dataKey: 'email',title:"Email",width: 200,type:"text"},
+            { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
+                "增加": function(rowData) {
+                    me.refs.grid.addEmptyRow();
+                },
+                "删除": function(rowData) {
+                    me.refs.grid.delRow(rowData);
+                }
+              }
+            }
         ];
 
         if (me.state.showOtherColumn) {
@@ -150,7 +116,7 @@ class Demo extends React.Component {
             showPager:false,
             fetchParams: {},
             // jsxdata: me.state.data,
-            fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
+            // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             // fetchUrl: "http://10.1.159.52:3002/demo/data.json",
             jsxcolumns:columns,
             beforeFetch: (sendData) => {sendData.id = 1; return sendData;},

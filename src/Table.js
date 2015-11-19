@@ -1,5 +1,5 @@
 /**
- * Grid Component for uxcore
+ * Table Component for uxcore
  * @author zhouquan.yezq
  *
  * Copyright 2014-2015, UXCore Team, Alinw.
@@ -15,7 +15,7 @@ let assign = require('object-assign');
 let deepcopy = require('deepcopy');
 let classnames = require("classnames");
 
-class Grid extends React.Component {
+class Table extends React.Component {
 
     constructor(props) {
         super(props);
@@ -26,12 +26,12 @@ class Grid extends React.Component {
             showMask: this.props.showMask, // fetchData 时的内部状态改变
             pageSize: props.pageSize, // pagination 相关
             currentPage: props.currentPage, // pagination 相关
-            activeColumn:null,
-            searchTxt:"",
-            passedData:null,
-            params:null,
+            activeColumn: null,
+            searchTxt: "",
+            passedData: null,
+            params: null,
             selected: [],
-            expanded:false
+            expanded: false
         };
     }
 
@@ -42,10 +42,6 @@ class Grid extends React.Component {
     componentDidMount() {
         let me = this;
         me.el = ReactDOM.findDOMNode(me);
-        // $(me.el).find(".kuma-uxtable-body-wrapper").on("scroll", function(e) {
-        //     let scrollLeft = this.scrollLeft;
-        //     $(me.el).find(".kuma-uxtable-header-wrapper")[0].scrollLeft = scrollLeft;
-        // })
     }
 
     componentWillReceiveProps(nextProps) {
@@ -164,7 +160,7 @@ class Grid extends React.Component {
                 dataType: "json",
                 success: function(result) {
                     let _data = result.content;
-                    if(result.success) {
+                    if(result.success || !result.hasError) {
                         let updateObj= {
                           data: me.addJSXIdsForSD(me.props.processData(deepcopy(_data))),
                           showMask: false
@@ -213,7 +209,7 @@ class Grid extends React.Component {
           //default will create one row
           me.setState({
               "data": {
-                  datas: [{
+                  data: [{
                     jsxid:me.uid++
                   }],
                   "currentPage": 1,
@@ -295,25 +291,26 @@ class Grid extends React.Component {
     changeSelected(checked, rowIndex, fromMount) {
 
         let me = this;
-        let data = deepcopy(this.state.data);
+        let _content = deepcopy(this.state.data);
+        let _data = _content.datas || _content.data;
 
-        data.datas.map(function(item,index) {
-            if(item.jsxid==rowIndex) {
-                item[me.checkboxColumnKey]=checked;
+        _data.map((item,index) => {
+            if (item.jsxid == rowIndex) {
+                item[me.checkboxColumnKey] = checked;
                 return item;
             }
         });
         //data.datas[rowIndex][me.checkboxColumnKey] = checked;
 
         me.setState({
-            data: data
+            data: _content
         }, () => {
             if (!fromMount) {
-                let datas = me.state.data.datas;
-                let selectedRows = datas.filter((item, index) => {
+                let data = me.state.data.datas || me.state.data.data;
+                let selectedRows = data.filter((item, index) => {
                     return item[me.checkboxColumnKey] == true
                 });
-                !!me.props.rowSelection && !!me.props.rowSelection.onSelect && me.props.rowSelection.onSelect(checked, datas[rowIndex], selectedRows)
+                !!me.props.rowSelection && !!me.props.rowSelection.onSelect && me.props.rowSelection.onSelect(checked, data[rowIndex], selectedRows)
             }
         })
     }
@@ -321,19 +318,20 @@ class Grid extends React.Component {
     selectAll(checked) {
 
         let me = this;
-        let _data = deepcopy(me.state.data);
+        let _content = deepcopy(me.state.data);
+        let _data = _content.datas || _content.data;
         let rowSelection = me.props.rowSelection;
 
-        _data.datas = _data.datas.map(function(item,index){
+        _data = _data.map((item,index) => {
             item[me.checkboxColumnKey] = checked;
             return item;
         });
 
         if(!!rowSelection && !!rowSelection.onSelectAll) {
-            rowSelection.onSelectAll.apply(null,[checked,_data])
+            rowSelection.onSelectAll.apply(null,[checked,_content])
         }
         me.setState({
-            data: _data
+            data: _content
         })
     }
 
@@ -469,7 +467,7 @@ class Grid extends React.Component {
             }
             let renderBodyProps={
                 columns: this.state.columns,
-                data: this.state.data ? this.state.data.datas : [],
+                data: this.state.data ? this.state.data.datas || this.state.data.data : [],
                 onModifyRow: props.onModifyRow ? props.onModifyRow : function(){},
                 rowSelection: props.rowSelection,
                 addRowClassName: props.addRowClassName,
@@ -574,9 +572,10 @@ class Grid extends React.Component {
     */
     //add jsxids for state data
     addJSXIdsForSD(objAux) {
-      if ( !objAux || !objAux.datas) return;
+      if ( !objAux || (!objAux.datas && !objAux.data)) return;
       var me = this;
-      objAux.datas.forEach(function(node) {
+      var data = objAux.datas || objAux.data;
+      data.forEach(function(node) {
         node.jsxid = me.uid++;
         //_this.props.nodes.push(node);
         me.addJSXIdsForSD(node);
@@ -595,13 +594,18 @@ class Grid extends React.Component {
     * @param {objAux} {a:'b',c:'d'} or [{},{}]
     */
     insertRecords(objAux) {
-       let _data=$.extend(true,{},this.state.data);
-       if(Object.prototype.toString.call(objAux)!=="[object Array]") {
-          objAux=[objAux];
+       let _data = deepcopy(this.state.data);
+       if (Object.prototype.toString.call(objAux) !== "[object Array]") {
+          objAux = [objAux];
        }
 
-       objAux= this.addJSXIdsForRecord(objAux);
-       _data.datas= objAux.concat(_data.datas);
+       objAux = this.addJSXIdsForRecord(objAux);
+       if (!!_data.datas) {
+           _data.datas = objAux.concat(_data.datas);
+       }
+       else if (!!_data.data) {
+            _data.data = objAux.concat(_data.data);
+       }
        _data.totalCount++; 
        this.setState({
           data: _data
@@ -611,14 +615,30 @@ class Grid extends React.Component {
     /***
     * @param {objAux} {a:'b',c:'d',jsxid:''}
     */
-    updataRecord(objAux) {
-        let _data= this.state.data;
-        if(_data && _data.datas) {
-          _data.datas=_data.datas.map(item=> { if(item.jsxid==objAux.jsxid){
-              return objAux;
-          }else {
-             return item;
-          }})
+    updateRecord(objAux) {
+        let _data = this.state.data;
+
+        if (!_data) {
+            return;
+        }
+
+        if (_data.data || _data.datas) {
+            let data = _data.data || data.datas
+
+            data = data.map((item) => { 
+                if (item.jsxid == objAux.jsxid) {
+                    return objAux;
+                }
+                else {
+                    return item;
+                }
+            });
+            if (!!_data.data) {
+                _data.data = data
+            }
+            else if (!!_data.datas) {
+                _data.datas = data;
+            }
         }
         this.setState({
           data: _data
@@ -627,26 +647,32 @@ class Grid extends React.Component {
 
     removeRecords(objAux) {
       
-       //at least one record
-       if(this.state.data.datas.length==1){
-          return ;
-       }
-        let _data=$.extend(true,{},this.state.data),_newArr;
+        //at least one record
+        let content = this.state.data
+        let data = content.data || content._data;
 
-       if(Object.prototype.toString.call(objAux)!=="[object Array]") {
-          objAux=[objAux];
-       }
+        if (data.length == 1){
+            return;
+        }
+        // deepcopy protect
+        let _content = deepcopy(content),
+            _data = _content.data || _content.datas,
+            _newArr;
+
+        if (Object.prototype.toString.call(objAux) !== "[object Array]") {
+            objAux = [objAux];
+        }
 
         objAux.map(function(item) {
-            _data.datas.forEach(function(element, index, array) {
-                if(element.jsxid==item.jsxid) {
-                   _data.datas.splice(index,1);
+            _data.forEach(function(element, index, array) {
+                if (element.jsxid == item.jsxid) {
+                    _data.splice(index, 1);
                 }
             })
         })
 
         this.setState({
-          data: _data
+            data: _content
         });
 
     }
@@ -654,7 +680,7 @@ class Grid extends React.Component {
     //////////////////////// CURD for gird ////////////////
 
     addEmptyRow() {
-       this.insertRecords({});
+        this.insertRecords({});
     }
 
     addRow(rowData) {
@@ -670,23 +696,28 @@ class Grid extends React.Component {
     }
 
     toggleSubComp(rowData) {
-        let _data= this.state.data;
-        if(_data && _data.datas) {
-          _data.datas=_data.datas.map(item=> { if(item.jsxid==rowData.jsxid){
-             item.showSubComp= !item.showSubComp;
-             return item;
-          }else {
-             return item;
-          }})
+        let _content = deepcopy(this.state.data);
+        let _data = _content.datas || _content.datas;
+
+        if(_data) {
+            _data = _data.map((item) => { 
+                if (item.jsxid == rowData.jsxid) {
+                    item.showSubComp= !item.showSubComp;
+                    return item;
+                }
+                else {
+                    return item;
+                }
+            });
         }
         this.setState({
-          data: _data
+          data: _content
         })
     }
 
 };
 
-Grid.defaultProps = {
+Table.defaultProps = {
     jsxprefixCls: "kuma-uxtable",
     showHeader:true,
     width:"auto",
@@ -711,13 +742,13 @@ Grid.defaultProps = {
 }
 
 // http://facebook.github.io/react/docs/reusable-components.html
-Grid.propTypes = {
+Table.propTypes = {
     processData: React.PropTypes.func,
     beforeFetch: React.PropTypes.func,
     addRowClassName: React.PropTypes.func
 }
 
-Grid.displayName = Grid;
-Grid.Constants = Const;
+Table.displayName = Table;
+Table.Constants = Const;
 
-module.exports = Grid;
+module.exports = Table;

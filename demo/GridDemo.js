@@ -9,6 +9,7 @@
 let classnames = require('classnames');
 let Grid = require('../src');
 let Button = require('uxcore-button');
+let urlPrefix = 'http://10.1.159.52:3000/';
 let mockData = {
     "datas": [
         {
@@ -56,6 +57,10 @@ class Demo extends React.Component {
 
     onModifyRow(value,dataKey,record) {
         return true;
+    }
+
+    hanldeFetchData() {
+        this.refs.grid.fetchData();
     }
 
     render () {
@@ -129,6 +134,7 @@ class Demo extends React.Component {
 
         let renderProps={
             width: 1000,
+            height: 400,
             actionBar: {
                '新增': function(type, actions) { console.info(actions); alert(type) },
                '黄山': function(type) {alert(type)}
@@ -136,10 +142,10 @@ class Demo extends React.Component {
             showSearch: true,
             fetchParams: {},
             // jsxdata: mockData,
-            //fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
-            fetchUrl: "http://10.1.157.111:3000/demo/data.json",
+            fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
+            // fetchUrl: urlPrefix + "demo/data.json",
             jsxcolumns:columns,
-            //subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
+            // subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
             rowSelection: rowSelection,
             addRowClassName: (rowData) => {},
             beforeFetch: (sendData, from) => { return sendData;},
@@ -149,6 +155,7 @@ class Demo extends React.Component {
             <div>
                 <Grid {...renderProps}  ref="grid"/>
                 <Button onClick={me.handleClick.bind(me)}>页面重新渲染</Button>
+                <Button onClick={me.hanldeFetchData.bind(me)}>手动 fetchData</Button>
             </div>
         );
       }
