@@ -159,12 +159,16 @@ class Table extends React.Component {
                 data: me.getQueryObj(from),
                 dataType: "json",
                 success: function(result) {
-                    let _data = result.content;
                     if(result.success || !result.hasError) {
+                        let _data = result.content;
+                        let processedData = me.addJSXIdsForSD(me.props.processData(deepcopy(_data)));
                         let updateObj= {
-                          data: me.addJSXIdsForSD(me.props.processData(deepcopy(_data))),
+                          data: processedData,
                           showMask: false
                         };
+                        if (processedData.currentPage !== undefined) {
+                            updateObj.currentPage = processedData.currentPage;
+                        }
                         me.setState(updateObj)
                     }
                     else {

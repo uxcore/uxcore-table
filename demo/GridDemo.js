@@ -149,7 +149,9 @@ class Demo extends React.Component {
             rowSelection: rowSelection,
             addRowClassName: (rowData) => {},
             beforeFetch: (sendData, from) => { return sendData;},
-            processData: (data) => {return data;}           
+            processData: (data) => {
+                return data;
+            }           
         };
         return (
             <div>
