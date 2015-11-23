@@ -198,6 +198,7 @@ class Row extends React.Component {
                         rowSelection: props.rowSelection,
                         actions: props.actions,
                         mode: props.mode,
+                        handleDataChange: props.handleDataChange,
                         key:"cell" + index
                     };
 

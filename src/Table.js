@@ -67,7 +67,16 @@ class Table extends React.Component {
 
     componentWillUnmount() {
         let me = this;
-        // $(me.el).find(".kuma-uxtable-body-wrapper").off("scroll");
+    }
+
+    /**
+     * For inline edit
+     * receive changes from cell field and set this.state.data
+     */
+
+    handleDataChange(jsxid, datakey, value) {
+        let me = this;
+        let data = deepcopy(me.state.data);
     }
 
 
@@ -449,6 +458,7 @@ class Table extends React.Component {
     }
 
     render() {
+        this.handleDataChange();
         let props= this.props,
             bodyHeight,
             // if grid is sub mode, people always want to align the parent
@@ -481,6 +491,7 @@ class Table extends React.Component {
                 mode: props.mode,
                 renderModel: props.renderModel,
                 levels: props.levels,
+                handleDataChange: this.handleDataChange.bind(this),
                 key:'grid-body'
             },
             renderHeaderProps={

@@ -6,6 +6,7 @@ let Const = require('uxcore-const');
 let CheckBox = require('./CheckBox');
 let TextField = require('./TextField');
 let SelectField = require("./SelectField");
+let CellField = require('./CellField');
 let util = require('./Util');
 let classnames = require('classnames');
 let assign = require('object-assign');
@@ -52,7 +53,7 @@ class Cell extends React.Component {
     handleCheckChange(e) {
         var me = this,
             _props = this.props,
-            v=_props.rowData;
+            v = _props.rowData;
             me.props.changeSelected(e.target.checked, _props.rowIndex, false);
     }
     handleTxtChange(e){
@@ -60,13 +61,13 @@ class Cell extends React.Component {
         _props.rowData[_props.column.dataKey] = e.target.value;
     }
     handleChange(v) {
-       var _props= this.props;
-       _props.rowData[_props.column.dataKey]=v;
+       var _props = this.props;
+       _props.rowData[_props.column.dataKey] = v;
     }
     onblur(e) {
 
-       var _props= this.props;
-        _props.rowData[_props.column.dataKey]=e.target.value;
+       var _props = this.props;
+        _props.rowData[_props.column.dataKey] = e.target.value;
 
         return ;
         var _props= this.props,record=_props.rowData,value=record[_props.column.dataKey]       
@@ -176,13 +177,21 @@ class Cell extends React.Component {
             _v = me.renderTreeIcon();
         }
         else if (_column.type=='text') {
-            renderProps={
+            // renderProps={
+            //     value: this.getCellData(),
+            //     mode: props.mode,
+            //     onchange:this.handleTxtChange.bind(this),
+            //     onblur:this.onblur.bind(this)
+            // }
+            // _v = <TextField {...renderProps}/>
+            renderProps = {
                 value: this.getCellData(),
                 mode: props.mode,
-                onchange:this.handleTxtChange.bind(this),
-                onblur:this.onblur.bind(this)
+                dataKey: props.column.dataKey,
+                rowData: props.rowData,
+                handleDataChange: props.handleDataChange
             }
-            _v = <TextField {...renderProps}/>
+            _v = <CellField {...renderProps} />
         }
         else if (_column.type=='select') {
             renderProps={
