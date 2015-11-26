@@ -24,9 +24,9 @@ class Row extends React.Component {
 
     showSubCompFunc() {
         let props = this.props, showSubComp=props.rowData.showSubComp;
-        props.rowData.showSubComp=!showSubComp;
+        props.rowData.showSubComp = !showSubComp;
         this.forceUpdate();
-    }
+    } 
 
     renderSubComp() {
 
@@ -199,6 +199,8 @@ class Row extends React.Component {
                         actions: props.actions,
                         mode: props.mode,
                         handleDataChange: props.handleDataChange,
+                        attachCellField: props.attachCellField,
+                        detachCellField: props.detachCellField,
                         key:"cell" + index
                     };
 

@@ -19,7 +19,8 @@ class Table extends React.Component {
 
     constructor(props) {
         super(props);
-        this.uid=0;
+        this.uid = 0;
+        this.fields = {};
         this.state = {
             data: this.addJSXIdsForSD(deepcopy(this.props.jsxdata)), // checkbox 内部交互
             columns: this.processColumn(), // column 内部交互
@@ -71,7 +72,8 @@ class Table extends React.Component {
 
     /**
      * For inline edit
-     * receive changes from cell field and set this.state.data
+     * receive changes from cell field and change state.data
+     * inform users of the change with dataKey & pass
      */
 
     handleDataChange(jsxid, dataKey, value, pass) {
@@ -89,6 +91,30 @@ class Table extends React.Component {
         })
 
     }
+
+    /**
+     * register CellField to Table for the global validation
+     * @param field {element} the cell field to be registered
+     */
+
+     attachCellField(validate, name) {
+        let me = this;
+        if (!name) {
+            console.error("Table: name can not be empty, check the dataKey of the column config");
+        }
+        else {
+            me.fields[name] = validate;
+        }
+     }
+
+    /**
+     * cancel the CellField when it is unmounted.
+     * @param field {element} the cell field to be canceled.
+     */
+
+     detachCellField(name) {
+        delete this.fields[name];
+     }
 
 
     /*
@@ -419,18 +445,11 @@ class Table extends React.Component {
        
     }
 
-    validate(value, dataKey) {
-        
-    }
-
     getData() {
         let me = this;
         let pass = true;
-        for (let i = 0; i < me.state.data.data.length; i++) {
-            let _data = me.state.data.data[i];
-            for (let item in _data) {
-                pass = me.validate(_data[item], item);
-            }
+        for (name in me.fields) {
+            me.fields[name]();
         }
         return me.state.data;
     }
@@ -518,6 +537,8 @@ class Table extends React.Component {
                 renderModel: props.renderModel,
                 levels: props.levels,
                 handleDataChange: this.handleDataChange.bind(this),
+                attachCellField: this.attachCellField.bind(this),
+                detachCellField: this.detachCellField.bind(this),
                 key:'grid-body'
             },
             renderHeaderProps={
@@ -638,10 +659,10 @@ class Table extends React.Component {
 
        objAux = this.addJSXIdsForRecord(objAux);
        if (!!_data.datas) {
-           _data.datas = objAux.concat(_data.datas);
+           _data.datas = _data.datas.concat(objAux.concat);
        }
        else if (!!_data.data) {
-            _data.data = objAux.concat(_data.data);
+            _data.data = _data.data.concat(objAux);
        }
        _data.totalCount++; 
        this.setState({
@@ -703,6 +724,7 @@ class Table extends React.Component {
         objAux.map(function(item) {
             _data.forEach(function(element, index, array) {
                 if (element.jsxid == item.jsxid) {
+                    console.log(element);
                     _data.splice(index, 1);
                 }
             })

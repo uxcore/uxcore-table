@@ -101,9 +101,14 @@ class Demo extends React.Component {
                'ah':'安徽'
             }},
             { dataKey: 'name',title:"姓名",width: 200,type:"text", rules: {validator: function(value) {
-                return value.length < 5;
+                if (value == undefined) {
+                    return false
+                }
+                else {
+                    return value.length < 5;
+                }
             }}},  
-            { dataKey: 'email',title:"Email",width: 200,type:"text"},
+            { dataKey: 'email',title:"Email",width: 200,type:"text", rules: {validator: function(value) {return false}, errMsg: ""}},
             { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
                 "增加": function(rowData) {
                     me.refs.grid.addEmptyRow();
@@ -122,7 +127,7 @@ class Demo extends React.Component {
 
         let renderProps={
             // height: 200,
-            width: 800,
+            width: 1000,
             showPager:false,
             fetchParams: {},
             // jsxdata: me.state.data,

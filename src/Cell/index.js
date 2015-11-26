@@ -189,7 +189,9 @@ class Cell extends React.Component {
                 mode: props.mode,
                 rowData: props.rowData,
                 column: _column,
-                handleDataChange: props.handleDataChange
+                handleDataChange: props.handleDataChange,
+                attachCellField: props.attachCellField,
+                detachCellField: props.detachCellField
             }
             _v = <CellField {...renderProps} />
         }

@@ -7,6 +7,12 @@ class CellField extends React.Component {
         this.state = {
             pass: true
         }
+
+    }
+
+    componentDidMount() {
+        let me = this;
+        me.props.attachCellField(me.validate.bind(this), me.getName());
     }
 
     handleDataChange(jsxid, dataKey, value) {
@@ -15,10 +21,16 @@ class CellField extends React.Component {
             me.props.handleDataChange(jsxid, dataKey, value, me.state.pass);
         });
         
+    }
+
+    getName() {
+        let me = this;
+        return me.props.column.dataKey + me.props.rowData['jsxid'];
     }   
 
     validate(value, cb) {
         let me = this;
+        value = value || me.props.value;
         let {rules} = me.props.column;
         let pass = true;
         let errMsg = "";
@@ -39,7 +51,7 @@ class CellField extends React.Component {
             pass: pass,
             errMsg: errMsg
         }, () => {
-            cb();
+            !!cb && cb();
         });
     }
 

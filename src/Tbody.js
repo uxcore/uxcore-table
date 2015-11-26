@@ -119,6 +119,8 @@ class Tbody extends React.Component {
                           level:1,
                           levels: _props.levels,
                           handleDataChange: _props.handleDataChange,
+                          attachCellField: _props.attachCellField,
+                          detachCellField: _props.detachCellField,
                           visible:true
                       };
                       return <Row {...renderProps} />
