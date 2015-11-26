@@ -53,6 +53,10 @@ class Demo extends React.Component {
         })
     }
 
+    getTableValues() {
+        console.log(this.refs.grid.getData());
+    }
+
     handleChangeData() {
         this.setState({
             data: {
@@ -69,6 +73,10 @@ class Demo extends React.Component {
                 })
             }
         })
+    }
+
+    handleTableChange(data, dataKey, pass) {
+        console.log(data, dataKey, pass);
     }
 
     render () {
@@ -92,7 +100,9 @@ class Demo extends React.Component {
                'sh':'上海',
                'ah':'安徽'
             }},
-            { dataKey: 'name',title:"姓名",width: 200,type:"text"},  
+            { dataKey: 'name',title:"姓名",width: 200,type:"text", rules: {validator: function(value) {
+                return value.length < 5;
+            }}},  
             { dataKey: 'email',title:"Email",width: 200,type:"text"},
             { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
                 "增加": function(rowData) {
@@ -121,13 +131,15 @@ class Demo extends React.Component {
             jsxcolumns:columns,
             beforeFetch: (sendData) => {sendData.id = 1; return sendData;},
             processData: (data) => {return data;},
-            rowSelection: rowSelection           
+            rowSelection: rowSelection,
+            onChange: me.handleTableChange       
         };
         return (
             <div>
                 <Grid {...renderProps}  ref="grid"/>
                 <Button onClick={me.handleClick.bind(me)}>手动修改 column</Button>
                 <Button onClick={me.handleChangeData.bind(me)}>手动修改 data</Button>
+                <Button onClick={me.getTableValues.bind(me)}>获取 Table 的值</Button>
             </div>
         );
       }

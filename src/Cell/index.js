@@ -187,8 +187,8 @@ class Cell extends React.Component {
             renderProps = {
                 value: this.getCellData(),
                 mode: props.mode,
-                dataKey: props.column.dataKey,
                 rowData: props.rowData,
+                column: _column,
                 handleDataChange: props.handleDataChange
             }
             _v = <CellField {...renderProps} />

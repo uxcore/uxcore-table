@@ -74,9 +74,20 @@ class Table extends React.Component {
      * receive changes from cell field and set this.state.data
      */
 
-    handleDataChange(jsxid, datakey, value) {
+    handleDataChange(jsxid, dataKey, value, pass) {
         let me = this;
         let data = deepcopy(me.state.data);
+        for (let i = 0; i < data.data.length; i++) {
+            if (data.data[i].jsxid == jsxid) {
+                data.data[i][dataKey] = value;
+            }
+        }
+        me.setState({
+            data: data
+        }, () => {
+            me.props.onChange(me.state.data, dataKey, pass);
+        })
+
     }
 
 
@@ -168,12 +179,16 @@ class Table extends React.Component {
                 data: me.getQueryObj(from),
                 dataType: "json",
                 success: function(result) {
-                    let _data = result.content;
                     if(result.success || !result.hasError) {
+                        let _data = result.content;
+                        let processedData = me.addJSXIdsForSD(me.props.processData(deepcopy(_data)));
                         let updateObj= {
-                          data: me.addJSXIdsForSD(me.props.processData(deepcopy(_data))),
+                          data: processedData,
                           showMask: false
                         };
+                        if (processedData.currentPage !== undefined) {
+                            updateObj.currentPage = processedData.currentPage;
+                        }
                         me.setState(updateObj)
                     }
                     else {
@@ -245,10 +260,10 @@ class Table extends React.Component {
             }
         });
 
-        // filter the column which has a datakey 'jsxchecked' & 'jsxtreeIcon'
+        // filter the column which has a dataKey 'jsxchecked' & 'jsxtreeIcon'
 
         columns = columns.filter((item) => {
-            return item.dataKey !== 'jsxchecked' && item.datakey !== 'jsxtreeIcon';
+            return item.dataKey !== 'jsxchecked' && item.dataKey !== 'jsxtreeIcon';
         });
         // if hidden is not set, then it's false
 
@@ -404,8 +419,20 @@ class Table extends React.Component {
        
     }
 
+    validate(value, dataKey) {
+        
+    }
+
     getData() {
-       return this.state.data;
+        let me = this;
+        let pass = true;
+        for (let i = 0; i < me.state.data.data.length; i++) {
+            let _data = me.state.data.data[i];
+            for (let item in _data) {
+                pass = me.validate(_data[item], item);
+            }
+        }
+        return me.state.data;
     }
 
     hasFixColumn() {
@@ -458,7 +485,6 @@ class Table extends React.Component {
     }
 
     render() {
-        this.handleDataChange();
         let props= this.props,
             bodyHeight,
             // if grid is sub mode, people always want to align the parent
@@ -730,33 +756,35 @@ class Table extends React.Component {
 
 Table.defaultProps = {
     jsxprefixCls: "kuma-uxtable",
-    showHeader:true,
-    width:"auto",
-    height:"auto",
+    showHeader: true,
+    width: "auto",
+    height: "auto",
     mode: Const.MODE.EDIT,
-    renderModel:'',
-    levels:1,
-    headerHeight:40,
-    actionBarHeight:40,
-    showPager:true,
+    renderModel: '',
+    levels: 1,
+    headerHeight: 40,
+    actionBarHeight: 40,
+    showPager: true,
     showColumnPicker: true,
     showMask: false,
-    showSearch:false,
-    pageSize:10,
+    showSearch: false,
+    pageSize: 10,
     rowHeight: 76,
     fetchParams:'',
     currentPage:1,
     queryKeys:[],
     processData: (data) => {return data},
     beforeFetch: (obj) => {return obj},
-    addRowClassName: () => {}
+    addRowClassName: () => {},
+    onChange: () => {}
 }
 
 // http://facebook.github.io/react/docs/reusable-components.html
 Table.propTypes = {
     processData: React.PropTypes.func,
     beforeFetch: React.PropTypes.func,
-    addRowClassName: React.PropTypes.func
+    addRowClassName: React.PropTypes.func,
+    onChange: React.PropTypes.func
 }
 
 Table.displayName = Table;

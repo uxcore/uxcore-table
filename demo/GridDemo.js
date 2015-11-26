@@ -145,17 +145,20 @@ class Demo extends React.Component {
             fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             // fetchUrl: urlPrefix + "demo/data.json",
             jsxcolumns:columns,
-            // subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
+            subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
             rowSelection: rowSelection,
             addRowClassName: (rowData) => {},
             beforeFetch: (sendData, from) => { return sendData;},
-            processData: (data) => {return data;}           
+            processData: (data) => {
+                return data;
+            }           
         };
         return (
             <div>
                 <Grid {...renderProps}  ref="grid"/>
                 <Button onClick={me.handleClick.bind(me)}>页面重新渲染</Button>
                 <Button onClick={me.hanldeFetchData.bind(me)}>手动 fetchData</Button>
+                <Button onClick={me.getTableValues.bind(me)}>手动拿数据</Button>
             </div>
         );
       }

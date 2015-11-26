@@ -33,7 +33,7 @@ class Tbody extends React.Component {
         //       merge classname scroll/no/fixed
 
         this.el = ReactDOM.findDOMNode(this);
-        let $tableEl = $(this.el).parents('.kuma-uxtable');
+        let $tableEl = $(this.el).parents(".kuma-uxtable");        
         if (this.props.fixedColumn == 'no') {
            $tableEl.find('.kuma-uxtable-header-no').animate({scrollLeft: $tableEl.find('.kuma-uxtable-body-no').scrollLeft()}, 0)
            return;

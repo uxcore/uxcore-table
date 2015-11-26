@@ -122,6 +122,14 @@
     }
 }
 
+.@{uxtable-prefix}-cell-field {
+    &.hasError {
+        .kuma-input {
+            border-color: red;
+        }
+    }
+}
+
 
 .@{uxtable-prefix}-header .@{uxtable-prefix}-cell > div{
    overflow : visible;
@@ -161,7 +169,7 @@
 
 .@{uxtable-prefix}-tree-icon{
     cursor:pointer;
-    margin-right:4px;
+    // margin-right:4px;
     > .kuma-icon {
         font-size: 14px;
         color: #999999;
