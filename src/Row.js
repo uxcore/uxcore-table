@@ -189,6 +189,7 @@ class Row extends React.Component {
                         align:item.align,
                         rowData: props.rowData,
                         rowIndex: props.rowIndex,
+                        index: props.index,
                         cellIndex:index,
                         hasSubComp: props.subComp ? true : false,
                         data:_data,

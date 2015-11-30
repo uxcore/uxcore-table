@@ -15,6 +15,11 @@ class CellField extends React.Component {
         me.props.attachCellField(me.validate.bind(this), me.getName());
     }
 
+    componentWillUnmount() {
+        let me = this;
+        me.props.detachCellField(me.getName());
+    }
+
     handleDataChange(jsxid, dataKey, value) {
         let me = this;
         me.validate(value, () => {
@@ -25,7 +30,7 @@ class CellField extends React.Component {
 
     getName() {
         let me = this;
-        return me.props.column.dataKey + me.props.rowData['jsxid'];
+        return me.props.column.dataKey + "." + me.props.index;
     }   
 
     validate(value, cb) {
@@ -56,18 +61,7 @@ class CellField extends React.Component {
     }
 
     renderContent() {
-        let me = this;
-        let dataKey = me.props.column.dataKey;
-        let fieldProps = {
-            className: classnames({
-                "kuma-input": true
-            }),
-            onChange: (e) => {
-                me.handleDataChange(me.props.rowData['jsxid'], dataKey, e.target.value);
-            },
-            value: me.props.value
-        }
-        return <input {...fieldProps} />
+        
     }
 
     addSpecificClass() {

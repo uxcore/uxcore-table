@@ -158,7 +158,6 @@ class Demo extends React.Component {
                 <Grid {...renderProps}  ref="grid"/>
                 <Button onClick={me.handleClick.bind(me)}>页面重新渲染</Button>
                 <Button onClick={me.hanldeFetchData.bind(me)}>手动 fetchData</Button>
-                <Button onClick={me.getTableValues.bind(me)}>手动拿数据</Button>
             </div>
         );
       }

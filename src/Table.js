@@ -90,6 +90,7 @@ class Table extends React.Component {
             me.props.onChange(me.state.data, dataKey, pass);
         })
 
+
     }
 
     /**
@@ -628,6 +629,7 @@ class Table extends React.Component {
     *              "totalCount": 0
     *             }
     */
+
     //add jsxids for state data
     addJSXIdsForSD(objAux) {
       if ( !objAux || (!objAux.datas && !objAux.data)) return;
@@ -670,7 +672,7 @@ class Table extends React.Component {
        });
     }
 
-    /***
+   /**
     * @param {objAux} {a:'b',c:'d',jsxid:''}
     */
     updateRecord(objAux) {
@@ -706,6 +708,7 @@ class Table extends React.Component {
     removeRecords(objAux) {
       
         //at least one record
+        let me = this;
         let content = this.state.data
         let data = content.data || content._data;
 
@@ -724,7 +727,6 @@ class Table extends React.Component {
         objAux.map(function(item) {
             _data.forEach(function(element, index, array) {
                 if (element.jsxid == item.jsxid) {
-                    console.log(element);
                     _data.splice(index, 1);
                 }
             })
@@ -735,7 +737,7 @@ class Table extends React.Component {
         });
 
     }
-    
+
     //////////////////////// CURD for gird ////////////////
 
     addEmptyRow() {

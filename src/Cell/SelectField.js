@@ -1,82 +1,35 @@
-/**
- * Grid Component for uxcore
- * @author zhouquan.yezq
- *
- * Copyright 2014-2015, UXCore Team, Alinw.
- * All rights reserved.
- */
+let CellField = require('./CellField');
+let classnames = require('classnames');
+let assign = require('object-assign');
+let Select = require('uxcore-select2');
+let {Option} = Select;
 
-let Const = require('uxcore-const');
-let Select = require("uxcore-select2");
-let Option = Select.Option;
 
-class SelectField extends React.Component {
+class SelectField extends CellField {
 
     constructor(props) {
         super(props);
-        this.state={
-            value: this.props.value
+    }
+
+    renderContent() {
+        let me = this;
+        let dataKey = me.props.column.dataKey;
+        let fieldProps = {
+            className: classnames({
+                "kuma-input": true
+            }),
+            onChange: (e) => {
+                me.handleDataChange(me.props.rowData['jsxid'], dataKey, e.target.value);
+            },
+            value: me.props.value
         }
-    }
-
-    componentDidMount() {
-
-    }
-
-    componentDidUpdate() {
-
-    }
-    
-    componentWillUnmount () {
-       
-    }
-    componentWillReceiveProps(nextProps) {
-
-        this.setState({
-            value: nextProps.value
-        })
-    }
-    handleChange(value) {
-
-        this.setState({
-            value: value
-        })
-        this.props.handleChange.apply(null,[value]);
-    }
-
-    renderOptions(config) {
-        let _arr=[];
-        for(let key in config.options) {
-            _arr.push(<Option value={key} key={key}>{config.options[key]}</Option>) 
-        }
-        return _arr;
-    }
-
-    render() {
-
-        let props= this.props,renderProps , config= props.config;
-        if (props.mode !== Const.MODE.VIEW) {
-            return ( <Select  value={this.state.value} optionLabelProp="children" showSearch={false} style={{width:config.width-20}}  onChange={this.handleChange.bind(this)}>
-                {
-                    this.renderOptions(config).map(function(item){
-                        return item;
-                    })
-                }
-            </Select>);
-        }else {
-            return <span key="text">{this.state.value}</span>;
-        }
-
-       
+        return <input {...fieldProps} />
     }
 
 };
 
-SelectField.propTypes= {
-};
+SelectField.propTypes = assign({}, CellField.propTypes);
 
-SelectField.defaultProps = {
+SelectField.defaultProps = assign({}, CellField.defaultProps);
 
-};
-
-export default SelectField;
+module.exports = SelectField;

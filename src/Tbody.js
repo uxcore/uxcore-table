@@ -103,6 +103,7 @@ class Tbody extends React.Component {
                           columns: _columns,
                           rowIndex: item.jsxid,//tree mode, rowIndex need think more, so use jsxid
                           rowData: _data[index],
+                          index: index,
                           data: _data,
                           root: _props.root,
                           onModifyRow: _props.onModifyRow,

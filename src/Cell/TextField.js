@@ -1,65 +1,36 @@
 /**
  * A editable  plain text field
  */
- 
- let Const = require('uxcore-const');
 
+let CellField = require('./CellField');
+let classnames = require('classnames');
+let assign = require('object-assign');
 
-class TextField extends React.Component {
+class TextField extends CellField {
 
     constructor(props) {
         super(props);
-        this.state={
-            value: this.props.value
+    }
+
+    renderContent() {
+        let me = this;
+        let dataKey = me.props.column.dataKey;
+        let fieldProps = {
+            className: classnames({
+                "kuma-input": true
+            }),
+            onChange: (e) => {
+                me.handleDataChange(me.props.rowData['jsxid'], dataKey, e.target.value);
+            },
+            value: me.props.value
         }
-    }
-    componentDidMount() {
-        //this.focus();
-    }
-    componentDidUpdate() {
-
-    }
-    focus() {
-        this.refs.txtfield.focus();
-    }
-    componentWillUnmount () {
-    }
-
-    componentWillReceiveProps(nextProps) {
-       this.setState({
-          value: nextProps.value
-       })
-    }
-
-    handleChange(newValue) {
-       this.setState({value: newValue});
-    }
-
-    render() {
-
-        let props= this.props,renderProps ;
-        if (props.mode !== Const.MODE.VIEW) {
-            renderProps= {
-                className:"kuma-input",
-                ref:'txtfield',
-                onBlur: props.onblur.bind(this)
-            };
-
-            let valueLink = {
-              value: this.state.value,
-              requestChange: this.handleChange.bind(this)
-            };
-            return <input  type="text" {...renderProps} valueLink={valueLink} />
-        }else {
-            return <span key="text">{this.state.value}</span>;
-        }
-
+        return <input {...fieldProps} />
     }
 
 };
 
-TextField.propTypes= {};
+TextField.propTypes = assign({}, CellField.propTypes);
 
-TextField.defaultProps = {};
+TextField.defaultProps = assign({}, CellField.defaultProps);
 
-export default TextField;
+module.exports = TextField;

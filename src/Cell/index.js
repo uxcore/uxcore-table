@@ -6,10 +6,14 @@ let Const = require('uxcore-const');
 let CheckBox = require('./CheckBox');
 let TextField = require('./TextField');
 let SelectField = require("./SelectField");
-let CellField = require('./CellField');
+// let CellField = require('./CellField');
 let util = require('./Util');
 let classnames = require('classnames');
 let assign = require('object-assign');
+let fieldsMap = {
+    "select": SelectField,
+    "text": TextField
+};
 
 class Cell extends React.Component {
 
@@ -176,33 +180,19 @@ class Cell extends React.Component {
         else if (_column.type == 'treeIcon') {
             _v = me.renderTreeIcon();
         }
-        else if (_column.type=='text') {
-            // renderProps={
-            //     value: this.getCellData(),
-            //     mode: props.mode,
-            //     onchange:this.handleTxtChange.bind(this),
-            //     onblur:this.onblur.bind(this)
-            // }
-            // _v = <TextField {...renderProps}/>
+        else if (_column.type in fieldsMap) {
             renderProps = {
                 value: this.getCellData(),
                 mode: props.mode,
                 rowData: props.rowData,
+                index: props.index,
                 column: _column,
                 handleDataChange: props.handleDataChange,
                 attachCellField: props.attachCellField,
                 detachCellField: props.detachCellField
             }
-            _v = <CellField {...renderProps} />
-        }
-        else if (_column.type=='select') {
-            renderProps={
-                value: this.getCellData(),
-                mode: props.mode,
-                config:_column,
-                handleChange:this.handleChange.bind(this)
-            }
-            _v = <SelectField {...renderProps} />
+            let Field = fieldsMap[_column.type];
+            _v = <Field {...renderProps} />
         }
         else if (_column.type == 'money' || _column.type == "card" || _column.type == "cnmobile") {
             _v = <div title={this.getCellData()}>{util.formatValue(this.getCellData(), _column.type, _column.delimiter)}</div>;
