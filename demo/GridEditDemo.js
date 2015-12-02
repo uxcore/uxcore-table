@@ -9,15 +9,18 @@
 let classnames = require('classnames');
 let Validator = require('uxcore-validator');
 let Button = require('uxcore-button');
+let Select = require('uxcore-select2');
+let {Option} = Select; 
 let Grid = require('../src');
+let {Constants} = Grid
 let mockData = {
-    "datas": [
+    "data": [
         {
             "check": true,
             "id":"1",
             "grade":"grade1",
             "email":"email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1email1",
-            "firstName":"firstName1",
+            "name":"firstName1",
             "lastName":"lastName1",
             "birthDate":"birthDate1",
             "country":"086156529655931.121(xsxs)",
@@ -28,7 +31,7 @@ let mockData = {
             "id":"2",
             "grade":"grade2",
             "email":"email2email2email2email2email2email2email2email2email2email2email2email2email2email2email2email2email2email2email2email2email2email2email2email2email2email2email2email2email2email2email2",
-            "firstName":"firstName2",
+            "name":"firstName2",
             "lastName":"lastName2",
             "birthDate":"birthDate2",
             "country":"086156529655931.121(xsxs)",
@@ -60,12 +63,12 @@ class Demo extends React.Component {
     handleChangeData() {
         this.setState({
             data: {
-                datas: this.state.data.datas.concat({
+                data: this.state.data.data.concat({
                     "check": false,
                     "id":"3",
                     "grade":"grade3",
                     "email":"email3email3email3email",
-                    "firstName":"firstName3",
+                    "name":"firstName3",
                     "lastName":"lastName3",
                     "birthDate":"birthDate3",
                     "country":"086156539655931.121(xsxs)",
@@ -76,7 +79,7 @@ class Demo extends React.Component {
     }
 
     handleTableChange(data, dataKey, pass) {
-        console.log(data, dataKey, pass);
+        console.log(data['data']);
     }
 
     render () {
@@ -94,12 +97,9 @@ class Demo extends React.Component {
         // title, width, type, hidden,dataKey
         let columns = [
             { dataKey: 'jsxid',title:"jsxid",width: 80 },  
-            { dataKey: 'city',title:'城市很长很长很长很长很长很长很长很长很长很长', width: 200,type:'select' ,options:{
-               'hz':'杭州',
-               'bj':'北京',
-               'sh':'上海',
-               'ah':'安徽'
-            }},
+            { dataKey: 'city',title:'城市很长很长很长很长很长很长很长很长很长很长', width: 200, type:'select', children: ['1', '2', '3', '4', '87181'].map((item) => {
+                return <Option key={item}>{item}</Option>
+            }), config: {filterOption: false}},
             { dataKey: 'name',title:"姓名",width: 200,type:"text", rules: {validator: function(value) {
                 if (value == undefined) {
                     return false
@@ -108,15 +108,37 @@ class Demo extends React.Component {
                     return value.length < 5;
                 }
             }}},  
-            { dataKey: 'email',title:"Email",width: 200,type:"text", rules: {validator: function(value) {return false}, errMsg: ""}},
-            { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
-                "增加": function(rowData) {
-                    me.refs.grid.addEmptyRow();
-                },
-                "删除": function(rowData) {
-                    me.refs.grid.delRow(rowData);
-                }
-              }
+            { dataKey: 'email',title: "Email", width: 200,type:"text", rules: {validator: Validator.isEmail, errMsg: ""}},
+            { dataKey: 'action1', title: '操作1', width:100, type:"action", actions: [
+                    {
+                        title: '编辑',
+                        callback: (rowData) => {
+                            me.refs.grid.editRow(rowData);
+                        },
+                        mode: Constants.MODE.VIEW
+                    },
+                    {
+                        title: '保存',
+                        callback: (rowData) => {
+                            me.refs.grid.viewRow(rowData);
+                        },
+                        mode: Constants.MODE.EDIT
+                    },
+                    {
+                        title: '删除',
+                        callback: (rowData) => {
+                            me.refs.grid.delRow(rowData);
+                        },
+                        mode: Constants.MODE.VIEW
+                    },
+                    {
+                        title: '重置',
+                        callback: (rowData) => {
+                            me.refs.grid.resetRow(rowData);
+                        },
+                        mode: Constants.MODE.EDIT
+                    }
+                ]
             }
         ];
 
@@ -130,7 +152,12 @@ class Demo extends React.Component {
             width: 1000,
             showPager:false,
             fetchParams: {},
-            // jsxdata: me.state.data,
+            jsxdata: me.state.data,
+            actionBar: {
+                '新增行': () => {
+                    me.refs.grid.addEmptyRow();
+                }
+            },
             // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             // fetchUrl: "http://10.1.159.52:3002/demo/data.json",
             jsxcolumns:columns,

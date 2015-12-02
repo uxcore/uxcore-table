@@ -58,6 +58,7 @@ class CellField extends React.Component {
         }, () => {
             !!cb && cb();
         });
+        return pass;
     }
 
     renderContent() {

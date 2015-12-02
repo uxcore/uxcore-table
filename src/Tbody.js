@@ -14,8 +14,17 @@ class Tbody extends React.Component {
     }
 
     componentDidMount() {
-       let uxtableBody= this.refs.uxtableBody;
-       $(uxtableBody).on("scroll",this.onScroll.bind(this))
+        let me = this;
+        me.rootEl = ReactDOM.findDOMNode(me.refs.root);
+        me.scrollHandler = me.onScroll.bind(me);
+        $(me.rootEl).on("scroll", me.scrollHandler)
+    }
+
+    componentWillUnmount() {
+        let me = this;
+        me.resizeTimer = null;
+        $(me.rootEl).off("scroll", me.scrollHandler);
+
     }
 
     renderEmptyData() {
@@ -95,7 +104,7 @@ class Tbody extends React.Component {
             bodyWrapClassName="kuma-uxtable-body-no";
         }
         return (
-            <div className={bodyWrapClassName}  ref="uxtableBody" style={_style} > 
+            <div className={bodyWrapClassName}  ref="root" style={_style} > 
               <ul className={this.props.jsxprefixCls} >
                   {this.renderEmptyData()}
                   {_data.map(function(item,index) {
@@ -132,9 +141,7 @@ class Tbody extends React.Component {
         );
     }
 
-    componentWillUnmount() {
-       this.resizeTimer=null;
-    }
+    
 
 };
 

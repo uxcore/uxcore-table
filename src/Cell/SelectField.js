@@ -15,15 +15,18 @@ class SelectField extends CellField {
         let me = this;
         let dataKey = me.props.column.dataKey;
         let fieldProps = {
-            className: classnames({
-                "kuma-input": true
-            }),
-            onChange: (e) => {
-                me.handleDataChange(me.props.rowData['jsxid'], dataKey, e.target.value);
+            onChange: (value) => {
+                me.handleDataChange(me.props.rowData['jsxid'], dataKey, value);
             },
             value: me.props.value
+        };
+        if (me.props.column.config) {
+            let {value, onChange, ...customProps} = me.props.column.config;
+            assign(fieldProps, customProps);
         }
-        return <input {...fieldProps} />
+        return <Select {...fieldProps}>
+                    {me.props.column.children}
+               </Select>
     }
 
 };

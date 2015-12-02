@@ -9,10 +9,12 @@
 let Header = require("./Header");
 let Tbody  = require("./Tbody");
 let ActionBar = require("./ActionBar");
+let CellField = require('./Cell/CellField');
 let Pagination  = require("uxcore-pagination");
 let Const = require('uxcore-const');
 let assign = require('object-assign');
 let deepcopy = require('deepcopy');
+let deepEqual = require('deep-equal');
 let classnames = require("classnames");
 
 class Table extends React.Component {
@@ -22,7 +24,7 @@ class Table extends React.Component {
         this.uid = 0;
         this.fields = {};
         this.state = {
-            data: this.addJSXIdsForSD(deepcopy(this.props.jsxdata)), // checkbox 内部交互
+            data: this.addValuesInData(deepcopy(this.props.jsxdata)), // checkbox 内部交互
             columns: this.processColumn(), // column 内部交互
             showMask: this.props.showMask, // fetchData 时的内部状态改变
             pageSize: props.pageSize, // pagination 相关
@@ -43,6 +45,9 @@ class Table extends React.Component {
     componentDidMount() {
         let me = this;
         me.el = ReactDOM.findDOMNode(me);
+        if (!!me.state.data.datas) {
+            console.warn("Table: 'content.data' rather than 'content.datas' is recommended, the support for 'content.datas' will be end from ver. 1.3.0")
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -51,7 +56,7 @@ class Table extends React.Component {
         if (!!nextProps.jsxdata && !!me.props.jsxdata && !me._isEqual(nextProps.jsxdata, me.props.jsxdata)) {
             // Data has changed, so uid which is used to mark the data should be reset.
             me.uid = 0;
-            newData['data'] = me.addJSXIdsForSD(deepcopy(nextProps.jsxdata));
+            newData['data'] = me.addValuesInData(deepcopy(nextProps.jsxdata));
         }
         if (nextProps.pageSize != me.props.pageSize) {
             newData['pageSize'] = nextProps.pageSize;
@@ -124,7 +129,7 @@ class Table extends React.Component {
      */
 
     _isEqual(a, b) {
-        return JSON.parse(JSON.stringify(a)) == JSON.parse(JSON.stringify(b))
+        return deepEqual(a, b);
     }
 
 
@@ -208,7 +213,7 @@ class Table extends React.Component {
                 success: function(result) {
                     if(result.success || !result.hasError) {
                         let _data = result.content;
-                        let processedData = me.addJSXIdsForSD(me.props.processData(deepcopy(_data)));
+                        let processedData = me.addValuesInData(me.props.processData(deepcopy(_data)));
                         let updateObj= {
                           data: processedData,
                           showMask: false
@@ -216,6 +221,7 @@ class Table extends React.Component {
                         if (processedData.currentPage !== undefined) {
                             updateObj.currentPage = processedData.currentPage;
                         }
+                        me.data = deepcopy(updateObj);
                         me.setState(updateObj)
                     }
                     else {
@@ -235,9 +241,11 @@ class Table extends React.Component {
         else if (!!me.props.passedData) {
 
             if (!me.props.queryKeys) {
+                let data = me.addValuesInData(me.props.processData(deepcopy(me.props.passedData)));
                 me.setState({
-                    data: me.addJSXIdsForSD(me.props.processData(deepcopy(me.props.passedData)))
+                    data: data
                 });
+                me.data = deepcopy(data);
             }
             else {
                 let data = {};
@@ -246,27 +254,33 @@ class Table extends React.Component {
                         data[key] = me.props.passedData[key];
                     }
                 });
+                let processedData = me.addValuesInData(me.props.processData(deepcopy(data)));
                 me.setState({
-                    data: me.addJSXIdsForSD(me.props.processData(deepcopy(data)))
+                    data: processedData
                 });
+                me.data = deepcopy(processedData);
             }
         }
         else if (!!this.props.jsxdata) {
-          me.setState({
-             data: this.addJSXIdsForSD(deepcopy(this.props.jsxdata))
-          });
+            let data = this.addValuesInData(deepcopy(this.props.jsxdata));
+            me.setState({
+                data: data
+            });
+            me.data = deepcopy(data);
         }
         else {
-          //default will create one row
-          me.setState({
-              "data": {
-                  data: [{
-                    jsxid:me.uid++
-                  }],
-                  "currentPage": 1,
-                  "totalCount": 0
-              }
-          })
+            //default will create one row
+            let data = {
+                data: [{
+                    jsxid: me.uid++,
+                    __mode__: Const.MODE.EDIT
+                }],
+                "currentPage": 1,
+                "totalCount": 0
+            };
+            me.setState({
+                "data": deepcopy(data)
+            })
         }
 
     }
@@ -351,7 +365,6 @@ class Table extends React.Component {
                 return item;
             }
         });
-        //data.datas[rowIndex][me.checkboxColumnKey] = checked;
 
         me.setState({
             data: _content
@@ -408,7 +421,7 @@ class Table extends React.Component {
     }
 
     renderPager() {
-        if(this.props.showPager && this.state.data && this.state.data.totalCount) {
+        if (this.props.showPager && this.state.data && this.state.data.totalCount) {
             return (
                 <div className="kuma-uxtable-page">
                     <Pagination className="mini" 
@@ -450,9 +463,15 @@ class Table extends React.Component {
         let me = this;
         let pass = true;
         for (name in me.fields) {
-            me.fields[name]();
+            let fieldPass = me.fields[name]();
+
+            // if one field fails to pass, the table fails to pass
+
+            if (pass) {
+                pass = fieldPass;
+            }
         }
-        return me.state.data;
+        return {data: me.state.data, pass: pass};
     }
 
     hasFixColumn() {
@@ -486,17 +505,17 @@ class Table extends React.Component {
        }
     }
 
-    renderTbody(renderBodyProps,bodyHeight) {
+    renderTbody(renderBodyProps, bodyHeight) {
       
        if(this.hasFixColumn()){
-         return   <div className="kuma-uxtable-body-wrapper" style={{
+         return <div className="kuma-uxtable-body-wrapper" style={{
               height: bodyHeight
           }}>
               <Tbody  {...renderBodyProps} fixedColumn='fixed' key="grid-body-fixed"/>
               <Tbody  {...renderBodyProps} fixedColumn='scroll' key="grid-body-scroll"/>
           </div>
        }else {
-          return  <div className="kuma-uxtable-body-wrapper" style={{
+          return <div className="kuma-uxtable-body-wrapper" style={{
               height: bodyHeight
           }}>
               <Tbody  {...renderBodyProps} fixedColumn='no'/>
@@ -586,25 +605,22 @@ class Table extends React.Component {
 
     }
 
-    /////////////////////////Util Method////////////////
-
-    //grid record use jsxid as record uid
-    //this method will service for init or fetch grid data
+    ///////////////////////// Util Method /////////////////////////
 
     /**
-    * @param objAux 
-    *              [{
-    *                  a:'b',
-    *                  c:'d'
-    *              }]
-    */
+     * add some specific value for each row data which will be used in manipulating data & rendering.
+     * used in record API.
+     */
 
     addJSXIdsForRecord(objAux) {
-       let me= this;
-       if (Object.prototype.toString.call(objAux) =="[object Array]") {
+        let me = this;
+        if (objAux instanceof Array) {
             objAux = objAux.map((item) => { 
-                if(!item.jsxid){
+                if (item.jsxid == undefined || item.jsxid == null){
                     item.jsxid = me.uid++;
+                }
+                if (!item.__mode__) {
+                    item.__mode__ = Const.MODE.EDIT
                 }
                 return item;
             });
@@ -615,61 +631,60 @@ class Table extends React.Component {
         return objAux;
     }
 
-   /**
-    * @param data {
-    *              datas:[{
-    *                   jsxid:0,
-    *                   datas:[
-    *                     {
-    *                        jsxid:1
-    *                     }
-    *                   ]
-    *              }],
-    *              "currentPage": 1,
-    *              "totalCount": 0
-    *             }
-    */
+    /**
+     * add some specific value for each row data which will be used in manipulating data & rendering.
+     * used in method fetchData
+     */
 
-    //add jsxids for state data
-    addJSXIdsForSD(objAux) {
-      if ( !objAux || (!objAux.datas && !objAux.data)) return;
-      var me = this;
-      var data = objAux.datas || objAux.data;
-      data.forEach(function(node) {
-        node.jsxid = me.uid++;
-        //_this.props.nodes.push(node);
-        me.addJSXIdsForSD(node);
-      });
-      return objAux;
-
+    addValuesInData(objAux) {
+        if ( !objAux || (!objAux.datas && !objAux.data)) return;
+        let me = this;
+        let data = objAux.datas || objAux.data;
+        data.forEach(function(node) {
+            node.jsxid = me.uid++;
+            node.__mode__ = Const.MODE.VIEW
+            me.addValuesInData(node);
+        });
+        return objAux;
     }
 
-    // some time, UI new some data, but not sync with db, 
-    // need cache on the client, then use save action, get
-    // all grid data to sync with db
-    
-    //Insert , should be insert new record to grid data, the totalCount will be +1
-
-    /***
-    * @param {objAux} {a:'b',c:'d'} or [{},{}]
+   /**
+    * merge data
     */
-    insertRecords(objAux) {
-       let _data = deepcopy(this.state.data);
-       if (Object.prototype.toString.call(objAux) !== "[object Array]") {
-          objAux = [objAux];
-       }
 
-       objAux = this.addJSXIdsForRecord(objAux);
-       if (!!_data.datas) {
-           _data.datas = _data.datas.concat(objAux.concat);
-       }
-       else if (!!_data.data) {
-            _data.data = _data.data.concat(objAux);
-       }
-       _data.totalCount++; 
-       this.setState({
-          data: _data
-       });
+    mergeData(data, obj) {
+        let newData = deepcopy(data);
+
+        // code compatible
+        if (!!newData.datas) {
+            newData.datas = newData.datas.concat(obj);
+        }
+        else if (!!newData.data) {
+            newData.data = newData.data.concat(obj);
+        }
+        newData.totalCount++
+        return newData;
+    }
+
+    
+   /**
+    * insert some data into this.state.data
+    * @param objAux {Array or Object} datum or data need to be inserted
+    */
+
+    insertRecords(objAux) {
+        if (typeof objAux !== "object") return;
+        let me = this;
+        if (!(objAux instanceof Array)) {
+            objAux = [objAux];
+        }
+
+        objAux = this.addJSXIdsForRecord(objAux);
+
+        me.data = me.mergeData(me.data, objAux);
+        this.setState({
+            data: me.mergeData(me.state.data, objAux)
+        });
     }
 
    /**
@@ -683,7 +698,7 @@ class Table extends React.Component {
         }
 
         if (_data.data || _data.datas) {
-            let data = _data.data || data.datas
+            let data = _data.data || _data.datas
 
             data = data.map((item) => { 
                 if (item.jsxid == objAux.jsxid) {
@@ -748,12 +763,32 @@ class Table extends React.Component {
         this.insertRecords(rowData);
     }
 
-    updataRow(rowData) {
-        this.removeRecords(rowData);
+    resetRow(rowData) {
+        let me = this;
+        let updateData = {};
+        let _data = me.data.datas || me.data.data;
+        for (let i = 0; i < _data.length; i++) {
+            if (_data[i].jsxid == rowData.jsxid) {
+                updateData = deepcopy(_data[i]);
+                break;
+            }
+        }
+        updateData['__mode__'] = Const.MODE.EDIT;
+        this.updateRecord(updateData);
     }
 
     delRow(rowData) {
         this.removeRecords(rowData);
+    }
+
+    editRow(rowData) {
+        rowData.__mode__ = Const.MODE.EDIT;
+        this.updateRecord(rowData);
+    }
+
+    viewRow(rowData) {
+        rowData.__mode__ = Const.MODE.VIEW;
+        this.updateRecord(rowData);
     }
 
     toggleSubComp(rowData) {
@@ -772,7 +807,7 @@ class Table extends React.Component {
             });
         }
         this.setState({
-          data: _content
+            data: _content
         })
     }
 
@@ -812,6 +847,7 @@ Table.propTypes = {
 }
 
 Table.displayName = Table;
+Table.CellField = CellField;
 Table.Constants = Const;
 
 module.exports = Table;

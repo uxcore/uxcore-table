@@ -6,10 +6,10 @@ let Const = require('uxcore-const');
 let CheckBox = require('./CheckBox');
 let TextField = require('./TextField');
 let SelectField = require("./SelectField");
-// let CellField = require('./CellField');
 let util = require('./Util');
 let classnames = require('classnames');
 let assign = require('object-assign');
+let deepcopy = require('deepcopy');
 let fieldsMap = {
     "select": SelectField,
     "text": TextField
@@ -20,7 +20,6 @@ class Cell extends React.Component {
     constructor(props) {
         super(props);
         this.state= {
-            'mode':Const.MODE.VIEW,
             'fold':1,   // 1- fold  0-unfold
             'checked': !!this.getCellData()
         };
@@ -100,30 +99,53 @@ class Cell extends React.Component {
         }
     }
 
-    doAction(rowData,actions,e) {
-        let me = this;
-        let el = $(e.target);
-        if (el.hasClass('action')) {
-            actions[el.data('type')].apply(null,[rowData, me.props.root]);
-        }
-    }
+    // doAction(rowData, actions ,e) {
+    //     let me = this;
+    //     let el = $(e.target);
+    //     if (el.hasClass('action')) {
+    //         for (let i = 0; i < me.items.length; i++) {
+    //             if (me.items[i].title == el.data('type')) {
+    //                 me.items[i].callback.apply(null, [rowData, me.props.root])
+    //                 break;
+    //             }
+    //         }
+    //     }
+    // }
 
-    /**
+   /**
     * @param {JSON}
     */
     getActionItems(actions) {
-       let items=[];
-       for(let i  in actions) {
-          if(actions.hasOwnProperty(i)) {
-             items.push(i);
-          }
-       }
+        if (typeof actions !== "object") {
+            console.error("Table: Actions should be an object or array");
+            return [];
+        }
+        else {
+            let me = this;
+            me.items = [];
+            if (actions instanceof Array) {
+                me.items = actions;
+            } 
+            else {
+                for (let i in actions) {
+                    if (actions.hasOwnProperty(i)) {
+                        me.items.push({
+                            title: i,
+                            callback: actions[i]
+                        });
+                    }
+                }
+            }
 
-      let props = this.props,_column = props.column,beforeRender= _column.beforeRender;
-      if(beforeRender) {
-         return beforeRender.apply(null,[props.rowData,items])
-      }
-      return items;
+            let props = this.props,
+                _column = props.column,
+                beforeRender = _column.beforeRender;
+
+            if (beforeRender) {
+                return beforeRender.apply(null,[props.rowData,me.items])
+            }
+            return me.items;
+        }
     }
 
     getCellData(nextProps) {
@@ -139,27 +161,37 @@ class Cell extends React.Component {
 
     render() {
         
-        let props = this.props,
-            me   = this,
+        let me = this,
+            props = me.props,
             _column = props.column, 
-            _width = _column.width, 
+            _width = _column.width,
+            _mode =  props.rowData['__mode__'],
             _style = {
                 width: _width ? _width : 100,
                 textAlign: props.align ? props.align : "left"
             },
-            _v = assign({}, props.rowData),
+            _v = deepcopy(props.rowData),
             renderProps;
 
         if (_column.render) {
-           _v = _column.render.apply(null,[this.getCellData(),_v]);
+           _v = _column.render.apply(null,[me.getCellData(),_v]);
         }
-        else if (_column.type=='action' && props.mode == Const.MODE.EDIT) {
+        else if (_column.type == 'action') {
 
-            _v = <div className="action-container" onClick={this.doAction.bind(this,_v,_column.actions)}>
+            _v = <div className="action-container">
                     { 
-                        me.getActionItems(_column.actions).map(function(action, index) {
-                            return <span className="action" key={index} data-type={action}>{action}</span>
-                         })
+                        me.getActionItems(_column.actions).map(function(item, index) {
+
+                            // There are two cases in which Table will render the action.
+                            // One is that 'mode' is not defined in action, which means it will be rendered in any mode.
+                            // The other is that 'mode' is defined & 'mode' is equal to the Cell mode, 
+                            // which means this action is rendered in the user-specified mode.
+
+                            if (!('mode' in item) || item.mode == _mode) {
+                                return <a href="javascript:void(0);" className="action" key={index} onClick={item.callback.bind(me, _v, me.props.root)}>{!!item.render ? item.render(item.title) : item.title}</a>
+                            }
+
+                        })
                     }
                  </div>
         }
@@ -174,16 +206,15 @@ class Cell extends React.Component {
             } else {
                 checked="";
             }
-            _v = <CheckBox disable={_column.disable} mode={props.mode} align={props.align} jsxchecked={checked} ref="checkbox" onchange={this.handleCheckChange.bind(this)}/>
+            _v = <CheckBox disable={_column.disable} mode={props.mode} align={props.align} jsxchecked={checked} ref="checkbox" onchange={me.handleCheckChange.bind(me)}/>
 
         }
         else if (_column.type == 'treeIcon') {
             _v = me.renderTreeIcon();
         }
-        else if (_column.type in fieldsMap) {
+        else if (_column.type in fieldsMap && _mode == Const.MODE.EDIT) {
             renderProps = {
-                value: this.getCellData(),
-                mode: props.mode,
+                value: me.getCellData(),
                 rowData: props.rowData,
                 index: props.index,
                 column: _column,
@@ -195,15 +226,15 @@ class Cell extends React.Component {
             _v = <Field {...renderProps} />
         }
         else if (_column.type == 'money' || _column.type == "card" || _column.type == "cnmobile") {
-            _v = <div title={this.getCellData()}>{util.formatValue(this.getCellData(), _column.type, _column.delimiter)}</div>;
+            _v = <div title={me.getCellData()}>{util.formatValue(me.getCellData(), _column.type, _column.delimiter)}</div>;
         }
         else {
-            _v = <div title={this.getCellData()}>{this.getCellData()}</div>;
+            _v = <div title={me.getCellData()}>{me.getCellData()}</div>;
         }
 
-        let child=this.props.children;
+        let child=me.props.children;
         return (
-            <div className={props.jsxprefixCls} style={_style} onClick={this.handleClick.bind(this)}>
+            <div className={props.jsxprefixCls} style={_style} onClick={me.handleClick.bind(me)}>
                 {child}
                 {_v}
             </div>

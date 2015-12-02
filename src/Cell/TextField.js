@@ -1,5 +1,5 @@
 /**
- * A editable  plain text field
+ * A editable plain text field
  */
 
 let CellField = require('./CellField');
