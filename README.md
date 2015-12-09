@@ -115,7 +115,6 @@ $ gulp server
 |disable        |  optional |  boolean    | disable a column, now only support type 'checkbox'|
 |actions        |  required |  array      | when type =='action', we need this attr |
 |[render](https://github.com/uxcore/uxcore-table/issues/30)        |  optional |  function    | for custom cell |
-|[beforeRender](https://github.com/uxcore/uxcore-table/issues/30)  |  optional |  function    | for custom cell data |
 |fixed         |  optional |  boolean    |  set the column fixed or not  |
 |delimiter      |  optional |  string     | delimiter used in type 'money', 'card', 'cnmobile' formating|
 |align         | optional   | string     | text-align, default: 'left' |

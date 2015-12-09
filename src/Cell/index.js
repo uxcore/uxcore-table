@@ -6,13 +6,15 @@ let Const = require('uxcore-const');
 let CheckBox = require('./CheckBox');
 let TextField = require('./TextField');
 let SelectField = require("./SelectField");
+let RadioField = require("./RadioField");
 let util = require('./Util');
 let classnames = require('classnames');
 let assign = require('object-assign');
 let deepcopy = require('deepcopy');
 let fieldsMap = {
     "select": SelectField,
-    "text": TextField
+    "text": TextField,
+    "radio": RadioField
 };
 
 class Cell extends React.Component {
@@ -23,12 +25,6 @@ class Cell extends React.Component {
             'fold':1,   // 1- fold  0-unfold
             'checked': !!this.getCellData()
         };
-    }
-
-    handleClick(e) {
-       /* this.setState({
-            mode:"edit"
-        })*/
     }
 
     componentWillReceiveProps(nextProps) {
@@ -47,41 +43,12 @@ class Cell extends React.Component {
         }
     }
 
-    getSelectionRows() {
-        var _props = this.props;
-        return _props.data.filter(function(item) {
-            return item.jsxchecked
-        });
-    }
+
     handleCheckChange(e) {
         var me = this,
             _props = this.props,
             v = _props.rowData;
             me.props.changeSelected(e.target.checked, _props.rowIndex, false);
-    }
-    handleTxtChange(e){
-        var _props= this.props;
-        _props.rowData[_props.column.dataKey] = e.target.value;
-    }
-    handleChange(v) {
-       var _props = this.props;
-       _props.rowData[_props.column.dataKey] = v;
-    }
-    onblur(e) {
-
-       var _props = this.props;
-        _props.rowData[_props.column.dataKey] = e.target.value;
-
-        return ;
-        var _props= this.props,record=_props.rowData,value=record[_props.column.dataKey]       
-        var isValid=_props.onModifyRow.apply(null,[value,_props.column.dataKey,record]);
-        if(isValid) {
-            this.setState({
-                mode: Const.MODE.VIEW
-            });
-        } else {
-           e.target.focus ? e.target.focus() : "";
-        }
     }
 
     showSubComp() {
@@ -99,21 +66,8 @@ class Cell extends React.Component {
         }
     }
 
-    // doAction(rowData, actions ,e) {
-    //     let me = this;
-    //     let el = $(e.target);
-    //     if (el.hasClass('action')) {
-    //         for (let i = 0; i < me.items.length; i++) {
-    //             if (me.items[i].title == el.data('type')) {
-    //                 me.items[i].callback.apply(null, [rowData, me.props.root])
-    //                 break;
-    //             }
-    //         }
-    //     }
-    // }
-
    /**
-    * @param {JSON}
+    * @param actions {Array or Object}
     */
     getActionItems(actions) {
         if (typeof actions !== "object") {
@@ -137,26 +91,24 @@ class Cell extends React.Component {
                 }
             }
 
-            let props = this.props,
-                _column = props.column,
-                beforeRender = _column.beforeRender;
-
-            if (beforeRender) {
-                return beforeRender.apply(null,[props.rowData,me.items])
-            }
             return me.items;
         }
     }
 
+    getEditData() {
+        let me = this;
+        let column = me.props.column;
+        let editKey = column.editKey || column.dataKey;
+        return me.props.rowData[editKey];
+    }
+
     getCellData(nextProps) {
+
         let props = nextProps || this.props,
             _column = props.column,
-            beforeRender = _column.beforeRender,
             cellData = props.rowData[_column.dataKey];
-      if (beforeRender) {
-         return beforeRender.apply(null, [props.rowData,cellData])
-      }
-      return cellData;
+
+        return cellData;
     }
 
     render() {
@@ -214,7 +166,7 @@ class Cell extends React.Component {
         }
         else if (_column.type in fieldsMap && _mode == Const.MODE.EDIT) {
             renderProps = {
-                value: me.getCellData(),
+                value: me.getEditData(),
                 rowData: props.rowData,
                 index: props.index,
                 column: _column,
@@ -234,7 +186,7 @@ class Cell extends React.Component {
 
         let child=me.props.children;
         return (
-            <div className={props.jsxprefixCls} style={_style} onClick={me.handleClick.bind(me)}>
+            <div className={props.jsxprefixCls} style={_style}>
                 {child}
                 {_v}
             </div>

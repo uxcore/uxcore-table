@@ -9,7 +9,7 @@
 let classnames = require('classnames');
 let Grid = require('../src');
 let Button = require('uxcore-button');
-let urlPrefix = 'http://10.1.159.52:3000/';
+let urlPrefix = 'http://30.10.26.11:3000/';
 let mockData = {
     "datas": [
         {
@@ -97,14 +97,6 @@ class Demo extends React.Component {
                 "删除": function(rowData) {
                     me.refs.grid.delRow(rowData);
                 }
-              },
-              beforeRender: function(rowData,actionItems) {
-                 if(rowData.jsxid%2==0) {
-                    return ['编辑'];
-                 }else {
-                    return ['编辑','删除'];
-                 }
-                 
               }
             },
             { dataKey: 'action', title:'链接', width:150,render: function(cellData,rowData){

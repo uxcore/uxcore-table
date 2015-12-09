@@ -45,7 +45,7 @@ class Table extends React.Component {
     componentDidMount() {
         let me = this;
         me.el = ReactDOM.findDOMNode(me);
-        if (!!me.state.data.datas) {
+        if (!!me.state.data && !!me.state.data.datas) {
             console.warn("Table: 'content.data' rather than 'content.datas' is recommended, the support for 'content.datas' will be end from ver. 1.3.0")
         }
     }
@@ -81,18 +81,22 @@ class Table extends React.Component {
      * inform users of the change with dataKey & pass
      */
 
-    handleDataChange(jsxid, dataKey, value, pass) {
+    handleDataChange(obj) {
         let me = this;
+        let {jsxid, column, value, text, pass} = obj;
+        let dataKey = column.dataKey;
+        let editKey = column.editKey || dataKey;
         let data = deepcopy(me.state.data);
         for (let i = 0; i < data.data.length; i++) {
             if (data.data[i].jsxid == jsxid) {
-                data.data[i][dataKey] = value;
+                data.data[i][dataKey] = text;
+                data.data[i][editKey] = value;
             }
         }
         me.setState({
             data: data
         }, () => {
-            me.props.onChange(me.state.data, dataKey, pass);
+            me.props.onChange(me.state.data, dataKey, editKey, pass);
         })
 
 
@@ -287,7 +291,9 @@ class Table extends React.Component {
     
 
     processColumn(props) {
+
         props = props || this.props;
+
         let me = this,
             columns = deepcopy(props.jsxcolumns),
             hasCheckboxColumn = false;
@@ -724,16 +730,16 @@ class Table extends React.Component {
       
         //at least one record
         let me = this;
-        let content = this.state.data
-        let data = content.data || content._data;
+        let content = this.state.data;
+        let data = content.data || content.datas;
 
         if (data.length == 1){
             return;
         }
+
         // deepcopy protect
         let _content = deepcopy(content),
-            _data = _content.data || _content.datas,
-            _newArr;
+            _data = _content.data || _content.datas;
 
         if (Object.prototype.toString.call(objAux) !== "[object Array]") {
             objAux = [objAux];
@@ -745,10 +751,13 @@ class Table extends React.Component {
                     _data.splice(index, 1);
                 }
             })
-        })
+        });
 
+        console.log(_content);
         this.setState({
             data: _content
+        }, () => {
+            console.log(me.state.data);
         });
 
     }

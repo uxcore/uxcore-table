@@ -1,5 +1,6 @@
 
 let classnames = require('classnames');
+let assgin = require('object-assign');
 
 class CellField extends React.Component {
     constructor(props) {
@@ -20,10 +21,13 @@ class CellField extends React.Component {
         me.props.detachCellField(me.getName());
     }
 
-    handleDataChange(jsxid, dataKey, value) {
+    handleDataChange(obj) {
         let me = this;
+        let {jsxid, column, value, text} = obj;
         me.validate(value, () => {
-            me.props.handleDataChange(jsxid, dataKey, value, me.state.pass);
+            me.props.handleDataChange(assgin({}, obj, {
+                pass: me.state.pass
+            }));
         });
         
     }

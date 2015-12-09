@@ -21,9 +21,9 @@ class Row extends React.Component {
 
     handleClick(rowData) {
         let me = this;
-        if (rowData.__mode__ == Const.MODE.VIEW) {
-            me.props.changeSelected(!rowData[me.props.root.checkboxColumnKey], rowData.jsxid, false);
-        }
+        // if (rowData.__mode__ == Const.MODE.VIEW) {
+        //     me.props.changeSelected(!rowData[me.props.root.checkboxColumnKey], rowData.jsxid, false);
+        // }
     }
 
     handleDoubleClick(rowData) {

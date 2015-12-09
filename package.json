@@ -46,6 +46,7 @@
     "uxcore-button": "~0.3.0",
     "uxcore-const": "~0.0.1",
     "uxcore-pagination": "~0.1.0",
+    "uxcore-radiogroup": "~1.1.1",
     "uxcore-select2": "~0.1.4",
     "uxcore-validator": "~0.1.0"
   },

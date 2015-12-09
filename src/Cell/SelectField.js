@@ -13,15 +13,19 @@ class SelectField extends CellField {
 
     renderContent() {
         let me = this;
-        let dataKey = me.props.column.dataKey;
         let fieldProps = {
-            onChange: (value) => {
-                me.handleDataChange(me.props.rowData['jsxid'], dataKey, value);
+            onSelect: (value, Option) => {
+                me.handleDataChange({
+                    jsxid: me.props.rowData['jsxid'],
+                    column: me.props.column,
+                    text: Option.props.children,
+                    value: value
+                });
             },
             value: me.props.value
         };
         if (me.props.column.config) {
-            let {value, onChange, ...customProps} = me.props.column.config;
+            let {value, onSelect, ...customProps} = me.props.column.config;
             assign(fieldProps, customProps);
         }
         return <Select {...fieldProps}>
