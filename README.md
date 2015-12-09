@@ -208,11 +208,22 @@ let columns = [
 
 ## API
 
+### Row Editing 
+
+* getData(): return cellData & do Validation
+* addEmptyRow(): add an empty Row in 'edit' mode
+* addRow(rowData): add an row with specified data in 'edit' mode.
+* delRow(rowData): delete specified row by jsxid
+* editRow(rowData): make the specified row in 'edit' mode.
+* viewRow(rowData): make the specified row in 'view' mode.
+* saveRow(rowData): save the row change.
+* resetRow(rowData): cancel the row change before saveRow() is called.
+
+### Data Fetching
+
 * fetchData(from): call this method when you want the table to fetch Data via ajax again. 
-    * @param from {string} {optional}: the param will be passed to props.beforeFetch.
-* getData()
-* addEmptyRow()
-* addRow(rowData)
-* updataRow(rowData): used in inline edit
-* delRow(rowData)
+    * @param from {string} {optional}: this param will be passed to props.beforeFetch.
+
+### Other
+
 * toggleSubComp(rowData): show or hide sub comp

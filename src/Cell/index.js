@@ -164,7 +164,7 @@ class Cell extends React.Component {
         else if (_column.type == 'treeIcon') {
             _v = me.renderTreeIcon();
         }
-        else if (_column.type in fieldsMap && _mode == Const.MODE.EDIT) {
+        else if ((_column.type == 'custom' || _column.type in fieldsMap) && _mode == Const.MODE.EDIT) {
             renderProps = {
                 value: me.getEditData(),
                 rowData: props.rowData,
@@ -174,7 +174,13 @@ class Cell extends React.Component {
                 attachCellField: props.attachCellField,
                 detachCellField: props.detachCellField
             }
-            let Field = fieldsMap[_column.type];
+            let Field;
+            if (_column.type == 'custom') {
+                Field = props.column.customField;
+            }
+            else {
+                Field = fieldsMap[_column.type];
+            }
             _v = <Field {...renderProps} />
         }
         else if (_column.type == 'money' || _column.type == "card" || _column.type == "cnmobile") {

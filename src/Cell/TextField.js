@@ -20,7 +20,12 @@ class TextField extends CellField {
                 "kuma-input": true
             }),
             onChange: (e) => {
-                me.handleDataChange(me.props.rowData['jsxid'], dataKey, e.target.value);
+                me.handleDataChange({
+                    jsxid: me.props.rowData['jsxid'],
+                    column: me.props.column,
+                    value: e.target.value,
+                    text: e.target.value
+                });
             },
             value: me.props.value
         }

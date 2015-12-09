@@ -696,7 +696,7 @@ class Table extends React.Component {
    /**
     * @param {objAux} {a:'b',c:'d',jsxid:''}
     */
-    updateRecord(objAux) {
+    updateRecord(objAux, cb) {
         let _data = this.state.data;
 
         if (!_data) {
@@ -723,6 +723,24 @@ class Table extends React.Component {
         }
         this.setState({
           data: _data
+        }, () => {
+            !!cb && cb();
+        })
+    }
+
+    syncRecord(objAux) {
+        let me = this;
+        let _data = me.data.data || me.data.datas;
+        let _stateData = me.state.data.data || me.state.data.datas;
+
+        me.updateRecord(objAux, () => {
+            _data.forEach((item, index) => {
+                if (item.jsxid == objAux.jsxid) {
+                    _data[index] = _stateData.filter((ele) => {
+                        return ele.jsxid == objAux.jsxid
+                    })[0];
+                }
+            });
         })
     }
 
@@ -800,9 +818,14 @@ class Table extends React.Component {
         this.updateRecord(rowData);
     }
 
+    saveRow(rowData) {
+        rowData.__mode__ = Const.MODE.VIEW;
+        this.syncRecord(rowData);
+    }
+
     toggleSubComp(rowData) {
         let _content = deepcopy(this.state.data);
-        let _data = _content.datas || _content.datas;
+        let _data = _content.data || _content.datas;
 
         if(_data) {
             _data = _data.map((item) => { 
