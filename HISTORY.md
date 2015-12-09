@@ -2,6 +2,10 @@
 
 ---
 
+# 1.2.0
+
+`CHANGED` inline edit mode reconstitution: see issue #67 for details.
+
 # 1.1.5
 
 `FIXED` fix issue #60 #64 #65 #66 #68 #69 #70 #71
