@@ -106,11 +106,18 @@ class Demo extends React.Component {
             showPager:false,
             fetchParams: {},
             jsxdata: me.state.data,
-            actionBar: {
-                '新增行': () => {
-                    me.refs.grid.addEmptyRow();
+            actionBar: [
+                {
+                    title: '新增行',
+                    callback: () => {
+                        me.refs.grid.addEmptyRow();
+                    },
+                    render: (title) => {
+                        return <Button>{title}</Button>
+                    }
                 }
-            },
+                
+            ],
             // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
             // fetchUrl: "http://10.1.159.52:3002/demo/data.json",
             jsxcolumns:columns,

@@ -6,64 +6,49 @@
  * All rights reserved.
  */
 
-let reactMixin = require('react-mixin');
-
 class SearchBar extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state= {
-          searchTxt:""
+        this.state = {
+            searchTxt: ""
         };
     }
 
-    componentDidMount() {
-
-    }
-
-    componentDidUpdate() {
-
-    }
-    
-
-    componentWillUnmount () {
-       
-    }
-
-    prepareStyle() {
-
-    }
-
     doSearch() {
-      this.props.actionBarCB("SEARCH",this.state.searchTxt)
+        this.props.onSearch(this.state.searchTxt);
     }
 
     onKeyDown(e) {
-      if(e.keyCode==13) {
-        this.doSearch();
-      }
+        if (e.keyCode == 13) {
+            this.doSearch();
+        }
+    }
+
+    handleChange(e) {
+        this.setState({
+            searchTxt: e.target.value
+        })
     }
 
     render() {
 
-        let _className=this.props.jsxprefixCls;
-        return (<div className={_className}>
-            <input type="text" className="kuma-input" placeholder="搜索表格内容" valueLink={this.linkState('searchTxt')} onKeyDown={this.onKeyDown.bind(this)} />
-            <i className="kuma-icon kuma-icon-search" onClick={this.doSearch.bind(this)}></i>
-        </div>);
+        return (
+            <div className={this.props.jsxprefixCls}>
+                <input type="text" className="kuma-input" placeholder="搜索表格内容" value={this.state.value} onKeyDown={this.onKeyDown.bind(this)} onChange={this.handleChange.bind(this)}/>
+                <i className="kuma-icon kuma-icon-search" onClick={this.doSearch.bind(this)}></i>
+            </div>
+        );
 
     }
 
 };
 
-SearchBar.propTypes= {
-
-};
+SearchBar.propTypes= {};
 
 SearchBar.defaultProps = {
-    jsxprefixCls: "kuma-uxtable-searchbar"
+    jsxprefixCls: "kuma-uxtable-searchbar",
+    onSearch: () => {}
 };
 
-reactMixin.onClass(SearchBar,React.addons.LinkedStateMixin);
-
-export default SearchBar;
+module.exports = SearchBar;

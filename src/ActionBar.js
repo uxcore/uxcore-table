@@ -17,39 +17,54 @@ class ActionBar extends React.Component {
         super(props);
     }
 
-    doAction(type) {
-       this.props.actionBarCB(type);
+    handleSearch(value) {
+        this.props.onSearch(value);
     }
 
-    renderActionBtn(type) {
-
-        let _props = this.props,
-        _config = _props.actionBarConfig;
-
-        return <Button type="secondary" key={type} size="medium" onClick={this.doAction.bind(this,type)}>{type}</Button>
+    renderActionBtn(item, index) {
+        let me = this;
+        let itemProps = {
+            className: me.props.jsxprefixCls + "-item",
+            onClick: item.callback || function() {},
+            key: index
+        }
+        if (!!item.render && typeof item.render == "function") {
+            return <div {...itemProps}>{item.render(item.title)}</div>
+        }
+        else {
+            return <Button type="secondary" size="medium" {...itemProps}>{item.title}</Button>
+        }
     }
 
     renderSearchBar() {
-
-        let renderSearchBarProps = {
-            actionBarCB: this.props.actionBarCB,
-            key:'searchbar'
-        };
         if (this.props.showSearch) {
-            return <SearchBar key='searchbar' {...renderSearchBarProps}/>;
+            let me = this;
+            let searchBarProps = {
+                onSearch: me.handleSearch.bind(me),
+                key:'searchbar'
+            };
+            return <SearchBar {...searchBarProps}/>;
         }
-
     }
 
     /**
-    * @param {JSON}
-    */
+     *  convert ActionBar config from hash to array
+     */
     getActionItem(config) {
-        let items=[];
-        for(let i  in config) {
-            if(config.hasOwnProperty(i)) {
-                items.push(i);
+        let items = [];
+        if (config instanceof Array) {
+            items = config;
+        }
+        else if (typeof config == "object") {
+            for (let item in config) {
+                if(config.hasOwnProperty(item)) {
+                    items.push({
+                        title: item,
+                        callback: config[item]
+                    });
+                }
             }
+            
         }
         return items;
     }
@@ -64,8 +79,8 @@ class ActionBar extends React.Component {
                 [_props.jsxprefixCls]: _props.jsxprefixCls,
                 "fn-clear": true
             })}>
-                {me.getActionItem(_barConfig).map(function(item){
-                    return me.renderActionBtn(item)
+                {me.getActionItem(_barConfig).map((item, index) => {
+                    return me.renderActionBtn(item, index)
                 })}
                 {me.renderSearchBar()}
             </div>

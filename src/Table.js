@@ -406,14 +406,12 @@ class Table extends React.Component {
     }
 
     onPageChange (current) {
-
-      let me = this;
-      me.setState({
-        currentPage: current
-      }, () => {
-        me.fetchData("pagination")
-      })
-
+        let me = this;
+        me.setState({
+            currentPage: current
+        }, () => {
+            me.fetchData("pagination")
+        })
     }
 
     handleShowSizeChange(current, pageSize) {
@@ -452,17 +450,13 @@ class Table extends React.Component {
 
     }
 
-    actionBarCB(type,txt) {
-        if (type == 'SEARCH') {
-           // TODO: Don't set props 
-           this.state.searchTxt=txt;
-           this.fetchData("search");
-        }
-        else {
-            let _actionCofig = this.props.actionBar;
-            _actionCofig[type] ? _actionCofig[type].apply(null,[type, this]) : "";
-        }
-       
+    handleActionBarSearch(value) {
+        let me = this;
+        this.setState({
+            searchTxt: value
+        }, () => {
+            me.fetchData("search");
+        })
     }
 
     getData() {
@@ -586,9 +580,9 @@ class Table extends React.Component {
 
         if(props.actionBar || props.showSearch) {
             let renderActionProps={
+                onSearch: this.handleActionBarSearch.bind(this),
                 actionBarConfig: this.props.actionBar,
                 showSearch: this.props.showSearch,
-                actionBarCB: this.actionBarCB.bind(this),
                 key:'grid-actionbar'
             };
             actionBar=<ActionBar {...renderActionProps}/>
