@@ -52,7 +52,7 @@ class Demo extends React.Component {
     }
 
     handleTableChange(data, dataKey, pass) {
-        console.log(data['data']);
+        // console.log(data['data']);
     }
 
     render () {

@@ -24,11 +24,14 @@ class CellField extends React.Component {
     handleDataChange(obj) {
         let me = this;
         let {jsxid, column, value, text} = obj;
-        me.validate(value, () => {
+        me.validate(value, (pass) => {
             me.props.handleDataChange(assgin({}, obj, {
-                pass: me.state.pass
+                pass: pass
             }));
         });
+        // me.props.handleDataChange(assgin({}, obj, {
+        //     pass: me.state.pass
+        // }));
         
     }
 
@@ -56,11 +59,10 @@ class CellField extends React.Component {
                 }
             }
         }
+        !!cb && cb(pass);
         me.setState({
             pass: pass,
             errMsg: errMsg
-        }, () => {
-            !!cb && cb();
         });
         return pass;
     }

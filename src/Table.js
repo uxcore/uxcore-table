@@ -771,11 +771,8 @@ class Table extends React.Component {
             })
         });
 
-        console.log(_content);
         this.setState({
             data: _content
-        }, () => {
-            console.log(me.state.data);
         });
 
     }

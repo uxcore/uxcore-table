@@ -67,28 +67,28 @@ $ gulp server
 
 ## Props
 
-|Name            |Type                |Require |Default|Note |
-|---             |---                 |---     |---    |---|
-|jsxcolumns      |array               |required|null   |columns config|
-|width           |number              |optional|1000   |table width |
-|height          |number              |optional|100%   |table height |
-|showColumnPicker|boolean             |optional|true   ||
-|showPager       |boolean             |optional|true   ||
-|showHeader      |boolean             |optional|true   ||
-|headerHeight    |number              |optional|40     ||
-|showMask        |boolean             |optional|true   ||
-|showSearch      |boolean             |optional|false  || 
-|pageSize        |number              |optional|10     ||
-|queryKeys       |array               |optional|[]     |in subComp mode, it tells parent what datas need to pass to child, like a filter, the parent will pass all his data to his child if queryKey is undefined|
-|jsxdata         |object              |optional|-      |table data|
-|fetchUrl        |string              |optional|""     |dynamic get data from server |
-|fetchParams     |object              |optional|-      |in form-table  mode, form will pass fetch params for table |
-|actionBar       |object              |optional|null   |see Usage to get  |
-|beforeFetch     |function(data, from)|optional|noop   |invoked before the table fetch data, two params `data` and `from`, `data` is the one which will be passed as querys in ajax, `from` means where the fetch is invoked containing 3 preset values `search`,`order` & `pagination`.return the data you really want ajax to send.|
-|processData     |function(data)      |optional|noop   |sometimes the data fetched via ajax is not the one which you or table want, you can use this method to change the data and return it to table. the param is the data which table is ready to use for rendering|
-|addRowClassName |function(rowData)   |optional|noop   |user can use this to add className to the Row, in order to custom the specific row.|
-| renderModel | string | optional | 'tree' | render to tree model |
-| levels | number | optional | 1 | tree model, default expand level number |
+|Name            |Type                |Require   |Default|Note |
+|---             |---                 |---       |---    |---|
+|jsxcolumns      |array               |required  |null   |columns config|
+|width           |number              |optional  |1000   |table width |
+|height          |number              |optional  |100%   |table height |
+|showColumnPicker|boolean             |optional  |true   ||
+|showPager       |boolean             |optional  |true   ||
+|showHeader      |boolean             |optional  |true   ||
+|headerHeight    |number              |optional  |40     ||
+|showMask        |boolean             |optional  |true   ||
+|showSearch      |boolean             |optional  |false  || 
+|pageSize        |number              |optional  |10     ||
+|queryKeys       |array               |optional  |[]     |in subComp mode, it filters the data which will be passed to the sub component.|
+|jsxdata         |object              |optional  |-      |used as the default data when ajax has not been done|
+|fetchUrl        |string              |optional  |""     |dynamic get data from server |
+|fetchParams     |object              |optional  |-      |in form-table  mode, form will pass fetch params for table |
+|actionBar       |object              |optional  |null   |see Usage to get  |
+|beforeFetch     |function(data, from)|optional  |noop   |invoked before the table fetch data, two params `data` and `from`, `data` is the one which will be passed as querys in ajax, `from` means where the fetch is invoked containing 3 preset values `search`,`order` & `pagination`.return the data you really want ajax to send.|
+|processData     |function(data)      |optional  |noop   |sometimes the data fetched via ajax is not the one which you or table want, you can use this method to change the data and return it to table. the param is the data which table is ready to use for rendering|
+|addRowClassName |function(rowData)   |optional  |noop   |user can use this to add className to the Row, in order to custom the specific row.|
+|renderModel     |string              |optional  |'tree' | render to tree model |
+|levels          |number              |optional  |1      | tree model, default expand level number |
 
 
 ### Props you should not define by yourself
@@ -101,24 +101,25 @@ $ gulp server
 
 
 
-### Columns
+### Columns Config
 
 
 |Key Name       |  Require  |  Type       | Note   | 
 |-----------    |  ------   |  ---------- | -----  |
-|dataKey        |  required |  string     | use key |
-|title          |  required |  string     | column display name |
-|width          |  required |  number     |   |
-|hidden         |  optional |  boolean    |   |
-|order          |  optional |  boolean    | need order feature or not |
-|type           |  optional |  string     | containing 'money', 'card', 'cnmobile', 'checkbox' & 'action' |
-|disable        |  optional |  boolean    | disable a column, now only support type 'checkbox'|
-|actions        |  required |  array      | when type =='action', we need this attr |
-|[render](https://github.com/uxcore/uxcore-table/issues/30)        |  optional |  function    | for custom cell |
-|fixed         |  optional |  boolean    |  set the column fixed or not  |
+|dataKey        |  required |  string     | which key in data will be shown in view mode |
+|editKey        |  optional |  string     | which key in data will be used in edit mode, equal to dataKey if not specified | 
+|title          |  required |  string     | table head name |
+|width          |  required |  number     |        |
+|hidden         |  optional |  boolean    |        |
+|order          |  optional |  boolean    | show the built-in sorter |
+|type           |  optional |  string     | containing 'money', 'card', 'cnmobile', 'checkbox', 'action', 'radio', 'text', 'select' & 'custom' |
+|actions        |  optional |  array      | when type =='action', we need this attr |
+|customField    |  optional |  React Component| when type is 'custom', pass your custom Field extended from CellField to Table|
+|render         |  optional |  function   | render the cell as you want, return a react element |
+|fixed          |  optional |  boolean    | set the column fixed or not |
 |delimiter      |  optional |  string     | delimiter used in type 'money', 'card', 'cnmobile' formating|
-|align         | optional   | string     | text-align, default: 'left' |
-
+|align          |  optional |  string     | text-align, default: 'left' |
+ 
 
 ```javascript
 
@@ -127,23 +128,27 @@ let columns = [
         { dataKey: 'country', title:'国家', width: 200,ordered:true},
         { dataKey: 'city',title:'城市', width: 150,ordered:true },
         { dataKey: 'firstName',title:"FristName" },  
-        { dataKey: 'lastName' ,title:"LastName", beforeRender: function(rowData){
-        	//do logic , then return cell data
-        	return 'abc';
-        }},
-        { dataKey: 'email',title:"Email",width: 200,ordered:true },
-        { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
-            "编辑": function(rowData, actions) {
-                me.refs.table.toggleSubComp(rowData);
+        { dataKey: 'lastName' ,title:"LastName"},
+        { dataKey: 'email',title:"Email",width: 200, ordered:true },
+        { dataKey: 'action1', title:'操作1', width:100, type:"action",actions: [
+            {
+                title: '编辑',
+                callback: (rowData) => {
+                    me.refs.grid.editRow(rowData);
+                },
+                mode: Constants.MODE.VIEW
             },
-            "删除": function(rowData, actions) {	
-                me.refs.table.delRow(rowData);
+            {
+                title: '保存',
+                callback: (rowData) => {
+                    me.refs.grid.saveRow(rowData);
+                },
+                mode: Constants.MODE.EDIT
             }
-         }},
-        { dataKey: 'action', title:'链接', width:100,render: function(cellData,rowData){
-           return <div><a href="#">{rowData.email}</a></div>
-          }
-        }
+        ]},
+        { dataKey: 'action', title:'链接', width:100, render: function(cellData,rowData) {
+            return <div><a href="#">{rowData.email}</a></div>
+        }}
  ]
 
 ```
@@ -152,14 +157,14 @@ let columns = [
 
 ## Rules
 
- * return data format [here](http://gitlab.alibaba-inc.com/alinw/yosemite/issues/18) 
+* return data format [here](http://gitlab.alibaba-inc.com/alinw/yosemite/issues/18) 
 
 
 
 ```javascript
    {
 	"content":{
-		"datas":[
+		"data":[
 			{	
 				"id":'1'
 				"grade":"grade1",
@@ -176,18 +181,18 @@ let columns = [
 		"currentPage":1,
 		"totalCount":30
 	},
-	"success":true,
-	"errorCode":"",
-	"errorMsg":""
+	"success": true,
+	"errorCode": "",
+	"errorMsg": ""
 	}
 
 ```
 
-> the above the data format which server should send, if you pass data via jsxdata, you just need passed the `content`, like below
+> the data format above is what server should send. If you pass data via jsxdata, you just need passed the `content`, like below
 
 ```javascript
 {
-    "datas":[
+    "data":[
         {   
             "id":'1'
             "grade":"grade1",
