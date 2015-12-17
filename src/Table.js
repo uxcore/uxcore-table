@@ -475,16 +475,16 @@ class Table extends React.Component {
     }
 
     hasFixColumn() {
-         let props= this.props,
-          _columns= props.jsxcolumns.filter( (item) =>{
-                if(item.fixed) {
-                   return true
-                }
-          })
-          if(_columns.length>0) {
-             return true;
-          }
-          return false
+        let props = this.props;
+        let _columns = props.jsxcolumns.filter( (item) =>{
+            if (item.fixed) {
+                return true
+            }
+        })
+        if(_columns.length > 0) {
+            return true;
+        }
+        return false
     }
 
     renderHeader(renderHeaderProps) {
@@ -524,58 +524,59 @@ class Table extends React.Component {
     }
 
     render() {
-        let props= this.props,
+        let props = this.props,
             bodyHeight,
-            // if grid is sub mode, people always want to align the parent
-            // and the sub grid, so width should not be cared.
-            _style= {
+            // if table is in sub mode, people always want to align the parent
+            // and the sub table, so width should not be cared.
+            _style = {
                 width: !!props.passedData ? "auto" : props.width,
                 height: props.height
             },
-            actionBarHeight=props.actionBar?props.actionBarHeight:0,
-            pagerHeight= (this.props.showPager && this.state.data && this.state.data.totalCount) ? 50 : 0;
+            actionBarHeight = props.actionBar ? props.actionBarHeight : 0,
+            pagerHeight = (props.showPager && this.state.data && this.state.data.totalCount) ? 50 : 0;
 
-            if(props.height=='auto') {
-               bodyHeight ='auto';
-            }else {
-                bodyHeight = props.height == "100%" ? props.height : (props.height - props.headerHeight - actionBarHeight - pagerHeight);
-            }
-            let renderBodyProps={
-                columns: this.state.columns,
-                data: this.state.data ? this.state.data.datas || this.state.data.data : [],
-                onModifyRow: props.onModifyRow ? props.onModifyRow : function(){},
-                rowSelection: props.rowSelection,
-                addRowClassName: props.addRowClassName,
-                subComp: props.subComp,
-                mask: this.state.showMask,
-                changeSelected: this.changeSelected.bind(this),
-                rowHeight: this.props.rowHeight,
-                height: bodyHeight,
-                width: props.width,
-                root: this,
-                mode: props.mode,
-                renderModel: props.renderModel,
-                levels: props.levels,
-                handleDataChange: this.handleDataChange.bind(this),
-                attachCellField: this.attachCellField.bind(this),
-                detachCellField: this.detachCellField.bind(this),
-                key:'grid-body'
-            },
-            renderHeaderProps={
-                columns:  this.state.columns,
-                activeColumn: this.state.activeColumn,
-                checkAll: this.selectAll.bind(this),
-                columnPicker: props.showColumnPicker,
-                handleCP: this.handleCP.bind(this),
-                headerHeight: props.headerHeight,
-                width: props.width,
-                mode: props.mode,
-                orderColumnCB: this.handleOrderColumnCB.bind(this),
-                key:'grid-header'
+        if (props.height == 'auto') {
+            bodyHeight = 'auto';
+        } 
+        else {
+            bodyHeight = props.height == "100%" ? props.height : (props.height - props.headerHeight - actionBarHeight - pagerHeight);
+        }
+        let renderBodyProps = {
+            columns: this.state.columns,
+            data: this.state.data ? this.state.data.datas || this.state.data.data : [],
+            onModifyRow: props.onModifyRow ? props.onModifyRow : function(){},
+            rowSelection: props.rowSelection,
+            addRowClassName: props.addRowClassName,
+            subComp: props.subComp,
+            mask: this.state.showMask,
+            changeSelected: this.changeSelected.bind(this),
+            rowHeight: this.props.rowHeight,
+            height: bodyHeight,
+            width: props.width,
+            root: this,
+            mode: props.mode,
+            renderModel: props.renderModel,
+            levels: props.levels,
+            handleDataChange: this.handleDataChange.bind(this),
+            attachCellField: this.attachCellField.bind(this),
+            detachCellField: this.detachCellField.bind(this),
+            key:'grid-body'
+        },
+        renderHeaderProps = {
+            columns:  this.state.columns,
+            activeColumn: this.state.activeColumn,
+            checkAll: this.selectAll.bind(this),
+            columnPicker: props.showColumnPicker,
+            handleCP: this.handleCP.bind(this),
+            headerHeight: props.headerHeight,
+            width: props.width,
+            mode: props.mode,
+            orderColumnCB: this.handleOrderColumnCB.bind(this),
+            key:'grid-header'
 
-            };
+        };
 
-        let  actionBar;
+        let actionBar;
         
 
         if(props.actionBar || props.showSearch) {
@@ -585,7 +586,7 @@ class Table extends React.Component {
                 showSearch: this.props.showSearch,
                 key:'grid-actionbar'
             };
-            actionBar=<ActionBar {...renderActionProps}/>
+            actionBar = <ActionBar {...renderActionProps}/>
         }
 
         return (
@@ -601,7 +602,8 @@ class Table extends React.Component {
                    {this.renderTbody(renderBodyProps,bodyHeight)}
                 </div>
                 {this.renderPager()}
-            </div>);
+            </div>
+        );
 
     }
 

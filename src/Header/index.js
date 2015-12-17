@@ -2,7 +2,7 @@
  * Created by xy on 15/4/13.
  */
 let CheckBox = require('../Cell/CheckBox');
-let Assign = require('object-assign');
+let assign = require('object-assign');
 let Const = require('uxcore-const');
 
 
@@ -94,10 +94,8 @@ class Header extends React.Component {
     }
 
     handleColumnOrder(type,column) {
-
       column.orderType=type;
       this.props.orderColumnCB.apply(null, [type, column]);
-
     }
 
    
@@ -128,56 +126,58 @@ class Header extends React.Component {
             headerWrapClassName,
             _columns;
 
-        if (props.columnPicker && (props.fixedColumn=='no')) {
+        if (props.columnPicker && (props.fixedColumn == 'no' || props.fixedColumn == 'scroll')) {
              _picker = this.renderPicker();
         }
 
-        let _style={ 
+        let _headerStyle = { 
             height: props.headerHeight ? props.headerHeight : 40,
             lineHeight: (props.headerHeight ? props.headerHeight : 40) + "px"
         }
 
 
 
-        if(props.fixedColumn=='fixed') {
-           _columns= props.columns.filter((item)=>{
-              if(item.fixed) {
-                   if(!item.width) {
+        if (props.fixedColumn == 'fixed') {
+            _columns= props.columns.filter((item)=>{
+              if (item.fixed) {
+                   if (!item.width) {
                       item.width=100;
                    }
-                   _width=item.width*1+_width;
+                   _width = item.width*1 + _width;
                    return true
               }
-           })
-           _style={
-             width:_width,
-             minWidth:_width
-           }
-          headerWrapClassName="kuma-uxtable-header-fixed";
-
-        }else if(props.fixedColumn=='scroll') {
-           _columns= props.columns.filter( (item) =>{
+            })
+            assign(_headerStyle, {
+                width: _width,
+                minWidth: _width
+            });
+            headerWrapClassName = "kuma-uxtable-header-fixed";
+        } 
+        else if (props.fixedColumn == 'scroll') {
+            _columns = props.columns.filter( (item) => {
                 if(!item.fixed) {
                    return true
-                }else {
-                   if(!item.width) {
-                      item.width=100;
-                   }
-                   _width=item.width*1+_width;
                 }
-            })
-            _style={
-              width: props.width-_width-3,
-              minWidth:props.width-_width-3
-            }
+                else {
+                   if (!item.width) {
+                      item.width = 100;
+                   }
+                   _width = item.width*1 + _width;
+                }
+            });
+            assign(_headerStyle, {
+                width: props.width - _width - 3,
+                minWidth:props.width - _width - 3
+            });
             headerWrapClassName="kuma-uxtable-header-scroll";
-        }else {
-            _columns= props.columns;
-            headerWrapClassName="kuma-uxtable-header-no";
+        }
+        else {
+            _columns = props.columns;
+            headerWrapClassName = "kuma-uxtable-header-no";
         }
 
         return (
-          <div className={headerWrapClassName} style={_style}>
+          <div className={headerWrapClassName} style={_headerStyle}>
 
             <div className={props.jsxprefixCls} >
 
@@ -185,13 +185,13 @@ class Header extends React.Component {
 
                     if (item.hidden) return;
 
-                    let _style={
+                    let _style = {
                         width: item.width ? item.width : 100,
                         textAlign: item.align ? item.align : "left"
                     },_v;
 
-                    if (item.type=='checkbox') {
-                        Assign(_style, {
+                    if (item.type == 'checkbox') {
+                        assign(_style, {
                             paddingRight: 32,
                             paddingLeft: 12,
                             width: item.width ? item.width : 92
