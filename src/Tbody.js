@@ -4,6 +4,7 @@
 
 let Row = require("./Row");
 let Mask = require("./Mask");
+let util = require("./util");
 
 class Tbody extends React.Component {
 
@@ -70,7 +71,7 @@ class Tbody extends React.Component {
             _width = 0,
             bodyWrapClassName;
 
-        if(_props.fixedColumn=='fixed') {
+        if (_props.fixedColumn == 'fixed') {
            _columns = _props.columns.filter((item)=>{
               if (item.fixed && !item.hidden) {
                    if(!item.width) {
@@ -86,7 +87,8 @@ class Tbody extends React.Component {
            }
           bodyWrapClassName="kuma-uxtable-body-fixed";
 
-        }else if(_props.fixedColumn == 'scroll') {
+        } 
+        else if(_props.fixedColumn == 'scroll') {
             let fixedWidth = 0
             _columns= _props.columns.filter( (item) =>{
                 if (!item.fixed) {
@@ -99,9 +101,15 @@ class Tbody extends React.Component {
                    _width = item.width*1+_width;
                 }
             })
+
+            // content-box: border-box
+            let delta = 2;
+            if (util.isIE(8)) {
+              delta = 3
+            }
             _style={
-              width: _props.width-_width-3, //change 2 to 3, fix ie8 issue
-              minWidth:_props.width-_width-3
+                width: _props.width - _width - delta, //change 2 to 3, fix ie8 issue
+                minWidth: _props.width - _width - delta
             }
             bodyWrapClassName="kuma-uxtable-body-scroll";
         }else {
