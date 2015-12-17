@@ -31,10 +31,13 @@ class Row extends React.Component {
     }
 
     showSubCompFunc() {
-        let props = this.props, 
-            showSubComp = props.rowData.showSubComp;
-        props.rowData.showSubComp = !showSubComp;
-        this.forceUpdate();
+        // let props = this.props, 
+        //     showSubComp = props.rowData.showSubComp;
+        // props.rowData.showSubComp = !showSubComp;
+        // this.forceUpdate();
+        let me = this;
+        me.props.root.toggleSubComp(me.props.rowData);
+
     } 
 
     renderSubComp() {

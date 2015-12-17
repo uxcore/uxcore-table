@@ -515,14 +515,18 @@ class Table extends React.Component {
 
     renderTbody(renderBodyProps, bodyHeight) {
       
-       if(this.hasFixColumn()){
-         return <div className="kuma-uxtable-body-wrapper" style={{
-              height: bodyHeight
-          }}>
-              <Tbody  {...renderBodyProps} fixedColumn='fixed' key="grid-body-fixed"/>
-              <Tbody  {...renderBodyProps} fixedColumn='scroll' key="grid-body-scroll"/>
-          </div>
-       }else {
+       if (this.hasFixColumn()) {
+            let {subComp, ...fixedBodyProps} = renderBodyProps;
+            return (
+                <div className="kuma-uxtable-body-wrapper" style={{
+                    height: bodyHeight
+                }}>
+                    <Tbody  {...fixedBodyProps} fixedColumn='fixed' key="grid-body-fixed"/>
+                    <Tbody  {...renderBodyProps} fixedColumn='scroll' key="grid-body-scroll"/>
+                </div>
+            )
+       }
+       else {
           return <div className="kuma-uxtable-body-wrapper" style={{
               height: bodyHeight
           }}>
