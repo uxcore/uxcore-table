@@ -87,6 +87,7 @@ class Table extends React.Component {
         let dataKey = column.dataKey;
         let editKey = column.editKey || dataKey;
         let data = deepcopy(me.state.data);
+        let changedData = {};
         for (let i = 0; i < data.data.length; i++) {
             if (data.data[i].jsxid == jsxid) {
                 data.data[i][dataKey] = text;
@@ -96,7 +97,13 @@ class Table extends React.Component {
         me.setState({
             data: data
         }, () => {
-            me.props.onChange(me.state.data, dataKey, editKey, pass);
+            me.props.onChange({
+                data: me.state.data,
+                editKey: editKey,
+                dataKey: dataKey,
+                changedData: data.data[i],
+                pass: pass
+            });
         })
 
 

@@ -2,6 +2,13 @@
 
 ---
 
+# 1.2.1
+
+`FIXED` fix issue #52 #59 #61 #72 #75 #78 #79 
+`CHANGED` actionBar config now support custom render
+`CHANGED` getData() will only send saved data
+`NEW` add api saveAllRow & editAllRow，add new config getSavedData to tell getData() which data should be sent.
+
 # 1.2.0
 
 `CHANGED` inline edit mode reconstitution: see issue #67 for details.
