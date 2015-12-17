@@ -825,6 +825,22 @@ class Table extends React.Component {
         this.syncRecord(rowData);
     }
 
+    saveAllRow() {
+        let me = this;
+        let data = deepcopy(me.data.data || me.data.datas);
+        data.forEach((item) => {
+            me.saveRow(item);
+        });
+    }
+
+    editAllRow() {
+        let me = this;
+        let data = deepcopy(me.data.data || me.data.datas);
+        data.forEach((item) => {
+            me.editRow(item);
+        });
+    }
+
     toggleSubComp(rowData) {
         let _content = deepcopy(this.state.data);
         let _data = _content.data || _content.datas;

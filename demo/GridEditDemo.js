@@ -115,6 +115,18 @@ class Demo extends React.Component {
                     render: (title) => {
                         return <Button>{title}</Button>
                     }
+                },
+                {
+                    title: "编辑所有行",
+                    callback: () => {
+                        me.refs.grid.editAllRow();
+                    }
+                },
+                {
+                    title: "保存所有行",
+                    callback: () => {
+                        me.refs.grid.saveAllRow();
+                    }
                 }
                 
             ],
