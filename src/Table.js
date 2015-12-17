@@ -474,7 +474,12 @@ class Table extends React.Component {
                 pass = fieldPass;
             }
         }
-        return {data: me.state.data, pass: pass};
+        if (me.props.getSavedData) {
+            return {data: me.data, pass: pass};
+        }
+        else {
+            return {data: me.state.data, pass: pass}
+        }
     }
 
     hasFixColumn() {
@@ -730,9 +735,9 @@ class Table extends React.Component {
     syncRecord(objAux) {
         let me = this;
         let _data = me.data.data || me.data.datas;
-        let _stateData = me.state.data.data || me.state.data.datas;
 
         me.updateRecord(objAux, () => {
+            let _stateData = me.state.data.data || me.state.data.datas;
             _data.forEach((item, index) => {
                 if (item.jsxid == objAux.jsxid) {
                     _data[index] = _stateData.filter((ele) => {
@@ -816,6 +821,7 @@ class Table extends React.Component {
 
     saveRow(rowData) {
         rowData.__mode__ = Const.MODE.VIEW;
+        rowData.__edited__ = true;
         this.syncRecord(rowData);
     }
 
@@ -855,6 +861,7 @@ Table.defaultProps = {
     showColumnPicker: true,
     showMask: false,
     showSearch: false,
+    getSavedData: true,
     pageSize: 10,
     rowHeight: 76,
     fetchParams:'',
@@ -871,6 +878,7 @@ Table.propTypes = {
     processData: React.PropTypes.func,
     beforeFetch: React.PropTypes.func,
     addRowClassName: React.PropTypes.func,
+    getSavedData: React.PropTypes.bool,
     onChange: React.PropTypes.func
 }
 

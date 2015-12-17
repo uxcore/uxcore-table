@@ -15,7 +15,6 @@ let RadioGroup = require('uxcore-radiogroup');
 let RadioItem = RadioGroup.Item;
 let Grid = require('../src');
 let RadioField = require('./RadioField');
-console.log(RadioField);
 let {Constants} = Grid
 let mockData = {
     "data": [
@@ -105,6 +104,7 @@ class Demo extends React.Component {
             width: 1000,
             showPager:false,
             fetchParams: {},
+            getSavedData: false,
             jsxdata: me.state.data,
             actionBar: [
                 {
