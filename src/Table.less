@@ -64,10 +64,15 @@
     display: block;
     width: 100%;
     white-space: nowrap;
-    border-bottom: 1px solid @table-border;
+    border-top: 1px solid @table-border;
+    border-bottom: none;
     line-height: 40px;
+    height: 40px;
     &:hover {
         background-color: #fbfbfb;
+    }
+    &:first-child {
+        border-top: none;
     }
 }
 
