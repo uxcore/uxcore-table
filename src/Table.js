@@ -92,8 +92,10 @@ class Table extends React.Component {
             if (data.data[i].jsxid == jsxid) {
                 data.data[i][dataKey] = text;
                 data.data[i][editKey] = value;
+                changedData = data.data[i];
             }
         }
+
         me.setState({
             data: data
         }, () => {
@@ -101,7 +103,7 @@ class Table extends React.Component {
                 data: me.state.data,
                 editKey: editKey,
                 dataKey: dataKey,
-                changedData: data.data[i],
+                changedData: changedData,
                 pass: pass
             });
         })

@@ -50,8 +50,8 @@ class Demo extends React.Component {
         console.log(this.refs.grid.getData());
     }
 
-    handleTableChange(data, dataKey, pass) {
-        // console.log(data['data']);
+    handleTableChange(data) {
+        console.log(data);
     }
 
     render () {

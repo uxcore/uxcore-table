@@ -2,6 +2,10 @@
 
 ---
 
+# 1.2.2
+
+`FIXED` fix bug in onChange
+
 # 1.2.1
 
 `FIXED` fix issue #52 #59 #61 #72 #75 #78 #79 
