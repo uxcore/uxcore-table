@@ -139,7 +139,7 @@ class Header extends React.Component {
 
         if (props.fixedColumn == 'fixed') {
             _columns= props.columns.filter((item)=>{
-              if (item.fixed) {
+              if (item.fixed && !item.hidden) {
                    if (!item.width) {
                       item.width=100;
                    }
@@ -158,7 +158,7 @@ class Header extends React.Component {
                 if(!item.fixed) {
                    return true
                 }
-                else {
+                else if (!item.hidden) {
                    if (!item.width) {
                       item.width = 100;
                    }

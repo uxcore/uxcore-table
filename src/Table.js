@@ -344,8 +344,11 @@ class Table extends React.Component {
 
     //handle column picker
     handleCP(index) {
-        let _columns= [].concat(this.state.columns),hidden=_columns[index].hidden;
-        if(hidden==undefined) hidden=true;
+        let _columns= deepcopy(this.state.columns),
+            hidden=_columns[index].hidden;
+        if (hidden == undefined) {
+            hidden = true;
+        }
         _columns[index].hidden= !!hidden ? false: true;
         this.setState({
             columns: _columns

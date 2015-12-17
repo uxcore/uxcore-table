@@ -62,17 +62,19 @@ class Tbody extends React.Component {
 
     render() {
         
-        let _props = this.props,
-            me = this, 
+        let me = this,
+            _props = me.props,
             _columns = _props.columns, 
             _data = _props.data.length > 0 ? _props.data : [],
-            _style={},_width=0,bodyWrapClassName;
+            _style = {},
+            _width = 0,
+            bodyWrapClassName;
 
         if(_props.fixedColumn=='fixed') {
-           _columns= _props.columns.filter((item)=>{
-              if(item.fixed) {
+           _columns = _props.columns.filter((item)=>{
+              if (item.fixed && !item.hidden) {
                    if(!item.width) {
-                      item.width=100;
+                      item.width = 100;
                    }
                    _width=item.width*1+_width;
                    return true
@@ -84,15 +86,17 @@ class Tbody extends React.Component {
            }
           bodyWrapClassName="kuma-uxtable-body-fixed";
 
-        }else if(_props.fixedColumn=='scroll') {
-           _columns= _props.columns.filter( (item) =>{
-                if(!item.fixed) {
-                   return true
-                }else {
+        }else if(_props.fixedColumn == 'scroll') {
+            let fixedWidth = 0
+            _columns= _props.columns.filter( (item) =>{
+                if (!item.fixed) {
+                   return true;
+                }
+                else if (!item.hidden) {
                    if(!item.width) {
-                      item.width=100;
+                      item.width = 100;
                    }
-                   _width=item.width*1+_width;
+                   _width = item.width*1+_width;
                 }
             })
             _style={
