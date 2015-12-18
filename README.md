@@ -69,7 +69,7 @@ $ gulp server
 
 |Name            |Type                |Require   |Default|Note |
 |---             |---                 |---       |---    |---|
-|jsxcolumns      |array               |required  |null   |表格列配置项，具体见[这里]()|
+|jsxcolumns      |array               |required  |null   |表格列配置项，具体见[这里](#jsxcolumns)|
 |width           |number              |optional  |1000   |表格的宽度|
 |height          |number              |optional  |100%   |表格的高度|
 |showColumnPicker|boolean             |optional  |true   |是否显示列筛选按钮|
@@ -83,7 +83,7 @@ $ gulp server
 |jsxdata         |object              |optional  |-      |在远端数据还没有返回时用作默认数据|
 |fetchUrl        |string              |optional  |""     |表格的数据源|
 |fetchParams     |object              |optional  |-      |表格在请求数据时，会额外附带的参数，具有最高的优先级|
-|actionBar       |object/array        |optional  |null   |表格内置的操作条配置|
+|actionBar       |object/array        |optional  |null   |表格内置的操作条配置，详细[见此](#actionbar)|
 |beforeFetch     |function(data, from)|optional  |noop   |两个参数，data 表示表格请求数据时即将发送的参数，from 表示这次请求数据的行为从哪里产生，内置的有 `search`(搜索栏),`order`(排序) & `pagination`(分页)，该函数需要返回值，返回值为真正请求所携带的参数。|
 |processData     |function(data)      |optional  |noop   |有时源返回的数据格式，并不符合 Table 的要求，可以通过此函数进行调整，参数 data 是返回数据中 content 字段的 value，该函数需要返回值，返回值为符合 content 字段 value 的数据结构。|
 |addRowClassName |function(rowData)   |optional  |noop   |用于为特定的某几行添加特殊的 class，用于样式定制|
@@ -121,7 +121,7 @@ $ gulp server
 |hidden          |boolean         |optional |是否隐藏，默认为 false|
 |order           |boolean         |optional |是否显示内置的排序，默认为 false|
 |type            |string          |optional |包含 'money', 'card', 'cnmobile', 'checkbox', 'action', 'radio', 'text', 'select' 和 'custom'|
-|actions         |array           |optional |当 type 是 action 的时候会用到，用于定义具体有哪些操作，格式见下方说明|
+|actions         |array           |optional |当 type 是 action 的时候会用到，用于定义具体有哪些操作，格式见下方[说明](#actions)|
 |customField     |React Element   |optional |当 type 是 custom 的时候会用到，用于传入自定义的 Field，用于行内编辑|
 |render          |function        |optional |在查看模式下，用户定制渲染的方式，返回一个 jsx 格式|
 |fixed           |boolean         |optional |是否为固定列|
