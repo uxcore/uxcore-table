@@ -904,11 +904,34 @@ Table.defaultProps = {
 
 // http://facebook.github.io/react/docs/reusable-components.html
 Table.propTypes = {
+    jsxcolumns: React.PropTypes.arrayOf(React.PropTypes.object),
+    width: React.PropTypes.number,
+    height: React.PropTypes.number,
+    headerHeight: React.PropTypes.number,
+    pageSize: React.PropTypes.number,
+    queryKeys: React.PropTypes.array,
+    showColumnPicker: React.PropTypes.bool,
+    showPager: React.PropTypes.bool,
+    showHeader: React.PropTypes.bool,
+    showMask: React.PropTypes.bool,
+    showSearch: React.PropTypes.bool,
+    jsxdata: React.PropTypes.object,
+    fetchUrl: React.PropTypes.string,
+    fetchParams: React.PropTypes.object,
+    actionBar: React.PropTypes.oneOfType([
+        React.PropTypes.array,
+        React.PropTypes.object
+    ]),
     processData: React.PropTypes.func,
     beforeFetch: React.PropTypes.func,
     addRowClassName: React.PropTypes.func,
+    passedData: React.PropTypes.object,
+    // For inline edit
     getSavedData: React.PropTypes.bool,
-    onChange: React.PropTypes.func
+    onChange: React.PropTypes.func,
+    // For tree Mode
+    renderModel: React.PropTypes.string,
+    levels: React.PropTypes.number
 }
 
 Table.displayName = Table;
@@ -916,3 +939,13 @@ Table.CellField = CellField;
 Table.Constants = Const;
 
 module.exports = Table;
+
+{
+    "编辑": function() {}
+}
+
+var edit  = i18n("edit");
+
+{
+    [edit]: function() {}
+}
