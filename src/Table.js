@@ -939,13 +939,3 @@ Table.CellField = CellField;
 Table.Constants = Const;
 
 module.exports = Table;
-
-{
-    "编辑": function() {}
-}
-
-var edit  = i18n("edit");
-
-{
-    [edit]: function() {}
-}

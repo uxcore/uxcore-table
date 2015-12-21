@@ -125,10 +125,8 @@ class Cell extends React.Component {
             _v = deepcopy(props.rowData),
             renderProps;
 
-        if (_column.render) {
-           _v = _column.render.apply(null,[me.getCellData(),_v]);
-        }
-        else if (_column.type == 'action') {
+        
+        if (_column.type == 'action') {
 
             _v = <div className="action-container">
                     { 
@@ -185,6 +183,9 @@ class Cell extends React.Component {
         }
         else if (_column.type == 'money' || _column.type == "card" || _column.type == "cnmobile") {
             _v = <div title={me.getCellData()}>{util.formatValue(me.getCellData(), _column.type, _column.delimiter)}</div>;
+        }
+        else if (_column.render) {
+           _v = _column.render.apply(null,[me.getCellData(),_v]);
         }
         else {
             _v = <div title={me.getCellData()}>{me.getCellData()}</div>;
