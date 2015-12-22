@@ -788,6 +788,8 @@ class Table extends React.Component {
             })
         });
 
+        me.data = _content;
+
         this.setState({
             data: _content
         });
@@ -906,7 +908,10 @@ Table.defaultProps = {
 Table.propTypes = {
     jsxcolumns: React.PropTypes.arrayOf(React.PropTypes.object),
     width: React.PropTypes.number,
-    height: React.PropTypes.number,
+    height: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number
+    ]),
     headerHeight: React.PropTypes.number,
     pageSize: React.PropTypes.number,
     queryKeys: React.PropTypes.array,
