@@ -2,6 +2,11 @@
 
 ---
 
+# 1.2.3
+
+`FIXED` reduce column.render priority
+`FIXED` getData() cannot be updated after delRow()
+
 # 1.2.2
 
 `FIXED` fix bug in onChange
