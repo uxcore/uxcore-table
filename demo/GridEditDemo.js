@@ -104,7 +104,7 @@ class Demo extends React.Component {
             width: 1000,
             showPager:false,
             fetchParams: {},
-            getSavedData: true,
+            getSavedData: false,
             jsxdata: me.state.data,
             doubleClickToEdit: true,
             actionBar: [

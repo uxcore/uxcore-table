@@ -78,7 +78,7 @@ $ gulp server
 |showMask         |boolean             |optional  |true    |是否在 loading 的时候显示蒙层|
 |showSearch       |boolean             |optional  |false   |是否显示内置的搜索栏| 
 |doubleClickToEdit|boolean             |optional  |true    |是否开启双击编辑|
-|emptyText        |string or element   |optional  |"暂无数据"|
+|emptyText        |string or element   |optional  |"暂无数据"|当没有数据时 Table 展示的文案|
 |headerHeight     |number              |optional  |40      |表格头部的高度|
 |pageSize         |number              |optional  |10      |每页显示多少条数据|
 |queryKeys        |array               |optional  |[]      |有哪些数据会传递给 subComp|
