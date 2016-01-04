@@ -484,7 +484,12 @@ class Table extends React.Component {
             }
         }
         if (me.props.getSavedData) {
-            return {data: me.data, pass: pass};
+            // 滤除可能为空的元素
+            let data = deepcopy(me.data);
+            data.data = data.data.filter((item) => {
+                return item != undefined;
+            });
+            return {data: data, pass: pass};
         }
         else {
             return {data: me.state.data, pass: pass}
@@ -704,7 +709,7 @@ class Table extends React.Component {
 
         objAux = this.addJSXIdsForRecord(objAux);
 
-        me.data = me.mergeData(me.data, objAux);
+        // me.data = me.mergeData(me.data, objAux);
         this.setState({
             data: me.mergeData(me.state.data, objAux)
         });
@@ -751,13 +756,18 @@ class Table extends React.Component {
 
         me.updateRecord(objAux, () => {
             let _stateData = me.state.data.data || me.state.data.datas;
-            _data.forEach((item, index) => {
+            // _data.forEach((item, index) => {
+            //     if (item.jsxid == objAux.jsxid) {
+            //         _data[index] = _stateData.filter((ele) => {
+            //             return ele.jsxid == objAux.jsxid
+            //         })[0];
+            //     }
+            // });
+            _stateData.forEach((item, index) => {
                 if (item.jsxid == objAux.jsxid) {
-                    _data[index] = _stateData.filter((ele) => {
-                        return ele.jsxid == objAux.jsxid
-                    })[0];
+                    _data[index] = item;
                 }
-            });
+            })
         })
     }
 
