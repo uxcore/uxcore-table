@@ -909,6 +909,7 @@ Table.defaultProps = {
     fetchParams:'',
     currentPage:1,
     queryKeys:[],
+    emptyText: "暂无数据",
     processData: (data) => {return data},
     beforeFetch: (obj) => {return obj},
     addRowClassName: () => {},
@@ -932,6 +933,11 @@ Table.propTypes = {
     showHeader: React.PropTypes.bool,
     showMask: React.PropTypes.bool,
     showSearch: React.PropTypes.bool,
+    subComp: React.PropTypes.element,
+    emptyText: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.element
+    ]),
     jsxdata: React.PropTypes.object,
     fetchUrl: React.PropTypes.string,
     fetchParams: React.PropTypes.object,
