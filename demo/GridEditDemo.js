@@ -106,6 +106,7 @@ class Demo extends React.Component {
             fetchParams: {},
             getSavedData: true,
             jsxdata: me.state.data,
+            doubleClickToEdit: true,
             actionBar: [
                 {
                     title: '新增行',

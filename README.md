@@ -77,6 +77,7 @@ $ gulp server
 |showHeader      |boolean             |optional  |true   |是否显示表格头部|
 |showMask        |boolean             |optional  |true   |是否在 loading 的时候显示蒙层|
 |showSearch      |boolean             |optional  |false  |是否显示内置的搜索栏| 
+|doubleClickToEdit|boolean            |optional  |true   |是否开启双击编辑|
 |headerHeight    |number              |optional  |40     |表格头部的高度|
 |pageSize        |number              |optional  |10     |每页显示多少条数据|
 |queryKeys       |array               |optional  |[]     |有哪些数据会传递给 subComp|

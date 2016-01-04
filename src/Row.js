@@ -21,23 +21,18 @@ class Row extends React.Component {
 
     handleClick(rowData) {
         let me = this;
-        // if (rowData.__mode__ == Const.MODE.VIEW) {
-        //     me.props.changeSelected(!rowData[me.props.root.checkboxColumnKey], rowData.jsxid, false);
-        // }
     }
 
     handleDoubleClick(rowData) {
-        this.props.root.editRow(rowData);
+        let table = this.props.root;
+        if (table.props.doubleClickToEdit) {
+            table.editRow(rowData);
+        }
     }
 
     showSubCompFunc() {
-        // let props = this.props, 
-        //     showSubComp = props.rowData.showSubComp;
-        // props.rowData.showSubComp = !showSubComp;
-        // this.forceUpdate();
         let me = this;
         me.props.root.toggleSubComp(me.props.rowData);
-
     } 
 
     renderSubComp() {
