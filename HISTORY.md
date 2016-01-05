@@ -2,6 +2,10 @@
 
 ---
 
+# 1.2.4
+
+`FIXED` fix issue #83 #84 #87 #89
+
 # 1.2.3
 
 `FIXED` reduce column.render priority

@@ -54,6 +54,37 @@ class Demo extends React.Component {
         console.log(data);
     }
 
+    handleDataChange() {
+        let me = this;
+        me.setState({
+            data: {
+                "data": [
+                    {
+                        "email":"xw@abc.com",
+                        "nameId": "xiaowang",
+                        "name":"小王",
+                        "cityId": "bj",
+                        "city":"北京"
+                    },
+                    {
+                        "email":"xl@abc.com",
+                        "nameId": "xiaoli",
+                        "name":"小李",
+                        "cityId": "hz",
+                        "city":"杭州"
+                    },
+                    {
+                        "email":"xl@abc.com",
+                        "nameId": "xiaoli",
+                        "name":"小李",
+                        "cityId": "hz",
+                        "city":"杭州"
+                    }
+                ]
+            }
+        });
+    }
+
     render () {
         let me = this;
         let columns = [
@@ -104,7 +135,7 @@ class Demo extends React.Component {
             width: 1000,
             showPager:false,
             fetchParams: {},
-            getSavedData: false,
+            getSavedData: true,
             jsxdata: me.state.data,
             doubleClickToEdit: true,
             actionBar: [
@@ -143,6 +174,7 @@ class Demo extends React.Component {
             <div>
                 <Grid {...renderProps}  ref="grid"/>
                 <Button onClick={me.getTableValues.bind(me)}>获取 Table 的值</Button>
+                <Button onClick={me.handleDataChange.bind(me)}>更改 Data</Button>
             </div>
         );
       }

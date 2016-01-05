@@ -57,6 +57,7 @@ class Table extends React.Component {
             // Data has changed, so uid which is used to mark the data should be reset.
             me.uid = 0;
             newData['data'] = me.addValuesInData(deepcopy(nextProps.jsxdata));
+            me.data = deepcopy(newData['data']);
         }
         if (nextProps.pageSize != me.props.pageSize) {
             newData['pageSize'] = nextProps.pageSize;
