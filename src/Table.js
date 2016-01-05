@@ -323,6 +323,7 @@ class Table extends React.Component {
         });
         // if hidden is not set, then it's false
 
+
         columns = columns.map((item,index) => {
             item.hidden = !!item.hidden;
             return item;
@@ -333,13 +334,13 @@ class Table extends React.Component {
             columns = [{ dataKey: 'jsxchecked', width: 46, type:'checkbox', align:'right'}].concat(columns)
         }
 
-        // no rowSelection but parentHasCheckbox, render placeholder
+        // no rowSelection but has parentHasCheckbox, render placeholder
         else if (!!props.parentHasCheckbox) {
             columns = [{dataKey: 'jsxwhite', width: 46, type: 'empty'}].concat(columns);
         }
 
 
-        if (!!props.subComp && props.renderModel!=='tree') {
+        if (!!props.subComp && props.renderModel !== 'tree') {
             columns = [{dataKey: 'jsxtreeIcon', width: 34, type: 'treeIcon'}].concat(columns);
         }
         // no subComp but has passedData, means sub mode, parent should has tree icon,
@@ -896,7 +897,6 @@ Table.defaultProps = {
     mode: Const.MODE.EDIT,
     renderModel: '',
     levels: 1,
-    headerHeight: 40,
     actionBarHeight: 40,
     doubleClickToEdit: true,
     showPager: true,

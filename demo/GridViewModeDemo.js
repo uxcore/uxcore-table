@@ -79,11 +79,17 @@ class Demo extends React.Component {
             { dataKey: 'check', title: '复选框', type: 'checkbox'},
             { dataKey: 'id', title: 'ID', width: 50,hidden:true},
             { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ','},
-            { dataKey: 'city',title:'城市', width: 150},
-            { dataKey: 'firstName',title:"FristName",beforeRender:function(rowData) {
-                return "abc";
-            } },  
-            { dataKey: 'lastName' ,title:"LastName"},
+            {
+                group: '大表头测试',
+                columns: [
+                    { dataKey: 'city',title:'城市', width: 150},
+                    { dataKey: 'firstName',title:"FristName",beforeRender:function(rowData) {
+                        return "abc";
+                    } },  
+                    { dataKey: 'lastName' ,title:"LastName"}
+                ]
+            },
+            
             { dataKey: 'email',title:"Email",width: 200,ordered:true },
             { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
                 "编辑": function(rowData, actions) {
