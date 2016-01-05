@@ -168,18 +168,26 @@ class Row extends React.Component {
     render() {
 
         let props = this.props,
-            _columns = props.columns,
+            _columns = [],
             _style = {},
             _data = props.data,
             me = this,
             otherCls = props.addRowClassName(_data[props.rowIndex]);
 
         if (!this.props.visible) {
-
-          _style = {
-            display: 'none' 
-          };
+            _style = {
+                display: 'none' 
+            };
         }
+
+        props.columns.forEach((column, index) => {
+            if ("group" in column) {
+                _columns = _columns.concat(column.columns);
+            }
+            else {
+                _columns.push(column);
+            }
+        })
 
         let firstVisableColumn=0;
 

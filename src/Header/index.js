@@ -4,6 +4,8 @@
 let CheckBox = require('../Cell/CheckBox');
 let assign = require('object-assign');
 let Const = require('uxcore-const');
+let Tree = require('uxcore-tree');
+let {TreeNode} = Tree;
 
 
 class Header extends React.Component {
@@ -11,16 +13,20 @@ class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state= {
-           display:'none'
+           display:'none',
+           checkedKeys: []
         };
     }
 
     componentDidMount() {
-        $(document).on('click.uxcore-grid-header',this.handleGlobalClick.bind(this));
+        let me = this;
+        me.handleGlobalClick = this.handleGlobalClick.bind(this);
+        $(document).on('click.uxcore-grid-header', me.handleGlobalClick);
     }
 
     componentWillUnmount () {
-        $(document).off('click.uxcore-grid-header');
+        let me = this;
+        $(document).off('click.uxcore-grid-header', me.handleGlobalClick);
     }
 
     handleGlobalClick(e) {
@@ -30,7 +36,7 @@ class Header extends React.Component {
     }
 
     handleCheckBoxChange() {
-        let v=this.refs.checkbox.getValue();
+        let v = this.refs.checkbox.getValue();
         this.props.checkAll.apply(null,[v]);
     }
 
@@ -48,16 +54,54 @@ class Header extends React.Component {
         }
     }
 
+    handlePickerCheck(info) {
+        console.log(info.node.props);
+        this.setState({
+            checkedKeys: this.state.checkedKeys.concat([info.node.props.key])
+        })
+    }
+
     hideColumnPick(e) {
-       if(!$(e.target).hasClass('kuma-column-picker')) {
-          this.setState({
-              display:'none'
-          });
-       } 
+        let target = e.target;
+
+        if($(target).parents('.kuma-column-picker-container').length == 0 && !$(target).hasClass("kuma-column-picker-container")) {
+            this.setState({
+                display:'none'
+            });
+        } 
     }
 
     handleColumns(index) {
         this.props.handleCP.apply(null,[index]);
+    }
+
+    renderColumnTree() {
+        let me = this;
+        let {columns} = me.props;
+        let notRenderColumns = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
+
+        let treeProps = {
+            multiple: true,
+            checkable: true,
+            checkedKeys: me.state.checkedKeys,
+            onCheck: me.handlePickerCheck.bind(me)
+        };
+
+        return <Tree {...treeProps}>
+                    {columns.map((item, index) => {
+                        if (notRenderColumns.indexOf(item.dataKey) !== -1) return;
+                        if ('group' in item) {
+                            return <TreeNode key={item.group} title={item.group}>
+                                        {item.columns.map((column, idx) => {
+                                            return <TreeNode key={column.dataKey} title={column.title}></TreeNode>
+                                        })}
+                                    </TreeNode>
+                        }
+                        else {
+                            return <TreeNode key={item.dataKey} title={item.title}></TreeNode>
+                        }
+                    })}
+                </Tree>
     }
 
     //prepare the column picker html fragement
@@ -72,7 +116,7 @@ class Header extends React.Component {
             <div className="kuma-column-picker-container">
                 <i className="kuma-icon kuma-icon-target-list kuma-column-picker" onClick={this.handleColumnPicker.bind(this)}></i>
                 <ul className="kuma-uxtable-colmnpicker" style={_style} ref="columnpicker">
-                    {
+                    {/*
                         this.props.columns.map(function(item,index) {
                             if (item.dataKey=='jsxchecked' || item.dataKey == "jsxtreeIcon" || item.dataKey == "jsxwhite") return;
                             if (item.hidden) {
@@ -82,7 +126,8 @@ class Header extends React.Component {
                                 return <li ref="" key={index} onClick={me.handleColumns.bind(me,index)}><i className="kuma-icon kuma-icon-choose"></i>{item.title}</li>
                             }
                         })
-                    }
+                    */}
+                    {me.renderColumnTree()}
                  </ul>
             </div>
         )

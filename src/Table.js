@@ -552,23 +552,37 @@ class Table extends React.Component {
     }
 
     render() {
-        let props = this.props,
-            bodyHeight,
-            // if table is in sub mode, people always want to align the parent
-            // and the sub table, so width should not be cared.
-            _style = {
-                width: !!props.passedData ? "auto" : props.width,
-                height: props.height
-            },
-            actionBarHeight = props.actionBar ? props.actionBarHeight : 0,
-            pagerHeight = (props.showPager && this.state.data && this.state.data.totalCount) ? 50 : 0;
+        let props = this.props;
+        let bodyHeight;
+        // if table is in sub mode, people always want to align the parent
+        // and the sub table, so width should not be cared.
+        let {headerHeight} = props;
+
+        let _style = {
+            width: !!props.passedData ? "auto" : props.width,
+            height: props.height
+        };
+        let actionBarHeight = props.actionBar ? props.actionBarHeight : 0;
+        let pagerHeight = (props.showPager && this.state.data && this.state.data.totalCount) ? 50 : 0;
+
+        // decide whether the table has column groups
+        let hasGroup = false;
+        for (let i = 0; i < this.state.columns.length; i++) {
+            if ('group' in this.state.columns[i]) {
+                hasGroup = true;
+                break;
+            }
+        }
+
+        headerHeight = headerHeight || (hasGroup ? 80 : 40);
 
         if (props.height == 'auto') {
             bodyHeight = 'auto';
         } 
         else {
-            bodyHeight = props.height == "100%" ? props.height : (props.height - props.headerHeight - actionBarHeight - pagerHeight);
+            bodyHeight = props.height == "100%" ? props.height : (props.height - headerHeight - actionBarHeight - pagerHeight);
         }
+        console.log(bodyHeight);
         let renderBodyProps = {
             columns: this.state.columns,
             data: this.state.data ? this.state.data.datas || this.state.data.data : [],

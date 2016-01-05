@@ -89,7 +89,6 @@ class Demo extends React.Component {
                     { dataKey: 'lastName' ,title:"LastName"}
                 ]
             },
-            
             { dataKey: 'email',title:"Email",width: 200,ordered:true },
             { dataKey: 'action1', title:'操作1', width:100, type:"action",actions:{
                 "编辑": function(rowData, actions) {

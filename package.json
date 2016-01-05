@@ -48,6 +48,7 @@
     "uxcore-pagination": "~0.1.0",
     "uxcore-radiogroup": "~1.1.1",
     "uxcore-select2": "~0.1.4",
+    "uxcore-tree": "~0.1.8",
     "uxcore-validator": "~0.1.0"
   },
   "contributors": [],
