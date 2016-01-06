@@ -5,6 +5,7 @@ let CheckBox = require('../Cell/CheckBox');
 let assign = require('object-assign');
 let Const = require('uxcore-const');
 let Tree = require('uxcore-tree');
+let classnames = require('classnames');
 let {TreeNode} = Tree;
 
 
@@ -13,8 +14,7 @@ class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state= {
-           display:'none',
-           checkedKeys: []
+           pickerDisplay:'none'
         };
     }
 
@@ -31,8 +31,18 @@ class Header extends React.Component {
 
     handleGlobalClick(e) {
         if(this.props.columnPicker) {
-            this.hideColumnPick(e);
+            this.hideColumnPicker(e);
         }
+    }
+
+    hideColumnPicker(e) {
+        let target = e.target;
+
+        if($(target).parents('.kuma-column-picker-container').length == 0 && !$(target).hasClass("kuma-column-picker-container")) {
+            this.setState({
+                pickerDisplay:'none'
+            });
+        } 
     }
 
     handleCheckBoxChange() {
@@ -43,36 +53,47 @@ class Header extends React.Component {
     handleColumnPicker(e) {
 
         e.stopPropagation();
-        if(this.state.display=='block') {
+        if (this.state.pickerDisplay=='block') {
            this.setState({
-              display:'none'
+              pickerDisplay:'none'
            });
-        }else {
+        }
+        else {
            this.setState({
-              display:'block'
+              pickerDisplay:'block'
            });
         }
     }
 
     handlePickerCheck(info) {
-        console.log(info.node.props);
-        this.setState({
-            checkedKeys: this.state.checkedKeys.concat([info.node.props.key])
-        })
+        this.props.handleColumnPickerChange(info.checkedKeys)
     }
 
-    hideColumnPick(e) {
-        let target = e.target;
-
-        if($(target).parents('.kuma-column-picker-container').length == 0 && !$(target).hasClass("kuma-column-picker-container")) {
-            this.setState({
-                display:'none'
-            });
-        } 
-    }
+    
 
     handleColumns(index) {
-        this.props.handleCP.apply(null,[index]);
+        this.props.handleColumnPickerChange;
+    }
+
+    getCheckedKeys() {
+        let me = this;
+        let {columns} = me.props;
+        let _columns = [];
+        let checkedKeys = [];
+        columns.forEach((item, index) => {
+            if ('group' in item) {
+                _columns = _columns.concat(item.columns);
+            }
+            else {
+                _columns.push(item);
+            }
+        });
+        _columns.forEach((item, index) => {
+            if (!item.hidden) {
+                checkedKeys.push(item.dataKey);
+            }
+        })
+        return checkedKeys;
     }
 
     renderColumnTree() {
@@ -83,52 +104,46 @@ class Header extends React.Component {
         let treeProps = {
             multiple: true,
             checkable: true,
-            checkedKeys: me.state.checkedKeys,
+            defaultCheckedKeys: me.getCheckedKeys(),
             onCheck: me.handlePickerCheck.bind(me)
         };
 
-        return <Tree {...treeProps}>
-                    {columns.map((item, index) => {
-                        if (notRenderColumns.indexOf(item.dataKey) !== -1) return;
-                        if ('group' in item) {
-                            return <TreeNode key={item.group} title={item.group}>
-                                        {item.columns.map((column, idx) => {
-                                            return <TreeNode key={column.dataKey} title={column.title}></TreeNode>
-                                        })}
-                                    </TreeNode>
-                        }
-                        else {
-                            return <TreeNode key={item.dataKey} title={item.title}></TreeNode>
-                        }
-                    })}
-                </Tree>
+        return (
+            <Tree {...treeProps}>
+                {columns.map((item, index) => {
+                    if (notRenderColumns.indexOf(item.dataKey) !== -1) return;
+                    if ('group' in item) {
+                        return <TreeNode key={item.group} title={item.group}>
+                                    {item.columns.map((column, idx) => {
+                                        return <TreeNode key={column.dataKey} title={column.title}></TreeNode>
+                                    })}
+                                </TreeNode>
+                    }
+                    else {
+                        return <TreeNode key={item.dataKey} title={item.title}></TreeNode>
+                    }
+                }).filter((item, index) => {
+                    return item != undefined
+                })}
+            </Tree>
+        )
     }
 
-    //prepare the column picker html fragement
-
     renderPicker() {
-        let me = this,
-        _style = {
-            display: this.state.display
+        let me = this;
+        let _style = {
+            display: this.state.pickerDisplay
         };
 
         return (
-            <div className="kuma-column-picker-container">
+            <div className={classnames({
+                "kuma-column-picker-container": true,
+                "hasGroup": me.hasGroup
+            })}>
                 <i className="kuma-icon kuma-icon-target-list kuma-column-picker" onClick={this.handleColumnPicker.bind(this)}></i>
-                <ul className="kuma-uxtable-colmnpicker" style={_style} ref="columnpicker">
-                    {/*
-                        this.props.columns.map(function(item,index) {
-                            if (item.dataKey=='jsxchecked' || item.dataKey == "jsxtreeIcon" || item.dataKey == "jsxwhite") return;
-                            if (item.hidden) {
-                                return <li ref="" key={index} onClick={me.handleColumns.bind(me,index)}>{item.title}</li>
-                            }
-                            else {
-                                return <li ref="" key={index} onClick={me.handleColumns.bind(me,index)}><i className="kuma-icon kuma-icon-choose"></i>{item.title}</li>
-                            }
-                        })
-                    */}
+                <div className="kuma-uxtable-colmnpicker" style={_style} ref="columnpicker">
                     {me.renderColumnTree()}
-                 </ul>
+                 </div>
             </div>
         )
     }
@@ -161,10 +176,11 @@ class Header extends React.Component {
         }
     }
 
-    renderColumn(item, index, hasGroup) {
+    renderColumn(item, index, hasGroup, last) {
 
         if (item.hidden) return;
         let me = this;
+        let noBorderColumn = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
         let _style = {
             width: item.width ? item.width : 100,
             textAlign: item.align ? item.align : "left"
@@ -182,7 +198,8 @@ class Header extends React.Component {
             assign(_style, {
                 paddingRight: 32,
                 paddingLeft: 12,
-                width: item.width ? item.width : 92
+                width: item.width ? item.width : 92,
+                borderRight: 'none'
             });
 
             let checkBoxProps = {
@@ -197,6 +214,12 @@ class Header extends React.Component {
             _v = <span title={item.title}>{item.title}</span>;
         }
 
+        if (noBorderColumn.indexOf(item.dataKey) !== -1 || last) {
+            assign(_style, {
+               borderRight: 'none' 
+            })
+        }
+
         return (
             <div key={index} className="kuma-uxtable-cell" style={_style}>
                 {_v}
@@ -205,20 +228,28 @@ class Header extends React.Component {
         )
     }
 
-    renderItems(_columns, hasGroup) {
+    renderItems(_columns) {
         let me = this;
         
         let columns = _columns.map((item, index) => {
+            let last = (index == _columns.length - 1);
             if ('group' in item) {
-                return <div className="kuma-uxtable-header-column-group" key={index}>
-                    <div className="kuma-uxtable-header-group-name">{item.group}</div>
-                    {item.columns.map((column, i) => {
-                        return me.renderColumn(column, i);
-                    })}
-                </div>
+                // First determine whether the group should be rendered, if all columns
+                // is hidden, the column group should not be rendered.
+                let shouldRenderGroup = item.columns.some((column, i) => {
+                    return !column.hidden
+                });
+                if (shouldRenderGroup) {
+                    return <div className="kuma-uxtable-header-column-group" key={index}>
+                        <div className="kuma-uxtable-header-group-name">{item.group}</div>
+                        {item.columns.map((column, i) => {
+                            return me.renderColumn(column, i, false, last);
+                        })}
+                    </div>
+                }
             }
             else {
-                return me.renderColumn(item, index, hasGroup)
+                return me.renderColumn(item, index, me.hasGroup, last)
             }
         });
         return columns;
@@ -231,6 +262,7 @@ class Header extends React.Component {
             _picker,
             _width = 0,
             headerWrapClassName,
+            _headerStyle = {},
             _columns;
 
         if (props.columnPicker && (props.fixedColumn == 'no' || props.fixedColumn == 'scroll')) {
@@ -277,27 +309,27 @@ class Header extends React.Component {
         }
 
 
-        let hasGroup = false;
+        me.hasGroup = false;
         for (let i = 0; i < _columns.length; i++) {
             if ('group' in _columns[i]) {
-                hasGroup = true;
+                me.hasGroup = true;
                 break;
             }
         }
 
-        let _headerStyle = { 
-            height: props.headerHeight ? props.headerHeight : (hasGroup ? 80 : 40),
+        assign(_headerStyle, { 
+            height: props.headerHeight ? props.headerHeight : (me.hasGroup ? 80 : 40),
             lineHeight: (props.headerHeight ? props.headerHeight : 40) + "px"
-        }
+        });
 
 
         return (
-          <div className={headerWrapClassName} style={_headerStyle}>
-            <div className={props.jsxprefixCls} >
-                {me.renderItems(_columns, hasGroup)}
-                {_picker}
+            <div className={headerWrapClassName} style={_headerStyle}>
+                <div className={props.jsxprefixCls} >
+                    {me.renderItems(_columns)}
+                    {_picker}
+                </div>
             </div>
-          </div>
         );
     }
 
@@ -310,4 +342,4 @@ Header.defaultProps = {
     jsxprefixCls: "kuma-uxtable-header"
 };
 
-export default Header;
+module.exports = Header;

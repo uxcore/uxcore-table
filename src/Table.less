@@ -19,7 +19,7 @@
 
 .@{uxtable-prefix}-content {
     overflow-x: auto;
-    position: relative;
+    position: static;
 }
 
 .@{uxtable-prefix}-content-scroller {
@@ -44,6 +44,9 @@
     min-width: 100%;
     white-space: nowrap;
     display: inline-block;
+    .@{uxtable-prefix}-cell {
+        border-right: 1px solid #ebebeb;
+    }
 }
 .@{uxtable-prefix}-body {
     position:relative;
@@ -139,19 +142,23 @@
 }
 
 .@{uxtable-prefix}-colmnpicker {
+    max-width: 400px;
+    max-height: 300px;
+    overflow-y: auto;
     position: absolute;
     background-color: @table-header-bg;
     z-index: 2;
     right: 0;
     top: 32px;
-    padding: 0;
+    padding: 5px 20px 10px 10px;
     display: none;
-     > li {
-        padding: 4px 20px;
-        cursor: pointer;
-        text-align: left;
-        line-height: 21px;
-        min-width: 120px;
+    .kuma-tree {
+        padding: 0px;
+        li a {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
 }
 
@@ -163,6 +170,12 @@
     padding-right: 20px;
     font-weight: normal;
     background: @table-header-bg;
+    &.hasGroup {
+        line-height: 80px;
+        .@{uxtable-prefix}-colmnpicker {
+            top: 50px;
+        }
+    }
 }
 
 .@{uxtable-prefix}-subrow {
@@ -300,4 +313,6 @@
 .@{uxtable-prefix}-header-group-name {
     line-height: 40px;
     text-align: center;
+    border-bottom: 1px solid @table-border;
+    border-right: 1px solid @table-border;
 }

@@ -354,16 +354,40 @@ class Table extends React.Component {
     }
 
     //handle column picker
-    handleCP(index) {
-        let _columns= deepcopy(this.state.columns),
-            hidden=_columns[index].hidden;
-        if (hidden == undefined) {
-            hidden = true;
-        }
-        _columns[index].hidden= !!hidden ? false: true;
+    handleColumnPickerChange(checkedKeys) {
+        let _columns = deepcopy(this.state.columns);
+        //     hidden= _columns[index].hidden;
+        // if (hidden == undefined) {
+        //     hidden = true;
+        // }
+        // _columns[index].hidden= !!hidden ? false: true;
+        // this.setState({
+        //     columns: _columns
+        // })
+        _columns.forEach((item, index) => {
+            if ('group' in item) {
+                item.columns.forEach((ele, idx) => {
+                    if (checkedKeys.indexOf(ele.dataKey) !== -1) {
+                        ele.hidden = false;
+                    }
+                    else {
+                        ele.hidden = true;
+                    }
+                })
+            }
+            else {
+                if (checkedKeys.indexOf(item.dataKey) !== -1) {
+                    item.hidden = false;
+                }
+                else {
+                    item.hidden = true;
+                }
+            }
+        });
         this.setState({
             columns: _columns
         })
+        
     }
 
     /*
@@ -582,7 +606,6 @@ class Table extends React.Component {
         else {
             bodyHeight = props.height == "100%" ? props.height : (props.height - headerHeight - actionBarHeight - pagerHeight);
         }
-        console.log(bodyHeight);
         let renderBodyProps = {
             columns: this.state.columns,
             data: this.state.data ? this.state.data.datas || this.state.data.data : [],
@@ -609,7 +632,7 @@ class Table extends React.Component {
             activeColumn: this.state.activeColumn,
             checkAll: this.selectAll.bind(this),
             columnPicker: props.showColumnPicker,
-            handleCP: this.handleCP.bind(this),
+            handleColumnPickerChange: this.handleColumnPickerChange.bind(this),
             headerHeight: props.headerHeight,
             width: props.width,
             mode: props.mode,
@@ -921,7 +944,7 @@ Table.defaultProps = {
     getSavedData: true,
     pageSize: 10,
     rowHeight: 76,
-    fetchParams:'',
+    fetchParams: {},
     currentPage:1,
     queryKeys:[],
     emptyText: "暂无数据",
