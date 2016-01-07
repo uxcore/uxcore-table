@@ -132,6 +132,7 @@ class Demo extends React.Component {
                '黄山': function(type) {alert(type)}
             },
             showSearch: true,
+            searchBarPlaceholder: "请搜索",
             fetchParams: {},
             // jsxdata: mockData,
             fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",

@@ -649,6 +649,7 @@ class Table extends React.Component {
                 onSearch: this.handleActionBarSearch.bind(this),
                 actionBarConfig: this.props.actionBar,
                 showSearch: this.props.showSearch,
+                searchBarPlaceholder: this.props.searchBarPlaceholder,
                 key:'grid-actionbar'
             };
             actionBar = <ActionBar {...renderActionProps}/>
@@ -948,6 +949,7 @@ Table.defaultProps = {
     currentPage:1,
     queryKeys:[],
     emptyText: "暂无数据",
+    searchBarPlaceholder: "搜索表格内容",
     processData: (data) => {return data},
     beforeFetch: (obj) => {return obj},
     addRowClassName: () => {},
@@ -971,6 +973,7 @@ Table.propTypes = {
     showHeader: React.PropTypes.bool,
     showMask: React.PropTypes.bool,
     showSearch: React.PropTypes.bool,
+    searchBarPlaceholder: React.PropTypes.string,
     subComp: React.PropTypes.element,
     emptyText: React.PropTypes.oneOfType([
         React.PropTypes.string,

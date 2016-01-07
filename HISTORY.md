@@ -2,6 +2,12 @@
 
 ---
 
+
+# 1.3.0
+
+`NEW` add support for column group
+`CHANGED` column picker rebuild using uxcore-tree 
+
 # 1.2.4
 
 `FIXED` fix issue #83 #84 #87 #89
