@@ -292,6 +292,7 @@ class Table extends React.Component {
                 "currentPage": 1,
                 "totalCount": 0
             };
+            me.data = deepcopy(data);
             me.setState({
                 "data": deepcopy(data)
             })
