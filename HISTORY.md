@@ -2,6 +2,11 @@
 
 ---
 
+# 1.3.1
+
+`NEW` add column config option `isDisable`
+`NEW` add new prop `searchBarPlaceholder`
+`FIXED` fix issue #93
 
 # 1.3.0
 

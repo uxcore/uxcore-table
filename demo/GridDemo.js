@@ -9,7 +9,7 @@
 let classnames = require('classnames');
 let Grid = require('../src');
 let Button = require('uxcore-button');
-let urlPrefix = 'http://30.10.26.11:3000/';
+let urlPrefix = 'http://30.10.30.236:3000/';
 let mockData = {
     "datas": [
         {
@@ -80,7 +80,7 @@ class Demo extends React.Component {
         //  ]
         // title, width, type, hidden,dataKey
         let columns = [
-            { dataKey: 'check', title: '复选框', type: 'checkbox'},
+            { dataKey: 'check', title: '复选框', type: 'checkbox', isDisable: function(rowData) {return /city/.test(rowData.city)}},
             { dataKey: 'id', title: 'ID', width: 50,hidden:true,fixed:true},
             { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ',',fixed:true},
             { dataKey: 'city',title:'城市', width: 150},

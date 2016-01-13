@@ -90,6 +90,7 @@ $ gulp server
 |beforeFetch         |function(data, from)|optional  |noop        | -         |两个参数，data 表示表格请求数据时即将发送的参数，from 表示这次请求数据的行为从哪里产生，内置的有 `search`(搜索栏),`order`(排序) & `pagination`(分页)，该函数需要返回值，返回值为真正请求所携带的参数。|
 |processData         |function(data)      |optional  |noop        | -         |有时源返回的数据格式，并不符合 Table 的要求，可以通过此函数进行调整，参数 data 是返回数据中 content 字段的 value，该函数需要返回值，返回值为符合 content 字段 value 的数据结构。|
 |addRowClassName     |function(rowData)   |optional  |noop        | -         |用于为特定的某几行添加特殊的 class，用于样式定制|
+|rowSelection        |object              |optional  |noop        | -         |选中复选框时触发的回调，rowSelection 是由回调函数组成的对象，包括 onSelect 和 onSelectAll，例子见此| 
 
 
 ### 折叠展开专用
@@ -115,21 +116,23 @@ $ gulp server
 
 ### 列配置项(jsxcolumns)
 
-|Key Name        |Type            |Since Ver.|Require  |Note   | 
-|-----------     |----------      |---       |------   |-----  |
-|dataKey         |string          |-         |required |表格的数据中用于查看模式展示的字段|
-|editKey         |string          |-         |optional |表格的数据中用于编辑模式的字段，如对于 select 来说，此项应为选项里的 key| 
-|title           |string          |-         |required |列头|
-|width           |number          |-         |required |列宽|
-|hidden          |boolean         |-         |optional |是否隐藏，默认为 false|
-|order           |boolean         |-         |optional |是否显示内置的排序，默认为 false|
-|type            |string          |-         |optional |包含 'money', 'card', 'cnmobile', 'checkbox', 'action', 'radio', 'text', 'select' 和 'custom'|
-|actions         |array           |-         |optional |当 type 是 action 的时候会用到，用于定义具体有哪些操作，格式见下方[说明](#actions)|
-|customField     |React Element   |-         |optional |当 type 是 custom 的时候会用到，用于传入自定义的 Field，用于行内编辑|
-|render          |function        |-         |optional |在查看模式下，用户定制渲染的方式，返回一个 jsx 格式|
-|fixed           |boolean         |-         |optional |是否为固定列|
-|delimiter       |string          |-         |optional |在 type 是 'money', 'card', 'cnmobile' 的时候会用到，用于传入格式化的分隔符|
-|align           |string          |-         |optional |文字居中方式，默认 'left'|
+|Key Name        |Type              |Since Ver.|Require  |Note   | 
+|-----------     |----------        |---       |------   |-----  |
+|dataKey         |string            |-         |required |表格的数据中用于查看模式展示的字段|
+|editKey         |string            |-         |optional |表格的数据中用于编辑模式的字段，如对于 select 来说，此项应为选项里的 key| 
+|title           |string            |-         |required |列头|
+|width           |number            |-         |required |列宽|
+|hidden          |boolean           |-         |optional |是否隐藏，默认为 false|
+|order           |boolean           |-         |optional |是否显示内置的排序，默认为 false|
+|type            |string            |-         |optional |包含 'money', 'card', 'cnmobile', 'checkbox', 'action', 'radio', 'text', 'select' 和 'custom'|
+|actions         |array             |-         |optional |当 type 是 action 的时候会用到，用于定义具体有哪些操作，格式见下方[说明](#actions)|
+|customField     |React Element     |-         |optional |当 type 是 custom 的时候会用到，用于传入自定义的 Field，用于行内编辑|
+|render          |function          |-         |optional |在查看模式下，用户定制渲染的方式，返回一个 jsx 格式|
+|fixed           |boolean           |-         |optional |是否为固定列|
+|delimiter       |string            |-         |optional |在 type 是 'money', 'card', 'cnmobile' 的时候会用到，用于传入格式化的分隔符|
+|align           |string            |-         |optional |文字居中方式，默认 'left'|
+|disable         |boolean           |-         |optional |在 type 为 checkbox 时使用，是否禁用 checkbox，优先级高于 isDisable|
+|isDisable       |function(rowData) |1.3.1     |optional |在 tpye 为 checkbox 时使用，为一个回调函数，用于根据 rowData 去判断是否禁用该行的 checkbox|          
  
 
 
@@ -137,7 +140,7 @@ $ gulp server
 ```javascript
 
 let columns = [
-        { dataKey: 'check', type: 'checkbox', disable: false}, // custom checkbox column, dataKey can be anyone, true means checked.
+        { dataKey: 'check', type: 'checkbox', isDisable: function(rowData) {return /city/.test(rowData.city)}}, // 定制 checkbox 列，dataKey 对应的应是一个 bool 值，表明是否被选中。
         { dataKey: 'country', title:'国家', width: 200,ordered:true},
         { dataKey: 'action1', title:'操作1', width:100, type:"action",actions: [
             {
@@ -162,7 +165,7 @@ let columns = [
 
 ```
 
-## 列配置项的例子2（带列群组）
+## 列配置项的例子2（带列群组, since ver. 1.3.0）
 ```javascript
 
 let columns = [
@@ -175,6 +178,21 @@ let columns = [
             ]
         }
  ]
+
+```
+
+## rowSelection 的例子
+
+```javascript
+
+let rowSelection = {
+      onSelect: function(record, selected, selectedRows) {
+          console.log(record, selected, selectedRows);
+      },
+      onSelectAll: function(record, data) {
+          console.log(record, data);
+      }
+};
 
 ```
 

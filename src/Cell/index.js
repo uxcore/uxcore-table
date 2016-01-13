@@ -145,7 +145,7 @@ class Cell extends React.Component {
                     }
                  </div>
         }
-        else if (_column.type=='checkbox') {
+        else if (_column.type == 'checkbox') {
 
             _style.paddingRight = 32;
             _style.paddingLeft = 12;
@@ -156,7 +156,15 @@ class Cell extends React.Component {
             } else {
                 checked="";
             }
-            _v = <CheckBox disable={_column.disable} mode={props.mode} align={props.align} jsxchecked={checked} ref="checkbox" onchange={me.handleCheckChange.bind(me)}/>
+
+            let disable = false;
+            if ('disable' in _column) {
+                disable = _column.disable;
+            }
+            else if ('isDisable' in _column) {
+                disable = !!_column.isDisable(props.rowData);
+            }
+            _v = <CheckBox disable={disable} mode={props.mode} align={props.align} jsxchecked={checked} ref="checkbox" onchange={me.handleCheckChange.bind(me)}/>
 
         }
         else if (_column.type == 'treeIcon') {

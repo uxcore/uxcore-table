@@ -137,7 +137,7 @@ class Table extends React.Component {
      }
 
 
-    /*
+    /**
      * simple method to compare two datas, 
      * only support the data which JSON can parse.
      */
@@ -147,7 +147,7 @@ class Table extends React.Component {
     }
 
 
-    /*
+    /**
      * get Query Object by combining data from searchBar, column order, pagination
      * and fetchParams.
      * @param from {string} used in props.beforeFetch
@@ -201,7 +201,7 @@ class Table extends React.Component {
         return me.props.beforeFetch(queryObj, from);
     }
     
-    /*
+    /**
      * fetch Data via Ajax
      * @param from {string} tell fetchData where it is invoked, the param will be 
      * passed to props.beforeFetch in order to help the user.
@@ -312,6 +312,7 @@ class Table extends React.Component {
         columns.forEach((item) => {
             if (item.type == 'checkbox') {
                 hasCheckboxColumn = true;
+                me.checkboxColumn = item;
                 me.checkboxColumnKey = item.dataKey;
                 item.width = item.width || 46;
                 item.align = item.align || 'right';
@@ -332,8 +333,10 @@ class Table extends React.Component {
         });
 
         if (!!props.rowSelection & !hasCheckboxColumn) {
+            me.checkboxColumn = { dataKey: 'jsxchecked', width: 46, type:'checkbox', align:'right'};
             me.checkboxColumnKey = 'jsxchecked';
-            columns = [{ dataKey: 'jsxchecked', width: 46, type:'checkbox', align:'right'}].concat(columns)
+
+            columns = [me.checkboxColumn].concat(columns)
         }
 
         // no rowSelection but has parentHasCheckbox, render placeholder
@@ -354,17 +357,8 @@ class Table extends React.Component {
         return columns;
     }
 
-    //handle column picker
     handleColumnPickerChange(checkedKeys) {
         let _columns = deepcopy(this.state.columns);
-        //     hidden= _columns[index].hidden;
-        // if (hidden == undefined) {
-        //     hidden = true;
-        // }
-        // _columns[index].hidden= !!hidden ? false: true;
-        // this.setState({
-        //     columns: _columns
-        // })
         _columns.forEach((item, index) => {
             if ('group' in item) {
                 item.columns.forEach((ele, idx) => {
@@ -391,7 +385,7 @@ class Table extends React.Component {
         
     }
 
-    /*
+    /**
      * change SelectedRows data via checkbox, this function will pass to the Cell
      * @param checked {boolean} the checkbox status
      * @param rowIndex {number} the row Index
@@ -431,13 +425,16 @@ class Table extends React.Component {
         let _data = _content.datas || _content.data;
         let rowSelection = me.props.rowSelection;
 
-        _data = _data.map((item,index) => {
-            item[me.checkboxColumnKey] = checked;
-            return item;
+        let selectedRows = [];
+        _data = _data.forEach((item,index) => {
+            if (!'isDisable' in me.checkboxColumn || !me.checkboxColumn.isDisable(item)) {
+              item[me.checkboxColumnKey] = checked;
+              selectedRows.push(item);
+            }
         });
 
         if(!!rowSelection && !!rowSelection.onSelectAll) {
-            rowSelection.onSelectAll.apply(null,[checked,_content])
+            rowSelection.onSelectAll.apply(null,[checked, checked ? selectedRows : []])
         }
         me.setState({
             data: _content
