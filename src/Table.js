@@ -816,10 +816,6 @@ class Table extends React.Component {
         let content = this.state.data;
         let data = content.data || content.datas;
 
-        if (data.length == 1){
-            return;
-        }
-
         // deepcopy protect
         let _content = deepcopy(content),
             _data = _content.data || _content.datas;
