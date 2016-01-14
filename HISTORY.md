@@ -2,6 +2,10 @@
 
 ---
 
+# 1.3.2
+
+`CHANGED` delRow() can delete the last row now.
+
 # 1.3.1
 
 `NEW` add column config option `isDisable`

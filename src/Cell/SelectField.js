@@ -22,7 +22,7 @@ class SelectField extends CellField {
                     value: value
                 });
             },
-            defaultValue: me.props.value
+            value: me.props.value
         };
         if (me.props.column.config) {
             let {value, onSelect, ...customProps} = me.props.column.config;
