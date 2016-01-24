@@ -2,6 +2,11 @@
 
 ---
 
+# 1.3.3
+
+`FIXED` Fix BUG #97
+`NEW` add column config option `canEdit`
+
 # 1.3.2
 
 `CHANGED` delRow() can delete the last row now.
