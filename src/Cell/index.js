@@ -170,7 +170,10 @@ class Cell extends React.Component {
         else if (_column.type == 'treeIcon') {
             _v = me.renderTreeIcon();
         }
-        else if ((_column.type == 'custom' || _column.type in fieldsMap) && _mode == Const.MODE.EDIT) {
+
+        // inline edit mode
+
+        else if ((_column.type == 'custom' || _column.type in fieldsMap) && _mode == Const.MODE.EDIT && (!('canEdit' in _column) || _column.canEdit(props.rowData))) {
             renderProps = {
                 value: me.getEditData(),
                 rowData: props.rowData,

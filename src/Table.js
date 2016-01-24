@@ -427,7 +427,7 @@ class Table extends React.Component {
 
         let selectedRows = [];
         _data = _data.forEach((item,index) => {
-            if (!'isDisable' in me.checkboxColumn || !me.checkboxColumn.isDisable(item)) {
+            if (!('isDisable' in me.checkboxColumn) || !me.checkboxColumn.isDisable(item)) {
               item[me.checkboxColumnKey] = checked;
               selectedRows.push(item);
             }

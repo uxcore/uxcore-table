@@ -91,7 +91,7 @@ class Demo extends React.Component {
             { dataKey: 'jsxid', title: 'jsxid', width: 80},
             { dataKey: 'city', editKey: 'cityId',title:'城市', width: 200, type:'select', children: [{id: 'bj', name: '北京'},{id: 'hz', name: '杭州'}].map((item) => {
                 return <Option key={item.id}>{item.name}</Option>
-            }), config: {filterOption: false}},
+            }), config: {filterOption: false}, canEdit: function(rowData) { return rowData.name !== "小王"}},
             { dataKey: 'name', editKey: 'nameId', title:"姓名", width: 200, type:"custom", customField: RadioField, children: [{id: 'xiaoli', name: '小李'}, {id: 'xiaowang', name: '小王'}].map((item) => {
                 return <RadioItem key={item.id} text={item.name} value={item.id} />
             })},  
