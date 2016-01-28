@@ -43,16 +43,17 @@ class CellField extends React.Component {
     validate(value, cb) {
         let me = this;
         value = value || me.props.value;
+        let rowData = me.props.rowData;
         let {rules} = me.props.column;
         let pass = true;
         let errMsg = "";
         if (typeof rules == "object" && !Array.isArray(rules)) {
-            pass = !!rules.validator(value);
+            pass = !!rules.validator(value, rowData);
             errMsg = rules.errMsg;
         }
         else if (Array.isArray(rules)) {
             for (let i = 0; i < rules.length; i++) {
-                pass = rules[i].validator(value);
+                pass = rules[i].validator(value, rowData);
                 if (!pass) {
                     errMsg = rules[i].errMsg;
                     break;
