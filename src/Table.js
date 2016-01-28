@@ -709,7 +709,7 @@ class Table extends React.Component {
         let data = objAux.datas || objAux.data;
         data.forEach(function(node) {
             node.jsxid = me.uid++;
-            node.__mode__ = Const.MODE.VIEW
+            node.__mode__ = node.__mode__ || Const.MODE.VIEW;
             me.addValuesInData(node);
         });
         return objAux;
