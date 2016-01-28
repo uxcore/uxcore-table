@@ -82,7 +82,7 @@ class Demo extends React.Component {
         let columns = [
             { dataKey: 'check', title: '复选框', type: 'checkbox', isDisable: function(rowData) {return /city/.test(rowData.city)}},
             { dataKey: 'id', title: 'ID', width: 50,hidden:true,fixed:true},
-            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ',',fixed:true},
+            { dataKey: 'country', title:'国家国家国家国家', width: 200,ordered:true, type: "money", delimiter: ' ',fixed:true},
             { dataKey: 'city',title:'城市', width: 150},
             { dataKey: 'firstName',title:"FristName",fixed:true,beforeRender:function(rowData) {
                 return "abc";
