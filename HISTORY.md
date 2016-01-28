@@ -2,6 +2,11 @@
 
 ---
 
+# 1.3.4
+
+`FIXED` fix BUG #103
+`CHANGED` issue #99 #100 #101 #102 
+
 # 1.3.3
 
 `FIXED` Fix BUG #97
