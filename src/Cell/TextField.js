@@ -28,6 +28,10 @@ class TextField extends CellField {
                 });
             },
             value: me.props.value
+        };
+        if (me.props.column.config) {
+            let {className, onChange, ...customProps} = me.props.column.config;
+            assign(fieldProps, customProps);
         }
         return <input {...fieldProps} />
     }

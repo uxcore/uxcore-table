@@ -95,7 +95,7 @@ class Demo extends React.Component {
             { dataKey: 'name', editKey: 'nameId', title:"姓名", width: 200, type:"custom", customField: RadioField, children: [{id: 'xiaoli', name: '小李'}, {id: 'xiaowang', name: '小王'}].map((item) => {
                 return <RadioItem key={item.id} text={item.name} value={item.id} />
             })},  
-            { dataKey: 'email', title: "Email", width: 200,type:"text", rules: {validator: Validator.isEmail, errMsg: ""}},
+            { dataKey: 'email', title: "Email", width: 200,type:"text", rules: {validator: Validator.isEmail, errMsg: ""}, config: {onBlur: function(e) {console.log(e);} }},
             { dataKey: 'action1', title: '操作1', width:100, type:"action", actions: [
                     {
                         title: '编辑',
