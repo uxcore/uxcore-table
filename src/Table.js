@@ -235,7 +235,7 @@ class Table extends React.Component {
                         if (processedData.currentPage !== undefined) {
                             updateObj.currentPage = processedData.currentPage;
                         }
-                        me.data = deepcopy(updateObj);
+                        me.data = deepcopy(processedData);
                         me.setState(updateObj)
                     }
                     else {
