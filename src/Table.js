@@ -495,16 +495,17 @@ class Table extends React.Component {
         })
     }
 
-    getData() {
+    getData(validate) {
         let me = this;
         let pass = true;
-        for (name in me.fields) {
-            let fieldPass = me.fields[name]();
+        if (validate !== false) {
+            for (name in me.fields) {
+                let fieldPass = me.fields[name]();
 
-            // if one field fails to pass, the table fails to pass
-
-            if (pass) {
-                pass = fieldPass;
+                // if one field fails to pass, the table fails to pass
+                if (pass) {
+                    pass = fieldPass;
+                }
             }
         }
         if (me.props.getSavedData) {
