@@ -138,7 +138,12 @@ class Cell extends React.Component {
                             // which means this action is rendered in the user-specified mode.
 
                             if (!('mode' in item) || item.mode == _mode) {
-                                return <a href="javascript:void(0);" className="action" key={index} onClick={item.callback.bind(me, _v, me.props.root)}>{!!item.render ? item.render(item.title) : item.title}</a>
+                                let arr = [];
+                                if (index !== 0) {
+                                    arr.push(<span className="split"> | </span>)
+                                }
+                                arr.push(<a href="javascript:void(0);" className="action" key='action' onClick={item.callback.bind(me, _v, me.props.root)}>{!!item.render ? item.render(item.title) : item.title}</a>)
+                                return <span key={index}>{arr}</span>
                             }
 
                         })
