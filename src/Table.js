@@ -889,7 +889,7 @@ class Table extends React.Component {
 
     saveAllRow() {
         let me = this;
-        let data = deepcopy(me.data.data || me.data.datas);
+        let data = deepcopy(me.state.data.data || me.state.data.datas);
         data.forEach((item) => {
             me.saveRow(item);
         });

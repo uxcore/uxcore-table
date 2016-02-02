@@ -5,18 +5,36 @@ let Cell = require('./Cell');
 let classnames = require('classnames');
 let assign = require('object-assign');
 let Const = require('uxcore-const');
+let deepEqual = require('deep-equal');
 
 class Row extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state=  {
-          expanded: (this.state && this.state.hasOwnProperty('expanded')) ?
-                      this.state.expanded :
-                        (this.props.level < this.props.levels) ?
-                          true :
-                          false
+        this.state =  {
+          expanded: (this.props.level < this.props.levels) ? true : false
         }
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        // 需要考虑的 prop 包括
+        // columns, rowIndex(s), rowData, index(s), addRowClassName(f), rowSelection, subComp(f), actions
+        // mode(s), renderModel(s), fixedColumn(s), levels(s)
+        let me = this;
+        let shouldUpdate = false;
+        ['rowIndex', 'index', 'mode', 'renderModel', 'fixedColumn', 'levels', 'addRowClassName', 'subComp'].forEach((item) => {
+            if (me.props[item] !== nextProps[item]) {
+                shouldUpdate = true;
+            }
+        });
+        if (!shouldUpdate) {
+            ['columns', 'rowData', 'rowSelection', 'actions'].forEach((item, index) => {
+                if (!deepEqual(me.props[item], nextProps[item])) {
+                    shouldUpdate = true;
+                }
+            })
+        };
+        return shouldUpdate;
     }
 
     handleClick(rowData) {
