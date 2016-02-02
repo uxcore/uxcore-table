@@ -312,7 +312,7 @@ actions: [
             me.refs.grid.saveRow(rowData);
         },
         mode: Constants.MODE.EDIT,
-        render: (title) => { // 定制渲染
+        render: (title, rowData) => { // 定制渲染
             return title + '1'
         }
     }

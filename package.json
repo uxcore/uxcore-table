@@ -34,6 +34,7 @@
     "gulp-sourcemaps": "~1.5.2",
     "jquery": "~1.11.0",
     "react": "^0.14.0",
+    "react-addons-perf": "^0.14.7",
     "uxcore-kuma": "~1.2.1",
     "webpack": "^1.10.5"
   },

@@ -213,7 +213,6 @@ class Row extends React.Component {
                         data:_data,
                         changeSelected: me.props.changeSelected,
                         showSubCompCallback:me.showSubCompFunc.bind(me),
-                        onModifyRow: props.onModifyRow,
                         rowSelection: props.rowSelection,
                         actions: props.actions,
                         mode: props.mode,

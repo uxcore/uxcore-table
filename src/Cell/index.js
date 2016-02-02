@@ -140,10 +140,10 @@ class Cell extends React.Component {
                             if (!('mode' in item) || item.mode == _mode) {
                                 let arr = [];
                                 if (showActionIndex !== 0) {
-                                    arr.push(<span className="split"> | </span>)
+                                    arr.push(<span key="split" className="split"> | </span>)
                                 }
                                 showActionIndex++;
-                                arr.push(<a href="javascript:void(0);" className="action" key='action' onClick={item.callback.bind(me, _v, me.props.root)}>{!!item.render ? item.render(item.title) : item.title}</a>)
+                                arr.push(<a href="javascript:void(0);" className="action" key='action' onClick={item.callback.bind(me, _v, me.props.root)}>{!!item.render ? item.render(item.title, me.props.rowData) : item.title}</a>)
                                 return <span key={index}>{arr}</span>
                             }
 

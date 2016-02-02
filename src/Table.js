@@ -239,7 +239,7 @@ class Table extends React.Component {
                         me.setState(updateObj)
                     }
                     else {
-                        console.log("##ERROR##");
+                        console.error("##ERROR##");
                         console.log(result);
                     }
                 }
@@ -669,6 +669,7 @@ class Table extends React.Component {
                 </div>
                 {this.renderPager()}
             </div>
+            
         );
 
     }
@@ -996,7 +997,7 @@ Table.propTypes = {
     levels: React.PropTypes.number
 }
 
-Table.displayName = Table;
+Table.displayName = "Table";
 Table.CellField = CellField;
 Table.Constants = Const;
 
