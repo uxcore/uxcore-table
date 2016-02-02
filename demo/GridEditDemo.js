@@ -135,6 +135,7 @@ class Demo extends React.Component {
             width: 1000,
             showPager:false,
             fetchParams: {},
+            showHeaderBorder: true,
             getSavedData: true,
             jsxdata: me.state.data,
             doubleClickToEdit: true,

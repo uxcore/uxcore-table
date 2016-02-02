@@ -221,7 +221,10 @@ class Header extends React.Component {
         }
 
         return (
-            <div key={index} className="kuma-uxtable-cell" style={_style}>
+            <div key={index} className={classnames({
+              "kuma-uxtable-cell": true,
+              "show-border": me.props.showHeaderBorder  
+            })} style={_style}>
                 {_v}
                 {me.renderOrderIcon(item)}
             </div>
