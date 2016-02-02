@@ -127,7 +127,7 @@ class Cell extends React.Component {
 
         
         if (_column.type == 'action') {
-
+            let showActionIndex = 0;
             _v = <div className="action-container">
                     { 
                         me.getActionItems(_column.actions).map(function(item, index) {
@@ -139,9 +139,10 @@ class Cell extends React.Component {
 
                             if (!('mode' in item) || item.mode == _mode) {
                                 let arr = [];
-                                if (index !== 0) {
+                                if (showActionIndex !== 0) {
                                     arr.push(<span className="split"> | </span>)
                                 }
+                                showActionIndex++;
                                 arr.push(<a href="javascript:void(0);" className="action" key='action' onClick={item.callback.bind(me, _v, me.props.root)}>{!!item.render ? item.render(item.title) : item.title}</a>)
                                 return <span key={index}>{arr}</span>
                             }
