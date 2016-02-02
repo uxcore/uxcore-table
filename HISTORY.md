@@ -2,6 +2,11 @@
 
 ---
 
+# 1.3.6
+
+`FIXED` fix action split bug
+`CHANGED` add props showHeaderBorder 
+
 # 1.3.5
 
 `CHANGED add split in action column

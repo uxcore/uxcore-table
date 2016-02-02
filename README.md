@@ -75,6 +75,7 @@ $ gulp server
 |showColumnPicker    |boolean             |optional  |true        | -         |是否显示列筛选按钮|
 |showPager           |boolean             |optional  |true        | -         |是否显示分页|
 |showHeader          |boolean             |optional  |true        | -         |是否显示表格头部|
+|showHeaderBorder    |boolean             |optional  |false       | 1.3.6     |是否显示头部列之间的分割线|
 |showMask            |boolean             |optional  |true        | -         |是否在 loading 的时候显示蒙层|
 |showSearch          |boolean             |optional  |false       | -         |是否显示内置的搜索栏| 
 |doubleClickToEdit   |boolean             |optional  |true        | -         |是否开启双击编辑|
