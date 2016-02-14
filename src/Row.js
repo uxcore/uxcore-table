@@ -6,6 +6,7 @@ let classnames = require('classnames');
 let assign = require('object-assign');
 let Const = require('uxcore-const');
 let deepEqual = require('deep-equal');
+let deepcopy = require('deepcopy');
 
 class Row extends React.Component {
 
@@ -34,6 +35,9 @@ class Row extends React.Component {
                 }
             })
         };
+        if (!shouldUpdate) {
+            shouldUpdate = (me.state.expanded !== nextState.expanded);
+        }
         return shouldUpdate;
     }
 
@@ -44,7 +48,7 @@ class Row extends React.Component {
     handleDoubleClick(rowData) {
         let table = this.props.root;
         if (table.props.doubleClickToEdit) {
-            table.editRow(rowData);
+            table.editRow(deepcopy(rowData));
         }
     }
 

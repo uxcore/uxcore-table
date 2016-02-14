@@ -5,6 +5,7 @@
 let Row = require("./Row");
 let Mask = require("./Mask");
 let util = require("./util");
+let deepcopy = require('deepcopy');
 
 class Tbody extends React.Component {
 
@@ -123,7 +124,7 @@ class Tbody extends React.Component {
                       let renderProps={
                           columns: _columns,
                           rowIndex: item.jsxid,//tree mode, rowIndex need think more, so use jsxid
-                          rowData: _data[index],
+                          rowData: deepcopy(_data[index]),
                           index: index,
                           data: _data,
                           root: _props.root,

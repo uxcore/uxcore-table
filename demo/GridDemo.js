@@ -9,7 +9,7 @@
 let classnames = require('classnames');
 let Grid = require('../src');
 let Button = require('uxcore-button');
-let urlPrefix = 'http://30.10.30.236:3000/';
+let urlPrefix = 'http://192.168.31.117:3000/';
 let mockData = {
     "datas": [
         {
@@ -135,7 +135,7 @@ class Demo extends React.Component {
             searchBarPlaceholder: "请搜索",
             fetchParams: {},
             // jsxdata: mockData,
-            fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
+            fetchUrl:"http://eternalsky.me:8122/file/getGridJson.jsonp",
             // fetchUrl: urlPrefix + "demo/data.json",
             jsxcolumns:columns,
             subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
