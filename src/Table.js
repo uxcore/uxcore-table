@@ -225,7 +225,7 @@ class Table extends React.Component {
                 data: me.getQueryObj(from),
                 dataType: "json",
                 success: function(result) {
-                    if(result.success || !result.hasError) {
+                    if (result.success === true || result.hasError === false) {
                         let _data = result.content;
                         let processedData = me.addValuesInData(me.props.processData(deepcopy(_data)));
                         let updateObj= {
@@ -239,8 +239,7 @@ class Table extends React.Component {
                         me.setState(updateObj)
                     }
                     else {
-                        console.error("##ERROR##");
-                        console.log(result);
+                        me.props.onFetchError(result);
                     }
                 }
             };
@@ -950,8 +949,9 @@ Table.defaultProps = {
     searchBarPlaceholder: "搜索表格内容",
     processData: (data) => {return data},
     beforeFetch: (obj) => {return obj},
+    onFetchError: () => {},
     addRowClassName: () => {},
-    onChange: () => {}
+    onChange: () => {},
 }
 
 // http://facebook.github.io/react/docs/reusable-components.html
@@ -987,6 +987,7 @@ Table.propTypes = {
     ]),
     processData: React.PropTypes.func,
     beforeFetch: React.PropTypes.func,
+    onFetchError: React.PropTypes.func,
     addRowClassName: React.PropTypes.func,
     passedData: React.PropTypes.object,
     // For inline edit
