@@ -329,8 +329,10 @@ actions: [
 * addRow(rowData): 以指定数据添加一个新行。
 * delRow(rowData): 删除一个新行。
 * editRow(rowData): 使指定的行切换到编辑模式。
+* editAllRow(): 使所有行切换到编辑模式。
 * viewRow(rowData): 使指定的行切换到查看模式。
 * saveRow(rowData): 保存行的数据(同时切换至查看模式)。
+* saveAllRow(): 保存所有行的数据(同时切换至查看模式)。
 * resetRow(rowData): 重置行到数据（若保存过，则为保存过后的数据）。
 
 ### 获取数据

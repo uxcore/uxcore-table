@@ -2,6 +2,10 @@
 
 ---
 
+# 1.3.7
+
+`FIXED` fix bug #109 in fetchData
+
 # 1.3.6
 
 `FIXED` fix action split bug
