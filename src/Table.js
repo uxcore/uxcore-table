@@ -957,7 +957,10 @@ Table.defaultProps = {
 // http://facebook.github.io/react/docs/reusable-components.html
 Table.propTypes = {
     jsxcolumns: React.PropTypes.arrayOf(React.PropTypes.object),
-    width: React.PropTypes.number,
+    width: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number
+    ]),
     height: React.PropTypes.oneOfType([
         React.PropTypes.string,
         React.PropTypes.number

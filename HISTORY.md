@@ -2,6 +2,10 @@
 
 ---
 
+# 1.3.8
+
+`CHANGED` change output from src/ to build/
+
 # 1.3.7
 
 `FIXED` fix bug #109 in fetchData

@@ -37,7 +37,11 @@ module.exports = {
                     var isUxcore = !!path.match(/node_modules[\/\\](@ali[\/\\])?uxcore/);
                     return isNpmModule & !isUxcore;
                 },
-                loader: 'babel-loader?stage=1'
+                loader: 'babel-loader',
+                query: {
+                    presets: ['react', 'es2015', 'stage-1'],
+                    plugins: ['add-module-exports']
+                }
             }
         ]
     },
@@ -53,6 +57,7 @@ module.exports = {
           __LOCAL__: true, // 本地环境
           __DEV__:   true, // 日常环境
           __PRO__:   false // 生产环境
-        })
+        }),
+        new webpack.optimize.DedupePlugin()
     ]
 };

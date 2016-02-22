@@ -8,6 +8,9 @@ var webpack = require('webpack');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 
+// https://www.npmjs.com/package/gulp-babel
+var babel = require('gulp-babel');
+
 // https://www.npmjs.com/package/gulp-less
 var less = require('gulp-less');
 
@@ -28,6 +31,14 @@ gulp.task('pack_demo', function(cb) {
         console.info('###### pack_demo done ######');
         cb();
     });
+});
+
+gulp.task('pack_build', function(cb) {
+    gulp.src(['./src/**/*.js'])
+        .pipe(babel({
+            presets: ['react', 'es2015', 'stage-1']
+        }))
+        .pipe(gulp.dest('build'))
 });
 
 gulp.task('less_demo', function(cb) {
@@ -73,5 +84,9 @@ gulp.task('server', [
     gulp.watch('src/**/*.less', ['reload_by_demo_css']);
 
     gulp.watch('demo/**/*.less', ['reload_by_demo_css']);
+
+});
+
+gulp.task('default', ['pack_build'], function() {
 
 });
