@@ -65,7 +65,7 @@ gulp.task('pack_demo', function(cb) {
 gulp.task('pack_build', function(cb) {
     gulp.src(['./src/**/*.js'])
         .pipe(babel({
-            presets: ['react', 'es2015', 'stage-1'],
+            presets: ['es2015-loose', 'stage-1', 'react'],
             plugins: ['add-module-exports']
         }))
         .pipe(es3ify())

@@ -1,6 +1,6 @@
 {
  "name": "uxcore-table",
- "version": "1.3.12",
+ "version": "1.3.13",
  "description": "table ui component for react",
  "repository": "https://github.com/uxcore/uxcore-table.git",
  "author": "zhouquan.yezq",
@@ -28,6 +28,7 @@
   "babel-plugin-transform-es3-member-expression-literals": "~6.3.13",
   "babel-plugin-transform-es3-property-literals": "~6.3.13",
   "babel-preset-es2015": "~6.3.13",
+  "babel-preset-es2015-loose": "~7.0.0",
   "babel-preset-react": "~6.3.13",
   "babel-preset-stage-1": "~6.3.13",
   "browser-sync": "~2.11.0",
