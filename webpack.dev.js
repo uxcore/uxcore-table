@@ -29,6 +29,16 @@ module.exports = {
     module: {
         loaders: [
             {
+                test: /\.js(x)*$/,
+                // uxcore以外的modules都不需要经过babel解析
+                exclude: function (path) {
+                    var isNpmModule = !!path.match(/node_modules/);
+                    var isUxcore = !!path.match(/node_modules[\/\\](@ali[\/\\])?uxcore/);
+                    return isNpmModule & !isUxcore;
+                },
+                loader: 'es3ify-loader'
+            },
+            {
 
                 test: /\.js(x)*$/,
                 // uxcore以外的modules都不需要经过babel解析
@@ -39,8 +49,10 @@ module.exports = {
                 },
                 loader: 'babel-loader',
                 query: {
-                    presets: ['react', 'es2015', 'stage-1'],
-                    plugins: ['add-module-exports']
+                    presets: ['es2015', 'stage-1', 'react'],
+                    plugins: [
+                        'add-module-exports'
+                    ]
                 }
             }
         ]

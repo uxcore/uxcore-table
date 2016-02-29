@@ -1,5 +1,4 @@
 bower_components/
-build/
 *.cfg
 node_modules/
 nohup.out

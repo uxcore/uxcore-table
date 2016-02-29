@@ -14,7 +14,7 @@ let {Option} = Select;
 let RadioGroup = require('uxcore-radiogroup');
 let RadioItem = RadioGroup.Item;
 let Table = require('../src');
-// let RadioField = require('./RadioField');
+let RadioField = require('./RadioField');
 // let {Constants} = Table;
 let Constants = require('uxcore-const')
 let mockData = {
@@ -93,9 +93,9 @@ class Demo extends React.Component {
             { dataKey: 'city', editKey: 'cityId',title:'城市', width: 200, type:'select', children: [{id: 'bj', name: '北京'},{id: 'hz', name: '杭州'}].map((item) => {
                 return <Option key={item.id}>{item.name}</Option>
             }), config: {filterOption: false}, canEdit: function(rowData) { return rowData.name !== "小王"}},
-            // { dataKey: 'name', editKey: 'nameId', title:"姓名", width: 200, type:"custom", customField: RadioField, children: [{id: 'xiaoli', name: '小李'}, {id: 'xiaowang', name: '小王'}].map((item) => {
-            //     return <RadioItem key={item.id} text={item.name} value={item.id} />
-            // })},  
+            { dataKey: 'name', editKey: 'nameId', title:"姓名", width: 200, type:"custom", customField: RadioField, children: [{id: 'xiaoli', name: '小李'}, {id: 'xiaowang', name: '小王'}].map((item) => {
+                return <RadioItem key={item.id} text={item.name} value={item.id} />
+            })},  
             { dataKey: 'email', title: "Email", width: 200,type:"text", rules: {validator: Validator.isEmail, errMsg: ""}, config: {onBlur: function(e) {console.log(e);} }},
             { dataKey: 'action1', title: '操作1', width:100, type:"action", actions: [
                     {

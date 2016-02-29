@@ -7,7 +7,7 @@
  */
 
 let classnames = require('classnames');
-let Grid = require('../src');
+let Grid = require('../build');
 let Button = require('uxcore-button');
 let urlPrefix = 'http://192.168.31.117:3000/';
 let mockData = {
