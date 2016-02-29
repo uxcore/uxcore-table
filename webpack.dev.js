@@ -49,7 +49,7 @@ module.exports = {
                 },
                 loader: 'babel-loader',
                 query: {
-                    presets: ['es2015', 'stage-1', 'react'],
+                    presets: ['react', 'es2015-loose', 'stage-1'],
                     plugins: [
                         'add-module-exports'
                     ]
