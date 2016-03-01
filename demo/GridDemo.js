@@ -7,7 +7,7 @@
  */
 
 let classnames = require('classnames');
-let Grid = require('../build');
+let Grid = require('../src');
 let Button = require('uxcore-button');
 let urlPrefix = 'http://192.168.31.117:3000/';
 let mockData = {
@@ -138,7 +138,11 @@ class Demo extends React.Component {
             fetchUrl:"http://eternalsky.me:8122/file/getGridJson.jsonp",
             // fetchUrl: urlPrefix + "demo/data.json",
             jsxcolumns:columns,
-            subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
+            // subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
+            renderSubComp: (rowData) => {
+                if (/wsj/.test(rowData.email)) return false;
+                return <Grid {...renderSubProps} passedData={rowData} parentHasCheckbox={true}/>
+            },
             rowSelection: rowSelection,
             addRowClassName: (rowData) => {},
             beforeFetch: (sendData, from) => { return sendData;},

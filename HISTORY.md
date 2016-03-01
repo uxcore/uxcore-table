@@ -2,6 +2,10 @@
 
 ---
 
+# 1.3.15
+
+`NEW` add new props `renderSubComp`
+
 # 1.3.14
 
 `CHANGED` change output from src/ to build/

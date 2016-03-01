@@ -48,7 +48,10 @@ $ gulp server
         },
         fetchUrl:"http://localhost:3000/demo/data.json",
         jsxcolumns:columns,
-        subComp:(<Table {...renderSubProps}  ref="subTable"/>),
+        renderSubComp: (rowData) => {
+            if (/wsj/.test(rowData.email)) return false;
+            return <Table {...renderSubProps} passedData={rowData} parentHasCheckbox={true}/>
+        },
         rowSelection: rowSelection
 	},
 	
@@ -98,7 +101,8 @@ $ gulp server
 ### 折叠展开专用
 |Name            |Type                |Require   |Since Ver. |Default|Note |
 |---             |---                 |---       |---        |---    |---|
-|SubComp         |React Element       |optional  |-          | -     |传入二级组件|
+|SubComp         |React Element       |optional  |-          | -     |传入二级组件，已废弃，请使用 renderSubComp|
+|renderSubComp   |function(rowData)   |optional  |1.3.15     | -     |传入二级组件，该函数需要返回值，返回 false，表示不渲染二级，返回 jsx，则渲染该 jsx|
 
 
 ### Tree 模式专用

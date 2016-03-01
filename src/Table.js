@@ -48,6 +48,9 @@ class Table extends React.Component {
         if (!!me.state.data && !!me.state.data.datas) {
             console.warn("Table: 'content.data' rather than 'content.datas' is recommended, the support for 'content.datas' will be end from ver. 1.3.0")
         }
+        if (me.props.subComp) {
+            console.warn("Table: subComp is deprecated, use renderSubComp instead.")
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -344,7 +347,7 @@ class Table extends React.Component {
         }
 
 
-        if (!!props.subComp && props.renderModel !== 'tree') {
+        if ( (!!props.subComp || !!props.renderSubComp) && props.renderModel !== 'tree') {
             columns = [{dataKey: 'jsxtreeIcon', width: 34, type: 'treeIcon'}].concat(columns);
         }
         // no subComp but has passedData, means sub mode, parent should has tree icon,
@@ -611,6 +614,7 @@ class Table extends React.Component {
             rowSelection: props.rowSelection,
             addRowClassName: props.addRowClassName,
             subComp: props.subComp,
+            renderSubComp: props.renderSubComp,
             mask: this.state.showMask,
             changeSelected: this.changeSelected.bind(this),
             rowHeight: this.props.rowHeight,

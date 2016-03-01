@@ -59,17 +59,31 @@ class Row extends React.Component {
 
     renderSubComp() {
         let props = this.props;
-        if (props.subComp && props.level == 1  && props.renderModel !== 'tree') {
-            if (props.rowData.showSubComp) {
-                let subComp = React.cloneElement(props.subComp,{
-                    passedData: this.props.rowData,
-                    parentHasCheckbox: !!this.props.rowSelection
-                });
-                return (<div className="kuma-uxtable-subrow" ref="subRow">{subComp}</div>)
+
+        if (props.renderModel == 'tree') {
+            return false;
+        }
+        else {
+            if (props.subComp) {
+                if (props.rowData.showSubComp) {
+                    let subComp = React.cloneElement(props.subComp,{
+                        passedData: this.props.rowData,
+                        parentHasCheckbox: !!this.props.rowSelection
+                    });
+                    return (<div className="kuma-uxtable-subrow" ref="subRow">{subComp}</div>)
+                }
+                return false;
             }
-            return false;
-        } else {
-            return false;
+            else if (props.renderSubComp) {
+                let subComp = props.renderSubComp(deepcopy(props.rowData));
+                if (subComp && props.rowData.showSubComp) {
+                    return <div className="kuma-uxtable-subrow" ref="subRow">{subComp}</div>
+                }
+                return false;
+            }
+            else {
+                return false;
+            }
         }
     }
 
@@ -226,25 +240,25 @@ class Row extends React.Component {
                     let renderProps={
                         column: item,
                         root: props.root,
-                        align:item.align,
+                        align: item.align,
                         rowData: props.rowData,
                         rowIndex: props.rowIndex,
                         index: props.index,
                         cellIndex:index,
-                        hasSubComp: props.subComp ? true : false,
-                        data:_data,
+                        hasSubComp: props.subComp ? true : (props.renderSubComp ? props.renderSubComp(deepcopy(props.rowData)) : false),
+                        data: _data,
                         changeSelected: me.props.changeSelected,
-                        showSubCompCallback:me.showSubCompFunc.bind(me),
+                        showSubCompCallback: me.showSubCompFunc.bind(me),
                         rowSelection: props.rowSelection,
                         actions: props.actions,
                         mode: props.mode,
                         handleDataChange: props.handleDataChange,
                         attachCellField: props.attachCellField,
                         detachCellField: props.detachCellField,
-                        key:"cell" + index
+                        key: "cell" + index
                     };
 
-                    if(firstVisableColumn==1) {
+                    if (firstVisableColumn == 1) {
                        return  <Cell {...renderProps} >{me.renderIndent()}{me.renderExpendIcon(props.rowIndex)}</Cell>
                     }
                     //if have vertical data structure, how to process it

@@ -132,6 +132,7 @@ class Tbody extends React.Component {
                           rowSelection: _props.rowSelection,
                           changeSelected: me.props.changeSelected,
                           subComp: _props.subComp,
+                          renderSubComp: _props.renderSubComp,
                           actions: _props.actions,
                           key: 'row'+ index,
                           mode: _props.mode,
