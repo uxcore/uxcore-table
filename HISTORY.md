@@ -2,6 +2,10 @@
 
 ---
 
+# 1.3.16
+
+`FIX` fix issue #110
+
 # 1.3.15
 
 `NEW` add new props `renderSubComp`
