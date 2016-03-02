@@ -226,6 +226,7 @@ class Table extends React.Component {
             let ajaxOptions = {
                 url: me.props.fetchUrl,
                 data: me.getQueryObj(from),
+                cache: false,
                 dataType: "json",
                 success: function(result) {
                     if (result.success === true || result.hasError === false) {
