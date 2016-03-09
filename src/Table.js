@@ -180,7 +180,7 @@ class Table extends React.Component {
         });
 
         // column order
-        let activeColumn = this.state.activeColumn;
+        let activeColumn = me.state.activeColumn;
         if(!!activeColumn) {
             queryObj = assign({}, queryObj, {
                 orderColumn: activeColumn.dataKey,
@@ -480,12 +480,12 @@ class Table extends React.Component {
     }
 
     handleOrderColumnCB(type, column) {
-
-       //this.props.activeColumn=column;
-       this.setState({
-         activeColumn: column
-       })
-       this.fetchData("order");
+        let me = this;
+        me.setState({
+            activeColumn: column
+        }, () => {
+           me.fetchData("order");
+        })
 
     }
 

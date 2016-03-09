@@ -30,7 +30,7 @@ class Header extends React.Component {
     }
 
     handleGlobalClick(e) {
-        if(this.props.columnPicker) {
+        if (this.props.columnPicker) {
             this.hideColumnPicker(e);
         }
     }
@@ -148,20 +148,20 @@ class Header extends React.Component {
         )
     }
 
-    handleColumnOrder(type,column) {
-        column.orderType=type;
+    handleColumnOrder(type, column) {
+        column.orderType = type;
         this.props.orderColumnCB.apply(null, [type, column]);
     }
 
    
     renderOrderIcon(column) {
         let me = this;
-        if(column.ordered) {
+        if (column.ordered) {
             let desc = "sort-down", 
                 asc="sort-up";
-            if(this.props.activeColumn  && column.dataKey== this.props.activeColumn.dataKey) {
-                if(column.orderType=="desc") {
-                    desc="sort-down-active";
+            if (me.props.activeColumn  && column.dataKey == me.props.activeColumn.dataKey) {
+                if (column.orderType == "desc") {
+                    desc ="sort-down-active";
                 }
                 else {
                     asc ="sort-up-active";
@@ -169,8 +169,8 @@ class Header extends React.Component {
             }
             return (
                 <span className="kuma-uxtable-h-sort">
-                    <i className={asc} onClick={this.handleColumnOrder.bind(me,'asc', column)}/>
-                    <i className={desc} onClick={this.handleColumnOrder.bind(me,'desc',column)}/>
+                    <i className={asc} onClick={me.handleColumnOrder.bind(me,'asc', column)}/>
+                    <i className={desc} onClick={me.handleColumnOrder.bind(me,'desc',column)}/>
                 </span>
             )
         }
