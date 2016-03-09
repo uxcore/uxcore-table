@@ -464,16 +464,21 @@ class Table extends React.Component {
     }
 
     renderPager() {
-        if (this.props.showPager && this.state.data && this.state.data.totalCount) {
+        let me = this;
+        let {data, currentPage, pageSize} = me.state;
+        let {showPagerTotal, showPager} = me.props;
+        
+        if (showPager && data && data.totalCount) {
             return (
                 <div className="kuma-uxtable-page">
                     <Pagination className="mini" 
                                 showSizeChanger={true}
-                                total={this.state.data.totalCount} 
-                                onShowSizeChange={this.handleShowSizeChange.bind(this)}
-                                onChange={this.onPageChange.bind(this)} 
-                                current={this.state.currentPage} 
-                                pageSize={this.state.pageSize} />
+                                showTotal={showPagerTotal}
+                                total={data.totalCount} 
+                                onShowSizeChange={me.handleShowSizeChange.bind(me)}
+                                onChange={me.onPageChange.bind(me)} 
+                                current={currentPage} 
+                                pageSize={pageSize} />
                 </div>
             );
         }
@@ -942,6 +947,7 @@ Table.defaultProps = {
     showPager: true,
     showColumnPicker: true,
     showHeaderBorder: false,
+    showPagerTotal: false,
     showMask: false,
     showSearch: false,
     getSavedData: true,
@@ -976,6 +982,7 @@ Table.propTypes = {
     doubleClickToEdit: React.PropTypes.bool,
     showColumnPicker: React.PropTypes.bool,
     showPager: React.PropTypes.bool,
+    showPagerTotal: React.PropTypes.bool,
     showHeader: React.PropTypes.bool,
     showHeaderBorder: React.PropTypes.bool,
     showMask: React.PropTypes.bool,
