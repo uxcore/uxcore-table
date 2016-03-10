@@ -362,6 +362,8 @@ class Table extends React.Component {
 
     handleColumnPickerChange(checkedKeys) {
         let _columns = deepcopy(this.state.columns);
+        let notRenderColumns = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
+
         _columns.forEach((item, index) => {
             if ('group' in item) {
                 item.columns.forEach((ele, idx) => {
@@ -374,7 +376,7 @@ class Table extends React.Component {
                 })
             }
             else {
-                if (checkedKeys.indexOf(item.dataKey) !== -1) {
+                if (checkedKeys.indexOf(item.dataKey) !== -1 || notRenderColumns.indexOf(item.dataKey) !== -1) {
                     item.hidden = false;
                 }
                 else {

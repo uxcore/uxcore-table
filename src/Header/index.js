@@ -69,12 +69,6 @@ class Header extends React.Component {
         this.props.handleColumnPickerChange(info.checkedKeys)
     }
 
-    
-
-    handleColumns(index) {
-        this.props.handleColumnPickerChange;
-    }
-
     getCheckedKeys() {
         let me = this;
         let {columns} = me.props;
