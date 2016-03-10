@@ -466,12 +466,13 @@ class Table extends React.Component {
     renderPager() {
         let me = this;
         let {data, currentPage, pageSize} = me.state;
-        let {showPagerTotal, showPager} = me.props;
+        let {showPagerTotal, showPager, locale} = me.props;
         
         if (showPager && data && data.totalCount) {
             return (
                 <div className="kuma-uxtable-page">
-                    <Pagination className="mini" 
+                    <Pagination className="mini"
+                                locale={locale} 
                                 showSizeChanger={true}
                                 showTotal={showPagerTotal}
                                 total={data.totalCount} 
@@ -936,6 +937,7 @@ class Table extends React.Component {
 
 Table.defaultProps = {
     jsxprefixCls: "kuma-uxtable",
+    locale: "zh-cn",
     showHeader: true,
     width: "auto",
     height: "auto",
@@ -967,6 +969,7 @@ Table.defaultProps = {
 
 // http://facebook.github.io/react/docs/reusable-components.html
 Table.propTypes = {
+    locale: React.PropTypes.string,
     jsxcolumns: React.PropTypes.arrayOf(React.PropTypes.object),
     width: React.PropTypes.oneOfType([
         React.PropTypes.string,

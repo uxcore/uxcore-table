@@ -77,11 +77,13 @@ $ gulp server
 |height              |number              |optional  |100%        | -         |表格的高度|
 |showColumnPicker    |boolean             |optional  |true        | -         |是否显示列筛选按钮|
 |showPager           |boolean             |optional  |true        | -         |是否显示分页|
+|showPagerTotal      |boolean             |optional  |false       | 1.3.17    |是否显示分页的总数部分|
 |showHeader          |boolean             |optional  |true        | -         |是否显示表格头部|
 |showHeaderBorder    |boolean             |optional  |false       | 1.3.6     |是否显示头部列之间的分割线|
 |showMask            |boolean             |optional  |true        | -         |是否在 loading 的时候显示蒙层|
 |showSearch          |boolean             |optional  |false       | -         |是否显示内置的搜索栏| 
 |doubleClickToEdit   |boolean             |optional  |true        | -         |是否开启双击编辑|
+|locale              |string              |optional  |zh-cn       | 1.3.17    |国家化，目前支持 zh-cn/en-us|
 |emptyText           |string or element   |optional  |"暂无数据"   | -         |当没有数据时 Table 展示的文案|
 |searchBarPlaceholder|string              |optional  |"搜索表格内容"| 1.3.0     |searchBar 的占位符|
 |headerHeight        |number              |optional  |40          | -         |表格头部的高度|
