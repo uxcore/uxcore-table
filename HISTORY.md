@@ -2,6 +2,11 @@
 
 ---
 
+# 1.3.17
+
+`NEW` i18n support zh-cn/en-us
+`FIXED` fix issue #111 #113 #114 #115
+
 # 1.3.16
 
 `FIX` fix issue #110
