@@ -232,7 +232,6 @@ class Table extends React.Component {
                 cache: false,
                 dataType: "json",
                 success: function(result) {
-                    console.count();
                     if (result.success === true || result.hasError === false) {
                         let _data = result.content;
                         let processedData = me.addValuesInData(me.props.processData(deepcopy(_data)));

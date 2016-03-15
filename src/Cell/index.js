@@ -153,7 +153,7 @@ class Cell extends React.Component {
         }
         else if (_column.type == 'checkbox') {
 
-            _style.paddingRight = 32;
+            _style.paddingRight = 20;
             _style.paddingLeft = 12;
 
             let checked;
