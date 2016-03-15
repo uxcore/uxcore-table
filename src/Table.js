@@ -218,6 +218,9 @@ class Table extends React.Component {
         
         // fetchUrl has the top priority.
         if (!!me.props.fetchUrl) {
+            if (me.ajax) {
+                me.ajax.abort();
+            }
             if (!me.state.showMask) {
                 me.setState({
                     showMask: true
@@ -229,6 +232,7 @@ class Table extends React.Component {
                 cache: false,
                 dataType: "json",
                 success: function(result) {
+                    console.count();
                     if (result.success === true || result.hasError === false) {
                         let _data = result.content;
                         let processedData = me.addValuesInData(me.props.processData(deepcopy(_data)));
@@ -252,7 +256,7 @@ class Table extends React.Component {
                 ajaxOptions.dataType = "jsonp"
             }
             
-            $.ajax(ajaxOptions);
+            me.ajax = $.ajax(ajaxOptions);
         }
 
         else if (!!me.props.passedData) {

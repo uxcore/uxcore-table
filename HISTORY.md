@@ -30,7 +30,7 @@
 
 # 1.3.5
 
-* `CHANGED add split in action column
+* `CHANGED` add split in action column
 
 # 1.3.4
 
