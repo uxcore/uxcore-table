@@ -148,7 +148,8 @@ class Demo extends React.Component {
             beforeFetch: (sendData, from) => { return sendData;},
             processData: (data) => {
                 return data;
-            }           
+            },
+            fetchDataOnMount: false           
         };
         return (
             <div>

@@ -83,6 +83,7 @@ $ gulp server
 |showMask            |boolean             |optional  |true        | -         |是否在 loading 的时候显示蒙层|
 |showSearch          |boolean             |optional  |false       | -         |是否显示内置的搜索栏| 
 |doubleClickToEdit   |boolean             |optional  |true        | -         |是否开启双击编辑|
+|fetchDataOnMount    |boolean             |optional  |true        | 1.3.18    |是否在组件 Mount 时立刻获取一次数据|
 |locale              |string              |optional  |zh-cn       | 1.3.17    |国家化，目前支持 zh-cn/en-us|
 |emptyText           |string or element   |optional  |"暂无数据"   | -         |当没有数据时 Table 展示的文案|
 |searchBarPlaceholder|string              |optional  |"搜索表格内容"| 1.3.0     |searchBar 的占位符|

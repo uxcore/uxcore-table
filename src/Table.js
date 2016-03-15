@@ -39,7 +39,9 @@ class Table extends React.Component {
     }
 
     componentWillMount() {
-        this.fetchData();
+        if (this.props.fetchDataOnMount) {
+            this.fetchData();
+        }
     }
 
     componentDidMount() {
@@ -950,6 +952,7 @@ Table.defaultProps = {
     renderModel: '',
     levels: 1,
     actionBarHeight: 40,
+    fetchDataOnMount: true,
     doubleClickToEdit: true,
     showPager: true,
     showColumnPicker: true,
@@ -987,6 +990,7 @@ Table.propTypes = {
     headerHeight: React.PropTypes.number,
     pageSize: React.PropTypes.number,
     queryKeys: React.PropTypes.array,
+    fetchDataOnMount: React.PropTypes.bool,
     doubleClickToEdit: React.PropTypes.bool,
     showColumnPicker: React.PropTypes.bool,
     showPager: React.PropTypes.bool,
