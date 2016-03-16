@@ -2,6 +2,9 @@
 let classnames = require('classnames');
 let assgin = require('object-assign');
 
+let React = require('react');
+let ReactDOM = require('react-dom');
+
 class CellField extends React.Component {
     constructor(props) {
         super(props);

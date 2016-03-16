@@ -9,6 +9,8 @@
 let SearchBar = require("./SearchBar");
 let classnames = require("classnames");
 let Button = require("uxcore-button");
+let React = require('react');
+let ReactDOM = require('react-dom');
 
 
 class ActionBar extends React.Component {

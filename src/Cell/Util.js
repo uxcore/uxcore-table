@@ -1,6 +1,6 @@
 
 let Formatter = require('uxcore-formatter');
-var util={
+var util = {
     formatValue: (value, type, delimiter) => {
         delimiter = delimiter || " ";
         if (value === null || value === undefined) {

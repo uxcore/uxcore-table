@@ -8,6 +8,9 @@ let Tree = require('uxcore-tree');
 let classnames = require('classnames');
 let {TreeNode} = Tree;
 
+let React = require('react');
+let ReactDOM = require('react-dom');
+
 
 class Header extends React.Component {
 

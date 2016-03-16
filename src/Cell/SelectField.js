@@ -3,6 +3,8 @@ let classnames = require('classnames');
 let assign = require('object-assign');
 let Select = require('uxcore-select2');
 let {Option} = Select;
+let React = require('react');
+let ReactDOM = require('react-dom');
 
 
 class SelectField extends CellField {

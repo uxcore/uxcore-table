@@ -5,6 +5,8 @@
 let CellField = require('./CellField');
 let classnames = require('classnames');
 let assign = require('object-assign');
+let React = require('react');
+let ReactDOM = require('react-dom');
 
 class TextField extends CellField {
 

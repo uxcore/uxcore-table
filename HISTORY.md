@@ -2,6 +2,13 @@
 
 ---
 
+# 1.3.18
+
+`NEW` app props `fetchDataOnMount` to control whether table will fetch data when mount.
+`FIXED` fix style bug of checkbox in IE.
+`CHANGED` abort the ajax if next ajax request comes.
+`CHANGED` server render support
+
 # 1.3.17
 
 * `NEW` i18n support zh-cn/en-us

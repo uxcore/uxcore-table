@@ -6,6 +6,9 @@
  * All rights reserved.
  */
 
+let React = require('react');
+let ReactDOM = require('react-dom');
+
 class SearchBar extends React.Component {
 
     constructor(props) {

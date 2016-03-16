@@ -17,6 +17,9 @@ let deepcopy = require('deepcopy');
 let deepEqual = require('deep-equal');
 let classnames = require("classnames");
 
+let React = require('react');
+let ReactDOM = require('react-dom');
+
 class Table extends React.Component {
 
     constructor(props) {

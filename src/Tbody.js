@@ -7,6 +7,9 @@ let Mask = require("./Mask");
 let util = require("./util");
 let deepcopy = require('deepcopy');
 
+let React = require('react');
+let ReactDOM = require('react-dom');
+
 class Tbody extends React.Component {
 
     constructor(props) {

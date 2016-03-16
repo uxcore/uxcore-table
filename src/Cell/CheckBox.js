@@ -3,6 +3,8 @@
  */
 
 let Const = require('uxcore-const');
+let React = require('react');
+let ReactDOM = require('react-dom');
 
 class CheckBox extends React.Component {
 

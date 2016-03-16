@@ -1,7 +1,9 @@
 /**
  * Created by xy on 15/4/13.
  */
-
+ 
+let React = require('react');
+let ReactDOM = require('react-dom');
 let Const = require('uxcore-const');
 let CheckBox = require('./CheckBox');
 let TextField = require('./TextField');
