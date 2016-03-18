@@ -2,6 +2,10 @@
 
 ---
 
+# 1.3.19
+
+`HOTFIX` fix ie checkout style bug
+
 # 1.3.18
 
 `NEW` app props `fetchDataOnMount` to control whether table will fetch data when mount.
