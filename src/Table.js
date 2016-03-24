@@ -317,18 +317,26 @@ class Table extends React.Component {
         props = props || this.props;
 
         let me = this,
+            checkColumn,
             columns = deepcopy(props.jsxcolumns),
             hasCheckboxColumn = false;
 
-        columns.forEach((item) => {
+        columns.forEach((item, i) => {
             if (item.type == 'checkbox') {
                 hasCheckboxColumn = true;
                 me.checkboxColumn = item;
                 me.checkboxColumnKey = item.dataKey;
                 item.width = item.width || 46;
                 item.align = item.align || 'right';
+            } 
+
+            if (item.type == 'radioSelector' || item.type == 'checkboxSelector') {
+                hasCheckboxColumn = true; //////统一之后可以去掉
+                me.checkType = item.type;
+                checkColumn = columns.splice(i, 1)[0];
             }
         });
+
 
         // filter the column which has a dataKey 'jsxchecked' & 'jsxtreeIcon'
 
@@ -344,6 +352,7 @@ class Table extends React.Component {
         });
 
         if (!!props.rowSelection & !hasCheckboxColumn) {
+            console.warn("It will be deprecated that a checkbox(radio) in first column without column config, You should specify the column type with 'checkboxSelector' or 'radioSelector'");
             me.checkboxColumn = { dataKey: 'jsxchecked', width: 46, type:'checkbox', align:'right'};
             me.checkboxColumnKey = 'jsxchecked';
 
@@ -354,6 +363,24 @@ class Table extends React.Component {
         else if (!!props.parentHasCheckbox) {
             columns = [{dataKey: 'jsxwhite', width: 46, type: 'empty'}].concat(columns);
         }
+
+        if (!!props.rowSelection && me.checkType) {
+            me.checkColumn = { dataKey: 'jsxchecked', width: 46, type: me.checkType, align:'right'};
+            if ('disable' in checkColumn) {
+                me.checkColumn.disable = checkColumn.disable;
+            } else if ('isDisable' in checkColumn) {
+                me.checkColumn.isDisable = checkColumn.isDisable;
+            }
+            me.checkColumnKey = 'jsxchecked';
+
+            columns = [me.checkColumn].concat(columns)
+        }
+
+        // no rowSelection but has parentHasCheck, render placeholder
+        else if (!!props.parentHasCheck) {
+            columns = [{dataKey: 'jsxwhite', width: 46, type: 'empty'}].concat(columns);
+        }
+
 
 
         if ( (!!props.subComp || !!props.renderSubComp) && props.renderModel !== 'tree') {
@@ -411,20 +438,29 @@ class Table extends React.Component {
         let _content = deepcopy(this.state.data);
         let _data = _content.datas || _content.data;
 
-        _data.map((item,index) => {
+        me.checkType == 'radioSelector' ? _data.map((item,index) => {
             if (item.jsxid == rowIndex) {
-                item[me.checkboxColumnKey] = checked;
+                item[me.checkboxColumnKey || me.checkColumnKey] = checked;
+                return item;
+            } else if (item[me.checkboxColumnKey || me.checkColumnKey]) {
+                item[me.checkboxColumnKey || me.checkColumnKey] = false;
+                return item;
+            }
+        }) : _data.map((item,index) => {
+            if (item.jsxid == rowIndex) {
+                item[me.checkboxColumnKey || me.checkColumnKey] = checked;
                 return item;
             }
         });
 
+        
         me.setState({
             data: _content
         }, () => {
             if (!fromMount) {
                 let data = me.state.data.datas || me.state.data.data;
                 let selectedRows = data.filter((item, index) => {
-                    return item[me.checkboxColumnKey] == true
+                    return item[me.checkboxColumnKey || me.checkColumnKey] == true;
                 });
                 !!me.props.rowSelection && !!me.props.rowSelection.onSelect && me.props.rowSelection.onSelect(checked, data[rowIndex], selectedRows)
             }
@@ -440,8 +476,10 @@ class Table extends React.Component {
 
         let selectedRows = [];
         _data = _data.forEach((item,index) => {
-            if (!('isDisable' in me.checkboxColumn) || !me.checkboxColumn.isDisable(item)) {
-              item[me.checkboxColumnKey] = checked;
+            let column = me.checkboxColumn || me.checkColumn;
+            let key = me.checkboxColumnKey || me.checkColumnKey;
+            if (!('isDisable' in column) || !column.isDisable(item)) {
+              item[key] = checked;
               selectedRows.push(item);
             }
         });

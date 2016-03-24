@@ -6,6 +6,7 @@ let React = require('react');
 let ReactDOM = require('react-dom');
 let Const = require('uxcore-const');
 let CheckBox = require('./CheckBox');
+let Radio = require('./Radio');
 let TextField = require('./TextField');
 let SelectField = require("./SelectField");
 let RadioField = require("./RadioField");
@@ -31,7 +32,7 @@ class Cell extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         let me = this;
-        if (me.props.column.type == "checkbox") {
+        if (me.props.column.type == "checkbox" || me.props.column.type == "checkboxSelector" || me.props.column.type == "radioSelector") {
             me.setState({
                 checked: !!me.getCellData(nextProps)
             }) 
@@ -40,7 +41,7 @@ class Cell extends React.Component {
 
     componentDidMount() {
         let me = this;
-        if (me.props.column.type == "checkbox") {
+        if (me.props.column.type == "checkbox" || me.props.column.type == "checkboxSelector" || me.props.column.type == "radioSelector") {
             me.props.changeSelected(me.state.checked, me.props.rowIndex, true);
         }
     }
@@ -127,7 +128,6 @@ class Cell extends React.Component {
             _v = deepcopy(props.rowData),
             renderProps;
 
-        
         if (_column.type == 'action') {
             let showActionIndex = 0;
             _v = <div className="action-container">
@@ -153,7 +153,7 @@ class Cell extends React.Component {
                     }
                  </div>
         }
-        else if (_column.type == 'checkbox') {
+        else if (_column.type == 'checkbox' || _column.type == 'checkboxSelector') {
 
             _style.paddingRight = 18;
             _style.paddingLeft = 12;
@@ -175,6 +175,26 @@ class Cell extends React.Component {
             _v = <CheckBox disable={disable} mode={props.mode} align={props.align} jsxchecked={checked} ref="checkbox" onchange={me.handleCheckChange.bind(me)}/>
 
         }
+        else if (_column.type == 'radioSelector') {
+            _style.paddingRight = 18;
+            _style.paddingLeft = 12;
+
+            let checked;
+            if (me.state.checked) {
+                checked='checked'
+            } else {
+                checked="";
+            }
+
+            let disable = false;
+            if ('disable' in _column) {
+                disable = _column.disable;
+            }
+            else if ('isDisable' in _column) {
+                disable = !!_column.isDisable(props.rowData);
+            }
+            _v = <Radio disable={disable} mode={props.mode} align={props.align} jsxchecked={checked} onchange={me.handleCheckChange.bind(me)}/>
+        }
         else if (_column.type == 'treeIcon') {
             _v = me.renderTreeIcon();
         }
@@ -192,6 +212,7 @@ class Cell extends React.Component {
                 detachCellField: props.detachCellField
             }
             let Field;
+
             if (_column.type == 'custom') {
                 Field = props.column.customField;
             }

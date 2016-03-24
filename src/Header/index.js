@@ -191,7 +191,7 @@ class Header extends React.Component {
             })
         }
 
-        if (item.type == 'checkbox') {
+        if (item.type == 'checkbox' || item.type == 'checkboxSelector') {
             assign(_style, {
                 paddingRight: 18,
                 paddingLeft: 12,

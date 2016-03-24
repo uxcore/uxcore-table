@@ -71,7 +71,8 @@ class Row extends React.Component {
                 if (props.rowData.showSubComp) {
                     let subComp = React.cloneElement(props.subComp,{
                         passedData: this.props.rowData,
-                        parentHasCheckbox: !!this.props.rowSelection
+                        parentHasCheckbox: !!this.props.rowSelection,
+                        parentHasCheck: !!this.props.rowSelection /////
                     });
                     return (<div className="kuma-uxtable-subrow" ref="subRow">{subComp}</div>)
                 }
