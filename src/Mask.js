@@ -5,24 +5,15 @@
 
 let classnames = require("classnames");
 
+let React = require('react');
+let ReactDOM = require('react-dom');
+
 class Mask extends React.Component {
 
     constructor(props) {
         super(props);
     }
 
-    componentDidMount() {
-
-    }
-
-    componentDidUpdate() {
-
-    }
-
-    componentWillUnmount () {
-       
-    }
-    // visible/size
     render() {
         
         let props= this.props,visible=props.visible,loadTips= props.tips?props.tips:"Loading...";

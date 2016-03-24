@@ -5,18 +5,43 @@ let Cell = require('./Cell');
 let classnames = require('classnames');
 let assign = require('object-assign');
 let Const = require('uxcore-const');
+let deepEqual = require('deep-equal');
+let deepcopy = require('deepcopy');
+
+let React = require('react');
+let ReactDOM = require('react-dom');
 
 class Row extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state=  {
-          expanded: (this.state && this.state.hasOwnProperty('expanded')) ?
-                      this.state.expanded :
-                        (this.props.level < this.props.levels) ?
-                          true :
-                          false
+        this.state =  {
+          expanded: (this.props.level < this.props.levels) ? true : false
         }
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        // 需要考虑的 prop 包括
+        // columns, rowIndex(s), rowData, index(s), addRowClassName(f), rowSelection, subComp(f), actions
+        // mode(s), renderModel(s), fixedColumn(s), levels(s)
+        let me = this;
+        let shouldUpdate = false;
+        ['rowIndex', 'index', 'mode', 'renderModel', 'fixedColumn', 'levels', 'addRowClassName', 'subComp'].forEach((item) => {
+            if (me.props[item] !== nextProps[item]) {
+                shouldUpdate = true;
+            }
+        });
+        if (!shouldUpdate) {
+            ['columns', 'rowData', 'rowSelection', 'actions'].forEach((item, index) => {
+                if (!deepEqual(me.props[item], nextProps[item])) {
+                    shouldUpdate = true;
+                }
+            })
+        };
+        if (!shouldUpdate) {
+            shouldUpdate = (me.state.expanded !== nextState.expanded);
+        }
+        return shouldUpdate;
     }
 
     handleClick(rowData) {
@@ -26,7 +51,7 @@ class Row extends React.Component {
     handleDoubleClick(rowData) {
         let table = this.props.root;
         if (table.props.doubleClickToEdit) {
-            table.editRow(rowData);
+            table.editRow(deepcopy(rowData));
         }
     }
 
@@ -37,17 +62,32 @@ class Row extends React.Component {
 
     renderSubComp() {
         let props = this.props;
-        if (props.subComp && props.level == 1  && props.renderModel !== 'tree') {
-            if (props.rowData.showSubComp) {
-                let subComp = React.cloneElement(props.subComp,{
-                    passedData: this.props.rowData,
-                    parentHasCheckbox: !!this.props.rowSelection
-                });
-                return (<div className="kuma-uxtable-subrow" ref="subRow">{subComp}</div>)
+
+        if (props.renderModel == 'tree') {
+            return false;
+        }
+        else {
+            if (props.subComp) {
+                if (props.rowData.showSubComp) {
+                    let subComp = React.cloneElement(props.subComp,{
+                        passedData: this.props.rowData,
+                        parentHasCheckbox: !!this.props.rowSelection,
+                        parentHasCheck: !!this.props.rowSelection /////
+                    });
+                    return (<div className="kuma-uxtable-subrow" ref="subRow">{subComp}</div>)
+                }
+                return false;
             }
-            return false;
-        } else {
-            return false;
+            else if (props.renderSubComp) {
+                let subComp = props.renderSubComp(deepcopy(props.rowData));
+                if (subComp && props.rowData.showSubComp) {
+                    return <div className="kuma-uxtable-subrow" ref="subRow">{subComp}</div>
+                }
+                return false;
+            }
+            else {
+                return false;
+            }
         }
     }
 
@@ -204,26 +244,25 @@ class Row extends React.Component {
                     let renderProps={
                         column: item,
                         root: props.root,
-                        align:item.align,
+                        align: item.align,
                         rowData: props.rowData,
                         rowIndex: props.rowIndex,
                         index: props.index,
                         cellIndex:index,
-                        hasSubComp: props.subComp ? true : false,
-                        data:_data,
+                        hasSubComp: props.subComp ? true : (props.renderSubComp ? props.renderSubComp(deepcopy(props.rowData)) : false),
+                        data: _data,
                         changeSelected: me.props.changeSelected,
-                        showSubCompCallback:me.showSubCompFunc.bind(me),
-                        onModifyRow: props.onModifyRow,
+                        showSubCompCallback: me.showSubCompFunc.bind(me),
                         rowSelection: props.rowSelection,
                         actions: props.actions,
                         mode: props.mode,
                         handleDataChange: props.handleDataChange,
                         attachCellField: props.attachCellField,
                         detachCellField: props.detachCellField,
-                        key:"cell" + index
+                        key: "cell" + index
                     };
 
-                    if(firstVisableColumn==1) {
+                    if (firstVisableColumn == 1) {
                        return  <Cell {...renderProps} >{me.renderIndent()}{me.renderExpendIcon(props.rowIndex)}</Cell>
                     }
                     //if have vertical data structure, how to process it

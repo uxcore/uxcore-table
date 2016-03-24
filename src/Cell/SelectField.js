@@ -3,6 +3,8 @@ let classnames = require('classnames');
 let assign = require('object-assign');
 let Select = require('uxcore-select2');
 let {Option} = Select;
+let React = require('react');
+let ReactDOM = require('react-dom');
 
 
 class SelectField extends CellField {
@@ -22,7 +24,7 @@ class SelectField extends CellField {
                     value: value
                 });
             },
-            defaultValue: me.props.value
+            value: me.props.value
         };
         if (me.props.column.config) {
             let {value, onSelect, ...customProps} = me.props.column.config;

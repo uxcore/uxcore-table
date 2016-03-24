@@ -5,6 +5,10 @@
 let Row = require("./Row");
 let Mask = require("./Mask");
 let util = require("./util");
+let deepcopy = require('deepcopy');
+
+let React = require('react');
+let ReactDOM = require('react-dom');
 
 class Tbody extends React.Component {
 
@@ -123,27 +127,26 @@ class Tbody extends React.Component {
                       let renderProps={
                           columns: _columns,
                           rowIndex: item.jsxid,//tree mode, rowIndex need think more, so use jsxid
-                          rowData: _data[index],
+                          rowData: deepcopy(_data[index]),
                           index: index,
                           data: _data,
                           root: _props.root,
-                          onModifyRow: _props.onModifyRow,
                           addRowClassName: _props.addRowClassName,
                           rowSelection: _props.rowSelection,
                           changeSelected: me.props.changeSelected,
                           subComp: _props.subComp,
+                          renderSubComp: _props.renderSubComp,
                           actions: _props.actions,
-                          key: 'row'+index,
-                          rowHeight: _props.rowHeight,
+                          key: 'row'+ index,
                           mode: _props.mode,
                           renderModel: _props.renderModel,
                           fixedColumn: _props.fixedColumn,
-                          level:1,
+                          level: 1,
                           levels: _props.levels,
                           handleDataChange: _props.handleDataChange,
                           attachCellField: _props.attachCellField,
                           detachCellField: _props.detachCellField,
-                          visible:true
+                          visible: true
                       };
                       return <Row {...renderProps} />
                   })}

@@ -6,6 +6,9 @@
  * All rights reserved.
  */
 
+let React = require('react');
+let ReactDOM = require('react-dom');
+
 class SearchBar extends React.Component {
 
     constructor(props) {
@@ -32,10 +35,11 @@ class SearchBar extends React.Component {
     }
 
     render() {
-
+        let me = this;
+        let {placeholder} = me.props;
         return (
             <div className={this.props.jsxprefixCls}>
-                <input type="text" className="kuma-input" placeholder="搜索表格内容" value={this.state.value} onKeyDown={this.onKeyDown.bind(this)} onChange={this.handleChange.bind(this)}/>
+                <input type="text" className="kuma-input" placeholder={placeholder} value={this.state.value} onKeyDown={this.onKeyDown.bind(this)} onChange={this.handleChange.bind(this)}/>
                 <i className="kuma-icon kuma-icon-search" onClick={this.doSearch.bind(this)}></i>
             </div>
         );

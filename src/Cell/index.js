@@ -1,9 +1,12 @@
 /**
  * Created by xy on 15/4/13.
  */
-
+ 
+let React = require('react');
+let ReactDOM = require('react-dom');
 let Const = require('uxcore-const');
 let CheckBox = require('./CheckBox');
+let Radio = require('./Radio');
 let TextField = require('./TextField');
 let SelectField = require("./SelectField");
 let RadioField = require("./RadioField");
@@ -29,7 +32,7 @@ class Cell extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         let me = this;
-        if (me.props.column.type == "checkbox") {
+        if (me.props.column.type == "checkbox" || me.props.column.type == "checkboxSelector" || me.props.column.type == "radioSelector") {
             me.setState({
                 checked: !!me.getCellData(nextProps)
             }) 
@@ -38,7 +41,7 @@ class Cell extends React.Component {
 
     componentDidMount() {
         let me = this;
-        if (me.props.column.type == "checkbox") {
+        if (me.props.column.type == "checkbox" || me.props.column.type == "checkboxSelector" || me.props.column.type == "radioSelector") {
             me.props.changeSelected(me.state.checked, me.props.rowIndex, true);
         }
     }
@@ -125,9 +128,8 @@ class Cell extends React.Component {
             _v = deepcopy(props.rowData),
             renderProps;
 
-        
         if (_column.type == 'action') {
-
+            let showActionIndex = 0;
             _v = <div className="action-container">
                     { 
                         me.getActionItems(_column.actions).map(function(item, index) {
@@ -138,16 +140,22 @@ class Cell extends React.Component {
                             // which means this action is rendered in the user-specified mode.
 
                             if (!('mode' in item) || item.mode == _mode) {
-                                return <a href="javascript:void(0);" className="action" key={index} onClick={item.callback.bind(me, _v, me.props.root)}>{!!item.render ? item.render(item.title) : item.title}</a>
+                                let arr = [];
+                                if (showActionIndex !== 0) {
+                                    arr.push(<span key="split" className="split"> | </span>)
+                                }
+                                showActionIndex++;
+                                arr.push(<a href="javascript:void(0);" className="action" key='action' onClick={item.callback.bind(me, _v, me.props.root)}>{!!item.render ? item.render(item.title, me.props.rowData) : item.title}</a>)
+                                return <span key={index}>{arr}</span>
                             }
 
                         })
                     }
                  </div>
         }
-        else if (_column.type=='checkbox') {
+        else if (_column.type == 'checkbox' || _column.type == 'checkboxSelector') {
 
-            _style.paddingRight = 32;
+            _style.paddingRight = 18;
             _style.paddingLeft = 12;
 
             let checked;
@@ -156,13 +164,44 @@ class Cell extends React.Component {
             } else {
                 checked="";
             }
-            _v = <CheckBox disable={_column.disable} mode={props.mode} align={props.align} jsxchecked={checked} ref="checkbox" onchange={me.handleCheckChange.bind(me)}/>
 
+            let disable = false;
+            if ('disable' in _column) {
+                disable = _column.disable;
+            }
+            else if ('isDisable' in _column) {
+                disable = !!_column.isDisable(props.rowData);
+            }
+            _v = <CheckBox disable={disable} mode={props.mode} align={props.align} jsxchecked={checked} ref="checkbox" onchange={me.handleCheckChange.bind(me)}/>
+
+        }
+        else if (_column.type == 'radioSelector') {
+            _style.paddingRight = 18;
+            _style.paddingLeft = 12;
+
+            let checked;
+            if (me.state.checked) {
+                checked='checked'
+            } else {
+                checked="";
+            }
+
+            let disable = false;
+            if ('disable' in _column) {
+                disable = _column.disable;
+            }
+            else if ('isDisable' in _column) {
+                disable = !!_column.isDisable(props.rowData);
+            }
+            _v = <Radio disable={disable} mode={props.mode} align={props.align} jsxchecked={checked} onchange={me.handleCheckChange.bind(me)}/>
         }
         else if (_column.type == 'treeIcon') {
             _v = me.renderTreeIcon();
         }
-        else if ((_column.type == 'custom' || _column.type in fieldsMap) && _mode == Const.MODE.EDIT) {
+
+        // inline edit mode
+
+        else if ((_column.type == 'custom' || _column.type in fieldsMap) && _mode == Const.MODE.EDIT && (!('canEdit' in _column) || _column.canEdit(props.rowData))) {
             renderProps = {
                 value: me.getEditData(),
                 rowData: props.rowData,
@@ -173,6 +212,7 @@ class Cell extends React.Component {
                 detachCellField: props.detachCellField
             }
             let Field;
+
             if (_column.type == 'custom') {
                 Field = props.column.customField;
             }

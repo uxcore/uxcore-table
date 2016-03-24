@@ -1,25 +1,34 @@
 /**
- * A checkbox field
+ * A radio field
  */
 
 let Const = require('uxcore-const');
 let React = require('react');
 let ReactDOM = require('react-dom');
 
-class CheckBox extends React.Component {
+class Radio extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            checked: !!this.props.checked
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.state.checked = !!nextProps.jsxchecked
     }
 
     handleChange(e) {
-        let v = this.getValue();
-        v = v ? 'checked' : '';
-        this.props.onchange.apply(null,[e])
+        if (e.target.checked != this.state.checked) {
+            this.state.checked = !this.state.checked;
+            this.props.onchange.apply(null,[e])
+        }
     }
     
     getValue () {
-        return this.refs.checkbox.checked;
+        return this.refs.radio.checked;
     }
 
     render() {
@@ -35,7 +44,7 @@ class CheckBox extends React.Component {
             if (!!props.disable) {
                 renderProps.disabled = true;
             }
-            return <label><input type="checkbox" ref="checkbox" {...renderProps}/><s></s></label>
+            return <label><input type="radio" ref="radio" {...renderProps}/><s></s></label>
 
         }else {
 
@@ -44,18 +53,18 @@ class CheckBox extends React.Component {
                 checked: this.props.jsxchecked,
                 disabled:true
             }
-            return <label><input type="checkbox" ref="checkbox"  {...renderProps}/><s></s></label>
+            return <label><input type="radio" ref="radio"  {...renderProps}/><s></s></label>
         }
 
     }
 
 };
 
-CheckBox.propTypes= {
+Radio.propTypes= {
 };
 
-CheckBox.defaultProps = {
+Radio.defaultProps = {
 
 };
 
-export default CheckBox;
+export default Radio;

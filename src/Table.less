@@ -44,7 +44,7 @@
     min-width: 100%;
     white-space: nowrap;
     display: inline-block;
-    .@{uxtable-prefix}-cell {
+    .@{uxtable-prefix}-cell.show-border {
         border-right: 1px solid #ebebeb;
     }
 }
@@ -252,14 +252,20 @@
     }
 }
 
-.action-container .action{
-    cursor: pointer;
-    display:inline-block;
-    text-decoration: none;
-    & + .action {
-        margin-left: 8px
+.action-container {
+    .action{
+        cursor: pointer;
+        display:inline-block;
+        text-decoration: none;
+        & + .action {
+            margin-left: 8px
+        }
+    }
+    .split {
+        color: #ccc;
     }
 }
+
 
 .@{uxtable-prefix} span.indent {
     margin-left: 10px;

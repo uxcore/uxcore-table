@@ -17,6 +17,9 @@ let deepcopy = require('deepcopy');
 let deepEqual = require('deep-equal');
 let classnames = require("classnames");
 
+let React = require('react');
+let ReactDOM = require('react-dom');
+
 class Table extends React.Component {
 
     constructor(props) {
@@ -39,7 +42,9 @@ class Table extends React.Component {
     }
 
     componentWillMount() {
-        this.fetchData();
+        if (this.props.fetchDataOnMount) {
+            this.fetchData();
+        }
     }
 
     componentDidMount() {
@@ -47,6 +52,9 @@ class Table extends React.Component {
         me.el = ReactDOM.findDOMNode(me);
         if (!!me.state.data && !!me.state.data.datas) {
             console.warn("Table: 'content.data' rather than 'content.datas' is recommended, the support for 'content.datas' will be end from ver. 1.3.0")
+        }
+        if (me.props.subComp) {
+            console.warn("Table: subComp is deprecated, use renderSubComp instead.")
         }
     }
 
@@ -137,7 +145,7 @@ class Table extends React.Component {
      }
 
 
-    /*
+    /**
      * simple method to compare two datas, 
      * only support the data which JSON can parse.
      */
@@ -147,7 +155,7 @@ class Table extends React.Component {
     }
 
 
-    /*
+    /**
      * get Query Object by combining data from searchBar, column order, pagination
      * and fetchParams.
      * @param from {string} used in props.beforeFetch
@@ -177,7 +185,7 @@ class Table extends React.Component {
         });
 
         // column order
-        let activeColumn = this.state.activeColumn;
+        let activeColumn = me.state.activeColumn;
         if(!!activeColumn) {
             queryObj = assign({}, queryObj, {
                 orderColumn: activeColumn.dataKey,
@@ -201,7 +209,7 @@ class Table extends React.Component {
         return me.props.beforeFetch(queryObj, from);
     }
     
-    /*
+    /**
      * fetch Data via Ajax
      * @param from {string} tell fetchData where it is invoked, the param will be 
      * passed to props.beforeFetch in order to help the user.
@@ -215,6 +223,9 @@ class Table extends React.Component {
         
         // fetchUrl has the top priority.
         if (!!me.props.fetchUrl) {
+            if (me.ajax) {
+                me.ajax.abort();
+            }
             if (!me.state.showMask) {
                 me.setState({
                     showMask: true
@@ -223,9 +234,10 @@ class Table extends React.Component {
             let ajaxOptions = {
                 url: me.props.fetchUrl,
                 data: me.getQueryObj(from),
+                cache: false,
                 dataType: "json",
                 success: function(result) {
-                    if(result.success || !result.hasError) {
+                    if (result.success === true || result.hasError === false) {
                         let _data = result.content;
                         let processedData = me.addValuesInData(me.props.processData(deepcopy(_data)));
                         let updateObj= {
@@ -235,12 +247,11 @@ class Table extends React.Component {
                         if (processedData.currentPage !== undefined) {
                             updateObj.currentPage = processedData.currentPage;
                         }
-                        me.data = deepcopy(updateObj);
+                        me.data = deepcopy(processedData);
                         me.setState(updateObj)
                     }
                     else {
-                        console.log("##ERROR##");
-                        console.log(result);
+                        me.props.onFetchError(result);
                     }
                 }
             };
@@ -249,7 +260,7 @@ class Table extends React.Component {
                 ajaxOptions.dataType = "jsonp"
             }
             
-            $.ajax(ajaxOptions);
+            me.ajax = $.ajax(ajaxOptions);
         }
 
         else if (!!me.props.passedData) {
@@ -292,6 +303,7 @@ class Table extends React.Component {
                 "currentPage": 1,
                 "totalCount": 0
             };
+            me.data = deepcopy(data);
             me.setState({
                 "data": deepcopy(data)
             })
@@ -305,17 +317,26 @@ class Table extends React.Component {
         props = props || this.props;
 
         let me = this,
+            checkColumn,
             columns = deepcopy(props.jsxcolumns),
             hasCheckboxColumn = false;
 
-        columns.forEach((item) => {
+        columns.forEach((item, i) => {
             if (item.type == 'checkbox') {
                 hasCheckboxColumn = true;
+                me.checkboxColumn = item;
                 me.checkboxColumnKey = item.dataKey;
                 item.width = item.width || 46;
                 item.align = item.align || 'right';
+            } 
+
+            if (item.type == 'radioSelector' || item.type == 'checkboxSelector') {
+                hasCheckboxColumn = true; //////统一之后可以去掉
+                me.checkType = item.type;
+                checkColumn = columns.splice(i, 1)[0];
             }
         });
+
 
         // filter the column which has a dataKey 'jsxchecked' & 'jsxtreeIcon'
 
@@ -331,8 +352,11 @@ class Table extends React.Component {
         });
 
         if (!!props.rowSelection & !hasCheckboxColumn) {
+            console.warn("It will be deprecated that a checkbox(radio) in first column without column config, You should specify the column type with 'checkboxSelector' or 'radioSelector'");
+            me.checkboxColumn = { dataKey: 'jsxchecked', width: 46, type:'checkbox', align:'right'};
             me.checkboxColumnKey = 'jsxchecked';
-            columns = [{ dataKey: 'jsxchecked', width: 46, type:'checkbox', align:'right'}].concat(columns)
+
+            columns = [me.checkboxColumn].concat(columns)
         }
 
         // no rowSelection but has parentHasCheckbox, render placeholder
@@ -340,8 +364,26 @@ class Table extends React.Component {
             columns = [{dataKey: 'jsxwhite', width: 46, type: 'empty'}].concat(columns);
         }
 
+        if (!!props.rowSelection && me.checkType) {
+            me.checkColumn = { dataKey: 'jsxchecked', width: 46, type: me.checkType, align:'right'};
+            if ('disable' in checkColumn) {
+                me.checkColumn.disable = checkColumn.disable;
+            } else if ('isDisable' in checkColumn) {
+                me.checkColumn.isDisable = checkColumn.isDisable;
+            }
+            me.checkColumnKey = 'jsxchecked';
 
-        if (!!props.subComp && props.renderModel !== 'tree') {
+            columns = [me.checkColumn].concat(columns)
+        }
+
+        // no rowSelection but has parentHasCheck, render placeholder
+        else if (!!props.parentHasCheck) {
+            columns = [{dataKey: 'jsxwhite', width: 46, type: 'empty'}].concat(columns);
+        }
+
+
+
+        if ( (!!props.subComp || !!props.renderSubComp) && props.renderModel !== 'tree') {
             columns = [{dataKey: 'jsxtreeIcon', width: 34, type: 'treeIcon'}].concat(columns);
         }
         // no subComp but has passedData, means sub mode, parent should has tree icon,
@@ -353,17 +395,10 @@ class Table extends React.Component {
         return columns;
     }
 
-    //handle column picker
     handleColumnPickerChange(checkedKeys) {
         let _columns = deepcopy(this.state.columns);
-        //     hidden= _columns[index].hidden;
-        // if (hidden == undefined) {
-        //     hidden = true;
-        // }
-        // _columns[index].hidden= !!hidden ? false: true;
-        // this.setState({
-        //     columns: _columns
-        // })
+        let notRenderColumns = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
+
         _columns.forEach((item, index) => {
             if ('group' in item) {
                 item.columns.forEach((ele, idx) => {
@@ -376,7 +411,7 @@ class Table extends React.Component {
                 })
             }
             else {
-                if (checkedKeys.indexOf(item.dataKey) !== -1) {
+                if (checkedKeys.indexOf(item.dataKey) !== -1 || notRenderColumns.indexOf(item.dataKey) !== -1) {
                     item.hidden = false;
                 }
                 else {
@@ -390,7 +425,7 @@ class Table extends React.Component {
         
     }
 
-    /*
+    /**
      * change SelectedRows data via checkbox, this function will pass to the Cell
      * @param checked {boolean} the checkbox status
      * @param rowIndex {number} the row Index
@@ -403,20 +438,29 @@ class Table extends React.Component {
         let _content = deepcopy(this.state.data);
         let _data = _content.datas || _content.data;
 
-        _data.map((item,index) => {
+        me.checkType == 'radioSelector' ? _data.map((item,index) => {
             if (item.jsxid == rowIndex) {
-                item[me.checkboxColumnKey] = checked;
+                item[me.checkboxColumnKey || me.checkColumnKey] = checked;
+                return item;
+            } else if (item[me.checkboxColumnKey || me.checkColumnKey]) {
+                item[me.checkboxColumnKey || me.checkColumnKey] = false;
+                return item;
+            }
+        }) : _data.map((item,index) => {
+            if (item.jsxid == rowIndex) {
+                item[me.checkboxColumnKey || me.checkColumnKey] = checked;
                 return item;
             }
         });
 
+        
         me.setState({
             data: _content
         }, () => {
             if (!fromMount) {
                 let data = me.state.data.datas || me.state.data.data;
                 let selectedRows = data.filter((item, index) => {
-                    return item[me.checkboxColumnKey] == true
+                    return item[me.checkboxColumnKey || me.checkColumnKey] == true;
                 });
                 !!me.props.rowSelection && !!me.props.rowSelection.onSelect && me.props.rowSelection.onSelect(checked, data[rowIndex], selectedRows)
             }
@@ -430,13 +474,18 @@ class Table extends React.Component {
         let _data = _content.datas || _content.data;
         let rowSelection = me.props.rowSelection;
 
-        _data = _data.map((item,index) => {
-            item[me.checkboxColumnKey] = checked;
-            return item;
+        let selectedRows = [];
+        _data = _data.forEach((item,index) => {
+            let column = me.checkboxColumn || me.checkColumn;
+            let key = me.checkboxColumnKey || me.checkColumnKey;
+            if (!('isDisable' in column) || !column.isDisable(item)) {
+              item[key] = checked;
+              selectedRows.push(item);
+            }
         });
 
         if(!!rowSelection && !!rowSelection.onSelectAll) {
-            rowSelection.onSelectAll.apply(null,[checked,_content])
+            rowSelection.onSelectAll.apply(null,[checked, checked ? selectedRows : []])
         }
         me.setState({
             data: _content
@@ -463,28 +512,34 @@ class Table extends React.Component {
     }
 
     renderPager() {
-        if (this.props.showPager && this.state.data && this.state.data.totalCount) {
+        let me = this;
+        let {data, currentPage, pageSize} = me.state;
+        let {showPagerTotal, showPager, locale} = me.props;
+        
+        if (showPager && data && data.totalCount) {
             return (
                 <div className="kuma-uxtable-page">
-                    <Pagination className="mini" 
+                    <Pagination className="mini"
+                                locale={locale} 
                                 showSizeChanger={true}
-                                total={this.state.data.totalCount} 
-                                onShowSizeChange={this.handleShowSizeChange.bind(this)}
-                                onChange={this.onPageChange.bind(this)} 
-                                current={this.state.currentPage} 
-                                pageSize={this.state.pageSize} />
+                                showTotal={showPagerTotal}
+                                total={data.totalCount} 
+                                onShowSizeChange={me.handleShowSizeChange.bind(me)}
+                                onChange={me.onPageChange.bind(me)} 
+                                current={currentPage} 
+                                pageSize={pageSize} />
                 </div>
             );
         }
     }
 
     handleOrderColumnCB(type, column) {
-
-       //this.props.activeColumn=column;
-       this.setState({
-         activeColumn: column
-       })
-       this.fetchData("order");
+        let me = this;
+        me.setState({
+            activeColumn: column
+        }, () => {
+           me.fetchData("order");
+        })
 
     }
 
@@ -497,16 +552,17 @@ class Table extends React.Component {
         })
     }
 
-    getData() {
+    getData(validate) {
         let me = this;
         let pass = true;
-        for (name in me.fields) {
-            let fieldPass = me.fields[name]();
+        if (validate !== false) {
+            for (name in me.fields) {
+                let fieldPass = me.fields[name]();
 
-            // if one field fails to pass, the table fails to pass
-
-            if (pass) {
-                pass = fieldPass;
+                // if one field fails to pass, the table fails to pass
+                if (pass) {
+                    pass = fieldPass;
+                }
             }
         }
         if (me.props.getSavedData) {
@@ -613,6 +669,7 @@ class Table extends React.Component {
             rowSelection: props.rowSelection,
             addRowClassName: props.addRowClassName,
             subComp: props.subComp,
+            renderSubComp: props.renderSubComp,
             mask: this.state.showMask,
             changeSelected: this.changeSelected.bind(this),
             rowHeight: this.props.rowHeight,
@@ -632,6 +689,7 @@ class Table extends React.Component {
             activeColumn: this.state.activeColumn,
             checkAll: this.selectAll.bind(this),
             columnPicker: props.showColumnPicker,
+            showHeaderBorder: props.showHeaderBorder,
             handleColumnPickerChange: this.handleColumnPickerChange.bind(this),
             headerHeight: props.headerHeight,
             width: props.width,
@@ -649,6 +707,7 @@ class Table extends React.Component {
                 onSearch: this.handleActionBarSearch.bind(this),
                 actionBarConfig: this.props.actionBar,
                 showSearch: this.props.showSearch,
+                searchBarPlaceholder: this.props.searchBarPlaceholder,
                 key:'grid-actionbar'
             };
             actionBar = <ActionBar {...renderActionProps}/>
@@ -668,6 +727,7 @@ class Table extends React.Component {
                 </div>
                 {this.renderPager()}
             </div>
+            
         );
 
     }
@@ -709,7 +769,7 @@ class Table extends React.Component {
         let data = objAux.datas || objAux.data;
         data.forEach(function(node) {
             node.jsxid = me.uid++;
-            node.__mode__ = Const.MODE.VIEW
+            node.__mode__ = node.__mode__ || Const.MODE.VIEW;
             me.addValuesInData(node);
         });
         return objAux;
@@ -817,10 +877,6 @@ class Table extends React.Component {
         let content = this.state.data;
         let data = content.data || content.datas;
 
-        if (data.length == 1){
-            return;
-        }
-
         // deepcopy protect
         let _content = deepcopy(content),
             _data = _content.data || _content.datas;
@@ -891,7 +947,7 @@ class Table extends React.Component {
 
     saveAllRow() {
         let me = this;
-        let data = deepcopy(me.data.data || me.data.datas);
+        let data = deepcopy(me.state.data.data || me.state.data.datas);
         data.forEach((item) => {
             me.saveRow(item);
         });
@@ -929,6 +985,7 @@ class Table extends React.Component {
 
 Table.defaultProps = {
     jsxprefixCls: "kuma-uxtable",
+    locale: "zh-cn",
     showHeader: true,
     width: "auto",
     height: "auto",
@@ -936,9 +993,12 @@ Table.defaultProps = {
     renderModel: '',
     levels: 1,
     actionBarHeight: 40,
+    fetchDataOnMount: true,
     doubleClickToEdit: true,
     showPager: true,
     showColumnPicker: true,
+    showHeaderBorder: false,
+    showPagerTotal: false,
     showMask: false,
     showSearch: false,
     getSavedData: true,
@@ -948,16 +1008,22 @@ Table.defaultProps = {
     currentPage:1,
     queryKeys:[],
     emptyText: "暂无数据",
+    searchBarPlaceholder: "搜索表格内容",
     processData: (data) => {return data},
     beforeFetch: (obj) => {return obj},
+    onFetchError: () => {},
     addRowClassName: () => {},
-    onChange: () => {}
+    onChange: () => {},
 }
 
 // http://facebook.github.io/react/docs/reusable-components.html
 Table.propTypes = {
+    locale: React.PropTypes.string,
     jsxcolumns: React.PropTypes.arrayOf(React.PropTypes.object),
-    width: React.PropTypes.number,
+    width: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number
+    ]),
     height: React.PropTypes.oneOfType([
         React.PropTypes.string,
         React.PropTypes.number
@@ -965,12 +1031,16 @@ Table.propTypes = {
     headerHeight: React.PropTypes.number,
     pageSize: React.PropTypes.number,
     queryKeys: React.PropTypes.array,
+    fetchDataOnMount: React.PropTypes.bool,
     doubleClickToEdit: React.PropTypes.bool,
     showColumnPicker: React.PropTypes.bool,
     showPager: React.PropTypes.bool,
+    showPagerTotal: React.PropTypes.bool,
     showHeader: React.PropTypes.bool,
+    showHeaderBorder: React.PropTypes.bool,
     showMask: React.PropTypes.bool,
     showSearch: React.PropTypes.bool,
+    searchBarPlaceholder: React.PropTypes.string,
     subComp: React.PropTypes.element,
     emptyText: React.PropTypes.oneOfType([
         React.PropTypes.string,
@@ -985,6 +1055,7 @@ Table.propTypes = {
     ]),
     processData: React.PropTypes.func,
     beforeFetch: React.PropTypes.func,
+    onFetchError: React.PropTypes.func,
     addRowClassName: React.PropTypes.func,
     passedData: React.PropTypes.object,
     // For inline edit
@@ -995,7 +1066,7 @@ Table.propTypes = {
     levels: React.PropTypes.number
 }
 
-Table.displayName = Table;
+Table.displayName = "Table";
 Table.CellField = CellField;
 Table.Constants = Const;
 

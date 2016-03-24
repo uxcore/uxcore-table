@@ -9,6 +9,8 @@
 let SearchBar = require("./SearchBar");
 let classnames = require("classnames");
 let Button = require("uxcore-button");
+let React = require('react');
+let ReactDOM = require('react-dom');
 
 
 class ActionBar extends React.Component {
@@ -41,7 +43,8 @@ class ActionBar extends React.Component {
             let me = this;
             let searchBarProps = {
                 onSearch: me.handleSearch.bind(me),
-                key:'searchbar'
+                key:'searchbar',
+                placeholder: me.props.searchBarPlaceholder
             };
             return <SearchBar {...searchBarProps}/>;
         }

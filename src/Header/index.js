@@ -8,6 +8,9 @@ let Tree = require('uxcore-tree');
 let classnames = require('classnames');
 let {TreeNode} = Tree;
 
+let React = require('react');
+let ReactDOM = require('react-dom');
+
 
 class Header extends React.Component {
 
@@ -30,7 +33,7 @@ class Header extends React.Component {
     }
 
     handleGlobalClick(e) {
-        if(this.props.columnPicker) {
+        if (this.props.columnPicker) {
             this.hideColumnPicker(e);
         }
     }
@@ -67,12 +70,6 @@ class Header extends React.Component {
 
     handlePickerCheck(info) {
         this.props.handleColumnPickerChange(info.checkedKeys)
-    }
-
-    
-
-    handleColumns(index) {
-        this.props.handleColumnPickerChange;
     }
 
     getCheckedKeys() {
@@ -148,20 +145,20 @@ class Header extends React.Component {
         )
     }
 
-    handleColumnOrder(type,column) {
-        column.orderType=type;
+    handleColumnOrder(type, column) {
+        column.orderType = type;
         this.props.orderColumnCB.apply(null, [type, column]);
     }
 
    
     renderOrderIcon(column) {
         let me = this;
-        if(column.ordered) {
+        if (column.ordered) {
             let desc = "sort-down", 
                 asc="sort-up";
-            if(this.props.activeColumn  && column.dataKey== this.props.activeColumn.dataKey) {
-                if(column.orderType=="desc") {
-                    desc="sort-down-active";
+            if (me.props.activeColumn  && column.dataKey == me.props.activeColumn.dataKey) {
+                if (column.orderType == "desc") {
+                    desc ="sort-down-active";
                 }
                 else {
                     asc ="sort-up-active";
@@ -169,8 +166,8 @@ class Header extends React.Component {
             }
             return (
                 <span className="kuma-uxtable-h-sort">
-                    <i className={asc} onClick={this.handleColumnOrder.bind(me,'asc', column)}/>
-                    <i className={desc} onClick={this.handleColumnOrder.bind(me,'desc',column)}/>
+                    <i className={asc} onClick={me.handleColumnOrder.bind(me,'asc', column)}/>
+                    <i className={desc} onClick={me.handleColumnOrder.bind(me,'desc',column)}/>
                 </span>
             )
         }
@@ -194,9 +191,9 @@ class Header extends React.Component {
             })
         }
 
-        if (item.type == 'checkbox') {
+        if (item.type == 'checkbox' || item.type == 'checkboxSelector') {
             assign(_style, {
-                paddingRight: 32,
+                paddingRight: 18,
                 paddingLeft: 12,
                 width: item.width ? item.width : 92,
                 borderRight: 'none'
@@ -221,7 +218,10 @@ class Header extends React.Component {
         }
 
         return (
-            <div key={index} className="kuma-uxtable-cell" style={_style}>
+            <div key={index} className={classnames({
+              "kuma-uxtable-cell": true,
+              "show-border": me.props.showHeaderBorder  
+            })} style={_style}>
                 {_v}
                 {me.renderOrderIcon(item)}
             </div>

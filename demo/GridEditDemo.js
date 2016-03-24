@@ -13,9 +13,11 @@ let Select = require('uxcore-select2');
 let {Option} = Select; 
 let RadioGroup = require('uxcore-radiogroup');
 let RadioItem = RadioGroup.Item;
-let Grid = require('../src');
+let Table = require('../src');
 let RadioField = require('./RadioField');
-let {Constants} = Grid
+let PlaceSelect = require('./PlaceSelect');
+// let {Constants} = Table;
+let Constants = require('uxcore-const')
 let mockData = {
     "data": [
         {
@@ -89,13 +91,14 @@ class Demo extends React.Component {
         let me = this;
         let columns = [
             { dataKey: 'jsxid', title: 'jsxid', width: 80},
-            { dataKey: 'city', editKey: 'cityId',title:'城市', width: 200, type:'select', children: [{id: 'bj', name: '北京'},{id: 'hz', name: '杭州'}].map((item) => {
-                return <Option key={item.id}>{item.name}</Option>
-            }), config: {filterOption: false}},
+            // { dataKey: 'city', editKey: 'cityId',title:'城市', width: 200, type:'select', children: [{id: 'bj', name: '北京'},{id: 'hz', name: '杭州'}].map((item) => {
+            //     return <Option key={item.id}>{item.name}</Option>
+            // }), config: {filterOption: false}, canEdit: function(rowData) { return rowData.name !== "小王"}},
+            { dataKey: 'place', title: '城市区间', width: 500, type: 'custom', customField: PlaceSelect},
             { dataKey: 'name', editKey: 'nameId', title:"姓名", width: 200, type:"custom", customField: RadioField, children: [{id: 'xiaoli', name: '小李'}, {id: 'xiaowang', name: '小王'}].map((item) => {
                 return <RadioItem key={item.id} text={item.name} value={item.id} />
             })},  
-            { dataKey: 'email', title: "Email", width: 200,type:"text", rules: {validator: Validator.isEmail, errMsg: ""}},
+            { dataKey: 'email', title: "Email", width: 200,type:"text", rules: {validator: Validator.isEmail, errMsg: ""}, config: {onBlur: function(e) {console.log(e);} }},
             { dataKey: 'action1', title: '操作1', width:100, type:"action", actions: [
                     {
                         title: '编辑',
@@ -116,7 +119,7 @@ class Demo extends React.Component {
                         callback: (rowData) => {
                             me.refs.grid.delRow(rowData);
                         },
-                        mode: Constants.MODE.VIEW
+                        // mode: Constants.MODE.VIEW
                     },
                     {
                         title: '重置',
@@ -135,6 +138,7 @@ class Demo extends React.Component {
             width: 1000,
             showPager:false,
             fetchParams: {},
+            showHeaderBorder: true,
             getSavedData: true,
             jsxdata: me.state.data,
             doubleClickToEdit: true,
@@ -172,7 +176,7 @@ class Demo extends React.Component {
 
         return (
             <div>
-                <Grid {...renderProps}  ref="grid"/>
+                <Table {...renderProps}  ref="grid"/>
                 <Button onClick={me.getTableValues.bind(me)}>获取 Table 的值</Button>
                 <Button onClick={me.handleDataChange.bind(me)}>更改 Data</Button>
             </div>
