@@ -14,6 +14,7 @@
                 "datas":[
                     {
                         "id":"11",
+                        "radio": true,
                         "grade":"2grade2",
                         "email":"2email2",
                         "firstName":"2firstName2",
@@ -25,6 +26,7 @@
                             {
 
                                 "id":"21",
+                                "radio": true,
                                 "grade":"3grade2",
                                 "email":"3email2",
                                 "firstName":"3firstName2",
