@@ -28,10 +28,10 @@
 
 .@{uxtable-prefix}-header-wrapper {
     overflow: hidden;
-    border:1px solid @table-border;
+    // border:1px solid @table-border;
 }
 .@{uxtable-prefix}-body-wrapper {
-    border: 1px solid @table-border;
+    // border: 1px solid @table-border;
     border-top: none;
     min-height: 40px;
     overflow-x: auto;
@@ -44,9 +44,6 @@
     min-width: 100%;
     white-space: nowrap;
     display: inline-block;
-    .@{uxtable-prefix}-cell.show-border {
-        border-right: 1px solid #ebebeb;
-    }
 }
 .@{uxtable-prefix}-body {
     position:relative;
@@ -67,18 +64,21 @@
     display: block;
     width: 100%;
     white-space: nowrap;
-    border-top: 1px solid @table-border;
+    // border-top: 1px solid @table-border;
     border-bottom: none;
     line-height: 40px;
     &:first-child {
         border-top: none;
     }
+    &.even {
+        background-color: @basic-200;
+    }
 }
 
 .@{uxtable-prefix}-tree-row {
     .@{uxtable-prefix}-row{
-        border-bottom: 0px solid @table-border;
-        border-top: 1px solid @table-border;
+        // border-bottom: 0px solid @table-border;
+        // border-top: 1px solid @table-border;
     }
 }
 
@@ -92,15 +92,15 @@
     vertical-align: top;
     position: relative;
     word-break:break-all;
-    line-height:40px;
-    height: 40px;
+    line-height:50px;
+    height: 50px;
     & > div {
-        line-height: 40px;
+        line-height: 50px;
         display: inline-block;
         overflow: hidden;
         text-overflow: ellipsis;
         vertical-align: top;
-        height: 40px;
+        height: 50px;
         width: 100%;
         white-space: nowrap;
     }
@@ -146,7 +146,7 @@
     max-height: 300px;
     overflow-y: auto;
     position: absolute;
-    background-color: @table-header-bg;
+    background-color: @basic-400;
     z-index: 2;
     right: 0;
     top: 32px;
@@ -222,7 +222,7 @@
         cursor: pointer;
         width: 0;
         height: 0;
-        border-width: 6px 5px;
+        // border-width: 6px 5px;
         border-style: solid;
         position: absolute;
         &.sort-up {
@@ -302,7 +302,7 @@
 }
 .@{uxtable-prefix}-header-scroll {
     position:static;
-    border-left:1px solid @table-border;
+    // border-left:1px solid @table-border;
     float:left;
     overflow-x: hidden;
     z-index:1;
@@ -319,6 +319,6 @@
 .@{uxtable-prefix}-header-group-name {
     line-height: 40px;
     text-align: center;
-    border-bottom: 1px solid @table-border;
-    border-right: 1px solid @table-border;
+    // border-bottom: 1px solid @table-border;
+    // border-right: 1px solid @table-border;
 }

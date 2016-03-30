@@ -110,7 +110,10 @@ class Demo extends React.Component {
             fetchUrl: fetchUrl,
             rowSelector: 'radioSelector',
             jsxcolumns: columns,
-            rowSelection: rowSelection
+            rowSelection: rowSelection,
+            renderSubComp: function() {
+                return <div>1</div>
+            }
         };
         return (<Table {...renderProps}  ref="grid"/>);
       }

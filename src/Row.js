@@ -234,7 +234,8 @@ class Row extends React.Component {
         return (
             <li className={classnames({
                 [this.props.jsxprefixCls]: true,
-                [otherCls]: !!otherCls
+                [otherCls]: !!otherCls,
+                'even': (props.rowIndex % 2 == 1 ? true : false)
             })} style={_style} 
                 onClick={this.handleClick.bind(this, props.rowData)} 
                 onDoubleClick={this.handleDoubleClick.bind(this, props.rowData)}>

@@ -186,8 +186,8 @@ class Header extends React.Component {
 
         if (hasGroup) {
             assign(_style, {
-                height: 80,
-                lineHeight: 80 + 'px'
+                height: 100,
+                lineHeight: 100 + 'px'
             })
         }
 
@@ -318,8 +318,8 @@ class Header extends React.Component {
         }
 
         assign(_headerStyle, { 
-            height: props.headerHeight ? props.headerHeight : (me.hasGroup ? 80 : 40),
-            lineHeight: (props.headerHeight ? props.headerHeight : 40) + "px"
+            height: props.headerHeight ? props.headerHeight : (me.hasGroup ? 80 : 50),
+            lineHeight: (props.headerHeight ? props.headerHeight : 50) + "px"
         });
 
 
