@@ -323,6 +323,9 @@ class Table extends React.Component {
         columns.forEach((item, i) => {
             // only one rowSelector can be rendered in Table.
             if (item.type == 'checkbox' || item.type == 'radioSelector' || item.type == 'checkboxSelector') {
+                if (item.type == 'checkbox') {
+                    console.warn("rowSelector using 'type: checkbox' is deprecated, use 'type: checkboxSelector' instead.");
+                }
                 hasCheckboxColumn = true;
                 me.checkboxColumn = item;
                 me.checkboxColumnKey = item.dataKey;
@@ -345,7 +348,6 @@ class Table extends React.Component {
         });
 
         if (!!props.rowSelection & !hasCheckboxColumn) {
-            console.warn("It will be deprecated that a checkbox(radio) in first column without column config, You should specify the column type with 'checkboxSelector' or 'radioSelector'");
             me.checkboxColumn = { dataKey: 'jsxchecked', width: 46, type: props.rowSelector, align:'right'};
             me.checkboxColumnKey = 'jsxchecked';
 

@@ -2,6 +2,10 @@
 
 ---
 
+# 1.3.21
+
+* `HOTFIX` change the warning text of using type:checkbox.
+
 # 1.3.20
 
 * `NEW` add new prop `rowSelector` to support radio row selector
