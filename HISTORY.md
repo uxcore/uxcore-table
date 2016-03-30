@@ -2,16 +2,20 @@
 
 ---
 
+# 1.3.20
+
+* `NEW` add new prop `rowSelector` to support radio row selector
+
 # 1.3.19
 
-`HOTFIX` fix ie checkout style bug
+* `HOTFIX` fix ie checkout style bug
 
 # 1.3.18
 
-`NEW` app props `fetchDataOnMount` to control whether table will fetch data when mount.
-`FIXED` fix style bug of checkbox in IE.
-`CHANGED` abort the ajax if next ajax request comes.
-`CHANGED` server render support
+* `NEW` app props `fetchDataOnMount` to control whether table will fetch data when mount.
+* `FIXED` fix style bug of checkbox in IE.
+* `CHANGED` abort the ajax if next ajax request comes.
+* `CHANGED` server render support
 
 # 1.3.17
 
