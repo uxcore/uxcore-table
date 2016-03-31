@@ -15,8 +15,8 @@ class Row extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state =  {
-          expanded: (this.props.level < this.props.levels) ? true : false
+        this.state = {
+            expanded: (this.props.level < this.props.levels) ? true : false
         }
     }
 
@@ -58,18 +58,17 @@ class Row extends React.Component {
     showSubCompFunc() {
         let me = this;
         me.props.root.toggleSubComp(me.props.rowData);
-    } 
+    }
 
     renderSubComp() {
         let props = this.props;
 
         if (props.renderModel == 'tree') {
             return false;
-        }
-        else {
+        } else {
             if (props.subComp) {
                 if (props.rowData.showSubComp) {
-                    let subComp = React.cloneElement(props.subComp,{
+                    let subComp = React.cloneElement(props.subComp, {
                         passedData: this.props.rowData,
                         parentHasCheckbox: !!this.props.rowSelection,
                         parentHasCheck: !!this.props.rowSelection /////
@@ -77,15 +76,13 @@ class Row extends React.Component {
                     return (<div className="kuma-uxtable-subrow" ref="subRow">{subComp}</div>)
                 }
                 return false;
-            }
-            else if (props.renderSubComp) {
+            } else if (props.renderSubComp) {
                 let subComp = props.renderSubComp(deepcopy(props.rowData));
                 if (subComp && props.rowData.showSubComp) {
                     return <div className="kuma-uxtable-subrow" ref="subRow">{subComp}</div>
                 }
                 return false;
-            }
-            else {
+            } else {
                 return false;
             }
         }
@@ -97,12 +94,12 @@ class Row extends React.Component {
             me = this,
             children = [];
 
-        if (props.renderModel!=='tree') {
+        if (props.renderModel !== 'tree') {
             return children;
         }
         if (props.rowData.datas) {
-            props.rowData.datas.forEach(function (node) {
-                let renderProps= assign({}, props, {
+            props.rowData.datas.forEach(function(node) {
+                let renderProps = assign({}, props, {
                     level: me.props.level + 1,
                     rowData: node,
                     rowIndex: node.jsxid,
@@ -113,9 +110,9 @@ class Row extends React.Component {
                 children.push(<Row  {...renderProps} />);
             });
 
-            let renderProps={
-                key: "treeRow"+this.props.rowData.jsxid,
-                className:"kuma-uxtable-tree-row"
+            let renderProps = {
+                key: "treeRow" + this.props.rowData.jsxid,
+                className: "kuma-uxtable-tree-row"
             }
 
             children = <ul {...renderProps}>{children}</ul>;
@@ -126,7 +123,8 @@ class Row extends React.Component {
 
     renderExpendIcon(rowIndex) {
 
-        let expandCollapseIcon,props = this.props,
+        let expandCollapseIcon,
+            props = this.props,
             _expandIconClass;
 
         if (props.renderModel !== 'tree') {
@@ -136,38 +134,36 @@ class Row extends React.Component {
         if (props.rowData.datas) {
             if (!this.state.expanded) {
 
-                _expandIconClass={
-                  "kuma-icon": true,
-                  "kuma-icon-tree-open-2": false,
-                  "kuma-icon-tree-close-2": true
+                _expandIconClass = {
+                    "kuma-icon": true,
+                    "kuma-icon-tree-open-2": false,
+                    "kuma-icon-tree-close-2": true
                 };
-                _expandIconClass["kuma-uxtable-expandIcon-"+props.fixedColumn+"-"+rowIndex]=true;
+                _expandIconClass["kuma-uxtable-expandIcon-" + props.fixedColumn + "-" + rowIndex] = true;
 
                 expandCollapseIcon = (
-                  <span className="kuma-uxtable-tree-icon" data-type={props.fixedColumn} data-index={rowIndex}
-                        onClick={this.toggleExpanded.bind(this)}>
+                    <span className="kuma-uxtable-tree-icon" data-type={props.fixedColumn} data-index={rowIndex}
+                    onClick={this.toggleExpanded.bind(this)}>
                         <i className={classnames(_expandIconClass)}></i>
                   </span>
                 );
-            }
-            else {
+            } else {
 
-                _expandIconClass={
-                  "kuma-icon": true,
-                  "kuma-icon-tree-open-2": true,
-                  "kuma-icon-tree-close-2": false
+                _expandIconClass = {
+                    "kuma-icon": true,
+                    "kuma-icon-tree-open-2": true,
+                    "kuma-icon-tree-close-2": false
                 };
-                _expandIconClass["kuma-uxtable-expandIcon-"+props.fixedColumn+"-"+rowIndex]=true;
+                _expandIconClass["kuma-uxtable-expandIcon-" + props.fixedColumn + "-" + rowIndex] = true;
 
                 expandCollapseIcon = (
-                  <span className="kuma-uxtable-tree-icon" data-type={props.fixedColumn} data-index={rowIndex}
-                        onClick={this.toggleExpanded.bind(this)}>
+                    <span className="kuma-uxtable-tree-icon" data-type={props.fixedColumn} data-index={rowIndex}
+                    onClick={this.toggleExpanded.bind(this)}>
                       <i className={classnames(_expandIconClass)}></i>
                   </span>
                 );
             }
-        }
-        else {
+        } else {
             expandCollapseIcon = (
                 <span className="kuma-uxtable-emptyicon"></span>
             );
@@ -177,31 +173,32 @@ class Row extends React.Component {
 
     renderIndent() {
         let indents = [];
-        if(this.props.renderModel=='tree') {
-            for (var i = 0; i < this.props.level-1; i++) {
-                let renderProps={
-                   className:"indent",
-                   key: 'indent'+i
+        if (this.props.renderModel == 'tree') {
+            for (var i = 0; i < this.props.level - 1; i++) {
+                let renderProps = {
+                    className: "indent",
+                    key: 'indent' + i
                 }
                 indents.push(<span {...renderProps} ></span>);
             }
         }
-        
+
         return indents;
     }
 
     toggleExpanded(e) {
-        this.setState({ expanded: !this.state.expanded });
+        this.setState({
+            expanded: !this.state.expanded
+        });
         e.stopPropagation();
         let t = $(e.target);
         if (!t.hasClass('kuma-uxtable-tree-icon')) {
-            t= t.parents('.kuma-uxtable-tree-icon');
+            t = t.parents('.kuma-uxtable-tree-icon');
         }
-        if (t.data('type')=='fixed') {
-            $(".kuma-uxtable-expandIcon-scroll"+"-"+t.data('index')).trigger('click');
-        } 
-        else if (t.data('type')=='scroll') {
-            $(".kuma-uxtable-expandIcon-fixed"+"-"+t.data('index')).trigger('click');
+        if (t.data('type') == 'fixed') {
+            $(".kuma-uxtable-expandIcon-scroll" + "-" + t.data('index')).trigger('click');
+        } else if (t.data('type') == 'scroll') {
+            $(".kuma-uxtable-expandIcon-fixed" + "-" + t.data('index')).trigger('click');
         }
     }
 
@@ -216,74 +213,76 @@ class Row extends React.Component {
 
         if (!this.props.visible) {
             _style = {
-                display: 'none' 
+                display: 'none'
             };
         }
 
         props.columns.forEach((column, index) => {
             if ("group" in column) {
                 _columns = _columns.concat(column.columns);
-            }
-            else {
+            } else {
                 _columns.push(column);
             }
         })
 
-        let firstVisableColumn=0;
+        let firstVisableColumn = 0;
 
         return (
             <li className={classnames({
-                [this.props.jsxprefixCls]: true,
+                [this.props.prefixCls]: true,
                 [otherCls]: !!otherCls,
                 'even': (props.rowIndex % 2 == 1 ? true : false)
-            })} style={_style} 
-                onClick={this.handleClick.bind(this, props.rowData)} 
-                onDoubleClick={this.handleDoubleClick.bind(this, props.rowData)}>
-                {_columns.map(function(item,index){
-                    if (item.hidden) return;
-                    firstVisableColumn++;
-                    let renderProps={
-                        column: item,
-                        root: props.root,
-                        align: item.align,
-                        rowData: props.rowData,
-                        rowIndex: props.rowIndex,
-                        index: props.index,
-                        cellIndex:index,
-                        hasSubComp: props.subComp ? true : (props.renderSubComp ? props.renderSubComp(deepcopy(props.rowData)) : false),
-                        data: _data,
-                        changeSelected: me.props.changeSelected,
-                        showSubCompCallback: me.showSubCompFunc.bind(me),
-                        rowSelection: props.rowSelection,
-                        actions: props.actions,
-                        mode: props.mode,
-                        handleDataChange: props.handleDataChange,
-                        attachCellField: props.attachCellField,
-                        detachCellField: props.detachCellField,
-                        key: "cell" + index
-                    };
+            })} style={_style}
+            onClick={this.handleClick.bind(this, props.rowData)}
+            onDoubleClick={this.handleDoubleClick.bind(this, props.rowData)}>
+                <div className={`${this.props.prefixCls}-cells`}>
+                    {_columns.map(function(item, index) {
+                if (item.hidden) return;
+                firstVisableColumn++;
+                let renderProps = {
+                    column: item,
+                    root: props.root,
+                    align: item.align,
+                    rowData: props.rowData,
+                    rowIndex: props.rowIndex,
+                    index: props.index,
+                    cellIndex: index,
+                    hasSubComp: props.subComp ? true : (props.renderSubComp ? props.renderSubComp(deepcopy(props.rowData)) : false),
+                    data: _data,
+                    changeSelected: me.props.changeSelected,
+                    showSubCompCallback: me.showSubCompFunc.bind(me),
+                    rowSelection: props.rowSelection,
+                    actions: props.actions,
+                    mode: props.mode,
+                    handleDataChange: props.handleDataChange,
+                    attachCellField: props.attachCellField,
+                    detachCellField: props.detachCellField,
+                    key: "cell" + index
+                };
 
-                    if (firstVisableColumn == 1) {
-                       return  <Cell {...renderProps} >{me.renderIndent()}{me.renderExpendIcon(props.rowIndex)}</Cell>
-                    }
-                    //if have vertical data structure, how to process it
-                    return <Cell {...renderProps} ></Cell>
-                })}
+                if (firstVisableColumn == 1) {
+                    return <Cell {...renderProps} >{me.renderIndent()}{me.renderExpendIcon(props.rowIndex)}</Cell>
+                }
+                //if have vertical data structure, how to process it
+                return <Cell {...renderProps} ></Cell>
+            })}
+                </div>
                 {me.renderChild()}
                 {this.renderSubComp()}
             </li>
-        );
+            );
     }
 
-};            
+}
+;
 
-Row.propTypes= {
-    jsxprefixCls: React.PropTypes.string,
+Row.propTypes = {
+    prefixCls: React.PropTypes.string,
     showSubComp: React.PropTypes.bool
 };
 
 Row.defaultProps = {
-    jsxprefixCls: "kuma-uxtable-row",
+    prefixCls: "kuma-uxtable-row",
     showSubComp: false
 };
 

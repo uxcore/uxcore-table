@@ -15,8 +15,10 @@ class Mask extends React.Component {
     }
 
     render() {
-        
-        let props= this.props,visible=props.visible,loadTips= props.tips?props.tips:"Loading...";
+
+        let props = this.props,
+            visible = props.visible,
+            loadTips = props.tips ? props.tips : "Loading...";
         let _className = classnames({
             [props.jsxprefixCls]: true,
             [props.jsxprefixCls + "-hide"]: !visible
@@ -26,9 +28,10 @@ class Mask extends React.Component {
         </div>);
     }
 
-};
+}
+;
 
-Mask.propTypes= {
+Mask.propTypes = {
 };
 
 Mask.defaultProps = {

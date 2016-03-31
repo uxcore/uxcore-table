@@ -67,6 +67,10 @@
     // border-top: 1px solid @table-border;
     border-bottom: none;
     line-height: 40px;
+    .@{uxtable-prefix}-row-cells:hover {
+        background-color: @brand-primary-lighter;
+    }
+
     &:first-child {
         border-top: none;
     }
@@ -258,8 +262,11 @@
         display:inline-block;
         text-decoration: none;
         & + .action {
-            margin-left: 8px
+            margin-left: 10px
         }
+    }
+    .kuma-icon-triangle-down {
+        color: @text-thirdary-color;
     }
     .split {
         color: #ccc;
@@ -284,7 +291,7 @@
 }
 .@{uxtable-prefix}-body-scroll {
     position:relative;
-    border-left:1px solid @table-border;
+    // border-left:1px solid @table-border;
     float:left;
     overflow:auto;
     z-index:1;

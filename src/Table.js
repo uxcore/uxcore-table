@@ -7,10 +7,10 @@
  */
 
 let Header = require("./Header");
-let Tbody  = require("./Tbody");
+let Tbody = require("./Tbody");
 let ActionBar = require("./ActionBar");
 let CellField = require('./Cell/CellField');
-let Pagination  = require("uxcore-pagination");
+let Pagination = require("uxcore-pagination");
 let Const = require('uxcore-const');
 let assign = require('object-assign');
 let deepcopy = require('deepcopy');
@@ -71,7 +71,7 @@ class Table extends React.Component {
             newData['pageSize'] = nextProps.pageSize;
         }
         if (nextProps.currentPage != me.props.currentPage) {
-            newData['currentPage'] =  nextProps.currentPage;
+            newData['currentPage'] = nextProps.currentPage;
         }
         if (!!nextProps.jsxcolumns && !!me.props.jsxcolumns && !me._isEqual(nextProps.jsxcolumns, me.props.jsxcolumns)) {
             newData['columns'] = me.processColumn(nextProps)
@@ -125,24 +125,23 @@ class Table extends React.Component {
      * @param field {element} the cell field to be registered
      */
 
-     attachCellField(validate, name) {
+    attachCellField(validate, name) {
         let me = this;
         if (!name) {
             console.error("Table: name can not be empty, check the dataKey of the column config");
-        }
-        else {
+        } else {
             me.fields[name] = validate;
         }
-     }
+    }
 
     /**
      * cancel the CellField when it is unmounted.
      * @param field {element} the cell field to be canceled.
      */
 
-     detachCellField(name) {
+    detachCellField(name) {
         delete this.fields[name];
-     }
+    }
 
 
     /**
@@ -163,16 +162,16 @@ class Table extends React.Component {
 
     getQueryObj(from) {
 
-        let me = this, queryObj = {};
+        let me = this,
+            queryObj = {};
         if (me.props.passedData) {
             let queryKeys = me.props.queryKeys;
             if (!queryKeys) {
                 queryObj = me.props.passedData;
-            }
-            else {
+            } else {
                 queryKeys.forEach(function(key) {
-                    if(me.props.passedData[key] !== undefined) {
-                        queryObj[key]= me.props.passedData[key];
+                    if (me.props.passedData[key] !== undefined) {
+                        queryObj[key] = me.props.passedData[key];
                     }
                 })
             }
@@ -186,7 +185,7 @@ class Table extends React.Component {
 
         // column order
         let activeColumn = me.state.activeColumn;
-        if(!!activeColumn) {
+        if (!!activeColumn) {
             queryObj = assign({}, queryObj, {
                 orderColumn: activeColumn.dataKey,
                 orderType: activeColumn.orderType
@@ -197,18 +196,18 @@ class Table extends React.Component {
         let searchTxt = me.state.searchTxt
         if (!!searchTxt) {
             queryObj = assign({}, queryObj, {
-               searchTxt: searchTxt
+                searchTxt: searchTxt
             })
         }
 
         // fetchParams has the top priority 
-        if(!!me.props.fetchParams) {
+        if (!!me.props.fetchParams) {
             queryObj = assign({}, queryObj, me.props.fetchParams);
         }
 
         return me.props.beforeFetch(queryObj, from);
     }
-    
+
     /**
      * fetch Data via Ajax
      * @param from {string} tell fetchData where it is invoked, the param will be 
@@ -219,8 +218,8 @@ class Table extends React.Component {
 
         let me = this;
         // reset uid cause table data has changed
-        me.uid = 0; 
-        
+        me.uid = 0;
+
         // fetchUrl has the top priority.
         if (!!me.props.fetchUrl) {
             if (me.ajax) {
@@ -240,17 +239,16 @@ class Table extends React.Component {
                     if (result.success === true || result.hasError === false) {
                         let _data = result.content;
                         let processedData = me.addValuesInData(me.props.processData(deepcopy(_data)));
-                        let updateObj= {
-                          data: processedData,
-                          showMask: false
+                        let updateObj = {
+                            data: processedData,
+                            showMask: false
                         };
                         if (processedData.currentPage !== undefined) {
                             updateObj.currentPage = processedData.currentPage;
                         }
                         me.data = deepcopy(processedData);
                         me.setState(updateObj)
-                    }
-                    else {
+                    } else {
                         me.props.onFetchError(result);
                     }
                 }
@@ -259,11 +257,9 @@ class Table extends React.Component {
             if (/\.jsonp/.test(me.props.fetchUrl)) {
                 ajaxOptions.dataType = "jsonp"
             }
-            
-            me.ajax = $.ajax(ajaxOptions);
-        }
 
-        else if (!!me.props.passedData) {
+            me.ajax = $.ajax(ajaxOptions);
+        } else if (!!me.props.passedData) {
 
             if (!me.props.queryKeys) {
                 let data = me.addValuesInData(me.props.processData(deepcopy(me.props.passedData)));
@@ -271,8 +267,7 @@ class Table extends React.Component {
                     data: data
                 });
                 me.data = deepcopy(data);
-            }
-            else {
+            } else {
                 let data = {};
                 me.props.queryKeys.forEach((key, index) => {
                     if (me.props.passedData[key] !== undefined) {
@@ -285,15 +280,13 @@ class Table extends React.Component {
                 });
                 me.data = deepcopy(processedData);
             }
-        }
-        else if (!!this.props.jsxdata) {
+        } else if (!!this.props.jsxdata) {
             let data = this.addValuesInData(deepcopy(this.props.jsxdata));
             me.setState({
                 data: data
             });
             me.data = deepcopy(data);
-        }
-        else {
+        } else {
             //default will create one row
             let data = {
                 data: [{
@@ -310,7 +303,7 @@ class Table extends React.Component {
         }
 
     }
-    
+
 
     processColumn(props) {
 
@@ -328,7 +321,7 @@ class Table extends React.Component {
                 me.checkboxColumnKey = item.dataKey;
                 item.width = item.width || 46;
                 item.align = item.align || 'right';
-            } 
+            }
         });
 
 
@@ -339,14 +332,19 @@ class Table extends React.Component {
         });
 
         // if hidden is not set, then it's false
-        columns = columns.map((item,index) => {
+        columns = columns.map((item, index) => {
             item.hidden = !!item.hidden;
             return item;
         });
 
         if (!!props.rowSelection & !hasCheckboxColumn) {
             // console.warn("It will be deprecated that a checkbox(radio) in first column without column config, You should specify the column type with 'checkboxSelector' or 'radioSelector'");
-            me.checkboxColumn = { dataKey: 'jsxchecked', width: 46, type: props.rowSelector, align:'right'};
+            me.checkboxColumn = {
+                dataKey: 'jsxchecked',
+                width: 46,
+                type: props.rowSelector,
+                align: 'right'
+            };
             me.checkboxColumnKey = 'jsxchecked';
 
             columns = [me.checkboxColumn].concat(columns)
@@ -354,23 +352,39 @@ class Table extends React.Component {
 
         // no rowSelection but has parentHasCheckbox, render placeholder
         else if (!!props.parentHasCheckbox) {
-            columns = [{dataKey: 'jsxwhite', width: 46, type: 'empty'}].concat(columns);
+            columns = [{
+                dataKey: 'jsxwhite',
+                width: 46,
+                type: 'empty'
+            }].concat(columns);
         }
 
         // no rowSelection but has parentHasCheck, render placeholder
         else if (!!props.parentHasCheck) {
-            columns = [{dataKey: 'jsxwhite', width: 46, type: 'empty'}].concat(columns);
+            columns = [{
+                dataKey: 'jsxwhite',
+                width: 46,
+                type: 'empty'
+            }].concat(columns);
         }
 
 
 
-        if ( (!!props.subComp || !!props.renderSubComp) && props.renderModel !== 'tree') {
-            columns = [{dataKey: 'jsxtreeIcon', width: 34, type: 'treeIcon'}].concat(columns);
+        if ((!!props.subComp || !!props.renderSubComp) && props.renderModel !== 'tree') {
+            columns = [{
+                dataKey: 'jsxtreeIcon',
+                width: 34,
+                type: 'treeIcon'
+            }].concat(columns);
         }
         // no subComp but has passedData, means sub mode, parent should has tree icon,
         // render tree icon placeholder
         else if (!!props.passedData) {
-            columns = [{dataKey: 'jsxwhite', width: 34,type: 'empty'}].concat(columns);
+            columns = [{
+                dataKey: 'jsxwhite',
+                width: 34,
+                type: 'empty'
+            }].concat(columns);
         }
 
         return columns;
@@ -385,17 +399,14 @@ class Table extends React.Component {
                 item.columns.forEach((ele, idx) => {
                     if (checkedKeys.indexOf(ele.dataKey) !== -1) {
                         ele.hidden = false;
-                    }
-                    else {
+                    } else {
                         ele.hidden = true;
                     }
                 })
-            }
-            else {
+            } else {
                 if (checkedKeys.indexOf(item.dataKey) !== -1 || notRenderColumns.indexOf(item.dataKey) !== -1) {
                     item.hidden = false;
-                }
-                else {
+                } else {
                     item.hidden = true;
                 }
             }
@@ -403,7 +414,7 @@ class Table extends React.Component {
         this.setState({
             columns: _columns
         })
-        
+
     }
 
     /**
@@ -419,7 +430,7 @@ class Table extends React.Component {
         let _content = deepcopy(this.state.data);
         let _data = _content.datas || _content.data;
 
-        me.checkboxColumn.type == 'radioSelector' ? _data.map((item,index) => {
+        me.checkboxColumn.type == 'radioSelector' ? _data.map((item, index) => {
             if (item.jsxid == rowIndex) {
                 item[me.checkboxColumnKey] = checked;
                 return item;
@@ -427,14 +438,14 @@ class Table extends React.Component {
                 item[me.checkboxColumnKey] = false;
                 return item;
             }
-        }) : _data.map((item,index) => {
+        }) : _data.map((item, index) => {
             if (item.jsxid == rowIndex) {
                 item[me.checkboxColumnKey] = checked;
                 return item;
             }
         });
 
-        
+
         me.setState({
             data: _content
         }, () => {
@@ -456,24 +467,24 @@ class Table extends React.Component {
         let rowSelection = me.props.rowSelection;
 
         let selectedRows = [];
-        _data = _data.forEach((item,index) => {
+        _data = _data.forEach((item, index) => {
             let column = me.checkboxColumn;
             let key = me.checkboxColumnKey;
             if (!('isDisable' in column) || !column.isDisable(item)) {
-              item[key] = checked;
-              selectedRows.push(item);
+                item[key] = checked;
+                selectedRows.push(item);
             }
         });
 
-        if(!!rowSelection && !!rowSelection.onSelectAll) {
-            rowSelection.onSelectAll.apply(null,[checked, checked ? selectedRows : []])
+        if (!!rowSelection && !!rowSelection.onSelectAll) {
+            rowSelection.onSelectAll.apply(null, [checked, checked ? selectedRows : []])
         }
         me.setState({
             data: _content
         })
     }
 
-    onPageChange (current) {
+    onPageChange(current) {
         let me = this;
         me.setState({
             currentPage: current
@@ -496,21 +507,21 @@ class Table extends React.Component {
         let me = this;
         let {data, currentPage, pageSize} = me.state;
         let {showPagerTotal, showPager, locale} = me.props;
-        
+
         if (showPager && data && data.totalCount) {
             return (
                 <div className="kuma-uxtable-page">
                     <Pagination className="mini"
-                                locale={locale} 
-                                showSizeChanger={true}
-                                showTotal={showPagerTotal}
-                                total={data.totalCount} 
-                                onShowSizeChange={me.handleShowSizeChange.bind(me)}
-                                onChange={me.onPageChange.bind(me)} 
-                                current={currentPage} 
-                                pageSize={pageSize} />
+                locale={locale}
+                showSizeChanger={true}
+                showTotal={showPagerTotal}
+                total={data.totalCount}
+                onShowSizeChange={me.handleShowSizeChange.bind(me)}
+                onChange={me.onPageChange.bind(me)}
+                current={currentPage}
+                pageSize={pageSize} />
                 </div>
-            );
+                );
         }
     }
 
@@ -519,7 +530,7 @@ class Table extends React.Component {
         me.setState({
             activeColumn: column
         }, () => {
-           me.fetchData("order");
+            me.fetchData("order");
         })
 
     }
@@ -552,47 +563,52 @@ class Table extends React.Component {
             data.data = data.data.filter((item) => {
                 return item != undefined;
             });
-            return {data: data, pass: pass};
-        }
-        else {
-            return {data: me.state.data, pass: pass}
+            return {
+                data: data,
+                pass: pass
+            };
+        } else {
+            return {
+                data: me.state.data,
+                pass: pass
+            }
         }
     }
 
     hasFixColumn() {
         let props = this.props;
-        let _columns = props.jsxcolumns.filter( (item) =>{
+        let _columns = props.jsxcolumns.filter((item) => {
             if (item.fixed) {
                 return true
             }
         })
-        if(_columns.length > 0) {
+        if (_columns.length > 0) {
             return true;
         }
         return false
     }
 
     renderHeader(renderHeaderProps) {
- 
-      if(!this.props.showHeader) {
-         return ;
-      }
 
-      if(this.hasFixColumn() ){
-         return <div className="kuma-uxtable-header-wrapper">
+        if (!this.props.showHeader) {
+            return;
+        }
+
+        if (this.hasFixColumn()) {
+            return <div className="kuma-uxtable-header-wrapper">
                     <Header {...renderHeaderProps} fixedColumn='fixed' key="grid-header-fixed"/>
                     <Header {...renderHeaderProps} fixedColumn='scroll' key="grid-header-scroll"/>
                 </div>
-       }else {
-          return <div className="kuma-uxtable-header-wrapper">
+        } else {
+            return <div className="kuma-uxtable-header-wrapper">
                       <Header {...renderHeaderProps} fixedColumn="no" />
                   </div>
-       }
+        }
     }
 
     renderTbody(renderBodyProps, bodyHeight) {
-      
-       if (this.hasFixColumn()) {
+
+        if (this.hasFixColumn()) {
             let {subComp, ...fixedBodyProps} = renderBodyProps;
             return (
                 <div className="kuma-uxtable-body-wrapper" style={{
@@ -602,14 +618,13 @@ class Table extends React.Component {
                     <Tbody  {...renderBodyProps} fixedColumn='scroll' key="grid-body-scroll"/>
                 </div>
             )
-       }
-       else {
-          return <div className="kuma-uxtable-body-wrapper" style={{
-              height: bodyHeight
-          }}>
+        } else {
+            return <div className="kuma-uxtable-body-wrapper" style={{
+                    height: bodyHeight
+                }}>
               <Tbody  {...renderBodyProps} fixedColumn='no'/>
           </div>
-       }
+        }
     }
 
     render() {
@@ -639,57 +654,56 @@ class Table extends React.Component {
 
         if (props.height == 'auto') {
             bodyHeight = 'auto';
-        } 
-        else {
+        } else {
             bodyHeight = props.height == "100%" ? props.height : (props.height - headerHeight - actionBarHeight - pagerHeight);
         }
         let renderBodyProps = {
-            columns: this.state.columns,
-            data: this.state.data ? this.state.data.datas || this.state.data.data : [],
-            onModifyRow: props.onModifyRow ? props.onModifyRow : function(){},
-            rowSelection: props.rowSelection,
-            addRowClassName: props.addRowClassName,
-            subComp: props.subComp,
-            renderSubComp: props.renderSubComp,
-            mask: this.state.showMask,
-            changeSelected: this.changeSelected.bind(this),
-            rowHeight: this.props.rowHeight,
-            height: bodyHeight,
-            width: props.width,
-            root: this,
-            mode: props.mode,
-            renderModel: props.renderModel,
-            levels: props.levels,
-            handleDataChange: this.handleDataChange.bind(this),
-            attachCellField: this.attachCellField.bind(this),
-            detachCellField: this.detachCellField.bind(this),
-            key:'grid-body'
-        },
-        renderHeaderProps = {
-            columns:  this.state.columns,
-            activeColumn: this.state.activeColumn,
-            checkAll: this.selectAll.bind(this),
-            columnPicker: props.showColumnPicker,
-            showHeaderBorder: props.showHeaderBorder,
-            handleColumnPickerChange: this.handleColumnPickerChange.bind(this),
-            headerHeight: props.headerHeight,
-            width: props.width,
-            mode: props.mode,
-            orderColumnCB: this.handleOrderColumnCB.bind(this),
-            key:'grid-header'
+                columns: this.state.columns,
+                data: this.state.data ? this.state.data.datas || this.state.data.data : [],
+                onModifyRow: props.onModifyRow ? props.onModifyRow : function() {},
+                rowSelection: props.rowSelection,
+                addRowClassName: props.addRowClassName,
+                subComp: props.subComp,
+                renderSubComp: props.renderSubComp,
+                mask: this.state.showMask,
+                changeSelected: this.changeSelected.bind(this),
+                rowHeight: this.props.rowHeight,
+                height: bodyHeight,
+                width: props.width,
+                root: this,
+                mode: props.mode,
+                renderModel: props.renderModel,
+                levels: props.levels,
+                handleDataChange: this.handleDataChange.bind(this),
+                attachCellField: this.attachCellField.bind(this),
+                detachCellField: this.detachCellField.bind(this),
+                key: 'grid-body'
+            },
+            renderHeaderProps = {
+                columns: this.state.columns,
+                activeColumn: this.state.activeColumn,
+                checkAll: this.selectAll.bind(this),
+                columnPicker: props.showColumnPicker,
+                showHeaderBorder: props.showHeaderBorder,
+                handleColumnPickerChange: this.handleColumnPickerChange.bind(this),
+                headerHeight: props.headerHeight,
+                width: props.width,
+                mode: props.mode,
+                orderColumnCB: this.handleOrderColumnCB.bind(this),
+                key: 'grid-header'
 
-        };
+            };
 
         let actionBar;
-        
 
-        if(props.actionBar || props.showSearch) {
-            let renderActionProps={
+
+        if (props.actionBar || props.showSearch) {
+            let renderActionProps = {
                 onSearch: this.handleActionBarSearch.bind(this),
                 actionBarConfig: this.props.actionBar,
                 showSearch: this.props.showSearch,
                 searchBarPlaceholder: this.props.searchBarPlaceholder,
-                key:'grid-actionbar'
+                key: 'grid-actionbar'
             };
             actionBar = <ActionBar {...renderActionProps}/>
         }
@@ -701,15 +715,15 @@ class Table extends React.Component {
             })} style={_style}>
                 {actionBar}
                 <div className="kuma-uxtable-content" style={{
-                    width: !!props.passedData ? "auto" : props.width
-                }}>
+                width: !!props.passedData ? "auto" : props.width
+            }}>
                    {this.renderHeader(renderHeaderProps)}
-                   {this.renderTbody(renderBodyProps,bodyHeight)}
+                   {this.renderTbody(renderBodyProps, bodyHeight)}
                 </div>
                 {this.renderPager()}
             </div>
-            
-        );
+
+            );
 
     }
 
@@ -723,8 +737,8 @@ class Table extends React.Component {
     addJSXIdsForRecord(objAux) {
         let me = this;
         if (objAux instanceof Array) {
-            objAux = objAux.map((item) => { 
-                if (item.jsxid == undefined || item.jsxid == null){
+            objAux = objAux.map((item) => {
+                if (item.jsxid == undefined || item.jsxid == null) {
                     item.jsxid = me.uid++;
                 }
                 if (!item.__mode__) {
@@ -732,9 +746,8 @@ class Table extends React.Component {
                 }
                 return item;
             });
-        }
-        else {
-           objAux.jsxid = me.uid++;
+        } else {
+            objAux.jsxid = me.uid++;
         }
         return objAux;
     }
@@ -745,7 +758,7 @@ class Table extends React.Component {
      */
 
     addValuesInData(objAux) {
-        if ( !objAux || (!objAux.datas && !objAux.data)) return;
+        if (!objAux || (!objAux.datas && !objAux.data)) return;
         let me = this;
         let data = objAux.datas || objAux.data;
         data.forEach(function(node) {
@@ -756,9 +769,9 @@ class Table extends React.Component {
         return objAux;
     }
 
-   /**
-    * merge data
-    */
+    /**
+     * merge data
+     */
 
     mergeData(data, obj) {
         let newData = deepcopy(data);
@@ -766,19 +779,18 @@ class Table extends React.Component {
         // code compatible
         if (!!newData.datas) {
             newData.datas = newData.datas.concat(obj);
-        }
-        else if (!!newData.data) {
+        } else if (!!newData.data) {
             newData.data = newData.data.concat(obj);
         }
         newData.totalCount++
         return newData;
     }
 
-    
-   /**
-    * insert some data into this.state.data
-    * @param objAux {Array or Object} datum or data need to be inserted
-    */
+
+    /**
+     * insert some data into this.state.data
+     * @param objAux {Array or Object} datum or data need to be inserted
+     */
 
     insertRecords(objAux) {
         if (typeof objAux !== "object") return;
@@ -795,9 +807,9 @@ class Table extends React.Component {
         });
     }
 
-   /**
-    * @param {objAux} {a:'b',c:'d',jsxid:''}
-    */
+    /**
+     * @param {objAux} {a:'b',c:'d',jsxid:''}
+     */
     updateRecord(objAux, cb) {
         let _data = this.state.data;
 
@@ -808,23 +820,21 @@ class Table extends React.Component {
         if (_data.data || _data.datas) {
             let data = _data.data || _data.datas
 
-            data = data.map((item) => { 
+            data = data.map((item) => {
                 if (item.jsxid == objAux.jsxid) {
                     return objAux;
-                }
-                else {
+                } else {
                     return item;
                 }
             });
             if (!!_data.data) {
                 _data.data = data
-            }
-            else if (!!_data.datas) {
+            } else if (!!_data.datas) {
                 _data.datas = data;
             }
         }
         this.setState({
-          data: _data
+            data: _data
         }, () => {
             !!cb && cb();
         })
@@ -852,7 +862,7 @@ class Table extends React.Component {
     }
 
     removeRecords(objAux) {
-      
+
         //at least one record
         let me = this;
         let content = this.state.data;
@@ -946,13 +956,12 @@ class Table extends React.Component {
         let _content = deepcopy(this.state.data);
         let _data = _content.data || _content.datas;
 
-        if(_data) {
-            _data = _data.map((item) => { 
+        if (_data) {
+            _data = _data.map((item) => {
                 if (item.jsxid == rowData.jsxid) {
-                    item.showSubComp= !item.showSubComp;
+                    item.showSubComp = !item.showSubComp;
                     return item;
-                }
-                else {
+                } else {
                     return item;
                 }
             });
@@ -962,7 +971,8 @@ class Table extends React.Component {
         })
     }
 
-};
+}
+;
 
 Table.defaultProps = {
     jsxprefixCls: "kuma-uxtable",
@@ -991,11 +1001,18 @@ Table.defaultProps = {
     queryKeys: [],
     emptyText: "暂无数据",
     searchBarPlaceholder: "搜索表格内容",
-    processData: (data) => {return data},
-    beforeFetch: (obj) => {return obj},
-    onFetchError: () => {},
-    addRowClassName: () => {},
-    onChange: () => {},
+    processData: (data) => {
+        return data
+    },
+    beforeFetch: (obj) => {
+        return obj
+    },
+    onFetchError: () => {
+    },
+    addRowClassName: () => {
+    },
+    onChange: () => {
+    },
 }
 
 // http://facebook.github.io/react/docs/reusable-components.html

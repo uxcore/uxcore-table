@@ -32,8 +32,7 @@ class ActionBar extends React.Component {
         }
         if (!!item.render && typeof item.render == "function") {
             return <div {...itemProps}>{item.render(item.title)}</div>
-        }
-        else {
+        } else {
             return <Button type="secondary" size="medium" {...itemProps}>{item.title}</Button>
         }
     }
@@ -43,7 +42,7 @@ class ActionBar extends React.Component {
             let me = this;
             let searchBarProps = {
                 onSearch: me.handleSearch.bind(me),
-                key:'searchbar',
+                key: 'searchbar',
                 placeholder: me.props.searchBarPlaceholder
             };
             return <SearchBar {...searchBarProps}/>;
@@ -57,24 +56,23 @@ class ActionBar extends React.Component {
         let items = [];
         if (config instanceof Array) {
             items = config;
-        }
-        else if (typeof config == "object") {
+        } else if (typeof config == "object") {
             for (let item in config) {
-                if(config.hasOwnProperty(item)) {
+                if (config.hasOwnProperty(item)) {
                     items.push({
                         title: item,
                         callback: config[item]
                     });
                 }
             }
-            
+
         }
         return items;
     }
 
     render() {
         let me = this,
-            _props = this.props, 
+            _props = this.props,
             _barConfig = _props.actionBarConfig;
 
         return (
@@ -83,16 +81,17 @@ class ActionBar extends React.Component {
                 "fn-clear": true
             })}>
                 {me.getActionItem(_barConfig).map((item, index) => {
-                    return me.renderActionBtn(item, index)
-                })}
+                return me.renderActionBtn(item, index)
+            })}
                 {me.renderSearchBar()}
             </div>
         );
     }
 
-};
+}
+;
 
-ActionBar.propTypes= {
+ActionBar.propTypes = {
 };
 
 ActionBar.defaultProps = {
