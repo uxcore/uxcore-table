@@ -71,7 +71,8 @@ class Demo extends React.Component {
                 dataKey: 'city',
                 title: '城市',
                 width: 150,
-                ordered: true
+                ordered: true,
+                message: '都是中国城市'
             },
             {
                 dataKey: 'firstName',
@@ -107,7 +108,8 @@ class Demo extends React.Component {
                     title: 'view',
                     callback: function() {
                         alert('view')
-                    }
+                    },
+                    mode: 'edit'
                 }, {
                     title: 'view',
                     callback: function() {
@@ -123,14 +125,14 @@ class Demo extends React.Component {
                 }
             }
         ]
-        let fetchUrl = './demo/GridDemoData.json';
+        let fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
         let renderProps = {
             actionColumn: {
                 'edit': function() {},
                 'del': function() {}
             },
             actionBar: {
-                'action button': function(type, table) {
+                'Action Button': function(type, table) {
                     alert(type);
                 }
             },
@@ -141,6 +143,9 @@ class Demo extends React.Component {
             rowSelection: rowSelection,
             renderSubComp: function() {
                 return <div>1</div>
+            },
+            addRowClassName: function(rowData) {
+                return 'multiline';
             }
         };
         return (<Table {...renderProps}  ref="grid"/>);

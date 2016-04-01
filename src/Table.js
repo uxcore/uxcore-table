@@ -185,11 +185,14 @@ class Table extends React.Component {
 
         // column order
         let activeColumn = me.state.activeColumn;
+        let orderType = me.state.orderType;
         if (!!activeColumn) {
             queryObj = assign({}, queryObj, {
-                orderColumn: activeColumn.dataKey,
-                orderType: activeColumn.orderType
-            })
+                orderColumn: activeColumn.dataKey
+            });
+            if (!!orderType && orderType != 'none') {
+                queryObj.orderType = orderType;
+            }
         }
 
         // search query
@@ -528,7 +531,8 @@ class Table extends React.Component {
     handleOrderColumnCB(type, column) {
         let me = this;
         me.setState({
-            activeColumn: column
+            activeColumn: column,
+            orderType: type
         }, () => {
             me.fetchData("order");
         })
@@ -682,6 +686,7 @@ class Table extends React.Component {
             renderHeaderProps = {
                 columns: this.state.columns,
                 activeColumn: this.state.activeColumn,
+                orderType: this.state.orderType,
                 checkAll: this.selectAll.bind(this),
                 columnPicker: props.showColumnPicker,
                 showHeaderBorder: props.showHeaderBorder,

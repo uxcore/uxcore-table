@@ -14,7 +14,6 @@ class CellField extends React.Component {
 
     }
 
-
     componentDidMount() {
         let me = this;
         me.props.attachCellField(me.validate.bind(this), me.getName());

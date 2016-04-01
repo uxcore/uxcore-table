@@ -15,6 +15,7 @@
     position: relative;
     color: #666;
     table-layout: fixed;
+    
 }
 
 .@{uxtable-prefix}-content {
@@ -57,7 +58,6 @@
 .@{uxtable-prefix}-body-emptyword {
     text-align: center;
     vertical-align: middle;
-    line-height: 100px;
 }
 
 .@{uxtable-prefix}-row {
@@ -66,7 +66,6 @@
     white-space: nowrap;
     // border-top: 1px solid @table-border;
     border-bottom: none;
-    line-height: 40px;
     .@{uxtable-prefix}-row-cells:hover {
         background-color: @brand-primary-lighter;
     }
@@ -91,15 +90,20 @@
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
-    height:100%;
+    height: 100%;
     padding: 0 0 0 20px;
     vertical-align: top;
     position: relative;
     word-break:break-all;
-    line-height:50px;
     height: 50px;
+    line-height: 50px;
+    .kuma-icon-information {
+        color: @text-thirdary-color;
+        -webkit-text-stroke-width: 0;
+        font-size: 14px;
+        margin-left: 4px;
+    }
     & > div {
-        line-height: 50px;
         display: inline-block;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -132,6 +136,18 @@
     }
 }
 
+.@{uxtable-prefix}-row.multiline {
+    .@{uxtable-prefix}-cell {
+        height: auto;
+        min-height: 50px;
+        line-height: inherit;
+        & > div {
+            white-space: normal;
+            height: auto;
+        }
+    }
+}
+
 .@{uxtable-prefix}-cell-field {
     &.hasError {
         .kuma-input {
@@ -142,10 +158,11 @@
 
 
 .@{uxtable-prefix}-header .@{uxtable-prefix}-cell > div{
-   overflow : visible;
+    overflow : visible;
+    
 }
 
-.@{uxtable-prefix}-colmnpicker {
+.@{uxtable-prefix}-columnpicker {
     max-width: 400px;
     max-height: 300px;
     overflow-y: auto;
@@ -175,7 +192,6 @@
     font-weight: normal;
     background: @table-header-bg;
     &.hasGroup {
-        line-height: 80px;
         .@{uxtable-prefix}-colmnpicker {
             top: 50px;
         }
@@ -188,7 +204,6 @@
 
 .@{uxtable-prefix}-tree-icon{
     cursor:pointer;
-    // margin-right:4px;
     > .kuma-icon {
         font-size: 14px;
         color: #999999;
@@ -220,41 +235,21 @@
 
 .@{uxtable-prefix}-h-sort{
     position:relative;
-    top: -2px;
-    margin-left: 4px;
-    i {
-        cursor: pointer;
-        width: 0;
-        height: 0;
-        // border-width: 6px 5px;
-        border-style: solid;
-        position: absolute;
-        &.sort-up {
-            border-color: transparent transparent #aab2be;
-            bottom: 6px;
-            left: 2px;
+    vertical-align: top;
+    color: @gray-light;
+    .kuma-icon {
+        font-size: 13px;
+        &.active {
+            color: @brand-primary;
         }
-
-        &.sort-up-active {
-            border-color: transparent transparent @brand-primary;
-            bottom: 6px;
-            left: 2px;
-        }
-
-        &.sort-down {
-            border-color: #aab2be transparent transparent;
-            bottom: -9px;
-            left: 2px;
-        }
-
-
-        &.sort-down-active {
-            border-color: @brand-primary transparent transparent;
-            bottom: -9px;
-            left: 2px;
-        }
+        -webkit-text-stroke-width: 0;
+    }
+    .kuma-icon-iconfontdown {
+        margin-left: -7px;
     }
 }
+
+
 
 .action-container {
     .action{

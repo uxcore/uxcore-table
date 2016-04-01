@@ -16,55 +16,29 @@ $ npm install
 $ gulp server
 ```
 
-## Best Practice
+## API
 
-```javascript
+### 行内编辑用 
 
-	let columns = [
-        { dataKey: 'check', type: 'checkbox', disable: false}, // custom checkbox column, dataKey can be anyone, true means checked.
-	    { dataKey: 'id', title: 'ID', width: 50,hidden:true},
-	    { dataKey: 'country', title:'国家', width: 200,ordered:true},
-	    { dataKey: 'city',title:'城市', width: 150,ordered:true },
-	    { dataKey: 'firstName',title:"FristName" },  
-	    { dataKey: 'lastName' ,title:"LastName"},
-	    { dataKey: 'email',title:"Email",width: 200,ordered:true }
-	];
+* getData(): 返回表格的数据，并作校验。
+* addEmptyRow(): 添加一个空的新行。
+* addRow(rowData): 以指定数据添加一个新行。
+* delRow(rowData): 删除一个新行。
+* editRow(rowData): 使指定的行切换到编辑模式。
+* editAllRow(): 使所有行切换到编辑模式。
+* viewRow(rowData): 使指定的行切换到查看模式。
+* saveRow(rowData): 保存行的数据(同时切换至查看模式)。
+* saveAllRow(): 保存所有行的数据(同时切换至查看模式)。
+* resetRow(rowData): 重置行到数据（若保存过，则为保存过后的数据）。
 
+### 获取数据
 
-	let rowSelection = {
-      onSelect: function(record, selected, selectedRows) {
-        console.log(record, selected, selectedRows);
-      },
-      onSelectAll: function(record, data) {
-        console.log(record, data);
-      }
-    };
+* fetchData(from): 使表格重新请求一次数据。
+    * @param from {string} {optional}: 这个参数会传入到 beforeFetch 的回调中。
 
-	renderProps={
-        actionBar: {
-           'new': function(type, actions){ alert(type); },  // type means 'new' in this line
-           'import': function(type, actions){ alert(type); }, // actions contains all table's APIs, such as actions.addEmptyRow()
-           'export': function(type, actions){ alert(type); }
-        },
-        fetchUrl:"http://localhost:3000/demo/data.json",
-        jsxcolumns:columns,
-        renderSubComp: (rowData) => {
-            if (/wsj/.test(rowData.email)) return false;
-            return <Table {...renderSubProps} passedData={rowData} parentHasCheckbox={true}/>
-        },
-        rowSelection: rowSelection
-	},
-	
-	renderSubProps={
-        jsxcolumns:columns,
-        fetchUrl:"http://localhost:3000/demo/data.json",
-        queryKeys:["dataKey","firstName"],
-        onModifyRow: this.onModifyRow
-	};
+### 其他
 
-	<Table {...renderProps} />
-
-```
+* toggleSubComp(rowData): 使指定的行显示或隐藏二级组件(subComp)。
 
 
 
@@ -328,26 +302,15 @@ actions: [
 ]
 ```
 
-## API
+### 对于多行的支持
 
-### 行内编辑用 
+> 正常情况下，Table 中每个单元格按照一行缩略的方式展示，根据业务需要，有时可能需要展示多行，对此，Table 通过 prop `addRowClassName` 配合专属类名 `multiline` 来实现。示例如下：
 
-* getData(): 返回表格的数据，并作校验。
-* addEmptyRow(): 添加一个空的新行。
-* addRow(rowData): 以指定数据添加一个新行。
-* delRow(rowData): 删除一个新行。
-* editRow(rowData): 使指定的行切换到编辑模式。
-* editAllRow(): 使所有行切换到编辑模式。
-* viewRow(rowData): 使指定的行切换到查看模式。
-* saveRow(rowData): 保存行的数据(同时切换至查看模式)。
-* saveAllRow(): 保存所有行的数据(同时切换至查看模式)。
-* resetRow(rowData): 重置行到数据（若保存过，则为保存过后的数据）。
+```
+addRowClassName: function(rowData) {
+    return 'multiline';
+}
+```
 
-### 获取数据
+> 需要注意：当配置为 multiline 时，用户需自己处理上下间距的问题，处理的方式应为在 multiline 或其他专属类名作用域下进行设置，避免影响其他非 multiline 设置的行。
 
-* fetchData(from): 使表格重新请求一次数据。
-    * @param from {string} {optional}: 这个参数会传入到 beforeFetch 的回调中。
-
-### 其他
-
-* toggleSubComp(rowData): 使指定的行显示或隐藏二级组件(subComp)。

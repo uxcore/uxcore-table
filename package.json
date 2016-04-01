@@ -65,6 +65,7 @@
     "uxcore-formatter": "~0.1.2",
     "uxcore-menu": "^1.1.1",
     "uxcore-pagination": "~0.1.0",
+    "uxcore-popover": "~0.2.4",
     "uxcore-radiogroup": "~1.1.1",
     "uxcore-select2": "~0.1.4",
     "uxcore-tree": "~0.1.8",

@@ -231,14 +231,14 @@ class Cell extends React.Component {
             let menu = <Menu>
                 {actions.slice(1).map((action, index) => {
                     return <Menu.Item key={index}>
-                                    <a href="javascript:void(0);" className="action" key='action' onClick={me.handleActionClick.bind(me, action.callback.bind(me, rowData, me.props.root))}>
-                                        {!!action.render ? action.render(action.title, me.props.rowData) : action.title}
-                                    </a>
-                                </Menu.Item>
+                                <a href="javascript:void(0);" className="action" key='action' onClick={me.handleActionClick.bind(me, action.callback.bind(me, rowData, me.props.root))}>
+                                    {!!action.render ? action.render(action.title, me.props.rowData) : action.title}
+                                </a>
+                            </Menu.Item>
                 })}
                 </Menu>;
             arr.push(
-                <i  className="kuma-icon kuma-icon-triangle-down"></i>
+                <i  className="kuma-icon kuma-icon-triangle-down" key="icon"></i>
             )
             return <Dropdown key="icon" overlay={menu} trigger={["click"]}><span>{arr}</span></Dropdown>;
 
