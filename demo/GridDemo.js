@@ -148,7 +148,12 @@ class Demo extends React.Component {
                 return 'multiline';
             }
         };
-        return (<Table {...renderProps}  ref="grid"/>);
+        return (
+            <div>
+                <i className="kuma-icon kuma-icon-iconfontup"></i>
+                <Table {...renderProps}  ref="grid"/>
+            </div>
+        );
     }
 }
 ;

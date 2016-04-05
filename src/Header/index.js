@@ -63,8 +63,8 @@ class Header extends React.Component {
 
     }
 
-    handlePickerCheck(info) {
-        this.props.handleColumnPickerChange(info.checkedKeys)
+    handlePickerCheck(checkedKeys) {
+        this.props.handleColumnPickerChange(checkedKeys)
     }
 
     getCheckedKeys() {
@@ -177,7 +177,7 @@ class Header extends React.Component {
 
     renderMessageIcon(column) {
         if (!column.message) return;
-        return <Popover overlay={column.message}>
+        return <Popover overlay={<div className="kuma-uxtable-column-message">{column.message}</div>}>
             <i className="kuma-icon kuma-icon-information"></i>
         </Popover>
     }

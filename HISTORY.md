@@ -2,6 +2,10 @@
 
 ---
 
+# 1.4.0
+
+* `CHANGED` new style 
+
 # 1.3.20
 
 * `NEW` add new prop `rowSelector` to support radio row selector
