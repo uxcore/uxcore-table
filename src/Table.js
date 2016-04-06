@@ -322,7 +322,7 @@ class Table extends React.Component {
                 hasCheckboxColumn = true;
                 me.checkboxColumn = item;
                 me.checkboxColumnKey = item.dataKey;
-                item.width = item.width || 46;
+                item.width = item.width || 32;
                 item.align = item.align || 'right';
             }
         });
@@ -344,7 +344,7 @@ class Table extends React.Component {
             // console.warn("It will be deprecated that a checkbox(radio) in first column without column config, You should specify the column type with 'checkboxSelector' or 'radioSelector'");
             me.checkboxColumn = {
                 dataKey: 'jsxchecked',
-                width: 46,
+                width: 32,
                 type: props.rowSelector,
                 align: 'right'
             };

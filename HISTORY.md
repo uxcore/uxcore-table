@@ -2,6 +2,10 @@
 
 ---
 
+# 1.4.2
+
+* `FIX` fix the checkbox column margin & action bar button style
+
 # 1.4.1
 
 * `FIX` fix the action menu won't disappear when clicked.

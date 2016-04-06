@@ -141,7 +141,7 @@ class Cell extends React.Component {
                  </div>
         } else if (_column.type == 'checkbox' || _column.type == 'checkboxSelector') {
 
-            _style.paddingRight = 18;
+            _style.paddingRight = 4;
             _style.paddingLeft = 12;
 
             let checked;
@@ -160,7 +160,7 @@ class Cell extends React.Component {
             _v = <CheckBox disable={disable} mode={props.mode} align={props.align} jsxchecked={checked} ref="checkbox" onchange={me.handleCheckChange.bind(me)}/>
 
         } else if (_column.type == 'radioSelector') {
-            _style.paddingRight = 18;
+            _style.paddingRight = 4;
             _style.paddingLeft = 12;
 
             let checked;

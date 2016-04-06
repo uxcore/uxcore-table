@@ -6,7 +6,7 @@
  * All rights reserved.
  */
 
- // var Demo = require('./GridDemo');
+ var Demo = require('./GridDemo');
  
  var Demo2 = require('./GridEditDemo');
  // var Demo3 = require('./TreeGridDemo');
@@ -14,7 +14,7 @@
  
 
 
-// ReactDOM.render(<Demo />, document.getElementById('UXCoreDemo'));
+ReactDOM.render(<Demo />, document.getElementById('UXCoreDemo'));
 
 ReactDOM.render(<Demo2 />, document.getElementById('UXCoreDemo2'));
 // ReactDOM.render(<Demo3/>, document.getElementById('UXCoreDemo3'));

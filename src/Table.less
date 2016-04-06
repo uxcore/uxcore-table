@@ -74,7 +74,12 @@
         border-top: none;
     }
     &.even {
-        background-color: @basic-200;
+        .@{uxtable-prefix}-row-cells {
+            background-color: @basic-200;
+            &:hover {
+                background-color: @brand-primary-lighter;
+            }
+        }
     }
 }
 

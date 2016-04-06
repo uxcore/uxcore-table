@@ -33,7 +33,7 @@ class ActionBar extends React.Component {
         if (!!item.render && typeof item.render == "function") {
             return <div {...itemProps}>{item.render(item.title)}</div>
         } else {
-            return <Button type="secondary" size="medium" {...itemProps}>{item.title}</Button>
+            return <Button type="outline" size="medium" {...itemProps}>{item.title}</Button>
         }
     }
 
