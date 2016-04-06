@@ -57,6 +57,13 @@ class Cell extends React.Component {
         me.props.changeSelected(e.target.checked, _props.rowIndex, false);
     }
 
+    handleDropdownVisibleChange(visible) {
+        let me = this;
+        me.setState({
+            dropdownVisible: visible
+        });
+    }
+
     showSubComp() {
         this.props.showSubCompCallback.apply();
     }
@@ -107,6 +114,10 @@ class Cell extends React.Component {
 
     handleActionClick(cb, e) {
         e.stopPropagation();
+        let me = this;
+        me.setState({
+            dropdownVisible: false
+        })
         cb && cb();
     }
 
@@ -236,11 +247,18 @@ class Cell extends React.Component {
                                 </a>
                             </Menu.Item>
                 })}
-                </Menu>;
+            </Menu>;
             arr.push(
                 <i  className="kuma-icon kuma-icon-triangle-down" key="icon"></i>
             )
-            return <Dropdown key="icon" overlay={menu} trigger={["click"]}><span>{arr}</span></Dropdown>;
+            let dropdownOptions = {
+                key: 'icon',
+                overlay: menu,
+                trigger: ['click'],
+                visible: me.state.dropdownVisible,
+                onVisibleChange: me.handleDropdownVisibleChange.bind(me)
+            }
+            return <Dropdown {...dropdownOptions}><span>{arr}</span></Dropdown>;
 
         }
     }

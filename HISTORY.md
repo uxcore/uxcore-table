@@ -2,6 +2,10 @@
 
 ---
 
+# 1.4.1
+
+* `FIX` fix the action menu won't disappear when clicked.
+
 # 1.4.0
 
 * `CHANGED` new style 
