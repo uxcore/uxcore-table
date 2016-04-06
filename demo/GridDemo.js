@@ -144,9 +144,9 @@ class Demo extends React.Component {
             renderSubComp: function() {
                 return <div>1</div>
             },
-            addRowClassName: function(rowData) {
-                return 'multiline';
-            }
+            // addRowClassName: function(rowData) {
+            //     return 'multiline';
+            // }
         };
         return (
             <div>
