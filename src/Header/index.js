@@ -5,7 +5,7 @@ let CheckBox = require('../Cell/CheckBox');
 let assign = require('object-assign');
 let Const = require('uxcore-const');
 let Tree = require('uxcore-tree');
-let Popover = require('uxcore-popover');
+let Tooltip = require('uxcore-tooltip');
 let classnames = require('classnames');
 let {TreeNode} = Tree;
 
@@ -177,9 +177,9 @@ class Header extends React.Component {
 
     renderMessageIcon(column) {
         if (!column.message) return;
-        return <Popover overlay={<div className="kuma-uxtable-column-message">{column.message}</div>}>
+        return <Tooltip overlay={<div className="kuma-uxtable-column-message">{column.message}</div>}>
             <i className="kuma-icon kuma-icon-information"></i>
-        </Popover>
+        </Tooltip>
     }
 
     renderColumn(item, index, hasGroup, last) {

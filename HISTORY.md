@@ -2,6 +2,10 @@
 
 ---
 
+# 1.4.3
+
+* `CHANGED` change popover to tooltip
+
 # 1.4.2
 
 * `FIX` fix the checkbox column margin & action bar button style
