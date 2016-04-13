@@ -134,7 +134,7 @@ gulp.task('publish', ['pack_build'], function() {
                 message: 'please enter the package version to publish (should be xx.xx.xx)',
                 default: pkg.version,
                 validate: function(input) {
-                    if (/\d+\.\d+\.\d+/.test(input)) {
+                    if (/^\d+\.\d+\.\d+$/.test(input)) {
                         if (versionCompare(input, pkg.version)) {
                             return true;
                         }
