@@ -1,5 +1,6 @@
+@__tableMaskPrefixCls: kuma-uxmask;
 
-.kuma-uxmask {
+.@{__tableMaskPrefixCls} {
 	position: absolute;
     width: 100%;
     height: 100%;
@@ -9,25 +10,36 @@
     z-index: 100;
     left: 0px;
     top: 0px;
-    opacity:.2;
-    filter: "alpha(opacity=20)";  
+    opacity:.3;
+    filter: "alpha(opacity=30)";  
     display:block;
 }
 
-.kuma-uxmask-hide {
+.@{__tableMaskPrefixCls}-hide {
     display:none;
 }
 
-.kuma-uxmask-centerblk {
+.@{__tableMaskPrefixCls}-centerblk {
 	color: #fff;
 	font-size: 14px;
 	text-align: center;
     width: 100%;
     height: 100%;
+    .kuma-loading {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    &::after {
+      content: '';  
+      height: 50%;  
+      display:inline-block;
+    }
 }
 
-.kuma-uxmask-centerblk:after {
-  content: '';  
-  height: 50%;  
-  display:inline-block;
+.@{__tableMaskPrefixCls}-text {
+    vertical-align: middle;
+    font-size: 14px;
+    line-height: 36px;
+    display: inline-block;
+    margin-left: 5px;
 }

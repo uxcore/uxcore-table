@@ -2,6 +2,10 @@
 
 ---
 
+# 1.4.4
+
+* `NEW` add new prop `loadingText`
+
 # 1.4.3
 
 * `CHANGED` change popover to tooltip

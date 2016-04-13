@@ -29,7 +29,6 @@ class Tbody extends React.Component {
         let me = this;
         me.resizeTimer = null;
         $(me.rootEl).off("scroll", me.scrollHandler);
-
     }
 
     renderEmptyData() {
@@ -38,7 +37,9 @@ class Tbody extends React.Component {
             let _style = {
                 lineHeight: this.props.height - 10 + "px",
             }
-            return (<div className="kuma-uxtable-body-emptyword" style={_style}>{this.props.root.props.emptyText}</div>);
+            return (<div className="kuma-uxtable-body-emptyword" style={_style}>
+                      {this.props.root.props.emptyText}
+                    </div>);
         }
     }
 
@@ -69,8 +70,6 @@ class Tbody extends React.Component {
                 scrollTop: $tableEl.find('.kuma-uxtable-body-fixed').scrollTop()
             }, 0)
         }
-
-
     }
 
     render() {
@@ -126,44 +125,41 @@ class Tbody extends React.Component {
             bodyWrapClassName = "kuma-uxtable-body-no";
         }
         return (
-            <div className={bodyWrapClassName}  ref="root" style={_style} > 
-              <ul className={this.props.jsxprefixCls} >
-                  {this.renderEmptyData()}
-                  {_data.map(function(item, index) {
-                      let renderProps = {
-                          columns: _columns,
-                          rowIndex: item.jsxid, //tree mode, rowIndex need think more, so use jsxid
-                          rowData: deepcopy(_data[index]),
-                          index: index,
-                          data: _data,
-                          root: _props.root,
-                          addRowClassName: _props.addRowClassName,
-                          rowSelection: _props.rowSelection,
-                          changeSelected: me.props.changeSelected,
-                          subComp: _props.subComp,
-                          renderSubComp: _props.renderSubComp,
-                          actions: _props.actions,
-                          key: 'row' + index,
-                          mode: _props.mode,
-                          renderModel: _props.renderModel,
-                          fixedColumn: _props.fixedColumn,
-                          level: 1,
-                          levels: _props.levels,
-                          handleDataChange: _props.handleDataChange,
-                          attachCellField: _props.attachCellField,
-                          detachCellField: _props.detachCellField,
-                          visible: true
-                      };
-                      return <Row {...renderProps} />
-                  })}
-                  <Mask visible={_props.mask}/>
+            <div className={bodyWrapClassName} ref="root" style={_style}>
+              <ul className={this.props.jsxprefixCls}>
+                {this.renderEmptyData()}
+                {_data.map(function(item, index) {
+                     let renderProps = {
+                         columns: _columns,
+                         rowIndex: item.jsxid, //tree mode, rowIndex need think more, so use jsxid
+                         rowData: deepcopy(_data[index]),
+                         index: index,
+                         data: _data,
+                         root: _props.root,
+                         addRowClassName: _props.addRowClassName,
+                         rowSelection: _props.rowSelection,
+                         changeSelected: me.props.changeSelected,
+                         subComp: _props.subComp,
+                         renderSubComp: _props.renderSubComp,
+                         actions: _props.actions,
+                         key: 'row' + index,
+                         mode: _props.mode,
+                         renderModel: _props.renderModel,
+                         fixedColumn: _props.fixedColumn,
+                         level: 1,
+                         levels: _props.levels,
+                         handleDataChange: _props.handleDataChange,
+                         attachCellField: _props.attachCellField,
+                         detachCellField: _props.detachCellField,
+                         visible: true
+                     };
+                     return <Row {...renderProps} />
+                 })}
+                <Mask visible={_props.mask} text={_props.loadingText}/>
               </ul>
             </div>
             );
     }
-
-
-
 }
 ;
 

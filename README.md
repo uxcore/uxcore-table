@@ -62,6 +62,7 @@ $ gulp server
 |locale              |string              |optional  |zh-cn       | 1.3.17    |国家化，目前支持 zh-cn/en-us|
 |emptyText           |string or element   |optional  |"暂无数据"   | -         |当没有数据时 Table 展示的文案|
 |searchBarPlaceholder|string              |optional  |"搜索表格内容"| 1.3.0     |searchBar 的占位符|
+|loadingText         |string              |optional  |"loading"   | 1.4.4     |加载数据时的文案|
 |headerHeight        |number              |optional  |40          | -         |表格头部的高度|
 |pageSize            |number              |optional  |10          | -         |每页显示多少条数据|
 |queryKeys           |array               |optional  |[]          | -         |有哪些数据会传递给 subComp|

@@ -16,26 +16,29 @@ class Mask extends React.Component {
 
     render() {
 
-        let props = this.props,
-            visible = props.visible,
-            loadTips = props.tips ? props.tips : "Loading...";
-        let _className = classnames({
-            [props.jsxprefixCls]: true,
-            [props.jsxprefixCls + "-hide"]: !visible
-        })
-        return (<div className={_className}>
-            <div className={`${props.jsxprefixCls}-centerblk`}><span>{loadTips}</span></div>
-        </div>);
+        let props = this.props;
+        let {visible, text} = props;
+        let className = classnames({
+            [props.prefixCls]: true,
+            [props.prefixCls + "-hide"]: !visible
+        });
+        return (<div className={className}>
+                  <div className={`${props.prefixCls}-centerblk`}>
+                    <span className="kuma-loading"></span>
+                    <span className={`${props.prefixCls}-text`}>{text}</span>
+                  </div>
+                </div>);
     }
 
 }
-;
 
 Mask.propTypes = {
+    prefixCls: React.PropTypes.string
 };
 
 Mask.defaultProps = {
-    jsxprefixCls: "kuma-uxmask"
+    prefixCls: "kuma-uxmask",
+    text: '加载中'
 };
 
 export default Mask;

@@ -77,7 +77,6 @@ class Table extends React.Component {
             newData['columns'] = me.processColumn(nextProps)
         }
         me.setState(newData);
-
     }
 
     componentWillUnmount() {
@@ -116,8 +115,6 @@ class Table extends React.Component {
                 pass: pass
             });
         })
-
-
     }
 
     /**
@@ -304,7 +301,6 @@ class Table extends React.Component {
                 "data": deepcopy(data)
             })
         }
-
     }
 
 
@@ -417,7 +413,6 @@ class Table extends React.Component {
         this.setState({
             columns: _columns
         })
-
     }
 
     /**
@@ -514,15 +509,8 @@ class Table extends React.Component {
         if (showPager && data && data.totalCount) {
             return (
                 <div className="kuma-uxtable-page">
-                    <Pagination className="mini"
-                locale={locale}
-                showSizeChanger={true}
-                showTotal={showPagerTotal}
-                total={data.totalCount}
-                onShowSizeChange={me.handleShowSizeChange.bind(me)}
-                onChange={me.onPageChange.bind(me)}
-                current={currentPage}
-                pageSize={pageSize} />
+                  <Pagination className="mini" locale={locale} showSizeChanger={true} showTotal={showPagerTotal} total={data.totalCount} onShowSizeChange={me.handleShowSizeChange.bind(me)}
+                    onChange={me.onPageChange.bind(me)} current={currentPage} pageSize={pageSize} />
                 </div>
                 );
         }
@@ -536,7 +524,6 @@ class Table extends React.Component {
         }, () => {
             me.fetchData("order");
         })
-
     }
 
     handleActionBarSearch(value) {
@@ -600,13 +587,13 @@ class Table extends React.Component {
 
         if (this.hasFixColumn()) {
             return <div className="kuma-uxtable-header-wrapper">
-                    <Header {...renderHeaderProps} fixedColumn='fixed' key="grid-header-fixed"/>
-                    <Header {...renderHeaderProps} fixedColumn='scroll' key="grid-header-scroll"/>
-                </div>
+                     <Header {...renderHeaderProps} fixedColumn='fixed' key="grid-header-fixed" />
+                     <Header {...renderHeaderProps} fixedColumn='scroll' key="grid-header-scroll" />
+                   </div>
         } else {
             return <div className="kuma-uxtable-header-wrapper">
-                      <Header {...renderHeaderProps} fixedColumn="no" />
-                  </div>
+                     <Header {...renderHeaderProps} fixedColumn="no" />
+                   </div>
         }
     }
 
@@ -615,19 +602,15 @@ class Table extends React.Component {
         if (this.hasFixColumn()) {
             let {subComp, ...fixedBodyProps} = renderBodyProps;
             return (
-                <div className="kuma-uxtable-body-wrapper" style={{
-                    height: bodyHeight
-                }}>
-                    <Tbody  {...fixedBodyProps} fixedColumn='fixed' key="grid-body-fixed"/>
-                    <Tbody  {...renderBodyProps} fixedColumn='scroll' key="grid-body-scroll"/>
+                <div className="kuma-uxtable-body-wrapper" style={{ height: bodyHeight }}>
+                  <Tbody {...fixedBodyProps} fixedColumn='fixed' key="grid-body-fixed" />
+                  <Tbody {...renderBodyProps} fixedColumn='scroll' key="grid-body-scroll" />
                 </div>
             )
         } else {
-            return <div className="kuma-uxtable-body-wrapper" style={{
-                    height: bodyHeight
-                }}>
-              <Tbody  {...renderBodyProps} fixedColumn='no'/>
-          </div>
+            return <div className="kuma-uxtable-body-wrapper" style={{ height: bodyHeight }}>
+                     <Tbody {...renderBodyProps} fixedColumn='no' />
+                   </div>
         }
     }
 
@@ -664,20 +647,20 @@ class Table extends React.Component {
         let renderBodyProps = {
                 columns: this.state.columns,
                 data: this.state.data ? this.state.data.datas || this.state.data.data : [],
-                onModifyRow: props.onModifyRow ? props.onModifyRow : function() {},
                 rowSelection: props.rowSelection,
                 addRowClassName: props.addRowClassName,
                 subComp: props.subComp,
                 renderSubComp: props.renderSubComp,
                 mask: this.state.showMask,
-                changeSelected: this.changeSelected.bind(this),
-                rowHeight: this.props.rowHeight,
+                rowHeight: props.rowHeight,
+                loadingText: props.loadingText,
                 height: bodyHeight,
                 width: props.width,
                 root: this,
                 mode: props.mode,
                 renderModel: props.renderModel,
                 levels: props.levels,
+                changeSelected: this.changeSelected.bind(this),
                 handleDataChange: this.handleDataChange.bind(this),
                 attachCellField: this.attachCellField.bind(this),
                 detachCellField: this.detachCellField.bind(this),
@@ -696,7 +679,6 @@ class Table extends React.Component {
                 mode: props.mode,
                 orderColumnCB: this.handleOrderColumnCB.bind(this),
                 key: 'grid-header'
-
             };
 
         let actionBar;
@@ -715,21 +697,17 @@ class Table extends React.Component {
 
         return (
             <div className={classnames({
-                [props.jsxprefixCls]: true,
-                "kuma-subgrid-mode": !!props.passedData
-            })} style={_style}>
-                {actionBar}
-                <div className="kuma-uxtable-content" style={{
-                width: !!props.passedData ? "auto" : props.width
-            }}>
-                   {this.renderHeader(renderHeaderProps)}
-                   {this.renderTbody(renderBodyProps, bodyHeight)}
-                </div>
-                {this.renderPager()}
+                    [props.jsxprefixCls]: true,
+                    "kuma-subgrid-mode": !!props.passedData
+                })} style={_style}>
+              {actionBar}
+              <div className="kuma-uxtable-content" style={{ width: !!props.passedData ? "auto" : props.width }}>
+                {this.renderHeader(renderHeaderProps)}
+                {this.renderTbody(renderBodyProps, bodyHeight)}
+              </div>
+              {this.renderPager()}
             </div>
-
-            );
-
+        );
     }
 
     ///////////////////////// Util Method /////////////////////////
@@ -894,7 +872,6 @@ class Table extends React.Component {
         this.setState({
             data: _content
         });
-
     }
 
     //////////////////////// CURD for gird ////////////////
@@ -1006,6 +983,7 @@ Table.defaultProps = {
     queryKeys: [],
     emptyText: "暂无数据",
     searchBarPlaceholder: "搜索表格内容",
+    loadingText: "loading",
     processData: (data) => {
         return data
     },
@@ -1045,6 +1023,7 @@ Table.propTypes = {
     showMask: React.PropTypes.bool,
     showSearch: React.PropTypes.bool,
     searchBarPlaceholder: React.PropTypes.string,
+    loadingText: React.PropTypes.string,
     subComp: React.PropTypes.element,
     emptyText: React.PropTypes.oneOfType([
         React.PropTypes.string,
