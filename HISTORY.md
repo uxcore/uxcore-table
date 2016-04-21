@@ -2,6 +2,10 @@
 
 ---
 
+# 1.4.5
+
+* `NEW` change picker to new standard
+
 # 1.4.4
 
 * `NEW` add new prop `loadingText`

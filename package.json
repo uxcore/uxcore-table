@@ -1,6 +1,6 @@
 {
  "name": "uxcore-table",
- "version": "1.4.4",
+ "version": "1.4.5",
  "description": "table ui component for react",
  "repository": "https://github.com/uxcore/uxcore-table.git",
  "author": "zhouquan.yezq",
@@ -66,9 +66,8 @@
   "uxcore-menu": "^1.1.1",
   "uxcore-pagination": "~0.2.0",
   "uxcore-radiogroup": "~1.1.1",
-  "uxcore-select2": "~0.1.4",
+  "uxcore-select2": "~0.2.0",
   "uxcore-tooltip": "~0.3.2",
-  "uxcore-tree": "~0.2.0",
   "uxcore-validator": "~0.1.0"
  },
  "contributors": [],

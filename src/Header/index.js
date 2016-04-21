@@ -4,11 +4,10 @@
 let CheckBox = require('../Cell/CheckBox');
 let assign = require('object-assign');
 let Const = require('uxcore-const');
-let Tree = require('uxcore-tree');
+let Menu = require('uxcore-menu');
+let Dropdown = require('uxcore-dropdown');
 let Tooltip = require('uxcore-tooltip');
 let classnames = require('classnames');
-let {TreeNode} = Tree;
-
 let React = require('react');
 let ReactDOM = require('react-dom');
 
@@ -18,13 +17,13 @@ class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pickerDisplay: 'none'
+            pickerDisplay: false
         };
     }
 
     componentDidMount() {
         let me = this;
-        me.handleGlobalClick = this.handleGlobalClick.bind(this);
+        me.handleGlobalClick = me.handleGlobalClick.bind(me);
         $(document).on('click.uxcore-grid-header', me.handleGlobalClick);
     }
 
@@ -41,12 +40,14 @@ class Header extends React.Component {
 
     hideColumnPicker(e) {
         let target = e.target;
-
-        if ($(target).parents('.kuma-column-picker-container').length == 0 && !$(target).hasClass("kuma-column-picker-container")) {
-            this.setState({
-                pickerDisplay: 'none'
-            });
-        }
+        // if ($(target).parents('.kuma-uxtable-column-picker-dropdown').length == 0
+        //     && $(target).parents('.kuma-column-picker-container').length == 0
+        //     && !$(target).hasClass('kuma-uxtable-column-picker-dropdown')
+        //     && !$(target).hasClass('kuma-column-picker-container')) {
+        //     this.setState({
+        //         pickerDisplay: false
+        //     });
+        // }
     }
 
     handleCheckBoxChange() {
@@ -54,20 +55,46 @@ class Header extends React.Component {
         this.props.checkAll.apply(null, [v]);
     }
 
-    handleColumnPicker(e) {
+    // handleColumnPicker(e) {
+    //     e.stopPropagation();
+    //     this.setState({
+    //         pickerDisplay: true
+    //     });
+    // }
 
-        e.stopPropagation();
+    handlePickerSelect(info) {
+        this.props.handleColumnPickerChange(info.selectedKeys);
+    }
+
+    handlePickerDeselect(info) {
+        this.props.handleColumnPickerChange(info.selectedKeys);
+    }
+
+    handlePickerVisibleChange(visible) {
         this.setState({
-            pickerDisplay: this.state.pickerDisplay == 'block' ? 'none' : 'block'
-        });
-
+          pickerDisplay: visible
+        })
     }
 
-    handlePickerCheck(checkedKeys) {
-        this.props.handleColumnPickerChange(checkedKeys)
+    handleColumnOrder(column) {
+        let me = this;
+        let {orderColumnCB, activeColumn, orderType} = me.props;
+        let type = 'desc';
+        let typeMap = {
+            desc: 'asc',
+            asc: 'none',
+            none: 'desc'
+        };
+        if (activeColumn && column.dataKey == activeColumn.dataKey && orderType) {
+            type = typeMap[orderType];
+        }
+        orderColumnCB && orderColumnCB(type, column);
     }
 
-    getCheckedKeys() {
+
+
+
+    getSelectedKeys() {
         let me = this;
         let {columns} = me.props;
         let _columns = [];
@@ -87,72 +114,51 @@ class Header extends React.Component {
         return checkedKeys;
     }
 
-    renderColumnTree() {
+    renderColumnSelect() {
         let me = this;
         let {columns} = me.props;
         let notRenderColumns = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
-
-        let treeProps = {
-            multiple: true,
-            checkable: true,
-            defaultCheckedKeys: me.getCheckedKeys(),
-            onCheck: me.handlePickerCheck.bind(me)
-        };
-
-        return (
-            <Tree {...treeProps}>
-                {columns.map((item, index) => {
-                if (notRenderColumns.indexOf(item.dataKey) !== -1) return;
-                if ('group' in item) {
-                    return <TreeNode key={item.group} title={item.group}>
-                                    {item.columns.map((column, idx) => {
-                            return <TreeNode key={column.dataKey} title={column.title}></TreeNode>
-                        })}
-                                </TreeNode>
-                } else {
-                    return <TreeNode key={item.dataKey} title={item.title}></TreeNode>
-                }
-            }).filter((item, index) => {
-                return item != undefined
-            })}
-            </Tree>
-        )
+        let options = [];
+        columns.forEach((item, index) => {
+            if (notRenderColumns.indexOf(item.dataKey) == -1) {
+                options.push(<Menu.Item key={item.dataKey}>
+                               {item.title}
+                             </Menu.Item>)
+            }
+        });
+        return <Menu multiple={true} selectedKeys={me.getSelectedKeys()} onSelect={me.handlePickerSelect.bind(me)} onDeselect={me.handlePickerDeselect.bind(me)}>
+                 {options}
+               </Menu>
     }
 
     renderPicker() {
         let me = this;
-        let _style = {
-            display: this.state.pickerDisplay
+        let {pickerDisplay} = me.state;
+
+        let dropdownAlign = {
+            bottomRight: {
+                points: ['br', 'tr'],
+                overflow: {
+                    adjustX: 1,
+                    adjustY: 1,
+                },
+                offset: [0, -4],
+                targetOffset: [0, 0],
+            }
         };
 
         return (
             <div className={classnames({
-                "kuma-column-picker-container": true,
-                "hasGroup": me.hasGroup
-            })}>
-                <i className="kuma-icon kuma-icon-target-list kuma-column-picker" onClick={this.handleColumnPicker.bind(this)}></i>
-                <div className="kuma-uxtable-columnpicker" style={_style} ref="columnpicker">
-                    {me.renderColumnTree()}
-                 </div>
+                    "kuma-column-picker-container": true,
+                    "hasGroup": me.hasGroup
+                })}>
+              <Dropdown trigger={['click']} overlay={me.renderColumnSelect()} visible={pickerDisplay} overlayClassName="kuma-uxtable-column-picker-dropdown"
+                align={dropdownAlign} onVisibleChange={me.handlePickerVisibleChange.bind(me)}>
+                <i className="kuma-icon kuma-icon-target-list kuma-column-picker"></i>
+              </Dropdown>
             </div>
         )
     }
-
-    handleColumnOrder(column) {
-        let me = this;
-        let {orderColumnCB, activeColumn, orderType} = me.props;
-        let type = 'desc';
-        let typeMap = {
-            desc: 'asc',
-            asc: 'none',
-            none: 'desc'
-        };
-        if (activeColumn && column.dataKey == activeColumn.dataKey && orderType) {
-            type = typeMap[orderType];
-        }
-        orderColumnCB && orderColumnCB(type, column);
-    }
-
 
     renderOrderIcon(column) {
         let me = this;
@@ -163,13 +169,13 @@ class Header extends React.Component {
             return (
                 <span className="kuma-uxtable-h-sort" onClick={me.handleColumnOrder.bind(me, column)}>
                     <i className={classnames({
-                        [`kuma-icon kuma-icon-${asc}`]: true,
-                        'active': activeColumn && activeColumn.dataKey === column.dataKey && orderType == 'asc'
-                    })} />
+                                      [`kuma-icon kuma-icon-${asc}`]: true,
+                                      'active': activeColumn && activeColumn.dataKey === column.dataKey && orderType == 'asc'
+                                  })} />
                     <i className={classnames({
-                        [`kuma-icon kuma-icon-${desc}`]: true,
-                        'active': activeColumn && activeColumn.dataKey === column.dataKey && orderType == 'desc'
-                    })}/>
+                                      [`kuma-icon kuma-icon-${desc}`]: true,
+                                      'active': activeColumn && activeColumn.dataKey === column.dataKey && orderType == 'desc'
+                                  })}/>
                 </span>
             )
         }
@@ -177,9 +183,11 @@ class Header extends React.Component {
 
     renderMessageIcon(column) {
         if (!column.message) return;
-        return <Tooltip overlay={<div className="kuma-uxtable-column-message">{column.message}</div>}>
-            <i className="kuma-icon kuma-icon-information"></i>
-        </Tooltip>
+        return <Tooltip overlay={<div className="kuma-uxtable-column-message">
+                    {column.message}
+                  </div>}>
+                 <i className="kuma-icon kuma-icon-information"></i>
+               </Tooltip>
     }
 
     renderColumn(item, index, hasGroup, last) {
@@ -227,12 +235,12 @@ class Header extends React.Component {
 
         return (
             <div key={index} className={classnames({
-                "kuma-uxtable-cell": true,
-                "show-border": me.props.showHeaderBorder
-            })} style={_style}>
-                {_v}
-                {me.renderMessageIcon(item)}
-                {me.renderOrderIcon(item)}
+                                "kuma-uxtable-cell": true,
+                                "show-border": me.props.showHeaderBorder
+                            })} style={_style}>
+              {_v}
+              {me.renderMessageIcon(item)}
+              {me.renderOrderIcon(item)}
             </div>
         )
     }
@@ -250,11 +258,13 @@ class Header extends React.Component {
                 });
                 if (shouldRenderGroup) {
                     return <div className="kuma-uxtable-header-column-group" key={index}>
-                        <div className="kuma-uxtable-header-group-name">{item.group}</div>
-                        {item.columns.map((column, i) => {
-                            return me.renderColumn(column, i, false, last);
-                        })}
-                    </div>
+                             <div className="kuma-uxtable-header-group-name">
+                               {item.group}
+                             </div>
+                             {item.columns.map((column, i) => {
+                                  return me.renderColumn(column, i, false, last);
+                              })}
+                           </div>
                 }
             } else {
                 return me.renderColumn(item, index, me.hasGroup, last)
@@ -330,10 +340,10 @@ class Header extends React.Component {
 
         return (
             <div className={headerWrapClassName} style={_headerStyle}>
-                <div className={props.jsxprefixCls} >
-                    {me.renderColumns(_columns)}
-                    {_picker}
-                </div>
+              <div className={props.jsxprefixCls}>
+                {me.renderColumns(_columns)}
+                {_picker}
+              </div>
             </div>
             );
     }
