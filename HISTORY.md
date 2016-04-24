@@ -2,6 +2,11 @@
 
 ---
 
+# 1.4.6
+
+* `NEW` add visual engine support
+* `CHANGED` fetchData if url changes
+
 # 1.4.5
 
 * `NEW` change picker to new standard

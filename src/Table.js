@@ -76,6 +76,9 @@ class Table extends React.Component {
         if (!!nextProps.jsxcolumns && !!me.props.jsxcolumns && !me._isEqual(nextProps.jsxcolumns, me.props.jsxcolumns)) {
             newData['columns'] = me.processColumn(nextProps)
         }
+        if (nextProps.fetchUrl !== me.props.fetchUrl) {
+            me.fetchData('urlChange');
+        }
         me.setState(newData);
     }
 
@@ -1000,53 +1003,172 @@ Table.defaultProps = {
 
 // http://facebook.github.io/react/docs/reusable-components.html
 Table.propTypes = {
+    /**
+     * @title 国际化
+     * @veFieldStyle block
+     */
     locale: React.PropTypes.string,
+    /**
+     * @title 列配置
+     */
     jsxcolumns: React.PropTypes.arrayOf(React.PropTypes.object),
+    /**
+     * @title 表格宽度
+     */
     width: React.PropTypes.oneOfType([
         React.PropTypes.string,
         React.PropTypes.number
     ]),
+    /**
+     * @title 表格高度
+     */
     height: React.PropTypes.oneOfType([
         React.PropTypes.string,
         React.PropTypes.number
     ]),
+    /**
+     * @title 表头高度
+     */
     headerHeight: React.PropTypes.number,
+    /**
+     * @title 每页显示条数
+     * @veFieldStyle block
+     */
     pageSize: React.PropTypes.number,
+    /**
+     * @title 哪些参数传递给 subComp (即将废除)
+     * @veIgnore
+     */
     queryKeys: React.PropTypes.array,
+    /**
+     * @title 是否在初始化时请求数据
+     * @veFieldStyle block
+     */
     fetchDataOnMount: React.PropTypes.bool,
+    /**
+     * @title 是否双击进入编辑模式
+     * @veFieldStyle block
+     */
     doubleClickToEdit: React.PropTypes.bool,
+    /**
+     * @title 是否显示列选择器
+     * @veFieldStyle block
+     */
     showColumnPicker: React.PropTypes.bool,
+    /**
+     * @title 是否显示分页
+     * @veFieldStyle block
+     */
     showPager: React.PropTypes.bool,
+    /**
+     * @title 分页中是否显示总条数
+     * @veFieldStyle block
+     */
     showPagerTotal: React.PropTypes.bool,
+    /**
+     * @title 是否显示表格头
+     * @veFieldStyle block
+     */
     showHeader: React.PropTypes.bool,
-    showHeaderBorder: React.PropTypes.bool,
+    /**
+     * @title 是否显示遮罩
+     * @veFieldStyle block
+     * @veIgnore
+     */
     showMask: React.PropTypes.bool,
+    /**
+     * @title 是否显示搜索框
+     * @veFieldStyle block
+     */
     showSearch: React.PropTypes.bool,
+    /**
+     * @title 搜索框占位符
+     * @veFieldStyle block
+     */
     searchBarPlaceholder: React.PropTypes.string,
+    /**
+     * @title 加载中文案
+     * @veFieldStyle block
+     */
     loadingText: React.PropTypes.string,
+    /**
+     * @title 子组件(即将废除)
+     * @veIgnore
+     */
     subComp: React.PropTypes.element,
+    /**
+     * @title 无数据时的文案
+     * @veFieldStyle block
+     */
     emptyText: React.PropTypes.oneOfType([
         React.PropTypes.string,
         React.PropTypes.element
     ]),
+    /**
+     * @title 数据源（手动）
+     * @veFieldStyle block
+     */
     jsxdata: React.PropTypes.object,
+    /**
+     * @title 数据源（url）
+     * @veFieldStyle block
+     */
     fetchUrl: React.PropTypes.string,
+    /**
+     * @title 请求携带的参数
+     * @veFieldStyle block
+     */
     fetchParams: React.PropTypes.object,
+    /**
+     * @title 列选择器的类型
+     * @veFieldStyle block
+     */
     rowSelector: React.PropTypes.string,
+    /**
+     * @title 操作栏配置
+     * @veFieldStyle block
+     */
     actionBar: React.PropTypes.oneOfType([
         React.PropTypes.array,
         React.PropTypes.object
     ]),
+    /**
+     * @title 处理数据的回调
+     */
     processData: React.PropTypes.func,
+    /**
+     * @title 发起请求前的回调
+     */
     beforeFetch: React.PropTypes.func,
+    /**
+     * @title 请求出错时的回调
+     */
     onFetchError: React.PropTypes.func,
+    /**
+     * @title 渲染每一行前用于添加特殊类名的回调
+     */
     addRowClassName: React.PropTypes.func,
+    /**
+     * @veIgnore
+     */
     passedData: React.PropTypes.object,
-    // For inline edit
+    /**
+     * @title getData 获取的是否是保存之后的数据
+     */
     getSavedData: React.PropTypes.bool,
+    /**
+     * @title 行内编辑时触发的回调
+     */
     onChange: React.PropTypes.func,
-    // For tree Mode
+    /**
+     * @title 是否是树模式
+     * @veIgnore
+     */
     renderModel: React.PropTypes.string,
+    /**
+     * @title 树的层级
+     * @veIgnore
+     */
     levels: React.PropTypes.number
 }
 
