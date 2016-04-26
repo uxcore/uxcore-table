@@ -2,6 +2,10 @@
 
 ---
 
+# 1.4.7
+
+* `CHANGED` merge feature/style branch 
+
 # 1.4.6
 
 * `NEW` add visual engine support
