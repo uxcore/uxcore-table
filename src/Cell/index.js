@@ -1,10 +1,13 @@
 /**
  * Created by xy on 15/4/13.
  */
- 
+
 let React = require('react');
 let ReactDOM = require('react-dom');
 let Const = require('uxcore-const');
+let Dropdown = require('uxcore-dropdown');
+let Menu = require('uxcore-menu');
+
 let CheckBox = require('./CheckBox');
 let Radio = require('./Radio');
 let TextField = require('./TextField');
@@ -24,8 +27,8 @@ class Cell extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state= {
-            'fold':1,   // 1- fold  0-unfold
+        this.state = {
+            'fold': 1, // 1- fold  0-unfold
             'checked': !!this.getCellData()
         };
     }
@@ -35,7 +38,7 @@ class Cell extends React.Component {
         if (me.props.column.type == "checkbox" || me.props.column.type == "checkboxSelector" || me.props.column.type == "radioSelector") {
             me.setState({
                 checked: !!me.getCellData(nextProps)
-            }) 
+            })
         }
     }
 
@@ -51,39 +54,34 @@ class Cell extends React.Component {
         var me = this,
             _props = this.props,
             v = _props.rowData;
-            me.props.changeSelected(e.target.checked, _props.rowIndex, false);
+        me.props.changeSelected(e.target.checked, _props.rowIndex, false);
+    }
+
+    handleDropdownVisibleChange(visible) {
+        let me = this;
+        me.setState({
+            dropdownVisible: visible
+        });
     }
 
     showSubComp() {
         this.props.showSubCompCallback.apply();
     }
 
-    renderTreeIcon() {
-        if (this.props.cellIndex == 0 && this.props.hasSubComp) {
-            let open = this.props.rowData.showSubComp;
-            return <span className="kuma-uxtable-tree-icon" onClick={this.showSubComp.bind(this)}><i className={classnames({
-                "kuma-icon": true,
-                "kuma-icon-tree-open-2": open,
-                "kuma-icon-tree-close-2": !open
-            })}></i></span>
-        }
-    }
 
-   /**
-    * @param actions {Array or Object}
-    */
+    /**
+     * @param actions {Array or Object}
+     */
     getActionItems(actions) {
         if (typeof actions !== "object") {
             console.error("Table: Actions should be an object or array");
             return [];
-        }
-        else {
+        } else {
             let me = this;
             me.items = [];
             if (actions instanceof Array) {
                 me.items = actions;
-            } 
-            else {
+            } else {
                 for (let i in actions) {
                     if (actions.hasOwnProperty(i)) {
                         me.items.push({
@@ -114,13 +112,22 @@ class Cell extends React.Component {
         return cellData;
     }
 
+    handleActionClick(cb, e) {
+        e.stopPropagation();
+        let me = this;
+        me.setState({
+            dropdownVisible: false
+        })
+        cb && cb();
+    }
+
     render() {
-        
+
         let me = this,
             props = me.props,
-            _column = props.column, 
+            _column = props.column,
             _width = _column.width,
-            _mode =  props.rowData['__mode__'],
+            _mode = props.rowData['__mode__'],
             _style = {
                 width: _width ? _width : 100,
                 textAlign: props.align ? props.align : "left"
@@ -129,78 +136,52 @@ class Cell extends React.Component {
             renderProps;
 
         if (_column.type == 'action') {
-            let showActionIndex = 0;
             _v = <div className="action-container">
-                    { 
-                        me.getActionItems(_column.actions).map(function(item, index) {
-
-                            // There are two cases in which Table will render the action.
-                            // One is that 'mode' is not defined in action, which means it will be rendered in any mode.
-                            // The other is that 'mode' is defined & 'mode' is equal to the Cell mode, 
-                            // which means this action is rendered in the user-specified mode.
-
-                            if (!('mode' in item) || item.mode == _mode) {
-                                let arr = [];
-                                if (showActionIndex !== 0) {
-                                    arr.push(<span key="split" className="split"> | </span>)
-                                }
-                                showActionIndex++;
-                                arr.push(<a href="javascript:void(0);" className="action" key='action' onClick={item.callback.bind(me, _v, me.props.root)}>{!!item.render ? item.render(item.title, me.props.rowData) : item.title}</a>)
-                                return <span key={index}>{arr}</span>
-                            }
-
-                        })
-                    }
+                    {me.renderActionItems(_column, _v, _mode)}
                  </div>
-        }
-        else if (_column.type == 'checkbox' || _column.type == 'checkboxSelector') {
+        } else if (_column.type == 'checkbox' || _column.type == 'checkboxSelector') {
 
-            _style.paddingRight = 18;
+            _style.paddingRight = 4;
             _style.paddingLeft = 12;
 
             let checked;
             if (me.state.checked) {
-                checked='checked'
+                checked = 'checked'
             } else {
-                checked="";
+                checked = "";
             }
 
             let disable = false;
             if ('disable' in _column) {
                 disable = _column.disable;
-            }
-            else if ('isDisable' in _column) {
+            } else if ('isDisable' in _column) {
                 disable = !!_column.isDisable(props.rowData);
             }
             _v = <CheckBox disable={disable} mode={props.mode} align={props.align} jsxchecked={checked} ref="checkbox" onchange={me.handleCheckChange.bind(me)}/>
 
-        }
-        else if (_column.type == 'radioSelector') {
-            _style.paddingRight = 18;
+        } else if (_column.type == 'radioSelector') {
+            _style.paddingRight = 4;
             _style.paddingLeft = 12;
 
             let checked;
             if (me.state.checked) {
-                checked='checked'
+                checked = 'checked'
             } else {
-                checked="";
+                checked = "";
             }
 
             let disable = false;
             if ('disable' in _column) {
                 disable = _column.disable;
-            }
-            else if ('isDisable' in _column) {
+            } else if ('isDisable' in _column) {
                 disable = !!_column.isDisable(props.rowData);
             }
             _v = <Radio disable={disable} mode={props.mode} align={props.align} jsxchecked={checked} onchange={me.handleCheckChange.bind(me)}/>
-        }
-        else if (_column.type == 'treeIcon') {
+        } else if (_column.type == 'treeIcon') {
             _v = me.renderTreeIcon();
         }
 
         // inline edit mode
-
         else if ((_column.type == 'custom' || _column.type in fieldsMap) && _mode == Const.MODE.EDIT && (!('canEdit' in _column) || _column.canEdit(props.rowData))) {
             renderProps = {
                 value: me.getEditData(),
@@ -215,33 +196,87 @@ class Cell extends React.Component {
 
             if (_column.type == 'custom') {
                 Field = props.column.customField;
-            }
-            else {
+            } else {
                 Field = fieldsMap[_column.type];
             }
             _v = <Field {...renderProps} />
-        }
-        else if (_column.type == 'money' || _column.type == "card" || _column.type == "cnmobile") {
+        } else if (_column.type == 'money' || _column.type == "card" || _column.type == "cnmobile") {
             _v = <div title={me.getCellData()}>{util.formatValue(me.getCellData(), _column.type, _column.delimiter)}</div>;
-        }
-        else if (_column.render) {
-           _v = _column.render.apply(null,[me.getCellData(),_v]);
-        }
-        else {
+        } else if (_column.render) {
+            _v = _column.render.apply(null, [me.getCellData(), _v]);
+        } else {
             _v = <div title={me.getCellData()}>{me.getCellData()}</div>;
         }
 
-        let child=me.props.children;
+        let child = me.props.children;
         return (
             <div className={props.jsxprefixCls} style={_style}>
                 {child}
                 {_v}
             </div>
-        );   
+            );
     }
-};
 
-Cell.propTypes= {
+    /**
+     * @param {Object} column current column config
+     * @param {Object} rowData current row data
+     * @param {String} mode current row mode: edit or view, same as rowData['__mode__'] 
+     */
+
+    renderActionItems(column, rowData, mode) {
+        let me = this;
+        let actions = me.getActionItems(column.actions).filter((item) => {
+            return !('mode' in item) || item.mode == mode;
+        });
+        if (actions.length <= 2) {
+            return actions.map((item, index) => {
+                return <a href="javascript:void(0);" key={index} className="action" onClick={me.handleActionClick.bind(me, item.callback.bind(me, rowData, me.props.root))}>
+                    {!!item.render ? item.render(item.title, me.props.rowData) : item.title}
+                </a>
+            })
+        } else {
+            let arr = [];
+            arr.push(<a href="javascript:void(0);" className="action" key='action' onClick={me.handleActionClick.bind(me, actions[0].callback.bind(me, rowData, me.props.root))}>
+                {!!actions[0].render ? actions[0].render(actions[0].title, me.props.rowData) : actions[0].title}
+            </a>);
+            let menu = <Menu>
+                {actions.slice(1).map((action, index) => {
+                    return <Menu.Item key={index}>
+                                <a href="javascript:void(0);" className="action" key='action' onClick={me.handleActionClick.bind(me, action.callback.bind(me, rowData, me.props.root))}>
+                                    {!!action.render ? action.render(action.title, me.props.rowData) : action.title}
+                                </a>
+                            </Menu.Item>
+                })}
+            </Menu>;
+            arr.push(
+                <i  className="kuma-icon kuma-icon-triangle-down" key="icon"></i>
+            )
+            let dropdownOptions = {
+                key: 'icon',
+                overlay: menu,
+                trigger: ['click'],
+                visible: me.state.dropdownVisible,
+                onVisibleChange: me.handleDropdownVisibleChange.bind(me)
+            }
+            return <Dropdown {...dropdownOptions}><span>{arr}</span></Dropdown>;
+
+        }
+    }
+
+    renderTreeIcon() {
+        if (this.props.cellIndex == 0 && this.props.hasSubComp) {
+            let open = this.props.rowData.showSubComp;
+            return <span className="kuma-uxtable-tree-icon" onClick={this.showSubComp.bind(this)}><i className={classnames({
+                    "kuma-icon": true,
+                    "kuma-icon-tree-open": open,
+                    "kuma-icon-tree-close": !open
+                })}></i></span>
+        }
+    }
+}
+;
+
+Cell.propTypes = {
 };
 
 Cell.defaultProps = {

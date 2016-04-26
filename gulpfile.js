@@ -75,6 +75,14 @@ gulp.task('pack_build', function(cb) {
         })
 });
 
+gulp.task('logo_build', function(cb) {
+    gulp.src(['./src/**/*.svg'])
+        .pipe(gulp.dest('build'))
+        .on('end', function() {
+            cb();
+        })
+})
+
 gulp.task('less_demo', function(cb) {
     gulp.src(['./demo/**/*.less'])
         .pipe(sourcemaps.init())
@@ -121,11 +129,11 @@ gulp.task('server', [
 
 });
 
-gulp.task('default', ['pack_build'], function() {
+gulp.task('default', ['pack_build', 'logo_build'], function() {
 
 });
 
-gulp.task('publish', ['pack_build'], function() {
+gulp.task('publish', ['pack_build', 'logo_build'], function() {
     setTimeout(function() {
         var questions = [
             {

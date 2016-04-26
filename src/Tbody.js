@@ -14,7 +14,7 @@ class Tbody extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state= {
+        this.state = {
         };
     }
 
@@ -29,17 +29,18 @@ class Tbody extends React.Component {
         let me = this;
         me.resizeTimer = null;
         $(me.rootEl).off("scroll", me.scrollHandler);
-
     }
 
     renderEmptyData() {
 
-       if(this.props.data.length == 0 && !this.props.mask ) {
-           let _style={
-             lineHeight: this.props.height-10+"px",
-           }
-          return (<div className="kuma-uxtable-body-emptyword" style={_style}>{this.props.root.props.emptyText}</div>);
-       }
+        if (this.props.data.length == 0 && !this.props.mask) {
+            let _style = {
+                lineHeight: this.props.height - 10 + "px",
+            }
+            return (<div className="kuma-uxtable-body-emptyword" style={_style}>
+                      {this.props.root.props.emptyText}
+                    </div>);
+        }
     }
 
     onScroll(e) {
@@ -47,120 +48,122 @@ class Tbody extends React.Component {
         //       merge classname scroll/no/fixed
 
         this.el = ReactDOM.findDOMNode(this);
-        let $tableEl = $(this.el).parents(".kuma-uxtable");        
+        let $tableEl = $(this.el).parents(".kuma-uxtable");
         if (this.props.fixedColumn == 'no') {
-           $tableEl.find('.kuma-uxtable-header-no').animate({scrollLeft: $tableEl.find('.kuma-uxtable-body-no').scrollLeft()}, 0)
-           return;
-        }
-        
-        let target= $(e.target);
-        if(target.hasClass('kuma-uxtable-body-scroll')) {
-            
-            $tableEl.find('.kuma-uxtable-body-fixed').animate({scrollTop: $tableEl.find('.kuma-uxtable-body-scroll').scrollTop()}, 0)
-            $tableEl.find('.kuma-uxtable-header-scroll').animate({scrollLeft: $tableEl.find('.kuma-uxtable-body-scroll').scrollLeft()}, 0)
-        }else {
-            $tableEl.find('.kuma-uxtable-body-scroll').animate({scrollTop: $tableEl.find('.kuma-uxtable-body-fixed').scrollTop()}, 0)
+            $tableEl.find('.kuma-uxtable-header-no').animate({
+                scrollLeft: $tableEl.find('.kuma-uxtable-body-no').scrollLeft()
+            }, 0)
+            return;
         }
 
-        
+        let target = $(e.target);
+        if (target.hasClass('kuma-uxtable-body-scroll')) {
+
+            $tableEl.find('.kuma-uxtable-body-fixed').animate({
+                scrollTop: $tableEl.find('.kuma-uxtable-body-scroll').scrollTop()
+            }, 0)
+            $tableEl.find('.kuma-uxtable-header-scroll').animate({
+                scrollLeft: $tableEl.find('.kuma-uxtable-body-scroll').scrollLeft()
+            }, 0)
+        } else {
+            $tableEl.find('.kuma-uxtable-body-scroll').animate({
+                scrollTop: $tableEl.find('.kuma-uxtable-body-fixed').scrollTop()
+            }, 0)
+        }
     }
 
     render() {
-        
+
         let me = this,
             _props = me.props,
-            _columns = _props.columns, 
+            _columns = _props.columns,
             _data = _props.data.length > 0 ? _props.data : [],
             _style = {},
             _width = 0,
             bodyWrapClassName;
 
         if (_props.fixedColumn == 'fixed') {
-           _columns = _props.columns.filter((item)=>{
-              if (item.fixed && !item.hidden) {
-                   if(!item.width) {
-                      item.width = 100;
-                   }
-                   _width=item.width*1+_width;
-                   return true
-              }
-           })
-           _style={
-             width:_width,
-             minWidth:_width
-           }
-          bodyWrapClassName="kuma-uxtable-body-fixed";
-
-        } 
-        else if(_props.fixedColumn == 'scroll') {
-            let fixedWidth = 0
-            _columns= _props.columns.filter( (item) =>{
-                if (!item.fixed) {
-                   return true;
+            _columns = _props.columns.filter((item) => {
+                if (item.fixed && !item.hidden) {
+                    if (!item.width) {
+                        item.width = 100;
+                    }
+                    _width = item.width * 1 + _width;
+                    return true
                 }
-                else if (!item.hidden) {
-                   if(!item.width) {
-                      item.width = 100;
-                   }
-                   _width = item.width*1+_width;
+            })
+            _style = {
+                width: _width,
+                minWidth: _width
+            }
+            bodyWrapClassName = "kuma-uxtable-body-fixed";
+
+        } else if (_props.fixedColumn == 'scroll') {
+            let fixedWidth = 0
+            _columns = _props.columns.filter((item) => {
+                if (!item.fixed) {
+                    return true;
+                } else if (!item.hidden) {
+                    if (!item.width) {
+                        item.width = 100;
+                    }
+                    _width = item.width * 1 + _width;
                 }
             })
 
             // content-box: border-box
             let delta = 2;
             if (util.isIE(8)) {
-              delta = 3
+                delta = 3
             }
-            _style={
+            _style = {
                 width: _props.width - _width - delta, //change 2 to 3, fix ie8 issue
                 minWidth: _props.width - _width - delta
             }
-            bodyWrapClassName="kuma-uxtable-body-scroll";
-        }else {
-            bodyWrapClassName="kuma-uxtable-body-no";
+            bodyWrapClassName = "kuma-uxtable-body-scroll";
+        } else {
+            bodyWrapClassName = "kuma-uxtable-body-no";
         }
         return (
-            <div className={bodyWrapClassName}  ref="root" style={_style} > 
-              <ul className={this.props.jsxprefixCls} >
-                  {this.renderEmptyData()}
-                  {_data.map(function(item,index) {
-                      let renderProps={
-                          columns: _columns,
-                          rowIndex: item.jsxid,//tree mode, rowIndex need think more, so use jsxid
-                          rowData: deepcopy(_data[index]),
-                          index: index,
-                          data: _data,
-                          root: _props.root,
-                          addRowClassName: _props.addRowClassName,
-                          rowSelection: _props.rowSelection,
-                          changeSelected: me.props.changeSelected,
-                          subComp: _props.subComp,
-                          renderSubComp: _props.renderSubComp,
-                          actions: _props.actions,
-                          key: 'row'+ index,
-                          mode: _props.mode,
-                          renderModel: _props.renderModel,
-                          fixedColumn: _props.fixedColumn,
-                          level: 1,
-                          levels: _props.levels,
-                          handleDataChange: _props.handleDataChange,
-                          attachCellField: _props.attachCellField,
-                          detachCellField: _props.detachCellField,
-                          visible: true
-                      };
-                      return <Row {...renderProps} />
-                  })}
-                  <Mask visible={_props.mask}/>
+            <div className={bodyWrapClassName} ref="root" style={_style}>
+              <ul className={this.props.jsxprefixCls}>
+                {this.renderEmptyData()}
+                {_data.map(function(item, index) {
+                     let renderProps = {
+                         columns: _columns,
+                         rowIndex: item.jsxid, //tree mode, rowIndex need think more, so use jsxid
+                         rowData: deepcopy(_data[index]),
+                         index: index,
+                         data: _data,
+                         root: _props.root,
+                         addRowClassName: _props.addRowClassName,
+                         rowSelection: _props.rowSelection,
+                         changeSelected: me.props.changeSelected,
+                         subComp: _props.subComp,
+                         renderSubComp: _props.renderSubComp,
+                         actions: _props.actions,
+                         key: 'row' + index,
+                         mode: _props.mode,
+                         renderModel: _props.renderModel,
+                         fixedColumn: _props.fixedColumn,
+                         level: 1,
+                         levels: _props.levels,
+                         handleDataChange: _props.handleDataChange,
+                         attachCellField: _props.attachCellField,
+                         detachCellField: _props.detachCellField,
+                         visible: true
+                     };
+                     return <Row {...renderProps} />
+                 })}
+                <Mask visible={_props.mask} text={_props.loadingText}/>
               </ul>
             </div>
-        );
+            );
     }
+}
+;
 
-    
-
-};
-
-Tbody.propTypes= {
+Tbody.propTypes = {
 };
 
 Tbody.defaultProps = {

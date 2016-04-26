@@ -15,6 +15,7 @@
     position: relative;
     color: #666;
     table-layout: fixed;
+    
 }
 
 .@{uxtable-prefix}-content {
@@ -28,10 +29,10 @@
 
 .@{uxtable-prefix}-header-wrapper {
     overflow: hidden;
-    border:1px solid @table-border;
+    // border:1px solid @table-border;
 }
 .@{uxtable-prefix}-body-wrapper {
-    border: 1px solid @table-border;
+    // border: 1px solid @table-border;
     border-top: none;
     min-height: 40px;
     overflow-x: auto;
@@ -44,9 +45,6 @@
     min-width: 100%;
     white-space: nowrap;
     display: inline-block;
-    .@{uxtable-prefix}-cell.show-border {
-        border-right: 1px solid #ebebeb;
-    }
 }
 .@{uxtable-prefix}-body {
     position:relative;
@@ -60,25 +58,35 @@
 .@{uxtable-prefix}-body-emptyword {
     text-align: center;
     vertical-align: middle;
-    line-height: 100px;
 }
 
 .@{uxtable-prefix}-row {
     display: block;
     width: 100%;
     white-space: nowrap;
-    border-top: 1px solid @table-border;
+    // border-top: 1px solid @table-border;
     border-bottom: none;
-    line-height: 40px;
+    .@{uxtable-prefix}-row-cells:hover {
+        background-color: @brand-primary-lighter;
+    }
+
     &:first-child {
         border-top: none;
+    }
+    &.even {
+        .@{uxtable-prefix}-row-cells {
+            background-color: @basic-200;
+            &:hover {
+                background-color: @brand-primary-lighter;
+            }
+        }
     }
 }
 
 .@{uxtable-prefix}-tree-row {
     .@{uxtable-prefix}-row{
-        border-bottom: 0px solid @table-border;
-        border-top: 1px solid @table-border;
+        // border-bottom: 0px solid @table-border;
+        // border-top: 1px solid @table-border;
     }
 }
 
@@ -87,30 +95,33 @@
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
-    height:100%;
+    height: 100%;
     padding: 0 0 0 20px;
     vertical-align: top;
     position: relative;
     word-break:break-all;
-    line-height:40px;
-    height: 40px;
+    height: 50px;
+    line-height: 50px;
+    .kuma-icon-information {
+        color: @brand-info;
+        -webkit-text-stroke-width: 0;
+        font-size: 14px;
+        margin-left: 4px;
+    }
     & > div {
-        line-height: 40px;
         display: inline-block;
         overflow: hidden;
         text-overflow: ellipsis;
         vertical-align: top;
-        height: 40px;
+        height: 50px;
         width: 100%;
         white-space: nowrap;
     }
     input.kuma-input {
         vertical-align: top;
-        height: 30px;
-        min-height: 28px;
         padding: 0 10px;
-        margin-top: 5px;
-        line-height: 28px;
+        margin-top: 8px;
+        height: 34px;
     }
     .kuma-column-picker {
         cursor: pointer;
@@ -121,10 +132,19 @@
     .kuma-select2 {
         width: 100%;
         vertical-align: top;
-        margin-top: 5px;
+        margin-top: 8px;
     }
-    .kuma-select2-selection {
-        height: 30px;
+}
+
+.@{uxtable-prefix}-row.multiline {
+    .@{uxtable-prefix}-cell {
+        height: auto;
+        min-height: 50px;
+        line-height: inherit;
+        & > div {
+            white-space: normal;
+            height: auto;
+        }
     }
 }
 
@@ -138,15 +158,16 @@
 
 
 .@{uxtable-prefix}-header .@{uxtable-prefix}-cell > div{
-   overflow : visible;
+    overflow : visible;
+    
 }
 
-.@{uxtable-prefix}-colmnpicker {
+.@{uxtable-prefix}-columnpicker {
     max-width: 400px;
     max-height: 300px;
     overflow-y: auto;
     position: absolute;
-    background-color: @table-header-bg;
+    background-color: @basic-400;
     z-index: 2;
     right: 0;
     top: 32px;
@@ -171,7 +192,6 @@
     font-weight: normal;
     background: @table-header-bg;
     &.hasGroup {
-        line-height: 80px;
         .@{uxtable-prefix}-colmnpicker {
             top: 50px;
         }
@@ -184,7 +204,7 @@
 
 .@{uxtable-prefix}-tree-icon{
     cursor:pointer;
-    // margin-right:4px;
+    vertical-align: middle;
     > .kuma-icon {
         font-size: 14px;
         color: #999999;
@@ -216,41 +236,21 @@
 
 .@{uxtable-prefix}-h-sort{
     position:relative;
-    top: -2px;
-    margin-left: 4px;
-    i {
-        cursor: pointer;
-        width: 0;
-        height: 0;
-        border-width: 6px 5px;
-        border-style: solid;
-        position: absolute;
-        &.sort-up {
-            border-color: transparent transparent #aab2be;
-            bottom: 6px;
-            left: 2px;
+    vertical-align: top;
+    color: @gray-light;
+    .kuma-icon {
+        font-size: 13px;
+        &.active {
+            color: @brand-primary;
         }
-
-        &.sort-up-active {
-            border-color: transparent transparent @brand-primary;
-            bottom: 6px;
-            left: 2px;
-        }
-
-        &.sort-down {
-            border-color: #aab2be transparent transparent;
-            bottom: -9px;
-            left: 2px;
-        }
-
-
-        &.sort-down-active {
-            border-color: @brand-primary transparent transparent;
-            bottom: -9px;
-            left: 2px;
-        }
+        -webkit-text-stroke-width: 0;
+    }
+    .kuma-icon-iconfontdown {
+        margin-left: -7px;
     }
 }
+
+
 
 .action-container {
     .action{
@@ -258,11 +258,45 @@
         display:inline-block;
         text-decoration: none;
         & + .action {
-            margin-left: 8px
+            margin-left: 10px
         }
+    }
+    .kuma-icon-triangle-down {
+        color: @text-thirdary-color;
     }
     .split {
         color: #ccc;
+    }
+}
+
+.@{uxtable-prefix}-column-picker-dropdown {
+    .kuma-dropdown-menu {
+        min-width: 200px;
+        box-shadow: 0 1px 8px #ced1d2;
+        max-height: 300px;
+        border-radius: @input-border-radius;
+        .kuma-dropdown-menu-item-active,
+        .kuma-dropdown-menu-item:hover {
+            background-color: @brand-primary-lighter;
+        }
+        .kuma-dropdown-menu-item-selected {
+            background-color: white;
+            color: @brand-primary;
+            &:before {
+                content: "\e611";
+                display: block;
+                position: absolute;
+                right: 10px;
+                top: 0px;
+                font-family: kuma!important;
+                font-size: 16px;
+                font-style: normal;
+                -webkit-font-smoothing: antialiased;
+                -webkit-text-stroke-width: .2px;
+                -moz-osx-font-smoothing: grayscale;
+                line-height: 32px;
+            }
+        }
     }
 }
 
@@ -284,7 +318,7 @@
 }
 .@{uxtable-prefix}-body-scroll {
     position:relative;
-    border-left:1px solid @table-border;
+    // border-left:1px solid @table-border;
     float:left;
     overflow:auto;
     z-index:1;
@@ -302,7 +336,7 @@
 }
 .@{uxtable-prefix}-header-scroll {
     position:static;
-    border-left:1px solid @table-border;
+    // border-left:1px solid @table-border;
     float:left;
     overflow-x: hidden;
     z-index:1;
@@ -319,6 +353,16 @@
 .@{uxtable-prefix}-header-group-name {
     line-height: 40px;
     text-align: center;
-    border-bottom: 1px solid @table-border;
-    border-right: 1px solid @table-border;
+    // border-bottom: 1px solid @table-border;
+    // border-right: 1px solid @table-border;
 }
+
+.@{uxtable-prefix}-column-message {
+    max-width: 200px;
+}
+
+.@{uxtable-prefix}-row-selector {
+    vertical-align: middle;
+}
+
+

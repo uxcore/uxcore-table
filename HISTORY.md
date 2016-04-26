@@ -2,6 +2,35 @@
 
 ---
 
+# 1.4.6
+
+* `NEW` add visual engine support
+* `CHANGED` fetchData if url changes
+
+# 1.4.5
+
+* `NEW` change picker to new standard
+
+# 1.4.4
+
+* `NEW` add new prop `loadingText`
+
+# 1.4.3
+
+* `CHANGED` change popover to tooltip
+
+# 1.4.2
+
+* `FIX` fix the checkbox column margin & action bar button style
+
+# 1.4.1
+
+* `FIX` fix the action menu won't disappear when clicked.
+
+# 1.4.0
+
+* `CHANGED` new style 
+
 # 1.3.21
 
 * `HOTFIX` change the warning text of using type:checkbox.

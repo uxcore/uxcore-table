@@ -42,17 +42,19 @@ class SearchBar extends React.Component {
                 <input type="text" className="kuma-input" placeholder={placeholder} value={this.state.value} onKeyDown={this.onKeyDown.bind(this)} onChange={this.handleChange.bind(this)}/>
                 <i className="kuma-icon kuma-icon-search" onClick={this.doSearch.bind(this)}></i>
             </div>
-        );
+            );
 
     }
 
-};
+}
+;
 
-SearchBar.propTypes= {};
+SearchBar.propTypes = {};
 
 SearchBar.defaultProps = {
     jsxprefixCls: "kuma-uxtable-searchbar",
-    onSearch: () => {}
+    onSearch: () => {
+    }
 };
 
 module.exports = SearchBar;

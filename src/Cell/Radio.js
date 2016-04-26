@@ -44,7 +44,7 @@ class Radio extends React.Component {
             if (!!props.disable) {
                 renderProps.disabled = true;
             }
-            return <label><input type="radio" ref="radio" {...renderProps}/><s></s></label>
+            return <label className="kuma-uxtable-row-selector"><input type="radio" ref="radio" {...renderProps}/><s></s></label>
 
         }else {
 
@@ -53,7 +53,7 @@ class Radio extends React.Component {
                 checked: this.props.jsxchecked,
                 disabled:true
             }
-            return <label><input type="radio" ref="radio"  {...renderProps}/><s></s></label>
+            return <label className="kuma-uxtable-row-selector"><input type="radio" ref="radio"  {...renderProps}/><s></s></label>
         }
 
     }

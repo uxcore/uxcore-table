@@ -1,5 +1,6 @@
 .kuma-uxtable-actionbar{
 	width: 100%;
+    margin-bottom: 12px;
 	padding: 6px 0px 4px;
 }
 
@@ -22,12 +23,18 @@ a.kuma-button-swhite{
 .kuma-uxtable-searchbar{
 	float:right;
 	position:relative;
-}
-
-.kuma-uxtable-searchbar .kuma-icon-search{
-	position: absolute;
-    right: 8px;
-    color: #ccc;
-    top: 4px;
-    cursor:pointer;
+    .kuma-input {
+        height: 32px;
+    }
+    .kuma-icon-search{
+        position: absolute;
+        line-height: 16px;
+        color: @text-helper-color;
+        right: 8px;
+        top: 8px;
+        cursor:pointer;
+        &:hover {
+            color: @text-primary-color;
+        }
+    }
 }
