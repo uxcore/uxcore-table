@@ -26,9 +26,31 @@ module.exports = Bundle.createPrototype({
         }, {
             name: "jsxcolumns",
             title: "列配置",
-            defaultValue: [],
+            defaultValue: [
+                { dataKey: 'title', title: '标题', width: 200 },
+                { dataKey: 'money', title: '金额', width: 200, type: 'money', delimiter: "," },
+                { dataKey: 'agent', title: "金融机构", width: 200 },  
+                { dataKey: 'person', title: "申请人", width: 100 },
+                { dataKey: 'date',title: "日期", width: 150 }
+            ],
             required: false,
             fieldStyle: "accordion",
+            fieldCollapsed: false,
+            setter: <JsonSetter />
+        }, {
+            name: "fetchUrl",
+            title: "数据源（url）",
+            defaultValue: "http://eternalsky.me:8122/file/getDemo.jsonp",
+            required: false,
+            fieldStyle: "block",
+            fieldCollapsed: false,
+            setter: <TextSetter multiline={true} rows={2} />
+        }, {
+            name: "fetchParams",
+            title: "请求携带的参数",
+            defaultValue: {},
+            required: false,
+            fieldStyle: "block",
             fieldCollapsed: false,
             setter: <JsonSetter />
         }, {
@@ -139,22 +161,6 @@ module.exports = Bundle.createPrototype({
         }, {
             name: "jsxdata",
             title: "数据源（手动）",
-            defaultValue: {},
-            required: false,
-            fieldStyle: "block",
-            fieldCollapsed: false,
-            setter: <JsonSetter />
-        }, {
-            name: "fetchUrl",
-            title: "数据源（url）",
-            defaultValue: "",
-            required: false,
-            fieldStyle: "block",
-            fieldCollapsed: false,
-            setter: <TextSetter multiline={true} rows={2} />
-        }, {
-            name: "fetchParams",
-            title: "请求携带的参数",
             defaultValue: {},
             required: false,
             fieldStyle: "block",
