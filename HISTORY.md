@@ -2,6 +2,10 @@
 
 ---
 
+## 1.4.9
+
+* `CHANGED` change defaultProps in `prototype.js`
+
 ## 1.4.8
 
 * `CHANGED` add defaultProps in `prototype.js`

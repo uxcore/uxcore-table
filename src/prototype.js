@@ -27,20 +27,39 @@ module.exports = Bundle.createPrototype({
             name: "jsxcolumns",
             title: "列配置",
             defaultValue: [
-                { dataKey: 'title', title: '标题', width: 200 },
-                { dataKey: 'money', title: '金额', width: 200, type: 'money', delimiter: "," },
-                { dataKey: 'agent', title: "金融机构", width: 200 },  
-                { dataKey: 'person', title: "申请人", width: 100 },
-                { dataKey: 'date',title: "日期", width: 150 }
+                { dataKey: 'city', title: '城市', width: 200},
+                { dataKey: 'name', title: '姓名', width: 200},
+                { dataKey: 'email', title: '邮箱'}
             ],
             required: false,
             fieldStyle: "accordion",
             fieldCollapsed: false,
             setter: <JsonSetter />
         }, {
+            name: "jsxdata",
+            title: "数据源（手动）",
+            defaultValue: {
+                "data": [
+                    {
+                        "email":"xw@abc.com",
+                        "name":"小王",
+                        "city":"北京"
+                    },
+                    {
+                        "email":"xl@abc.com",
+                        "name":"小李",
+                        "city":"杭州"
+                    }
+                ]
+            },
+            required: false,
+            fieldStyle: "block",
+            fieldCollapsed: false,
+            setter: <JsonSetter />
+        }, {
             name: "fetchUrl",
             title: "数据源（url）",
-            defaultValue: "http://eternalsky.me:8122/file/getDemo.jsonp",
+            defaultValue: "",
             required: false,
             fieldStyle: "block",
             fieldCollapsed: false,
@@ -158,14 +177,6 @@ module.exports = Bundle.createPrototype({
             fieldStyle: "block",
             fieldCollapsed: false,
             setter: <TextSetter multiline={true} rows={2} />
-        }, {
-            name: "jsxdata",
-            title: "数据源（手动）",
-            defaultValue: {},
-            required: false,
-            fieldStyle: "block",
-            fieldCollapsed: false,
-            setter: <JsonSetter />
         }, {
             name: "rowSelector",
             title: "列选择器的类型",

@@ -336,7 +336,7 @@ class Table extends React.Component {
             return item.dataKey !== 'jsxchecked' && item.dataKey !== 'jsxtreeIcon';
         });
 
-        // if hidden is not set, then it's false
+        // if hidden is not set, it's false
         columns = columns.map((item, index) => {
             item.hidden = !!item.hidden;
             return item;
@@ -357,17 +357,6 @@ class Table extends React.Component {
                 type: 'empty'
             }].concat(columns);
         }
-
-        // no rowSelection but has parentHasCheck, render placeholder
-        else if (!!props.parentHasCheck) {
-            columns = [{
-                dataKey: 'jsxwhite',
-                width: 46,
-                type: 'empty'
-            }].concat(columns);
-        }
-
-
 
         if ((!!props.subComp || !!props.renderSubComp) && props.renderModel !== 'tree') {
             columns = [{
@@ -670,7 +659,7 @@ class Table extends React.Component {
                 columns: this.state.columns,
                 activeColumn: this.state.activeColumn,
                 orderType: this.state.orderType,
-                checkAll: this.selectAll.bind(this),
+                selectAll: this.selectAll.bind(this),
                 columnPicker: props.showColumnPicker,
                 showHeaderBorder: props.showHeaderBorder,
                 handleColumnPickerChange: this.handleColumnPickerChange.bind(this),

@@ -40,27 +40,12 @@ class Header extends React.Component {
 
     hideColumnPicker(e) {
         let target = e.target;
-        // if ($(target).parents('.kuma-uxtable-column-picker-dropdown').length == 0
-        //     && $(target).parents('.kuma-column-picker-container').length == 0
-        //     && !$(target).hasClass('kuma-uxtable-column-picker-dropdown')
-        //     && !$(target).hasClass('kuma-column-picker-container')) {
-        //     this.setState({
-        //         pickerDisplay: false
-        //     });
-        // }
     }
 
     handleCheckBoxChange() {
         let v = this.refs.checkbox.getValue();
-        this.props.checkAll.apply(null, [v]);
+        this.props.selectAll.apply(null, [v]);
     }
-
-    // handleColumnPicker(e) {
-    //     e.stopPropagation();
-    //     this.setState({
-    //         pickerDisplay: true
-    //     });
-    // }
 
     handlePickerSelect(info) {
         this.props.handleColumnPickerChange(info.selectedKeys);
@@ -90,9 +75,6 @@ class Header extends React.Component {
         }
         orderColumnCB && orderColumnCB(type, column);
     }
-
-
-
 
     getSelectedKeys() {
         let me = this;
@@ -323,7 +305,6 @@ class Header extends React.Component {
             headerWrapClassName = "kuma-uxtable-header-no";
         }
 
-
         me.hasGroup = false;
         for (let i = 0; i < _columns.length; i++) {
             if ('group' in _columns[i]) {
@@ -345,7 +326,7 @@ class Header extends React.Component {
                 {_picker}
               </div>
             </div>
-            );
+        );
     }
 
 }

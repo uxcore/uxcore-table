@@ -138,7 +138,7 @@ class Demo extends React.Component {
             },
             showSearch: true,
             fetchUrl: fetchUrl,
-            rowSelector: 'radioSelector',
+            rowSelector: 'checkboxSelector',
             jsxcolumns: columns,
             rowSelection: rowSelection,
             renderSubComp: function() {
