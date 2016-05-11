@@ -150,8 +150,10 @@
 
 .@{uxtable-prefix}-cell-field {
     &.hasError {
-        .kuma-input {
-            border-color: red;
+        .kuma-input,
+        .kuma-select2-selection {
+            border-color: @border-danger-color;
+            color: @text-danger-color;
         }
     }
 }
