@@ -29,7 +29,7 @@ class Table extends React.Component {
         this.state = {
             data: this.addValuesInData(deepcopy(this.props.jsxdata)), // checkbox 内部交互
             columns: this.processColumn(), // column 内部交互
-            showMask: this.props.showMask, // fetchData 时的内部状态改变
+            showMask: props.showMask, // fetchData 时的内部状态改变
             pageSize: props.pageSize, // pagination 相关
             currentPage: props.currentPage, // pagination 相关
             activeColumn: null,
@@ -75,6 +75,9 @@ class Table extends React.Component {
         }
         if (!!nextProps.jsxcolumns && !!me.props.jsxcolumns && !me._isEqual(nextProps.jsxcolumns, me.props.jsxcolumns)) {
             newData['columns'] = me.processColumn(nextProps)
+        }
+        if (nextProps.showMask != me.props.showMask) {
+            newData['showMask'] = nextProps.showMask;
         }
         if (nextProps.fetchUrl !== me.props.fetchUrl) {
             me.fetchData('urlChange');
@@ -128,7 +131,7 @@ class Table extends React.Component {
     attachCellField(validate, name) {
         let me = this;
         if (!name) {
-            console.error("Table: name can not be empty, check the dataKey of the column config");
+            console.error("Table: dataKey can not be undefined, check the column config");
         } else {
             me.fields[name] = validate;
         }
