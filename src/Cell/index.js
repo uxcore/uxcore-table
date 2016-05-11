@@ -201,11 +201,11 @@ class Cell extends React.Component {
             }
             _v = <Field {...renderProps} />
         } else if (_column.type == 'money' || _column.type == "card" || _column.type == "cnmobile") {
-            _v = <div title={me.getCellData()}>{util.formatValue(me.getCellData(), _column.type, _column.delimiter)}</div>;
+            _v = <div className="default-cell" title={me.getCellData()}>{util.formatValue(me.getCellData(), _column.type, _column.delimiter)}</div>;
         } else if (_column.render) {
             _v = _column.render.apply(null, [me.getCellData(), _v]);
         } else {
-            _v = <div title={me.getCellData()}>{me.getCellData()}</div>;
+            _v = <div className="default-cell" title={me.getCellData()}>{me.getCellData()}</div>;
         }
 
         let child = me.props.children;

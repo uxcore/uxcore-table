@@ -64,7 +64,6 @@
     display: block;
     width: 100%;
     white-space: nowrap;
-    // border-top: 1px solid @table-border;
     border-bottom: none;
     .@{uxtable-prefix}-row-cells:hover {
         background-color: @brand-primary-lighter;
@@ -141,7 +140,8 @@
         height: auto;
         min-height: 50px;
         line-height: inherit;
-        & > div {
+        white-space: normal;
+        .default-cell {
             white-space: normal;
             height: auto;
         }

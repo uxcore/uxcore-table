@@ -65,7 +65,8 @@ class Demo extends React.Component {
                 dataKey: 'country',
                 title: '国家',
                 width: 200,
-                ordered: true
+                ordered: true,
+                render: function(cellData, rowData) {return cellData;}
             },
             {
                 dataKey: 'city',
@@ -144,9 +145,9 @@ class Demo extends React.Component {
             renderSubComp: function() {
                 return <div>1</div>
             },
-            // addRowClassName: function(rowData) {
-            //     return 'multiline';
-            // }
+            addRowClassName: function(rowData) {
+                return 'multiline';
+            }
         };
         return (
             <div>
