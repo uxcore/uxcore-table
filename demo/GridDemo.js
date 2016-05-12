@@ -132,6 +132,7 @@ class Demo extends React.Component {
                 'edit': function() {},
                 'del': function() {}
             },
+            pagerSizeOptions:[5,10,15,20],
             actionBar: {
                 'Action Button': function(type, table) {
                     alert(type);

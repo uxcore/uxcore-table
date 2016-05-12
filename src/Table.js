@@ -495,14 +495,14 @@ class Table extends React.Component {
 
     renderPager() {
         let me = this;
-        let {data, currentPage, pageSize} = me.state;
-        let {showPagerTotal, showPager, locale} = me.props;
+        let {data, currentPage, pageSize,sizeOptions} = me.state;
+        let {showPagerTotal, showPager, locale, pagerSizeOptions} = me.props;
 
         if (showPager && data && data.totalCount) {
             return (
                 <div className="kuma-uxtable-page">
                   <Pagination className="mini" locale={locale} showSizeChanger={true} showTotal={showPagerTotal} total={data.totalCount} onShowSizeChange={me.handleShowSizeChange.bind(me)}
-                    onChange={me.onPageChange.bind(me)} current={currentPage} pageSize={pageSize} />
+                    onChange={me.onPageChange.bind(me)} current={currentPage} pageSize={pageSize} sizeOptions={pagerSizeOptions}/>
                 </div>
                 );
         }
@@ -994,6 +994,7 @@ Table.defaultProps = {
     showSearch: false,
     getSavedData: true,
     pageSize: 10,
+    pagerSizeOptions: [10,20,30,40],
     rowHeight: 76,
     fetchParams: {},
     currentPage: 1,
@@ -1079,6 +1080,11 @@ Table.propTypes = {
      * @veFieldStyle block
      */
     showPagerTotal: React.PropTypes.bool,
+    /**
+     * @title 显示每页多少条集合
+     * @veFieldStyle block
+     */
+    pagerSizeOptions: React.PropTypes.array,
     /**
      * @title 是否显示表格头
      * @veFieldStyle block
