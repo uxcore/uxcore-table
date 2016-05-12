@@ -495,7 +495,7 @@ class Table extends React.Component {
 
     renderPager() {
         let me = this;
-        let {data, currentPage, pageSize,sizeOptions} = me.state;
+        let {data, currentPage, pageSize} = me.state;
         let {showPagerTotal, showPager, locale, pagerSizeOptions} = me.props;
 
         if (showPager && data && data.totalCount) {
