@@ -65,7 +65,7 @@ $ gulp server
 |loadingText         |string              |optional  |"loading"   | 1.4.4     |加载数据时的文案|
 |headerHeight        |number              |optional  |40          | -         |表格头部的高度|
 |pageSize            |number              |optional  |10          | -         |每页显示多少条数据|
-|pagerSizeOptions    |array               |optional  |[10,20,30,40] | -       |pageSize的一个集合配置项|
+|pagerSizeOptions    |array               |optional  |[10,20,30,40] | -       |显示的可选 pageSize|
 |queryKeys           |array               |optional  |[]          | -         |有哪些数据会传递给 subComp|
 |jsxdata             |object              |optional  |-           | -         |在远端数据还没有返回时用作默认数据|
 |fetchUrl            |string              |optional  |""          | -         |表格的数据源|

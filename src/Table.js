@@ -1081,7 +1081,7 @@ Table.propTypes = {
      */
     showPagerTotal: React.PropTypes.bool,
     /**
-     * @title 显示每页多少条集合
+     * @title  显示的可选 pageSize
      * @veFieldStyle block
      */
     pagerSizeOptions: React.PropTypes.array,
