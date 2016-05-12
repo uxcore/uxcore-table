@@ -2,6 +2,13 @@
 
 ---
 
+## 1.4.10
+
+* `FIX` select error not shown in inline edit mode (#128)
+* `FIX` multiline mode reset is not complete (#127)
+* `FIX` reset selectAll status when data source is changed. (#125)
+* `FIX` showMask bug (#125)
+
 ## 1.4.9
 
 * `CHANGED` change defaultProps in `prototype.js`

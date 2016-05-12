@@ -21,27 +21,6 @@ class Header extends React.Component {
         };
     }
 
-    componentDidMount() {
-        let me = this;
-        me.handleGlobalClick = me.handleGlobalClick.bind(me);
-        $(document).on('click.uxcore-grid-header', me.handleGlobalClick);
-    }
-
-    componentWillUnmount() {
-        let me = this;
-        $(document).off('click.uxcore-grid-header', me.handleGlobalClick);
-    }
-
-    handleGlobalClick(e) {
-        if (this.props.columnPicker) {
-            this.hideColumnPicker(e);
-        }
-    }
-
-    hideColumnPicker(e) {
-        let target = e.target;
-    }
-
     handleCheckBoxChange() {
         let v = this.refs.checkbox.getValue();
         this.props.selectAll.apply(null, [v]);
@@ -80,7 +59,7 @@ class Header extends React.Component {
         let me = this;
         let {columns} = me.props;
         let _columns = [];
-        let checkedKeys = [];
+        let selectedKeys = [];
         columns.forEach((item, index) => {
             if ('group' in item) {
                 _columns = _columns.concat(item.columns);
@@ -90,10 +69,10 @@ class Header extends React.Component {
         });
         _columns.forEach((item, index) => {
             if (!item.hidden) {
-                checkedKeys.push(item.dataKey);
+                selectedKeys.push(item.dataKey);
             }
         })
-        return checkedKeys;
+        return selectedKeys;
     }
 
     renderColumnSelect() {
@@ -173,9 +152,9 @@ class Header extends React.Component {
     }
 
     renderColumn(item, index, hasGroup, last) {
-
         if (item.hidden) return;
         let me = this;
+        let {data} = me.props;
         let noBorderColumn = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
         let _style = {
             width: item.width ? item.width : 100,
@@ -200,6 +179,7 @@ class Header extends React.Component {
 
             let checkBoxProps = {
                 ref: 'checkbox',
+                jsxchecked: me.props.isSelectAll,
                 disable: ((me.props.mode !== Const.MODE.VIEW) ? item.disable : true),
                 onchange: me.handleCheckBoxChange.bind(me)
             }
@@ -229,7 +209,6 @@ class Header extends React.Component {
 
     renderColumns(_columns) {
         let me = this;
-
         let columns = _columns.map((item, index) => {
             let last = (index == _columns.length - 1);
             if ('group' in item) {
@@ -256,7 +235,6 @@ class Header extends React.Component {
     }
 
     render() {
-
         let props = this.props,
             me = this,
             _picker,
@@ -265,7 +243,7 @@ class Header extends React.Component {
             _headerStyle = {},
             _columns;
 
-        if (props.columnPicker && (props.fixedColumn == 'no' || props.fixedColumn == 'scroll')) {
+        if (props.showColumnPicker && (props.fixedColumn == 'no' || props.fixedColumn == 'scroll')) {
             _picker = this.renderPicker();
         }
 
@@ -304,7 +282,6 @@ class Header extends React.Component {
             _columns = props.columns;
             headerWrapClassName = "kuma-uxtable-header-no";
         }
-
         me.hasGroup = false;
         for (let i = 0; i < _columns.length; i++) {
             if ('group' in _columns[i]) {
@@ -312,13 +289,10 @@ class Header extends React.Component {
                 break;
             }
         }
-
         assign(_headerStyle, {
             height: props.headerHeight ? props.headerHeight : (me.hasGroup ? 80 : 50),
             lineHeight: (props.headerHeight ? props.headerHeight : 50) + "px"
         });
-
-
         return (
             <div className={headerWrapClassName} style={_headerStyle}>
               <div className={props.jsxprefixCls}>

@@ -51,7 +51,7 @@ class Table extends React.Component {
         let me = this;
         me.el = ReactDOM.findDOMNode(me);
         if (!!me.state.data && !!me.state.data.datas) {
-            console.warn("Table: 'content.data' rather than 'content.datas' is recommended, the support for 'content.datas' will be end from ver. 1.3.0")
+            console.warn("Table: 'content.data' rather than 'content.datas' is recommended, the support for 'content.datas' will be end from ver. 1.5.0")
         }
         if (me.props.subComp) {
             console.warn("Table: subComp is deprecated, use renderSubComp instead.")
@@ -606,12 +606,36 @@ class Table extends React.Component {
         }
     }
 
+    getIsSelectAll(data) {
+        let me = this;
+        let column = me.checkboxColumn;
+        if (!column) return false;
+        let key = me.checkboxColumnKey;
+        let isSelectAll = true;
+        for (let i = 0; i < data.length; i++) {
+            if ((('isDisable' in column) && column.isDisable(item)) || column.disable) {
+                continue;
+            }
+            else {
+                isSelectAll = data[i][key];
+                if (!isSelectAll) {
+                    break;
+                }
+            }
+        }
+        return isSelectAll;
+    }
+
     render() {
-        let props = this.props;
+        let me = this;
+        let {props, state} = this;
         let bodyHeight;
         // if table is in sub mode, people always want to align the parent
         // and the sub table, so width should not be cared.
         let {headerHeight} = props;
+
+        let data = state.data ? state.data.datas || state.data.data : [];
+        let isSelectAll = me.getIsSelectAll(data);
 
         let _style = {
             width: !!props.passedData ? "auto" : props.width,
@@ -637,21 +661,21 @@ class Table extends React.Component {
             bodyHeight = props.height == "100%" ? props.height : (props.height - headerHeight - actionBarHeight - pagerHeight);
         }
         let renderBodyProps = {
-                columns: this.state.columns,
-                data: this.state.data ? this.state.data.datas || this.state.data.data : [],
+                columns: state.columns,
+                mask: state.showMask,
+                data: data,
                 rowSelection: props.rowSelection,
                 addRowClassName: props.addRowClassName,
                 subComp: props.subComp,
                 renderSubComp: props.renderSubComp,
-                mask: this.state.showMask,
                 rowHeight: props.rowHeight,
                 loadingText: props.loadingText,
                 height: bodyHeight,
                 width: props.width,
-                root: this,
                 mode: props.mode,
-                renderModel: props.renderModel,
                 levels: props.levels,
+                root: this,
+                renderModel: props.renderModel,
                 changeSelected: this.changeSelected.bind(this),
                 handleDataChange: this.handleDataChange.bind(this),
                 attachCellField: this.attachCellField.bind(this),
@@ -659,17 +683,18 @@ class Table extends React.Component {
                 key: 'grid-body'
             },
             renderHeaderProps = {
-                columns: this.state.columns,
-                activeColumn: this.state.activeColumn,
-                orderType: this.state.orderType,
-                selectAll: this.selectAll.bind(this),
-                columnPicker: props.showColumnPicker,
+                columns: state.columns,
+                activeColumn: state.activeColumn,
+                orderType: state.orderType,
+                showColumnPicker: props.showColumnPicker,
                 showHeaderBorder: props.showHeaderBorder,
-                handleColumnPickerChange: this.handleColumnPickerChange.bind(this),
                 headerHeight: props.headerHeight,
                 width: props.width,
                 mode: props.mode,
+                isSelectAll: isSelectAll,
+                selectAll: this.selectAll.bind(this),
                 orderColumnCB: this.handleOrderColumnCB.bind(this),
+                handleColumnPickerChange: this.handleColumnPickerChange.bind(this),
                 key: 'grid-header'
             };
 
@@ -866,7 +891,7 @@ class Table extends React.Component {
         });
     }
 
-    //////////////////////// CURD for gird ////////////////
+    //////////////////////// CURD for Table ////////////////
 
     addEmptyRow() {
         this.insertRecords({});

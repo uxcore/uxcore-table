@@ -145,14 +145,14 @@ class Demo extends React.Component {
             renderSubComp: function() {
                 return <div>1</div>
             },
-            addRowClassName: function(rowData) {
-                return 'multiline';
-            }
+            // addRowClassName: function(rowData) {
+            //     return 'multiline';
+            // }
         };
         return (
             <div>
-                <i className="kuma-icon kuma-icon-iconfontup"></i>
-                <Table {...renderProps}  ref="grid"/>
+                <Table {...renderProps}  ref="table"/>
+                <Button onClick={function() {me.refs.table.fetchData()}}>重新获取数据</Button>
             </div>
         );
     }
