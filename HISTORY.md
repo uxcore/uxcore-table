@@ -2,6 +2,11 @@
 
 ---
 
+## 1.4.11
+
+* `FIX` fix tree mode
+* `NEW` add prop `pagerSizeOptions`
+
 ## 1.4.10
 
 * `FIX` select error not shown in inline edit mode (#128)

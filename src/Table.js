@@ -609,7 +609,9 @@ class Table extends React.Component {
     getIsSelectAll(data) {
         let me = this;
         let column = me.checkboxColumn;
-        if (!column) return false;
+        if (!column || data.length == 0) {
+            return false;
+        }
         let key = me.checkboxColumnKey;
         let isSelectAll = true;
         for (let i = 0; i < data.length; i++) {
@@ -634,7 +636,7 @@ class Table extends React.Component {
         // and the sub table, so width should not be cared.
         let {headerHeight} = props;
 
-        let data = state.data ? state.data.datas || state.data.data : [];
+        let data = state.data ? (state.data.datas || state.data.data) : [];
         let isSelectAll = me.getIsSelectAll(data);
 
         let _style = {
