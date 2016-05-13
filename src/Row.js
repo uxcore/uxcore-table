@@ -23,10 +23,10 @@ class Row extends React.Component {
     shouldComponentUpdate(nextProps, nextState) {
         // 需要考虑的 prop 包括
         // columns, rowIndex(s), rowData, index(s), addRowClassName(f), rowSelection, subComp(f), actions
-        // mode(s), renderModel(s), fixedColumn(s), levels(s)
+        // mode(s), renderModel(s), fixedColumn(s), levels(s), visible(s)
         let me = this;
         let shouldUpdate = false;
-        ['rowIndex', 'index', 'mode', 'renderModel', 'fixedColumn', 'levels', 'addRowClassName', 'subComp'].forEach((item) => {
+        ['rowIndex', 'index', 'mode', 'renderModel', 'fixedColumn', 'levels', 'addRowClassName', 'subComp', 'visible'].forEach((item) => {
             if (me.props[item] !== nextProps[item]) {
                 shouldUpdate = true;
             }
