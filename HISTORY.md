@@ -6,6 +6,7 @@
 
 * `FIX` fix tree mode
 * `NEW` add prop `pagerSizeOptions`
+* `FIX` fix checkbox status bug when no data
 
 ## 1.4.10
 
