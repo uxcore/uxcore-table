@@ -32,9 +32,6 @@ class CellField extends React.Component {
                 pass: pass
             }));
         });
-        // me.props.handleDataChange(assgin({}, obj, {
-        //     pass: me.state.pass
-        // }));
         
     }
 

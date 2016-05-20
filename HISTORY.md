@@ -2,6 +2,10 @@
 
 ---
 
+## 1.5.0
+
+* `FIX` replace `column.children` with `column.renderChildren` in edit mode to improve the render performance.
+
 ## 1.4.11
 
 * `FIX` fix tree mode

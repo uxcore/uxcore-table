@@ -70,6 +70,5 @@ class Demo extends React.Component {
     return (<Table {...renderProps} ref="table" />);
   }
 }
-;
 
 module.exports = Demo;

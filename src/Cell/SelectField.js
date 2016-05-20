@@ -31,7 +31,7 @@ class SelectField extends CellField {
             assign(fieldProps, customProps);
         }
         return <Select {...fieldProps}>
-                    {me.props.column.children}
+                    {me.props.column.renderChildren && me.props.column.renderChildren()}
                </Select>
     }
 

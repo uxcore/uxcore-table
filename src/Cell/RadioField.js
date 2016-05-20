@@ -14,9 +14,14 @@ class RadioField extends CellField {
     processChildren() {
         let me = this;
         let obj = {};
-        me.props.column.children.forEach((item) => {
-            obj[item.props.value] = item.props.text;
-        });
+        if (me.props.column.renderChildren) {
+            me.props.column.renderChildren().forEach((item) => {
+                obj[item.props.value] = item.props.text;
+            });
+        }
+        else {
+            console.error("RadioCellField: renderChildren must be passed");
+        }
         return obj;
     }
 
@@ -40,7 +45,7 @@ class RadioField extends CellField {
             assign(fieldProps, customProps);
         }
         return <RadioGroup {...fieldProps}>
-                    {me.props.column.children}
+                    {me.props.column.renderChildren()}
                </RadioGroup>
     }
 

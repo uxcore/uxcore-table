@@ -13,7 +13,7 @@ class RadioField extends CellField {
     processChildren() {
         let me = this;
         let obj = {};
-        me.props.column.children.forEach((item) => {
+        me.props.column.renderChildren().forEach((item) => {
             obj[item.props.value] = item.props.text;
         });
         return obj;
@@ -39,7 +39,7 @@ class RadioField extends CellField {
             assign(fieldProps, customProps);
         }
         return <RadioGroup {...fieldProps}>
-                    {me.props.column.children}
+                    {me.props.column.renderChildren()}
                </RadioGroup>
     }
 
