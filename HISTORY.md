@@ -2,6 +2,10 @@
 
 ---
 
+## 1.5.1
+
+* `CHANGED` update radiogroup to ~1.2.0.
+
 ## 1.5.0
 
 * `FIX` replace `column.children` with `column.renderChildren` in edit mode to improve the render performance.
