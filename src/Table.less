@@ -15,6 +15,11 @@
     position: relative;
     color: #666;
     table-layout: fixed;
+    .half-checked {
+        vertical-align: middle;
+        margin-right: 10px;
+        color: @brand-primary;
+    }
     
 }
 
@@ -29,10 +34,8 @@
 
 .@{uxtable-prefix}-header-wrapper {
     overflow: hidden;
-    // border:1px solid @table-border;
 }
 .@{uxtable-prefix}-body-wrapper {
-    // border: 1px solid @table-border;
     border-top: none;
     min-height: 40px;
     overflow-x: auto;
@@ -82,12 +85,6 @@
     }
 }
 
-.@{uxtable-prefix}-tree-row {
-    .@{uxtable-prefix}-row{
-        // border-bottom: 0px solid @table-border;
-        // border-top: 1px solid @table-border;
-    }
-}
 
 .@{uxtable-prefix}-cell {
     display: inline-block;
@@ -159,7 +156,7 @@
 }
 
 
-.@{uxtable-prefix}-header .@{uxtable-prefix}-cell > div{
+.@{uxtable-prefix}-header .@{uxtable-prefix}-cell > div {
     overflow : visible;
     
 }
@@ -200,12 +197,8 @@
     }
 }
 
-.@{uxtable-prefix}-subrow {
-
-}
-
 .@{uxtable-prefix}-tree-icon{
-    cursor:pointer;
+    cursor: pointer;
     vertical-align: middle;
     > .kuma-icon {
         font-size: 14px;
@@ -214,8 +207,8 @@
 }
 
 .@{uxtable-prefix}-emptyicon{
-    width:20px;
-    display:inline-block;
+    width: 24px;
+    display: inline-block;
 }
 
 .kuma-subgrid-mode {
@@ -355,8 +348,6 @@
 .@{uxtable-prefix}-header-group-name {
     line-height: 40px;
     text-align: center;
-    // border-bottom: 1px solid @table-border;
-    // border-right: 1px solid @table-border;
 }
 
 .@{uxtable-prefix}-column-message {
@@ -365,6 +356,30 @@
 
 .@{uxtable-prefix}-row-selector {
     vertical-align: middle;
+}
+
+.@{uxtable-prefix}-expand-icon {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 18px;
+    line-height: 18px;
+    margin-right: 6px;
+    .kuma-icon-triangle-right {
+        &:before {
+            transition: transform .3s ease;
+            display: inline-block;
+        }
+        &.expanded:before {
+            transform: rotate(90deg);
+            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+             -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+        }
+    }
+}
+
+.@{uxtable-prefix}-row-tree-selector {
+    margin-right: 10px;
 }
 
 

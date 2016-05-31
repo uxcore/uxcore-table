@@ -10,21 +10,10 @@ class Radio extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            checked: !!this.props.checked
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        this.state.checked = !!nextProps.jsxchecked
     }
 
     handleChange(e) {
-        if (e.target.checked != this.state.checked) {
-            this.state.checked = !this.state.checked;
-            this.props.onchange.apply(null,[e])
-        }
+        this.props.onChange.apply(null,[e])
     }
     
     getValue () {
@@ -38,22 +27,22 @@ class Radio extends React.Component {
         if (props.mode !== Const.MODE.VIEW) {
             let renderProps= {
                 className: "kuma-checkbox",
-                checked: this.props.jsxchecked,
+                checked: this.props.checked,
                 onChange: this.handleChange.bind(this)
             }
             if (!!props.disable) {
                 renderProps.disabled = true;
             }
-            return <label className="kuma-uxtable-row-selector"><input type="radio" ref="radio" {...renderProps}/><s></s></label>
+            return <label className="kuma-uxtable-row-selector"><input type="radio" ref="radio" {...renderProps} /><s></s></label>
 
         }else {
 
             let renderProps= {
                 className: "kuma-checkbox",
-                checked: this.props.jsxchecked,
+                checked: this.props.checked,
                 disabled:true
             }
-            return <label className="kuma-uxtable-row-selector"><input type="radio" ref="radio"  {...renderProps}/><s></s></label>
+            return <label className="kuma-uxtable-row-selector"><input type="radio" ref="radio"  {...renderProps} /><s></s></label>
         }
 
     }

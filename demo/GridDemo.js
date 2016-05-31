@@ -145,7 +145,7 @@ class Demo extends React.Component {
             rowSelection: rowSelection,
             renderSubComp: function() {
                 return <div>1</div>
-            },
+            }
             // addRowClassName: function(rowData) {
             //     return 'multiline';
             // }

@@ -113,7 +113,7 @@ class Tbody extends React.Component {
 
             // content-box: border-box
             let delta = 2;
-            if (util.isIE(8)) {
+            if (util.getIEVer() === 8) {
                 delta = 3
             }
             _style = {
@@ -136,10 +136,12 @@ class Tbody extends React.Component {
                          index: index,
                          data: _data,
                          root: _props.root,
+                         checkboxColumnKey: _props.checkboxColumnKey,
                          addRowClassName: _props.addRowClassName,
                          rowSelection: _props.rowSelection,
                          changeSelected: me.props.changeSelected,
                          subComp: _props.subComp,
+                         expandedKeys: _props.expandedKeys,
                          renderSubComp: _props.renderSubComp,
                          actions: _props.actions,
                          key: 'row' + index,

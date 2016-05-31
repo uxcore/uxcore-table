@@ -16,7 +16,6 @@ let RadioItem = RadioGroup.Item;
 let Table = require('../src');
 let RadioField = require('./RadioField');
 let PlaceSelect = require('./PlaceSelect');
-// let {Constants} = Table;
 let Constants = require('uxcore-const')
 let mockData = {
     "data": [
@@ -90,7 +89,7 @@ class Demo extends React.Component {
     render () {
         let me = this;
         let columns = [
-            { dataKey: 'jsxid', title: 'jsxid', width: 80},
+            { dataKey: 'jsxid', title: 'jsxid2', width: 80},
             { dataKey: 'city', editKey: 'cityId',title:'城市', width: 200, type:'select', renderChildren: () => {
                 return [{id: 'bj', name: '北京'},{id: 'hz', name: '杭州'}].map((item) => {
                     return <Option key={item.id}>{item.name}</Option>

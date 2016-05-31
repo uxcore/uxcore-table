@@ -6,19 +6,20 @@
  * All rights reserved.
  */
 
-let Header = require("./Header");
-let Tbody = require("./Tbody");
-let ActionBar = require("./ActionBar");
-let CellField = require('./Cell/CellField');
-let Pagination = require("uxcore-pagination");
-let Const = require('uxcore-const');
-let assign = require('object-assign');
-let deepcopy = require('deepcopy');
-let deepEqual = require('deep-equal');
-let classnames = require("classnames");
+const Header = require("./Header");
+const Tbody = require("./Tbody");
+const ActionBar = require("./ActionBar");
+const CellField = require('./Cell/CellField');
+const Pagination = require("uxcore-pagination");
+const Const = require('uxcore-const');
+const assign = require('object-assign');
+const deepcopy = require('deepcopy');
+const deepEqual = require('deep-equal');
+const classnames = require("classnames");
+const util = require('./util');
 
-let React = require('react');
-let ReactDOM = require('react-dom');
+const React = require('react');
+const ReactDOM = require('react-dom');
 
 class Table extends React.Component {
 
@@ -34,10 +35,7 @@ class Table extends React.Component {
             currentPage: props.currentPage, // pagination 相关
             activeColumn: null,
             searchTxt: "",
-            passedData: null,
-            params: null,
-            selected: [],
-            expanded: false
+            expandedKeys: []
         };
     }
 
@@ -449,6 +447,40 @@ class Table extends React.Component {
         })
     }
 
+    /**
+     * change the checkboxColumnKey of data, passed to the Row
+     * @param checked {boolean} tree checkbox status
+     * @param dataIndex {string} like `1-2-3` means the position of the Row in data
+     */
+    changeTreeSelected(checked, dataIndex) {
+        const me = this;
+        const currentLevel = dataIndex.toString().split('-');
+        const levelDepth = currentLevel.length;
+        let data = deepcopy(me.state.data);
+        let current = data.data;
+        // record each tree node for reverse recursion.
+        let treeMap = [];
+        for (let i = 0; i < levelDepth - 1; i++) {
+            treeMap[i] = current;
+            current = current[currentLevel[i]].data;
+        }
+        // check/uncheck current row and all its children
+        current = current[currentLevel[levelDepth - 1]];
+        current[me.checkboxColumnKey] = checked;
+        util.changeValueR(current, me.checkboxColumnKey, checked);
+
+        // reverse recursion, check/uncheck parents by its children.
+        for (let i = treeMap.length - 1; i >= 0; i--) {
+            treeMap[i][currentLevel[i]][me.checkboxColumnKey] = treeMap[i][currentLevel[i]].data.every((item) => {
+                return item[me.checkboxColumnKey] === true;
+            });
+        }
+
+        me.setState({
+            data: data,
+        })
+    }
+
     selectAll(checked) {
 
         let me = this;
@@ -628,6 +660,7 @@ class Table extends React.Component {
         return isSelectAll;
     }
 
+
     render() {
         let me = this;
         let {props, state} = this;
@@ -663,42 +696,46 @@ class Table extends React.Component {
             bodyHeight = props.height == "100%" ? props.height : (props.height - headerHeight - actionBarHeight - pagerHeight);
         }
         let renderBodyProps = {
-                columns: state.columns,
-                mask: state.showMask,
-                data: data,
-                rowSelection: props.rowSelection,
-                addRowClassName: props.addRowClassName,
-                subComp: props.subComp,
-                renderSubComp: props.renderSubComp,
-                rowHeight: props.rowHeight,
-                loadingText: props.loadingText,
-                height: bodyHeight,
-                width: props.width,
-                mode: props.mode,
-                levels: props.levels,
-                root: this,
-                renderModel: props.renderModel,
-                changeSelected: this.changeSelected.bind(this),
-                handleDataChange: this.handleDataChange.bind(this),
-                attachCellField: this.attachCellField.bind(this),
-                detachCellField: this.detachCellField.bind(this),
-                key: 'grid-body'
-            },
-            renderHeaderProps = {
-                columns: state.columns,
-                activeColumn: state.activeColumn,
-                orderType: state.orderType,
-                showColumnPicker: props.showColumnPicker,
-                showHeaderBorder: props.showHeaderBorder,
-                headerHeight: props.headerHeight,
-                width: props.width,
-                mode: props.mode,
-                isSelectAll: isSelectAll,
-                selectAll: this.selectAll.bind(this),
-                orderColumnCB: this.handleOrderColumnCB.bind(this),
-                handleColumnPickerChange: this.handleColumnPickerChange.bind(this),
-                key: 'grid-header'
-            };
+            columns: state.columns,
+            mask: state.showMask,
+            expandedKeys: state.expandedKeys,
+            data: data,
+            rowSelection: props.rowSelection,
+            addRowClassName: props.addRowClassName,
+            subComp: props.subComp,
+            renderSubComp: props.renderSubComp,
+            rowHeight: props.rowHeight,
+            loadingText: props.loadingText,
+            checkboxColumnKey: me.checkboxColumnKey,
+            height: bodyHeight,
+            width: props.width,
+            mode: props.mode,
+            levels: props.levels,
+            root: this,
+            renderModel: props.renderModel,
+            changeSelected: this.changeSelected.bind(this),
+            handleDataChange: this.handleDataChange.bind(this),
+            attachCellField: this.attachCellField.bind(this),
+            detachCellField: this.detachCellField.bind(this),
+            key: 'grid-body'
+        };
+        let renderHeaderProps = {
+            columns: state.columns,
+            activeColumn: state.activeColumn,
+            orderType: state.orderType,
+            showColumnPicker: props.showColumnPicker,
+            checkboxColumnKey: me.checkboxColumnKey,
+            showHeaderBorder: props.showHeaderBorder,
+            headerHeight: props.headerHeight,
+            renderModel: props.renderModel,
+            width: props.width,
+            mode: props.mode,
+            isSelectAll: isSelectAll,
+            selectAll: this.selectAll.bind(this),
+            orderColumnCB: this.handleOrderColumnCB.bind(this),
+            handleColumnPickerChange: this.handleColumnPickerChange.bind(this),
+            key: 'grid-header'
+        };
 
         let actionBar;
 
@@ -969,7 +1006,15 @@ class Table extends React.Component {
         }
         this.setState({
             data: _content
-        })
+        });
+    }
+
+    toggleTreeExpanded(rowData) {
+        let expandedKeys = deepcopy(this.state.expandedKeys);
+        util.toggleItemInArr(rowData.jsxid, expandedKeys);
+        this.setState({
+            expandedKeys: expandedKeys
+        }); 
     }
 
 }
@@ -996,7 +1041,7 @@ Table.defaultProps = {
     showSearch: false,
     getSavedData: true,
     pageSize: 10,
-    pagerSizeOptions: [10,20,30,40],
+    pagerSizeOptions: [10, 20, 30, 40],
     rowHeight: 76,
     fetchParams: {},
     currentPage: 1,

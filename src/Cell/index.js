@@ -2,22 +2,23 @@
  * Created by xy on 15/4/13.
  */
 
-let React = require('react');
-let ReactDOM = require('react-dom');
-let Const = require('uxcore-const');
-let Dropdown = require('uxcore-dropdown');
-let Menu = require('uxcore-menu');
+const React = require('react');
+const ReactDOM = require('react-dom');
+const Const = require('uxcore-const');
+const Dropdown = require('uxcore-dropdown');
+const Menu = require('uxcore-menu');
 
-let CheckBox = require('./CheckBox');
-let Radio = require('./Radio');
-let TextField = require('./TextField');
-let SelectField = require("./SelectField");
-let RadioField = require("./RadioField");
-let util = require('./Util');
-let classnames = require('classnames');
-let assign = require('object-assign');
-let deepcopy = require('deepcopy');
-let fieldsMap = {
+const CheckBox = require('./CheckBox');
+const Radio = require('./Radio');
+const TextField = require('./TextField');
+const SelectField = require("./SelectField");
+const RadioField = require("./RadioField");
+const util = require('./util');
+const classnames = require('classnames');
+const assign = require('object-assign');
+const deepcopy = require('deepcopy');
+const deepEqual = require('deep-equal');
+const fieldsMap = {
     "select": SelectField,
     "text": TextField,
     "radio": RadioField
@@ -28,24 +29,50 @@ class Cell extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            'fold': 1, // 1- fold  0-unfold
-            'checked': !!this.getCellData()
+            dropdownVisible: false
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        let me = this;
-        if (me.props.column.type == "checkbox" || me.props.column.type == "checkboxSelector" || me.props.column.type == "radioSelector") {
-            me.setState({
-                checked: !!me.getCellData(nextProps)
+    shouldComponentUpdate(nextProps, nextState) {
+        // 需要考虑的 prop 包括 
+        // column, rowData, rowIndex(s), index(s), cellIndex(s), hasSubComp(s)
+        // rowSelection, actions, mode(s)
+        const me = this;
+        let shouldUpdate = false;
+
+        // only tree mode has children
+        if ('children' in nextProps) {
+            return true;
+        }
+
+        ['rowIndex', 'index', 'cellIndex', 'hasSubComp', 'mode'].forEach((item) => {
+            if (me.props[item] !== nextProps[item]) {
+                shouldUpdate = true;
+            }
+        });
+
+        if (!shouldUpdate) {
+            ['dropdownVisible'].forEach((item) => {
+                if (me.state[item] !== nextProps[item]) {
+                    shouldUpdate = true;
+                }
             })
         }
+        if (!shouldUpdate) {
+            ['column', 'rowSelection', 'rowData', 'actions'].forEach((item, index) => {
+                if (!deepEqual(me.props[item], nextProps[item])) {
+                    shouldUpdate = true;
+                }
+            })
+        };
+
+        return shouldUpdate;
     }
 
     componentDidMount() {
         let me = this;
         if (me.props.column.type == "checkbox" || me.props.column.type == "checkboxSelector" || me.props.column.type == "radioSelector") {
-            me.props.changeSelected(me.state.checked, me.props.rowIndex, true);
+            me.props.changeSelected(me.getCellData(), me.props.rowIndex, true);
         }
     }
 
@@ -130,7 +157,7 @@ class Cell extends React.Component {
             _mode = props.rowData['__mode__'],
             _style = {
                 width: _width ? _width : 100,
-                textAlign: props.align ? props.align : "left"
+                textAlign: props.column.align ? props.column.align : "left"
             },
             _v = deepcopy(props.rowData),
             renderProps;
@@ -144,39 +171,27 @@ class Cell extends React.Component {
             _style.paddingRight = 4;
             _style.paddingLeft = 12;
 
-            let checked;
-            if (me.state.checked) {
-                checked = 'checked'
-            } else {
-                checked = "";
-            }
-
+            let checked = me.getCellData();
             let disable = false;
             if ('disable' in _column) {
                 disable = _column.disable;
             } else if ('isDisable' in _column) {
                 disable = !!_column.isDisable(props.rowData);
             }
-            _v = <CheckBox disable={disable} mode={props.mode} align={props.align} jsxchecked={checked} ref="checkbox" onchange={me.handleCheckChange.bind(me)}/>
+            _v = <CheckBox disable={disable} mode={props.mode} align={props.column.align} checked={checked} ref="checkbox" onChange={me.handleCheckChange.bind(me)}/>
 
         } else if (_column.type == 'radioSelector') {
             _style.paddingRight = 4;
             _style.paddingLeft = 12;
 
-            let checked;
-            if (me.state.checked) {
-                checked = 'checked'
-            } else {
-                checked = "";
-            }
-
+            let checked = me.getCellData();
             let disable = false;
             if ('disable' in _column) {
                 disable = _column.disable;
             } else if ('isDisable' in _column) {
                 disable = !!_column.isDisable(props.rowData);
             }
-            _v = <Radio disable={disable} mode={props.mode} align={props.align} jsxchecked={checked} onchange={me.handleCheckChange.bind(me)}/>
+            _v = <Radio disable={disable} mode={props.mode} align={props.column.align} checked={checked} onChange={me.handleCheckChange.bind(me)}/>
         } else if (_column.type == 'treeIcon') {
             _v = me.renderTreeIcon();
         }

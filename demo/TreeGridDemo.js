@@ -8,7 +8,7 @@
 
 let classnames = require('classnames');
 let Table = require('../src');
-let urlPrefix = 'http://30.10.29.74:3000/';
+let urlPrefix = 'http://192.168.99.117:3000/';
 
 
 class Demo extends React.Component {
@@ -65,7 +65,11 @@ class Demo extends React.Component {
       showSearch: true,
       fetchUrl: urlPrefix + 'demo/data.json',
       jsxcolumns: columns,
-      renderModel: 'tree'
+      renderModel: 'tree',
+      rowSelection: {
+        onSelect: () => {},
+        onSelectAll: () => {}
+      }
     };
     return (<Table {...renderProps} ref="table" />);
   }

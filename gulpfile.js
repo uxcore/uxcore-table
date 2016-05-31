@@ -118,6 +118,7 @@ gulp.task('server', [
         server: {
             baseDir: './'
         },
+        logLevel: 'silent',
         open: 'external'
     });
 

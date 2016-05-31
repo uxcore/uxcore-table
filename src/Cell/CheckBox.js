@@ -2,9 +2,10 @@
  * A checkbox field
  */
 
-let Const = require('uxcore-const');
-let React = require('react');
-let ReactDOM = require('react-dom');
+const Const = require('uxcore-const');
+const React = require('react');
+const ReactDOM = require('react-dom');
+const classnames = require('classnames');
 
 class CheckBox extends React.Component {
 
@@ -13,42 +14,53 @@ class CheckBox extends React.Component {
     }
 
     handleChange(e) {
-        let v = this.getValue();
-        v = v ? 'checked' : '';
-        this.props.onchange.apply(null, [e])
+        this.props.onChange(e)
     }
 
     getValue() {
         return this.refs.checkbox.checked;
     }
 
+    handleClick() {
+        // simulate checkbox
+        this.props.onChange({
+            target: {
+                checked: true
+            }
+        });
+    }
+
+    renderHalfChecked() {
+        return <i className="kuma-icon kuma-icon-tree-open half-checked" onClick={this.handleClick.bind(this)}></i>;
+    }
+
+    renderCheckBox(renderProps) {
+        return (
+            <label className={classnames({
+                "kuma-uxtable-row-selector": true,
+                [this.props.className]: !!this.props.className,
+            })}>
+                <input type="checkbox" ref="checkbox" {...renderProps}/><s></s>
+            </label>
+        )
+    }
+
+
     render() {
 
         let props = this.props;
-
-        if (props.mode !== Const.MODE.VIEW) {
-            let renderProps = {
-                className: "kuma-checkbox",
-                checked: this.props.jsxchecked,
-                onChange: this.handleChange.bind(this)
-            }
-            if (!!props.disable) {
-                renderProps.disabled = true;
-            }
-            return <label className="kuma-uxtable-row-selector">
-                     <input type="checkbox" ref="checkbox" {...renderProps}/><s></s></label>
-
-        } else {
-
-            let renderProps = {
-                className: "kuma-checkbox",
-                checked: this.props.jsxchecked,
-                disabled: true
-            }
-            return <label className="kuma-uxtable-row-selector">
-                     <input type="checkbox" ref="checkbox" {...renderProps}/><s></s>
-                </label>
+        if (props.halfChecked) {
+            return this.renderHalfChecked();
         }
+        const renderProps = {
+            className: "kuma-checkbox",
+            checked: this.props.checked,
+            onChange: this.handleChange.bind(this)
+        }
+        if (!!props.disable || props.mode == Const.MODE.VIEW) {
+            renderProps.disabled = true;
+        }
+        return this.renderCheckBox(renderProps);
     }
 
 }
@@ -61,4 +73,4 @@ CheckBox.defaultProps = {
 
 };
 
-export default CheckBox;
+module.exports = CheckBox;

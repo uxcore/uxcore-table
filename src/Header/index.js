@@ -152,10 +152,11 @@ class Header extends React.Component {
     }
 
     renderColumn(item, index, hasGroup, last) {
-        if (item.hidden) return;
-        let me = this;
-        let {data} = me.props;
-        let noBorderColumn = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
+        const me = this;
+        const {data, renderModel} = me.props;
+        const rowSelectorInTreeMode = (['checkboxSelector', 'radioSelector'].indexOf(item.type) !== -1) && (renderModel == 'tree');
+        if (item.hidden || rowSelectorInTreeMode) return;
+        const noBorderColumn = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
         let _style = {
             width: item.width ? item.width : 100,
             textAlign: item.align ? item.align : "left"
@@ -179,9 +180,9 @@ class Header extends React.Component {
 
             let checkBoxProps = {
                 ref: 'checkbox',
-                jsxchecked: me.props.isSelectAll,
+                checked: me.props.isSelectAll,
                 disable: ((me.props.mode !== Const.MODE.VIEW) ? item.disable : true),
-                onchange: me.handleCheckBoxChange.bind(me)
+                onChange: me.handleCheckBoxChange.bind(me)
             }
 
             _v = <CheckBox {...checkBoxProps} />
@@ -200,12 +201,22 @@ class Header extends React.Component {
                                 "kuma-uxtable-cell": true,
                                 "show-border": me.props.showHeaderBorder
                             })} style={_style}>
+              {me.renderIndent()}
               {_v}
               {me.renderMessageIcon(item)}
               {me.renderOrderIcon(item)}
             </div>
         )
     }
+
+    renderIndent() {
+        const me = this;
+        const {renderModel} = me.props;
+        if (renderModel == "tree") {
+            return <span className="indent"></span>
+        }
+    }
+
 
     renderColumns(_columns) {
         let me = this;
@@ -215,7 +226,7 @@ class Header extends React.Component {
                 // First determine whether the group should be rendered, if all columns
                 // is hidden, the column group should not be rendered.
                 let shouldRenderGroup = item.columns.some((column, i) => {
-                    return !column.hidden
+                    return !column.hidden;
                 });
                 if (shouldRenderGroup) {
                     return <div className="kuma-uxtable-header-column-group" key={index}>
