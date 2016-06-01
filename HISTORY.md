@@ -2,6 +2,10 @@
 
 ---
 
+## 1.6.0
+
+* `NEW` new tree select mode (support checked/unchecked/halfchecked)
+
 ## 1.5.1
 
 * `CHANGED` update radiogroup to ~1.2.0.

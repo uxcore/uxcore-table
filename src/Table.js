@@ -478,6 +478,12 @@ class Table extends React.Component {
 
         me.setState({
             data: data,
+        }, () => {
+            // const selectedRows = data.data.filter((item) => {
+            //     return item.keys
+            // })
+            const selectedRows = util.getAllSelectedRows(deepcopy(data), me.checkboxColumnKey);
+            !!me.props.rowSelection && !!me.props.rowSelection.onSelect && me.props.rowSelection.onSelect(checked, current, selectedRows);
         })
     }
 

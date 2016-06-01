@@ -8,6 +8,7 @@ const Const = require('uxcore-const');
 const deepEqual = require('deep-equal');
 const deepcopy = require('deepcopy');
 const CheckBox = require('./Cell/CheckBox');
+const util = require('./util');
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -188,11 +189,9 @@ class Row extends React.Component {
         const me = this;
         const {rowData, checkboxColumnKey, prefixCls} = me.props;
         const isChecked = rowData[checkboxColumnKey];
-        let isHalfChecked = false;
-        if (!isChecked && rowData.data) {
-            isHalfChecked = rowData.data.some((item) => {
-                return item[checkboxColumnKey] === true;
-            });
+        let isHalfChecked =  false;
+        if (!isChecked) {
+            isHalfChecked = util.isRowHalfChecked(rowData, checkboxColumnKey);
         }
         return <CheckBox checked={isChecked} 
                     halfChecked={isHalfChecked}

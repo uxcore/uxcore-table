@@ -8,6 +8,50 @@ const changeValueR = (data, key, value) => {
     }
 }
 
+const isRowHalfChecked = (rowData, checkboxColumnKey) => {
+    if (rowData.data) {
+        const isHalfChecked = rowData.data.some((item) => {
+            if (item[checkboxColumnKey]) {
+                return true;
+            }
+            return isRowHalfChecked(item, checkboxColumnKey);
+        });
+        return isHalfChecked;
+    }
+    return false;
+}
+
+// depth-first recursion of multi branches tree
+const getAllSelectedRows = (rowData, checkboxColumnKey) => {
+    let selectedRows = [];
+    let stack = [];
+    // put first level data into stack
+    stack.push(rowData);
+    while (stack.length) {
+        const item = stack.shift();
+        if (item[checkboxColumnKey]) {
+            selectedRows.push(item);
+        }
+        if (item.data) {
+            stack = item.data.concat(stack);
+        }
+    }
+    return selectedRows;
+}
+
+// TODO cache row tree set
+const getRowTreeSet = (rowData) => {
+    let stack = [];
+    // put first level data into stack
+    stack.push(rowData);
+    while (stack.length) {
+        item = stack.shift();
+        if (item.data) {
+            stack = stack.concat(item.data);
+        }
+    }
+}
+
 module.exports = {
     getIEVer: () => {
         if (window) {
@@ -36,4 +80,6 @@ module.exports = {
         return arr;
     },
     changeValueR: changeValueR,
+    isRowHalfChecked: isRowHalfChecked,
+    getAllSelectedRows: getAllSelectedRows
 }

@@ -8,7 +8,7 @@
 
 let classnames = require('classnames');
 let Table = require('../src');
-let urlPrefix = 'http://192.168.99.117:3000/';
+let urlPrefix = 'http://30.10.30.210:3000/';
 
 
 class Demo extends React.Component {
@@ -67,7 +67,9 @@ class Demo extends React.Component {
       jsxcolumns: columns,
       renderModel: 'tree',
       rowSelection: {
-        onSelect: () => {},
+        onSelect: (checked, selectedRow, selectedRows) => {
+          console.log(selectedRows);
+        },
         onSelectAll: () => {}
       }
     };
