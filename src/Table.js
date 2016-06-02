@@ -263,33 +263,23 @@ class Table extends React.Component {
             }
 
             me.ajax = $.ajax(ajaxOptions);
-        } else if (!!me.props.passedData) {
-
-            if (!me.props.queryKeys) {
-                let data = me.addValuesInData(me.props.processData(deepcopy(me.props.passedData)));
-                me.setState({
-                    data: data
-                });
-                me.data = deepcopy(data);
-            } else {
-                let data = {};
-                me.props.queryKeys.forEach((key, index) => {
-                    if (me.props.passedData[key] !== undefined) {
-                        data[key] = me.props.passedData[key];
-                    }
-                });
-                let processedData = me.addValuesInData(me.props.processData(deepcopy(data)));
-                me.setState({
-                    data: processedData
-                });
-                me.data = deepcopy(processedData);
-            }
         } else if (!!this.props.jsxdata) {
             let data = this.addValuesInData(deepcopy(this.props.jsxdata));
             me.setState({
                 data: data
             });
             me.data = deepcopy(data);
+            switch(from) {
+                case "pagination":
+                    me.props.onPagerChange && me.props.onPagerChange(me.state.currentPage, me.state.pageSize);
+                    break;
+                case "order":
+                    me.props.onOrder && me.props.onOrder(me.state.activeColumn, me.state.orderType);
+                    break;
+                case "search":
+                    me.props.onSearch && me.props.onSearch(me.state.searchTxt);
+                    break;
+            }
         } else {
             //default will create one row
             let data = {

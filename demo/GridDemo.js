@@ -138,8 +138,12 @@ class Demo extends React.Component {
                     })
                 }
             },
+            onSearch: (searchTxt) => {console.log(searchTxt);},
+            onOrder: (column, orderType) => {console.log(column, orderType);},
+            onPagerChange: (current, pageSize) => {console.log(current, pageSize)},
             showSearch: true,
             fetchUrl: fetchUrl,
+            // jsxdata: mockData,
             rowSelector: 'checkboxSelector',
             jsxcolumns: columns,
             rowSelection: rowSelection,

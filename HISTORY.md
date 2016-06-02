@@ -5,6 +5,7 @@
 ## 1.6.1
 
 * `CHANGED` tree mode style improve
+* `CHANGED` remove props.passedData support
 
 ## 1.6.0
 
