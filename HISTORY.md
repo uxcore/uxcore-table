@@ -2,6 +2,11 @@
 
 ---
 
+## 1.6.2
+
+* `NEW` add new prop `onSearch` `onOrder` `onPagerChange`
+* `FIX` fix upperCase
+
 ## 1.6.1
 
 * `CHANGED` tree mode style improve

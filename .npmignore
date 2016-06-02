@@ -15,6 +15,7 @@ nohup.out
 .DS_Store
 Thumbs.db
 .project
+.happypack
 .*proj
 .svn/
 *.swp
