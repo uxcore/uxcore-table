@@ -2,6 +2,10 @@
 
 ---
 
+## 1.6.1
+
+* `CHANGED` tree mode style improve
+
 ## 1.6.0
 
 * `NEW` new tree select mode (support checked/unchecked/halfchecked)

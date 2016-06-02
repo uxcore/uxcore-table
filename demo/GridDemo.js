@@ -37,7 +37,8 @@ class Demo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: this.props.data
+            data: this.props.data,
+            text: 1
         }
     }
     render() {
@@ -58,15 +59,12 @@ class Demo extends React.Component {
                 width: 50,
                 hidden: true
             },
-            // { dataKey: 'radio', title:'', type: 'radioSelector' /*checkboxSelector*/, width: 50, isDisable: function (rowData) {
-            //   return rowData.id > 5;
-            // }},
             {
                 dataKey: 'country',
                 title: '国家',
                 width: 200,
                 ordered: true,
-                render: function(cellData, rowData) {return cellData;}
+                render: function(cellData, rowData) {return cellData + me.state.text;}
             },
             {
                 dataKey: 'city',
@@ -135,7 +133,9 @@ class Demo extends React.Component {
             pagerSizeOptions:[5,10,15,20],
             actionBar: {
                 'Action Button': function(type, table) {
-                    alert(type);
+                    me.setState({
+                        text: 2
+                    })
                 }
             },
             showSearch: true,
