@@ -297,8 +297,12 @@
 
 
 .@{uxtable-prefix} span.indent {
-    margin-left: 10px;
-    margin-right: 10px;
+    display: inline-block;
+    width: 24px;
+    margin: 0;
+    &.hasCheck {
+        margin-right: 26px;
+    }
 }
 
 .@{uxtable-prefix}-body-fixed {
@@ -380,6 +384,17 @@
 
 .@{uxtable-prefix}-row-tree-selector {
     margin-right: 10px;
+}
+
+.@{uxtable-prefix}-tree-mode {
+    .@{uxtable-prefix}-row {
+        &.even .@{uxtable-prefix}-row-cells {
+            background: white;
+        }
+        .@{uxtable-prefix}-row-cells {
+            border-bottom: 1px solid @basic-600;
+        }
+    }
 }
 
 

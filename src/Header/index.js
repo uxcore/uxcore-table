@@ -155,7 +155,10 @@ class Header extends React.Component {
         const me = this;
         const {data, renderModel} = me.props;
         const rowSelectorInTreeMode = (['checkboxSelector', 'radioSelector'].indexOf(item.type) !== -1) && (renderModel == 'tree');
-        if (item.hidden || rowSelectorInTreeMode) return;
+        if (item.hidden || rowSelectorInTreeMode) {
+            me.firstIndex = index + 1;
+            return ;
+        }
         const noBorderColumn = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
         let _style = {
             width: item.width ? item.width : 100,
@@ -201,7 +204,7 @@ class Header extends React.Component {
                                 "kuma-uxtable-cell": true,
                                 "show-border": me.props.showHeaderBorder
                             })} style={_style}>
-              {me.renderIndent()}
+              {me.renderIndent(index)}
               {_v}
               {me.renderMessageIcon(item)}
               {me.renderOrderIcon(item)}
@@ -209,11 +212,17 @@ class Header extends React.Component {
         )
     }
 
-    renderIndent() {
+    renderIndent(index) {
+        if (this.firstIndex !== index) {
+            return;
+        }
         const me = this;
-        const {renderModel} = me.props;
+        const {renderModel, checkboxColumnKey} = me.props;
         if (renderModel == "tree") {
-            return <span className="indent"></span>
+            return <span className={classnames({
+                "indent": true,
+                "hasCheck": checkboxColumnKey
+            })}></span>
         }
     }
 

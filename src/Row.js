@@ -183,7 +183,7 @@ class Row extends React.Component {
     }
 
     renderTreeRowSelector() {
-        if (this.props.renderModel !== 'tree') {
+        if (this.props.renderModel !== 'tree' || !this.props.checkboxColumnKey) {
             return false;
         }
         const me = this;

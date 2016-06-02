@@ -375,7 +375,6 @@ class Table extends React.Component {
                 type: 'empty'
             }].concat(columns);
         }
-
         return columns;
     }
 
@@ -400,6 +399,7 @@ class Table extends React.Component {
                 }
             }
         });
+
         this.setState({
             columns: _columns
         })
@@ -759,8 +759,10 @@ class Table extends React.Component {
 
         return (
             <div className={classnames({
+                    [props.className]: !!props.className,
                     [props.jsxprefixCls]: true,
-                    "kuma-subgrid-mode": !!props.passedData
+                    "kuma-subgrid-mode": !!props.passedData,
+                    [`${props.jsxprefixCls}-tree-mode`]: props.renderModel === 'tree'
                 })} style={_style}>
               {actionBar}
               <div className="kuma-uxtable-content" style={{ width: !!props.passedData ? "auto" : props.width }}>
