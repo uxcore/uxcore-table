@@ -15,12 +15,12 @@ nohup.out
 .DS_Store
 Thumbs.db
 .project
-.happypack
 .*proj
 .svn/
 *.swp
 out/
 .build
+.happypack
 node_modules
 _site
 sea-modules

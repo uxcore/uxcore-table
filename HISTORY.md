@@ -2,6 +2,10 @@
 
 ---
 
+## 1.6.3
+
+* `CHANGED` little change in tree mode style
+
 ## 1.6.2
 
 * `NEW` add new prop `onSearch` `onOrder` `onPagerChange`
