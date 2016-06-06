@@ -2,6 +2,10 @@
 
 ---
 
+## 1.6.4
+
+* `FIX` even row calculation bug
+
 ## 1.6.3
 
 * `CHANGED` little change in tree mode style
