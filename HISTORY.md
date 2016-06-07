@@ -2,7 +2,7 @@
 
 ---
 
-## 1.6.5
+## 1.6.6
 
 * `CHANGED` replace half-checked icon with svg
 
