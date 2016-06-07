@@ -2,6 +2,10 @@
 
 ---
 
+## 1.6.5
+
+* `CHANGED` replace half-checked icon with svg
+
 ## 1.6.4
 
 * `FIX` even row calculation bug

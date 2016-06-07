@@ -31,7 +31,11 @@ class CheckBox extends React.Component {
     }
 
     renderHalfChecked() {
-        return <i className="kuma-icon kuma-icon-tree-open half-checked" onClick={this.handleClick.bind(this)}></i>;
+        return (
+            <label className="kuma-uxtable-row-selector">
+                <i className="half-checked" onClick={this.handleClick.bind(this)}></i>
+            </label>
+        )
     }
 
     renderCheckBox(renderProps) {
