@@ -54,6 +54,13 @@ class Demo extends React.Component {
         };
         let columns = [
             {
+                dataKey: 'select',
+                type: 'checkbox',
+                isDisable: function(data) {
+                    console.log(data);
+                }
+            },
+            {
                 dataKey: 'id',
                 title: 'ID',
                 width: 50,

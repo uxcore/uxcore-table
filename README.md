@@ -109,7 +109,7 @@ $ gulp server
 |title           |string            |-         |required |列头|
 |width           |number            |-         |required |列宽|
 |hidden          |boolean           |-         |optional |是否隐藏，默认为 false|
-|order           |boolean           |-         |optional |是否显示内置的排序，默认为 false|
+|ordered           |boolean           |-         |optional |是否显示内置的排序，默认为 false|
 |type            |string            |-         |optional |包含 'money', 'card', 'cnmobile', 'checkbox', 'action', 'radio', 'text', 'select' 和 'custom'|
 |actions         |array             |-         |optional |当 type 是 action 的时候会用到，用于定义具体有哪些操作，格式见下方[说明](#actions)|
 |customField     |React Element     |-         |optional |当 type 是 custom 的时候会用到，用于传入自定义的 Field，用于行内编辑|

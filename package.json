@@ -1,6 +1,6 @@
 {
  "name": "uxcore-table",
- "version": "1.6.6",
+ "version": "1.6.7",
  "description": "table ui component for react",
  "repository": "https://github.com/uxcore/uxcore-table.git",
  "author": "zhouquan.yezq",
@@ -8,11 +8,17 @@
  "scripts": {
   "start": "uxcore-tools run start",
   "server": "uxcore-tools run server",
+  "lint": "uxcore-tools run lint",
   "build": "uxcore-tools run build",
   "test": "uxcore-tools run test",
   "coverage": "uxcore-tools run coverage",
   "pub": "uxcore-tools run pub",
-  "dep": "uxcore-tools run dep"
+  "dep": "uxcore-tools run dep",
+  "tnpm-dep": "uxcore-tools run tnpm-dep",
+  "chrome": "uxcore-tools run chrome",
+  "browsers": "uxcore-tools run browsers",
+  "saucelabs": "uxcore-tools run saucelabs",
+  "update": "uxcore-tools run update"
  },
  "bugs": {
   "url": "http://github.com/uxcore/uxcore-table/issues"
@@ -29,10 +35,11 @@
  "devDependencies": {
   "console-polyfill": "^0.2.2",
   "es5-shim": "^4.5.8",
-  "jquery": "~1.12.4",
+  "expect.js": "~0.3.1",
   "kuma-base": "1.x",
-  "react": "15.x",
-  "react-dom": "15.x",
+  "react": "0.14.x",
+  "react-addons-test-utils": "0.14.x",
+  "react-dom": "0.14.x",
   "uxcore-kuma": "2.x",
   "uxcore-tools": "0.2.x"
  },

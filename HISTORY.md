@@ -2,6 +2,10 @@
 
 ---
 
+## 1.6.7
+
+* `FIXED` fix bug in `column.isDisable`
+
 ## 1.6.6
 
 * `CHANGED` replace half-checked icon with svg

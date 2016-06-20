@@ -643,7 +643,7 @@ class Table extends React.Component {
         let key = me.checkboxColumnKey;
         let isSelectAll = true;
         for (let i = 0; i < data.length; i++) {
-            if ((('isDisable' in column) && column.isDisable(item)) || column.disable) {
+            if ((('isDisable' in column) && column.isDisable(data[i])) || column.disable) {
                 continue;
             }
             else {
