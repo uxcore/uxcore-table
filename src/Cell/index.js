@@ -229,7 +229,7 @@ class Cell extends React.Component {
                 {child}
                 {_v}
             </div>
-            );
+        );
     }
 
     /**

@@ -369,6 +369,9 @@ class Table extends React.Component {
     }
 
     handleColumnPickerChange(checkedKeys) {
+        if (checkedKeys.length === 0) {
+            return;
+        }
         let _columns = deepcopy(this.state.columns);
         let notRenderColumns = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
 

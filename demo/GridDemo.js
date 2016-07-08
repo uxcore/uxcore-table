@@ -8,7 +8,7 @@
 let classnames = require('classnames');
 let Table = require('../src');
 let Button = require('uxcore-button');
-let urlPrefix = 'http://localhost:3000/';
+let urlPrefix = 'http://192.168.99.117:3000/';
 let mockData = {
     "datas": [{
         "check": true,
@@ -154,9 +154,12 @@ class Demo extends React.Component {
             rowSelector: 'checkboxSelector',
             jsxcolumns: columns,
             rowSelection: rowSelection,
-            renderSubComp: function() {
-                return <div>1</div>
-            }
+            // renderSubComp: function(rowData) {
+            //     return (<div className="sub-box">
+            //         <div className="sub-country">{`当前国家: ${rowData.country}`}</div>
+            //         <div className="sub-city">{`当前城市: ${rowData.city}`}</div>
+            //     </div>)
+            // }
             // addRowClassName: function(rowData) {
             //     return 'multiline';
             // }
