@@ -79,6 +79,7 @@ class Header extends React.Component {
         let me = this;
         let {columns} = me.props;
         let notRenderColumns = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
+        notRenderColumns.push(me.props.checkboxColumnKey);
         let options = [];
         columns.forEach((item, index) => {
             if (notRenderColumns.indexOf(item.dataKey) == -1) {

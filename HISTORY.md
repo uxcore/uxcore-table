@@ -2,6 +2,11 @@
 
 ---
 
+## 1.6.8
+
+* `FIXED` fix bug that columnPicker can make all coloumns hidden (#140)
+* `FIXED` fix bug that columnPicker will show checkbox row when checkbox is user-defined.
+
 ## 1.6.7
 
 * `FIXED` fix bug in `column.isDisable`
