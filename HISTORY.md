@@ -2,6 +2,10 @@
 
 ---
 
+## 1.6.9
+
+* `NEW` add new prop `isMiniPager` & `showPagerSizeChanger`
+
 ## 1.6.8
 
 * `FIXED` fix bug that columnPicker can make all coloumns hidden (#140)
