@@ -153,7 +153,7 @@ class Demo extends React.Component {
             // jsxdata: mockData,
             rowSelector: 'checkboxSelector',
             jsxcolumns: columns,
-            rowSelection: rowSelection,
+            rowSelection: rowSelection
             // renderSubComp: function(rowData) {
             //     return (<div className="sub-box">
             //         <div className="sub-country">{`当前国家: ${rowData.country}`}</div>
