@@ -527,12 +527,12 @@ class Table extends React.Component {
     renderPager() {
         let me = this;
         let {data, currentPage, pageSize} = me.state;
-        let {showPagerTotal, showPager, locale, pagerSizeOptions} = me.props;
+        let {showPagerTotal, showPager, locale, pagerSizeOptions, isMiniPager, showSizeChanger} = me.props;
 
         if (showPager && data && data.totalCount) {
             return (
                 <div className="kuma-uxtable-page">
-                  <Pagination className="mini" locale={locale} showSizeChanger={true} showTotal={showPagerTotal} total={data.totalCount} onShowSizeChange={me.handleShowSizeChange.bind(me)}
+                  <Pagination className={classnames({"mini":(isMiniPager !== undefined) ? isMiniPager : true})} locale={locale} showSizeChanger={(showSizeChanger !== undefined) ? showSizeChanger : true} showTotal={showPagerTotal} total={data.totalCount} onShowSizeChange={me.handleShowSizeChange.bind(me)}
                     onChange={me.onPageChange.bind(me)} current={currentPage} pageSize={pageSize} sizeOptions={pagerSizeOptions}/>
                 </div>
                 );
