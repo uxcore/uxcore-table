@@ -2,6 +2,10 @@
 
 ---
 
+## 1.6.10
+
+* `CHANGED` recover the logic about passedData in fetchData method.
+
 ## 1.6.9
 
 * `NEW` add new prop `isMiniPager` & `showPagerSizeChanger`

@@ -263,6 +263,27 @@ class Table extends React.Component {
             }
 
             me.ajax = $.ajax(ajaxOptions);
+        } else if (!!me.props.passedData) {
+
+            if (!me.props.queryKeys) {
+                let data = me.addValuesInData(me.props.processData(deepcopy(me.props.passedData)));
+                me.setState({
+                    data: data
+                });
+                me.data = deepcopy(data);
+            } else {
+                let data = {};
+                me.props.queryKeys.forEach((key, index) => {
+                    if (me.props.passedData[key] !== undefined) {
+                        data[key] = me.props.passedData[key];
+                    }
+                });
+                let processedData = me.addValuesInData(me.props.processData(deepcopy(data)));
+                me.setState({
+                    data: processedData
+                });
+                me.data = deepcopy(processedData);
+            }
         } else if (!!this.props.jsxdata) {
             let data = this.addValuesInData(deepcopy(this.props.jsxdata));
             me.setState({

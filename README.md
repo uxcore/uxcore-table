@@ -86,7 +86,7 @@ $ gulp server
 ### 折叠展开专用
 |Name            |Type                |Require   |Since Ver. |Default|Note |
 |---             |---                 |---       |---        |---    |---|
-|SubComp         |React Element       |optional  |-          | -     |传入二级组件，已废弃，请使用 renderSubComp|
+|SubComp         |React Element       |optional  |-          | -     |传入二级组件，已废弃，请使用 renderSubComp, 自 1.7.0 版本后不再保证此部分功能的完整性。|
 |renderSubComp   |function(rowData)   |optional  |1.3.15     | -     |传入二级组件，该函数需要返回值，返回 false，表示不渲染二级，返回 jsx，则渲染该 jsx|
 
 
