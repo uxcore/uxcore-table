@@ -17,6 +17,7 @@ const deepcopy = require('deepcopy');
 const deepEqual = require('deep-equal');
 const classnames = require("classnames");
 const util = require('./util');
+const NattyFetch = require('natty-fetch');
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -226,43 +227,31 @@ class Table extends React.Component {
 
         // fetchUrl has the top priority.
         if (!!me.props.fetchUrl) {
-            if (me.ajax) {
-                me.ajax.abort();
+            if (me.request) {
+                me.request.abort();
             }
-            if (!me.state.showMask) {
-                me.setState({
-                    showMask: true
-                });
-            }
-            let ajaxOptions = {
+            const isJsonp = me.props.isJsonp === undefined ? /\.jsonp/.test(me.props.fetchUrl) : me.props.isJsonp;
+            me.request = NattyFetch.create({
                 url: me.props.fetchUrl,
                 data: me.getQueryObj(from),
-                cache: false,
-                dataType: "json",
-                success: function(result) {
-                    if (result.success === true || result.hasError === false) {
-                        let _data = result.content;
-                        let processedData = me.addValuesInData(me.props.processData(deepcopy(_data)));
-                        let updateObj = {
-                            data: processedData,
-                            showMask: false
-                        };
-                        if (processedData.currentPage !== undefined) {
-                            updateObj.currentPage = processedData.currentPage;
-                        }
-                        me.data = deepcopy(processedData);
-                        me.setState(updateObj)
-                    } else {
-                        me.props.onFetchError(result);
-                    }
+                fit: me.props.fitResponse,
+                jsonp: isJsonp,
+            });
+
+            me.request().then((content) => {
+                let processedData = me.addValuesInData(me.props.processData(deepcopy(content)));
+                let updateObj = {
+                    data: processedData,
+                    showMask: false
+                };
+                if (processedData.currentPage !== undefined) {
+                    updateObj.currentPage = processedData.currentPage;
                 }
-            };
-
-            if (/\.jsonp/.test(me.props.fetchUrl)) {
-                ajaxOptions.dataType = "jsonp"
-            }
-
-            me.ajax = $.ajax(ajaxOptions);
+                me.data = deepcopy(processedData);
+                me.setState(updateObj)
+            }).catch((err) => {
+                me.props.onFetchError(err);
+            });
         } else if (!!me.props.passedData) {
 
             if (!me.props.queryKeys) {
@@ -1073,13 +1062,15 @@ Table.defaultProps = {
     emptyText: "暂无数据",
     searchBarPlaceholder: "搜索表格内容",
     loadingText: "loading",
+    fitResponse: (content) => content,
     processData: (data) => {
         return data
     },
     beforeFetch: (obj) => {
         return obj
     },
-    onFetchError: () => {
+    onFetchError: (err) => {
+        console.error(err.stack);
     },
     addRowClassName: () => {
     },
@@ -1223,6 +1214,7 @@ Table.propTypes = {
         React.PropTypes.array,
         React.PropTypes.object
     ]),
+    fitResponse: React.PropTypes.func,
     /**
      * @title 处理数据的回调
      */
