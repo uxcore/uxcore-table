@@ -2,6 +2,10 @@
 
 ---
 
+## 1.7.0
+
+* `CHANGED` update `uxcore-select2` to ~0.3.0
+
 ## 1.6.10
 
 * `CHANGED` recover the logic about passedData in fetchData method.
