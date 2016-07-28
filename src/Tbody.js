@@ -27,7 +27,6 @@ class Tbody extends React.Component {
 
     componentWillUnmount() {
         let me = this;
-        me.resizeTimer = null;
         $(me.rootEl).off("scroll", me.scrollHandler);
     }
 

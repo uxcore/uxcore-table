@@ -56,7 +56,7 @@
     "uxcore-menu": "^1.1.1",
     "uxcore-pagination": "~0.2.0",
     "uxcore-radiogroup": "~1.2.0",
-    "uxcore-select2": "~0.2.0",
+    "uxcore-select2": "~0.3.0",
     "uxcore-tooltip": "~0.3.2",
     "uxcore-validator": "~0.1.0"
   },
