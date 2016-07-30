@@ -190,6 +190,8 @@ class Header extends React.Component {
             }
 
             _v = <CheckBox {...checkBoxProps} />
+        } else if (typeof item.title === 'function'){
+            _v = item.title.call(null);
         } else {
             _v = <span title={item.title}>{item.title}</span>;
         }
