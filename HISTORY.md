@@ -2,6 +2,11 @@
 
 ---
 
+## 1.8.0
+
+* `NEW` support column group
+* `NEW` support column tilte custom render 
+
 ## 1.7.0
 
 * `CHANGED` update `uxcore-select2` to ~0.3.0

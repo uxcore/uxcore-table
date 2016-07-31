@@ -112,7 +112,7 @@ $ gulp server
 |dataKey         |string            |-         |required |表格的数据中用于查看模式展示的字段|
 |editKey         |string            |-         |optional |表格的数据中用于编辑模式的字段，如对于 select 来说，此项应为选项里的 key| 
 |align           |string            |-         |optional |文字居中方式，默认 'left'|
-|title           |string            |-         |required |列头|
+|title           |string/func       |-         |required |列头标题，可以是个函数，根据返回值进行渲染|
 |width           |number            |-         |required |列宽|
 |hidden          |boolean           |-         |optional |是否隐藏，默认为 false|
 |ordered         |boolean           |-         |optional |是否显示内置的排序，默认为 false|
