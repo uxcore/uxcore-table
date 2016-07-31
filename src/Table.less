@@ -354,7 +354,7 @@
 }
 
 .@{uxtable-prefix}-header-group-name {
-    line-height: 40px;
+    line-height: 50px;
     text-align: center;
 }
 
@@ -398,6 +398,35 @@
         .@{uxtable-prefix}-row-cells {
             border-bottom: 1px solid @basic-600;
         }
+    }
+}
+
+.@{uxtable-prefix}-border-line {
+    .@{uxtable-prefix}-content {
+        border: 1px solid @basic-600;
+    }
+    .@{uxtable-prefix}-row {
+        &.even .@{uxtable-prefix}-row-cells {
+            background: white;
+        }
+        .@{uxtable-prefix}-row-cells {
+            border-bottom: 1px solid @basic-600;
+        }
+        &.last {
+            .@{uxtable-prefix}-row-cells {
+                border-bottom: none;
+            }
+        }
+    }
+    .@{uxtable-prefix}-cell {
+        border-right: 1px solid @basic-600;
+        &.last {
+            border-right: none;
+        }
+    }
+    .@{uxtable-prefix}-header-group-name {
+        border-right: 1px solid @basic-600;
+        border-bottom: 1px solid @basic-600;
     }
 }
 
