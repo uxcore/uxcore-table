@@ -2,6 +2,10 @@
 
 ---
 
+## 1.8.1
+
+* `FIX` fix header title bug when column.title is a function.
+
 ## 1.8.0
 
 * `NEW` support column group

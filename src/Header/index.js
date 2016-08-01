@@ -191,8 +191,9 @@ class Header extends React.Component {
 
             _v = <CheckBox {...checkBoxProps} />
         } else {
-            const title = (typeof item.title === 'function') ? item.title() : item.title;
-            _v = <span title={title}>{title}</span>;
+            const content = (typeof item.title === 'function') ? item.title() : item.title;
+            const title = (typeof item.title === 'function') ? undefined : item.title;
+            _v = <span title={title}>{content}</span>;
         }
 
         if (noBorderColumn.indexOf(item.dataKey) !== -1 || last) {
