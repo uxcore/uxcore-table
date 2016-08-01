@@ -45,7 +45,7 @@ class RadioField extends CellField {
             assign(fieldProps, customProps);
         }
         return <RadioGroup {...fieldProps}>
-                    {me.props.column.renderChildren()}
+                    {me.props.column.renderChildren && me.props.column.renderChildren(me.props.rowData)}
                </RadioGroup>
     }
 
