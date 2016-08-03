@@ -179,7 +179,7 @@ class Header extends React.Component {
                 paddingRight: 4,
                 paddingLeft: 12,
                 width: item.width ? item.width : 92,
-                borderRight: 'none'
+                // borderRight: 'none'
             });
 
             let checkBoxProps = {
@@ -191,7 +191,9 @@ class Header extends React.Component {
 
             _v = <CheckBox {...checkBoxProps} />
         } else {
-            _v = <span title={item.title}>{item.title}</span>;
+            const content = (typeof item.title === 'function') ? item.title() : item.title;
+            const title = (typeof item.title === 'function') ? undefined : item.title;
+            _v = <span title={title}>{content}</span>;
         }
 
         if (noBorderColumn.indexOf(item.dataKey) !== -1 || last) {
@@ -201,10 +203,14 @@ class Header extends React.Component {
         }
 
         return (
-            <div key={index} className={classnames({
-                                "kuma-uxtable-cell": true,
-                                "show-border": me.props.showHeaderBorder
-                            })} style={_style}>
+            <div 
+                key={index} 
+                className={classnames({
+                    "kuma-uxtable-cell": true,
+                    "show-border": me.props.showHeaderBorder
+                })}
+                style={_style}
+            >
               {me.renderIndent(index)}
               {_v}
               {me.renderMessageIcon(item)}
@@ -311,7 +317,7 @@ class Header extends React.Component {
             }
         }
         assign(_headerStyle, {
-            height: props.headerHeight ? props.headerHeight : (me.hasGroup ? 80 : 50),
+            height: props.headerHeight ? props.headerHeight : (me.hasGroup ? 100 : 50),
             lineHeight: (props.headerHeight ? props.headerHeight : 50) + "px"
         });
         return (

@@ -2,6 +2,23 @@
 
 ---
 
+## 1.8.2
+
+* `CHANGED` column.renderChildren will pass rowData to user.
+
+## 1.8.1
+
+* `FIX` fix header title bug when column.title is a function.
+
+## 1.8.0
+
+* `NEW` support column group
+* `NEW` support column tilte custom render 
+
+## 1.7.0
+
+* `CHANGED` update `uxcore-select2` to ~0.3.0
+
 ## 1.6.10
 
 * `CHANGED` recover the logic about passedData in fetchData method.

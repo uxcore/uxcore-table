@@ -225,7 +225,10 @@ class Cell extends React.Component {
 
         let child = me.props.children;
         return (
-            <div className={props.jsxprefixCls} style={_style}>
+            <div className={classnames({
+                [props.jsxprefixCls]: true,
+                last: props.last,
+            })} style={_style}>
                 {child}
                 {_v}
             </div>

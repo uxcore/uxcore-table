@@ -135,13 +135,7 @@ class Tbody extends React.Component {
                          index: index,
                          data: _data,
                          root: _props.root,
-                         checkboxColumnKey: _props.checkboxColumnKey,
-                         addRowClassName: _props.addRowClassName,
-                         rowSelection: _props.rowSelection,
-                         changeSelected: me.props.changeSelected,
                          subComp: _props.subComp,
-                         expandedKeys: _props.expandedKeys,
-                         renderSubComp: _props.renderSubComp,
                          actions: _props.actions,
                          key: 'row' + index,
                          mode: _props.mode,
@@ -149,10 +143,17 @@ class Tbody extends React.Component {
                          fixedColumn: _props.fixedColumn,
                          level: 1,
                          levels: _props.levels,
+                         expandedKeys: _props.expandedKeys,
+                         renderSubComp: _props.renderSubComp,
+                         changeSelected: me.props.changeSelected,
+                         checkboxColumnKey: _props.checkboxColumnKey,
+                         addRowClassName: _props.addRowClassName,
+                         rowSelection: _props.rowSelection,
                          handleDataChange: _props.handleDataChange,
                          attachCellField: _props.attachCellField,
                          detachCellField: _props.detachCellField,
-                         visible: true
+                         visible: true,
+                         last: (index === _data.length -1),
                      };
                      return <Row {...renderProps} />
                  })}

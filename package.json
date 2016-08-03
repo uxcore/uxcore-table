@@ -1,6 +1,6 @@
 {
   "name": "uxcore-table",
-  "version": "1.6.10",
+  "version": "1.8.2",
   "description": "table ui component for react",
   "repository": "https://github.com/uxcore/uxcore-table.git",
   "author": "zhouquan.yezq",
@@ -47,7 +47,7 @@
     "classnames": "^2.1.2",
     "deep-equal": "~1.0.1",
     "deepcopy": "~0.5.0",
-    "natty-fetch": "^2.1.1",
+    "natty-fetch": "~2.1.1",
     "object-assign": "^4.0.0",
     "uxcore-button": "~0.4.0",
     "uxcore-const": "~0.0.1",
