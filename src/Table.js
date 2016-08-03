@@ -336,8 +336,8 @@ class Table extends React.Component {
                 hasCheckboxColumn = true;
                 me.checkboxColumn = item;
                 me.checkboxColumnKey = item.dataKey;
-                item.width = item.width || 32;
-                item.align = item.align || 'right';
+                item.width = item.width || (/kuma-uxtable-border-line/.test(props.className) ? 40 : 32);
+                item.align = item.align || 'left';
             }
         });
 
