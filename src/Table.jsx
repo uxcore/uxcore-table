@@ -19,11 +19,12 @@ const deepcopy = require('deepcopy');
 const deepEqual = require('deep-equal');
 const classnames = require('classnames');
 const util = require('./util');
-const NattyFetch = require('natty-fetch');
+const NattyFetch = require('natty-fetch/dist/natty-fetch.pc');
 const Promise = require('lie');
 
 const React = require('react');
 const ReactDOM = require('react-dom');
+
 
 class Table extends React.Component {
 
@@ -38,9 +39,13 @@ class Table extends React.Component {
       pageSize: props.pageSize, // pagination 相关
       currentPage: props.currentPage, // pagination 相关
       activeColumn: null,
+      scrollLeft: 0,
+      scrollTop: 0,
       searchTxt: '',
       expandedKeys: [],
     };
+    this.handleBodyScroll = this.handleBodyScroll.bind(this);
+    this.hasFixed = this.hasFixColumn(props);
   }
 
   componentWillMount() {
@@ -76,7 +81,8 @@ class Table extends React.Component {
       newData['currentPage'] = nextProps.currentPage;
     }
     if (!!nextProps.jsxcolumns && !!me.props.jsxcolumns && !me._isEqual(nextProps.jsxcolumns, me.props.jsxcolumns)) {
-      newData['columns'] = me.processColumn(nextProps)
+      newData['columns'] = me.processColumn(nextProps);
+      this.hasFixed = this.hasFixColumn(nextProps);
     }
     if (nextProps.showMask != me.props.showMask) {
       newData['showMask'] = nextProps.showMask;
@@ -85,10 +91,6 @@ class Table extends React.Component {
       me.fetchData('urlChange');
     }
     me.setState(newData);
-  }
-
-  componentWillUnmount() {
-    let me = this;
   }
 
   /**
@@ -538,6 +540,10 @@ class Table extends React.Component {
     });
   }
 
+  getDomNode() {
+    return this.refs.root;
+  }
+
   renderPager() {
     const me = this;
     const { data, currentPage, pageSize } = me.state;
@@ -570,6 +576,18 @@ class Table extends React.Component {
       );
     }
     return null;
+  }
+
+  handleBodyScroll(scrollLeft, scrollTop) {
+    const me = this;
+    const headerNode = me.hasFixed ? me.refs.headerScroll : me.refs.headerNo;
+    const bodyNode = me.refs.bodyFixed;
+    if (scrollLeft !== undefined) {
+      headerNode.getDomNode().scrollLeft = scrollLeft;
+    }
+    if (scrollTop !== undefined && this.hasFixed) {
+      bodyNode.getDomNode().scrollTop = scrollTop;
+    }
   }
 
   handleOrderColumnCB(type, column) {
@@ -619,8 +637,7 @@ class Table extends React.Component {
     };
   }
 
-  hasFixColumn() {
-    const props = this.props;
+  hasFixColumn(props) {
     const columns = props.jsxcolumns.filter((item) => {
       if (item.fixed) {
         return true;
@@ -638,23 +655,23 @@ class Table extends React.Component {
       return null;
     }
 
-    if (this.hasFixColumn()) {
+    if (this.hasFixed) {
       return (
         <div className="kuma-uxtable-header-wrapper">
           <Header {...renderHeaderProps} fixedColumn="fixed" key="grid-header-fixed" />
-          <Header {...renderHeaderProps} fixedColumn="scroll" key="grid-header-scroll" />
+          <Header {...renderHeaderProps} fixedColumn="scroll" key="grid-header-scroll" ref="headerScroll" />
         </div>
       );
     }
     return (
       <div className="kuma-uxtable-header-wrapper">
-        <Header {...renderHeaderProps} fixedColumn="no" />
+        <Header {...renderHeaderProps} fixedColumn="no" ref="headerNo" />
       </div>
     );
   }
 
   renderTbody(renderBodyProps, bodyHeight) {
-    if (this.hasFixColumn()) {
+    if (this.hasFixed) {
       const fixedBodyProps = assign({}, renderBodyProps, {
         subComp: null,
       });
@@ -665,8 +682,8 @@ class Table extends React.Component {
             height: bodyHeight,
           }}
         >
-          <Tbody {...fixedBodyProps} fixedColumn="fixed" key="grid-body-fixed" />
-          <Tbody {...renderBodyProps} fixedColumn="scroll" key="grid-body-scroll" />
+          <Tbody {...fixedBodyProps} fixedColumn="fixed" key="grid-body-fixed" ref="bodyFixed" />
+          <Tbody {...renderBodyProps} fixedColumn="scroll" key="grid-body-scroll" onScroll={this.handleBodyScroll} />
         </div>
       );
     }
@@ -677,7 +694,7 @@ class Table extends React.Component {
           height: bodyHeight,
         }}
       >
-        <Tbody {...renderBodyProps} fixedColumn="no" />
+        <Tbody {...renderBodyProps} fixedColumn="no" onScroll={this.handleBodyScroll} />
       </div>
     );
   }
@@ -715,7 +732,7 @@ class Table extends React.Component {
     const data = state.data ? (state.data.datas || state.data.data) : [];
     const isSelectAll = me.getIsSelectAll(data);
 
-    let _style = {
+    let style = {
       width: props.passedData ? 'auto' : props.width,
       height: props.height,
     };
@@ -801,7 +818,8 @@ class Table extends React.Component {
           'kuma-subgrid-mode': !!props.passedData,
           [`${props.prefixCls}-tree-mode`]: props.renderModel === 'tree',
         })}
-        style={_style}
+        style={style}
+        ref="root"
       >
         {actionBar}
         <div
@@ -958,7 +976,7 @@ class Table extends React.Component {
             break;
           }
         }
-      })
+      });
     });
   }
 
@@ -1236,7 +1254,7 @@ Table.propTypes = {
   /**
    * @title 当前页数
    */
-  currentPage: React.PropTypes.string,
+  currentPage: React.PropTypes.number,
   /**
    * @title 列选择器的类型
    */

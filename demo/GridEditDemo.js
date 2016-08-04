@@ -89,7 +89,7 @@ class Demo extends React.Component {
     render () {
         let me = this;
         let columns = [
-            { dataKey: 'jsxid', title: 'jsxid2', width: 80},
+            { dataKey: 'jsxid', title: 'jsxid2', width: 80, fixed: true},
             { dataKey: 'city', editKey: 'cityId',title:'城市', width: 200, type:'select', renderChildren: () => {
                 return [{id: 'bj', name: '北京'},{id: 'hz', name: '杭州'}].map((item) => {
                     return <Option key={item.id}>{item.name}</Option>
@@ -137,7 +137,7 @@ class Demo extends React.Component {
 
         let renderProps={
             // height: 200,
-            width: 1000,
+            width: 500,
             showPager:false,
             fetchParams: {},
             showHeaderBorder: true,

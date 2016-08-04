@@ -2,6 +2,10 @@
 
 ---
 
+## 1.8.3
+
+* `CHANGED` jQuery free!
+
 ## 1.8.2
 
 * `CHANGED` column.renderChildren will pass rowData to user.

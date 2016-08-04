@@ -56,9 +56,9 @@ class Demo extends React.Component {
             {
                 dataKey: 'select',
                 type: 'checkbox',
-                isDisable: function(data) {
-                    console.log(data);
-                }
+                // isDisable: function(data) {
+                //     console.log(data);
+                // }
             },
             {
                 dataKey: 'id',
@@ -71,6 +71,7 @@ class Demo extends React.Component {
                 title: '国家',
                 width: 200,
                 ordered: true,
+                // fixed: true,
                 render: function(cellData, rowData) {return cellData + me.state.text;}
             },
             {
@@ -137,6 +138,8 @@ class Demo extends React.Component {
                 'edit': function() {},
                 'del': function() {}
             },
+            width: 800,
+            height: 400,
             pagerSizeOptions:[5,10,15,20],
             actionBar: {
                 'Action Button': function(type, table) {

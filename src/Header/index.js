@@ -21,6 +21,10 @@ class Header extends React.Component {
         };
     }
 
+    getDomNode() {
+        return this.refs.root;
+    }
+
     handleCheckBoxChange() {
         let v = this.refs.checkbox.getValue();
         this.props.selectAll.apply(null, [v]);
@@ -321,7 +325,7 @@ class Header extends React.Component {
             lineHeight: (props.headerHeight ? props.headerHeight : 50) + "px"
         });
         return (
-            <div className={headerWrapClassName} style={_headerStyle}>
+            <div className={headerWrapClassName} style={_headerStyle} ref="root">
               <div className={props.jsxprefixCls}>
                 {me.renderColumns(_columns)}
                 {_picker}
