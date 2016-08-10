@@ -2,6 +2,10 @@
 
 ---
 
+## 1.8.4
+
+* `FIXED` currentPage is useless when using jsxdata (#152)
+
 ## 1.8.3
 
 * `CHANGED` jQuery free!
