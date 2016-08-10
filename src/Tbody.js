@@ -29,7 +29,7 @@ class Tbody extends React.Component {
 
   componentWillUnmount() {
     const me = this;
-    me.scrollHandler.remove();
+    me.scrollListener.remove();
   }
 
   getDomNode() {

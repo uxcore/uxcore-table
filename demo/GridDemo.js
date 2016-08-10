@@ -38,8 +38,16 @@ class Demo extends React.Component {
         super(props);
         this.state = {
             data: this.props.data,
-            text: 1
-        }
+            text: 1,
+            showTable: true,
+        };
+        this.toggleShowTable = this.toggleShowTable.bind(this);
+    }
+
+    toggleShowTable() {
+        this.setState({
+            showTable: !this.state.showTable,
+        })
     }
     render() {
         let me = this;
@@ -169,8 +177,9 @@ class Demo extends React.Component {
         };
         return (
             <div>
-                <Table {...renderProps}  ref="table"/>
+                {me.state.showTable ? <Table {...renderProps}  ref="table"/> : null}
                 <Button onClick={function() {me.refs.table.fetchData()}}>重新获取数据</Button>
+                <Button onClick={this.toggleShowTable}>卸载/恢复组件</Button>
             </div>
         );
     }

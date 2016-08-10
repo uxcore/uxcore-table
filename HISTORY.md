@@ -2,6 +2,10 @@
 
 ---
 
+## 1.8.7
+
+* `FIXED` unmount bug
+
 ## 1.8.6
 
 * `FIXED` toggleSubComp bug
