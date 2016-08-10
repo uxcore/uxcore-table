@@ -2,6 +2,10 @@
 
 ---
 
+## 1.8.6
+
+* `FIXED` toggleSubComp bug
+
 ## 1.8.5
 
 * `FIXED` Table.js is missing in build

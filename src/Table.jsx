@@ -1086,14 +1086,13 @@ class Table extends React.Component {
     let data = content.data || content.datas;
 
     if (data) {
-      data = data.map((item) => {
+      for (let i = 0; i < data.length; i++) {
+        const item = data[i];
         if (item.jsxid === rowData.jsxid) {
-          const newItem = deepcopy(item);
-          newItem.showSubComp = !newItem.showSubComp;
-          return newItem;
+          item.showSubComp = !item.showSubComp;
+          break;
         }
-        return item;
-      });
+      }
       this.setState({
         data: content,
       });

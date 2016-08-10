@@ -156,13 +156,13 @@ class Demo extends React.Component {
             // jsxdata: mockData,
             rowSelector: 'checkboxSelector',
             jsxcolumns: columns,
-            rowSelection: rowSelection
-            // renderSubComp: function(rowData) {
-            //     return (<div className="sub-box">
-            //         <div className="sub-country">{`当前国家: ${rowData.country}`}</div>
-            //         <div className="sub-city">{`当前城市: ${rowData.city}`}</div>
-            //     </div>)
-            // }
+            rowSelection: rowSelection,
+            renderSubComp: function(rowData) {
+                return (<div className="sub-box">
+                    <div className="sub-country">{`当前国家: ${rowData.country}`}</div>
+                    <div className="sub-city">{`当前城市: ${rowData.city}`}</div>
+                </div>)
+            }
             // addRowClassName: function(rowData) {
             //     return 'multiline';
             // }
