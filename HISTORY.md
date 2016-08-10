@@ -2,6 +2,10 @@
 
 ---
 
+## 1.8.5
+
+* `FIXED` Table.js is missing in build
+
 ## 1.8.4
 
 * `FIXED` currentPage is useless when using jsxdata (#152)
