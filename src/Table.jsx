@@ -237,10 +237,12 @@ class Table extends React.Component {
       }
       if (!me.state.showMask) {
         me.setState({
-          showMask: true
+          showMask: true,
         });
       }
-      const isJsonp = me.props.isJsonp === undefined ? /\.jsonp/.test(me.props.fetchUrl) : me.props.isJsonp;
+      const isJsonp = me.props.isJsonp === undefined
+        ? /\.jsonp/.test(me.props.fetchUrl)
+        : me.props.isJsonp;
       me.request = NattyFetch.create({
         url: me.props.fetchUrl,
         data: me.getQueryObj(from),
@@ -250,8 +252,8 @@ class Table extends React.Component {
       });
 
       me.request().then((content) => {
-        let processedData = me.addValuesInData(me.props.processData(deepcopy(content)));
-        let updateObj = {
+        const processedData = me.addValuesInData(me.props.processData(deepcopy(content)));
+        const updateObj = {
           data: processedData,
           showMask: false,
         };
@@ -259,35 +261,36 @@ class Table extends React.Component {
           updateObj.currentPage = processedData.currentPage;
         }
         me.data = deepcopy(processedData);
-        me.setState(updateObj)
+        me.setState(updateObj);
       }).catch((err) => {
         me.props.onFetchError(err);
       });
-    } else if (!!me.props.passedData) {
-
+    } else if (me.props.passedData) {
       if (!me.props.queryKeys) {
-        let data = me.addValuesInData(me.props.processData(deepcopy(me.props.passedData)));
+        const data = me.addValuesInData(me.props.processData(deepcopy(me.props.passedData)));
         me.setState({
-          data: data
+          data,
         });
         me.data = deepcopy(data);
       } else {
-        let data = {};
-        me.props.queryKeys.forEach((key, index) => {
+        const data = {};
+        me.props.queryKeys.forEach((key) => {
           if (me.props.passedData[key] !== undefined) {
             data[key] = me.props.passedData[key];
           }
         });
-        let processedData = me.addValuesInData(me.props.processData(deepcopy(data)));
+        const processedData = me.addValuesInData(me.props.processData(deepcopy(data)));
         me.setState({
           data: processedData,
         });
         me.data = deepcopy(processedData);
       }
-    } else if (!!this.props.jsxdata) {
-      let data = this.addValuesInData(deepcopy(this.props.jsxdata));
+    } else if (this.props.jsxdata) {
+      const data = this.addValuesInData(deepcopy(this.props.jsxdata));
+      const currentPage = data.currentPage || this.state.currentPage;
       me.setState({
-        data: data
+        data,
+        currentPage,
       });
       me.data = deepcopy(data);
       switch (from) {
