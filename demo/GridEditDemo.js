@@ -15,6 +15,7 @@ const RadioField = require('./RadioField');
 // const PlaceSelect = require('./PlaceSelect');
 const Constants = require('uxcore-const');
 const React = require('react');
+const deepcopy = require('deepcopy');
 
 const { Option } = Select;
 const RadioItem = RadioGroup.Item;
@@ -205,6 +206,13 @@ class Demo extends React.Component {
       getSavedData: true,
       jsxdata: me.state.data,
       doubleClickToEdit: true,
+      onPagerChange: (currentPage, pageSize) => {
+        const newData = deepcopy(this.state.data);
+        newData.currentPage = currentPage;
+        me.setState({
+          data: newData,
+        });
+      },
       actionBar: [
         {
           title: '新增行',

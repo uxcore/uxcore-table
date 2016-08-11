@@ -2,6 +2,12 @@
 
 ---
 
+## 1.9.0
+
+* `FIXED` jsxdata.currentPage bug (#153)
+* `FIXED` table will fetch data from previous url instead of new url. (#153)
+* `FIXED` mask style (break change)  
+
 ## 1.8.7
 
 * `FIXED` unmount bug

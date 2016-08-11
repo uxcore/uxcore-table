@@ -24,7 +24,7 @@ const Promise = require('lie');
 
 const React = require('react');
 const ReactDOM = require('react-dom');
-
+const Mask = require('./Mask');
 
 class Table extends React.Component {
 
@@ -66,29 +66,30 @@ class Table extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let me = this;
-    let newData = {};
-    if (!!nextProps.jsxdata && !!me.props.jsxdata && !me._isEqual(nextProps.jsxdata, me.props.jsxdata)) {
+    const me = this;
+    const newData = {};
+    if (nextProps.jsxdata
+        && me.props.jsxdata
+        && !me._isEqual(nextProps.jsxdata, me.props.jsxdata)) {
       // Data has changed, so uid which is used to mark the data should be reset.
       me.uid = 0;
-      newData['data'] = me.addValuesInData(deepcopy(nextProps.jsxdata));
-      me.data = deepcopy(newData['data']);
+      me.fetchData('dataChange', nextProps);
     }
-    if (nextProps.pageSize != me.props.pageSize) {
+    if (nextProps.pageSize !== me.props.pageSize) {
       newData['pageSize'] = nextProps.pageSize;
     }
-    if (nextProps.currentPage != me.props.currentPage) {
+    if (nextProps.currentPage !== me.props.currentPage) {
       newData['currentPage'] = nextProps.currentPage;
     }
     if (!!nextProps.jsxcolumns && !!me.props.jsxcolumns && !me._isEqual(nextProps.jsxcolumns, me.props.jsxcolumns)) {
       newData['columns'] = me.processColumn(nextProps);
       this.hasFixed = this.hasFixColumn(nextProps);
     }
-    if (nextProps.showMask != me.props.showMask) {
+    if (nextProps.showMask !== me.props.showMask) {
       newData['showMask'] = nextProps.showMask;
     }
     if (nextProps.fetchUrl !== me.props.fetchUrl) {
-      me.fetchData('urlChange');
+      me.fetchData('urlChange', nextProps);
     }
     me.setState(newData);
   }
@@ -224,14 +225,15 @@ class Table extends React.Component {
    * passed to props.beforeFetch in order to help the user.
    */
 
-  fetchData(from) {
+  fetchData(from, nextProps) {
 
-    let me = this;
+    const me = this;
+    const props = nextProps || this.props;
     // reset uid cause table data has changed
     me.uid = 0;
 
     // fetchUrl has the top priority.
-    if (!!me.props.fetchUrl) {
+    if (props.fetchUrl) {
       if (me.request) {
         me.request.abort();
       }
@@ -240,19 +242,19 @@ class Table extends React.Component {
           showMask: true,
         });
       }
-      const isJsonp = me.props.isJsonp === undefined
-        ? /\.jsonp/.test(me.props.fetchUrl)
-        : me.props.isJsonp;
+      const isJsonp = props.isJsonp === undefined
+        ? /\.jsonp/.test(props.fetchUrl)
+        : props.isJsonp;
       me.request = NattyFetch.create({
-        url: me.props.fetchUrl,
+        url: props.fetchUrl,
         data: me.getQueryObj(from),
-        fit: me.props.fitResponse,
+        fit: props.fitResponse,
         jsonp: isJsonp,
         Promise,
       });
 
       me.request().then((content) => {
-        const processedData = me.addValuesInData(me.props.processData(deepcopy(content)));
+        const processedData = me.addValuesInData(props.processData(deepcopy(content)));
         const updateObj = {
           data: processedData,
           showMask: false,
@@ -263,46 +265,49 @@ class Table extends React.Component {
         me.data = deepcopy(processedData);
         me.setState(updateObj);
       }).catch((err) => {
-        me.props.onFetchError(err);
+        props.onFetchError(err);
       });
-    } else if (me.props.passedData) {
-      if (!me.props.queryKeys) {
-        const data = me.addValuesInData(me.props.processData(deepcopy(me.props.passedData)));
+    } else if (props.passedData) {
+      if (!props.queryKeys) {
+        const data = me.addValuesInData(props.processData(deepcopy(props.passedData)));
         me.setState({
           data,
         });
         me.data = deepcopy(data);
       } else {
         const data = {};
-        me.props.queryKeys.forEach((key) => {
-          if (me.props.passedData[key] !== undefined) {
-            data[key] = me.props.passedData[key];
+        props.queryKeys.forEach((key) => {
+          if (props.passedData[key] !== undefined) {
+            data[key] = props.passedData[key];
           }
         });
-        const processedData = me.addValuesInData(me.props.processData(deepcopy(data)));
+        const processedData = me.addValuesInData(props.processData(deepcopy(data)));
         me.setState({
           data: processedData,
         });
         me.data = deepcopy(processedData);
       }
-    } else if (this.props.jsxdata) {
-      const data = this.addValuesInData(deepcopy(this.props.jsxdata));
-      const currentPage = data.currentPage || this.state.currentPage;
-      me.setState({
-        data,
-        currentPage,
-      });
-      me.data = deepcopy(data);
-      switch (from) {
-        case 'pagination':
-          me.props.onPagerChange && me.props.onPagerChange(me.state.currentPage, me.state.pageSize);
-          break;
-        case 'order':
-          me.props.onOrder && me.props.onOrder(me.state.activeColumn, me.state.orderType);
-          break;
-        case 'search':
-          me.props.onSearch && me.props.onSearch(me.state.searchTxt);
-          break;
+    } else if (props.jsxdata) {
+      if (['pagination', 'order', 'search'].indexOf(from) !== -1) {
+        switch (from) {
+          case 'pagination':
+            props.onPagerChange && props.onPagerChange(me.state.currentPage, me.state.pageSize);
+            break;
+          case 'order':
+            props.onOrder && props.onOrder(me.state.activeColumn, me.state.orderType);
+            break;
+          case 'search':
+            props.onSearch && props.onSearch(me.state.searchTxt);
+            break;
+        }
+      } else {
+        const data = this.addValuesInData(deepcopy(props.jsxdata));
+        const currentPage = data.currentPage || this.state.currentPage;
+        me.setState({
+          data,
+          currentPage,
+        });
+        me.data = deepcopy(data);
       }
     } else {
       // default will create one row
@@ -687,6 +692,7 @@ class Table extends React.Component {
         >
           <Tbody {...fixedBodyProps} fixedColumn="fixed" key="grid-body-fixed" ref="bodyFixed" />
           <Tbody {...renderBodyProps} fixedColumn="scroll" key="grid-body-scroll" onScroll={this.handleBodyScroll} />
+          <Mask visible={this.state.showMask} text={this.props.loadingText} />
         </div>
       );
     }
@@ -698,6 +704,7 @@ class Table extends React.Component {
         }}
       >
         <Tbody {...renderBodyProps} fixedColumn="no" onScroll={this.handleBodyScroll} />
+        <Mask visible={this.state.showMask} text={this.props.loadingText} />
       </div>
     );
   }

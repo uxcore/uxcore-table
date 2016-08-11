@@ -17,7 +17,7 @@ class Mask extends React.Component {
     render() {
 
         let props = this.props;
-        let {visible, text} = props;
+        let {visible, text, height} = props;
         let className = classnames({
             [props.prefixCls]: true,
             [props.prefixCls + "-hide"]: !visible

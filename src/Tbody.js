@@ -3,7 +3,7 @@
  */
 
 const Row = require('./Row');
-const Mask = require('./Mask');
+// const Mask = require('./Mask');
 const util = require('./util');
 const deepcopy = require('deepcopy');
 const React = require('react');
@@ -119,36 +119,36 @@ class Tbody extends React.Component {
               <ul className={this.props.jsxprefixCls}>
                 {this.renderEmptyData()}
                 {_data.map(function(item, index) {
-        let renderProps = {
-          columns: _columns,
-          rowIndex: item.jsxid, //tree mode, rowIndex need think more, so use jsxid
-          rowData: deepcopy(_data[index]),
-          index: index,
-          data: _data,
-          root: _props.root,
-          subComp: _props.subComp,
-          actions: _props.actions,
-          key: 'row' + index,
-          mode: _props.mode,
-          renderModel: _props.renderModel,
-          fixedColumn: _props.fixedColumn,
-          level: 1,
-          levels: _props.levels,
-          expandedKeys: _props.expandedKeys,
-          renderSubComp: _props.renderSubComp,
-          changeSelected: me.props.changeSelected,
-          checkboxColumnKey: _props.checkboxColumnKey,
-          addRowClassName: _props.addRowClassName,
-          rowSelection: _props.rowSelection,
-          handleDataChange: _props.handleDataChange,
-          attachCellField: _props.attachCellField,
-          detachCellField: _props.detachCellField,
-          visible: true,
-          last: (index === _data.length - 1),
-        };
-        return <Row {...renderProps} />
-      })}
-                <Mask visible={_props.mask} text={_props.loadingText}/>
+                  let renderProps = {
+                    columns: _columns,
+                    rowIndex: item.jsxid, //tree mode, rowIndex need think more, so use jsxid
+                    rowData: deepcopy(_data[index]),
+                    index: index,
+                    data: _data,
+                    root: _props.root,
+                    subComp: _props.subComp,
+                    actions: _props.actions,
+                    key: 'row' + index,
+                    mode: _props.mode,
+                    renderModel: _props.renderModel,
+                    fixedColumn: _props.fixedColumn,
+                    level: 1,
+                    levels: _props.levels,
+                    expandedKeys: _props.expandedKeys,
+                    renderSubComp: _props.renderSubComp,
+                    changeSelected: me.props.changeSelected,
+                    checkboxColumnKey: _props.checkboxColumnKey,
+                    addRowClassName: _props.addRowClassName,
+                    rowSelection: _props.rowSelection,
+                    handleDataChange: _props.handleDataChange,
+                    attachCellField: _props.attachCellField,
+                    detachCellField: _props.detachCellField,
+                    visible: true,
+                    last: (index === _data.length - 1),
+                  };
+                  return <Row {...renderProps} />
+                })}
+                {/* <Mask visible={_props.mask} text={_props.loadingText} />*/}
               </ul>
             </div>
       );
