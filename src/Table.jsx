@@ -291,18 +291,24 @@ class Table extends React.Component {
       if (['pagination', 'order', 'search'].indexOf(from) !== -1) {
         switch (from) {
           case 'pagination':
-            props.onPagerChange && props.onPagerChange(me.state.currentPage, me.state.pageSize);
+            if (props.onPagerChange) {
+              props.onPagerChange(me.state.currentPage, me.state.pageSize);
+            }
             break;
           case 'order':
-            props.onOrder && props.onOrder(me.state.activeColumn, me.state.orderType);
+            if (props.onOrder) {
+              props.onOrder(me.state.activeColumn, me.state.orderType);
+            }
             break;
           case 'search':
-            props.onSearch && props.onSearch(me.state.searchTxt);
+            if (props.onSearch) {
+              props.onSearch(me.state.searchTxt);
+            }
             break;
         }
       } else {
         const data = this.addValuesInData(deepcopy(props.jsxdata));
-        const currentPage = data.currentPage || this.state.currentPage;
+        const currentPage = (data && data.currentPage) || this.state.currentPage;
         me.setState({
           data,
           currentPage,

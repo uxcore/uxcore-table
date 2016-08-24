@@ -249,7 +249,7 @@ class Cell extends React.Component {
         if (actions.length <= 2) {
             return actions.map((item, index) => {
                 return <a href="javascript:void(0);" key={index} className="action" onClick={me.handleActionClick.bind(me, item.callback.bind(me, rowData, me.props.root))}>
-                    {!!item.render ? item.render(item.title, me.props.rowData) : item.title}
+                    {!!item.render ? item.render(item.title, deepcopy(me.props.rowData)) : item.title}
                 </a>
             })
         } else {
