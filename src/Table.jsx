@@ -978,10 +978,13 @@ class Table extends React.Component {
    * @param {objtct/array} objAux
    */
 
-  syncRecord(objAux) {
+  syncRecord(obj) {
     const me = this;
     const data = me.data.data || me.data.datas;
-
+    let objAux = deepcopy(obj);
+    if (!(objAux instanceof Array)) {
+      objAux = [objAux];
+    }
     me.updateRecord(objAux, () => {
       const stateData = deepcopy(me.state.data.data || me.state.data.datas);
       objAux.forEach((item) => {
@@ -1096,7 +1099,7 @@ class Table extends React.Component {
 
   toggleSubComp(rowData) {
     const content = deepcopy(this.state.data);
-    let data = content.data || content.datas;
+    const data = content.data || content.datas;
 
     if (data) {
       for (let i = 0; i < data.length; i++) {
