@@ -2,6 +2,11 @@
 
 ---
 
+## 1.9.1
+
+* `FIXED` saveRow bug [#155](https://github.com/uxcore/uxcore-table/issues/155)
+* `FIXED` missing deepcopy protect when passing parma in column.action. [#154](https://github.com/uxcore/uxcore-table/issues/154)
+
 ## 1.9.0
 
 * `FIXED` jsxdata.currentPage bug (#153)
