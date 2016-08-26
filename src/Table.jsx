@@ -87,8 +87,9 @@ class Table extends React.Component {
     if (nextProps.showMask !== me.props.showMask) {
       newData.showMask = nextProps.showMask;
     }
-    if (nextProps.fetchUrl !== me.props.fetchUrl) {
-      me.fetchData('urlChange', nextProps);
+    if (nextProps.fetchUrl !== me.props.fetchUrl
+      || !me._isEqual(nextProps.fetchParams, me.props.fetchParams)) {
+      me.fetchData('propsChange', nextProps);
     }
     me.setState(newData);
   }

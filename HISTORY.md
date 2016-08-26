@@ -2,6 +2,11 @@
 
 ---
 
+
+## 1.9.3
+
+* `CHANGED` table will listen props.fetchParams change.
+
 ## 1.9.2
 
 * `FIXED` fetchData caused by fetchParams change will pass the out-dated params.
