@@ -87,9 +87,14 @@ class Header extends React.Component {
         let options = [];
         columns.forEach((item, index) => {
             if (notRenderColumns.indexOf(item.dataKey) == -1) {
-                options.push(<Menu.Item key={item.dataKey}>
-                               {item.title}
-                             </Menu.Item>)
+                if (item.dataKey) {
+                    options.push(
+                        <Menu.Item key={item.dataKey}>
+                           {item.title}
+                        </Menu.Item>
+                    );
+                }
+
             }
         });
         return <Menu multiple={true} selectedKeys={me.getSelectedKeys()} onSelect={me.handlePickerSelect.bind(me)} onDeselect={me.handlePickerDeselect.bind(me)}>

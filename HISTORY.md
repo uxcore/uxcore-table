@@ -2,6 +2,10 @@
 
 ---
 
+## 1.9.2
+
+* `FIXED` fetchData caused by fetchParams change will pass the out-dated params.
+
 ## 1.9.1
 
 * `FIXED` saveRow bug [#155](https://github.com/uxcore/uxcore-table/issues/155)

@@ -21,9 +21,7 @@ const classnames = require('classnames');
 const util = require('./util');
 const NattyFetch = require('natty-fetch/dist/natty-fetch.pc');
 const Promise = require('lie');
-
 const React = require('react');
-const ReactDOM = require('react-dom');
 const Mask = require('./Mask');
 
 class Table extends React.Component {
@@ -55,13 +53,12 @@ class Table extends React.Component {
   }
 
   componentDidMount() {
-    let me = this;
-    me.el = ReactDOM.findDOMNode(me);
+    const me = this;
     if (!!me.state.data && !!me.state.data.datas) {
-      console.warn("Table: 'content.data' rather than 'content.datas' is recommended, the support for 'content.datas' will be end from ver. 1.5.0")
+      console.warn("Table: 'content.data' rather than 'content.datas' is recommended, the support for 'content.datas' will be end from ver. 1.5.0");
     }
     if (me.props.subComp) {
-      console.warn("Table: subComp is deprecated, use renderSubComp instead.")
+      console.warn('Table: subComp is deprecated, use renderSubComp instead.');
     }
   }
 
@@ -76,70 +73,24 @@ class Table extends React.Component {
       me.fetchData('dataChange', nextProps);
     }
     if (nextProps.pageSize !== me.props.pageSize) {
-      newData['pageSize'] = nextProps.pageSize;
+      newData.pageSize = nextProps.pageSize;
     }
     if (nextProps.currentPage !== me.props.currentPage) {
-      newData['currentPage'] = nextProps.currentPage;
+      newData.currentPage = nextProps.currentPage;
     }
-    if (!!nextProps.jsxcolumns && !!me.props.jsxcolumns && !me._isEqual(nextProps.jsxcolumns, me.props.jsxcolumns)) {
-      newData['columns'] = me.processColumn(nextProps);
+    if (!!nextProps.jsxcolumns
+      && !!me.props.jsxcolumns
+      && !me._isEqual(nextProps.jsxcolumns, me.props.jsxcolumns)) {
+      newData.columns = me.processColumn(nextProps);
       this.hasFixed = this.hasFixColumn(nextProps);
     }
     if (nextProps.showMask !== me.props.showMask) {
-      newData['showMask'] = nextProps.showMask;
+      newData.showMask = nextProps.showMask;
     }
     if (nextProps.fetchUrl !== me.props.fetchUrl) {
       me.fetchData('urlChange', nextProps);
     }
     me.setState(newData);
-  }
-
-  /**
-   * For inline edit
-   * receive changes from cell field and change state.data
-   * inform users of the change with dataKey & pass
-   */
-
-  handleDataChange(obj) {
-    let me = this;
-    let {jsxid, column, value, text, pass} = obj;
-    let dataKey = column.dataKey;
-    let editKey = column.editKey || dataKey;
-    let data = deepcopy(me.state.data);
-    let changedData = {};
-    for (let i = 0; i < data.data.length; i++) {
-      if (data.data[i].jsxid == jsxid) {
-        data.data[i][dataKey] = text;
-        data.data[i][editKey] = value;
-        changedData = data.data[i];
-      }
-    }
-
-    me.setState({
-      data: data
-    }, () => {
-      me.props.onChange({
-        data: me.state.data,
-        editKey: editKey,
-        dataKey: dataKey,
-        changedData: changedData,
-        pass: pass
-      });
-    })
-  }
-
-  /**
-   * register CellField to Table for the global validation
-   * @param field {element} the cell field to be registered
-   */
-
-  attachCellField(validate, name) {
-    let me = this;
-    if (!name) {
-      console.error("Table: dataKey can not be undefined, check the column config");
-    } else {
-      me.fields[name] = validate;
-    }
   }
 
   /**
@@ -153,7 +104,7 @@ class Table extends React.Component {
 
 
   /**
-   * simple method to compare two datas, 
+   * simple method to compare two datas,
    * only support the data which JSON can parse.
    */
 
@@ -168,65 +119,63 @@ class Table extends React.Component {
    * @param from {string} used in props.beforeFetch
    */
 
-  getQueryObj(from) {
-
-    let me = this,
-      queryObj = {};
-    if (me.props.passedData) {
-      let queryKeys = me.props.queryKeys;
+  getQueryObj(from, props) {
+    const me = this;
+    let queryObj = {};
+    if (props.passedData) {
+      const queryKeys = props.queryKeys;
       if (!queryKeys) {
-        queryObj = me.props.passedData;
+        queryObj = props.passedData;
       } else {
-        queryKeys.forEach(function(key) {
-          if (me.props.passedData[key] !== undefined) {
-            queryObj[key] = me.props.passedData[key];
+        queryKeys.forEach((key) => {
+          if (props.passedData[key] !== undefined) {
+            queryObj[key] = props.passedData[key];
           }
-        })
+        });
       }
     }
 
     // pagination
     queryObj = assign({}, queryObj, {
       pageSize: me.state.pageSize,
-      currentPage: me.state.currentPage
+      currentPage: me.state.currentPage,
     });
 
     // column order
-    let activeColumn = me.state.activeColumn;
-    let orderType = me.state.orderType;
-    if (!!activeColumn) {
+    const activeColumn = me.state.activeColumn;
+    const orderType = me.state.orderType;
+    if (activeColumn) {
       queryObj = assign({}, queryObj, {
-        orderColumn: activeColumn.dataKey
+        orderColumn: activeColumn.dataKey,
       });
-      if (!!orderType && orderType != 'none') {
+      if (orderType && orderType !== 'none') {
         queryObj.orderType = orderType;
       }
     }
 
     // search query
-    let searchTxt = me.state.searchTxt
-    if (!!searchTxt) {
+    const searchTxt = me.state.searchTxt;
+    if (searchTxt) {
       queryObj = assign({}, queryObj, {
-        searchTxt: searchTxt
-      })
+        searchTxt,
+      });
     }
 
-    // fetchParams has the top priority 
-    if (!!me.props.fetchParams) {
-      queryObj = assign({}, queryObj, me.props.fetchParams);
+    // fetchParams has the top priority
+    if (props.fetchParams) {
+      queryObj = assign({}, queryObj, props.fetchParams);
     }
 
-    return me.props.beforeFetch(queryObj, from);
+    return props.beforeFetch(queryObj, from);
   }
 
   /**
    * fetch Data via Ajax
-   * @param from {string} tell fetchData where it is invoked, the param will be 
+   * @param from {string} tell fetchData where it is invoked, the param will be
    * passed to props.beforeFetch in order to help the user.
    */
 
   fetchData(from, nextProps) {
-
     const me = this;
     const props = nextProps || this.props;
     // reset uid cause table data has changed
@@ -247,7 +196,7 @@ class Table extends React.Component {
         : props.isJsonp;
       me.request = NattyFetch.create({
         url: props.fetchUrl,
-        data: me.getQueryObj(from),
+        data: me.getQueryObj(from, props),
         fit: props.fitResponse,
         jsonp: isJsonp,
         Promise,
@@ -334,7 +283,6 @@ class Table extends React.Component {
 
 
   processColumn(props) {
-
     props = props || this.props;
 
     let me = this,
@@ -343,7 +291,9 @@ class Table extends React.Component {
 
     columns.forEach((item, i) => {
       // only one rowSelector can be rendered in Table.
-      if (item.type === 'checkbox' || item.type === 'radioSelector' || item.type === 'checkboxSelector') {
+      if (item.type === 'checkbox'
+        || item.type === 'radioSelector'
+        || item.type === 'checkboxSelector') {
         if (item.type === 'checkbox') {
           console.warn("rowSelector using 'type: checkbox' is deprecated, use 'type: checkboxSelector' instead.");
         }
@@ -673,7 +623,12 @@ class Table extends React.Component {
       return (
         <div className="kuma-uxtable-header-wrapper">
           <Header {...renderHeaderProps} fixedColumn="fixed" key="grid-header-fixed" />
-          <Header {...renderHeaderProps} fixedColumn="scroll" key="grid-header-scroll" ref="headerScroll" />
+          <Header
+            {...renderHeaderProps}
+            fixedColumn="scroll"
+            key="grid-header-scroll"
+            ref="headerScroll"
+          />
         </div>
       );
     }
@@ -697,7 +652,12 @@ class Table extends React.Component {
           }}
         >
           <Tbody {...fixedBodyProps} fixedColumn="fixed" key="grid-body-fixed" ref="bodyFixed" />
-          <Tbody {...renderBodyProps} fixedColumn="scroll" key="grid-body-scroll" onScroll={this.handleBodyScroll} />
+          <Tbody
+            {...renderBodyProps}
+            fixedColumn="scroll"
+            key="grid-body-scroll"
+            onScroll={this.handleBodyScroll}
+          />
           <Mask visible={this.state.showMask} text={this.props.loadingText} />
         </div>
       );
@@ -713,6 +673,54 @@ class Table extends React.Component {
         <Mask visible={this.state.showMask} text={this.props.loadingText} />
       </div>
     );
+  }
+
+  /**
+   * register CellField to Table for the global validation
+   * @param field {element} the cell field to be registered
+   */
+
+  attachCellField(validate, name) {
+    const me = this;
+    if (!name) {
+      console.error('Table: dataKey can not be undefined, check the column config');
+    } else {
+      me.fields[name] = validate;
+    }
+  }
+
+  /**
+   * For inline edit
+   * receive changes from cell field and change state.data
+   * inform users of the change with dataKey & pass
+   */
+
+  handleDataChange(obj) {
+    const me = this;
+    const { jsxid, column, value, text, pass } = obj;
+    const dataKey = column.dataKey;
+    const editKey = column.editKey || dataKey;
+    const data = deepcopy(me.state.data);
+    let changedData = {};
+    for (let i = 0; i < data.data.length; i++) {
+      if (data.data[i].jsxid == jsxid) {
+        data.data[i][dataKey] = text;
+        data.data[i][editKey] = value;
+        changedData = data.data[i];
+      }
+    }
+
+    me.setState({
+      data,
+    }, () => {
+      me.props.onChange({
+        data: me.state.data,
+        editKey,
+        dataKey,
+        changedData,
+        pass,
+      });
+    });
   }
 
   getIsSelectAll(data) {

@@ -43,6 +43,7 @@ class Demo extends React.Component {
       {
         dataKey: 'select',
         type: 'checkbox',
+        disable: true,
       },
       {
         dataKey: 'id',
@@ -146,7 +147,7 @@ class Demo extends React.Component {
     return (
       <div>
         {me.state.showTable
-          ? <Table {...renderProps} ref={function saveRef(c) { this.table = c; }} />
+          ? <Table {...renderProps} ref={function saveRef(c) { me.table = c; }} />
           : null}
         <Button
           onClick={() => {
