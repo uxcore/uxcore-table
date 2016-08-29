@@ -4,6 +4,7 @@
         "react"
     ],
     "rules": {
-        "import/no-extraneous-dependencies": "off"
+        "import/no-extraneous-dependencies": "off",
+        "react/jsx-no-bind": "off"
     }
 }
