@@ -2,6 +2,9 @@
 
 ---
 
+## 1.9.4
+
+* `CHANGED` support column.collapseNum
 
 ## 1.9.3
 
