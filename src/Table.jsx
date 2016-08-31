@@ -1165,7 +1165,14 @@ Table.defaultProps = {
   emptyText: '暂无数据',
   searchBarPlaceholder: '搜索表格内容',
   loadingText: 'loading',
-  fitResponse: (content) => content,
+  fitResponse: (response) =>
+  ({
+    content: response.content,
+    success: response.success === undefined ? !response.hasError : response.success,
+    error: {
+      message: response.content || response.errors,
+    },
+  }),
   processData: (data) => data,
   beforeFetch: (obj) => obj,
   onFetchError: (err) => {

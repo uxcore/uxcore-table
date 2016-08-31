@@ -2,6 +2,10 @@
 
 ---
 
+## 1.9.5
+
+* `CHANGED` change default fitResponse 
+
 ## 1.9.4
 
 * `CHANGED` support column.collapseNum
