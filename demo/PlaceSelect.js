@@ -13,17 +13,6 @@ class CellPlaceSelect extends CellField {
 
     constructor(props) {
         super(props);
-
-        // let value = props.value;
-        // if (typeof value == 'undefined') {
-        //     value = ['', ' - ', ''];
-        // }
-
-        // this.state = {
-        //     value: value,
-        //     from: [],
-        //     to: []
-        // };
     }
 
 

@@ -787,6 +787,7 @@ class Table extends React.Component {
       rowSelection: props.rowSelection,
       addRowClassName: props.addRowClassName,
       subComp: props.subComp,
+      emptyText: props.emptyText,
       renderSubComp: props.renderSubComp,
       rowHeight: props.rowHeight,
       loadingText: props.loadingText,

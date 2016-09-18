@@ -33,7 +33,7 @@ class Demo extends React.Component {
     const columns = [
       {
         dataKey: 'select',
-        type: 'checkbox',
+        type: 'checkboxSelector',
       },
       {
         group: '分组',
@@ -111,10 +111,6 @@ class Demo extends React.Component {
     ]
     const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
     const renderProps = {
-      actionColumn: {
-        edit: function () {},
-        del: function () {},
-      },
       pagerSizeOptions: [5, 10, 15, 20],
       actionBar: {
         'Action Button': function(type, table) {

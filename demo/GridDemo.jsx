@@ -42,7 +42,7 @@ class Demo extends React.Component {
     const columns = [
       {
         dataKey: 'select',
-        type: 'checkbox',
+        type: 'checkboxSelector',
         disable: true,
       },
       {
@@ -108,6 +108,9 @@ class Demo extends React.Component {
       },
     ];
     const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
+    const mockData = {
+      data: [],
+    };
     const renderProps = {
       actionColumn: {
         edit: () => {},
@@ -133,8 +136,8 @@ class Demo extends React.Component {
         console.log(current, pageSize);
       },
       showSearch: true,
-      fetchUrl,
-      // jsxdata: mockData,
+      // fetchUrl,
+      jsxdata: mockData,
       rowSelector: 'checkboxSelector',
       jsxcolumns: columns,
       rowSelection,
