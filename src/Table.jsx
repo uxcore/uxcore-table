@@ -762,7 +762,7 @@ class Table extends React.Component {
       height: props.height,
     };
     const actionBarHeight = props.actionBar ? props.actionBarHeight : 0;
-    const pagerHeight = (props.showPager && this.state.data && this.state.data.totalCount) ? 50 : 0;
+    const pagerHeight = (props.showPager && this.state.data && this.state.data.totalCount) ? 42 : 0;
 
     // decide whether the table has column groups
     let hasGroup = false;
@@ -777,7 +777,7 @@ class Table extends React.Component {
     } else {
       bodyHeight = props.height === '100%'
         ? props.height
-        : (props.height - (headerHeight || (hasGroup ? 80 : 40)) - actionBarHeight - pagerHeight);
+        : (props.height - (headerHeight || (hasGroup ? 100 : 50)) - actionBarHeight - pagerHeight);
     }
     const renderBodyProps = {
       columns: state.columns,
@@ -1144,7 +1144,7 @@ Table.defaultProps = {
   mode: Const.MODE.EDIT,
   renderModel: '',
   levels: 1,
-  actionBarHeight: 40,
+  actionBarHeight: 54,
   fetchDataOnMount: true,
   doubleClickToEdit: true,
   rowSelector: 'checkboxSelector',

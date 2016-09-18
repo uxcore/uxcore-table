@@ -136,8 +136,8 @@ class Demo extends React.Component {
         console.log(current, pageSize);
       },
       showSearch: true,
-      // fetchUrl,
-      jsxdata: mockData,
+      fetchUrl,
+      // jsxdata: mockData,
       rowSelector: 'checkboxSelector',
       jsxcolumns: columns,
       rowSelection,
