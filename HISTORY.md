@@ -2,6 +2,11 @@
 
 ---
 
+## 1.9.6
+
+* `FIXED` bodyHeight calculation bug [#132](https://github.com/uxcore/uxcore-table/issues/132)
+* `FIXED` emptyText lineHeight calculation bug [#133](https://github.com/uxcore/uxcore-table/issues/133)
+
 ## 1.9.5
 
 * `CHANGED` change default fitResponse 
