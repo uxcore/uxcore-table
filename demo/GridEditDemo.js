@@ -281,6 +281,7 @@ class Demo extends React.Component {
       // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
       // fetchUrl: "http://10.1.159.52:3002/demo/data.json",
       jsxcolumns: columns,
+      showColumnPicker: true,
       // locale: 'en-us',
       beforeFetch: (sendData) => {
         sendData.id = 1;

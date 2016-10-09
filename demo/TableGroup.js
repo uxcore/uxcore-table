@@ -136,6 +136,7 @@ class Demo extends React.Component {
         },
       },
       showSearch: true,
+      showColumnPicker: true,
       fetchUrl,
       rowSelector: 'checkboxSelector',
       jsxcolumns: columns,

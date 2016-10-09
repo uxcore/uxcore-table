@@ -82,7 +82,17 @@ class ActionBar extends React.Component {
 
   renderColumnPicker() {
     const me = this;
-    const { columns, handleColumnPickerChange, checkboxColumnKey, width, locale } = me.props;
+    const {
+      showColumnPicker,
+      columns,
+      handleColumnPickerChange,
+      checkboxColumnKey,
+      width,
+      locale,
+    } = me.props;
+    if (!showColumnPicker) {
+      return null;
+    }
     return (
       <ColumnPicker
         columns={columns}

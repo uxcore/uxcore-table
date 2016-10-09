@@ -817,7 +817,6 @@ class Table extends React.Component {
       columns: state.columns,
       activeColumn: state.activeColumn,
       orderType: state.orderType,
-      showColumnPicker: props.showColumnPicker,
       checkboxColumnKey: me.checkboxColumnKey,
       showHeaderBorder: props.showHeaderBorder,
       headerHeight: props.headerHeight,
@@ -838,6 +837,7 @@ class Table extends React.Component {
       const renderActionProps = {
         onSearch: this.handleActionBarSearch.bind(this),
         actionBarConfig: this.props.actionBar,
+        showColumnPicker: this.props.showColumnPicker,
         locale: this.props.locale,
         linkBar: this.props.linkBar,
         checkboxColumnKey: me.checkboxColumnKey,
