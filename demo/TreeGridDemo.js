@@ -8,7 +8,7 @@
 
 let classnames = require('classnames');
 let Table = require('../src');
-let urlPrefix = 'http://30.9.174.1:3000/';
+let urlPrefix = window.urlPrefix || 'http://30.9.174.1:3000/';
 
 
 class Demo extends React.Component {

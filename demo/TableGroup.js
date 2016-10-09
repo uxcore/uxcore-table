@@ -67,6 +67,22 @@ class Demo extends React.Component {
         title: 'LastName',
       },
       {
+        group: '分组5',
+        columns: [
+          {
+            dataKey: 'id',
+            title: 'ID',
+            width: 50,
+          },
+          {
+            dataKey: 'country',
+            title: '国家',
+            width: 200,
+            ordered: true,
+          },
+        ],
+      },
+      {
         dataKey: 'email',
         title: 'Email',
         width: 200,

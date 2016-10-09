@@ -4,7 +4,7 @@
 
 const Row = require('./Row');
 const util = require('./util');
-const deepcopy = require('deepcopy');
+const deepcopy = require('lodash/cloneDeep');
 const React = require('react');
 const addEventListener = require('rc-util/lib/Dom/addEventListener');
 const throttle = require('lodash/throttle');
@@ -20,7 +20,7 @@ class Tbody extends React.Component {
 
   componentDidMount() {
     const me = this;
-    me.rootEl = me.refs.root;
+    me.rootEl = me.root;
     me.scrollHandler = throttle(me.onScroll.bind(me), 20);
     me.scrollListener = addEventListener(me.rootEl, 'scroll', me.scrollHandler);
   }
@@ -30,7 +30,7 @@ class Tbody extends React.Component {
     me.scrollListener.remove();
   }
 
-  onScroll(e) {
+  onScroll() {
     const me = this;
     const { fixedColumn } = me.props;
     if (fixedColumn !== 'fixed') {
@@ -45,7 +45,14 @@ class Tbody extends React.Component {
   }
 
   getDomNode() {
-    return this.refs.root;
+    return this.root;
+  }
+
+  saveRef(name) {
+    const me = this;
+    return function func(c) {
+      me[name] = c;
+    };
   }
 
   renderEmptyData() {
@@ -96,19 +103,24 @@ class Tbody extends React.Component {
       });
 
       let delta = 2;
+
+      // change 2 to 3, fix ie8 issue
       if (util.getIEVer() === 8) {
         delta = 3;
       }
+      const bodyWidth = typeof props.width === 'number'
+        ? (props.width - width - delta)
+        : props.width;
       style = {
-        width: props.width - width - delta, // change 2 to 3, fix ie8 issue
-        minWidth: props.width - width - delta,
+        width: bodyWidth,
+        minWidth: bodyWidth,
       };
       bodyWrapClassName = 'kuma-uxtable-body-scroll';
     } else {
       bodyWrapClassName = 'kuma-uxtable-body-no';
     }
     return (
-      <div className={bodyWrapClassName} ref="root" style={style}>
+      <div className={bodyWrapClassName} ref={this.saveRef('root')} style={style}>
         <ul className={this.props.jsxprefixCls}>
           {this.renderEmptyData()}
           {data.map((item, index) => {
@@ -119,6 +131,7 @@ class Tbody extends React.Component {
               rowIndex: item.jsxid, // tree mode, rowIndex need think more, so use jsxid
               rowData: deepcopy(data[index]),
               root: props.root,
+              locale: props.locale,
               subComp: props.subComp,
               actions: props.actions,
               key: `row${index}`,

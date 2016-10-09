@@ -2,6 +2,22 @@
 
 ---
 
+## 2.0.0
+
+* `FIXED` body width calculation bug when there is fixed columns & width is not defined.
+
+* `CHANGED` new action column
+
+* `CHANGED` new column picker
+
+* `CHANGED` js style standardization `Cell/index`, `ActionBar`, `SearchBar`
+
+* `CHANGED` replace `deepcopy` with `lodash/cloneDeep`
+
+* `CHANGED` order icon change
+
+* `NEW` add link bar
+
 ## 1.9.6
 
 * `FIXED` bodyHeight calculation bug [#132](https://github.com/uxcore/uxcore-table/issues/132)

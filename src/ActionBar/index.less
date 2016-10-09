@@ -1,0 +1,108 @@
+.@{uxtable-prefix}-actionbar{
+	width: 100%;
+    margin-bottom: 12px;
+	padding: 6px 0px 4px;
+}
+
+.@{uxtable-prefix}-actionbar-item {
+    display: inline-block;
+    margin-right: 10px;
+    &.kuma-button {
+        padding: 0 30px;
+    }
+}
+
+.@{uxtable-prefix}-column-picker {
+    float: right;
+    position: relative;
+    .kuma-icon-list {
+        vertical-align: middle;
+        margin-right: 5px;
+        color: @text-thirdary-color;
+    } 
+}
+.@{uxtable-prefix}-column-picker-title {
+    vertical-align: middle;
+}
+
+.@{uxtable-prefix}-column-picker-trigger {
+    padding: 4px 10px;
+    z-index: 12;
+    position: relative;
+    background: white;
+    &.@{uxtable-prefix}-column-picker-trigger__dropdown-visible {
+        box-shadow:0px 0px 4px 0px rgba(0,0,0,0.20);
+        &:after {
+            background-color: #fff;
+            height: 4px;
+            content: "";
+            position: absolute;
+            bottom: -4px;
+            left: 0px;
+            right: 0px;
+        }
+    }
+    
+}
+
+.@{uxtable-prefix}-column-picker-dropdown {
+    position: absolute;
+    right: 0;
+    top: 34px;
+    z-index: 11;
+    background: white;
+    box-shadow:0px 0px 4px 0px rgba(0,0,0,0.20);
+    border-radius: 1px;
+    padding: 10px 20px;
+    min-height: 200px;
+    min-width: 200px;
+    .kuma-tree {
+        float: right;
+        &.no-group {
+            float: left;
+        }
+    }
+    .kuma-tree li span.kuma-tree-switcher {
+        display: none;
+    }
+}
+
+.@{uxtable-prefix}-searchbar{
+	float: right;
+	position:relative;
+    .kuma-input {
+        height: 32px;
+    }
+    .kuma-icon-search{
+        position: absolute;
+        line-height: 16px;
+        color: @text-helper-color;
+        right: 8px;
+        top: 8px;
+        cursor:pointer;
+        &:hover {
+            color: @text-primary-color;
+        }
+    }
+}
+
+.@{uxtable-prefix}-linkbar {
+    float: right;
+    line-height: 30px;
+    a {
+        vertical-align: middle;
+    }
+}
+
+.@{uxtable-prefix}-linkbar-cutoff {
+    border-right: 1px solid @border-disabled-color;
+    height: 14px;
+    display: inline-block;
+    margin: 0 5px;
+    vertical-align: middle;
+}
+
+.@{uxtable-prefix}-linkbar-item {
+    cursor: pointer;
+    display: inline-block;
+}

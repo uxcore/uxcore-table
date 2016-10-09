@@ -1,6 +1,6 @@
 {
  "name": "uxcore-table",
- "version": "1.9.6",
+ "version": "1.10.0",
  "description": "table ui component for react",
  "repository": "https://github.com/uxcore/uxcore-table.git",
  "author": "zhouquan.yezq",
@@ -51,9 +51,8 @@
  "dependencies": {
   "classnames": "^2.1.2",
   "deep-equal": "~1.0.1",
-  "deepcopy": "~0.5.0",
   "lie": "^3.1.0",
-  "lodash": "^4.14.1",
+  "lodash": "^4.15.0",
   "natty-fetch": "~2.1.1",
   "object-assign": "^4.0.0",
   "rc-util": "^3.3.0",
@@ -66,6 +65,7 @@
   "uxcore-radiogroup": "~1.2.0",
   "uxcore-select2": "~0.3.0",
   "uxcore-tooltip": "~0.3.2",
+  "uxcore-tree": "^0.2.4",
   "uxcore-validator": "~0.1.0"
  },
  "contributors": [],

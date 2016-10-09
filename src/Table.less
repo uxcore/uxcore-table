@@ -8,7 +8,7 @@
 
 @uxtable-prefix: kuma-uxtable;
 @import "./Mask.less";
-@import "./ActionBar.less";
+@import "./ActionBar/index.less";
 
 .@{uxtable-prefix} {
     border-collapse: collapse;
@@ -24,7 +24,6 @@
         margin-right: 12px;
         color: @brand-primary;
     }
-    
 }
 
 .@{uxtable-prefix}-content {
@@ -234,35 +233,57 @@
     display: inline-block;
 }
 
-.@{uxtable-prefix}-h-sort{
+.@{uxtable-prefix}-h-sort {
     position:relative;
-    vertical-align: top;
+    vertical-align: middle;
+    cursor: pointer;
+    height: 20px;
+    width: 14px;
+    display: inline-block;
     color: @gray-light;
     .kuma-icon {
         font-size: 13px;
+        height: 14px;
+        line-height: 11px;
+        position: absolute;
         &.active {
             color: @brand-primary;
         }
         -webkit-text-stroke-width: 0;
     }
-    .kuma-icon-iconfontdown {
-        margin-left: -7px;
+    .kuma-icon-triangle-up {
+        top: 0;
+    }
+    .kuma-icon-triangle-down {
+        bottom: 0;
     }
 }
 
 
 
 .action-container {
-    .action{
+    .action {
         cursor: pointer;
         display:inline-block;
         text-decoration: none;
+        &.collapse-one {
+            padding: 0 13px;
+        }
+        &.disabled {
+            color: @text-disabled-color;
+            cursor: not-allowed
+        }
+        i {
+            color: @link-color;
+        }
+        &.kuma-button {
+            i {
+                color: @brand-primary;
+            }
+        }
         & + .action {
             margin-left: 10px
         }
-    }
-    .kuma-icon-triangle-down {
-        color: @text-thirdary-color;
     }
     .split {
         color: #ccc;
@@ -323,7 +344,7 @@
 .@{uxtable-prefix}-body-scroll {
     position:relative;
     // border-left:1px solid @table-border;
-    float:left;
+    // float:left;
     overflow:auto;
     z-index:1;
     height:100%;
@@ -341,7 +362,7 @@
 .@{uxtable-prefix}-header-scroll {
     position:static;
     // border-left:1px solid @table-border;
-    float:left;
+    // float:left;
     overflow-x: hidden;
     z-index:1;
     height:100%;
@@ -409,6 +430,9 @@
     .@{uxtable-prefix}-row {
         &.even .@{uxtable-prefix}-row-cells {
             background: white;
+            &:hover {
+                background: @brand-primary-lighter;
+            }
         }
         .@{uxtable-prefix}-row-cells {
             border-bottom: 1px solid @basic-600;
@@ -428,6 +452,23 @@
     .@{uxtable-prefix}-header-group-name {
         border-right: 1px solid @basic-600;
         border-bottom: 1px solid @basic-600;
+    }
+}
+
+.@{uxtable-prefix}-cell-collapsed-button-more-dropdown {
+    .kuma-dropdown-menu > .kuma-dropdown-menu-item {
+        padding: 4px 12px;
+        a {
+            color: @link-color;
+            cursor: pointer;
+        }
+        &.kuma-dropdown-menu-item-disabled {
+            background: @bg-disabled-color;
+            a {
+                color: @text-disabled-color;
+                cursor: not-allowed;
+            }
+        }
     }
 }
 

@@ -15,7 +15,7 @@ const RadioField = require('./RadioField');
 // const PlaceSelect = require('./PlaceSelect');
 const Constants = require('uxcore-const');
 const React = require('react');
-const deepcopy = require('deepcopy');
+const deepcopy = require('lodash/cloneDeep');
 
 const { Option } = Select;
 const RadioItem = RadioGroup.Item;
@@ -161,9 +161,33 @@ class Demo extends React.Component {
       {
         dataKey: 'action1',
         title: '操作1',
-        width: 100,
+        width: 280,
         type: 'action',
+        // actionType: 'button',
+        collapseNum: 3,
         actions: [
+          {
+            title: '编辑',
+            callback: (rowData) => {
+              me.refs.grid.editRow(rowData);
+            },
+            isDisable: () => '这个操作被禁止了',
+            mode: Constants.MODE.VIEW,
+          },
+          {
+            title: '编辑',
+            callback: (rowData) => {
+              me.refs.grid.editRow(rowData);
+            },
+            mode: Constants.MODE.VIEW,
+          },
+          {
+            title: '编辑',
+            callback: (rowData) => {
+              me.refs.grid.editRow(rowData);
+            },
+            mode: Constants.MODE.VIEW,
+          },
           {
             title: '编辑',
             callback: (rowData) => {
@@ -199,14 +223,14 @@ class Demo extends React.Component {
 
     const renderProps = {
       // height: 200,
-      width: 1000,
+      // width: 600,
       showPager: true,
       fetchParams: {},
       showHeaderBorder: true,
       getSavedData: true,
       jsxdata: me.state.data,
       doubleClickToEdit: true,
-      onPagerChange: (currentPage, pageSize) => {
+      onPagerChange: (currentPage) => {
         const newData = deepcopy(this.state.data);
         newData.currentPage = currentPage;
         me.setState({
@@ -216,10 +240,10 @@ class Demo extends React.Component {
       actionBar: [
         {
           title: '新增行',
+          disabled: true,
           callback: () => {
             me.refs.grid.addEmptyRow();
           },
-          render: (title) => <Button>{title}</Button>,
         },
         {
           title: '编辑所有行',
@@ -234,9 +258,30 @@ class Demo extends React.Component {
           },
         },
       ],
+      linkBar: [
+        {
+          title: '操作外链一',
+          callback: () => {
+            alert(1);
+          },
+        },
+        {
+          title: '操作外链二',
+          callback: () => {
+            alert(2);
+          },
+        },
+        {
+          title: '操作外链三',
+          callback: () => {
+            alert(3);
+          },
+        },
+      ],
       // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
       // fetchUrl: "http://10.1.159.52:3002/demo/data.json",
       jsxcolumns: columns,
+      // locale: 'en-us',
       beforeFetch: (sendData) => {
         sendData.id = 1;
         return sendData;

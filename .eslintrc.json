@@ -3,8 +3,12 @@
     "plugins": [
         "react"
     ],
+    "env": {
+        "browser": true
+    },
     "rules": {
         "import/no-extraneous-dependencies": "off",
-        "react/jsx-no-bind": "off"
+        "react/jsx-no-bind": "off",
+        "no-underscore-dangle": "off"
     }
 }

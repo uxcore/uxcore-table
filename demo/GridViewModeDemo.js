@@ -9,7 +9,7 @@
 let classnames = require('classnames');
 let Grid = require('../src');
 let Button = require('uxcore-button');
-let urlPrefix = 'http://30.9.174.1:3000/';
+let urlPrefix = window.urlPrefix || 'http://30.9.174.1:3000/';
 let mockData = {
     "data": [
         {

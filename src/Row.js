@@ -6,7 +6,7 @@ const classnames = require('classnames');
 const assign = require('object-assign');
 const Const = require('uxcore-const');
 const deepEqual = require('deep-equal');
-const deepcopy = require('deepcopy');
+const deepcopy = require('lodash/cloneDeep');
 const CheckBox = require('./Cell/CheckBox');
 const util = require('./util');
 
@@ -29,7 +29,7 @@ class Row extends React.Component {
         const me = this;
         let shouldUpdate = false;
 
-        ['rowIndex', 'index', 'mode', 'renderModel', 'fixedColumn', 'levels', 'addRowClassName', 'renderSubComp', 'visible', 'checkboxColumnKey'].forEach((item) => {
+        ['rowIndex', 'index', 'mode', 'renderModel', 'fixedColumn', 'levels', 'addRowClassName', 'renderSubComp', 'visible', 'checkboxColumnKey', 'locale'].forEach((item) => {
             if (me.props[item] !== nextProps[item]) {
                 shouldUpdate = true;
             }
@@ -243,6 +243,7 @@ class Row extends React.Component {
                         let renderProps = {
                             column: item,
                             root: props.root,
+                            locale: props.locale,
                             rowData: props.rowData,
                             rowIndex: props.rowIndex,
                             index: props.index,

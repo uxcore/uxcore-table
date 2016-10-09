@@ -15,7 +15,7 @@ const CellField = require('./Cell/CellField');
 const Pagination = require('uxcore-pagination');
 const Const = require('uxcore-const');
 const assign = require('object-assign');
-const deepcopy = require('deepcopy');
+const deepcopy = require('lodash/cloneDeep');
 const deepEqual = require('deep-equal');
 const classnames = require('classnames');
 const util = require('./util');
@@ -55,7 +55,8 @@ class Table extends React.Component {
   componentDidMount() {
     const me = this;
     if (!!me.state.data && !!me.state.data.datas) {
-      console.warn("Table: 'content.data' rather than 'content.datas' is recommended, the support for 'content.datas' will be end from ver. 1.5.0");
+      console.warn('Table: "content.data" rather than "content.datas" is recommended, '
+        + 'the support for "content.datas" will be end from ver. 1.5.0');
     }
     if (me.props.subComp) {
       console.warn('Table: subComp is deprecated, use renderSubComp instead.');
@@ -348,16 +349,19 @@ class Table extends React.Component {
     return columns;
   }
 
-  handleColumnPickerChange(checkedKeys) {
-    if (checkedKeys.length === 0) {
-      return;
-    }
+  handleColumnPickerChange(checkedKeys, groupName) {
+    // if (checkedKeys.length === 0) {
+    //   return;
+    // }
+
     const columns = deepcopy(this.state.columns);
     const notRenderColumns = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
-
+    const commonGroupName = util.getConsts().commonGroup;
     for (let i = 0; i < columns.length; i++) {
       const item = columns[i];
-      if ('group' in item) {
+      const isGroup = {}.hasOwnProperty.call(item, 'columns') && typeof item.columns === 'object';
+      // current column is a group and groupName is right
+      if (isGroup && item.group === groupName) {
         for (let j = 0; j < item.columns.length; j++) {
           const ele = item.columns[j];
           if (checkedKeys.indexOf(ele.dataKey) !== -1) {
@@ -366,11 +370,15 @@ class Table extends React.Component {
             ele.hidden = true;
           }
         }
-      } else if (checkedKeys.indexOf(item.dataKey) !== -1
+        break;
+      } else if (groupName === commonGroupName) {
+        // current column is common group
+        if (checkedKeys.indexOf(item.dataKey) !== -1
           || notRenderColumns.indexOf(item.dataKey) !== -1) {
-        item.hidden = false;
-      } else {
-        item.hidden = true;
+          item.hidden = false;
+        } else {
+          item.hidden = true;
+        }
       }
     }
 
@@ -704,7 +712,7 @@ class Table extends React.Component {
     const data = deepcopy(me.state.data);
     let changedData = {};
     for (let i = 0; i < data.data.length; i++) {
-      if (data.data[i].jsxid == jsxid) {
+      if (data.data[i].jsxid === jsxid) {
         data.data[i][dataKey] = text;
         data.data[i][editKey] = value;
         changedData = data.data[i];
@@ -730,13 +738,13 @@ class Table extends React.Component {
     if (!column || data.length === 0) {
       return false;
     }
-    const key = me.checkboxColumnKey;
+    const checkboxColumnKey = me.checkboxColumnKey;
     let isSelectAll = true;
     for (let i = 0; i < data.length; i++) {
       if ((('isDisable' in column) && column.isDisable(data[i])) || column.disable) {
         isSelectAll = true;
       } else {
-        isSelectAll = data[i][key];
+        isSelectAll = data[i][checkboxColumnKey];
         if (!isSelectAll) {
           break;
         }
@@ -761,7 +769,7 @@ class Table extends React.Component {
       width: props.passedData ? 'auto' : props.width,
       height: props.height,
     };
-    const actionBarHeight = props.actionBar ? props.actionBarHeight : 0;
+    const actionBarHeight = (props.actionBar || props.showSearch) ? props.actionBarHeight : 0;
     const pagerHeight = (props.showPager && this.state.data && this.state.data.totalCount) ? 42 : 0;
 
     // decide whether the table has column groups
@@ -786,6 +794,7 @@ class Table extends React.Component {
       data,
       rowSelection: props.rowSelection,
       addRowClassName: props.addRowClassName,
+      locale: props.locale,
       subComp: props.subComp,
       emptyText: props.emptyText,
       renderSubComp: props.renderSubComp,
@@ -829,11 +838,17 @@ class Table extends React.Component {
       const renderActionProps = {
         onSearch: this.handleActionBarSearch.bind(this),
         actionBarConfig: this.props.actionBar,
+        locale: this.props.locale,
+        linkBar: this.props.linkBar,
+        checkboxColumnKey: me.checkboxColumnKey,
         showSearch: this.props.showSearch,
+        handleColumnPickerChange: this.handleColumnPickerChange.bind(this),
         searchBarPlaceholder: this.props.searchBarPlaceholder,
+        columns: state.columns,
+        width: props.width,
         key: 'grid-actionbar',
       };
-      actionBar = <ActionBar {...renderActionProps}/>;
+      actionBar = <ActionBar {...renderActionProps} />;
     }
 
     return (
@@ -1149,9 +1164,9 @@ Table.defaultProps = {
   doubleClickToEdit: true,
   rowSelector: 'checkboxSelector',
   showPager: true,
-  isMiniPager: true,
+  isMiniPager: false,
   showPagerSizeChanger: true,
-  showColumnPicker: true,
+  showColumnPicker: false,
   showHeaderBorder: false,
   showPagerTotal: false,
   showMask: false,
@@ -1236,6 +1251,10 @@ Table.propTypes = {
    */
   showPager: React.PropTypes.bool,
   /**
+   * @title: 是否是小分页
+   */
+  isMiniPager: React.PropTypes.bool,
+  /**
    * @title 分页中是否显示总条数
    */
   showPagerTotal: React.PropTypes.bool,
@@ -1298,6 +1317,13 @@ Table.propTypes = {
    * @title 操作栏配置
    */
   actionBar: React.PropTypes.oneOfType([
+    React.PropTypes.array,
+    React.PropTypes.object,
+  ]),
+  /**
+   * @title 操作外链配置
+   */
+  linkBar: React.PropTypes.oneOfType([
     React.PropTypes.array,
     React.PropTypes.object,
   ]),
