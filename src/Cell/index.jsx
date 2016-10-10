@@ -228,6 +228,7 @@ class Cell extends React.Component {
       );
     } else if (column.type === 'treeIcon') {
       content = me.renderTreeIcon();
+      style.borderRight = 'none';
     } else if (
       (column.type === 'custom' || column.type in fieldsMap)
       && mode === Const.MODE.EDIT

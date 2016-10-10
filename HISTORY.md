@@ -2,6 +2,10 @@
 
 ---
 
+## 1.10.3
+
+* `FIXED` treeIcon cell should not has right border when className is kuma-uxtable-border-line.
+
 ## 1.10.0
 
 * `FIXED` body width calculation bug when there is fixed columns & width is not defined.
