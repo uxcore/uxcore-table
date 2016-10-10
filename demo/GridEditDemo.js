@@ -164,7 +164,7 @@ class Demo extends React.Component {
         width: 280,
         type: 'action',
         // actionType: 'button',
-        collapseNum: 3,
+        collapseNum: 1,
         actions: [
           {
             title: '编辑',

@@ -25,7 +25,7 @@ class CollapsedButton extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (React.Children.count(nextProps.children) < nextProps.maxLength) {
+    if (React.Children.count(nextProps.children) < this.toNum(nextProps.maxLength)) {
       this.setState({
         dropdownVisible: false,
       });
@@ -35,7 +35,7 @@ class CollapsedButton extends React.Component {
   componentDidUpdate() {
     const { children, maxLength } = this.props;
     if (this.state.dropdownVisible
-      && maxLength === 1
+      && this.toNum(maxLength) === 1
       && React.Children.count(children) > 1
     ) {
       const dropdownDOMNode = this.dropdownInstance.getPopupDomNode();
@@ -43,6 +43,13 @@ class CollapsedButton extends React.Component {
 
       dropdownDOMNode.style.minWidth = `${(triggerDOMnode || this.triggerInstance).offsetWidth}px`;
     }
+  }
+
+  toNum(variable) {
+    if (typeof variable === 'string') {
+      return variable - 0;
+    }
+    return variable;
   }
 
   saveRef(refName) {
@@ -235,18 +242,18 @@ class CollapsedButton extends React.Component {
     const { children, maxLength } = me.props;
     const buttons = [];
     const options = [];
-    if (maxLength === 1 && React.Children.count(children) > 1) {
+    if (me.toNum(maxLength) === 1 && React.Children.count(children) > 1) {
       return (
         <div>{me.renderHoverMenu()}</div>
       );
     }
-    if (React.Children.count(children) <= maxLength) {
+    if (React.Children.count(children) <= me.toNum(maxLength)) {
       React.Children.forEach(children, (item, index) => {
         buttons.push(me.renderItem(item, index));
       });
     } else {
       React.Children.forEach(children, (item, index) => {
-        if (index < maxLength - 1) {
+        if (index < me.toNum(maxLength) - 1) {
           buttons.push(me.renderItem(item, index));
         } else {
           options.push(item);

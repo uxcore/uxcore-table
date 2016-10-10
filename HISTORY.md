@@ -2,6 +2,10 @@
 
 ---
 
+## 1.10.4
+
+* `CHANGED` `column.collapseNum` will support string
+
 ## 1.10.3
 
 * `FIXED` treeIcon cell should not has right border when className is kuma-uxtable-border-line.
