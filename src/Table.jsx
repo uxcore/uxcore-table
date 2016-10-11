@@ -287,11 +287,11 @@ class Table extends React.Component {
   processColumn(props) {
     props = props || this.props;
 
-    let me = this,
-      columns = deepcopy(props.jsxcolumns),
-      hasCheckboxColumn = false;
+    const me = this;
+    let columns = deepcopy(props.jsxcolumns);
+    let hasCheckboxColumn = false;
 
-    columns.forEach((item, i) => {
+    columns.forEach((item) => {
       // only one rowSelector can be rendered in Table.
       if (item.type === 'checkbox'
         || item.type === 'radioSelector'
@@ -334,7 +334,7 @@ class Table extends React.Component {
     if ((!!props.subComp || !!props.renderSubComp) && props.renderModel !== 'tree') {
       columns = [{
         dataKey: 'jsxtreeIcon',
-        width: 34,
+        width: 36,
         type: 'treeIcon',
       }].concat(columns);
     } else if (props.passedData) {
@@ -350,10 +350,6 @@ class Table extends React.Component {
   }
 
   handleColumnPickerChange(checkedKeys, groupName) {
-    // if (checkedKeys.length === 0) {
-    //   return;
-    // }
-
     const columns = deepcopy(this.state.columns);
     const notRenderColumns = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
     const commonGroupName = util.getConsts().commonGroup;
@@ -380,6 +376,12 @@ class Table extends React.Component {
           item.hidden = true;
         }
       }
+    }
+
+    const selectedKeys = util.getSelectedKeys(columns);
+
+    if (selectedKeys.length === 0) {
+      return;
     }
 
     this.setState({

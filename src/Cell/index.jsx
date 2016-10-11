@@ -157,8 +157,8 @@ class Cell extends React.Component {
           <i
             className={classnames({
               'kuma-icon': true,
-              'kuma-icon-tree-open': open,
-              'kuma-icon-tree-close': !open,
+              'kuma-icon-triangle-right': true,
+              'kuma-icon-triangle-right__open': open,
             })}
           />
         </span>

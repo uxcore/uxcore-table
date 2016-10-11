@@ -76,7 +76,7 @@ const getSelectedKeys = (columns) => {
 };
 
 const getConsts = () => ({
-  commonGroup: '__common__'
+  commonGroup: '__common__',
 });
 
 const utils = {

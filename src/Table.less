@@ -205,8 +205,18 @@
     cursor: pointer;
     vertical-align: middle;
     > .kuma-icon {
-        font-size: 14px;
+        font-size: 16px;
         color: #999999;
+        &:before {
+            transition: transform 0.3s ease;
+            display: inline-block;
+            zoom: 1;
+        }
+        &.kuma-icon-triangle-right__open:before {
+            transform: rotate(90deg);
+            -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=1, M12=0, M21=0, M22=1)";
+            -ms-transform: rotate(90deg);
+        }
     }
 }
 
@@ -343,8 +353,6 @@
 }
 .@{uxtable-prefix}-body-scroll {
     position:relative;
-    // border-left:1px solid @table-border;
-    // float:left;
     overflow:auto;
     z-index:1;
     height:100%;
@@ -361,8 +369,6 @@
 }
 .@{uxtable-prefix}-header-scroll {
     position:static;
-    // border-left:1px solid @table-border;
-    // float:left;
     overflow-x: hidden;
     z-index:1;
     height:100%;
@@ -403,7 +409,6 @@
         &.expanded:before {
             transform: rotate(90deg);
             filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
-             -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
         }
     }
 }

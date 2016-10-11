@@ -43,7 +43,6 @@ class Demo extends React.Component {
       {
         dataKey: 'select',
         type: 'checkboxSelector',
-        disable: true,
       },
       {
         dataKey: 'id',

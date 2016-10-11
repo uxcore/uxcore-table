@@ -2,6 +2,11 @@
 
 ---
 
+## 1.10.5
+
+* `CHANGED` change tree icon in subComp mode.
+* `FIXED` columnPicker can hide all columns.
+
 ## 1.10.4
 
 * `CHANGED` `column.collapseNum` will support string
