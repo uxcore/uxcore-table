@@ -13,7 +13,7 @@ Table UI Component based on React. working for many modes such as sub table, tre
 $ git clone https://github.com/uxcore/uxcore-table
 $ cd uxcore-table
 $ npm install
-$ gulp server
+$ npm start
 ```
 
 ## API
