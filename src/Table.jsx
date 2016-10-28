@@ -96,26 +96,6 @@ class Table extends React.Component {
   }
 
   /**
-   * cancel the CellField when it is unmounted.
-   * @param field {element} the cell field to be canceled.
-   */
-
-  detachCellField(name) {
-    delete this.fields[name];
-  }
-
-
-  /**
-   * simple method to compare two datas,
-   * only support the data which JSON can parse.
-   */
-
-  _isEqual(a, b) {
-    return deepEqual(a, b);
-  }
-
-
-  /**
    * get Query Object by combining data from searchBar, column order, pagination
    * and fetchParams.
    * @param from {string} used in props.beforeFetch
@@ -501,7 +481,7 @@ class Table extends React.Component {
     me.setState({
       currentPage: current,
     }, () => {
-      me.fetchData('pagination')
+      me.fetchData('pagination');
     });
   }
 
@@ -684,6 +664,24 @@ class Table extends React.Component {
         <Mask visible={this.state.showMask} text={this.props.loadingText} />
       </div>
     );
+  }
+
+  /**
+   * simple method to compare two datas,
+   * only support the data which JSON can parse.
+   */
+
+  _isEqual(a, b) {
+    return deepEqual(a, b);
+  }
+
+  /**
+   * cancel the CellField when it is unmounted.
+   * @param field {element} the cell field to be canceled.
+   */
+
+  detachCellField(name) {
+    delete this.fields[name];
   }
 
   /**
