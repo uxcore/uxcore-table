@@ -44,14 +44,17 @@ class ActionBar extends React.Component {
     const itemProps = {
       className: `${me.props.prefixCls}-item`,
       onClick: item.callback || (() => {}),
+      type: 'secondary',
       key: index,
     };
     if (!!item.render && typeof item.render === 'function') {
       return <div {...itemProps}>{item.render(item.title)}</div>;
     }
+    if (index === 0) {
+      itemProps.type = 'outline';
+    }
     return (
       <Button
-        type="outline"
         size="medium"
         disabled={item.disabled || false}
         {...itemProps}

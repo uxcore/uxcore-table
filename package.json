@@ -1,6 +1,6 @@
 {
  "name": "uxcore-table",
- "version": "1.10.5",
+ "version": "1.11.0",
  "description": "table ui component for react",
  "repository": "https://github.com/uxcore/uxcore-table.git",
  "author": "zhouquan.yezq",
@@ -33,6 +33,7 @@
   "table"
  ],
  "devDependencies": {
+  "babel-eslint": "^7.1.0",
   "console-polyfill": "^0.2.2",
   "es5-shim": "^4.5.8",
   "eslint": "^3.2.2",

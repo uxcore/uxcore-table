@@ -106,15 +106,15 @@ class Demo extends React.Component {
         title: '城市',
         width: 200,
         type: 'select',
-        renderChildren: () => {
-          return [{
+        renderChildren: () => (
+          [{
             id: 'bj',
             name: '北京',
           }, {
             id: 'hz',
             name: '杭州',
-          }].map((item) => <Option key={item.id}>{item.name}</Option>);
-        },
+          }].map((item) => <Option key={item.id}>{item.name}</Option>)
+        ),
         config: {
           filterOption: false,
         },
@@ -131,17 +131,15 @@ class Demo extends React.Component {
         width: 200,
         type: 'custom',
         customField: RadioField,
-        renderChildren: () => {
-          return [{
+        renderChildren: () => (
+          [{
             id: 'xiaoli',
             name: '小李',
           }, {
             id: 'xiaowang',
             name: '小王',
-          }].map((item) => {
-            return <RadioItem key={item.id} text={item.name} value={item.id} />
-          });
-        },
+          }].map((item) => <RadioItem key={item.id} text={item.name} value={item.id} />)
+        ),
       },
       {
         dataKey: 'email',
@@ -153,7 +151,7 @@ class Demo extends React.Component {
           errMsg: '',
         },
         config: {
-          onBlur: function(e) {
+          onBlur(e) {
             console.log(e);
           },
         },
@@ -240,7 +238,7 @@ class Demo extends React.Component {
       actionBar: [
         {
           title: '新增行',
-          disabled: true,
+          // disabled: true,
           callback: () => {
             me.refs.grid.addEmptyRow();
           },

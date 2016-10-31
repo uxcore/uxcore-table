@@ -16,7 +16,7 @@ class Row extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: (this.props.level < this.props.levels) ? true : false,
+      expanded: props.level < props.levels,
     };
   }
 
@@ -86,7 +86,7 @@ class Row extends React.Component {
         let subComp = React.cloneElement(props.subComp, {
           passedData: this.props.rowData,
           parentHasCheckbox: !!this.props.rowSelection,
-          parentHasCheck: !!this.props.rowSelection, // ///
+          parentHasCheck: !!this.props.rowSelection,
         });
         return (<div className="kuma-uxtable-subrow" ref="subRow">{subComp}</div>);
       }
@@ -113,7 +113,7 @@ class Row extends React.Component {
       props.rowData.data.forEach((node, index) => {
         const renderProps = assign({}, props, {
           level: me.props.level + 1,
-          dataIndex: (me.props.dataIndex ? me.props.dataIndex : me.props.index) + '-' + index,
+          dataIndex: `${(me.props.dataIndex ? me.props.dataIndex : me.props.index)}-${index}`,
           rowData: node,
           rowIndex: node.jsxid,
           key: node.jsxid,
@@ -124,7 +124,7 @@ class Row extends React.Component {
       });
 
       const renderProps = {
-        key: 'treeRow' + this.props.rowData.jsxid,
+        key: `treeRow${this.props.rowData.jsxid}`,
         className: 'kuma-uxtable-tree-row',
       };
 
@@ -169,11 +169,10 @@ class Row extends React.Component {
 
   renderIndent() {
     const indents = [];
-    if (this.props.renderModel == 'tree') {
+    if (this.props.renderModel === 'tree') {
       for (let i = 0; i < this.props.level - 1; i++) {
         const renderProps = {
           className: 'indent',
-          // key: 'indent' + i,
           key: `indent${i}`,
         };
         indents.push(<span {...renderProps} />);
@@ -251,7 +250,9 @@ class Row extends React.Component {
             firstVisableColumn++;
             let hasSubComp = !!props.subComp;
             if (!hasSubComp) {
-              hasSubComp = props.renderSubComp ? !!props.renderSubComp(deepcopy(props.rowData)) : false;
+              hasSubComp = props.renderSubComp
+                ? !!props.renderSubComp(deepcopy(props.rowData))
+                : false;
             }
             const renderProps = {
               column: item,
@@ -296,7 +297,14 @@ class Row extends React.Component {
 
 Row.propTypes = {
   prefixCls: React.PropTypes.string,
+  renderModel: React.PropTypes.string,
+  checkboxColumnKey: React.PropTypes.string,
+  root: React.PropTypes.any,
+  rowData: React.PropTypes.object,
+  rowSelection: React.PropTypes.object,
   showSubComp: React.PropTypes.bool,
+  last: React.PropTypes.bool,
+  visible: React.PropTypes.bool,
 };
 
 Row.defaultProps = {

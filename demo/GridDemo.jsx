@@ -107,9 +107,6 @@ class Demo extends React.Component {
       },
     ];
     const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
-    const mockData = {
-      data: [],
-    };
     const renderProps = {
       actionColumn: {
         edit: () => {},
