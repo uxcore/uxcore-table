@@ -224,6 +224,7 @@ class Demo extends React.Component {
       // width: 600,
       showPager: true,
       fetchParams: {},
+      showSearch: true,
       showHeaderBorder: true,
       getSavedData: true,
       jsxdata: me.state.data,
