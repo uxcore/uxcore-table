@@ -32,7 +32,9 @@ class RadioField extends CellField {
       value: me.props.value,
     };
     if (me.props.column.config) {
-      const { value, onChange, ...customProps } = me.props.column.config;
+      const customProps = { ...me.props.column.config };
+      delete customProps.value;
+      delete customProps.onChange;
       assign(fieldProps, customProps);
     }
     return (

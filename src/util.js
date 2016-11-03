@@ -1,4 +1,25 @@
 import Formatter from 'uxcore-formatter';
+import deepcopy from 'lodash/cloneDeep';
+
+const mergeData = (data, obj) => {
+  const newData = deepcopy(data);
+    // code compatible
+  if (newData.datas) {
+    newData.datas = newData.datas.concat(obj);
+  } else if (newData.data) {
+    newData.data = newData.data.concat(obj);
+  }
+  newData.totalCount += 1;
+  return newData;
+};
+
+/* eslint-disable no-param-reassign */
+const saveRef = (refName, context) =>
+   (c) => {
+     context[refName] = c;
+   }
+;
+/* eslint-enable no-param-reassign */
 
 // For changeTreeSelected in Table.js
 // will change the first param data, be cautious.
@@ -127,6 +148,8 @@ const utils = {
   isRowHalfChecked,
   getAllSelectedRows,
   getConsts,
+  saveRef,
+  mergeData,
 };
 
 export default utils;

@@ -2,7 +2,7 @@
 const classnames = require('classnames');
 const assgin = require('object-assign');
 
-let React = require('react');
+const React = require('react');
 
 class CellField extends React.Component {
   constructor(props) {
@@ -29,17 +29,17 @@ class CellField extends React.Component {
 
   validate(value, cb) {
     const me = this;
-    value = value || me.props.value;
+    const actualValue = value || me.props.value;
     const rowData = me.props.rowData;
     const { rules } = me.props.column;
     let pass = true;
     let errMsg = '';
     if (typeof rules === 'object' && !Array.isArray(rules)) {
-      pass = !!rules.validator(value, rowData);
+      pass = !!rules.validator(actualValue, rowData);
       errMsg = rules.errMsg;
     } else if (Array.isArray(rules)) {
       for (let i = 0; i < rules.length; i++) {
-        pass = rules[i].validator(value, rowData);
+        pass = rules[i].validator(actualValue, rowData);
         if (!pass) {
           errMsg = rules[i].errMsg;
           break;

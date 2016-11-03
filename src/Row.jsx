@@ -83,18 +83,18 @@ class Row extends React.Component {
     }
     if (props.subComp) {
       if (props.rowData.showSubComp) {
-        let subComp = React.cloneElement(props.subComp, {
+        const subComp = React.cloneElement(props.subComp, {
           passedData: this.props.rowData,
           parentHasCheckbox: !!this.props.rowSelection,
           parentHasCheck: !!this.props.rowSelection,
         });
-        return (<div className="kuma-uxtable-subrow" ref="subRow">{subComp}</div>);
+        return (<div className="kuma-uxtable-subrow">{subComp}</div>);
       }
       return false;
     } else if (props.renderSubComp) {
-      let subComp = props.renderSubComp(deepcopy(props.rowData));
+      const subComp = props.renderSubComp(deepcopy(props.rowData));
       if (subComp && props.rowData.showSubComp) {
-        return <div className="kuma-uxtable-subrow" ref="subRow">{subComp}</div>;
+        return <div className="kuma-uxtable-subrow">{subComp}</div>;
       }
       return false;
     }
@@ -305,6 +305,8 @@ Row.propTypes = {
   showSubComp: React.PropTypes.bool,
   last: React.PropTypes.bool,
   visible: React.PropTypes.bool,
+  level: React.PropTypes.number,
+  levels: React.PropTypes.number,
 };
 
 Row.defaultProps = {

@@ -6,7 +6,7 @@
  * All rights reserved.
  */
 
-/* eslint "no-underscore-dangle": "off" */
+/* eslint-disable react/sort-comp */
 
 const Header = require('./Header');
 const Tbody = require('./Tbody');
@@ -67,8 +67,8 @@ class Table extends React.Component {
     const me = this;
     const newData = {};
     if (nextProps.jsxdata
-        && me.props.jsxdata
-        && !me._isEqual(nextProps.jsxdata, me.props.jsxdata)) {
+      && me.props.jsxdata
+      && !deepEqual(nextProps.jsxdata, me.props.jsxdata)) {
       // Data has changed, so uid which is used to mark the data should be reset.
       me.uid = 0;
       me.fetchData('dataChange', nextProps);
@@ -81,7 +81,7 @@ class Table extends React.Component {
     }
     if (!!nextProps.jsxcolumns
       && !!me.props.jsxcolumns
-      && !me._isEqual(nextProps.jsxcolumns, me.props.jsxcolumns)) {
+      && !deepEqual(nextProps.jsxcolumns, me.props.jsxcolumns)) {
       newData.columns = me.processColumn(nextProps);
       this.hasFixed = this.hasFixColumn(nextProps);
     }
@@ -89,10 +89,76 @@ class Table extends React.Component {
       newData.showMask = nextProps.showMask;
     }
     if (nextProps.fetchUrl !== me.props.fetchUrl
-      || !me._isEqual(nextProps.fetchParams, me.props.fetchParams)) {
+      || !deepEqual(nextProps.fetchParams, me.props.fetchParams)) {
       me.fetchData('propsChange', nextProps);
     }
     me.setState(newData);
+  }
+
+  renderTbody(renderBodyProps, bodyHeight) {
+    if (this.hasFixed) {
+      const fixedBodyProps = assign({}, renderBodyProps, {
+        subComp: null,
+      });
+      return (
+        <div
+          className="kuma-uxtable-body-wrapper"
+          style={{
+            height: bodyHeight,
+          }}
+        >
+          <Tbody
+            {...fixedBodyProps}
+            fixedColumn="fixed"
+            key="grid-body-fixed"
+            ref={util.saveRef('bodyFixed', this)}
+          />
+          <Tbody
+            {...renderBodyProps}
+            fixedColumn="scroll"
+            key="grid-body-scroll"
+            onScroll={this.handleBodyScroll}
+          />
+          <Mask visible={this.state.showMask} text={this.props.loadingText} />
+        </div>
+      );
+    }
+    return (
+      <div
+        className="kuma-uxtable-body-wrapper"
+        style={{
+          height: bodyHeight,
+        }}
+      >
+        <Tbody {...renderBodyProps} fixedColumn="no" onScroll={this.handleBodyScroll} />
+        <Mask visible={this.state.showMask} text={this.props.loadingText} />
+      </div>
+    );
+  }
+
+  renderHeader(renderHeaderProps) {
+    if (!this.props.showHeader) {
+      return null;
+    }
+
+    if (this.hasFixed) {
+      return (
+        <div className="kuma-uxtable-header-wrapper">
+          <Header {...renderHeaderProps} fixedColumn="fixed" key="grid-header-fixed" />
+          <Header
+            {...renderHeaderProps}
+            fixedColumn="scroll"
+            key="grid-header-scroll"
+            ref={util.saveRef('headerScroll', this)}
+          />
+        </div>
+      );
+    }
+    return (
+      <div className="kuma-uxtable-header-wrapper">
+        <Header {...renderHeaderProps} fixedColumn="no" ref={util.saveRef('headerNo', this)} />
+      </div>
+    );
   }
 
   /**
@@ -149,6 +215,281 @@ class Table extends React.Component {
     }
 
     return props.beforeFetch(queryObj, from);
+  }
+
+  onPageChange(current) {
+    const me = this;
+    me.setState({
+      currentPage: current,
+    }, () => {
+      me.fetchData('pagination');
+    });
+  }
+
+  getDomNode() {
+    return this.root;
+  }
+
+  getData(validate) {
+    const me = this;
+    let pass = true;
+    if (validate !== false) {
+      const fieldKeys = Object.keys(me.fields);
+      fieldKeys.forEach((name) => {
+        const fieldPass = me.fields[name]();
+        // if one field fails to pass, the table fails to pass
+        if (pass) {
+          pass = fieldPass;
+        }
+      });
+    }
+    if (me.props.getSavedData) {
+      // 滤除可能为空的元素
+      const data = deepcopy(me.data);
+      data.data = data.data.filter(item => item !== undefined);
+      return {
+        data,
+        pass,
+      };
+    }
+    return {
+      data: me.state.data,
+      pass,
+    };
+  }
+
+  getIsSelectAll(data) {
+    const me = this;
+    const column = me.checkboxColumn;
+    if (!column || data.length === 0) {
+      return false;
+    }
+    const checkboxColumnKey = me.checkboxColumnKey;
+    let isSelectAll = true;
+    for (let i = 0; i < data.length; i++) {
+      if ((('isDisable' in column) && column.isDisable(data[i])) || column.disable) {
+        isSelectAll = true;
+      } else {
+        isSelectAll = data[i][checkboxColumnKey];
+        if (!isSelectAll) {
+          break;
+        }
+      }
+    }
+    return isSelectAll;
+  }
+
+  /**
+   * change the checkboxColumnKey of data, passed to the Row
+   * @param checked {boolean} tree checkbox status
+   * @param dataIndex {string} like `1-2-3` means the position of the Row in data
+   */
+  changeTreeSelected(checked, dataIndex) {
+    const me = this;
+    const currentLevel = dataIndex.toString().split('-');
+    const levelDepth = currentLevel.length;
+    const data = deepcopy(me.state.data);
+    let current = data.data;
+    // record each tree node for reverse recursion.
+    const treeMap = [];
+    for (let i = 0; i < levelDepth - 1; i++) {
+      treeMap[i] = current;
+      current = current[currentLevel[i]].data;
+    }
+    // check/uncheck current row and all its children
+    current = current[currentLevel[levelDepth - 1]];
+    current[me.checkboxColumnKey] = checked;
+    util.changeValueR(current, me.checkboxColumnKey, checked);
+
+    // reverse recursion, check/uncheck parents by its children.
+    for (let i = treeMap.length - 1; i >= 0; i--) {
+      treeMap[i][currentLevel[i]][me.checkboxColumnKey] =
+        treeMap[i][currentLevel[i]].data.every(item => item[me.checkboxColumnKey] === true);
+    }
+
+    me.setState({
+      data,
+    }, () => {
+      const selectedRows = util.getAllSelectedRows(deepcopy(data), me.checkboxColumnKey);
+      if (me.props.rowSelection && me.props.rowSelection.onSelect) {
+        me.props.rowSelection.onSelect(checked, current, selectedRows);
+      }
+    });
+  }
+
+  selectAll(checked) {
+    const me = this;
+    const content = deepcopy(me.state.data);
+    const data = content.datas || content.data;
+    const rowSelection = me.props.rowSelection;
+
+    const selectedRows = [];
+    for (let i = 0; i < data.length; i++) {
+      const column = me.checkboxColumn;
+      const key = me.checkboxColumnKey;
+      const item = data[i];
+      if ((!('isDisable' in column) || !column.isDisable(item)) && !column.disable) {
+        item[key] = checked;
+        selectedRows.push(item);
+      }
+    }
+
+    if (!!rowSelection && !!rowSelection.onSelectAll) {
+      rowSelection.onSelectAll.apply(null, [checked, checked ? selectedRows : []]);
+    }
+    me.setState({
+      data: content,
+    });
+  }
+
+  handleShowSizeChange(current, pageSize) {
+    const me = this;
+    me.setState({
+      currentPage: current,
+      pageSize,
+    }, () => {
+      me.fetchData('pagination');
+    });
+  }
+
+  handleColumnPickerChange(checkedKeys, groupName) {
+    const columns = deepcopy(this.state.columns);
+    const notRenderColumns = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
+    const commonGroupName = util.getConsts().commonGroup;
+    for (let i = 0; i < columns.length; i++) {
+      const item = columns[i];
+      const isGroup = {}.hasOwnProperty.call(item, 'columns') && typeof item.columns === 'object';
+      // current column is a group and groupName is right
+      if (isGroup && item.group === groupName) {
+        for (let j = 0; j < item.columns.length; j++) {
+          const ele = item.columns[j];
+          if (checkedKeys.indexOf(ele.dataKey) !== -1) {
+            ele.hidden = false;
+          } else {
+            ele.hidden = true;
+          }
+        }
+        break;
+      } else if (groupName === commonGroupName) {
+        // current column is common group
+        if (checkedKeys.indexOf(item.dataKey) !== -1
+          || notRenderColumns.indexOf(item.dataKey) !== -1) {
+          item.hidden = false;
+        } else {
+          item.hidden = true;
+        }
+      }
+    }
+
+    const selectedKeys = util.getSelectedKeys(columns);
+
+    if (selectedKeys.length === 0) {
+      return;
+    }
+
+    this.setState({
+      columns,
+    });
+  }
+
+  handleBodyScroll(scrollLeft, scrollTop) {
+    const me = this;
+    const headerNode = me.hasFixed ? me.headerScroll : me.headerNo;
+    const bodyNode = me.bodyFixed;
+    if (scrollLeft !== undefined) {
+      headerNode.getDomNode().scrollLeft = scrollLeft;
+    }
+    if (scrollTop !== undefined && this.hasFixed) {
+      bodyNode.getDomNode().scrollTop = scrollTop;
+    }
+  }
+
+  handleOrderColumnCB(type, column) {
+    const me = this;
+    me.setState({
+      activeColumn: column,
+      orderType: type,
+    }, () => {
+      me.fetchData('order');
+    });
+  }
+
+  handleActionBarSearch(value) {
+    const me = this;
+    this.setState({
+      searchTxt: value,
+    }, () => {
+      me.fetchData('search');
+    });
+  }
+
+  processColumn(props) {
+    const actualProps = props || this.props;
+
+    const me = this;
+    let columns = deepcopy(actualProps.jsxcolumns);
+    let hasCheckboxColumn = false;
+
+    for (let i = 0; i < columns.length; i++) {
+      const item = columns[i];
+      // only one rowSelector can be rendered in Table.
+      if (item.type === 'checkbox'
+        || item.type === 'radioSelector'
+        || item.type === 'checkboxSelector') {
+        if (item.type === 'checkbox') {
+          console.warn("rowSelector using 'type: checkbox' is deprecated,"
+            + " use 'type: checkboxSelector' instead.");
+        }
+        hasCheckboxColumn = true;
+        me.checkboxColumn = item;
+        me.checkboxColumnKey = item.dataKey;
+        item.width = item.width
+          || (/kuma-uxtable-border-line/.test(actualProps.className) ? 40 : 32);
+        item.align = item.align || 'left';
+      }
+    }
+
+
+    // filter the column which has a dataKey 'jsxchecked' & 'jsxtreeIcon'
+
+    columns = columns.filter(item =>
+      item.dataKey !== 'jsxchecked' && item.dataKey !== 'jsxtreeIcon'
+    );
+
+    if (!!actualProps.rowSelection && !hasCheckboxColumn) {
+      me.checkboxColumn = {
+        dataKey: 'jsxchecked',
+        width: 46,
+        type: actualProps.rowSelector,
+        align: 'right',
+      };
+      me.checkboxColumnKey = 'jsxchecked';
+      columns = [me.checkboxColumn].concat(columns);
+    } else if (actualProps.parentHasCheckbox) {
+      // no rowSelection but has parentHasCheckbox, render placeholder
+      columns = [{
+        dataKey: 'jsxwhite',
+        width: 46,
+        type: 'empty',
+      }].concat(columns);
+    }
+    if ((!!actualProps.subComp || !!actualProps.renderSubComp)
+      && actualProps.renderModel !== 'tree') {
+      columns = [{
+        dataKey: 'jsxtreeIcon',
+        width: 36,
+        type: 'treeIcon',
+      }].concat(columns);
+    } else if (actualProps.passedData) {
+      // no subComp but has passedData, means sub mode, parent should has tree icon,
+      // render tree icon placeholder
+      columns = [{
+        dataKey: 'jsxwhite',
+        width: 34,
+        type: 'empty',
+      }].concat(columns);
+    }
+    return columns;
   }
 
   /**
@@ -220,22 +561,16 @@ class Table extends React.Component {
       }
     } else if (props.jsxdata) {
       if (['pagination', 'order', 'search'].indexOf(from) !== -1) {
-        switch (from) {
-          case 'pagination':
-            if (props.onPagerChange) {
-              props.onPagerChange(me.state.currentPage, me.state.pageSize);
-            }
-            break;
-          case 'order':
-            if (props.onOrder) {
-              props.onOrder(me.state.activeColumn, me.state.orderType);
-            }
-            break;
-          case 'search':
-            if (props.onSearch) {
-              props.onSearch(me.state.searchTxt);
-            }
-            break;
+        if (name === 'pagination' && props.onPagerChange) {
+          props.onPagerChange(me.state.currentPage, me.state.pageSize);
+        }
+
+        if (name === 'order' && props.onOrder) {
+          props.onOrder(me.state.activeColumn, me.state.orderType);
+        }
+
+        if (name === 'search' && props.onSearch) {
+          props.onSearch(me.state.searchTxt);
         }
       } else {
         const data = this.addValuesInData(deepcopy(props.jsxdata));
@@ -263,419 +598,7 @@ class Table extends React.Component {
     }
   }
 
-
-  processColumn(props) {
-    props = props || this.props;
-
-    const me = this;
-    let columns = deepcopy(props.jsxcolumns);
-    let hasCheckboxColumn = false;
-
-    columns.forEach((item) => {
-      // only one rowSelector can be rendered in Table.
-      if (item.type === 'checkbox'
-        || item.type === 'radioSelector'
-        || item.type === 'checkboxSelector') {
-        if (item.type === 'checkbox') {
-          console.warn("rowSelector using 'type: checkbox' is deprecated, use 'type: checkboxSelector' instead.");
-        }
-        hasCheckboxColumn = true;
-        me.checkboxColumn = item;
-        me.checkboxColumnKey = item.dataKey;
-        item.width = item.width || (/kuma-uxtable-border-line/.test(props.className) ? 40 : 32);
-        item.align = item.align || 'left';
-      }
-    });
-
-
-    // filter the column which has a dataKey 'jsxchecked' & 'jsxtreeIcon'
-
-    columns = columns.filter((item) =>
-      item.dataKey !== 'jsxchecked' && item.dataKey !== 'jsxtreeIcon'
-    );
-
-    if (!!props.rowSelection & !hasCheckboxColumn) {
-      me.checkboxColumn = {
-        dataKey: 'jsxchecked',
-        width: 46,
-        type: props.rowSelector,
-        align: 'right',
-      };
-      me.checkboxColumnKey = 'jsxchecked';
-      columns = [me.checkboxColumn].concat(columns);
-    } else if (props.parentHasCheckbox) {
-      // no rowSelection but has parentHasCheckbox, render placeholder
-      columns = [{
-        dataKey: 'jsxwhite',
-        width: 46,
-        type: 'empty',
-      }].concat(columns);
-    }
-    if ((!!props.subComp || !!props.renderSubComp) && props.renderModel !== 'tree') {
-      columns = [{
-        dataKey: 'jsxtreeIcon',
-        width: 36,
-        type: 'treeIcon',
-      }].concat(columns);
-    } else if (props.passedData) {
-      // no subComp but has passedData, means sub mode, parent should has tree icon,
-      // render tree icon placeholder
-      columns = [{
-        dataKey: 'jsxwhite',
-        width: 34,
-        type: 'empty',
-      }].concat(columns);
-    }
-    return columns;
-  }
-
-  handleColumnPickerChange(checkedKeys, groupName) {
-    const columns = deepcopy(this.state.columns);
-    const notRenderColumns = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
-    const commonGroupName = util.getConsts().commonGroup;
-    for (let i = 0; i < columns.length; i++) {
-      const item = columns[i];
-      const isGroup = {}.hasOwnProperty.call(item, 'columns') && typeof item.columns === 'object';
-      // current column is a group and groupName is right
-      if (isGroup && item.group === groupName) {
-        for (let j = 0; j < item.columns.length; j++) {
-          const ele = item.columns[j];
-          if (checkedKeys.indexOf(ele.dataKey) !== -1) {
-            ele.hidden = false;
-          } else {
-            ele.hidden = true;
-          }
-        }
-        break;
-      } else if (groupName === commonGroupName) {
-        // current column is common group
-        if (checkedKeys.indexOf(item.dataKey) !== -1
-          || notRenderColumns.indexOf(item.dataKey) !== -1) {
-          item.hidden = false;
-        } else {
-          item.hidden = true;
-        }
-      }
-    }
-
-    const selectedKeys = util.getSelectedKeys(columns);
-
-    if (selectedKeys.length === 0) {
-      return;
-    }
-
-    this.setState({
-      columns,
-    });
-  }
-
-  /**
-   * change SelectedRows data via checkbox, this function will pass to the Cell
-   * @param checked {boolean} the checkbox status
-   * @param rowIndex {number} the row Index
-   * @param fromMount {boolean} onSelect is called from cell Mount is not expected.
-   */
-
-  changeSelected(checked, rowIndex, fromMount) {
-    const me = this;
-    const content = deepcopy(this.state.data);
-    const _data = content.datas || content.data;
-
-    if (me.checkboxColumn.type === 'radioSelector') {
-      for (let i = 0; i < _data.length; i++) {
-        const item = _data[i];
-        if (item.jsxid === rowIndex) {
-          item[me.checkboxColumnKey] = checked;
-        } else if (item[me.checkboxColumnKey]) {
-          item[me.checkboxColumnKey] = false;
-        }
-      }
-    } else {
-      for (let i = 0; i < _data.length; i++) {
-        const item = _data[i];
-        if (item.jsxid === rowIndex) {
-          item[me.checkboxColumnKey] = checked;
-          break;
-        }
-      }
-    }
-
-    me.setState({
-      data: content,
-    }, () => {
-      if (!fromMount) {
-        const data = me.state.data.datas || me.state.data.data;
-        const selectedRows = data.filter((item) => item[me.checkboxColumnKey] === true);
-        if (me.props.rowSelection && me.props.rowSelection.onSelect) {
-          me.props.rowSelection.onSelect(checked, data[rowIndex], selectedRows);
-        }
-      }
-    });
-  }
-
-  /**
-   * change the checkboxColumnKey of data, passed to the Row
-   * @param checked {boolean} tree checkbox status
-   * @param dataIndex {string} like `1-2-3` means the position of the Row in data
-   */
-  changeTreeSelected(checked, dataIndex) {
-    const me = this;
-    const currentLevel = dataIndex.toString().split('-');
-    const levelDepth = currentLevel.length;
-    const data = deepcopy(me.state.data);
-    let current = data.data;
-    // record each tree node for reverse recursion.
-    const treeMap = [];
-    for (let i = 0; i < levelDepth - 1; i++) {
-      treeMap[i] = current;
-      current = current[currentLevel[i]].data;
-    }
-    // check/uncheck current row and all its children
-    current = current[currentLevel[levelDepth - 1]];
-    current[me.checkboxColumnKey] = checked;
-    util.changeValueR(current, me.checkboxColumnKey, checked);
-
-    // reverse recursion, check/uncheck parents by its children.
-    for (let i = treeMap.length - 1; i >= 0; i--) {
-      treeMap[i][currentLevel[i]][me.checkboxColumnKey] =
-        treeMap[i][currentLevel[i]].data.every((item) => item[me.checkboxColumnKey] === true);
-    }
-
-    me.setState({
-      data,
-    }, () => {
-      const selectedRows = util.getAllSelectedRows(deepcopy(data), me.checkboxColumnKey);
-      if (me.props.rowSelection && me.props.rowSelection.onSelect) {
-        me.props.rowSelection.onSelect(checked, current, selectedRows);
-      }
-    });
-  }
-
-  selectAll(checked) {
-    const me = this;
-    const content = deepcopy(me.state.data);
-    const data = content.datas || content.data;
-    const rowSelection = me.props.rowSelection;
-
-    const selectedRows = [];
-    for (let i = 0; i < data.length; i++) {
-      const column = me.checkboxColumn;
-      const key = me.checkboxColumnKey;
-      const item = data[i];
-      if ((!('isDisable' in column) || !column.isDisable(item)) && !column.disable) {
-        item[key] = checked;
-        selectedRows.push(item);
-      }
-    }
-
-    if (!!rowSelection && !!rowSelection.onSelectAll) {
-      rowSelection.onSelectAll.apply(null, [checked, checked ? selectedRows : []]);
-    }
-    me.setState({
-      data: content,
-    });
-  }
-
-  onPageChange(current) {
-    const me = this;
-    me.setState({
-      currentPage: current,
-    }, () => {
-      me.fetchData('pagination');
-    });
-  }
-
-  handleShowSizeChange(current, pageSize) {
-    const me = this;
-    me.setState({
-      currentPage: current,
-      pageSize,
-    }, () => {
-      me.fetchData('pagination');
-    });
-  }
-
-  getDomNode() {
-    return this.refs.root;
-  }
-
-  renderPager() {
-    const me = this;
-    const { data, currentPage, pageSize } = me.state;
-    const {
-      showPagerTotal,
-      showPager,
-      locale,
-      pagerSizeOptions,
-      isMiniPager,
-      showPagerSizeChanger,
-    } = me.props;
-    if (showPager && data && data.totalCount) {
-      return (
-        <div className="kuma-uxtable-page">
-          <Pagination
-            className={classnames({
-              mini: isMiniPager,
-            })}
-            locale={locale}
-            showSizeChanger={showPagerSizeChanger}
-            showTotal={showPagerTotal}
-            total={data.totalCount}
-            onShowSizeChange={me.handleShowSizeChange.bind(me)}
-            onChange={me.onPageChange.bind(me)}
-            current={currentPage}
-            pageSize={pageSize}
-            sizeOptions={pagerSizeOptions}
-          />
-        </div>
-      );
-    }
-    return null;
-  }
-
-  handleBodyScroll(scrollLeft, scrollTop) {
-    const me = this;
-    const headerNode = me.hasFixed ? me.refs.headerScroll : me.refs.headerNo;
-    const bodyNode = me.refs.bodyFixed;
-    if (scrollLeft !== undefined) {
-      headerNode.getDomNode().scrollLeft = scrollLeft;
-    }
-    if (scrollTop !== undefined && this.hasFixed) {
-      bodyNode.getDomNode().scrollTop = scrollTop;
-    }
-  }
-
-  handleOrderColumnCB(type, column) {
-    const me = this;
-    me.setState({
-      activeColumn: column,
-      orderType: type,
-    }, () => {
-      me.fetchData('order');
-    });
-  }
-
-  handleActionBarSearch(value) {
-    const me = this;
-    this.setState({
-      searchTxt: value,
-    }, () => {
-      me.fetchData('search');
-    });
-  }
-
-  getData(validate) {
-    const me = this;
-    let pass = true;
-    if (validate !== false) {
-      const fieldKeys = Object.keys(me.fields);
-      fieldKeys.forEach((name) => {
-        const fieldPass = me.fields[name]();
-        // if one field fails to pass, the table fails to pass
-        if (pass) {
-          pass = fieldPass;
-        }
-      });
-    }
-    if (me.props.getSavedData) {
-      // 滤除可能为空的元素
-      const data = deepcopy(me.data);
-      data.data = data.data.filter((item) => item !== undefined);
-      return {
-        data,
-        pass,
-      };
-    }
-    return {
-      data: me.state.data,
-      pass,
-    };
-  }
-
-  hasFixColumn(props) {
-    const columns = props.jsxcolumns.filter((item) => {
-      if (item.fixed) {
-        return true;
-      }
-      return false;
-    });
-    if (columns.length > 0) {
-      return true;
-    }
-    return false;
-  }
-
-  renderHeader(renderHeaderProps) {
-    if (!this.props.showHeader) {
-      return null;
-    }
-
-    if (this.hasFixed) {
-      return (
-        <div className="kuma-uxtable-header-wrapper">
-          <Header {...renderHeaderProps} fixedColumn="fixed" key="grid-header-fixed" />
-          <Header
-            {...renderHeaderProps}
-            fixedColumn="scroll"
-            key="grid-header-scroll"
-            ref="headerScroll"
-          />
-        </div>
-      );
-    }
-    return (
-      <div className="kuma-uxtable-header-wrapper">
-        <Header {...renderHeaderProps} fixedColumn="no" ref="headerNo" />
-      </div>
-    );
-  }
-
-  renderTbody(renderBodyProps, bodyHeight) {
-    if (this.hasFixed) {
-      const fixedBodyProps = assign({}, renderBodyProps, {
-        subComp: null,
-      });
-      return (
-        <div
-          className="kuma-uxtable-body-wrapper"
-          style={{
-            height: bodyHeight,
-          }}
-        >
-          <Tbody {...fixedBodyProps} fixedColumn="fixed" key="grid-body-fixed" ref="bodyFixed" />
-          <Tbody
-            {...renderBodyProps}
-            fixedColumn="scroll"
-            key="grid-body-scroll"
-            onScroll={this.handleBodyScroll}
-          />
-          <Mask visible={this.state.showMask} text={this.props.loadingText} />
-        </div>
-      );
-    }
-    return (
-      <div
-        className="kuma-uxtable-body-wrapper"
-        style={{
-          height: bodyHeight,
-        }}
-      >
-        <Tbody {...renderBodyProps} fixedColumn="no" onScroll={this.handleBodyScroll} />
-        <Mask visible={this.state.showMask} text={this.props.loadingText} />
-      </div>
-    );
-  }
-
-  /**
-   * simple method to compare two datas,
-   * only support the data which JSON can parse.
-   */
-
-  _isEqual(a, b) {
-    return deepEqual(a, b);
-  }
-
-  /**
+   /**
    * cancel the CellField when it is unmounted.
    * @param field {element} the cell field to be canceled.
    */
@@ -732,27 +655,84 @@ class Table extends React.Component {
     });
   }
 
-  getIsSelectAll(data) {
+  /**
+   * change SelectedRows data via checkbox, this function will pass to the Cell
+   * @param checked {boolean} the checkbox status
+   * @param rowIndex {number} the row Index
+   * @param fromMount {boolean} onSelect is called from cell Mount is not expected.
+   */
+
+  changeSelected(checked, rowIndex, fromMount) {
     const me = this;
-    const column = me.checkboxColumn;
-    if (!column || data.length === 0) {
-      return false;
-    }
-    const checkboxColumnKey = me.checkboxColumnKey;
-    let isSelectAll = true;
-    for (let i = 0; i < data.length; i++) {
-      if ((('isDisable' in column) && column.isDisable(data[i])) || column.disable) {
-        isSelectAll = true;
-      } else {
-        isSelectAll = data[i][checkboxColumnKey];
-        if (!isSelectAll) {
+    const content = deepcopy(this.state.data);
+    const _data = content.datas || content.data;
+
+    if (me.checkboxColumn.type === 'radioSelector') {
+      for (let i = 0; i < _data.length; i++) {
+        const item = _data[i];
+        if (item.jsxid === rowIndex) {
+          item[me.checkboxColumnKey] = checked;
+        } else if (item[me.checkboxColumnKey]) {
+          item[me.checkboxColumnKey] = false;
+        }
+      }
+    } else {
+      for (let i = 0; i < _data.length; i++) {
+        const item = _data[i];
+        if (item.jsxid === rowIndex) {
+          item[me.checkboxColumnKey] = checked;
           break;
         }
       }
     }
-    return isSelectAll;
+
+    me.setState({
+      data: content,
+    }, () => {
+      if (!fromMount) {
+        const data = me.state.data.datas || me.state.data.data;
+        const selectedRows = data.filter(item => item[me.checkboxColumnKey] === true);
+        if (me.props.rowSelection && me.props.rowSelection.onSelect) {
+          me.props.rowSelection.onSelect(checked, data[rowIndex], selectedRows);
+        }
+      }
+    });
   }
 
+
+  renderPager() {
+    const me = this;
+    const { data, currentPage, pageSize } = me.state;
+    const {
+      showPagerTotal,
+      showPager,
+      locale,
+      pagerSizeOptions,
+      isMiniPager,
+      showPagerSizeChanger,
+    } = me.props;
+    if (showPager && data && data.totalCount) {
+      return (
+        <div className="kuma-uxtable-page">
+          <Pagination
+            className={classnames({
+              mini: isMiniPager,
+            })}
+            locale={locale}
+            showSizeChanger={showPagerSizeChanger}
+            showTotal={showPagerTotal}
+            total={data.totalCount}
+            onShowSizeChange={me.handleShowSizeChange.bind(me)}
+            onChange={me.onPageChange.bind(me)}
+            current={currentPage}
+            pageSize={pageSize}
+            sizeOptions={pagerSizeOptions}
+          />
+        </div>
+      );
+    }
+    return null;
+  }
 
   render() {
     const me = this;
@@ -765,7 +745,7 @@ class Table extends React.Component {
     const data = state.data ? (state.data.datas || state.data.data) : [];
     const isSelectAll = me.getIsSelectAll(data);
 
-    let style = {
+    const style = {
       width: props.passedData ? 'auto' : props.width,
       height: props.height,
     };
@@ -860,7 +840,7 @@ class Table extends React.Component {
           [`${props.prefixCls}-tree-mode`]: props.renderModel === 'tree',
         })}
         style={style}
-        ref="root"
+        ref={util.saveRef('root', this)}
       >
         {actionBar}
         <div
@@ -922,22 +902,6 @@ class Table extends React.Component {
     return objAux;
   }
 
-  /**
-   * merge data
-   */
-
-  mergeData(data, obj) {
-    const newData = deepcopy(data);
-    // code compatible
-    if (newData.datas) {
-      newData.datas = newData.datas.concat(obj);
-    } else if (newData.data) {
-      newData.data = newData.data.concat(obj);
-    }
-    newData.totalCount++;
-    return newData;
-  }
-
 
   /**
    * insert some data into this.state.data
@@ -953,7 +917,7 @@ class Table extends React.Component {
     }
     objAux = me.addJSXIdsForRecord(objAux);
     me.setState({
-      data: me.mergeData(me.state.data, objAux),
+      data: util.mergeData(me.state.data, objAux),
     });
   }
 
@@ -1181,21 +1145,21 @@ Table.defaultProps = {
   emptyText: '暂无数据',
   searchBarPlaceholder: '搜索表格内容',
   loadingText: 'loading',
-  fitResponse: (response) =>
-  ({
-    content: response.content,
-    success: response.success === undefined ? !response.hasError : response.success,
-    error: {
-      message: response.content || response.errors,
-    },
-  }),
-  processData: (data) => data,
-  beforeFetch: (obj) => obj,
+  fitResponse: response =>
+    ({
+      content: response.content,
+      success: response.success === undefined ? !response.hasError : response.success,
+      error: {
+        message: response.content || response.errors,
+      },
+    }),
+  processData: data => data,
+  beforeFetch: obj => obj,
   onFetchError: (err) => {
     console.error(err.stack);
   },
-  addRowClassName: () => {},
-  onChange: () => {},
+  addRowClassName: () => { },
+  onChange: () => { },
 };
 
 // http://facebook.github.io/react/docs/reusable-components.html

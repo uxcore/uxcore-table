@@ -104,7 +104,7 @@ class Header extends React.Component {
       return null;
     }
     const noBorderColumn = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
-    let style = {
+    const style = {
       width: item.width ? item.width : 100,
       textAlign: item.align ? item.align : 'left',
     };
@@ -192,9 +192,9 @@ class Header extends React.Component {
           return (
             <div className="kuma-uxtable-header-column-group" key={index}>
               <div className="kuma-uxtable-header-group-name">
-               {item.group}
+                {item.group}
               </div>
-             {item.columns.map((column, i) => me.renderColumn(column, i, false, last))}
+              {item.columns.map((column, i) => me.renderColumn(column, i, false, last))}
             </div>
           );
         }

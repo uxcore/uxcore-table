@@ -12,7 +12,6 @@ const React = require('react');
 const urlPrefix = window.urlPrefix || 'http://30.9.174.1:3000/';
 
 
-
 class Demo extends React.Component {
 
   constructor(props) {
@@ -72,7 +71,7 @@ class Demo extends React.Component {
         onSelectAll: () => {},
       },
     };
-    return (<Table {...renderProps} ref="table" />);
+    return (<Table {...renderProps} />);
   }
 }
 

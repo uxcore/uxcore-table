@@ -10,6 +10,14 @@
     "rules": {
         "import/no-extraneous-dependencies": "off",
         "react/jsx-no-bind": "off",
-        "no-underscore-dangle": "off"
+        "no-underscore-dangle": "off",
+        "no-plusplus": [
+            "error",
+            {
+                "allowForLoopAfterthoughts": true
+            }
+        ],
+        "react/no-unused-prop-types": "off",
+        "react/forbid-prop-types": "off"
     }
 }

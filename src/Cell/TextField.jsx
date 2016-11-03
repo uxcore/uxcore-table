@@ -22,7 +22,10 @@ class TextField extends CellField {
       value: me.props.value,
     };
     if (me.props.column.config) {
-      const { className, onChange, ...customProps } = me.props.column.config;
+      const customProps = { ...me.props.column.config };
+      Object.keys(fieldProps).forEach((item) => {
+        delete customProps[item];
+      });
       assign(fieldProps, customProps);
     }
     return <input {...fieldProps} />;

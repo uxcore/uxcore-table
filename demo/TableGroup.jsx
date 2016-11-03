@@ -143,10 +143,14 @@ class Demo extends React.Component {
     };
     return (
       <div>
-        <Table {...renderProps} ref="table" className="kuma-uxtable-border-line" />
+        <Table
+          {...renderProps}
+          ref={(c) => { this.table = c; }}
+          className="kuma-uxtable-border-line"
+        />
         <Button
           onClick={function () {
-            me.refs.table.fetchData();
+            me.table.fetchData();
           }}
         >
           重新获取数据

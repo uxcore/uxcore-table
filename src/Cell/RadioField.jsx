@@ -1,7 +1,7 @@
 const CellField = require('./CellField');
 const assign = require('object-assign');
-let RadioGroup = require('uxcore-radiogroup');
-let React = require('react');
+const RadioGroup = require('uxcore-radiogroup');
+const React = require('react');
 
 class RadioField extends CellField {
 
@@ -33,7 +33,10 @@ class RadioField extends CellField {
       value: me.props.value,
     };
     if (me.props.column.config) {
-      const { value, onChange, ...customProps } = me.props.column.config;
+      const customProps = { ...me.props.column.config };
+      Object.keys(fieldProps).forEach((item) => {
+        delete customProps[item];
+      });
       assign(fieldProps, customProps);
     }
     return (

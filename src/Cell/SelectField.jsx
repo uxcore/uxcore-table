@@ -20,7 +20,9 @@ class SelectField extends CellField {
       value: me.props.value,
     };
     if (me.props.column.config) {
-      const { value, onSelect, ...customProps } = me.props.column.config;
+      const customProps = { ...me.props.column.config };
+      delete customProps.value;
+      delete customProps.onSelect;
       assign(fieldProps, customProps);
     }
     return (

@@ -50,7 +50,7 @@ class Demo extends React.Component {
 
 
   componentWillUpdate() {
-    // this.refs.grid.fetchData();
+    // this.table.fetchData();
   }
 
 
@@ -92,10 +92,10 @@ class Demo extends React.Component {
         actions: {
           编辑(rowData, actions) {
             console.log(actions.addEmptyRow);
-            me.refs.grid.toggleSubComp(rowData);
+            me.table.toggleSubComp(rowData);
           },
           删除(rowData) {
-            me.refs.grid.delRow(rowData);
+            me.table.delRow(rowData);
           },
         },
         beforeRender(rowData) {
@@ -130,7 +130,7 @@ class Demo extends React.Component {
       fetchParams: {},
       // jsxdata: mockData,
       // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
-      fetchUrl: urlPrefix + 'demo/data.json',
+      fetchUrl: `${urlPrefix}demo/data.json`,
       jsxcolumns: columns,
       emptyText: '没有',
       // subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
@@ -141,7 +141,7 @@ class Demo extends React.Component {
     };
     return (
       <div>
-        <Table {...renderProps} ref="grid" />
+        <Table {...renderProps} ref={(c) => { this.table = c; }} />
         <Button onClick={me.handleClick.bind(me)}>页面重新渲染</Button>
       </div>
     );

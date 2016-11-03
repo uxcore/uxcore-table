@@ -53,7 +53,7 @@ class Demo extends React.Component {
 
 
   getTableValues() {
-    console.log(this.refs.grid.getData());
+    console.log(this.table.getData());
   }
 
   handleTableChange(data) {
@@ -167,7 +167,7 @@ class Demo extends React.Component {
           {
             title: '编辑',
             callback: (rowData) => {
-              me.refs.grid.editRow(rowData);
+              me.table.editRow(rowData);
             },
             isDisable: () => '这个操作被禁止了',
             mode: Constants.MODE.VIEW,
@@ -175,42 +175,42 @@ class Demo extends React.Component {
           {
             title: '编辑',
             callback: (rowData) => {
-              me.refs.grid.editRow(rowData);
+              me.table.editRow(rowData);
             },
             mode: Constants.MODE.VIEW,
           },
           {
             title: '编辑',
             callback: (rowData) => {
-              me.refs.grid.editRow(rowData);
+              me.table.editRow(rowData);
             },
             mode: Constants.MODE.VIEW,
           },
           {
             title: '编辑',
             callback: (rowData) => {
-              me.refs.grid.editRow(rowData);
+              me.table.editRow(rowData);
             },
             mode: Constants.MODE.VIEW,
           },
           {
             title: '保存',
             callback: (rowData) => {
-              me.refs.grid.saveRow(rowData);
+              me.table.saveRow(rowData);
             },
             mode: Constants.MODE.EDIT,
           },
           {
             title: '删除',
             callback: (rowData) => {
-              me.refs.grid.delRow(rowData);
+              me.table.delRow(rowData);
             },
           // mode: Constants.MODE.VIEW
           },
           {
             title: '重置',
             callback: (rowData) => {
-              me.refs.grid.resetRow(rowData);
+              me.table.resetRow(rowData);
             },
             mode: Constants.MODE.EDIT,
           },
@@ -241,19 +241,19 @@ class Demo extends React.Component {
           title: '新增行',
           // disabled: true,
           callback: () => {
-            me.refs.grid.addEmptyRow();
+            me.table.addEmptyRow();
           },
         },
         {
           title: '编辑所有行',
           callback: () => {
-            me.refs.grid.editAllRow();
+            me.table.editAllRow();
           },
         },
         {
           title: '保存所有行',
           callback: () => {
-            me.refs.grid.saveAllRow();
+            me.table.saveAllRow();
           },
         },
       ],
@@ -283,8 +283,9 @@ class Demo extends React.Component {
       showColumnPicker: true,
       // locale: 'en-us',
       beforeFetch: (sendData) => {
-        sendData.id = 1;
-        return sendData;
+        const newData = { ...sendData };
+        newData.id = 1;
+        return newData;
       },
       processData: (data) => data,
       onChange: me.handleTableChange,
@@ -292,7 +293,7 @@ class Demo extends React.Component {
 
     return (
       <div>
-        <Table {...renderProps} ref="grid" />
+        <Table {...renderProps} ref={(c) => { this.table = c; }} />
         <Button onClick={me.getTableValues.bind(me)}>获取 Table 的值</Button>
         <Button onClick={me.handleDataChange.bind(me)}>更改 Data</Button>
       </div>
