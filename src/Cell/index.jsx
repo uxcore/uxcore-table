@@ -124,7 +124,25 @@ class Cell extends React.Component {
   renderActionItems(column, rowData, mode) {
     const me = this;
     const actions = me.getActionItems(column.actions)
-      .filter((item) => (!('mode' in item) || item.mode === mode));
+      .filter(item => (!('mode' in item) || item.mode === mode));
+    const items = [];
+    actions.forEach((action, index) => {
+      const content = action.render
+        ? action.render(action.title, deepcopy(me.props.rowData))
+        : action.title;
+      if (content) {
+        items.push(
+          <CollapsedButton.Item
+            key={index}
+            disabled={typeof action.isDisable === 'function' ? action.isDisable() : false}
+            onClick={me.handleActionClick.bind(me,
+              action.callback.bind(me, rowData, me.props.root))}
+          >
+            {content}
+          </CollapsedButton.Item>
+        );
+      }
+    });
     return (
       <CollapsedButton
         prefixCls={me.props.jsxprefixCls}
@@ -132,16 +150,7 @@ class Cell extends React.Component {
         type={column.actionType}
         locale={me.props.locale}
       >
-        {actions.map((action, index) => (
-          <CollapsedButton.Item
-            key={index}
-            disabled={typeof action.isDisable === 'function' ? action.isDisable() : false}
-            onClick={me.handleActionClick.bind(me,
-              action.callback.bind(me, rowData, me.props.root))}
-          >
-            {action.render ? action.render(action.title, deepcopy(me.props.rowData)) : action.title}
-          </CollapsedButton.Item>
-        ))}
+        {items}
       </CollapsedButton>
     );
   }
@@ -190,7 +199,7 @@ class Cell extends React.Component {
       style.paddingRight = 4;
       style.paddingLeft = 12;
 
-      let checked = me.getCellData();
+      const checked = me.getCellData();
       let disable = false;
       if ('disable' in column) {
         disable = column.disable;
@@ -210,7 +219,7 @@ class Cell extends React.Component {
       style.paddingRight = 4;
       style.paddingLeft = 12;
 
-      let checked = me.getCellData();
+      const checked = me.getCellData();
       let disable = false;
       if ('disable' in column) {
         disable = column.disable;
@@ -258,7 +267,7 @@ class Cell extends React.Component {
           className="default-cell"
           title={me.getCellData()}
         >
-            {util.formatValue(me.getCellData(), column.type, column.delimiter)}
+          {util.formatValue(me.getCellData(), column.type, column.delimiter)}
         </div>
       );
     } else if (column.render) {
@@ -267,7 +276,7 @@ class Cell extends React.Component {
       content = <div className="default-cell" title={me.getCellData()}>{me.getCellData()}</div>;
     }
 
-    let child = me.props.children;
+    const child = me.props.children;
     return (
       <div
         className={classnames({

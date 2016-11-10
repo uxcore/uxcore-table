@@ -95,6 +95,19 @@ class Table extends React.Component {
     me.setState(newData);
   }
 
+  hasFixColumn(props) {
+    const columns = props.jsxcolumns.filter((item) => {
+      if (item.fixed) {
+        return true;
+      }
+      return false;
+    });
+    if (columns.length > 0) {
+      return true;
+    }
+    return false;
+  }
+
   renderTbody(renderBodyProps, bodyHeight) {
     if (this.hasFixed) {
       const fixedBodyProps = assign({}, renderBodyProps, {
