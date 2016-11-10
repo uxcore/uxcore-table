@@ -8,7 +8,7 @@ const React = require('react');
 
 const Mask = (props) => {
   const { visible, text } = props;
-  let className = classnames({
+  const className = classnames({
     [props.prefixCls]: true,
     [`${props.prefixCls}-hide`]: !visible,
   });

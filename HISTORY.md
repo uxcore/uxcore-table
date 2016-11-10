@@ -2,6 +2,11 @@
 
 ---
 
+## 1.11.4
+
+* `CHANGED` action will not render if render function return false [#158](https://github.com/uxcore/uxcore-table/issues/158)
+* `FIXED` props `levels` fail to work [#157](https://github.com/uxcore/uxcore-table/issues/157)
+
 ## 1.11.0
 
 * `CHANGED` actionBar button type (the first is outline  & others are secondary)
