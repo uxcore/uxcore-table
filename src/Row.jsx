@@ -13,14 +13,7 @@ const React = require('react');
 
 class Row extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      expanded: props.level < props.levels,
-    };
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     // 需要考虑的 prop 包括
     // columns, rowIndex(s => simple), rowData, index(s),
     // addRowClassName(f => function), rowSelection, subComp(no support), renderSubComp(f), actions
@@ -42,9 +35,6 @@ class Row extends React.Component {
           shouldUpdate = true;
         }
       });
-    }
-    if (!shouldUpdate) {
-      shouldUpdate = (me.state.expanded !== nextState.expanded);
     }
     return shouldUpdate;
   }

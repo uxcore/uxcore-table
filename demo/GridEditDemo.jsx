@@ -113,12 +113,12 @@ class Demo extends React.Component {
           }, {
             id: 'hz',
             name: '杭州',
-          }].map((item) => <Option key={item.id}>{item.name}</Option>)
+          }].map(item => <Option key={item.id}>{item.name}</Option>)
         ),
         config: {
           filterOption: false,
         },
-        canEdit: (rowData) => rowData.name !== '小王',
+        canEdit: rowData => rowData.name !== '小王',
         rules: {
           validator: () => false,
           errMsg: '出错了',
@@ -138,7 +138,7 @@ class Demo extends React.Component {
           }, {
             id: 'xiaowang',
             name: '小王',
-          }].map((item) => <RadioItem key={item.id} text={item.name} value={item.id} />)
+          }].map(item => <RadioItem key={item.id} text={item.name} value={item.id} />)
         ),
       },
       {
@@ -162,7 +162,7 @@ class Demo extends React.Component {
         width: 280,
         type: 'action',
         // actionType: 'button',
-        collapseNum: 1,
+        collapseNum: 3,
         actions: [
           {
             title: '编辑',
@@ -173,10 +173,11 @@ class Demo extends React.Component {
             mode: Constants.MODE.VIEW,
           },
           {
-            title: '编辑',
+            title: '编辑2',
             callback: (rowData) => {
               me.table.editRow(rowData);
             },
+            render: () => false,
             mode: Constants.MODE.VIEW,
           },
           {
@@ -287,7 +288,7 @@ class Demo extends React.Component {
         newData.id = 1;
         return newData;
       },
-      processData: (data) => data,
+      processData: data => data,
       onChange: me.handleTableChange,
     };
 

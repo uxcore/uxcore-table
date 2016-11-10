@@ -33,6 +33,19 @@ const changeValueR = (data, key, value) => {
   }
 };
 
+const hasFixColumn = (props) => {
+  const columns = props.jsxcolumns.filter((item) => {
+    if (item.fixed) {
+      return true;
+    }
+    return false;
+  });
+  if (columns.length > 0) {
+    return true;
+  }
+  return false;
+};
+
 const isRowHalfChecked = (rowData, checkboxColumnKey) => {
   if (rowData.data) {
     const isHalfChecked = rowData.data.some((item) => {
@@ -100,6 +113,19 @@ const getConsts = () => ({
   commonGroup: '__common__',
 });
 
+const getDefaultExpandedKeys = (data, levels, level = 1) => {
+  let expandedKeys = [];
+  if (Array.isArray(data)) {
+    data.forEach((item) => {
+      if (level <= levels) {
+        expandedKeys.push(item.jsxid);
+        expandedKeys = expandedKeys.concat(getDefaultExpandedKeys(item.data, levels, level + 1));
+      }
+    });
+  }
+  return expandedKeys;
+};
+
 const utils = {
   getIEVer: () => {
     if (window) {
@@ -150,6 +176,8 @@ const utils = {
   getConsts,
   saveRef,
   mergeData,
+  hasFixColumn,
+  getDefaultExpandedKeys,
 };
 
 export default utils;

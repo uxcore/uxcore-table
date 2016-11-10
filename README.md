@@ -95,7 +95,7 @@ $ npm start
 |Name            |Type                |Require   |Since Ver. |Default|Note |
 |---             |---                 |---       |---        |---    |---|
 |renderModel     |string              |optional  |-          |''     |使用 tree 模式时，此项为 'tree'|
-|levels          |number              |optional  |-          |1      |tree 模式默认展开的级数|
+|levels          |number              |optional  |-          |0      |tree 模式默认展开的级数|
 
 ### 行内编辑表格专用
 

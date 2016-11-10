@@ -6,7 +6,7 @@
 
 * `CHANGED` actionBar button type (the first is outline  & others are secondary)
 * `CHANGED` change header title font-size to 14px
-* `CHANGED` lint (reduce errors numbrt to 24)
+* `CHANGED` lint (reduce errors number to 24)
 
 ## 1.10.5
 

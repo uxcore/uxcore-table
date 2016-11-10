@@ -43,7 +43,7 @@ class Table extends React.Component {
       expandedKeys: [],
     };
     this.handleBodyScroll = this.handleBodyScroll.bind(this);
-    this.hasFixed = this.hasFixColumn(props);
+    this.hasFixed = util.hasFixColumn(props);
   }
 
   componentWillMount() {
@@ -83,7 +83,7 @@ class Table extends React.Component {
       && !!me.props.jsxcolumns
       && !deepEqual(nextProps.jsxcolumns, me.props.jsxcolumns)) {
       newData.columns = me.processColumn(nextProps);
-      this.hasFixed = this.hasFixColumn(nextProps);
+      this.hasFixed = util.hasFixColumn(nextProps);
     }
     if (nextProps.showMask !== me.props.showMask) {
       newData.showMask = nextProps.showMask;
@@ -93,19 +93,6 @@ class Table extends React.Component {
       me.fetchData('propsChange', nextProps);
     }
     me.setState(newData);
-  }
-
-  hasFixColumn(props) {
-    const columns = props.jsxcolumns.filter((item) => {
-      if (item.fixed) {
-        return true;
-      }
-      return false;
-    });
-    if (columns.length > 0) {
-      return true;
-    }
-    return false;
   }
 
   renderTbody(renderBodyProps, bodyHeight) {
@@ -519,95 +506,113 @@ class Table extends React.Component {
 
     // fetchUrl has the top priority.
     if (props.fetchUrl) {
-      if (me.request) {
-        me.request.abort();
-      }
-      if (!me.state.showMask) {
-        me.setState({
-          showMask: true,
-        });
-      }
-      const isJsonp = props.isJsonp === undefined
-        ? /\.jsonp/.test(props.fetchUrl)
-        : props.isJsonp;
-      me.request = NattyFetch.create({
-        url: props.fetchUrl,
-        data: me.getQueryObj(from, props),
-        fit: props.fitResponse,
-        jsonp: isJsonp,
-        Promise,
-      });
-
-      me.request().then((content) => {
-        const processedData = me.addValuesInData(props.processData(deepcopy(content)));
-        const updateObj = {
-          data: processedData,
-          showMask: false,
-        };
-        if (processedData.currentPage !== undefined) {
-          updateObj.currentPage = processedData.currentPage;
-        }
-        me.data = deepcopy(processedData);
-        me.setState(updateObj);
-      }).catch((err) => {
-        props.onFetchError(err);
-      });
+      me.fetchRemoteData(from, props);
     } else if (props.passedData) {
-      if (!props.queryKeys) {
-        const data = me.addValuesInData(props.processData(deepcopy(props.passedData)));
-        me.setState({
-          data,
-        });
-        me.data = deepcopy(data);
-      } else {
-        const data = {};
-        props.queryKeys.forEach((key) => {
-          if (props.passedData[key] !== undefined) {
-            data[key] = props.passedData[key];
-          }
-        });
-        const processedData = me.addValuesInData(props.processData(deepcopy(data)));
-        me.setState({
-          data: processedData,
-        });
-        me.data = deepcopy(processedData);
-      }
+      me.fetchPassedData(props);
     } else if (props.jsxdata) {
-      if (['pagination', 'order', 'search'].indexOf(from) !== -1) {
-        if (name === 'pagination' && props.onPagerChange) {
-          props.onPagerChange(me.state.currentPage, me.state.pageSize);
-        }
-
-        if (name === 'order' && props.onOrder) {
-          props.onOrder(me.state.activeColumn, me.state.orderType);
-        }
-
-        if (name === 'search' && props.onSearch) {
-          props.onSearch(me.state.searchTxt);
-        }
-      } else {
-        const data = this.addValuesInData(deepcopy(props.jsxdata));
-        const currentPage = (data && data.currentPage) || this.state.currentPage;
-        me.setState({
-          data,
-          currentPage,
-        });
-        me.data = deepcopy(data);
-      }
+      me.fetchLocalData(from, props);
     } else {
       // default will create one row
       const data = {
         data: [{
-          jsxid: me.uid++,
+          jsxid: me.uid,
           __mode__: Const.MODE.EDIT,
         }],
         currentPage: 1,
         totalCount: 0,
       };
+      me.uid += 1;
       me.data = data;
       me.setState({
         data,
       });
+    }
+  }
+
+  fetchRemoteData(from, props) {
+    const me = this;
+    if (me.request) {
+      me.request.abort();
+    }
+    if (!me.state.showMask) {
+      me.setState({
+        showMask: true,
+      });
+    }
+    const isJsonp = props.isJsonp === undefined
+        ? /\.jsonp/.test(props.fetchUrl)
+        : props.isJsonp;
+    me.request = NattyFetch.create({
+      url: props.fetchUrl,
+      data: me.getQueryObj(from, props),
+      fit: props.fitResponse,
+      jsonp: isJsonp,
+      Promise,
+    });
+
+    me.request().then((content) => {
+      const processedData = me.addValuesInData(props.processData(deepcopy(content)));
+      const updateObj = {
+        data: processedData,
+        showMask: false,
+        expandedKeys: util.getDefaultExpandedKeys(processedData.data, props.levels),
+      };
+      if (processedData.currentPage !== undefined) {
+        updateObj.currentPage = processedData.currentPage;
+      }
+      me.data = deepcopy(processedData);
+      me.setState(updateObj);
+    }).catch((err) => {
+      props.onFetchError(err);
+    });
+  }
+
+  fetchPassedData(props) {
+    console.warn('props subComp is deprecated, use renderSubComp instead.');
+    const me = this;
+    if (!props.queryKeys) {
+      const data = me.addValuesInData(props.processData(deepcopy(props.passedData)));
+      me.setState({
+        data,
+      });
+      me.data = deepcopy(data);
+    } else {
+      const data = {};
+      props.queryKeys.forEach((key) => {
+        if (props.passedData[key] !== undefined) {
+          data[key] = props.passedData[key];
+        }
+      });
+      const processedData = me.addValuesInData(props.processData(deepcopy(data)));
+      me.setState({
+        data: processedData,
+      });
+      me.data = deepcopy(processedData);
+    }
+  }
+
+  fetchLocalData(from, props) {
+    const me = this;
+    if (['pagination', 'order', 'search'].indexOf(from) !== -1) {
+      if (name === 'pagination' && props.onPagerChange) {
+        props.onPagerChange(me.state.currentPage, me.state.pageSize);
+      }
+
+      if (name === 'order' && props.onOrder) {
+        props.onOrder(me.state.activeColumn, me.state.orderType);
+      }
+
+      if (name === 'search' && props.onSearch) {
+        props.onSearch(me.state.searchTxt);
+      }
+    } else {
+      const data = this.addValuesInData(deepcopy(props.jsxdata));
+      const currentPage = (data && data.currentPage) || this.state.currentPage;
+      me.setState({
+        data,
+        currentPage,
+      });
+      me.data = deepcopy(data);
     }
   }
 
@@ -1135,7 +1140,7 @@ Table.defaultProps = {
   height: 'auto',
   mode: Const.MODE.EDIT,
   renderModel: '',
-  levels: 1,
+  levels: 0,
   actionBarHeight: 54,
   fetchDataOnMount: true,
   doubleClickToEdit: true,

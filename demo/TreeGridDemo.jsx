@@ -61,6 +61,7 @@ class Demo extends React.Component {
       height: 400,
       width: 800,
       showSearch: true,
+      levels: 2,
       fetchUrl: `${urlPrefix}demo/data.json`,
       jsxcolumns: columns,
       renderModel: 'tree',
