@@ -1160,7 +1160,7 @@ Table.defaultProps = {
   fetchParams: {},
   currentPage: 1,
   queryKeys: [],
-  emptyText: '暂无数据',
+  emptyText: <div style={{ lineHeight: 2 }}>暂无数据</div>,
   searchBarPlaceholder: '搜索表格内容',
   loadingText: 'loading',
   fitResponse: response =>
@@ -1274,6 +1274,7 @@ Table.propTypes = {
   emptyText: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.element,
+    React.PropTypes.object,
   ]),
   /**
    * @title 数据源（手动）

@@ -6,9 +6,10 @@
  * All rights reserved.
  */
 
-const Table = require('../src');
 const Button = require('uxcore-button');
 const React = require('react');
+
+const Table = require('../src');
 
 // const urlPrefix = 'http://192.168.99.117:3000/';
 
@@ -114,7 +115,7 @@ class Demo extends React.Component {
       },
       width: 800,
       height: 400,
-      className: 'kuma-uxtable-border-line',
+      // className: 'kuma-uxtable-border-line',
       pagerSizeOptions: [5, 10, 15, 20],
       actionBar: {
         'Action Button': () => {
@@ -133,12 +134,14 @@ class Demo extends React.Component {
         console.log(current, pageSize);
       },
       showSearch: true,
-      fetchUrl,
-      // jsxdata: mockData,
+      // fetchUrl,
+      jsxdata: {
+        data: [],
+      },
       rowSelector: 'checkboxSelector',
       jsxcolumns: columns,
       rowSelection,
-      renderSubComp: (rowData) =>
+      renderSubComp: rowData =>
         (<div className="sub-box">
           <div className="sub-country">{`当前国家: ${rowData.country}`}</div>
           <div className="sub-city">{`当前城市: ${rowData.city}`}</div>

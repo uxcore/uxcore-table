@@ -8,6 +8,7 @@ const deepcopy = require('lodash/cloneDeep');
 const React = require('react');
 const addEventListener = require('rc-util/lib/Dom/addEventListener');
 const throttle = require('lodash/throttle');
+const EmptyData = require('uxcore-empty-data');
 
 
 class Tbody extends React.Component {
@@ -62,9 +63,9 @@ class Tbody extends React.Component {
         style.lineHeight = `${this.props.height - 10}px`;
       }
       return (
-        <div className="kuma-uxtable-body-emptyword" style={style}>
+        <EmptyData style={{ marginTop: '20px' }}>
           {this.props.emptyText}
-        </div>
+        </EmptyData>
       );
     }
     return null;

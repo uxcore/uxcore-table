@@ -2,6 +2,10 @@
 
 ---
 
+## 1.12.0
+
+* `CHANGED` new empty data
+
 ## 1.11.4
 
 * `CHANGED` action will not render if render function return false [#158](https://github.com/uxcore/uxcore-table/issues/158)
