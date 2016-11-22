@@ -164,7 +164,10 @@ class Tbody extends React.Component {
 Tbody.propTypes = {
   jsxprefixCls: React.PropTypes.string,
   data: React.PropTypes.array,
-  emptyText: React.PropTypes.string,
+  emptyText: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.object,
+  ]),
   height: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.number,

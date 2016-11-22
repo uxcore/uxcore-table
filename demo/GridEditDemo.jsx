@@ -69,21 +69,21 @@ class Demo extends React.Component {
             email: 'xw@abc.com',
             nameId: 'xiaowang',
             name: '小王',
-            cityId: 'bj',
+            cityId: { key: 'bj' },
             city: '北京',
           },
           {
             email: 'xl@abc.com',
             nameId: 'xiaoli',
             name: '小李',
-            cityId: 'hz',
+            cityId: { key: 'hz' },
             city: '杭州',
           },
           {
             email: 'xl@abc.com',
             nameId: 'xiaoli',
             name: '小李',
-            cityId: 'hz',
+            cityId: { key: 'hz' },
             city: '杭州',
           },
         ],
@@ -117,6 +117,7 @@ class Demo extends React.Component {
         ),
         config: {
           filterOption: false,
+          multiple: true,
         },
         canEdit: rowData => rowData.name !== '小王',
         rules: {

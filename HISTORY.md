@@ -2,6 +2,10 @@
 
 ---
 
+## 1.12.1
+
+* `CHANGED` add labelInValue in SelectCellField 
+
 ## 1.12.0
 
 * `CHANGED` new empty data

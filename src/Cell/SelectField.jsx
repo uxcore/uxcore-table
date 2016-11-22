@@ -4,25 +4,45 @@ const Select = require('uxcore-select2');
 const React = require('react');
 
 
+const getTextFromValue = (value) => {
+  if (Array.isArray(value)) {
+    return value.map(item => item.label).join(', ');
+  } else if (typeof value === 'object') {
+    return value.label;
+  }
+  return '';
+};
+
+const processValue = (value) => {
+  if (typeof value !== 'object') {
+    return {
+      key: value,
+    };
+  }
+  return value;
+};
+
+
 class SelectField extends CellField {
 
   renderContent() {
     const me = this;
     const fieldProps = {
-      onSelect: (value, option) => {
+      onChange: (value) => {
         me.handleDataChange({
           jsxid: me.props.rowData.jsxid,
           column: me.props.column,
-          text: option.props.children,
+          text: getTextFromValue(value),
           value,
         });
       },
-      value: me.props.value,
+      labelInValue: true,
+      value: processValue(me.props.value),
     };
     if (me.props.column.config) {
       const customProps = { ...me.props.column.config };
       delete customProps.value;
-      delete customProps.onSelect;
+      delete customProps.onChange;
       assign(fieldProps, customProps);
     }
     return (
