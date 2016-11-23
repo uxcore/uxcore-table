@@ -15,6 +15,9 @@ const getTextFromValue = (value) => {
 
 const processValue = (value) => {
   if (typeof value !== 'object') {
+    if (value === undefined || value === null) {
+      return value;
+    }
     return {
       key: value,
     };

@@ -2,9 +2,14 @@
 
 ---
 
+## 1.12.2
+
+* `FIXED` SelectCellField: bug when value is undefined
+* `FIXED` multiline reset is not thorough
+
 ## 1.12.1
 
-* `CHANGED` add labelInValue in SelectCellField 
+* `CHANGED` set default labelInValue in SelectCellField 
 
 ## 1.12.0
 
