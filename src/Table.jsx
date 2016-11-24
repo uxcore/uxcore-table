@@ -46,12 +46,6 @@ class Table extends React.Component {
     this.hasFixed = util.hasFixColumn(props);
   }
 
-  componentWillMount() {
-    if (this.props.fetchDataOnMount) {
-      this.fetchData();
-    }
-  }
-
   componentDidMount() {
     const me = this;
     if (!!me.state.data && !!me.state.data.datas) {
@@ -60,6 +54,9 @@ class Table extends React.Component {
     }
     if (me.props.subComp) {
       console.warn('Table: subComp is deprecated, use renderSubComp instead.');
+    }
+    if (this.props.fetchDataOnMount) {
+      this.fetchData();
     }
   }
 

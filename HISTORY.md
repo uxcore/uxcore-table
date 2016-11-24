@@ -2,6 +2,10 @@
 
 ---
 
+## 1.12.4
+
+* `FIXED` setState may be triggered in componentWillMount
+
 ## 1.12.3
 
 * `FIXED` rowData passed in method `addRowClassName` may be undefined
