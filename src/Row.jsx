@@ -103,6 +103,7 @@ class Row extends React.Component {
       props.rowData.data.forEach((node, index) => {
         const renderProps = assign({}, props, {
           level: me.props.level + 1,
+          index,
           dataIndex: `${(me.props.dataIndex ? me.props.dataIndex : me.props.index)}-${index}`,
           rowData: node,
           rowIndex: node.jsxid,
@@ -199,7 +200,7 @@ class Row extends React.Component {
     let _style = {};
     const _data = props.data;
     const me = this;
-    const otherCls = props.addRowClassName(_data[props.rowIndex]);
+    const otherCls = props.addRowClassName(_data[props.index]);
 
     if (!this.props.visible) {
       _style = {

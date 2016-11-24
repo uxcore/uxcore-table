@@ -2,6 +2,10 @@
 
 ---
 
+## 1.12.3
+
+* `FIXED` rowData passed in method `addRowClassName` may be undefined
+
 ## 1.12.2
 
 * `FIXED` SelectCellField: bug when value is undefined
