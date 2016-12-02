@@ -11,7 +11,7 @@
 const Header = require('./Header');
 const Tbody = require('./Tbody');
 const ActionBar = require('./ActionBar');
-const CellField = require('./Cell/CellField');
+const CellField = require('./CellField/CellField');
 const Pagination = require('uxcore-pagination');
 const Const = require('uxcore-const');
 const assign = require('object-assign');
@@ -591,15 +591,15 @@ class Table extends React.Component {
   fetchLocalData(from, props) {
     const me = this;
     if (['pagination', 'order', 'search'].indexOf(from) !== -1) {
-      if (name === 'pagination' && props.onPagerChange) {
+      if (from === 'pagination' && props.onPagerChange) {
         props.onPagerChange(me.state.currentPage, me.state.pageSize);
       }
 
-      if (name === 'order' && props.onOrder) {
+      if (from === 'order' && props.onOrder) {
         props.onOrder(me.state.activeColumn, me.state.orderType);
       }
 
-      if (name === 'search' && props.onSearch) {
+      if (from === 'search' && props.onSearch) {
         props.onSearch(me.state.searchTxt);
       }
     } else {
@@ -886,7 +886,8 @@ class Table extends React.Component {
       objAux = objAux.map((item) => {
         const newItem = deepcopy(item);
         if (newItem.jsxid === undefined || newItem.jsxid == null) {
-          newItem.jsxid = me.uid++;
+          me.uid += 1;
+          newItem.jsxid = me.uid;
         }
         if (!newItem.__mode__) {
           newItem.__mode__ = Const.MODE.EDIT;
@@ -894,7 +895,8 @@ class Table extends React.Component {
         return newItem;
       });
     } else {
-      objAux.jsxid = me.uid++;
+      me.uid += 1;
+      objAux.jsxid = me.uid;
     }
     return objAux;
   }
@@ -910,7 +912,8 @@ class Table extends React.Component {
     const data = objAux.datas || objAux.data;
     for (let i = 0; i < data.length; i++) {
       const node = data[i];
-      node.jsxid = me.uid++;
+      me.uid += 1;
+      node.jsxid = me.uid;
       node.__mode__ = node.__mode__ || Const.MODE.VIEW;
       me.addValuesInData(node);
     }

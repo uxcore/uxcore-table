@@ -2,6 +2,10 @@
 
 ---
 
+## 1.12.5
+
+* `FIXED` onPagerChange fail to be triggered in fetchLocalData mode.
+
 ## 1.12.4
 
 * `FIXED` setState may be triggered in componentWillMount
