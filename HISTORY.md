@@ -2,6 +2,12 @@
 
 ---
 
+## 1.12.6
+
+* `CHANGED` more powerful SelectCellField
+* `CHANGED` add DateCellField
+* `CHANGED` depend on `uxcore-cell-field`
+
 ## 1.12.5
 
 * `FIXED` onPagerChange fail to be triggered in fetchLocalData mode.

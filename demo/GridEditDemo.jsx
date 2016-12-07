@@ -28,6 +28,8 @@ const mockData = {
       name: '小王',
       cityId: 'bj',
       city: '北京',
+      time: '2016-01-02',
+      timeId: 1451692800000,
     },
     {
       email: 'xl@abc.com',
@@ -35,6 +37,8 @@ const mockData = {
       name: '小李',
       cityId: 'hz',
       city: '杭州',
+      time: '2016-01-02',
+      timeId: 1451692800000,
     },
   ],
   currentPage: 2,
@@ -71,6 +75,8 @@ class Demo extends React.Component {
             name: '小王',
             cityId: { key: 'bj' },
             city: '北京',
+            time: '2016-01-02',
+            timeId: 1451692800000,
           },
           {
             email: 'xl@abc.com',
@@ -78,6 +84,8 @@ class Demo extends React.Component {
             name: '小李',
             cityId: { key: 'hz' },
             city: '杭州',
+            time: '2016-01-02',
+            timeId: 1451692800000,
           },
           {
             email: 'xl@abc.com',
@@ -85,6 +93,8 @@ class Demo extends React.Component {
             name: '小李',
             cityId: { key: 'hz' },
             city: '杭州',
+            time: '2016-01-02',
+            timeId: 1451692800000,
           },
         ],
       },
@@ -106,32 +116,52 @@ class Demo extends React.Component {
         title: '城市',
         width: 200,
         type: 'select',
-        renderChildren: () => (
-          [{
-            id: 'bj',
-            name: '北京',
-          }, {
-            id: 'hz',
-            name: '杭州',
-          }].map(item => <Option key={item.id}>{item.name}</Option>)
-        ),
+        // renderChildren: () => (
+        //   [{
+        //     id: 'bj',
+        //     name: '北京',
+        //   }, {
+        //     id: 'hz',
+        //     name: '杭州',
+        //   }].map(item => <Option key={item.id}>{item.name}</Option>)
+        // ),
         config: {
           filterOption: false,
-          multiple: true,
+          // multiple: true,
+          // data: [{
+          //   value: 'bj',
+          //   text: '北京',
+          // }, {
+          //   value: 'hz',
+          //   text: '杭州',
+          // }],
+          fetchUrl: 'http://suggest.taobao.com/sug',
+          dataType: 'jsonp',
+          beforeFetch: () => ({ q: 1 }),
+          afterFetch: (content) => {
+            const data = [];
+            content.result.forEach((item) => {
+              data.push({
+                value: item[1],
+                text: item[0],
+              });
+            });
+            return data;
+          },
         },
         canEdit: rowData => rowData.name !== '小王',
-        rules: {
-          validator: () => false,
-          errMsg: '出错了',
-        },
+        // rules: {
+        //   validator: () => false,
+        //   errMsg: '出错了',
+        // },
       },
       {
         dataKey: 'name',
         editKey: 'nameId',
         title: '姓名',
         width: 200,
-        type: 'custom',
-        customField: RadioField,
+        type: 'radio',
+        // customField: RadioField,
         renderChildren: () => (
           [{
             id: 'xiaoli',
@@ -156,6 +186,13 @@ class Demo extends React.Component {
             console.log(e);
           },
         },
+      },
+      {
+        dataKey: 'time',
+        title: '时间',
+        width: 200,
+        editKey: 'timeId',
+        type: 'date',
       },
       {
         dataKey: 'action1',

@@ -1,7 +1,11 @@
-const CellField = require('./CellField');
 const assign = require('object-assign');
 const Select = require('uxcore-select2');
 const React = require('react');
+const NattyFetch = require('natty-fetch');
+const Promise = require('lie');
+const isEqual = require('lodash/isEqual');
+
+const CellField = require('uxcore-cell-field');
 
 const { Option } = Select;
 
@@ -29,18 +33,90 @@ const processValue = (value) => {
 
 class SelectField extends CellField {
 
+  constructor(props) {
+    super(props);
+    const me = this;
+    assign(me.state, {
+      data: me.getConfig().data,
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const me = this;
+    if (!isEqual(nextProps.data, me.props.data)) {
+      me.setState({
+        data: nextProps.data,
+      });
+    }
+  }
+
+  componentDidMount() {
+    const me = this;
+    me.fetchData();
+  }
+
+  getConfig() {
+    const me = this;
+    return me.props.column.config || {};
+  }
+
+  fetchData(value) {
+    const me = this;
+    const config = me.getConfig();
+    const defaultBeforeFetch = data => data;
+    const defaultAfterFetch = data => data;
+    if (!config.fetchUrl) {
+      return;
+    }
+    if (me.fetch) {
+      me.fetch.abort();
+    }
+    me.fetch = NattyFetch.create({
+      url: config.fetchUrl,
+      jsonp: config.dataType
+        ? config.dataType === 'jsonp'
+        : (/\.jsonp/.test(config.fetchUrl)),
+      data: (config.beforeFetch || defaultBeforeFetch)({
+        q: value,
+      }),
+      fit: (response) => {
+        const content = response.content || response;
+        let success = true;
+        if (response.success !== undefined) {
+          success = response.success;
+        } else if (response.hasError !== undefined) {
+          success = !response.hasError;
+        }
+        return {
+          content,
+          success,
+        };
+      },
+      Promise,
+    });
+    me.fetch().then((content) => {
+      const fetchData = (config.afterFetch || defaultAfterFetch)(content);
+      me.setState({
+        data: fetchData,
+      });
+    }).catch((e) => {
+      console.error(e.stack);
+    });
+  }
+
   renderChildren() {
     const me = this;
-    if (me.props.column.renderChildren) {
-      return me.props.column.renderChildren(me.props.rowData);
+    const { column, rowData } = me.props;
+    const { renderChildren } = column;
+    if (renderChildren) {
+      return renderChildren(rowData);
     }
-    if (me.props.column.config && me.props.column.config.data) {
-
-    }
+    return (me.state.data || []).map(item => <Option key={item.value}>{item.text}</Option>);
   }
 
   renderContent() {
     const me = this;
+    const propsToDelete = ['value', 'data', 'onChange'];
     const fieldProps = {
       onChange: (value) => {
         me.handleDataChange({
@@ -53,14 +129,14 @@ class SelectField extends CellField {
     };
     if (me.props.column.config) {
       const customProps = { ...me.props.column.config };
-      delete customProps.value;
-      delete customProps.onChange;
-      delete customProps.data;
+      propsToDelete.forEach((item) => {
+        delete customProps[item];
+      });
       assign(fieldProps, customProps);
     }
     return (
       <Select {...fieldProps}>
-        {me.props.column.renderChildren && me.props.column.renderChildren(me.props.rowData)}
+        {me.renderChildren()}
       </Select>
     );
   }

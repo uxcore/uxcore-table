@@ -8,21 +8,23 @@
 
 /* eslint-disable react/sort-comp */
 
-const Header = require('./Header');
-const Tbody = require('./Tbody');
-const ActionBar = require('./ActionBar');
-const CellField = require('./CellField/CellField');
+
+const CellField = require('uxcore-cell-field');
 const Pagination = require('uxcore-pagination');
 const Const = require('uxcore-const');
 const assign = require('object-assign');
 const deepcopy = require('lodash/cloneDeep');
 const deepEqual = require('deep-equal');
 const classnames = require('classnames');
-const util = require('./util');
 const NattyFetch = require('natty-fetch/dist/natty-fetch.pc');
 const Promise = require('lie');
 const React = require('react');
+
 const Mask = require('./Mask');
+const util = require('./util');
+const Header = require('./Header');
+const Tbody = require('./Tbody');
+const ActionBar = require('./ActionBar');
 
 class Table extends React.Component {
 

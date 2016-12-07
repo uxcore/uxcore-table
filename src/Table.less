@@ -118,7 +118,7 @@
         width: 100%;
         white-space: nowrap;
     }
-    input.kuma-input {
+    > input.kuma-input {
         vertical-align: top;
         padding: 0 10px;
         margin-top: 7px;
@@ -160,6 +160,16 @@
         .kuma-select2-selection {
             border-color: @border-danger-color;
             color: @text-danger-color;
+        }
+    }
+}
+
+.kuma-date-cell-field {
+    .kuma-calendar-picker-input  {
+        line-height: 36px;
+        .kuma-icon-calender,
+        .kuma-icon-close {
+            line-height: 24px;
         }
     }
 }

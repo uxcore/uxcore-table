@@ -1,4 +1,4 @@
-const CellField = require('./CellField');
+const CellField = require('uxcore-cell-field');
 const assign = require('object-assign');
 const RadioGroup = require('uxcore-radiogroup');
 const React = require('react');

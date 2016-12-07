@@ -1,4 +1,4 @@
-const CellField = require('./CellField');
+const CellField = require('uxcore-cell-field');
 const classnames = require('classnames');
 const assign = require('object-assign');
 const React = require('react');

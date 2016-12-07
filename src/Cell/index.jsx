@@ -10,6 +10,7 @@ const Radio = require('./Radio');
 const TextField = require('../CellField/TextField');
 const SelectField = require('../CellField/SelectField');
 const RadioField = require('../CellField/RadioField');
+const DateField = require('uxcore-date-cell-field');
 const util = require('../util');
 const classnames = require('classnames');
 const deepcopy = require('lodash/cloneDeep');
@@ -19,6 +20,7 @@ const fieldsMap = {
   select: SelectField,
   text: TextField,
   radio: RadioField,
+  date: DateField,
 };
 
 class Cell extends React.Component {
