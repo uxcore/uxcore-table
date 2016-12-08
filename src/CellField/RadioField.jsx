@@ -3,24 +3,42 @@ const assign = require('object-assign');
 const RadioGroup = require('uxcore-radiogroup');
 const React = require('react');
 
+const { Item } = RadioGroup;
+
 class RadioField extends CellField {
 
-  processChildren() {
+  getTextMap() {
     const me = this;
     const obj = {};
-    if (me.props.column.renderChildren) {
-      me.props.column.renderChildren().forEach((item) => {
+    const { column } = me.props;
+    if (column.renderChildren) {
+      column.renderChildren().forEach((item) => {
         obj[item.props.value] = item.props.text;
       });
-    } else {
-      console.error('RadioCellField: renderChildren must be passed');
+    } else if (column.config && column.config.data) {
+      (column.config.data || []).forEach((item) => {
+        obj[item.value] = item.text;
+      });
     }
     return obj;
   }
 
+  renderChildren() {
+    const me = this;
+    const { column, rowData } = me.props;
+    const { renderChildren, config } = column;
+    if (renderChildren) {
+      return renderChildren(rowData);
+    }
+    if (config) {
+      return (config.data || []).map(item => <Item value={item.value} text={item.text} />);
+    }
+    return [];
+  }
+
   renderContent() {
     const me = this;
-    const textMap = me.processChildren();
+    const textMap = me.getTextMap();
     const fieldProps = {
       onChange: (value) => {
         me.handleDataChange({
@@ -39,7 +57,7 @@ class RadioField extends CellField {
     }
     return (
       <RadioGroup {...fieldProps}>
-        {me.props.column.renderChildren && me.props.column.renderChildren(me.props.rowData)}
+        {me.renderChildren()}
       </RadioGroup>
     );
   }

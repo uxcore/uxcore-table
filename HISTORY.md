@@ -2,6 +2,10 @@
 
 ---
 
+## 1.12.7
+
+* `CHANGED` RadioCellField support `config.data`
+
 ## 1.12.6
 
 * `CHANGED` more powerful SelectCellField

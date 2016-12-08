@@ -20,6 +20,7 @@ const deepcopy = require('lodash/cloneDeep');
 const { Option } = Select;
 const RadioItem = RadioGroup.Item;
 
+
 const mockData = {
   data: [
     {
@@ -162,15 +163,24 @@ class Demo extends React.Component {
         width: 200,
         type: 'radio',
         // customField: RadioField,
-        renderChildren: () => (
-          [{
-            id: 'xiaoli',
-            name: '小李',
+        // renderChildren: () => (
+        //   [{
+        //     id: 'xiaoli',
+        //     name: '小李',
+        //   }, {
+        //     id: 'xiaowang',
+        //     name: '小王',
+        //   }].map(item => <RadioItem key={item.id} text={item.name} value={item.id} />)
+        // ),
+        config: {
+          data: [{
+            value: 'xiaoli',
+            text: '小李',
           }, {
-            id: 'xiaowang',
-            name: '小王',
-          }].map(item => <RadioItem key={item.id} text={item.name} value={item.id} />)
-        ),
+            value: 'xiaowang',
+            text: '小王',
+          }],
+        },
       },
       {
         dataKey: 'email',
