@@ -8,17 +8,18 @@
 
 const Validator = require('uxcore-validator');
 const Button = require('uxcore-button');
-const Select = require('uxcore-select2');
-const RadioGroup = require('uxcore-radiogroup');
-const Table = require('../src');
-const RadioField = require('./RadioField');
-// const PlaceSelect = require('./PlaceSelect');
 const Constants = require('uxcore-const');
 const React = require('react');
 const deepcopy = require('lodash/cloneDeep');
 
-const { Option } = Select;
-const RadioItem = RadioGroup.Item;
+const Table = require('../src');
+// const Select = require('uxcore-select2');
+// const RadioGroup = require('uxcore-radiogroup');
+// const RadioField = require('./RadioField');
+// const PlaceSelect = require('./PlaceSelect');
+// const { Option } = Select;
+// const RadioItem = RadioGroup.Item;
+const { createCellField } = Table;
 
 
 const mockData = {
@@ -186,7 +187,9 @@ class Demo extends React.Component {
         dataKey: 'email',
         title: 'Email',
         width: 200,
-        type: 'text',
+        // type: 'text',
+        type: 'custom',
+        customField: createCellField(),
         rules: {
           validator: Validator.isEmail,
           errMsg: '',

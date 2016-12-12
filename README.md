@@ -37,9 +37,23 @@ $ npm start
 * fetchData(from): 使表格重新请求一次数据。
     * @param from {string} {optional}: 这个参数会传入到 beforeFetch 的回调中。
 
+### 创建一个 CellField
+
+* createCellField(options)
+
+|Name                |Type                |Require   |Default     |Since Ver. |Note | 
+|---                 |---                 |---       |---         |---        |---|
+|options.component           |React Element       |yes       |input       |1.12.8     |被包裹的组件，需要提供 value 和 onChange，或相同功能的 API |
+|options.valuePropName       |string              |No        |value       |1.12.8     |与 value 对应的 prop 名字 |
+|options.changePropName      |string              |No        |onChange    |1.12.8     |与 onChange 对应的 prop 名字|
+|options.processValue        |func                |No        | -          |1.12.8     |针对 value（editKey 对应字段）的处理函数|
+|options.processText         |func                |No        | -          |1.12.8     |针对 text (dataKey 对应字段) 的处理函数|
+
 ### 其他
 
 * toggleSubComp(rowData): 使指定的行显示或隐藏二级组件(subComp)。
+
+
 
 
 

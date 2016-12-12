@@ -2,6 +2,11 @@
 
 ---
 
+## 1.12.8
+
+* `CHANGED` move all APIs to `methods.js`
+* `NEW` new API `createCellField`
+
 ## 1.12.7
 
 * `CHANGED` RadioCellField support `config.data`

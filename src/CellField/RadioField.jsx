@@ -31,7 +31,8 @@ class RadioField extends CellField {
       return renderChildren(rowData);
     }
     if (config) {
-      return (config.data || []).map(item => <Item value={item.value} text={item.text} />);
+      return (config.data || []).map((item, index) =>
+        <Item key={index} value={item.value} text={item.text} />);
     }
     return [];
   }

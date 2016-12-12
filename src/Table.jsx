@@ -25,6 +25,8 @@ const util = require('./util');
 const Header = require('./Header');
 const Tbody = require('./Tbody');
 const ActionBar = require('./ActionBar');
+const methods = require('./methods');
+const createCellField = require('./createCellField');
 
 class Table extends React.Component {
 
@@ -60,6 +62,9 @@ class Table extends React.Component {
     if (this.props.fetchDataOnMount) {
       this.fetchData();
     }
+    Object.keys(methods).forEach((key) => {
+      me[key] = methods[key].bind(me);
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -1034,104 +1039,6 @@ class Table extends React.Component {
       data: content,
     });
   }
-
-  // CURD for Table
-
-  addEmptyRow() {
-    this.insertRecords({});
-  }
-
-  addRow(rowData) {
-    this.insertRecords(rowData);
-  }
-
-  resetRow(rowData) {
-    const me = this;
-    let updateData = {};
-    const data = me.data.datas || me.data.data;
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].jsxid === rowData.jsxid) {
-        updateData = deepcopy(data[i]);
-        break;
-      }
-    }
-    updateData.__mode__ = Const.MODE.EDIT;
-    this.updateRecord(updateData);
-  }
-
-  delRow(rowData) {
-    this.removeRecords(rowData);
-  }
-
-  editRow(rowData) {
-    const newRowData = deepcopy(rowData);
-    newRowData.__mode__ = Const.MODE.EDIT;
-    this.updateRecord(newRowData);
-  }
-
-  viewRow(rowData) {
-    const newRowData = deepcopy(rowData);
-    newRowData.__mode__ = Const.MODE.VIEW;
-    this.updateRecord(newRowData);
-  }
-
-  saveRow(rowData) {
-    const newRowData = deepcopy(rowData);
-    newRowData.__mode__ = Const.MODE.VIEW;
-    newRowData.__edited__ = true;
-    this.syncRecord(newRowData);
-  }
-
-  saveAllRow() {
-    const me = this;
-    const data = deepcopy(me.state.data.data || me.state.data.datas);
-    data.forEach((item) => {
-      me.saveRow(item);
-    });
-    for (let i = 0; i < data.length; i++) {
-      const item = data[i];
-      item.__mode__ = Const.MODE.VIEW;
-      item.__edited__ = true;
-    }
-    this.syncRecord(data);
-  }
-
-  editAllRow() {
-    const me = this;
-    const data = deepcopy(me.data.data || me.data.datas);
-    for (let i = 0; i < data.length; i++) {
-      const item = data[i];
-      item.__mode__ = Const.MODE.EDIT;
-    }
-    this.updateRecord(data);
-  }
-
-  toggleSubComp(rowData) {
-    const content = deepcopy(this.state.data);
-    const data = content.data || content.datas;
-
-    if (data) {
-      for (let i = 0; i < data.length; i++) {
-        const item = data[i];
-        if (item.jsxid === rowData.jsxid) {
-          item.showSubComp = !item.showSubComp;
-          break;
-        }
-      }
-      this.setState({
-        data: content,
-      });
-    }
-  }
-
-  toggleTreeExpanded(rowData) {
-    const expandedKeys = deepcopy(this.state.expandedKeys);
-    util.toggleItemInArr(rowData.jsxid, expandedKeys);
-    this.setState({
-      expandedKeys,
-    });
-  }
-
 }
 
 Table.defaultProps = {
@@ -1353,5 +1260,6 @@ Table.propTypes = {
 Table.displayName = 'Table';
 Table.CellField = CellField;
 Table.Constants = Const;
+Table.createCellField = createCellField;
 
 module.exports = Table;
