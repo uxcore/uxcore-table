@@ -71,7 +71,6 @@ class Table extends React.Component {
     const me = this;
     const newData = {};
     if (nextProps.jsxdata
-      && me.props.jsxdata
       && !deepEqual(nextProps.jsxdata, me.props.jsxdata)) {
       // Data has changed, so uid which is used to mark the data should be reset.
       me.uid = 0;
@@ -84,7 +83,6 @@ class Table extends React.Component {
       newData.currentPage = nextProps.currentPage;
     }
     if (!!nextProps.jsxcolumns
-      && !!me.props.jsxcolumns
       && !deepEqual(nextProps.jsxcolumns, me.props.jsxcolumns)) {
       newData.columns = me.processColumn(nextProps);
       this.hasFixed = util.hasFixColumn(nextProps);
@@ -232,34 +230,6 @@ class Table extends React.Component {
 
   getDomNode() {
     return this.root;
-  }
-
-  getData(validate) {
-    const me = this;
-    let pass = true;
-    if (validate !== false) {
-      const fieldKeys = Object.keys(me.fields);
-      fieldKeys.forEach((name) => {
-        const fieldPass = me.fields[name]();
-        // if one field fails to pass, the table fails to pass
-        if (pass) {
-          pass = fieldPass;
-        }
-      });
-    }
-    if (me.props.getSavedData) {
-      // 滤除可能为空的元素
-      const data = deepcopy(me.data);
-      data.data = data.data.filter(item => item !== undefined);
-      return {
-        data,
-        pass,
-      };
-    }
-    return {
-      data: me.state.data,
-      pass,
-    };
   }
 
   getIsSelectAll(data) {

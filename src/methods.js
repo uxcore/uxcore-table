@@ -50,9 +50,9 @@ function saveRow(rowData) {
 function saveAllRow() {
   const me = this;
   const data = deepcopy(me.state.data.data || me.state.data.datas);
-  data.forEach((item) => {
-    me.saveRow(item);
-  });
+  // data.forEach((item) => {
+  //   me.saveRow(item);
+  // });
   for (let i = 0; i < data.length; i++) {
     const item = data[i];
     item.__mode__ = Const.MODE.VIEW;
@@ -89,6 +89,80 @@ function toggleSubComp(rowData) {
   }
 }
 
+function moveRowUp(rowData) {
+  const content = deepcopy(this.state.data);
+  const data = content.data || content.datas;
+  let index = -1;
+  if (data) {
+    for (let i = 0; i < data.length; i++) {
+      const item = data[i];
+      if (item.jsxid === rowData.jsxid) {
+        index = i;
+        break;
+      }
+    }
+    if (index > 0) {
+      data.splice(index, 1);
+      data.splice(index - 1, 0, rowData);
+      this.setState({
+        data: content,
+      });
+      this.data = content;
+    }
+  }
+}
+
+function moveRowDown(rowData) {
+  const content = deepcopy(this.state.data);
+  const data = content.data || content.datas;
+  let index = -1;
+  if (data) {
+    for (let i = 0; i < data.length; i++) {
+      const item = data[i];
+      if (item.jsxid === rowData.jsxid) {
+        index = i;
+        break;
+      }
+    }
+    if (index > -1 && index < data.length - 1) {
+      data.splice(index, 1);
+      data.splice(index + 1, 0, rowData);
+      this.setState({
+        data: content,
+      });
+      this.data = content;
+    }
+  }
+}
+
+function getData(validate) {
+  const me = this;
+  let pass = true;
+  if (validate !== false) {
+    const fieldKeys = Object.keys(me.fields);
+    fieldKeys.forEach((name) => {
+      const fieldPass = me.fields[name]();
+      // if one field fails to pass, the table fails to pass
+      if (pass) {
+        pass = fieldPass;
+      }
+    });
+  }
+  if (me.props.getSavedData) {
+    // 滤除可能为空的元素
+    const data = deepcopy(me.data);
+    data.data = data.data.filter(item => item !== undefined);
+    return {
+      data,
+      pass,
+    };
+  }
+  return {
+    data: me.state.data,
+    pass,
+  };
+}
+
 function toggleTreeExpanded(rowData) {
   const expandedKeys = deepcopy(this.state.expandedKeys);
   util.toggleItemInArr(rowData.jsxid, expandedKeys);
@@ -109,5 +183,8 @@ module.exports = {
   saveRow,
   toggleSubComp,
   toggleTreeExpanded,
+  getData,
+  moveRowUp,
+  moveRowDown,
 };
 

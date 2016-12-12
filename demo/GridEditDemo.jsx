@@ -213,7 +213,7 @@ class Demo extends React.Component {
         width: 280,
         type: 'action',
         // actionType: 'button',
-        collapseNum: 3,
+        collapseNum: 4,
         actions: [
           {
             title: '编辑',
@@ -224,17 +224,16 @@ class Demo extends React.Component {
             mode: Constants.MODE.VIEW,
           },
           {
-            title: '编辑2',
+            title: '上升',
             callback: (rowData) => {
-              me.table.editRow(rowData);
+              me.table.moveRowUp(rowData);
             },
-            render: () => false,
             mode: Constants.MODE.VIEW,
           },
           {
-            title: '编辑',
+            title: '下降',
             callback: (rowData) => {
-              me.table.editRow(rowData);
+              me.table.moveRowDown(rowData);
             },
             mode: Constants.MODE.VIEW,
           },

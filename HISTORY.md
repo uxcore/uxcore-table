@@ -2,6 +2,10 @@
 
 ---
 
+## 1.12.9
+
+* `NEW` add new API `moveRowUp` & `moveRowDown`
+
 ## 1.12.8
 
 * `CHANGED` move all APIs to `methods.js`
