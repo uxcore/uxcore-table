@@ -32,6 +32,7 @@ $ npm start
 * saveAllRow(): 保存所有行的数据(同时切换至查看模式)。
 * resetRow(rowData): 重置行到数据（若保存过，则为保存过后的数据）。
 
+
 ### 获取数据
 
 * fetchData(from): 使表格重新请求一次数据。
@@ -52,6 +53,8 @@ $ npm start
 ### 其他
 
 * toggleSubComp(rowData): 使指定的行显示或隐藏二级组件(subComp)。
+* moveRowUp(rowData): 使指定的行向上移动一行
+* movewRowDown(rowData): 使指定的行向下移动一行
 
 
 
