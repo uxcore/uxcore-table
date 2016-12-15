@@ -2,6 +2,10 @@
 
 ---
 
+## 1.12.10
+
+* `CHANGED` `SelectCellField` support `searchDelay` in order to optimize search performance
+
 ## 1.12.9
 
 * `NEW` add new API `moveRowUp` & `moveRowDown`

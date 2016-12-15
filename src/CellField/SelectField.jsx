@@ -43,9 +43,13 @@ class SelectField extends CellField {
 
   componentWillReceiveProps(nextProps) {
     const me = this;
-    if (!isEqual(nextProps.data, me.props.data)) {
+    let nextData = me.getConfig(nextProps).data;
+    let data = me.getConfig().data;
+    nextData = (typeof nextData === 'function') ? nextData(nextProps.rowData) : nextData;
+    data = (typeof data === 'function') ? data(me.props.rowData) : data;
+    if (!isEqual(nextData, data)) {
       me.setState({
-        data: nextProps.data,
+        data: nextData,
       });
     }
   }
@@ -55,9 +59,9 @@ class SelectField extends CellField {
     me.fetchData();
   }
 
-  getConfig() {
+  getConfig(props) {
     const me = this;
-    return me.props.column.config || {};
+    return (props || me.props).column.config || {};
   }
 
   fetchData(value) {
@@ -123,6 +127,21 @@ class SelectField extends CellField {
           text: getTextFromValue(value),
           value,
         });
+      },
+      onSearch: (key) => {
+        if (me.searchTimer) {
+          clearTimeout(me.searchTimer);
+        }
+        me.searchTimer = setTimeout(() => {
+          if (me.getConfig().fetchUrl) {
+            me.fetchData(key);
+          } else {
+            const onSearch = me.getConfig().onSearch;
+            if (typeof onSearch === 'function') {
+              onSearch(key);
+            }
+          }
+        }, me.getConfig().searchDelay || 100);
       },
       labelInValue: true,
       value: processValue(me.props.value),

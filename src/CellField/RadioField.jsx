@@ -10,13 +10,21 @@ class RadioField extends CellField {
   getTextMap() {
     const me = this;
     const obj = {};
-    const { column } = me.props;
+    const { column, rowData } = me.props;
+    const { config, renderChildren } = column;
     if (column.renderChildren) {
-      column.renderChildren().forEach((item) => {
+      renderChildren().forEach((item) => {
         obj[item.props.value] = item.props.text;
       });
-    } else if (column.config && column.config.data) {
-      (column.config.data || []).forEach((item) => {
+    } else if (config && config.data) {
+      let configData = [];
+      if (typeof config.data === 'function') {
+        configData = config.data(rowData);
+      }
+      if (config.data instanceof Array) {
+        configData = config.data;
+      }
+      configData.forEach((item) => {
         obj[item.value] = item.text;
       });
     }
@@ -31,8 +39,15 @@ class RadioField extends CellField {
       return renderChildren(rowData);
     }
     if (config) {
-      return (config.data || []).map((item, index) =>
-        <Item key={index} value={item.value} text={item.text} />);
+      let configData = [];
+      if (typeof config.data === 'function') {
+        configData = config.data(rowData);
+      }
+      if (config.data instanceof Array) {
+        configData = config.data;
+      }
+      return configData.map((item, index) =>
+        <Item key={index} value={item.value} text={item.text} disabled={item.disabled} />);
     }
     return [];
   }

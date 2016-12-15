@@ -1,6 +1,6 @@
 {
  "name": "uxcore-table",
- "version": "1.12.9",
+ "version": "1.12.10",
  "description": "table ui component for react",
  "repository": "https://github.com/uxcore/uxcore-table.git",
  "author": "zhouquan.yezq",
@@ -34,12 +34,14 @@
  ],
  "devDependencies": {
   "console-polyfill": "^0.2.2",
+  "enzyme": "^2.6.0",
   "es5-shim": "^4.5.8",
   "expect.js": "~0.3.1",
   "kuma-base": "1.x",
   "react": "0.14.x",
   "react-addons-test-utils": "0.14.x",
   "react-dom": "0.14.x",
+  "sinon": "^2.0.0-pre.4",
   "uxcore-kuma": "2.x",
   "uxcore-tools": "0.2.x"
  },

@@ -139,7 +139,7 @@ class Demo extends React.Component {
           // }],
           fetchUrl: 'http://suggest.taobao.com/sug',
           dataType: 'jsonp',
-          beforeFetch: () => ({ q: 1 }),
+          beforeFetch: key => (key || { q: 1 }),
           afterFetch: (content) => {
             const data = [];
             content.result.forEach((item) => {
@@ -174,9 +174,10 @@ class Demo extends React.Component {
         //   }].map(item => <RadioItem key={item.id} text={item.name} value={item.id} />)
         // ),
         config: {
-          data: [{
+          data: () => [{
             value: 'xiaoli',
             text: '小李',
+            disabled: true,
           }, {
             value: 'xiaowang',
             text: '小王',
