@@ -27,7 +27,7 @@ const createCellField = (options) => {
         [newOptions.changePropName]: (...args) => {
           me.handleDataChange({
             value: newOptions.processValue.apply(me, args),
-            texx: newOptions.processText.apply(me, args),
+            text: newOptions.processText.apply(me, args),
           });
         },
         ...(me.props.column.config || {}),
