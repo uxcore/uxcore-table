@@ -12,7 +12,7 @@ Input.propTypes = {
 
 const createCellField = (options) => {
   class CustomField extends CellField {
-    render() {
+    renderContent() {
       const me = this;
       const defaultOptions = {
         valuePropName: 'value',
