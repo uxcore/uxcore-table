@@ -12,6 +12,7 @@
         "import/no-extraneous-dependencies": "off",
         "react/jsx-no-bind": "off",
         "no-underscore-dangle": "off",
+        "jsx-a11y/label-has-for": "off",
         "no-plusplus": [
             "error",
             {

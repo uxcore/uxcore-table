@@ -162,7 +162,7 @@ class Demo extends React.Component {
         editKey: 'nameId',
         title: '姓名',
         width: 200,
-        type: 'radio',
+        type: 'check',
         // customField: RadioField,
         // renderChildren: () => (
         //   [{

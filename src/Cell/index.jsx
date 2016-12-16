@@ -4,23 +4,27 @@
 
 const React = require('react');
 const Const = require('uxcore-const');
+const classnames = require('classnames');
+const deepcopy = require('lodash/cloneDeep');
+const deepEqual = require('deep-equal');
+const DateField = require('uxcore-date-cell-field');
+const CheckField = require('uxcore-checkbox-cell-field');
+
 const CollapsedButton = require('../CollapsedButton');
 const CheckBox = require('./CheckBox');
 const Radio = require('./Radio');
 const TextField = require('../CellField/TextField');
 const SelectField = require('../CellField/SelectField');
 const RadioField = require('../CellField/RadioField');
-const DateField = require('uxcore-date-cell-field');
 const util = require('../util');
-const classnames = require('classnames');
-const deepcopy = require('lodash/cloneDeep');
-const deepEqual = require('deep-equal');
+
 
 const fieldsMap = {
   select: SelectField,
   text: TextField,
   radio: RadioField,
   date: DateField,
+  check: CheckField,
 };
 
 class Cell extends React.Component {

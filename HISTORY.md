@@ -2,6 +2,10 @@
 
 ---
 
+## 1.12.11
+
+* `NEW` add type `check` to support inline checkbox editing
+
 ## 1.12.10
 
 * `CHANGED` `SelectCellField` support `searchDelay` in order to optimize search performance
