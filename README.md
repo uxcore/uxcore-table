@@ -71,7 +71,7 @@ $ npm start
 |showPager           |boolean             |optional  |true        | -         |是否显示分页|
 |showPagerTotal      |boolean             |optional  |false       | 1.3.17    |是否显示分页的总数部分|
 |showPagerSizeChanger|boolean             |optional  |true        | 1.6.9     |是否可以改变分页的pageSize|
-|isMiniPager         |boolean             |optional  |true        | 1.6.9     |分页是否是mini的|
+|isMiniPager         |boolean             |optional  |false        | 1.6.9     |分页是否是mini的|
 |showHeader          |boolean             |optional  |true        | -         |是否显示表格头部|
 |showHeaderBorder    |boolean             |optional  |false       | 1.3.6     |是否显示头部列之间的分割线|
 |showMask            |boolean             |optional  |true        | -         |是否在 loading 的时候显示蒙层|

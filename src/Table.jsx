@@ -232,6 +232,10 @@ class Table extends React.Component {
     return this.root;
   }
 
+  getPager() {
+    return this.pager;
+  }
+
   getIsSelectAll(data) {
     const me = this;
     const column = me.checkboxColumn;
@@ -710,6 +714,7 @@ class Table extends React.Component {
             className={classnames({
               mini: isMiniPager,
             })}
+            ref={util.saveRef('pager', me)}
             locale={locale}
             showSizeChanger={showPagerSizeChanger}
             showTotal={showPagerTotal}
@@ -755,9 +760,9 @@ class Table extends React.Component {
     if (props.height === 'auto') {
       bodyHeight = 'auto';
     } else {
-      bodyHeight = props.height === '100%'
-        ? props.height
-        : (props.height - (headerHeight || (hasGroup ? 100 : 50)) - actionBarHeight - pagerHeight);
+      bodyHeight = props.height === '100%' ? props.height
+        : (parseInt(props.height, 10) - (headerHeight || (hasGroup ? 100 : 50))
+          - actionBarHeight - pagerHeight);
     }
     const renderBodyProps = {
       columns: state.columns,
