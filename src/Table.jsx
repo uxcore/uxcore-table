@@ -805,7 +805,7 @@ class Table extends React.Component {
     let actionBar;
 
 
-    if (props.actionBar || props.showSearch) {
+    if (props.actionBar || props.showSearch || props.showColumnPicker) {
       const renderActionProps = {
         onSearch: this.handleActionBarSearch.bind(this),
         actionBarConfig: this.props.actionBar,
@@ -1013,6 +1013,7 @@ class Table extends React.Component {
 
 Table.defaultProps = {
   prefixCls: 'kuma-uxtable',
+  jsxcolumns: [],
   locale: 'zh-cn',
   showHeader: true,
   width: 'auto',
