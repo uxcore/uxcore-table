@@ -589,6 +589,7 @@ class Table extends React.Component {
       me.setState({
         data,
         currentPage,
+        expandedKeys: util.getDefaultExpandedKeys(data.data, props.levels),
       });
       me.data = deepcopy(data);
     }
