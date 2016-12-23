@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/methods.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">src/</a> methods.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">25.23% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>27/107</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">7.89% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>3/38</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">6.25% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">25.23% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>27/107</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+var deepcopy = require('lodash/cloneDeep');
+var Const = require('uxcore-const');
+var util = require('./util');
+&nbsp;
+<span class="fstat-no" title="function not covered" >function addEmptyRow() {</span>
+<span class="cstat-no" title="statement not covered" >  this.insertRecords({});</span>
+}
+&nbsp;
+<span class="fstat-no" title="function not covered" >function addRow(rowData) {</span>
+<span class="cstat-no" title="statement not covered" >  this.insertRecords(rowData);</span>
+}
+&nbsp;
+<span class="fstat-no" title="function not covered" >function resetRow(rowData) {</span>
+<span class="cstat-no" title="statement not covered" >  var me = this;</span>
+<span class="cstat-no" title="statement not covered" >  var updateData = {};</span>
+<span class="cstat-no" title="statement not covered" >  var data = me.data.datas || me.data.data;</span>
+<span class="cstat-no" title="statement not covered" >  for (var i = 0; i &lt; data.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    if (data[i].jsxid === rowData.jsxid) {</span>
+<span class="cstat-no" title="statement not covered" >      updateData = deepcopy(data[i]);</span>
+<span class="cstat-no" title="statement not covered" >      break;</span>
+    }
+  }
+<span class="cstat-no" title="statement not covered" >  updateData.__mode__ = Const.MODE.EDIT;</span>
+<span class="cstat-no" title="statement not covered" >  this.updateRecord(updateData);</span>
+}
+&nbsp;
+<span class="fstat-no" title="function not covered" >function delRow(rowData) {</span>
+<span class="cstat-no" title="statement not covered" >  this.removeRecords(rowData);</span>
+}
+&nbsp;
+<span class="fstat-no" title="function not covered" >function editRow(rowData) {</span>
+<span class="cstat-no" title="statement not covered" >  var newRowData = deepcopy(rowData);</span>
+<span class="cstat-no" title="statement not covered" >  newRowData.__mode__ = Const.MODE.EDIT;</span>
+<span class="cstat-no" title="statement not covered" >  this.updateRecord(newRowData);</span>
+}
+&nbsp;
+<span class="fstat-no" title="function not covered" >function viewRow(rowData) {</span>
+<span class="cstat-no" title="statement not covered" >  var newRowData = deepcopy(rowData);</span>
+<span class="cstat-no" title="statement not covered" >  newRowData.__mode__ = Const.MODE.VIEW;</span>
+<span class="cstat-no" title="statement not covered" >  this.updateRecord(newRowData);</span>
+}
+&nbsp;
+<span class="fstat-no" title="function not covered" >function saveRow(rowData) {</span>
+<span class="cstat-no" title="statement not covered" >  var newRowData = deepcopy(rowData);</span>
+<span class="cstat-no" title="statement not covered" >  newRowData.__mode__ = Const.MODE.VIEW;</span>
+<span class="cstat-no" title="statement not covered" >  newRowData.__edited__ = true;</span>
+<span class="cstat-no" title="statement not covered" >  this.syncRecord(newRowData);</span>
+}
+&nbsp;
+<span class="fstat-no" title="function not covered" >function saveAllRow() {</span>
+<span class="cstat-no" title="statement not covered" >  var me = this;</span>
+<span class="cstat-no" title="statement not covered" >  var data = deepcopy(me.state.data.data || me.state.data.datas);</span>
+  // data.forEach((item) =&gt; {
+  //   me.saveRow(item);
+  // });
+<span class="cstat-no" title="statement not covered" >  for (var i = 0; i &lt; data.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    var item = data[i];</span>
+<span class="cstat-no" title="statement not covered" >    item.__mode__ = Const.MODE.VIEW;</span>
+<span class="cstat-no" title="statement not covered" >    item.__edited__ = true;</span>
+  }
+<span class="cstat-no" title="statement not covered" >  this.syncRecord(data);</span>
+}
+&nbsp;
+<span class="fstat-no" title="function not covered" >function editAllRow() {</span>
+<span class="cstat-no" title="statement not covered" >  var me = this;</span>
+<span class="cstat-no" title="statement not covered" >  var data = deepcopy(me.data.data || me.data.datas);</span>
+<span class="cstat-no" title="statement not covered" >  for (var i = 0; i &lt; data.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    var item = data[i];</span>
+<span class="cstat-no" title="statement not covered" >    item.__mode__ = Const.MODE.EDIT;</span>
+  }
+<span class="cstat-no" title="statement not covered" >  this.updateRecord(data);</span>
+}
+&nbsp;
+function toggleSubComp(rowData) {
+  var content = deepcopy(this.state.data);
+  var data = content.data || <span class="branch-1 cbranch-no" title="branch not covered" >content.datas;</span>
+&nbsp;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (data) {
+    for (var i = 0; i &lt; data.length; i++) {
+      var item = data[i];
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (item.jsxid === rowData.jsxid) {
+        item.showSubComp = !item.showSubComp;
+        break;
+      }
+    }
+    this.setState({
+      data: content
+    });
+  }
+}
+&nbsp;
+<span class="fstat-no" title="function not covered" >function moveRowUp(rowData) {</span>
+<span class="cstat-no" title="statement not covered" >  var content = deepcopy(this.state.data);</span>
+<span class="cstat-no" title="statement not covered" >  var data = content.data || content.datas;</span>
+<span class="cstat-no" title="statement not covered" >  var index = -1;</span>
+<span class="cstat-no" title="statement not covered" >  if (data) {</span>
+<span class="cstat-no" title="statement not covered" >    for (var i = 0; i &lt; data.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      var item = data[i];</span>
+<span class="cstat-no" title="statement not covered" >      if (item.jsxid === rowData.jsxid) {</span>
+<span class="cstat-no" title="statement not covered" >        index = i;</span>
+<span class="cstat-no" title="statement not covered" >        break;</span>
+      }
+    }
+<span class="cstat-no" title="statement not covered" >    if (index &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >      data.splice(index, 1);</span>
+<span class="cstat-no" title="statement not covered" >      data.splice(index - 1, 0, rowData);</span>
+<span class="cstat-no" title="statement not covered" >      this.setState({</span>
+        data: content
+      });
+<span class="cstat-no" title="statement not covered" >      this.data = content;</span>
+    }
+  }
+}
+&nbsp;
+<span class="fstat-no" title="function not covered" >function moveRowDown(rowData) {</span>
+<span class="cstat-no" title="statement not covered" >  var content = deepcopy(this.state.data);</span>
+<span class="cstat-no" title="statement not covered" >  var data = content.data || content.datas;</span>
+<span class="cstat-no" title="statement not covered" >  var index = -1;</span>
+<span class="cstat-no" title="statement not covered" >  if (data) {</span>
+<span class="cstat-no" title="statement not covered" >    for (var i = 0; i &lt; data.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >      var item = data[i];</span>
+<span class="cstat-no" title="statement not covered" >      if (item.jsxid === rowData.jsxid) {</span>
+<span class="cstat-no" title="statement not covered" >        index = i;</span>
+<span class="cstat-no" title="statement not covered" >        break;</span>
+      }
+    }
+<span class="cstat-no" title="statement not covered" >    if (index &gt; -1 &amp;&amp; index &lt; data.length - 1) {</span>
+<span class="cstat-no" title="statement not covered" >      data.splice(index, 1);</span>
+<span class="cstat-no" title="statement not covered" >      data.splice(index + 1, 0, rowData);</span>
+<span class="cstat-no" title="statement not covered" >      this.setState({</span>
+        data: content
+      });
+<span class="cstat-no" title="statement not covered" >      this.data = content;</span>
+    }
+  }
+}
+&nbsp;
+<span class="fstat-no" title="function not covered" >function getData(validate) {</span>
+<span class="cstat-no" title="statement not covered" >  var me = this;</span>
+<span class="cstat-no" title="statement not covered" >  var pass = true;</span>
+<span class="cstat-no" title="statement not covered" >  if (validate !== false) {</span>
+<span class="cstat-no" title="statement not covered" >    var fieldKeys = Object.keys(me.fields);</span>
+<span class="cstat-no" title="statement not covered" >    fieldKeys.forEach(<span class="fstat-no" title="function not covered" >function (name) {</span></span>
+<span class="cstat-no" title="statement not covered" >      var fieldPass = me.fields[name]();</span>
+      // if one field fails to pass, the table fails to pass
+<span class="cstat-no" title="statement not covered" >      if (pass) {</span>
+<span class="cstat-no" title="statement not covered" >        pass = fieldPass;</span>
+      }
+    });
+  }
+<span class="cstat-no" title="statement not covered" >  if (me.props.getSavedData) {</span>
+    // 滤除可能为空的元素
+<span class="cstat-no" title="statement not covered" >    var data = deepcopy(me.data);</span>
+<span class="cstat-no" title="statement not covered" >    data.data = data.data.filter(<span class="fstat-no" title="function not covered" >function (item) {</span></span>
+<span class="cstat-no" title="statement not covered" >      return item !== undefined;</span>
+    });
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      data: data,
+      pass: pass
+    };
+  }
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    data: me.state.data,
+    pass: pass
+  };
+}
+&nbsp;
+<span class="fstat-no" title="function not covered" >function toggleTreeExpanded(rowData) {</span>
+<span class="cstat-no" title="statement not covered" >  var expandedKeys = deepcopy(this.state.expandedKeys);</span>
+<span class="cstat-no" title="statement not covered" >  util.toggleItemInArr(rowData.jsxid, expandedKeys);</span>
+<span class="cstat-no" title="statement not covered" >  this.setState({</span>
+    expandedKeys: expandedKeys
+  });
+}
+&nbsp;
+module.exports = {
+  addEmptyRow: addEmptyRow,
+  addRow: addRow,
+  resetRow: resetRow,
+  delRow: delRow,
+  editAllRow: editAllRow,
+  editRow: editRow,
+  viewRow: viewRow,
+  saveAllRow: saveAllRow,
+  saveRow: saveRow,
+  toggleSubComp: toggleSubComp,
+  toggleTreeExpanded: toggleTreeExpanded,
+  getData: getData,
+  moveRowUp: moveRowUp,
+  moveRowDown: moveRowDown
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 23 2016 13:27:51 GMT+0800 (CST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
