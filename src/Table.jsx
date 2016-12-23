@@ -895,8 +895,8 @@ class Table extends React.Component {
     const data = objAux.datas || objAux.data;
     for (let i = 0; i < data.length; i++) {
       const node = data[i];
-      me.uid += 1;
       node.jsxid = me.uid;
+      me.uid += 1;
       node.__mode__ = node.__mode__ || Const.MODE.VIEW;
       me.addValuesInData(node);
     }

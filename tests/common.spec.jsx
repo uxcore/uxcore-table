@@ -96,5 +96,23 @@ describe('Table', () => {
       expect(wrapper1.find('.mini')).to.have.length(0);
       expect(wrapper2.find('.mini')).to.have.length(1);
     });
+
+    it('rowSelection onSelect', (done) => {
+      wrapper = mount(
+        <Table
+          {...common}
+          rowSelection={{
+            onSelect: (record, selected, selectedRows) => {
+              expect(record).to.be(true);
+              expect(selected.id).to.be('1');
+              expect(selectedRows).to.have.length(1);
+              done();
+            },
+          }}
+        />
+      );
+      wrapper.find('.kuma-uxtable-row .kuma-checkbox').node.checked = true;
+      wrapper.find('.kuma-uxtable-row .kuma-checkbox').simulate('change');
+    });
   });
 });

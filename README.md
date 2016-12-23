@@ -27,9 +27,6 @@
 
 Table UI Component based on React. working for many modes such as sub table, tree table and inline editing table.
 
-
-![](demo/screenshot.png)
-
 ## How to run
 
 ```sh
