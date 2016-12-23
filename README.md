@@ -22,7 +22,7 @@
 [devdep-image]: http://img.shields.io/david/dev/uxcore/uxcore-table.svg?style=flat-square
 [devdep-url]: https://david-dm.org/uxcore/uxcore-table#info=devDependencies
 [downloads-image]: https://img.shields.io/npm/dm/uxcore-table.svg
-[sauce-image]: https://saucelabs.com/browser-matrix/uxcore.svg
+[sauce-image]: https://saucelabs.com/browser-matrix/uxcore-table.svg
 [sauce-url]: https://saucelabs.com/u/uxcore-table
 
 Table UI Component based on React. working for many modes such as sub table, tree table and inline editing table.
