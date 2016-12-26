@@ -7,9 +7,9 @@ import Table from '../src';
 
 const common = {
   jsxcolumns: [
-    { dataKey: 'id', title: 'ID', width: 50, hidden: true },
-    { dataKey: 'country', title: '国家', width: 200, ordered: true },
-    { dataKey: 'city', title: '城市', width: 150, ordered: true },
+    { dataKey: 'id', title: 'ID', width: 50 },
+    { dataKey: 'country', title: '国家', width: 200 },
+    { dataKey: 'city', title: '城市', width: 150 },
     { dataKey: 'firstName', title: 'FristName' },
   ],
   jsxdata: {
@@ -26,6 +26,7 @@ const common = {
   },
 };
 sinon.spy(Table.prototype, 'componentDidMount');
+sinon.spy(Table.prototype, 'componentWillReceiveProps');
 sinon.spy(Table.prototype, 'fetchRemoteData');
 
 describe('Table', () => {
@@ -34,6 +35,54 @@ describe('Table', () => {
       <Table />
     );
     expect(Table.prototype.componentDidMount.calledOnce).to.be(true);
+  });
+  it('calls willReceiveProps', () => {
+    class Demo extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          data: {
+            data: [
+              {
+                id: '1',
+                country: 'country1',
+                city: 'city1',
+                firstName: 'firstName1',
+              },
+            ],
+          },
+        };
+      }
+      saveRef(refName) {
+        const me = this;
+        return (c) => {
+          me[refName] = c;
+        };
+      }
+      changeState() {
+        this.setState({
+          data: {
+            data: [
+              {
+                id: '2',
+                country: 'country1',
+                city: 'city1',
+                firstName: 'firstName1',
+              },
+            ],
+          },
+        });
+      }
+      render() {
+        return (
+          <Table {...common} jsxdata={this.state.data} ref={this.saveRef('table')} />
+        );
+      }
+    }
+    const wrapper = mount(<Demo />);
+    wrapper.node.changeState();
+    expect(Table.prototype.componentWillReceiveProps.calledOnce).to.be(true);
+    expect(wrapper.node.table.state.data.data[0].id).to.be('2');
   });
   describe('Props', () => {
     let wrapper;
@@ -60,6 +109,12 @@ describe('Table', () => {
     it('showColumnPicker', () => {
       wrapper = mount(<Table {...common} showColumnPicker />);
       expect(wrapper.find('.kuma-uxtable-column-picker')).to.have.length(1);
+    });
+
+    it('showColumnPicker with handleColumnPickerChange', () => {
+      wrapper = mount(<Table {...common} showColumnPicker />);
+      wrapper.node.handleColumnPickerChange(['country'], '__common__');
+      expect(wrapper.state('columns').filter(item => item.dataKey === 'id')[0].hidden).to.be(true);
     });
 
     it('showSearch', () => {
@@ -101,6 +156,53 @@ describe('Table', () => {
       const wrapper2 = mount(<Table {...common} isMiniPager />);
       expect(wrapper1.find('.mini')).to.have.length(0);
       expect(wrapper2.find('.mini')).to.have.length(1);
+    });
+
+    it('actionBar', () => {
+      wrapper = mount(
+        <Table
+          {...common}
+          actionBar={[
+            {
+              title: '新增行',
+              callback: () => {},
+            },
+            {
+              title: '编辑所有行',
+              callback: () => {},
+            },
+            {
+              title: '保存所有行',
+              callback: () => {},
+            },
+          ]}
+        />
+      );
+      expect(wrapper.find('.kuma-uxtable-actionbar-item')).to.have.length(3);
+    });
+
+    it('linkBar', () => {
+      wrapper = mount(
+        <Table
+          {...common}
+          linkBar={[
+            {
+              title: '新增行',
+              callback: () => {},
+            },
+            {
+              title: '编辑所有行',
+              callback: () => {},
+            },
+          ]}
+        />
+      );
+      expect(wrapper.find('.kuma-uxtable-linkbar-item')).to.have.length(2);
+    });
+
+    it('passedData', () => {
+      wrapper = mount(<Table {...common} jsxdata={null} passedData={common.jsxdata} />);
+      expect(wrapper.state('data').data[0].id).to.be('1');
     });
 
     it('rowSelection onSelect', (done) => {
@@ -274,7 +376,7 @@ describe('Table', () => {
     //       }}
     //     />
     //   );
-    // });
+    // }).timeout(5000);
   });
   describe('Actions', () => {
     let wrapper;
@@ -297,5 +399,62 @@ describe('Table', () => {
       );
       expect(wrapper.find('.action-container')).to.have.length(1);
     });
+
+    it('collapseNum is 1', () => {
+      wrapper = mount(
+        <Table
+          {...common}
+          jsxcolumns={[...common.jsxcolumns, {
+            type: 'action',
+            collapseNum: 1,
+            actions: [
+              {
+                title: '编辑',
+              },
+              {
+                title: '保存',
+              },
+            ],
+          }]}
+        />
+      );
+      expect(wrapper.find('.action-container').find('.action')).to.have.length(1);
+    });
+
+    it('collapseNum is 2', () => {
+      wrapper = mount(
+        <Table
+          {...common}
+          jsxcolumns={[...common.jsxcolumns, {
+            type: 'action',
+            collapseNum: 2,
+            actions: [
+              {
+                title: '编辑',
+              },
+              {
+                title: '保存',
+              },
+              {
+                title: '删除',
+              },
+            ],
+          }]}
+        />
+      );
+      expect(wrapper.find('.action-container').find('.action')).to.have.length(2);
+    });
+  });
+  it('fixed column', () => {
+    const wrapper = mount(
+      <Table
+        {...common}
+        jsxcolumns={[
+          { dataKey: 'id', title: 'ID', width: 50, fixed: true },
+        ]}
+      />
+    );
+    expect(wrapper.find('.kuma-uxtable-header-scroll')).to.have.length(1);
+    expect(wrapper.find('.kuma-uxtable-header-fixed')).to.have.length(1);
   });
 });

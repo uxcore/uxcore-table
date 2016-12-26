@@ -37,26 +37,26 @@ class ColumnPicker extends React.Component {
     return this.dropDownDOMNode;
   }
 
-  getSelectedKeys() {
-    const me = this;
-    const { columns } = me.props;
-    const realColumns = [];
-    const selectedKeys = [];
-    columns.forEach((item) => {
-      const isGroup = {}.hasOwnProperty.call(item, 'columns') && typeof item.columns === 'object';
-      if (isGroup) {
-        // realColumns = realColumns.concat(item.columns);
-      } else {
-        realColumns.push(item);
-      }
-    });
-    realColumns.forEach((item) => {
-      if (!item.hidden) {
-        selectedKeys.push(item.dataKey);
-      }
-    });
-    return selectedKeys;
-  }
+  // getSelectedKeys() {
+  //   const me = this;
+  //   const { columns } = me.props;
+  //   const realColumns = [];
+  //   const selectedKeys = [];
+  //   columns.forEach((item) => {
+  //     const isGroup = {}.hasOwnProperty.call(item, 'columns') && typeof item.columns === 'object';
+  //     if (isGroup) {
+  //       // realColumns = realColumns.concat(item.columns);
+  //     } else {
+  //       realColumns.push(item);
+  //     }
+  //   });
+  //   realColumns.forEach((item) => {
+  //     if (!item.hidden) {
+  //       selectedKeys.push(item.dataKey);
+  //     }
+  //   });
+  //   return selectedKeys;
+  // }
 
   handlePickerSelect(groupName, selectedKeys) {
     this.props.handleColumnPickerChange(selectedKeys, groupName);

@@ -245,4 +245,77 @@ describe('inlineEdit', () => {
     );
     expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input').at(0).node.value).to.be('1');
   });
+
+  it('type select with remote data source', (done) => {
+    wrapper = mount(
+      <Table
+        {...common}
+        jsxcolumns={[{
+          dataKey: 'country',
+          editKey: 'id',
+          title: 'ID',
+          type: 'select',
+          config: {
+            fetchUrl: 'http://suggest.taobao.com/sug',
+            dataType: 'jsonp',
+            beforeFetch: (key) => {
+              if (key) {
+                return key;
+              }
+              return { q: '1' };
+            },
+            afterFetch: (content) => {
+              done();
+              const data = [];
+              content.result.forEach((item) => {
+                data.push({
+                  value: item[1],
+                  text: item[0],
+                });
+              });
+              return data;
+            },
+          },
+        }]}
+      />
+    );
+  });
+
+  it('type text with config', () => {
+    wrapper = mount(
+      <Table
+        {...common}
+        jsxcolumns={[{
+          dataKey: 'id',
+          title: 'ID',
+          type: 'text',
+          config: {
+            placeholder: '测试',
+          },
+        }]}
+      />
+    );
+    expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input').at(0).node.placeholder).to.be('测试');
+  });
+
+  it('inline edit change', (done) => {
+    wrapper = mount(
+      <Table
+        {...common}
+        jsxcolumns={[{
+          dataKey: 'id', title: 'ID', type: 'text',
+        }]}
+        onChange={(change) => {
+          expect(change.editKey).to.be('id');
+          expect(change.dataKey).to.be('id');
+          expect(change.pass).to.be(true);
+          expect(change.changedData.id).to.be('测试');
+          done();
+        }}
+      />
+    );
+    const input = wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input').at(0);
+    input.node.value = '测试';
+    input.simulate('change');
+  });
 });

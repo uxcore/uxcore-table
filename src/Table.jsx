@@ -811,7 +811,7 @@ class Table extends React.Component {
     let actionBar;
 
 
-    if (props.actionBar || props.showSearch || props.showColumnPicker) {
+    if (props.actionBar || props.linkBar || props.showSearch || props.showColumnPicker) {
       const renderActionProps = {
         onSearch: this.handleActionBarSearch.bind(this),
         actionBarConfig: this.props.actionBar,
@@ -1045,7 +1045,6 @@ Table.defaultProps = {
   rowHeight: 76,
   fetchParams: {},
   currentPage: 1,
-  queryKeys: [],
   emptyText: <div style={{ lineHeight: 2 }}>暂无数据</div>,
   searchBarPlaceholder: '搜索表格内容',
   loadingText: 'loading',

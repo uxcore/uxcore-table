@@ -130,5 +130,32 @@ describe('Tree', () => {
     );
     expect(wrapper.find('.kuma-uxtable-expand-icon .kuma-icon').at(0).hasClass('expanded')).to.be(true);
   });
+
+  it('rowSelection onSelect', (done) => {
+    wrapper = mount(
+      <Table
+        {...common}
+        renderModel="tree"
+        rowSelection={{
+          onSelect: (record, selected, selectedRows) => {
+            expect(record).to.be(true);
+            expect(selected.id).to.be('1');
+            expect(selectedRows).to.have.length(8);
+            done();
+          },
+        }}
+      />
+    );
+    wrapper.find('.kuma-uxtable-row .kuma-checkbox').at(0).node.checked = true;
+    wrapper.find('.kuma-uxtable-row .kuma-checkbox').at(0).simulate('change');
+  });
+
+  it('should be able to toggle tree', () => {
+    wrapper = mount(
+      <Table {...common} renderModel="tree" levels={1} />
+    );
+    wrapper.find('.kuma-uxtable-row .kuma-uxtable-expand-icon').at(0).simulate('change');
+    expect(wrapper.find('.kuma-uxtable-row .kuma-uxtable-tree-row').length).not.to.be(0);
+  });
 });
 
