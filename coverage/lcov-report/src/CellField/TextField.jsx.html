@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">53.85% </span>
+        <span class="strong">71.15% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>28/52</span>
+        <span class='fraction'>37/52</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">43.33% </span>
+        <span class="strong">63.33% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>13/30</span>
+        <span class='fraction'>19/30</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">27.27% </span>
+        <span class="strong">63.64% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>3/11</span>
+        <span class='fraction'>7/11</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">58.62% </span>
+        <span class="strong">79.31% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>17/29</span>
+        <span class='fraction'>23/29</span>
       </div>
     </div>
   </div>
@@ -109,13 +109,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -124,14 +124,14 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-yes">18×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -143,7 +143,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">18×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -152,7 +152,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">18×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -169,9 +169,9 @@ var _extends = Object.assign || <span class="fstat-no" title="function not cover
 &nbsp;
 function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i &lt; keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value &amp;&amp; value.configurable &amp;&amp; obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
 &nbsp;
-<span class="fstat-no" title="function not covered" >function _classCallCheck(instance, Constructor) {</span> <span class="cstat-no" title="statement not covered" >if (!(instance instanceof Constructor)) { <span class="cstat-no" title="statement not covered" >throw new TypeError("Cannot call a class as a function"); </span>} </span>}
+function _classCallCheck(instance, Constructor) { <span class="missing-if-branch" title="if path not taken" >I</span>if (!(instance instanceof Constructor)) { <span class="cstat-no" title="statement not covered" >throw new TypeError("Cannot call a class as a function"); </span>} }
 &nbsp;
-<span class="fstat-no" title="function not covered" >function _possibleConstructorReturn(self, call) {</span> <span class="cstat-no" title="statement not covered" >if (!self) { <span class="cstat-no" title="statement not covered" >throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); </span>} <span class="cstat-no" title="statement not covered" ></span>return call &amp;&amp; (typeof call === "object" || typeof call === "function") ? call : self; </span>}
+function _possibleConstructorReturn(self, call) { <span class="missing-if-branch" title="if path not taken" >I</span>if (!self) { <span class="cstat-no" title="statement not covered" >throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); </span>} return call &amp;&amp; (typeof call === "object" || <span class="branch-2 cbranch-no" title="branch not covered" >typeof call === "function")</span> ? call : <span class="branch-1 cbranch-no" title="branch not covered" >self;</span> }
 &nbsp;
 function _inherits(subClass, superClass) { <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof superClass !== "function" &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >superClass !== null)</span> { <span class="cstat-no" title="statement not covered" >throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); </span>} subClass.prototype = Object.create(superClass &amp;&amp; superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); <span class="missing-if-branch" title="else path not taken" >E</span>if (superClass) Object.setPrototypeOf ? <span class="branch-0 cbranch-no" title="branch not covered" >Object.setPrototypeOf(subClass, superClass) </span>: _defaults(subClass, superClass); }
 &nbsp;
@@ -183,15 +183,15 @@ var React = require('react');
 var TextField = function (_CellField) {
   _inherits(TextField, _CellField);
 &nbsp;
-<span class="fstat-no" title="function not covered" >  function TextField() {</span>
-<span class="cstat-no" title="statement not covered" >    _classCallCheck(this, TextField);</span>
+  function TextField() {
+    _classCallCheck(this, TextField);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return _possibleConstructorReturn(this, _CellField.apply(this, arguments));</span>
+    return _possibleConstructorReturn(this, _CellField.apply(this, arguments));
   }
 &nbsp;
-  TextField.prototype.renderContent = <span class="fstat-no" title="function not covered" >function renderContent() {</span>
-<span class="cstat-no" title="statement not covered" >    var me = this;</span>
-<span class="cstat-no" title="statement not covered" >    var fieldProps = {</span>
+  TextField.prototype.renderContent = function renderContent() {
+    var me = this;
+    var fieldProps = {
       className: classnames({
         'kuma-input': true
       }),
@@ -203,7 +203,7 @@ var TextField = function (_CellField) {
       },
       value: me.props.value
     };
-<span class="cstat-no" title="statement not covered" >    if (me.props.column.config) {</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (me.props.column.config) {
 <span class="cstat-no" title="statement not covered" >      (<span class="fstat-no" title="function not covered" >function () {</span></span>
 <span class="cstat-no" title="statement not covered" >        var customProps = _extends({}, me.props.column.config);</span>
 <span class="cstat-no" title="statement not covered" >        Object.keys(fieldProps).forEach(<span class="fstat-no" title="function not covered" >function (item) {</span></span>
@@ -212,7 +212,7 @@ var TextField = function (_CellField) {
 <span class="cstat-no" title="statement not covered" >        assign(fieldProps, customProps);</span>
       })();
     }
-<span class="cstat-no" title="statement not covered" >    return React.createElement('input', fieldProps);</span>
+    return React.createElement('input', fieldProps);
   };
 &nbsp;
   return TextField;
@@ -229,7 +229,7 @@ module.exports = TextField;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 23 2016 16:49:45 GMT+0800 (CST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 26 2016 14:06:32 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../prettify.js"></script>

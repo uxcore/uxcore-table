@@ -46,5 +46,13 @@ describe('SubComp', () => {
       done();
     }, 100);
   });
+
+  it('api toggleSubComp', () => {
+    wrapper = mount(
+      <Table {...common} renderSubComp={() => <div>1</div>} />
+    );
+    wrapper.node.toggleSubComp(wrapper.node.getData().data.data[0]);
+    expect(wrapper.find('.kuma-uxtable-subrow').contains(<div>1</div>)).to.be(true);
+  });
 });
 

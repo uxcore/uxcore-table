@@ -142,7 +142,7 @@ class Cell extends React.Component {
             key={index}
             disabled={typeof action.isDisable === 'function' ? action.isDisable() : false}
             onClick={me.handleActionClick.bind(me,
-              action.callback.bind(me, rowData, me.props.root))}
+              (action.callback || (() => {})).bind(me, rowData, me.props.root))}
           >
             {content}
           </CollapsedButton.Item>

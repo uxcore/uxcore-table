@@ -25,10 +25,11 @@ const common = {
     totalCount: 30,
   },
 };
+sinon.spy(Table.prototype, 'componentDidMount');
+sinon.spy(Table.prototype, 'fetchRemoteData');
 
 describe('Table', () => {
   it('calls componentDidMount', () => {
-    sinon.spy(Table.prototype, 'componentDidMount');
     mount(
       <Table />
     );
@@ -59,6 +60,11 @@ describe('Table', () => {
     it('showColumnPicker', () => {
       wrapper = mount(<Table {...common} showColumnPicker />);
       expect(wrapper.find('.kuma-uxtable-column-picker')).to.have.length(1);
+    });
+
+    it('showSearch', () => {
+      wrapper = mount(<Table {...common} showSearch />);
+      expect(wrapper.find('.kuma-uxtable-searchbar')).to.have.length(1);
     });
 
     it('showPager if page info is passed', () => {
@@ -113,6 +119,183 @@ describe('Table', () => {
       );
       wrapper.find('.kuma-uxtable-row .kuma-checkbox').node.checked = true;
       wrapper.find('.kuma-uxtable-row .kuma-checkbox').simulate('change');
+    });
+
+    it('rowSelection onDeSelect', (done) => {
+      wrapper = mount(
+        <Table
+          {...common}
+          rowSelection={{
+            onSelect: (record, selected, selectedRows) => {
+              if (record === false) {
+                expect(selected.id).to.be('1');
+                expect(selectedRows).to.have.length(0);
+                done();
+              }
+            },
+          }}
+        />
+      );
+      wrapper.find('.kuma-uxtable-row .kuma-checkbox').node.checked = true;
+      wrapper.find('.kuma-uxtable-row .kuma-checkbox').simulate('change');
+      wrapper.find('.kuma-uxtable-row .kuma-checkbox').node.checked = false;
+      wrapper.find('.kuma-uxtable-row .kuma-checkbox').simulate('change');
+    });
+
+    it('rowSelection onSelectAll', (done) => {
+      wrapper = mount(
+        <Table
+          {...common}
+          rowSelection={{
+            onSelectAll: (record, selectedRows) => {
+              expect(record).to.be(true);
+              expect(selectedRows).to.have.length(1);
+              done();
+            },
+          }}
+        />
+      );
+      wrapper.find('.kuma-uxtable-header .kuma-checkbox').node.checked = true;
+      wrapper.find('.kuma-uxtable-header .kuma-checkbox').simulate('change');
+    });
+
+    it('rowSelection onDeSelectAll', (done) => {
+      wrapper = mount(
+        <Table
+          {...common}
+          rowSelection={{
+            onSelectAll: (record, selectedRows) => {
+              if (record === false) {
+                expect(selectedRows).to.have.length(0);
+                done();
+              }
+            },
+          }}
+        />
+      );
+      wrapper.find('.kuma-uxtable-header .kuma-checkbox').node.checked = true;
+      wrapper.find('.kuma-uxtable-header .kuma-checkbox').simulate('change');
+      wrapper.find('.kuma-uxtable-header .kuma-checkbox').node.checked = false;
+      wrapper.find('.kuma-uxtable-header .kuma-checkbox').simulate('change');
+    });
+
+    it('rowSelection onSelect with radioSelector', (done) => {
+      wrapper = mount(
+        <Table
+          {...common}
+          jsxdata={{
+            data: [
+              { id: '1' },
+              { id: '2', jsxchecked: true },
+            ],
+          }}
+          rowSelector="radioSelector"
+          rowSelection={{
+            onSelect: (record, selected, selectedRows) => {
+              expect(record).to.be(true);
+              expect(selected.id).to.be('1');
+              expect(selectedRows).to.have.length(1);
+              expect(selectedRows[0].id).to.be('1');
+              done();
+            },
+          }}
+        />
+      );
+      wrapper.find('.kuma-uxtable-row .kuma-checkbox').at(0).node.checked = true;
+      wrapper.find('.kuma-uxtable-row .kuma-checkbox').at(0).simulate('change');
+    });
+
+    it('fetchUrl', () => {
+      wrapper = mount(
+        <Table
+          {...common}
+          jsxdata={null}
+          fetchUrl="http://eternalsky.me:8122/file/getGridJson.jsonp"
+        />
+      );
+      expect(Table.prototype.fetchRemoteData.calledOnce).to.be(true);
+    });
+
+    it('fetchUrl with beforeFetch', (done) => {
+      wrapper = mount(
+        <Table
+          {...common}
+          jsxdata={null}
+          fetchUrl="http://eternalsky.me:8122/file/getGridJson.jsonp"
+          beforeFetch={(data) => {
+            expect(JSON.stringify(data)).to.be(JSON.stringify({ pageSize: 10, currentPage: 1 }));
+            done();
+          }}
+        />
+      );
+    });
+
+    it('fetchUrl with fetchParams', (done) => {
+      wrapper = mount(
+        <Table
+          {...common}
+          jsxdata={null}
+          fetchParams={{ a: 1 }}
+          fetchUrl="http://eternalsky.me:8122/file/getGridJson.jsonp"
+          beforeFetch={(data) => {
+            expect(JSON.stringify(data))
+              .to.be(JSON.stringify({ pageSize: 10, currentPage: 1, a: 1 }));
+            done();
+          }}
+        />
+      );
+    });
+
+    it('fetchUrl without fetchDataOnMount', () => {
+      const beforeFetch = sinon.spy();
+      wrapper = mount(
+        <Table
+          {...common}
+          jsxdata={null}
+          fetchParams={{ a: 1 }}
+          fetchDataOnMount={false}
+          fetchUrl="http://eternalsky.me:8122/file/getGridJson.jsonp"
+          beforeFetch={beforeFetch}
+        />
+      );
+      expect(beforeFetch.calledOnce).to.be(false);
+    });
+
+    // it('fetchUrl with processData', (done) => {
+    //   wrapper = mount(
+    //     <Table
+    //       {...common}
+    //       jsxdata={null}
+    //       fetchUrl="http://eternalsky.me:8122/file/getGridJson.jsonp"
+    //       processData={(content) => {
+    //         expect(content.datas.length).not.to.be(0);
+    //         done();
+    //         return content;
+    //       }}
+    //     />
+    //   );
+    // });
+  });
+  describe('Actions', () => {
+    let wrapper;
+    it('type action', () => {
+      wrapper = mount(
+        <Table
+          {...common}
+          jsxcolumns={[...common.jsxcolumns, {
+            type: 'action',
+            actions: [
+              {
+                title: '编辑',
+              },
+              {
+                title: '保存',
+              },
+            ],
+          }]}
+        />
+      );
+      expect(wrapper.find('.action-container')).to.have.length(1);
     });
   });
 });

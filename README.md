@@ -74,7 +74,7 @@ $ npm start
 
 * toggleSubComp(rowData): 使指定的行显示或隐藏二级组件(subComp)。
 * moveRowUp(rowData): 使指定的行向上移动一行
-* movewRowDown(rowData): 使指定的行向下移动一行
+* moveRowDown(rowData): 使指定的行向下移动一行
 
 
 
