@@ -7,7 +7,7 @@ notification:
     - wsj7552715@hotmail.com
 
 node_js:
-- 4.0.0
+- 6.9.0
 
 before_install:
 - |

@@ -199,6 +199,7 @@ describe('Table', () => {
       );
       expect(wrapper.find('.kuma-uxtable-linkbar-item')).to.have.length(2);
     });
+    
 
     it('passedData', () => {
       wrapper = mount(<Table {...common} jsxdata={null} passedData={common.jsxdata} />);
