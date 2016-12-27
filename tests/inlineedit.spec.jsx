@@ -246,7 +246,7 @@ describe('inlineEdit', () => {
     expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input').at(0).node.value).to.be('1');
   });
 
-  it('type select with remote data source', (done) => {
+  it.skip('type select with remote data source', (done) => {
     wrapper = mount(
       <Table
         {...common}
