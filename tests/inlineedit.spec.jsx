@@ -290,12 +290,13 @@ describe('inlineEdit', () => {
           title: 'ID',
           type: 'text',
           config: {
-            placeholder: '测试',
+            'data-test': '测试',
           },
         }]}
       />
     );
-    expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input').at(0).node.placeholder).to.be('测试');
+    expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input').at(0)
+      .prop('data-test')).to.be('测试');
   });
 
   it('inline edit change', (done) => {
