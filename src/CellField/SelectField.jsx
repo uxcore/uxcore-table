@@ -55,6 +55,7 @@ class SelectField extends CellField {
   }
 
   componentDidMount() {
+    super.componentDidMount();
     const me = this;
     me.fetchData();
   }
