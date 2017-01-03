@@ -206,7 +206,8 @@ class Cell extends React.Component {
       style.paddingLeft = 12;
 
       const checked = me.getCellData();
-      let disable = props.isRowSelectorDisabled(props.rowData);
+      let disable = props.rowSelection.isDisabled
+        ? props.rowSelection.isDisabled(props.rowData) : false;
       if ('disable' in column) {
         disable = column.disable;
       } else if ('isDisable' in column) {
@@ -226,7 +227,8 @@ class Cell extends React.Component {
       style.paddingLeft = 12;
 
       const checked = me.getCellData();
-      let disable = props.isRowSelectorDisabled(props.rowData);
+      let disable = props.rowSelection.isDisabled
+        ? props.rowSelection.isDisabled(props.rowData) : false;
       if ('disable' in column) {
         disable = column.disable;
       } else if ('isDisable' in column) {
@@ -308,6 +310,7 @@ Cell.propTypes = {
 
 Cell.defaultProps = {
   jsxprefixCls: 'kuma-uxtable-cell',
+  rowSelection: {},
 };
 
 export default Cell;

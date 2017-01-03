@@ -2,6 +2,10 @@
 
 ---
 
+## 1.12.16
+
+* `CHANGED` move prop `isRowSelectorDisabled` to `rowSelection.isDisabled`
+
 ## 1.12.15
 
 * `NEW` add new prop `isRowSelectorDisabled`
