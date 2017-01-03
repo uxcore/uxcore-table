@@ -2,6 +2,10 @@
 
 ---
 
+## 1.12.15
+
+* `NEW` add new prop `isRowSelectorDisabled`
+
 ## 1.12.14
 
 * `FIXED` `column.rules` fail to work in `SelectCellField`

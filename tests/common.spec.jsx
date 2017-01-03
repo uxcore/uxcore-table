@@ -165,15 +165,15 @@ describe('Table', () => {
           actionBar={[
             {
               title: '新增行',
-              callback: () => {},
+              callback: () => { },
             },
             {
               title: '编辑所有行',
-              callback: () => {},
+              callback: () => { },
             },
             {
               title: '保存所有行',
-              callback: () => {},
+              callback: () => { },
             },
           ]}
         />
@@ -188,18 +188,18 @@ describe('Table', () => {
           linkBar={[
             {
               title: '新增行',
-              callback: () => {},
+              callback: () => { },
             },
             {
               title: '编辑所有行',
-              callback: () => {},
+              callback: () => { },
             },
           ]}
         />
       );
       expect(wrapper.find('.kuma-uxtable-linkbar-item')).to.have.length(2);
     });
-    
+
 
     it('passedData', () => {
       wrapper = mount(<Table {...common} jsxdata={null} passedData={common.jsxdata} />);
@@ -306,6 +306,37 @@ describe('Table', () => {
       );
       wrapper.find('.kuma-uxtable-row .kuma-checkbox').at(0).node.checked = true;
       wrapper.find('.kuma-uxtable-row .kuma-checkbox').at(0).simulate('change');
+    });
+
+    it('isRowSelectorDisabled', () => {
+      wrapper = mount(
+        <Table
+          {...common}
+          jsxdata={{
+            data: [
+              {
+                id: '1',
+                country: 'country1',
+                city: 'city1',
+                firstName: 'firstName1',
+              },
+              {
+                id: '2',
+                country: 'country2',
+                city: 'city2',
+                firstName: 'firstName2',
+              },
+            ],
+            currentPage: 1,
+            totalCount: 30,
+          }}
+          rowSelection={{
+            onSelectAll: () => { },
+          }}
+          isRowSelectorDisabled={rowData => rowData.id === '1'}
+        />
+      );
+      expect(!!wrapper.find('Row CheckBox').at(0).prop('disable')).to.be(true);
     });
 
     it('fetchUrl', () => {

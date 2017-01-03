@@ -246,24 +246,25 @@ class Row extends React.Component {
                 : false;
             }
             const renderProps = {
+              key: `cell${index}`,
               column: item,
               root: props.root,
               locale: props.locale,
               rowData: props.rowData,
               rowIndex: props.rowIndex,
               index: props.index,
-              last: (index === _columns.length - 1),
-              cellIndex: index,
-              hasSubComp,
-              changeSelected: me.props.changeSelected,
-              showSubCompCallback: me.showSubCompFunc.bind(me),
+              changeSelected: props.changeSelected,
+              isRowSelectorDisabled: props.isRowSelectorDisabled,
               rowSelection: props.rowSelection,
               actions: props.actions,
               mode: props.mode,
               handleDataChange: props.handleDataChange,
               attachCellField: props.attachCellField,
               detachCellField: props.detachCellField,
-              key: `cell${index}`,
+              last: (index === _columns.length - 1),
+              cellIndex: index,
+              hasSubComp,
+              showSubCompCallback: me.showSubCompFunc.bind(me),
             };
 
             if (firstVisableColumn === 1) {

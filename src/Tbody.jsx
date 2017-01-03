@@ -135,6 +135,7 @@ class Tbody extends React.Component {
               locale: props.locale,
               subComp: props.subComp,
               actions: props.actions,
+              isRowSelectorDisabled: props.isRowSelectorDisabled,
               key: `row${index}`,
               mode: props.mode,
               renderModel: props.renderModel,

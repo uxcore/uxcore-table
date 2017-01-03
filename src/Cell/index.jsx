@@ -206,7 +206,7 @@ class Cell extends React.Component {
       style.paddingLeft = 12;
 
       const checked = me.getCellData();
-      let disable = false;
+      let disable = props.isRowSelectorDisabled(props.rowData);
       if ('disable' in column) {
         disable = column.disable;
       } else if ('isDisable' in column) {
@@ -226,7 +226,7 @@ class Cell extends React.Component {
       style.paddingLeft = 12;
 
       const checked = me.getCellData();
-      let disable = false;
+      let disable = props.isRowSelectorDisabled(props.rowData);
       if ('disable' in column) {
         disable = column.disable;
       } else if ('isDisable' in column) {
