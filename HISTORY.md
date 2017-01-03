@@ -2,6 +2,10 @@
 
 ---
 
+## 1.12.12
+
+* `FIXED` `column.rules` fail to work in `SelectCellField`
+
 ## 1.12.11
 
 * `NEW` add type `check` to support inline checkbox editing
