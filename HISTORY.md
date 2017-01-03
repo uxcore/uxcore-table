@@ -2,7 +2,7 @@
 
 ---
 
-## 1.12.12
+## 1.12.14
 
 * `FIXED` `column.rules` fail to work in `SelectCellField`
 
