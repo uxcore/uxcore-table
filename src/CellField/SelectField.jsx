@@ -36,8 +36,9 @@ class SelectField extends CellField {
   constructor(props) {
     super(props);
     const me = this;
+    const data = me.getConfig().data;
     assign(me.state, {
-      data: me.getConfig().data,
+      data: (typeof data === 'function') ? data(props.rowData) : data,
     });
   }
 

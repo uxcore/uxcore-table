@@ -254,7 +254,6 @@ class Row extends React.Component {
               rowIndex: props.rowIndex,
               index: props.index,
               changeSelected: props.changeSelected,
-              isRowSelectorDisabled: props.isRowSelectorDisabled,
               rowSelection: props.rowSelection,
               actions: props.actions,
               mode: props.mode,

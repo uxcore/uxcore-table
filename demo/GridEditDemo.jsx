@@ -130,14 +130,14 @@ class Demo extends React.Component {
         config: {
           filterOption: false,
           // multiple: true,
-          // data: [{
-          //   value: 'bj',
-          //   text: '北京',
-          // }, {
-          //   value: 'hz',
-          //   text: '杭州',
-          // }],
-          fetchUrl: 'http://suggest.taobao.com/sug',
+          data: () => ([{
+            value: 'bj',
+            text: '北京',
+          }, {
+            value: 'hz',
+            text: '杭州',
+          }]),
+          // fetchUrl: 'http://suggest.taobao.com/sug',
           dataType: 'jsonp',
           beforeFetch: key => (key || { q: 1 }),
           afterFetch: (content) => {

@@ -770,7 +770,6 @@ class Table extends React.Component {
       mask: state.showMask,
       expandedKeys: state.expandedKeys,
       data,
-      isRowSelectorDisabled: props.isRowSelectorDisabled,
       rowSelection: props.rowSelection,
       addRowClassName: props.addRowClassName,
       locale: props.locale,
@@ -1032,7 +1031,6 @@ Table.defaultProps = {
   fetchDataOnMount: true,
   doubleClickToEdit: true,
   rowSelector: 'checkboxSelector',
-  isRowSelectorDisabled: () => false,
   showPager: true,
   isMiniPager: false,
   showPagerSizeChanger: true,
@@ -1183,7 +1181,6 @@ Table.propTypes = {
    * @title 列选择器的类型
    */
   rowSelector: React.PropTypes.string,
-  isRowSelectorDisabled: React.PropTypes.string,
   /**
    * @title 操作栏配置
    */
