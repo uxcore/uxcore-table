@@ -905,11 +905,11 @@ class Table extends React.Component {
 
 
   /**
-   * insert some data into this.state.data
+   * insert some data into this.state.data & this.data
    * @param objAux {Array or Object} datum or data need to be inserted
    */
 
-  insertRecords(obj) {
+  insertRecords(obj, cb) {
     if (typeof obj !== 'object') return;
     const me = this;
     let objAux = deepcopy(obj);
@@ -917,8 +917,14 @@ class Table extends React.Component {
       objAux = [objAux];
     }
     objAux = me.addJSXIdsForRecord(objAux);
+    const content = util.mergeData(me.state.data, objAux);
+    me.data = content;
     me.setState({
-      data: util.mergeData(me.state.data, objAux),
+      data: content,
+    }, () => {
+      if (cb) {
+        cb();
+      }
     });
   }
 
@@ -968,7 +974,7 @@ class Table extends React.Component {
    * @param {objtct/array} objAux
    */
 
-  syncRecord(obj) {
+  syncRecord(obj, cb) {
     const me = this;
     const data = me.data.data || me.data.datas;
     let objAux = deepcopy(obj);
@@ -986,6 +992,9 @@ class Table extends React.Component {
           }
         }
       });
+      if (cb) {
+        cb();
+      }
     });
   }
 
@@ -993,7 +1002,7 @@ class Table extends React.Component {
    * remove some items from this.state.data & this.data
    * @param {object/array} obj items to be removed
    */
-  removeRecords(obj) {
+  removeRecords(obj, cb) {
     const me = this;
     const content = deepcopy(me.state.data);
     const data = content.data || content.datas;
@@ -1013,6 +1022,10 @@ class Table extends React.Component {
     me.data = content;
     this.setState({
       data: content,
+    }, () => {
+      if (cb) {
+        cb();
+      }
     });
   }
 }

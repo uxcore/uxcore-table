@@ -221,27 +221,13 @@ class Demo extends React.Component {
             callback: (rowData) => {
               me.table.editRow(rowData);
             },
-            isDisable: () => '这个操作被禁止了',
+            // isDisable: () => '这个操作被禁止了',
             mode: Constants.MODE.VIEW,
           },
           {
-            title: '上升',
+            title: '重置',
             callback: (rowData) => {
-              me.table.moveRowUp(rowData);
-            },
-            mode: Constants.MODE.VIEW,
-          },
-          {
-            title: '下降',
-            callback: (rowData) => {
-              me.table.moveRowDown(rowData);
-            },
-            mode: Constants.MODE.VIEW,
-          },
-          {
-            title: '编辑',
-            callback: (rowData) => {
-              me.table.editRow(rowData);
+              me.table.resetRow(rowData);
             },
             mode: Constants.MODE.VIEW,
           },
