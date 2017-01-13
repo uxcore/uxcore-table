@@ -68,16 +68,18 @@ class Cell extends React.Component {
   }
 
   /**
-   * @param actions {Array or Object}
+   * @param actions {Array|Object|Function}
    */
   getActionItems(actions) {
-    if (typeof actions !== 'object') {
-      console.error('Table: Actions should be an object or array');
+    if (typeof actions !== 'object' && typeof actions !== 'function') {
+      console.error('Table: Actions should be an object/array/function');
       return [];
     }
     const me = this;
     me.items = [];
-    if (actions instanceof Array) {
+    if (typeof actions === 'function') {
+      me.items = actions(me.props.rowData);
+    } else if (actions instanceof Array) {
       me.items = actions;
     } else {
       Object.keys(actions).forEach((item) => {

@@ -2,6 +2,10 @@
 
 ---
 
+## 1.12.18
+
+* `NEW` `column.actions` can be a function
+
 ## 1.12.16
 
 * `CHANGED` move prop `isRowSelectorDisabled` to `rowSelection.isDisabled`

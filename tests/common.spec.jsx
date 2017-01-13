@@ -432,6 +432,44 @@ describe('Table', () => {
       expect(wrapper.find('.action-container')).to.have.length(1);
     });
 
+    it('actions support object', () => {
+      wrapper = mount(
+        <Table
+          {...common}
+          jsxcolumns={[...common.jsxcolumns, {
+            type: 'action',
+            actions: {
+              编辑: () => {},
+            },
+          }]}
+        />
+      );
+      expect(wrapper.find('.action-container')).to.have.length(1);
+    });
+
+    it('actions support function', () => {
+      wrapper = mount(
+        <Table
+          {...common}
+          jsxcolumns={[...common.jsxcolumns, {
+            type: 'action',
+            actions: (rowData) => {
+              expect(rowData.id).to.be('1');
+              return [
+                {
+                  title: '编辑',
+                },
+                {
+                  title: '保存',
+                },
+              ];
+            },
+          }]}
+        />
+      );
+      expect(wrapper.find('.action-container')).to.have.length(1);
+    });
+
     it('collapseNum is 1', () => {
       wrapper = mount(
         <Table
