@@ -2,6 +2,10 @@
 
 ---
 
+## 1.13.0
+
+* `NEW` new animation
+
 ## 1.12.18
 
 * `NEW` `column.actions` can be a function

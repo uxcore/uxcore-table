@@ -9,6 +9,7 @@ const React = require('react');
 const addEventListener = require('rc-util/lib/Dom/addEventListener');
 const throttle = require('lodash/throttle');
 const EmptyData = require('uxcore-empty-data');
+// const QueueAnim = require('rc-queue-anim');
 
 
 class Tbody extends React.Component {
@@ -120,41 +121,43 @@ class Tbody extends React.Component {
     } else {
       bodyWrapClassName = 'kuma-uxtable-body-no';
     }
+    const rows = data.map((item, index) => {
+      const renderProps = {
+        columns,
+        index,
+        data,
+        rowIndex: item.jsxid, // tree mode, rowIndex need think more, so use jsxid
+        rowData: deepcopy(data[index]),
+        root: props.root,
+        locale: props.locale,
+        subComp: props.subComp,
+        actions: props.actions,
+        key: `row${index}`,
+        mode: props.mode,
+        renderModel: props.renderModel,
+        fixedColumn: props.fixedColumn,
+        level: 1,
+        levels: props.levels,
+        expandedKeys: props.expandedKeys,
+        renderSubComp: props.renderSubComp,
+        changeSelected: me.props.changeSelected,
+        checkboxColumnKey: props.checkboxColumnKey,
+        addRowClassName: props.addRowClassName,
+        rowSelection: props.rowSelection,
+        handleDataChange: props.handleDataChange,
+        attachCellField: props.attachCellField,
+        detachCellField: props.detachCellField,
+        visible: true,
+        last: (index === data.length - 1),
+      };
+      return <Row {...renderProps} />;
+    });
+    // const content = util.getIEVer() >= 8 ? rows : <QueueAnim>{rows}</QueueAnim>;
     return (
       <div className={bodyWrapClassName} ref={this.saveRef('root')} style={style}>
         <ul className={this.props.jsxprefixCls}>
           {this.renderEmptyData()}
-          {data.map((item, index) => {
-            const renderProps = {
-              columns,
-              index,
-              data,
-              rowIndex: item.jsxid, // tree mode, rowIndex need think more, so use jsxid
-              rowData: deepcopy(data[index]),
-              root: props.root,
-              locale: props.locale,
-              subComp: props.subComp,
-              actions: props.actions,
-              key: `row${index}`,
-              mode: props.mode,
-              renderModel: props.renderModel,
-              fixedColumn: props.fixedColumn,
-              level: 1,
-              levels: props.levels,
-              expandedKeys: props.expandedKeys,
-              renderSubComp: props.renderSubComp,
-              changeSelected: me.props.changeSelected,
-              checkboxColumnKey: props.checkboxColumnKey,
-              addRowClassName: props.addRowClassName,
-              rowSelection: props.rowSelection,
-              handleDataChange: props.handleDataChange,
-              attachCellField: props.attachCellField,
-              detachCellField: props.detachCellField,
-              visible: true,
-              last: (index === data.length - 1),
-            };
-            return <Row {...renderProps} />;
-          })}
+          {rows}
         </ul>
       </div>
     );

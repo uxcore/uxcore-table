@@ -12,11 +12,11 @@
     top: 0px;
     opacity:.3;
     filter: "alpha(opacity=30)";  
-    display:block;
+    display: block;
 }
 
 .@{__tableMaskPrefixCls}-hide {
-    display:none;
+    display: none;
 }
 
 .@{__tableMaskPrefixCls}-centerblk {
@@ -42,4 +42,44 @@
     line-height: 36px;
     display: inline-block;
     margin-left: 5px;
+}
+
+@keyframes tableMaskFadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0.3;
+    }
+}
+
+@keyframes tableMaskFadeOut {
+    0% {
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.tableMaskFade-enter,
+.tableMaskFade-appear {
+    opacity: 0;
+    animation-timing-function: @transition-ease;
+    animation-duration: .3s;
+}
+
+.tableMaskFade-enter-active,
+.tableMaskFade-appear-active {
+    animation-name: tableMaskFadeIn;
+}
+
+.tableMaskFade-leave {
+    opacity: 0.3;
+    animation-timing-function: @transition-ease;
+    animation-duration: .3s;
+}
+
+.tableMaskFade-leave-active {
+    animation-name: tableMaskFadeOut;
 }

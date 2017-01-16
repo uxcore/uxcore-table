@@ -220,6 +220,7 @@ class CollapsedButton extends React.Component {
     const dropdownOptions = {
       key: 'icon',
       overlay: menu,
+      transitionName: '',
       ref: me.saveRef('dropdownInstance'),
       trigger: ['hover'],
       align: {

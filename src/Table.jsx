@@ -19,6 +19,7 @@ const classnames = require('classnames');
 const NattyFetch = require('natty-fetch/dist/natty-fetch.pc');
 const Promise = require('lie');
 const React = require('react');
+const Animate = require('uxcore-animate');
 
 const Mask = require('./Mask');
 const util = require('./util');
@@ -121,7 +122,9 @@ class Table extends React.Component {
             key="grid-body-scroll"
             onScroll={this.handleBodyScroll}
           />
-          <Mask visible={this.state.showMask} text={this.props.loadingText} />
+          <Animate showProp="visible" transitionName="tableMaskFade">
+            <Mask visible={this.state.showMask} text={this.props.loadingText} />
+          </Animate>
         </div>
       );
     }
@@ -133,7 +136,9 @@ class Table extends React.Component {
         }}
       >
         <Tbody {...renderBodyProps} fixedColumn="no" onScroll={this.handleBodyScroll} />
-        <Mask visible={this.state.showMask} text={this.props.loadingText} />
+        <Animate showProp="visible" transitionName="tableMaskFade">
+          <Mask visible={this.state.showMask} text={this.props.loadingText} />
+        </Animate>
       </div>
     );
   }
