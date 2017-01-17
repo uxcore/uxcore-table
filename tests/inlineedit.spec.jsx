@@ -89,7 +89,7 @@ describe('inlineEdit', () => {
     expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-radio-group').length).not.to.be(0);
   });
 
-  it('api editRow', () => {
+  it('api editRow', (done) => {
     wrapper = mount(
       <Table
         {...common}
@@ -99,11 +99,13 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.editRow(wrapper.node.getData().data.data[0]);
-    expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(1);
+    wrapper.node.editRow(wrapper.node.getData().data.data[0], () => {
+      expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(1);
+      done();
+    });
   });
 
-  it('api editAllRow', () => {
+  it('api editAllRow', (done) => {
     wrapper = mount(
       <Table
         {...common}
@@ -113,11 +115,13 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.editAllRow();
-    expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(1);
+    wrapper.node.editAllRow(() => {
+      expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(1);
+      done();
+    });
   });
 
-  it('api viewRow', () => {
+  it('api viewRow', (done) => {
     wrapper = mount(
       <Table
         {...common}
@@ -126,11 +130,13 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.viewRow(wrapper.node.getData().data.data[0]);
-    expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(0);
+    wrapper.node.viewRow(wrapper.node.getData().data.data[0], () => {
+      expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(0);
+      done();
+    });
   });
 
-  it('api saveRow', () => {
+  it('api saveRow', (done) => {
     wrapper = mount(
       <Table
         {...common}
@@ -139,11 +145,13 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.saveRow(wrapper.node.getData().data.data[0]);
-    expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(0);
+    wrapper.node.saveRow(wrapper.node.getData().data.data[0], () => {
+      expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(0);
+      done();
+    });
   });
 
-  it('api saveAllRow', () => {
+  it('api saveAllRow', (done) => {
     wrapper = mount(
       <Table
         {...common}
@@ -152,11 +160,13 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.saveAllRow();
-    expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(0);
+    wrapper.node.saveAllRow(() => {
+      expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(0);
+      done();
+    });
   });
 
-  it('api addEmptyRow', () => {
+  it('api addEmptyRow', (done) => {
     wrapper = mount(
       <Table
         {...common}
@@ -165,11 +175,13 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.addEmptyRow();
-    expect(wrapper.node.getData().data.data).to.have.length(2);
+    wrapper.node.addEmptyRow(() => {
+      expect(wrapper.node.getData().data.data).to.have.length(2);
+      done();
+    });
   });
 
-  it('api addRow', () => {
+  it('api addRow', (done) => {
     wrapper = mount(
       <Table
         {...common}
@@ -178,12 +190,14 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.addRow({ id: '2' });
-    expect(wrapper.node.getData().data.data).to.have.length(2);
-    expect(wrapper.node.getData().data.data[1].id).to.be('2');
+    wrapper.node.addRow({ id: '2' }, () => {
+      expect(wrapper.node.getData().data.data).to.have.length(2);
+      expect(wrapper.node.getData().data.data[1].id).to.be('2');
+      done();
+    });
   });
 
-  it('api delRow', () => {
+  it('api delRow', (done) => {
     wrapper = mount(
       <Table
         {...common}
@@ -193,11 +207,13 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.delRow(wrapper.node.getData().data.data[0]);
-    expect(wrapper.node.getData().data.data).to.have.length(0);
+    wrapper.node.delRow(wrapper.node.getData().data.data[0], () => {
+      expect(wrapper.node.getData().data.data).to.have.length(0);
+      done();
+    });
   });
 
-  it('api moveRowDown', () => {
+  it('api moveRowDown', (done) => {
     wrapper = mount(
       <Table
         jsxdata={{
@@ -211,11 +227,13 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.moveRowDown(wrapper.node.getData().data.data[0]);
-    expect(wrapper.node.getData().data.data[0].id).to.be('2');
+    wrapper.node.moveRowDown(wrapper.node.getData().data.data[0], () => {
+      expect(wrapper.node.getData().data.data[0].id).to.be('2');
+      done();
+    });
   });
 
-  it('api moveRowUp', () => {
+  it('api moveRowUp', (done) => {
     wrapper = mount(
       <Table
         jsxdata={{
@@ -229,8 +247,10 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.moveRowUp(wrapper.node.getData().data.data[1]);
-    expect(wrapper.node.getData().data.data[0].id).to.be('2');
+    wrapper.node.moveRowUp(wrapper.node.getData().data.data[1], () => {
+      expect(wrapper.node.getData().data.data[0].id).to.be('2');
+      done();
+    });
   });
 
   it('api createCellField && type custom', () => {

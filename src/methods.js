@@ -2,15 +2,15 @@ const deepcopy = require('lodash/cloneDeep');
 const Const = require('uxcore-const');
 const util = require('./util');
 
-function addEmptyRow() {
-  this.insertRecords({});
+function addEmptyRow(cb) {
+  this.insertRecords({}, cb);
 }
 
-function addRow(rowData) {
-  this.insertRecords(rowData);
+function addRow(rowData, cb) {
+  this.insertRecords(rowData, cb);
 }
 
-function resetRow(rowData) {
+function resetRow(rowData, cb) {
   const me = this;
   let updateData = {};
   const data = me.data.datas || me.data.data;
@@ -21,33 +21,33 @@ function resetRow(rowData) {
     }
   }
   updateData.__mode__ = Const.MODE.EDIT;
-  this.updateRecord(updateData);
+  this.updateRecord(updateData, cb);
 }
 
-function delRow(rowData) {
-  this.removeRecords(rowData);
+function delRow(rowData, cb) {
+  this.removeRecords(rowData, cb);
 }
 
-function editRow(rowData) {
+function editRow(rowData, cb) {
   const newRowData = deepcopy(rowData);
   newRowData.__mode__ = Const.MODE.EDIT;
-  this.updateRecord(newRowData);
+  this.updateRecord(newRowData, cb);
 }
 
-function viewRow(rowData) {
+function viewRow(rowData, cb) {
   const newRowData = deepcopy(rowData);
   newRowData.__mode__ = Const.MODE.VIEW;
-  this.updateRecord(newRowData);
+  this.updateRecord(newRowData, cb);
 }
 
-function saveRow(rowData) {
+function saveRow(rowData, cb) {
   const newRowData = deepcopy(rowData);
   newRowData.__mode__ = Const.MODE.VIEW;
   newRowData.__edited__ = true;
-  this.syncRecord(newRowData);
+  this.syncRecord(newRowData, cb);
 }
 
-function saveAllRow() {
+function saveAllRow(cb) {
   const me = this;
   const data = deepcopy(me.state.data.data || me.state.data.datas);
   // data.forEach((item) => {
@@ -58,20 +58,20 @@ function saveAllRow() {
     item.__mode__ = Const.MODE.VIEW;
     item.__edited__ = true;
   }
-  this.syncRecord(data);
+  this.syncRecord(data, cb);
 }
 
-function editAllRow() {
+function editAllRow(cb) {
   const me = this;
   const data = deepcopy(me.data.data || me.data.datas);
   for (let i = 0; i < data.length; i++) {
     const item = data[i];
     item.__mode__ = Const.MODE.EDIT;
   }
-  this.updateRecord(data);
+  this.updateRecord(data, cb);
 }
 
-function toggleSubComp(rowData) {
+function toggleSubComp(rowData, cb) {
   const content = deepcopy(this.state.data);
   const data = content.data || content.datas;
 
@@ -85,11 +85,15 @@ function toggleSubComp(rowData) {
     }
     this.setState({
       data: content,
+    }, () => {
+      if (cb) {
+        cb();
+      }
     });
   }
 }
 
-function moveRowUp(rowData) {
+function moveRowUp(rowData, cb) {
   const content = deepcopy(this.state.data);
   const data = content.data || content.datas;
   let index = -1;
@@ -104,15 +108,19 @@ function moveRowUp(rowData) {
     if (index > 0) {
       data.splice(index, 1);
       data.splice(index - 1, 0, rowData);
+      this.data = content;
       this.setState({
         data: content,
+      }, () => {
+        if (cb) {
+          cb();
+        }
       });
-      this.data = content;
     }
   }
 }
 
-function moveRowDown(rowData) {
+function moveRowDown(rowData, cb) {
   const content = deepcopy(this.state.data);
   const data = content.data || content.datas;
   let index = -1;
@@ -127,10 +135,14 @@ function moveRowDown(rowData) {
     if (index > -1 && index < data.length - 1) {
       data.splice(index, 1);
       data.splice(index + 1, 0, rowData);
+      this.data = content;
       this.setState({
         data: content,
+      }, () => {
+        if (cb) {
+          cb();
+        }
       });
-      this.data = content;
     }
   }
 }
@@ -163,11 +175,15 @@ function getData(validate) {
   };
 }
 
-function toggleTreeExpanded(rowData) {
+function toggleTreeExpanded(rowData, cb) {
   const expandedKeys = deepcopy(this.state.expandedKeys);
   util.toggleItemInArr(rowData.jsxid, expandedKeys);
   this.setState({
     expandedKeys,
+  }, () => {
+    if (cb) {
+      cb();
+    }
   });
 }
 
