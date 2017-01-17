@@ -2,6 +2,10 @@
 
 ---
 
+## 1.13.1
+
+* `NEW` inline edit API support callback.
+
 ## 1.13.0
 
 * `NEW` new animation
