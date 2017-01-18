@@ -116,9 +116,6 @@ class Table extends React.Component {
       return (
         <div
           className="kuma-uxtable-body-wrapper"
-          style={{
-            height: bodyHeight,
-          }}
         >
           {this.hasFixed.hasLeft ? <Tbody
             {...fixedBodyProps}
@@ -839,12 +836,11 @@ class Table extends React.Component {
         break;
       }
     }
-    if (props.height === 'auto') {
-      bodyHeight = 'auto';
+    if (props.height === 'auto' || props.height === '100%') {
+      bodyHeight = props.height;
     } else {
-      bodyHeight = props.height === '100%' ? props.height
-        : (parseInt(props.height, 10) - (headerHeight || (hasGroup ? 100 : 50))
-          - actionBarHeight - pagerHeight);
+      bodyHeight = parseInt(props.height, 10) - (headerHeight || (hasGroup ? 100 : 50))
+          - actionBarHeight - pagerHeight;
     }
     const renderBodyProps = {
       columns: state.columns,
@@ -852,6 +848,7 @@ class Table extends React.Component {
       expandedKeys: state.expandedKeys,
       currentHoverRow: state.currentHoverRow,
       data,
+      bodyHeight,
       rowSelection: props.rowSelection,
       addRowClassName: props.addRowClassName,
       locale: props.locale,
@@ -930,7 +927,7 @@ class Table extends React.Component {
           }}
         >
           {this.renderHeader(renderHeaderProps)}
-          {this.renderTbody(renderBodyProps, bodyHeight)}
+          {this.renderTbody(renderBodyProps)}
         </div>
         {this.renderPager()}
       </div>

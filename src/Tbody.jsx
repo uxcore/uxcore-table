@@ -27,6 +27,16 @@ class Tbody extends React.Component {
     me.scrollListener = addEventListener(me.rootEl, 'scroll', me.scrollHandler);
   }
 
+  componentDidUpdate() {
+    // if (['fixed', 'rightFixed'].indexOf(this.props.fixedColumn) !== -1) {
+    //   const node = this.getDomNode();
+    //   const { root } = this.props;
+    //   if (root.bodyScroll) {
+    //     node.style.height = `${root.bodyScroll.getDomNode().clientHeight - 17}px`;
+    //   }
+    // }
+  }
+
   componentWillUnmount() {
     const me = this;
     me.scrollListener.remove();
@@ -75,7 +85,9 @@ class Tbody extends React.Component {
     const props = me.props;
     const data = props.data.length > 0 ? props.data : [];
     const leftFixedType = ['checkboxSelector', 'radioSelector', 'treeIcon'];
-    let style = {};
+    let style = {
+      height: props.bodyHeight,
+    };
     let columns = deepcopy(props.columns);
     let width = 0;
     let bodyWrapClassName;
@@ -89,19 +101,21 @@ class Tbody extends React.Component {
         return false;
       });
       style = {
-        width,
-        minWidth: width,
+        ...style,
       };
+
       bodyWrapClassName = 'kuma-uxtable-body-fixed';
     } else if (props.fixedColumn === 'rightFixed') {
       columns = props.columns.filter((item) => {
         if (item.rightFixed && !item.hidden) {
-          width = parseInt(item.width, 10) + width;
           return true;
         }
         return false;
       });
       bodyWrapClassName = 'kuma-uxtable-body-right-fixed';
+      style = {
+        ...style,
+      };
     } else if (props.fixedColumn === 'scroll') {
       const leftFixedColumns = [];
       const normalColumns = [];
@@ -130,6 +144,7 @@ class Tbody extends React.Component {
         ? (props.width - delta)
         : props.width;
       style = {
+        ...style,
         width: bodyWidth,
         minWidth: bodyWidth,
       };
@@ -183,6 +198,7 @@ class Tbody extends React.Component {
 
 Tbody.propTypes = {
   jsxprefixCls: React.PropTypes.string,
+  fixedColumn: React.PropTypes.string,
   data: React.PropTypes.array,
   emptyText: React.PropTypes.oneOfType([
     React.PropTypes.string,
