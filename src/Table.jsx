@@ -14,12 +14,14 @@ const Pagination = require('uxcore-pagination');
 const Const = require('uxcore-const');
 const assign = require('object-assign');
 const deepcopy = require('lodash/cloneDeep');
-const deepEqual = require('deep-equal');
+const upperFirst = require('lodash/upperFirst');
+const deepEqual = require('lodash/isEqual');
 const classnames = require('classnames');
 const NattyFetch = require('natty-fetch/dist/natty-fetch.pc');
 const Promise = require('lie');
 const React = require('react');
 const Animate = require('uxcore-animate');
+const { addClass, removeClass } = require('rc-util/lib/Dom/class');
 
 const Mask = require('./Mask');
 const util = require('./util');
@@ -42,12 +44,18 @@ class Table extends React.Component {
       pageSize: props.pageSize, // pagination 相关
       currentPage: props.currentPage, // pagination 相关
       activeColumn: null,
-      scrollLeft: 0,
-      scrollTop: 0,
       searchTxt: '',
       expandedKeys: [],
     };
     this.handleBodyScroll = this.handleBodyScroll.bind(this);
+    this.changeSelected = this.changeSelected.bind(this);
+    this.handleDataChange = this.handleDataChange.bind(this);
+    this.attachCellField = this.attachCellField.bind(this);
+    this.detachCellField = this.detachCellField.bind(this);
+    this.selectAll = this.selectAll.bind(this);
+    this.handleOrderColumnCB = this.handleOrderColumnCB.bind(this);
+    this.handleColumnPickerChange = this.handleColumnPickerChange.bind(this);
+    this.handleActionBarSearch = this.handleActionBarSearch.bind(this);
     this.hasFixed = util.hasFixColumn(props);
   }
 
@@ -110,18 +118,24 @@ class Table extends React.Component {
             height: bodyHeight,
           }}
         >
-          <Tbody
+          {this.hasFixed.hasLeft ? <Tbody
             {...fixedBodyProps}
             fixedColumn="fixed"
-            key="grid-body-fixed"
+            key="grid-body-left-fixed"
             ref={util.saveRef('bodyFixed', this)}
-          />
+          /> : null}
           <Tbody
             {...renderBodyProps}
             fixedColumn="scroll"
             key="grid-body-scroll"
-            onScroll={this.handleBodyScroll}
+            ref={util.saveRef('bodyScroll', this)}
           />
+          {this.hasFixed.hasRight ? <Tbody
+            {...fixedBodyProps}
+            fixedColumn="rightFixed"
+            key="grid-body-right-fixed"
+            ref={util.saveRef('bodyRightFixed', this)}
+          /> : null}
           <Animate showProp="visible" transitionName="tableMaskFade">
             <Mask visible={this.state.showMask} text={this.props.loadingText} />
           </Animate>
@@ -135,7 +149,7 @@ class Table extends React.Component {
           height: bodyHeight,
         }}
       >
-        <Tbody {...renderBodyProps} fixedColumn="no" onScroll={this.handleBodyScroll} />
+        <Tbody {...renderBodyProps} fixedColumn="no" />
         <Animate showProp="visible" transitionName="tableMaskFade">
           <Mask visible={this.state.showMask} text={this.props.loadingText} />
         </Animate>
@@ -151,13 +165,14 @@ class Table extends React.Component {
     if (this.hasFixed) {
       return (
         <div className="kuma-uxtable-header-wrapper">
-          <Header {...renderHeaderProps} fixedColumn="fixed" key="grid-header-fixed" />
+          <Header {...renderHeaderProps} fixedColumn="fixed" ref={util.saveRef('headerFixed', this)} key="grid-header-fixed" />
           <Header
             {...renderHeaderProps}
             fixedColumn="scroll"
             key="grid-header-scroll"
             ref={util.saveRef('headerScroll', this)}
           />
+          <Header {...renderHeaderProps} fixedColumn="rightFixed" ref={util.saveRef('headerRightFixed', this)} key="grid-header-right-fixed" />
         </div>
       );
     }
@@ -325,6 +340,24 @@ class Table extends React.Component {
     });
   }
 
+  handleRowHover(index, isEnter) {
+    if (!isEnter) {
+      this.rowHoverTimer = setTimeout(() => {
+        this.setState({
+          currentHoverRow: -1,
+        });
+      }, 100);
+    } else {
+      if (this.rowHoverTimer) {
+        clearTimeout(this.rowHoverTimer);
+        this.rowHoverTimer = null;
+      }
+      this.setState({
+        currentHoverRow: index,
+      });
+    }
+  }
+
   handleShowSizeChange(current, pageSize) {
     const me = this;
     me.setState({
@@ -375,15 +408,28 @@ class Table extends React.Component {
     });
   }
 
-  handleBodyScroll(scrollLeft, scrollTop) {
+  handleBodyScroll(scrollLeft, scrollTop, column) {
     const me = this;
     const headerNode = me.hasFixed ? me.headerScroll : me.headerNo;
-    const bodyNode = me.bodyFixed;
     if (scrollLeft !== undefined) {
       headerNode.getDomNode().scrollLeft = scrollLeft;
     }
     if (scrollTop !== undefined && this.hasFixed) {
-      bodyNode.getDomNode().scrollTop = scrollTop;
+      const columnType = ['fixed', 'rightFixed', 'scroll'];
+      const columnToScroll = columnType.filter(item => item !== column);
+      columnToScroll.forEach((item) => {
+        const instance = me[`body${upperFirst(item)}`];
+        if (instance) {
+          instance.getDomNode().scrollTop = scrollTop;
+        }
+      });
+    }
+    if (me.hasFixed && scrollLeft !== undefined && scrollLeft > 0) {
+      addClass(me.headerFixed.getDomNode(), 'has-scroll');
+      addClass(me.bodyFixed.getDomNode(), 'has-scroll');
+    } else {
+      removeClass(me.headerFixed.getDomNode(), 'has-scroll');
+      removeClass(me.bodyFixed.getDomNode(), 'has-scroll');
     }
   }
 
@@ -774,6 +820,7 @@ class Table extends React.Component {
       columns: state.columns,
       mask: state.showMask,
       expandedKeys: state.expandedKeys,
+      currentHoverRow: state.currentHoverRow,
       data,
       rowSelection: props.rowSelection,
       addRowClassName: props.addRowClassName,
@@ -790,10 +837,11 @@ class Table extends React.Component {
       levels: props.levels,
       root: this,
       renderModel: props.renderModel,
-      changeSelected: this.changeSelected.bind(this),
-      handleDataChange: this.handleDataChange.bind(this),
-      attachCellField: this.attachCellField.bind(this),
-      detachCellField: this.detachCellField.bind(this),
+      changeSelected: this.changeSelected,
+      handleDataChange: this.handleDataChange,
+      attachCellField: this.attachCellField,
+      detachCellField: this.detachCellField,
+      onScroll: this.handleBodyScroll,
       key: 'grid-body',
     };
     const renderHeaderProps = {
@@ -807,9 +855,8 @@ class Table extends React.Component {
       width: props.width,
       mode: props.mode,
       isSelectAll,
-      selectAll: this.selectAll.bind(this),
-      orderColumnCB: this.handleOrderColumnCB.bind(this),
-      handleColumnPickerChange: this.handleColumnPickerChange.bind(this),
+      selectAll: this.selectAll,
+      orderColumnCB: this.handleOrderColumnCB,
       key: 'grid-header',
     };
 
@@ -818,17 +865,17 @@ class Table extends React.Component {
 
     if (props.actionBar || props.linkBar || props.showSearch || props.showColumnPicker) {
       const renderActionProps = {
-        onSearch: this.handleActionBarSearch.bind(this),
         actionBarConfig: this.props.actionBar,
         showColumnPicker: this.props.showColumnPicker,
         locale: this.props.locale,
         linkBar: this.props.linkBar,
         checkboxColumnKey: me.checkboxColumnKey,
         showSearch: this.props.showSearch,
-        handleColumnPickerChange: this.handleColumnPickerChange.bind(this),
         searchBarPlaceholder: this.props.searchBarPlaceholder,
         columns: state.columns,
         width: props.width,
+        onSearch: this.handleActionBarSearch,
+        handleColumnPickerChange: this.handleColumnPickerChange,
         key: 'grid-actionbar',
       };
       actionBar = <ActionBar {...renderActionProps} />;

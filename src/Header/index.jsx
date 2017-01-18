@@ -187,7 +187,7 @@ class Header extends React.Component {
       if ({}.hasOwnProperty.call(item, 'columns') && typeof item.columns === 'object') {
         // First determine whether the group should be rendered, if all columns
         // is hidden, the column group should not be rendered.
-        const shouldRenderGroup = item.columns.some((column) => !column.hidden);
+        const shouldRenderGroup = item.columns.some(column => !column.hidden);
         if (shouldRenderGroup) {
           return (
             <div className="kuma-uxtable-header-column-group" key={index}>
@@ -209,6 +209,7 @@ class Header extends React.Component {
     const props = this.props;
     const me = this;
     const headerStyle = {};
+    const leftFixedType = ['checkboxSelector', 'radioSelector', 'treeIcon'];
     let width = 0;
     let headerWrapClassName;
     let columns;
@@ -216,7 +217,7 @@ class Header extends React.Component {
 
     if (props.fixedColumn === 'fixed') {
       columns = props.columns.filter((item) => {
-        if (item.fixed && !item.hidden) {
+        if ((item.fixed && !item.hidden) || (leftFixedType.indexOf(item.type) !== -1)) {
           width = parseInt(item.width, 10) + width;
           return true;
         }
@@ -227,18 +228,40 @@ class Header extends React.Component {
         minWidth: width,
       });
       headerWrapClassName = 'kuma-uxtable-header-fixed';
-    } else if (props.fixedColumn === 'scroll') {
+    } else if (props.fixedColumn === 'rightFixed') {
       columns = props.columns.filter((item) => {
-        if (!item.fixed) {
-          return true;
-        } else if (!item.hidden) {
+        if (item.rightFixed && !item.hidden) {
           width = parseInt(item.width, 10) + width;
+          return true;
         }
         return false;
       });
       assign(headerStyle, {
-        width: typeof props.width === 'number' ? props.width - width - 3 : props.width,
-        minWidth: typeof props.width === 'number' ? props.width - width - 3 : props.width,
+        width,
+        minWidth: width,
+      });
+      headerWrapClassName = 'kuma-uxtable-header-right-fixed';
+    } else if (props.fixedColumn === 'scroll') {
+      const leftFixedColumns = [];
+      const normalColumns = [];
+      const rightFixedColumns = [];
+      props.columns.forEach((item) => {
+        if (!item.hidden) {
+          if (item.fixed || leftFixedType.indexOf(item.type) !== -1) {
+            leftFixedColumns.push(item);
+          } else if (item.rightFixed) {
+            rightFixedColumns.push(item);
+          } else {
+            normalColumns.push(item);
+          }
+        }
+      });
+
+      columns = leftFixedColumns.concat(normalColumns, rightFixedColumns);
+
+      assign(headerStyle, {
+        width: typeof props.width === 'number' ? props.width - 3 : props.width,
+        minWidth: typeof props.width === 'number' ? props.width - 3 : props.width,
       });
       headerWrapClassName = 'kuma-uxtable-header-scroll';
     } else {

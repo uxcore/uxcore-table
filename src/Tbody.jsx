@@ -35,15 +35,13 @@ class Tbody extends React.Component {
   onScroll() {
     const me = this;
     const { fixedColumn } = me.props;
-    if (fixedColumn !== 'fixed') {
-      if (me.scrollEndTimer) {
-        clearTimeout(me.scrollEndTimer);
-      }
-      me.scrollEndTimer = setTimeout(() => {
-        me.props.onScroll(me.rootEl.scrollLeft, me.rootEl.scrollTop);
-      }, 500);
-      me.props.onScroll(me.rootEl.scrollLeft, me.rootEl.scrollTop);
+    if (me.scrollEndTimer) {
+      clearTimeout(me.scrollEndTimer);
     }
+    me.scrollEndTimer = setTimeout(() => {
+      me.props.onScroll(me.rootEl.scrollLeft, me.rootEl.scrollTop, fixedColumn);
+    }, 500);
+    me.props.onScroll(me.rootEl.scrollLeft, me.rootEl.scrollTop, fixedColumn);
   }
 
   getDomNode() {
@@ -76,6 +74,7 @@ class Tbody extends React.Component {
     const me = this;
     const props = me.props;
     const data = props.data.length > 0 ? props.data : [];
+    const leftFixedType = ['checkboxSelector', 'radioSelector', 'treeIcon'];
     let style = {};
     let columns = deepcopy(props.columns);
     let width = 0;
@@ -83,7 +82,7 @@ class Tbody extends React.Component {
 
     if (props.fixedColumn === 'fixed') {
       columns = props.columns.filter((item) => {
-        if (item.fixed && !item.hidden) {
+        if ((item.fixed && !item.hidden) || (leftFixedType.indexOf(item.type) !== -1)) {
           width = parseInt(item.width, 10) + width;
           return true;
         }
@@ -94,15 +93,32 @@ class Tbody extends React.Component {
         minWidth: width,
       };
       bodyWrapClassName = 'kuma-uxtable-body-fixed';
-    } else if (props.fixedColumn === 'scroll') {
+    } else if (props.fixedColumn === 'rightFixed') {
       columns = props.columns.filter((item) => {
-        if (!item.fixed) {
-          return true;
-        } else if (!item.hidden) {
+        if (item.rightFixed && !item.hidden) {
           width = parseInt(item.width, 10) + width;
+          return true;
         }
         return false;
       });
+      bodyWrapClassName = 'kuma-uxtable-body-right-fixed';
+    } else if (props.fixedColumn === 'scroll') {
+      const leftFixedColumns = [];
+      const normalColumns = [];
+      const rightFixedColumns = [];
+      props.columns.forEach((item) => {
+        if (!item.hidden) {
+          if (item.fixed || leftFixedType.indexOf(item.type) !== -1) {
+            leftFixedColumns.push(item);
+          } else if (item.rightFixed) {
+            rightFixedColumns.push(item);
+          } else {
+            normalColumns.push(item);
+          }
+        }
+      });
+
+      columns = leftFixedColumns.concat(normalColumns, rightFixedColumns);
 
       let delta = 2;
 
@@ -111,7 +127,7 @@ class Tbody extends React.Component {
         delta = 3;
       }
       const bodyWidth = typeof props.width === 'number'
-        ? (props.width - width - delta)
+        ? (props.width - delta)
         : props.width;
       style = {
         width: bodyWidth,
@@ -128,6 +144,7 @@ class Tbody extends React.Component {
         data,
         rowIndex: item.jsxid, // tree mode, rowIndex need think more, so use jsxid
         rowData: deepcopy(data[index]),
+        isHover: props.currentHoverRow === index,
         root: props.root,
         locale: props.locale,
         subComp: props.subComp,

@@ -24,7 +24,7 @@ class Row extends React.Component {
 
     ['rowIndex', 'index', 'mode', 'renderModel', 'fixedColumn',
       'levels', 'addRowClassName', 'renderSubComp', 'visible',
-      'checkboxColumnKey', 'locale'].forEach((item) => {
+      'checkboxColumnKey', 'locale', 'isHover'].forEach((item) => {
         if (me.props[item] !== nextProps[item]) {
           shouldUpdate = true;
         }
@@ -39,7 +39,17 @@ class Row extends React.Component {
     return shouldUpdate;
   }
 
-  handleClick() {}
+  handleClick() {
+    this.props.onClick();
+  }
+
+  handleMouseEnter() {
+    this.props.root.handleRowHover(this.props.index, true);
+  }
+
+  handleMouseLeave() {
+    this.props.root.handleRowHover(this.props.index, false);
+  }
 
   handleDoubleClick(rowData) {
     const table = this.props.root;
@@ -222,13 +232,24 @@ class Row extends React.Component {
       <li
         className={classnames({
           [this.props.prefixCls]: true,
+          [`${this.props.prefixCls}-hover`]: props.isHover,
           [otherCls]: !!otherCls,
           even: (props.index % 2 === 1),
-          last: this.props.last,
+          last: props.last,
         })}
         style={_style}
-        onClick={this.handleClick.bind(this, props.rowData)}
-        onDoubleClick={this.handleDoubleClick.bind(this, props.rowData)}
+        onClick={() => {
+          this.handleClick(props.rowData);
+        }}
+        onDoubleClick={() => {
+          this.handleDoubleClick(props.rowData);
+        }}
+        onMouseEnter={() => {
+          this.handleMouseEnter();
+        }}
+        onMouseLeave={() => {
+          this.handleMouseLeave();
+        }}
       >
         <div className={`${this.props.prefixCls}-cells`}>
           {_columns.map((item, index) => {
@@ -238,7 +259,7 @@ class Row extends React.Component {
             if (item.hidden || rowSelectorInTreeMode) {
               return null;
             }
-            firstVisableColumn++;
+            firstVisableColumn += 1;
             let hasSubComp = !!props.subComp;
             if (!hasSubComp) {
               hasSubComp = props.renderSubComp
@@ -296,13 +317,19 @@ Row.propTypes = {
   showSubComp: React.PropTypes.bool,
   last: React.PropTypes.bool,
   visible: React.PropTypes.bool,
+  isHover: React.PropTypes.bool,
   level: React.PropTypes.number,
   levels: React.PropTypes.number,
+  onClick: React.PropTypes.func,
+  onMouseEnter: React.PropTypes.func,
+  index: React.PropTypes.number,
 };
 
 Row.defaultProps = {
   prefixCls: 'kuma-uxtable-row',
   showSubComp: false,
+  onClick: () => {},
+  onMouseEnter: () => {},
 };
 
 export default Row;

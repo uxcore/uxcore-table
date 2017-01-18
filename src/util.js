@@ -33,15 +33,26 @@ const changeValueR = (data, key, value) => {
   }
 };
 
+
 const hasFixColumn = (props) => {
+  let hasLeft = false;
+  let hasRight = false;
   const columns = props.jsxcolumns.filter((item) => {
     if (item.fixed) {
+      hasLeft = true;
+      return true;
+    }
+    if (item.rightFixed) {
+      hasRight = true;
       return true;
     }
     return false;
   });
   if (columns.length > 0) {
-    return true;
+    return {
+      hasLeft,
+      hasRight,
+    };
   }
   return false;
 };

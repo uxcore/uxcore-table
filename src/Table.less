@@ -9,490 +9,521 @@
 @uxtable-prefix: kuma-uxtable;
 @import "./Mask.less";
 @import "./ActionBar/index.less";
-
 .@{uxtable-prefix} {
-    input::-ms-clear {
-        display: none;
-    }
-    border-collapse: collapse;
-    position: relative;
-    color: #666;
-    table-layout: fixed;
-    .half-checked {
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        background: url("@{svg-path}/checkbox-partial-checked.svg") no-repeat;
-        vertical-align: text-bottom;
-        margin-right: 12px;
-        color: @brand-primary;
-    }
+  input::-ms-clear {
+    display: none;
+  }
+  border-collapse: collapse;
+  position: relative;
+  color: #666;
+  table-layout: fixed;
+  .half-checked {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url("@{svg-path}/checkbox-partial-checked.svg") no-repeat;
+    vertical-align: text-bottom;
+    margin-right: 12px;
+    color: @brand-primary;
+  }
 }
 
 .@{uxtable-prefix}-content {
-    overflow-x: auto;
-    position: static;
+  overflow-x: auto;
+  position: static;
 }
 
 .@{uxtable-prefix}-content-scroller {
-    display: inline-block;
+  display: inline-block;
 }
 
 .@{uxtable-prefix}-header-wrapper {
-    overflow: hidden;
+  overflow: hidden;
+  position: relative;
 }
+
 .@{uxtable-prefix}-body-wrapper {
-    border-top: none;
-    position: relative;
-    min-height: 40px;
-    overflow-x: auto;
-    overflow-y: hidden;
+  border-top: none;
+  position: relative;
+  min-height: 40px;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .@{uxtable-prefix}-header {
-    background-color: @table-header-bg;
-    font-size: 14px;
-    font-weight: 600;
-    min-width: 100%;
-    white-space: nowrap;
-    display: inline-block;
+  background-color: @table-header-bg;
+  font-size: 14px;
+  font-weight: 600;
+  min-width: 100%;
+  white-space: nowrap;
+  display: inline-block;
 }
+
 .@{uxtable-prefix}-body {
-    position:relative;
-    display: inline-block;
-    min-width: 100%;
-    min-height: 40px;
-    white-space: normal;
-    background-color: @table-body-bg;
+  position: relative;
+  display: inline-block;
+  min-width: 100%;
+  min-height: 40px;
+  white-space: normal;
+  background-color: @table-body-bg;
 }
 
 .@{uxtable-prefix}-body-emptyword {
-    text-align: center;
-    vertical-align: middle;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .@{uxtable-prefix}-row {
-    display: block;
-    width: 100%;
-    white-space: nowrap;
-    border-bottom: none;
-    .@{uxtable-prefix}-row-cells:hover {
-        background-color: @brand-primary-lighter;
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+  border-bottom: none;
+  .@{uxtable-prefix}-row-cells {
+    transition: background-color 0.15s @transition-ease;
+  }
+  &:first-child {
+    border-top: none;
+  }
+  &.even {
+    .@{uxtable-prefix}-row-cells {
+      background-color: @basic-200;
     }
-
-    &:first-child {
-        border-top: none;
-    }
-    &.even {
-        .@{uxtable-prefix}-row-cells {
-            background-color: @basic-200;
-            &:hover {
-                background-color: @brand-primary-lighter;
-            }
-        }
-    }
+  }
 }
 
+.@{uxtable-prefix}-row-hover {
+  .@{uxtable-prefix}-row-cells {
+    background-color: @brand-primary-lighter;
+  }
+  &.even {
+    .@{uxtable-prefix}-row-cells {
+      background-color: @brand-primary-lighter;
+    }
+  }
+}
 
 .@{uxtable-prefix}-cell {
+  display: inline-block;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 100%;
+  padding: 0 0 0 20px;
+  vertical-align: top;
+  position: relative;
+  word-break: break-all;
+  height: 50px;
+  line-height: 50px;
+  .kuma-icon-information {
+    color: @brand-info;
+    -webkit-text-stroke-width: 0;
+    font-size: 14px;
+    margin-left: 4px;
+  }
+  &>div {
     display: inline-block;
-    text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
-    height: 100%;
-    padding: 0 0 0 20px;
     vertical-align: top;
-    position: relative;
-    word-break:break-all;
     height: 50px;
-    line-height: 50px;
-    .kuma-icon-information {
-        color: @brand-info;
-        -webkit-text-stroke-width: 0;
-        font-size: 14px;
-        margin-left: 4px;
-    }
-    & > div {
-        display: inline-block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        vertical-align: top;
-        height: 50px;
-        width: 100%;
-        white-space: nowrap;
-    }
-    > input.kuma-input {
-        vertical-align: top;
-        padding: 0 10px;
-        margin-top: 7px;
-        height: 36px;
-    }
-    .kuma-column-picker {
-        cursor: pointer;
-        position: absolute;
-        right: 10px;
-        top:0;
-    }
-    .kuma-select2 {
-        width: 100%;
-        vertical-align: top;
-        margin-top: 7px;
-    }
+    width: 100%;
+    white-space: nowrap;
+  }
+  >input.kuma-input {
+    vertical-align: top;
+    padding: 0 10px;
+    margin-top: 7px;
+    height: 36px;
+  }
+  .kuma-column-picker {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 0;
+  }
+  .kuma-select2 {
+    width: 100%;
+    vertical-align: top;
+    margin-top: 7px;
+  }
 }
 
 .@{uxtable-prefix}-row.multiline {
-    .@{uxtable-prefix}-cell {
-        height: auto;
-        min-height: 50px;
-        line-height: inherit;
-        white-space: normal;
-        .default-cell {
-            white-space: normal;
-            height: auto;
-        }
-        > div {
-            height: auto;
-            white-space: normal;
-        }
+  .@{uxtable-prefix}-cell {
+    height: auto;
+    min-height: 50px;
+    line-height: inherit;
+    white-space: normal;
+    .default-cell {
+      white-space: normal;
+      height: auto;
     }
+    >div {
+      height: auto;
+      white-space: normal;
+    }
+  }
+}
+
+.@{uxtable-prefix}-row.multiline-centered {
+  .@{uxtable-prefix}-row-cells {
+    display: flex;
+    align-items: center;
+  }
+  .@{uxtable-prefix}-cell {
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
 }
 
 .@{uxtable-prefix}-cell-field {
-    &.hasError {
-        .kuma-input,
-        .kuma-select2-selection {
-            border-color: @border-danger-color;
-            color: @text-danger-color;
-        }
+  &.hasError {
+    .kuma-input,
+    .kuma-select2-selection {
+      border-color: @border-danger-color;
+      color: @text-danger-color;
     }
+  }
 }
 
 .kuma-date-cell-field {
-    .kuma-calendar-picker-input  {
-        line-height: 36px;
-        .kuma-icon-calender,
-        .kuma-icon-close {
-            line-height: 24px;
-        }
+  .kuma-calendar-picker-input {
+    line-height: 36px;
+    .kuma-icon-calender,
+    .kuma-icon-close {
+      line-height: 24px;
     }
+  }
 }
 
-
-.@{uxtable-prefix}-header .@{uxtable-prefix}-cell > div {
-    overflow : visible;
-    
+.@{uxtable-prefix}-header .@{uxtable-prefix}-cell>div {
+  overflow: visible;
 }
 
 .@{uxtable-prefix}-columnpicker {
-    max-width: 400px;
-    max-height: 300px;
-    overflow-y: auto;
-    position: absolute;
-    background-color: @basic-400;
-    z-index: 2;
-    right: 0;
-    top: 32px;
-    padding: 5px 20px 10px 10px;
-    display: none;
-    .kuma-tree {
-        padding: 0px;
-        li a {
-            max-width: 300px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+  max-width: 400px;
+  max-height: 300px;
+  overflow-y: auto;
+  position: absolute;
+  background-color: @basic-400;
+  z-index: 2;
+  right: 0;
+  top: 32px;
+  padding: 5px 20px 10px 10px;
+  display: none;
+  .kuma-tree {
+    padding: 0px;
+    li a {
+      max-width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+  }
 }
 
 .kuma-column-picker-container {
-    position: absolute;
-    right: 0;
-    display: inline-block;
-    cursor: pointer;
-    padding-right: 20px;
-    font-weight: normal;
-    background: @table-header-bg;
-    &.hasGroup {
-        .@{uxtable-prefix}-colmnpicker {
-            top: 50px;
-        }
+  position: absolute;
+  right: 0;
+  display: inline-block;
+  cursor: pointer;
+  padding-right: 20px;
+  font-weight: normal;
+  background: @table-header-bg;
+  &.hasGroup {
+    .@{uxtable-prefix}-colmnpicker {
+      top: 50px;
     }
+  }
 }
 
-.@{uxtable-prefix}-tree-icon{
-    cursor: pointer;
-    vertical-align: middle;
-    > .kuma-icon {
-        font-size: 16px;
-        color: #999999;
-        &:before {
-            transition: transform 0.3s ease;
-            display: inline-block;
-            zoom: 1;
-        }
-        &.kuma-icon-triangle-right__open:before {
-            transform: rotate(90deg);
-            -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=1, M12=0, M21=0, M22=1)";
-            -ms-transform: rotate(90deg);
-        }
+.@{uxtable-prefix}-tree-icon {
+  cursor: pointer;
+  vertical-align: middle;
+  >.kuma-icon {
+    font-size: 16px;
+    color: #999999;
+    &:before {
+      transition: transform 0.3s ease;
+      display: inline-block;
+      zoom: 1;
     }
+    &.kuma-icon-triangle-right__open:before {
+      transform: rotate(90deg);
+      -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=1, M12=0, M21=0, M22=1)";
+      -ms-transform: rotate(90deg);
+    }
+  }
 }
 
-.@{uxtable-prefix}-emptyicon{
-    width: 22px;
-    display: inline-block;
+.@{uxtable-prefix}-emptyicon {
+  width: 22px;
+  display: inline-block;
 }
 
 .kuma-subgrid-mode {
-    .@{uxtable-prefix}-body-wrapper {
-        border: none;
-    }
+  .@{uxtable-prefix}-body-wrapper {
+    border: none;
+  }
 }
 
-.@{uxtable-prefix}-page{
-    text-align: right;
-    padding: 10px 0px;
-    .kuma-select2-selection__rendered {
-        text-align: left;
-    }
+.@{uxtable-prefix}-page {
+  text-align: right;
+  padding: 10px 0px;
+  .kuma-select2-selection__rendered {
+    text-align: left;
+  }
 }
 
 .@{uxtable-prefix} .kuma-page {
-    display: inline-block;
+  display: inline-block;
 }
 
 .@{uxtable-prefix}-h-sort {
-    position:relative;
-    vertical-align: middle;
-    cursor: pointer;
-    height: 20px;
-    width: 14px;
-    display: inline-block;
-    color: @gray-light;
-    .kuma-icon {
-        font-size: 13px;
-        height: 14px;
-        line-height: 11px;
-        position: absolute;
-        &.active {
-            color: @brand-primary;
-        }
-        -webkit-text-stroke-width: 0;
+  position: relative;
+  vertical-align: middle;
+  cursor: pointer;
+  height: 20px;
+  width: 14px;
+  display: inline-block;
+  color: @gray-light;
+  .kuma-icon {
+    font-size: 13px;
+    height: 14px;
+    line-height: 11px;
+    position: absolute;
+    &.active {
+      color: @brand-primary;
     }
-    .kuma-icon-triangle-up {
-        top: 0;
-    }
-    .kuma-icon-triangle-down {
-        bottom: 0;
-    }
+    -webkit-text-stroke-width: 0;
+  }
+  .kuma-icon-triangle-up {
+    top: 0;
+  }
+  .kuma-icon-triangle-down {
+    bottom: 0;
+  }
 }
 
-
-
 .action-container {
-    .action {
-        cursor: pointer;
-        display:inline-block;
-        text-decoration: none;
-        &.collapse-one {
-            padding: 0 13px;
-        }
-        &.disabled {
-            color: @text-disabled-color;
-            cursor: not-allowed
-        }
-        i {
-            color: @link-color;
-        }
-        &.kuma-button {
-            i {
-                color: @brand-primary;
-            }
-        }
-        & + .action {
-            margin-left: 10px
-        }
+  .action {
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    &.collapse-one {
+      padding: 0 13px;
     }
-    .split {
-        color: #ccc;
+    &.disabled {
+      color: @text-disabled-color;
+      cursor: not-allowed
     }
+    i {
+      color: @link-color;
+    }
+    &.kuma-button {
+      i {
+        color: @brand-primary;
+      }
+    }
+    &+.action {
+      margin-left: 10px
+    }
+  }
+  .split {
+    color: #ccc;
+  }
 }
 
 .@{uxtable-prefix}-column-picker-dropdown {
-    .kuma-dropdown-menu {
-        min-width: 200px;
-        box-shadow: 0 1px 8px #ced1d2;
-        max-height: 300px;
-        border-radius: @input-border-radius;
-        .kuma-dropdown-menu-item-active,
-        .kuma-dropdown-menu-item:hover {
-            background-color: @brand-primary-lighter;
-        }
-        .kuma-dropdown-menu-item-selected {
-            background-color: white;
-            color: @brand-primary;
-            &:before {
-                content: "\e611";
-                display: block;
-                position: absolute;
-                right: 10px;
-                top: 0px;
-                font-family: kuma!important;
-                font-size: 16px;
-                font-style: normal;
-                -webkit-font-smoothing: antialiased;
-                -webkit-text-stroke-width: .2px;
-                -moz-osx-font-smoothing: grayscale;
-                line-height: 32px;
-            }
-        }
+  .kuma-dropdown-menu {
+    min-width: 200px;
+    box-shadow: 0 1px 8px #ced1d2;
+    max-height: 300px;
+    border-radius: @input-border-radius;
+    .kuma-dropdown-menu-item-active,
+    .kuma-dropdown-menu-item:hover {
+      background-color: @brand-primary-lighter;
     }
+    .kuma-dropdown-menu-item-selected {
+      background-color: white;
+      color: @brand-primary;
+      &:before {
+        content: "\e611";
+        display: block;
+        position: absolute;
+        right: 10px;
+        top: 0px;
+        font-family: kuma!important;
+        font-size: 16px;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-stroke-width: .2px;
+        -moz-osx-font-smoothing: grayscale;
+        line-height: 32px;
+      }
+    }
+  }
 }
-
 
 .@{uxtable-prefix} span.indent {
-    display: inline-block;
-    width: 27px;
-    margin: 0;
-    &.hasCheck {
-        margin-right: 25px;
-    }
+  display: inline-block;
+  width: 27px;
+  margin: 0;
+  &.hasCheck {
+    margin-right: 25px;
+  }
 }
 
-.@{uxtable-prefix}-body-fixed {
-    float:left;
-    overflow:hidden;
-    z-index:1;
-    height:100%;
-}
-.@{uxtable-prefix}-body-no {
-    height: 100%;
-    overflow-y: auto;
-}
-.@{uxtable-prefix}-body-scroll {
-    position:relative;
-    overflow:auto;
-    z-index:1;
-    height:100%;
+.@{uxtable-prefix}-body-fixed,
+.@{uxtable-prefix}-header-fixed,
+.@{uxtable-prefix}-body-right-fixed,
+.@{uxtable-prefix}-header-right-fixed {
+  float: left;
+  overflow: hidden;
+  z-index: 2;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  transition: box-shadow 0.3s @transition-ease;
+  &.has-scroll {
+    box-shadow: 1px 0 6px rgba(0, 0, 0, 0.2);
+  }
+  &.end-of-scroll {
+    
+  }
 }
 
+.@{uxtable-prefix}-body-fixed,
 .@{uxtable-prefix}-header-fixed {
-    float:left;
-    overflow:hidden;
-    z-index:1;
-    height:100%;
+  left: 0;
 }
+
+.@{uxtable-prefix}-body-right-fixed,
+.@{uxtable-prefix}-header-right-fixed {
+  right: 0;
+}
+
+
+.@{uxtable-prefix}-body-no {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.@{uxtable-prefix}-body-scroll {
+  position: relative;
+  overflow: auto;
+  z-index: 1;
+  height: 100%;
+}
+
 .@{uxtable-prefix}-header-no {
-    overflow: hidden;
+  overflow: hidden;
 }
+
 .@{uxtable-prefix}-header-scroll {
-    position:static;
-    overflow-x: hidden;
-    z-index:1;
-    height:100%;
-    .@{uxtable-prefix}-header {
-        background-color: @table-header-scroll-bg;
-    }
+  position: static;
+  overflow-x: hidden;
+  z-index: 1;
+  height: 100%;
+  .@{uxtable-prefix}-header {
+    background-color: @table-header-scroll-bg;
+  }
 }
 
 .@{uxtable-prefix}-header-column-group {
-    display: inline-block;
+  display: inline-block;
 }
 
 .@{uxtable-prefix}-header-group-name {
-    line-height: 50px;
-    text-align: center;
+  line-height: 50px;
+  text-align: center;
 }
 
 .@{uxtable-prefix}-column-message {
-    max-width: 200px;
+  max-width: 200px;
 }
 
 .@{uxtable-prefix}-row-selector {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 .@{uxtable-prefix}-expand-icon {
-    cursor: pointer;
-    display: inline-block;
-    vertical-align: middle;
-    font-size: 18px;
-    line-height: 18px;
-    margin-right: 6px;
-    .kuma-icon-triangle-right {
-        &:before {
-            transition: transform .3s ease;
-            display: inline-block;
-        }
-        &.expanded:before {
-            transform: rotate(90deg);
-            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
-        }
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 18px;
+  line-height: 18px;
+  margin-right: 6px;
+  .kuma-icon-triangle-right {
+    &:before {
+      transition: transform .3s ease;
+      display: inline-block;
     }
+    &.expanded:before {
+      transform: rotate(90deg);
+    }
+  }
 }
 
 .@{uxtable-prefix}-row-tree-selector {
-    margin-right: 12px;
+  margin-right: 12px;
 }
 
 .@{uxtable-prefix}-tree-mode {
-    .@{uxtable-prefix}-row {
-        &.even .@{uxtable-prefix}-row-cells {
-            background: white;
-        }
-        .@{uxtable-prefix}-row-cells {
-            border-bottom: 1px solid @basic-600;
-        }
+  .@{uxtable-prefix}-row {
+    &.even .@{uxtable-prefix}-row-cells {
+      background: white;
     }
+    .@{uxtable-prefix}-row-cells {
+      border-bottom: 1px solid @basic-600;
+    }
+  }
 }
 
 .@{uxtable-prefix}-border-line {
-    .@{uxtable-prefix}-content {
-        border: 1px solid @basic-600;
+  .@{uxtable-prefix}-content {
+    border: 1px solid @basic-600;
+  }
+  .@{uxtable-prefix}-row {
+    &.even .@{uxtable-prefix}-row-cells {
+      background: white;
+      &:hover {
+        background: @brand-primary-lighter;
+      }
     }
-    .@{uxtable-prefix}-row {
-        &.even .@{uxtable-prefix}-row-cells {
-            background: white;
-            &:hover {
-                background: @brand-primary-lighter;
-            }
-        }
-        .@{uxtable-prefix}-row-cells {
-            border-bottom: 1px solid @basic-600;
-        }
-        &.last {
-            .@{uxtable-prefix}-row-cells {
-                border-bottom: none;
-            }
-        }
+    .@{uxtable-prefix}-row-cells {
+      border-bottom: 1px solid @basic-600;
     }
-    .@{uxtable-prefix}-cell {
-        border-right: 1px solid @basic-600;
-        &.last {
-            border-right: none;
-        }
+    &.last {
+      .@{uxtable-prefix}-row-cells {
+        border-bottom: none;
+      }
     }
-    .@{uxtable-prefix}-header-group-name {
-        border-right: 1px solid @basic-600;
-        border-bottom: 1px solid @basic-600;
+  }
+  .@{uxtable-prefix}-cell {
+    border-right: 1px solid @basic-600;
+    &.last {
+      border-right: none;
     }
+  }
+  .@{uxtable-prefix}-header-group-name {
+    border-right: 1px solid @basic-600;
+    border-bottom: 1px solid @basic-600;
+  }
 }
 
 .@{uxtable-prefix}-cell-collapsed-button-more-dropdown {
-    .kuma-dropdown-menu > .kuma-dropdown-menu-item {
-        padding: 4px 12px;
-        a {
-            color: @link-color;
-            cursor: pointer;
-        }
-        &.kuma-dropdown-menu-item-disabled {
-            background: @bg-disabled-color;
-            a {
-                color: @text-disabled-color;
-                cursor: not-allowed;
-            }
-        }
+  .kuma-dropdown-menu>.kuma-dropdown-menu-item {
+    padding: 4px 12px;
+    a {
+      color: @link-color;
+      cursor: pointer;
     }
+    &.kuma-dropdown-menu-item-disabled {
+      background: @bg-disabled-color;
+      a {
+        color: @text-disabled-color;
+        cursor: not-allowed;
+      }
+    }
+  }
 }
-
-

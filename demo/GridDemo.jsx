@@ -53,6 +53,7 @@ class Demo extends React.Component {
       },
       {
         dataKey: 'country',
+        fixed: true,
         title: '国家',
         width: 200,
         ordered: true,
@@ -81,6 +82,7 @@ class Demo extends React.Component {
         dataKey: 'action1',
         title: '操作1',
         width: 100,
+        rightFixed: true,
         type: 'action',
         actions: [{
           title: 'click',
@@ -139,7 +141,7 @@ class Demo extends React.Component {
         data: [],
       },
       addRowClassName() {
-        return 'multiline';
+        // return 'multiline multiline-centered';
       },
       rowSelector: 'checkboxSelector',
       jsxcolumns: columns,
