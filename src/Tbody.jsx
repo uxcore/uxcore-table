@@ -193,10 +193,12 @@ Tbody.propTypes = {
     React.PropTypes.number,
   ]),
   mask: React.PropTypes.bool,
+  onScroll: React.PropTypes.func,
 };
 
 Tbody.defaultProps = {
   jsxprefixCls: 'kuma-uxtable-body',
+  onScroll: () => {},
 };
 
 export default Tbody;

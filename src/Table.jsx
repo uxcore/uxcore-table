@@ -131,6 +131,7 @@ class Table extends React.Component {
             fixedColumn="scroll"
             key="grid-body-scroll"
             ref={util.saveRef('bodyScroll', this)}
+            onScroll={this.handleBodyScroll}
           />
           {this.hasFixed.hasRight ? <Tbody
             {...fixedBodyProps}
@@ -151,7 +152,7 @@ class Table extends React.Component {
           height: bodyHeight,
         }}
       >
-        <Tbody {...renderBodyProps} fixedColumn="no" />
+        <Tbody {...renderBodyProps} fixedColumn="no" onScroll={this.handleBodyScroll} />
         <Animate showProp="visible" transitionName="tableMaskFade">
           <Mask visible={this.state.showMask} text={this.props.loadingText} />
         </Animate>
@@ -870,7 +871,7 @@ class Table extends React.Component {
       handleDataChange: this.handleDataChange,
       attachCellField: this.attachCellField,
       detachCellField: this.detachCellField,
-      onScroll: this.handleBodyScroll,
+      // onScroll: this.handleBodyScroll,
       key: 'grid-body',
     };
     const renderHeaderProps = {
