@@ -2,6 +2,11 @@
 
 ---
 
+## 1.14.0
+
+* `NEW` support `column.rightFixed`
+* `CHANGED` refactor fixed column render logic
+
 ## 1.13.1
 
 * `NEW` inline edit API support callback.

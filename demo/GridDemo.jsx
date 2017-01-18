@@ -121,9 +121,7 @@ class Demo extends React.Component {
       pagerSizeOptions: [5, 10, 15, 20],
       actionBar: {
         'Action Button': () => {
-          me.setState({
-            text: 2,
-          });
+          me.table.checkBodyScroll();
         },
       },
       onSearch: (searchTxt) => {

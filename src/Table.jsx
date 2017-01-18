@@ -69,7 +69,9 @@ class Table extends React.Component {
       console.warn('Table: subComp is deprecated, use renderSubComp instead.');
     }
     if (this.props.fetchDataOnMount) {
-      this.fetchData();
+      this.fetchData(undefined, undefined, () => {
+        this.checkBodyHScroll();
+      });
     }
     Object.keys(methods).forEach((key) => {
       me[key] = methods[key].bind(me);
@@ -424,13 +426,36 @@ class Table extends React.Component {
         }
       });
     }
-    if (me.hasFixed && scrollLeft !== undefined && scrollLeft > 0) {
-      addClass(me.headerFixed.getDomNode(), 'has-scroll');
-      addClass(me.bodyFixed.getDomNode(), 'has-scroll');
-    } else {
-      removeClass(me.headerFixed.getDomNode(), 'has-scroll');
-      removeClass(me.bodyFixed.getDomNode(), 'has-scroll');
+    me.checkBodyHScroll();
+  }
+
+  checkBodyHScroll(scrollLeft) {
+    if (!this.hasFixed) {
+      return false;
     }
+    const node = this.bodyScroll.getDomNode();
+    const wrapperScrollLeft = scrollLeft || node.scrollLeft;
+    if (this.hasFixed.hasLeft) {
+      if (wrapperScrollLeft > 0) {
+        addClass(this.headerFixed.getDomNode(), 'has-scroll');
+        addClass(this.bodyFixed.getDomNode(), 'has-scroll');
+      } else {
+        removeClass(this.headerFixed.getDomNode(), 'has-scroll');
+        removeClass(this.bodyFixed.getDomNode(), 'has-scroll');
+      }
+    }
+    if (this.hasFixed.hasRight) {
+      const wrapperWidth = node.clientWidth;
+      const bodyWidth = node.children[0].clientWidth;
+      if (wrapperScrollLeft + wrapperWidth + 3 < bodyWidth) {
+        addClass(this.headerRightFixed.getDomNode(), 'end-of-scroll');
+        addClass(this.bodyRightFixed.getDomNode(), 'end-of-scroll');
+      } else {
+        removeClass(this.headerRightFixed.getDomNode(), 'end-of-scroll');
+        removeClass(this.bodyRightFixed.getDomNode(), 'end-of-scroll');
+      }
+    }
+    return false;
   }
 
   handleOrderColumnCB(type, column) {
@@ -527,7 +552,7 @@ class Table extends React.Component {
    * passed to props.beforeFetch in order to help the user.
    */
 
-  fetchData(from, nextProps) {
+  fetchData(from, nextProps, cb) {
     const me = this;
     const props = nextProps || this.props;
     // reset uid cause table data has changed
@@ -535,11 +560,11 @@ class Table extends React.Component {
 
     // fetchUrl has the top priority.
     if (props.fetchUrl) {
-      me.fetchRemoteData(from, props);
+      me.fetchRemoteData(from, props, cb);
     } else if (props.passedData) {
-      me.fetchPassedData(props);
+      me.fetchPassedData(props, cb);
     } else if (props.jsxdata) {
-      me.fetchLocalData(from, props);
+      me.fetchLocalData(from, props, cb);
     } else {
       // default will create one row
       const data = {
@@ -558,7 +583,7 @@ class Table extends React.Component {
     }
   }
 
-  fetchRemoteData(from, props) {
+  fetchRemoteData(from, props, cb = () => {}) {
     const me = this;
     if (me.request) {
       me.request.abort();
@@ -590,13 +615,13 @@ class Table extends React.Component {
         updateObj.currentPage = processedData.currentPage;
       }
       me.data = deepcopy(processedData);
-      me.setState(updateObj);
+      me.setState(updateObj, () => { cb(); });
     }).catch((err) => {
       props.onFetchError(err);
     });
   }
 
-  fetchPassedData(props) {
+  fetchPassedData(props, cb = () => {}) {
     console.warn('props subComp is deprecated, use renderSubComp instead.');
     const me = this;
     if (!props.queryKeys) {
@@ -613,14 +638,16 @@ class Table extends React.Component {
         }
       });
       const processedData = me.addValuesInData(props.processData(deepcopy(data)));
+      me.data = deepcopy(processedData);
       me.setState({
         data: processedData,
+      }, () => {
+        cb();
       });
-      me.data = deepcopy(processedData);
     }
   }
 
-  fetchLocalData(from, props) {
+  fetchLocalData(from, props, cb = () => {}) {
     const me = this;
     if (['pagination', 'order', 'search'].indexOf(from) !== -1) {
       if (from === 'pagination' && props.onPagerChange) {
@@ -637,12 +664,14 @@ class Table extends React.Component {
     } else {
       const data = this.addValuesInData(deepcopy(props.jsxdata));
       const currentPage = (data && data.currentPage) || this.state.currentPage;
+      me.data = deepcopy(data);
       me.setState({
         data,
         currentPage,
         expandedKeys: util.getDefaultExpandedKeys(data.data, props.levels),
+      }, () => {
+        cb();
       });
-      me.data = deepcopy(data);
     }
   }
 

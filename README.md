@@ -159,7 +159,8 @@ $ npm start
 |collapseNum     |number            |1.9.4     |optional |当 type 是 action 的时候会用到，默认 3，指定超过多少个 action 时折叠|
 |customField     |React Element     |-         |optional |当 type 是 custom 的时候会用到，用于传入自定义的 Field，用于行内编辑|
 |render          |function          |-         |optional |在查看模式下，用户定制渲染的方式，返回一个 jsx 格式|
-|fixed           |boolean           |-         |optional |是否为固定列|
+|fixed           |boolean           |-         |optional |是否固定在左侧，固定列不可以和折叠展开面板混合使用|
+|rightFixed      |boolean           |1.14.0    |optional |是否固定在右侧，固定列不可以和折叠展开面板混合使用|
 |delimiter       |string            |-         |optional |在 type 是 'money', 'card', 'cnmobile' 的时候会用到，用于传入格式化的分隔符|
 |disable         |boolean           |-         |optional |在 type 为 checkboxSelector 时使用，是否禁用 checkbox，优先级高于 isDisable|
 |isDisable       |function(rowData) |1.3.1     |optional |在 tpye 为 checkboxSelector 时使用，为一个回调函数，用于根据 rowData 去判断是否禁用该行的 checkbox|
