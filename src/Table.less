@@ -30,7 +30,7 @@
 
 .@{uxtable-prefix}-content {
   overflow-x: auto;
-  position: static;
+  position: relative;
 }
 
 .@{uxtable-prefix}-content-scroller {
@@ -373,15 +373,21 @@
   }
 }
 
-.@{uxtable-prefix}-body-fixed,
-.@{uxtable-prefix}-header-fixed,
-.@{uxtable-prefix}-body-right-fixed,
-.@{uxtable-prefix}-header-right-fixed {
+.kuma-uxtable-body-fixed,
+.kuma-uxtable-body-right-fixed {
   overflow: hidden;
-  z-index: 2;
-  height: 100%;
+}
+
+.kuma-uxtable-body-right-fixed {
+  overflow-y: auto;
+}
+
+.kuma-uxtable-left-fixed-table,
+.kuma-uxtable-right-fixed-table {
+  overflow: hidden;
   position: absolute;
   top: 0;
+  z-index: 2;
   transition: box-shadow 0.3s @transition-ease;
   &.has-scroll {
     box-shadow: 1px 0 6px rgba(0, 0, 0, 0.2);
@@ -391,16 +397,13 @@
   }
 }
 
-.@{uxtable-prefix}-body-fixed,
-.@{uxtable-prefix}-header-fixed {
+.kuma-uxtable-left-fixed-table {
   left: 0;
 }
 
-.@{uxtable-prefix}-body-right-fixed,
-.@{uxtable-prefix}-header-right-fixed {
+.kuma-uxtable-right-fixed-table {
   right: 0;
 }
-
 
 .@{uxtable-prefix}-body-no {
   height: 100%;
@@ -409,7 +412,8 @@
 
 .@{uxtable-prefix}-body-scroll {
   position: relative;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: scroll;
   z-index: 1;
   height: 100%;
 }
@@ -485,9 +489,6 @@
   .@{uxtable-prefix}-row {
     &.even .@{uxtable-prefix}-row-cells {
       background: white;
-      &:hover {
-        background: @brand-primary-lighter;
-      }
     }
     .@{uxtable-prefix}-row-cells {
       border-bottom: 1px solid @basic-600;
@@ -496,6 +497,11 @@
       .@{uxtable-prefix}-row-cells {
         border-bottom: none;
       }
+    }
+  }
+  .@{uxtable-prefix}-row-hover.even {
+    .@{uxtable-prefix}-row-cells {
+      background-color: @brand-primary-lighter;
     }
   }
   .@{uxtable-prefix}-cell {

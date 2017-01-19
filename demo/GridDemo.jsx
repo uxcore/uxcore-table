@@ -117,7 +117,7 @@ class Demo extends React.Component {
       },
       width: 800,
       height: 400,
-      // className: 'kuma-uxtable-border-line',
+      className: 'kuma-uxtable-border-line',
       pagerSizeOptions: [5, 10, 15, 20],
       actionBar: {
         'Action Button': () => {

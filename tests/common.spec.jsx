@@ -88,22 +88,22 @@ describe('Table', () => {
     let wrapper;
     it('width support number', () => {
       wrapper = mount(<Table width={500} />);
-      expect(wrapper.node.getDomNode().style.width).to.be('500px');
+      expect(wrapper.node.getDom().style.width).to.be('500px');
     });
 
     it('width support string', () => {
       wrapper = mount(<Table width="500px" />);
-      expect(wrapper.node.getDomNode().style.width).to.be('500px');
+      expect(wrapper.node.getDom().style.width).to.be('500px');
     });
 
     it('height support number', () => {
       wrapper = mount(<Table height={500} />);
-      expect(wrapper.node.getDomNode().style.height).to.be('500px');
+      expect(wrapper.node.getDom().style.height).to.be('500px');
     });
 
     it('height support string', () => {
       wrapper = mount(<Table height="500px" />);
-      expect(wrapper.node.getDomNode().style.height).to.be('500px');
+      expect(wrapper.node.getDom().style.height).to.be('500px');
     });
 
     it('showColumnPicker', () => {

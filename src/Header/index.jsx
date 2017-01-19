@@ -17,7 +17,7 @@ class Header extends React.Component {
     };
   }
 
-  getDomNode() {
+  getDom() {
     return this.root;
   }
 

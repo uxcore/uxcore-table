@@ -1,6 +1,80 @@
 import Formatter from 'uxcore-formatter';
 import deepcopy from 'lodash/cloneDeep';
 
+let scrollbarWidth;
+
+// Measure scrollbar width for padding body during modal show/hide
+const scrollbarMeasure = {
+  position: 'absolute',
+  top: '-9999px',
+  width: '50px',
+  height: '50px',
+  overflow: 'scroll',
+};
+
+/**
+ * Get IE version.
+ * @return {number} the IE version, 0 if the browser is not IE.
+ */
+const getIEVer = () => {
+  if (window) {
+    const ua = window.navigator.userAgent;
+    const idx = ua.indexOf('MSIE');
+    if (idx > 0) {
+      // "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64;
+      // Trident/6.0; SLCC2; .NET CLR 2.0.50727)"
+      return parseInt(ua.substring(idx + 5, ua.indexOf('.', idx)), 10);
+    }
+    if (ua.match(/Trident\/7\./)) {
+      // "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; SLCC2;
+      // .NET CLR 2.0.50727; rv:11.0) like Gecko"
+      return 11;
+    }
+    return 0;
+  }
+  return 0;
+};
+
+/**
+ * Add or Remove an item from an array if the item does/does not exist.
+ * @param {any} item the item need to add/remove.
+ * @param {array} arr the array to change.
+ * @return {array} the changed array.
+ */
+const toggleItemInArr = (item, arr) => {
+  const idx = arr.indexOf(item);
+  if (idx !== -1) {
+    arr.splice(idx, 1);
+  } else {
+    arr.push(item);
+  }
+  return arr;
+};
+
+/**
+ * format a string using uxcore-formatter.
+ * @param {string} value the string to be formatted
+ * @param {string} type the format type
+ * @param {string} delimiter the format delimiter
+ * @return {string} the formatted string
+ */
+
+const formatValue = (value, type, delimiter) => {
+  const newDelimiter = delimiter || ' ';
+  if (value === null || value === undefined) {
+    return value;
+  }
+  const newValue = value.toString();
+  if (type === 'money') {
+    return Formatter.money(newValue, newDelimiter);
+  } else if (type === 'card') {
+    return Formatter.card(newValue, newDelimiter);
+  } else if (type === 'cnmobile') {
+    return Formatter.cnmobile(newValue, newDelimiter);
+  }
+  return newValue;
+};
+
 const mergeData = (data, obj) => {
   const newData = deepcopy(data);
     // code compatible
@@ -137,49 +211,30 @@ const getDefaultExpandedKeys = (data, levels, level = 1) => {
   return expandedKeys;
 };
 
-const utils = {
-  getIEVer: () => {
-    if (window) {
-      const ua = window.navigator.userAgent;
-      const idx = ua.indexOf('MSIE');
-      if (idx > 0) {
-        // "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64;
-        // Trident/6.0; SLCC2; .NET CLR 2.0.50727)"
-        return parseInt(ua.substring(idx + 5, ua.indexOf('.', idx)), 10);
-      }
-      if (ua.match(/Trident\/7\./)) {
-        // "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; SLCC2;
-        // .NET CLR 2.0.50727; rv:11.0) like Gecko"
-        return 11;
-      }
-      return 0;
-    }
+const measureScrollbar = () => {
+  if (typeof document === 'undefined' || typeof window === 'undefined') {
     return 0;
-  },
-  toggleItemInArr: (item, arr) => {
-    const idx = arr.indexOf(item);
-    if (idx !== -1) {
-      arr.splice(idx, 1);
-    } else {
-      arr.push(item);
+  }
+  if (scrollbarWidth) {
+    return scrollbarWidth;
+  }
+  const scrollDiv = document.createElement('div');
+  Object.keys(scrollbarMeasure).forEach((scrollProp) => {
+    if (Object.hasOwnProperty.call(scrollbarMeasure, scrollProp)) {
+      scrollDiv.style[scrollProp] = scrollbarMeasure[scrollProp];
     }
-    return arr;
-  },
-  formatValue: (value, type, delimiter) => {
-    const newDelimiter = delimiter || ' ';
-    if (value === null || value === undefined) {
-      return value;
-    }
-    const newValue = value.toString();
-    if (type === 'money') {
-      return Formatter.money(newValue, newDelimiter);
-    } else if (type === 'card') {
-      return Formatter.card(newValue, newDelimiter);
-    } else if (type === 'cnmobile') {
-      return Formatter.cnmobile(newValue, newDelimiter);
-    }
-    return newValue;
-  },
+  });
+  document.body.appendChild(scrollDiv);
+  const width = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+  document.body.removeChild(scrollDiv);
+  scrollbarWidth = width;
+  return scrollbarWidth;
+};
+
+const utils = {
+  getIEVer,
+  toggleItemInArr,
+  formatValue,
   getSelectedKeys,
   changeValueR,
   isRowHalfChecked,
@@ -189,6 +244,7 @@ const utils = {
   mergeData,
   hasFixColumn,
   getDefaultExpandedKeys,
+  measureScrollbar,
 };
 
 export default utils;

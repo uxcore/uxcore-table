@@ -27,16 +27,6 @@ class Tbody extends React.Component {
     me.scrollListener = addEventListener(me.rootEl, 'scroll', me.scrollHandler);
   }
 
-  componentDidUpdate() {
-    // if (['fixed', 'rightFixed'].indexOf(this.props.fixedColumn) !== -1) {
-    //   const node = this.getDomNode();
-    //   const { root } = this.props;
-    //   if (root.bodyScroll) {
-    //     node.style.height = `${root.bodyScroll.getDomNode().clientHeight - 17}px`;
-    //   }
-    // }
-  }
-
   componentWillUnmount() {
     const me = this;
     me.scrollListener.remove();
@@ -54,7 +44,7 @@ class Tbody extends React.Component {
     me.props.onScroll(me.rootEl.scrollLeft, me.rootEl.scrollTop, fixedColumn);
   }
 
-  getDomNode() {
+  getDom() {
     return this.root;
   }
 
@@ -92,6 +82,8 @@ class Tbody extends React.Component {
     let width = 0;
     let bodyWrapClassName;
 
+    const scrollBarWidth = util.measureScrollbar();
+
     if (props.fixedColumn === 'fixed') {
       columns = props.columns.filter((item) => {
         if ((item.fixed && !item.hidden) || (leftFixedType.indexOf(item.type) !== -1)) {
@@ -102,6 +94,8 @@ class Tbody extends React.Component {
       });
       style = {
         ...style,
+        marginBottom: `-${scrollBarWidth}px`,
+        height: props.bodyHeight === 'auto' ? props.bodyHeight : `${props.bodyHeight - scrollBarWidth}px`,
       };
 
       bodyWrapClassName = 'kuma-uxtable-body-fixed';
@@ -115,6 +109,8 @@ class Tbody extends React.Component {
       bodyWrapClassName = 'kuma-uxtable-body-right-fixed';
       style = {
         ...style,
+        marginBottom: `-${scrollBarWidth}px`,
+        height: props.bodyHeight === 'auto' ? props.bodyHeight : `${props.bodyHeight - scrollBarWidth}px`,
       };
     } else if (props.fixedColumn === 'scroll') {
       const leftFixedColumns = [];
@@ -133,21 +129,6 @@ class Tbody extends React.Component {
       });
 
       columns = leftFixedColumns.concat(normalColumns, rightFixedColumns);
-
-      let delta = 2;
-
-      // change 2 to 3, fix ie8 issue
-      if (util.getIEVer() === 8) {
-        delta = 3;
-      }
-      const bodyWidth = typeof props.width === 'number'
-        ? (props.width - delta)
-        : props.width;
-      style = {
-        ...style,
-        width: bodyWidth,
-        minWidth: bodyWidth,
-      };
       bodyWrapClassName = 'kuma-uxtable-body-scroll';
     } else {
       bodyWrapClassName = 'kuma-uxtable-body-no';

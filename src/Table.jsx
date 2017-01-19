@@ -108,40 +108,8 @@ class Table extends React.Component {
     me.setState(newData);
   }
 
-  renderTbody(renderBodyProps, bodyHeight) {
-    if (this.hasFixed) {
-      const fixedBodyProps = assign({}, renderBodyProps, {
-        subComp: null,
-      });
-      return (
-        <div
-          className="kuma-uxtable-body-wrapper"
-        >
-          {this.hasFixed.hasLeft ? <Tbody
-            {...fixedBodyProps}
-            fixedColumn="fixed"
-            key="grid-body-left-fixed"
-            ref={util.saveRef('bodyFixed', this)}
-          /> : null}
-          <Tbody
-            {...renderBodyProps}
-            fixedColumn="scroll"
-            key="grid-body-scroll"
-            ref={util.saveRef('bodyScroll', this)}
-            onScroll={this.handleBodyScroll}
-          />
-          {this.hasFixed.hasRight ? <Tbody
-            {...fixedBodyProps}
-            fixedColumn="rightFixed"
-            key="grid-body-right-fixed"
-            ref={util.saveRef('bodyRightFixed', this)}
-          /> : null}
-          <Animate showProp="visible" transitionName="tableMaskFade">
-            <Mask visible={this.state.showMask} text={this.props.loadingText} />
-          </Animate>
-        </div>
-      );
-    }
+  renderTbody(renderBodyProps, bodyHeight, fixedColumn) {
+    const isFixedTable = ['fixed', 'rightFixed'].indexOf(fixedColumn) !== -1;
     return (
       <div
         className="kuma-uxtable-body-wrapper"
@@ -149,36 +117,26 @@ class Table extends React.Component {
           height: bodyHeight,
         }}
       >
-        <Tbody {...renderBodyProps} fixedColumn="no" onScroll={this.handleBodyScroll} />
-        <Animate showProp="visible" transitionName="tableMaskFade">
+        <Tbody
+          {...renderBodyProps}
+          fixedColumn={fixedColumn}
+          onScroll={fixedColumn !== 'fixed' ? this.handleBodyScroll : undefined}
+          ref={util.saveRef(`body${upperFirst(fixedColumn)}`, this)}
+        />
+        {!isFixedTable ? <Animate showProp="visible" transitionName="tableMaskFade">
           <Mask visible={this.state.showMask} text={this.props.loadingText} />
-        </Animate>
+        </Animate> : null}
       </div>
     );
   }
 
-  renderHeader(renderHeaderProps) {
+  renderHeader(renderHeaderProps, fixedColumn) {
     if (!this.props.showHeader) {
       return null;
     }
-
-    if (this.hasFixed) {
-      return (
-        <div className="kuma-uxtable-header-wrapper">
-          <Header {...renderHeaderProps} fixedColumn="fixed" ref={util.saveRef('headerFixed', this)} key="grid-header-fixed" />
-          <Header
-            {...renderHeaderProps}
-            fixedColumn="scroll"
-            key="grid-header-scroll"
-            ref={util.saveRef('headerScroll', this)}
-          />
-          <Header {...renderHeaderProps} fixedColumn="rightFixed" ref={util.saveRef('headerRightFixed', this)} key="grid-header-right-fixed" />
-        </div>
-      );
-    }
     return (
       <div className="kuma-uxtable-header-wrapper">
-        <Header {...renderHeaderProps} fixedColumn="no" ref={util.saveRef('headerNo', this)} />
+        <Header {...renderHeaderProps} fixedColumn={fixedColumn} ref={util.saveRef(`header${upperFirst(fixedColumn)}`, this)} />
       </div>
     );
   }
@@ -248,7 +206,7 @@ class Table extends React.Component {
     });
   }
 
-  getDomNode() {
+  getDom() {
     return this.root;
   }
 
@@ -410,9 +368,9 @@ class Table extends React.Component {
 
   handleBodyScroll(scrollLeft, scrollTop, column) {
     const me = this;
-    const headerNode = me.hasFixed ? me.headerScroll : me.headerNo;
-    if (scrollLeft !== undefined) {
-      headerNode.getDomNode().scrollLeft = scrollLeft;
+    const headerNode = me.headerScroll;
+    if (scrollLeft !== undefined && column === 'scroll') {
+      headerNode.getDom().scrollLeft = scrollLeft;
     }
     if (scrollTop !== undefined && this.hasFixed) {
       const columnType = ['fixed', 'rightFixed', 'scroll'];
@@ -420,37 +378,33 @@ class Table extends React.Component {
       columnToScroll.forEach((item) => {
         const instance = me[`body${upperFirst(item)}`];
         if (instance) {
-          instance.getDomNode().scrollTop = scrollTop;
+          instance.getDom().scrollTop = scrollTop;
         }
       });
     }
-    me.checkBodyHScroll();
+    me.checkBodyHScroll(scrollLeft);
   }
 
   checkBodyHScroll(scrollLeft) {
     if (!this.hasFixed) {
       return false;
     }
-    const node = this.bodyScroll.getDomNode();
+    const node = this.bodyScroll.getDom();
     const wrapperScrollLeft = scrollLeft || node.scrollLeft;
     if (this.hasFixed.hasLeft) {
       if (wrapperScrollLeft > 0) {
-        addClass(this.headerFixed.getDomNode(), 'has-scroll');
-        addClass(this.bodyFixed.getDomNode(), 'has-scroll');
+        addClass(this.fixedTable, 'has-scroll');
       } else {
-        removeClass(this.headerFixed.getDomNode(), 'has-scroll');
-        removeClass(this.bodyFixed.getDomNode(), 'has-scroll');
+        removeClass(this.fixedTable, 'has-scroll');
       }
     }
     if (this.hasFixed.hasRight) {
       const wrapperWidth = node.clientWidth;
       const bodyWidth = node.children[0].clientWidth;
       if (wrapperScrollLeft + wrapperWidth + 3 < bodyWidth) {
-        addClass(this.headerRightFixed.getDomNode(), 'end-of-scroll');
-        addClass(this.bodyRightFixed.getDomNode(), 'end-of-scroll');
+        addClass(this.rightFixedTable, 'end-of-scroll');
       } else {
-        removeClass(this.headerRightFixed.getDomNode(), 'end-of-scroll');
-        removeClass(this.bodyRightFixed.getDomNode(), 'end-of-scroll');
+        removeClass(this.rightFixedTable, 'end-of-scroll');
       }
     }
     return false;
@@ -810,6 +764,42 @@ class Table extends React.Component {
     return null;
   }
 
+  renderMainTable(renderHeaderProps, renderBodyProps, bodyHeight) {
+    const { prefixCls } = this.props;
+    return (
+      <div className={`${prefixCls}-main-table`} ref={util.saveRef('mainTable', this)}>
+        {this.renderHeader(renderHeaderProps, 'scroll')}
+        {this.renderTbody(renderBodyProps, bodyHeight, 'scroll')}
+      </div>
+    );
+  }
+
+  renderLeftFixedTable(renderHeaderProps, renderBodyProps, bodyHeight) {
+    if (!this.hasFixed || !this.hasFixed.hasLeft) {
+      return null;
+    }
+    const { prefixCls } = this.props;
+    return (
+      <div className={`${prefixCls}-left-fixed-table`} ref={util.saveRef('fixedTable', this)}>
+        {this.renderHeader(renderHeaderProps, 'fixed')}
+        {this.renderTbody(renderBodyProps, bodyHeight, 'fixed')}
+      </div>
+    );
+  }
+
+  renderRightFixedTable(renderHeaderProps, renderBodyProps, bodyHeight) {
+    if (!this.hasFixed || !this.hasFixed.hasRight) {
+      return null;
+    }
+    const { prefixCls } = this.props;
+    return (
+      <div className={`${prefixCls}-right-fixed-table`} ref={util.saveRef('rightFixedTable', this)}>
+        {this.renderHeader(renderHeaderProps, 'rightFixed')}
+        {this.renderTbody(renderBodyProps, bodyHeight, 'rightFixed')}
+      </div>
+    );
+  }
+
   render() {
     const me = this;
     const { props, state } = this;
@@ -868,7 +858,6 @@ class Table extends React.Component {
       handleDataChange: this.handleDataChange,
       attachCellField: this.attachCellField,
       detachCellField: this.detachCellField,
-      // onScroll: this.handleBodyScroll,
       key: 'grid-body',
     };
     const renderHeaderProps = {
@@ -926,8 +915,9 @@ class Table extends React.Component {
             width: props.passedData ? 'auto' : props.width,
           }}
         >
-          {this.renderHeader(renderHeaderProps)}
-          {this.renderTbody(renderBodyProps)}
+          {this.renderLeftFixedTable(renderHeaderProps, renderBodyProps, bodyHeight)}
+          {this.renderMainTable(renderHeaderProps, renderBodyProps, bodyHeight)}
+          {this.renderRightFixedTable(renderHeaderProps, renderBodyProps, bodyHeight)}
         </div>
         {this.renderPager()}
       </div>
@@ -1159,169 +1149,60 @@ Table.defaultProps = {
 
 // http://facebook.github.io/react/docs/reusable-components.html
 Table.propTypes = {
-  /**
-   * @title 国际化
-   */
+  prefixCls: React.PropTypes.string,
   locale: React.PropTypes.string,
-  /**
-   * @title 列配置
-   */
   jsxcolumns: React.PropTypes.arrayOf(React.PropTypes.object),
-  /**
-   * @title 表格宽度
-   */
   width: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.number,
   ]),
-  /**
-   * @title 表格高度
-   */
   height: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.number,
   ]),
-  /**
-   * @title 表头高度
-   */
   headerHeight: React.PropTypes.number,
-  /**
-   * @title 每页显示条数
-   */
   pageSize: React.PropTypes.number,
-  /**
-   * @title 哪些参数传递给 subComp (即将废除)
-   */
   queryKeys: React.PropTypes.array,
-  /**
-   * @title 是否在初始化时请求数据
-   */
   fetchDataOnMount: React.PropTypes.bool,
-  /**
-   * @title 是否双击进入编辑模式
-   */
   doubleClickToEdit: React.PropTypes.bool,
-  /**
-   * @title 是否显示列选择器
-   */
   showColumnPicker: React.PropTypes.bool,
-  /**
-   * @title 是否显示分页
-   */
   showPager: React.PropTypes.bool,
-  /**
-   * @title: 是否是小分页
-   */
   isMiniPager: React.PropTypes.bool,
-  /**
-   * @title 分页中是否显示总条数
-   */
   showPagerTotal: React.PropTypes.bool,
-  /**
-   * @title  显示的可选 pageSize
-   */
   pagerSizeOptions: React.PropTypes.array,
-  /**
-   * @title 是否显示表格头
-   */
   showHeader: React.PropTypes.bool,
-  /**
-   * @title 是否显示遮罩
-   */
   showMask: React.PropTypes.bool,
-  /**
-   * @title 是否显示搜索框
-   */
   showSearch: React.PropTypes.bool,
-  /**
-   * @title 搜索框占位符
-   */
   searchBarPlaceholder: React.PropTypes.string,
-  /**
-   * @title 加载中文案
-   */
   loadingText: React.PropTypes.string,
-  /**
-   * @title 子组件(即将废除)
-   */
   subComp: React.PropTypes.element,
-  /**
-   * @title 无数据时的文案
-   */
   emptyText: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.element,
     React.PropTypes.object,
   ]),
-  /**
-   * @title 数据源（手动）
-   */
   jsxdata: React.PropTypes.object,
-  /**
-   * @title 数据源（url）
-   */
   fetchUrl: React.PropTypes.string,
-  /**
-   * @title 请求携带的参数
-   */
   fetchParams: React.PropTypes.object,
-  /**
-   * @title 当前页数
-   */
   currentPage: React.PropTypes.number,
-  /**
-   * @title 列选择器的类型
-   */
   rowSelector: React.PropTypes.string,
-  /**
-   * @title 操作栏配置
-   */
   actionBar: React.PropTypes.oneOfType([
     React.PropTypes.array,
     React.PropTypes.object,
   ]),
-  /**
-   * @title 操作外链配置
-   */
   linkBar: React.PropTypes.oneOfType([
     React.PropTypes.array,
     React.PropTypes.object,
   ]),
   fitResponse: React.PropTypes.func,
-  /**
-   * @title 处理数据的回调
-   */
   processData: React.PropTypes.func,
-  /**
-   * @title 发起请求前的回调
-   */
   beforeFetch: React.PropTypes.func,
-  /**
-   * @title 请求出错时的回调
-   */
   onFetchError: React.PropTypes.func,
-  /**
-   * @title 渲染每一行前用于添加特殊类名的回调
-   */
   addRowClassName: React.PropTypes.func,
-  /**
-   */
   passedData: React.PropTypes.object,
-  /**
-   * @title getData 获取的是否是保存之后的数据
-   */
   getSavedData: React.PropTypes.bool,
-  /**
-   * @title 行内编辑时触发的回调
-   */
   onChange: React.PropTypes.func,
-  /**
-   * @title 是否是树模式
-   */
   renderModel: React.PropTypes.string,
-  /**
-   * @title 树的层级
-   */
   levels: React.PropTypes.number,
 
 };
