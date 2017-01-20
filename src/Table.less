@@ -50,6 +50,10 @@
   overflow-y: hidden;
 }
 
+.@{uxtable-prefix}-fixed-body-wrapper {
+  overflow-x: hidden;
+}
+
 .@{uxtable-prefix}-header {
   background-color: @table-header-bg;
   font-size: 14px;
@@ -106,7 +110,6 @@
   display: inline-block;
   text-align: left;
   overflow: hidden;
-  text-overflow: ellipsis;
   height: 100%;
   padding: 0 0 0 20px;
   vertical-align: top;
@@ -373,17 +376,20 @@
   }
 }
 
-.kuma-uxtable-body-fixed,
-.kuma-uxtable-body-right-fixed {
-  overflow: hidden;
-}
-
-.kuma-uxtable-body-right-fixed {
+.@{uxtable-prefix}-body-fixed,
+.@{uxtable-prefix}-body-right-fixed {
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
-.kuma-uxtable-left-fixed-table,
-.kuma-uxtable-right-fixed-table {
+.@{uxtable-prefix}-body-fixed {
+  // overflow-y: auto;
+  padding-right: 20px;
+  margin-right: -20px;
+}
+
+.@{uxtable-prefix}-left-fixed-table,
+.@{uxtable-prefix}-right-fixed-table {
   overflow: hidden;
   position: absolute;
   top: 0;
@@ -397,11 +403,11 @@
   }
 }
 
-.kuma-uxtable-left-fixed-table {
+.@{uxtable-prefix}-left-fixed-table {
   left: 0;
 }
 
-.kuma-uxtable-right-fixed-table {
+.@{uxtable-prefix}-right-fixed-table {
   right: 0;
 }
 
@@ -424,7 +430,7 @@
 
 .@{uxtable-prefix}-header-scroll {
   position: static;
-  overflow-x: hidden;
+  overflow: hidden;
   z-index: 1;
   height: 100%;
   .@{uxtable-prefix}-header {
@@ -480,6 +486,13 @@
       border-bottom: 1px solid @basic-600;
     }
   }
+  .@{uxtable-prefix}-content {
+    .@{uxtable-prefix}-row.@{uxtable-prefix}-row-hover {
+      .@{uxtable-prefix}-row-cells {
+        background-color: white;
+      }
+    }
+  }
 }
 
 .@{uxtable-prefix}-border-line {
@@ -499,11 +512,6 @@
       }
     }
   }
-  .@{uxtable-prefix}-row-hover.even {
-    .@{uxtable-prefix}-row-cells {
-      background-color: @brand-primary-lighter;
-    }
-  }
   .@{uxtable-prefix}-cell {
     border-right: 1px solid @basic-600;
     &.last {
@@ -513,6 +521,16 @@
   .@{uxtable-prefix}-header-group-name {
     border-right: 1px solid @basic-600;
     border-bottom: 1px solid @basic-600;
+  }
+  .@{uxtable-prefix}-row-hover {
+    &.even {
+      .@{uxtable-prefix}-row-cells {
+        background-color: @brand-primary-lighter;
+      }
+    }
+  }
+  .@{uxtable-prefix}-left-fixed-table {
+    border-right: 1px solid @basic-600;
   }
 }
 

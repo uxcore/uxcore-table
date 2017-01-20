@@ -7,7 +7,7 @@ const util = require('./util');
 const deepcopy = require('lodash/cloneDeep');
 const React = require('react');
 const addEventListener = require('rc-util/lib/Dom/addEventListener');
-const throttle = require('lodash/throttle');
+// const throttle = require('lodash/throttle');
 const EmptyData = require('uxcore-empty-data');
 // const QueueAnim = require('rc-queue-anim');
 
@@ -23,7 +23,8 @@ class Tbody extends React.Component {
   componentDidMount() {
     const me = this;
     me.rootEl = me.root;
-    me.scrollHandler = throttle(me.onScroll.bind(me), 20);
+    // me.scrollHandler = throttle(me.onScroll.bind(me), 50);
+    me.scrollHandler = me.onScroll.bind(me);
     me.scrollListener = addEventListener(me.rootEl, 'scroll', me.scrollHandler);
   }
 

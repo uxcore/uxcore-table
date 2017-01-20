@@ -112,7 +112,9 @@ class Table extends React.Component {
     const isFixedTable = ['fixed', 'rightFixed'].indexOf(fixedColumn) !== -1;
     return (
       <div
-        className="kuma-uxtable-body-wrapper"
+        className={classnames('kuma-uxtable-body-wrapper', {
+          'kuma-uxtable-fixed-body-wrapper': isFixedTable,
+        })}
         style={{
           height: bodyHeight,
         }}
@@ -120,7 +122,7 @@ class Table extends React.Component {
         <Tbody
           {...renderBodyProps}
           fixedColumn={fixedColumn}
-          onScroll={fixedColumn !== 'fixed' ? this.handleBodyScroll : undefined}
+          onScroll={this.handleBodyScroll}
           ref={util.saveRef(`body${upperFirst(fixedColumn)}`, this)}
         />
         {!isFixedTable ? <Animate showProp="visible" transitionName="tableMaskFade">

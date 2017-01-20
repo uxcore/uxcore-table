@@ -36,6 +36,7 @@ class Demo extends React.Component {
       },
       {
         group: '分组',
+        fixed: true,
         columns: [
           {
             dataKey: 'id',
@@ -134,6 +135,7 @@ class Demo extends React.Component {
           });
         },
       },
+      width: 800,
       showSearch: true,
       showColumnPicker: true,
       fetchUrl,

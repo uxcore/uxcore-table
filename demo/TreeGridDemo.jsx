@@ -34,6 +34,7 @@ class Demo extends React.Component {
         width: 200,
         ordered: true,
         type: 'money',
+        fixed: true,
         delimiter: ',',
       },
       {
@@ -59,7 +60,7 @@ class Demo extends React.Component {
 
     const renderProps = {
       height: 400,
-      width: 800,
+      width: 600,
       showSearch: true,
       levels: 2,
       fetchUrl: `${urlPrefix}demo/data.json`,

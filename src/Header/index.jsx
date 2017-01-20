@@ -223,10 +223,6 @@ class Header extends React.Component {
         }
         return false;
       });
-      assign(headerStyle, {
-        width,
-        minWidth: width,
-      });
       headerWrapClassName = 'kuma-uxtable-header-fixed';
     } else if (props.fixedColumn === 'rightFixed') {
       columns = props.columns.filter((item) => {
@@ -235,10 +231,6 @@ class Header extends React.Component {
           return true;
         }
         return false;
-      });
-      assign(headerStyle, {
-        width,
-        minWidth: width,
       });
       headerWrapClassName = 'kuma-uxtable-header-right-fixed';
     } else if (props.fixedColumn === 'scroll') {
