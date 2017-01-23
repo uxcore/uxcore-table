@@ -777,7 +777,8 @@ class Table extends React.Component {
   }
 
   renderLeftFixedTable(renderHeaderProps, renderBodyProps, bodyHeight) {
-    if (!this.hasFixed || !this.hasFixed.hasLeft) {
+    if (!this.hasFixed || !this.hasFixed.hasLeft
+      || !renderBodyProps.data || !renderBodyProps.data.length) {
       return null;
     }
     const { prefixCls } = this.props;
@@ -790,7 +791,8 @@ class Table extends React.Component {
   }
 
   renderRightFixedTable(renderHeaderProps, renderBodyProps, bodyHeight) {
-    if (!this.hasFixed || !this.hasFixed.hasRight) {
+    if (!this.hasFixed || !this.hasFixed.hasRight
+      || !renderBodyProps.data || !renderBodyProps.data.length) {
       return null;
     }
     const { prefixCls } = this.props;

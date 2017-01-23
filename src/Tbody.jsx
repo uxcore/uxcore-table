@@ -74,7 +74,7 @@ class Tbody extends React.Component {
   render() {
     const me = this;
     const props = me.props;
-    const data = props.data.length > 0 ? props.data : [];
+    const data = props.data;
     const leftFixedType = ['checkboxSelector', 'radioSelector', 'treeIcon'];
     let style = {
       height: props.bodyHeight,
@@ -169,10 +169,10 @@ class Tbody extends React.Component {
     // const content = util.getIEVer() >= 8 ? rows : <QueueAnim>{rows}</QueueAnim>;
     return (
       <div className={bodyWrapClassName} ref={this.saveRef('root')} style={style}>
-        <ul className={this.props.jsxprefixCls}>
-          {this.renderEmptyData()}
+        {this.renderEmptyData()}
+        {data.length > 0 ? <ul className={this.props.jsxprefixCls}>
           {rows}
-        </ul>
+        </ul> : null}
       </div>
     );
   }

@@ -2,6 +2,10 @@
 
 ---
 
+## 1.14.1
+
+* `CHANGED` only show fixedTable when data exist
+
 ## 1.14.0
 
 * `NEW` support `column.rightFixed`
