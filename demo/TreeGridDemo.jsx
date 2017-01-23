@@ -56,11 +56,25 @@ class Demo extends React.Component {
         width: 200,
         ordered: true,
       },
+      {
+        title: '操作',
+        type: 'action',
+        actions: [
+          {
+            title: '上移',
+            callback: (rowData) => { this.table.moveRowUp(rowData); },
+          },
+          {
+            title: '下移',
+            callback: (rowData) => { this.table.moveRowDown(rowData); },
+          },
+        ],
+      },
     ];
 
     const renderProps = {
       height: 400,
-      width: 600,
+      width: 1000,
       showSearch: true,
       levels: 2,
       fetchUrl: `${urlPrefix}demo/data.json`,
@@ -71,6 +85,9 @@ class Demo extends React.Component {
           console.log(checked, selectedRow, selectedRows);
         },
         onSelectAll: () => {},
+      },
+      ref: (c) => {
+        this.table = c;
       },
     };
     return (<Table {...renderProps} />);

@@ -2,6 +2,10 @@
 
 ---
 
+## 1.14.3
+
+* `CHANGED` `moveRowUp` & `moveRowDown` support tree mode.
+
 ## 1.14.2
 
 * `CHANGED` `subComp` logic is removed, use `renderSubComp` instead.

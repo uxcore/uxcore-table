@@ -96,18 +96,19 @@ function toggleSubComp(rowData, cb) {
 function moveRowUp(rowData, cb) {
   const content = deepcopy(this.state.data);
   const data = content.data || content.datas;
-  let index = -1;
   if (data) {
-    for (let i = 0; i < data.length; i++) {
-      const item = data[i];
-      if (item.jsxid === rowData.jsxid) {
-        index = i;
-        break;
-      }
+    const treeIdArr = rowData.__treeId__.split('-');
+    let rows = data;
+    for (let i = 0; i < treeIdArr.length - 1; i++) {
+      const rowIndex = treeIdArr[i];
+      rows = rows[rowIndex].data;
     }
-    if (index > 0) {
-      data.splice(index, 1);
-      data.splice(index - 1, 0, rowData);
+    const lastIndex = treeIdArr.pop();
+    if (lastIndex > 0) {
+      rows.splice(lastIndex, 1);
+      // change treeId before setState;
+      rows[lastIndex - 1].__treeId__ = treeIdArr.concat([lastIndex]).join('-');
+      rows.splice(lastIndex - 1, 0, { ...rowData, __treeId__: treeIdArr.concat([lastIndex - 1]).join('-') });
       this.data = content;
       this.setState({
         data: content,
@@ -123,18 +124,19 @@ function moveRowUp(rowData, cb) {
 function moveRowDown(rowData, cb) {
   const content = deepcopy(this.state.data);
   const data = content.data || content.datas;
-  let index = -1;
   if (data) {
-    for (let i = 0; i < data.length; i++) {
-      const item = data[i];
-      if (item.jsxid === rowData.jsxid) {
-        index = i;
-        break;
-      }
+    const treeIdArr = rowData.__treeId__.split('-').map(item => parseInt(item, 10));
+    let rows = data;
+    for (let i = 0; i < treeIdArr.length - 1; i++) {
+      const rowIndex = treeIdArr[i];
+      rows = rows[rowIndex].data;
     }
-    if (index > -1 && index < data.length - 1) {
-      data.splice(index, 1);
-      data.splice(index + 1, 0, rowData);
+    const lastIndex = treeIdArr.pop();
+    if (lastIndex < rows.length - 1) {
+      // change treeId before setState;
+      rows[lastIndex + 1].__treeId__ = treeIdArr.concat([lastIndex]).join('-');
+      rows.splice(lastIndex, 1);
+      rows.splice(lastIndex + 1, 0, { ...rowData, __treeId__: treeIdArr.concat([lastIndex + 1]).join('-') });
       this.data = content;
       this.setState({
         data: content,

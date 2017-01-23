@@ -980,6 +980,7 @@ class Table extends React.Component {
       node.jsxid = me.uid;
       me.uid += 1;
       node.__mode__ = node.__mode__ || Const.MODE.VIEW;
+      node.__treeId__ = objAux.__treeId__ ? `${objAux.__treeId__}-${i}` : `${i}`;
       me.addValuesInData(node);
     }
     return objAux;
