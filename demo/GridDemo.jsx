@@ -44,6 +44,7 @@ class Demo extends React.Component {
       {
         dataKey: 'select',
         type: 'checkboxSelector',
+        isDisable: rowData => /c/.test(rowData.country),
       },
       {
         dataKey: 'id',
@@ -134,7 +135,7 @@ class Demo extends React.Component {
         console.log(current, pageSize);
       },
       showSearch: true,
-      // fetchUrl,
+      fetchUrl,
       jsxdata: {
         data: [],
       },

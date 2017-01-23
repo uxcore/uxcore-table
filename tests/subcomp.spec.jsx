@@ -36,17 +36,6 @@ describe('SubComp', () => {
     expect(wrapper.find('.kuma-uxtable-subrow').contains(<div>1</div>)).to.be(true);
   });
 
-  it('props subComp', (done) => {
-    wrapper = mount(
-      <Table {...common} subComp={<div>1</div>} />
-    );
-    wrapper.find('.kuma-uxtable-tree-icon').simulate('click');
-    setTimeout(() => {
-      expect(wrapper.find('.kuma-uxtable-subrow').length).not.to.be(0);
-      done();
-    }, 100);
-  });
-
   it('api toggleSubComp', () => {
     wrapper = mount(
       <Table {...common} renderSubComp={() => <div>1</div>} />

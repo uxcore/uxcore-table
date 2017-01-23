@@ -2,6 +2,10 @@
 
 ---
 
+## 1.14.2
+
+* `CHANGED` `subComp` logic is removed, use `renderSubComp` instead.
+
 ## 1.14.1
 
 * `CHANGED` only show fixedTable when data exists

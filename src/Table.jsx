@@ -38,6 +38,7 @@ class Table extends React.Component {
     this.uid = 0;
     this.fields = {};
     this.copyData = deepcopy(this.props.jsxdata);
+    this.hasFixed = util.hasFixColumn(props);
     this.state = {
       data: this.addValuesInData(this.copyData), // checkbox 内部交互
       columns: this.processColumn(), // column 内部交互
@@ -57,7 +58,6 @@ class Table extends React.Component {
     this.handleOrderColumnCB = this.handleOrderColumnCB.bind(this);
     this.handleColumnPickerChange = this.handleColumnPickerChange.bind(this);
     this.handleActionBarSearch = this.handleActionBarSearch.bind(this);
-    this.hasFixed = util.hasFixColumn(props);
   }
 
   componentDidMount() {
@@ -68,6 +68,9 @@ class Table extends React.Component {
     }
     if (me.props.subComp) {
       console.warn('Table: subComp is deprecated, use renderSubComp instead.');
+    }
+    if (me.props.renderSubComp && this.hasFixed) {
+      console.error('Table: subComp cannot be rendered if fixed column exists, remove fixed column or props.renderSubComp');
     }
     if (this.props.fetchDataOnMount) {
       this.fetchData(undefined, undefined, () => {
@@ -217,25 +220,30 @@ class Table extends React.Component {
     return this.pager;
   }
 
-  getIsSelectAll(data) {
+  getCheckStatus(data) {
     const me = this;
     const column = me.checkboxColumn;
     if (!column || data.length === 0) {
       return false;
     }
     const checkboxColumnKey = me.checkboxColumnKey;
-    let isSelectAll = true;
+    let isAllDisabled = true;
+    let isHalfChecked = false;
+    let checkedColumn = 0;
+    let enabledColumn = 0;
     for (let i = 0; i < data.length; i++) {
-      if ((('isDisable' in column) && column.isDisable(data[i])) || column.disable) {
-        isSelectAll = true;
-      } else {
-        isSelectAll = data[i][checkboxColumnKey];
-        if (!isSelectAll) {
-          break;
+      const item = data[i];
+      if (!column.disable && !(column.isDisable && column.isDisable(item))) {
+        isAllDisabled = false;
+        enabledColumn += 1;
+        if (item[checkboxColumnKey]) {
+          isHalfChecked = true;
+          checkedColumn += 1;
         }
       }
     }
-    return isSelectAll;
+    const isAllChecked = enabledColumn ? checkedColumn === enabledColumn : false;
+    return { isAllChecked, isAllDisabled, isHalfChecked: isAllChecked ? false : isHalfChecked };
   }
 
   /**
@@ -482,8 +490,8 @@ class Table extends React.Component {
         type: 'empty',
       }].concat(columns);
     }
-    if ((!!actualProps.subComp || !!actualProps.renderSubComp)
-      && actualProps.renderModel !== 'tree') {
+    if ((actualProps.subComp || actualProps.renderSubComp)
+      && actualProps.renderModel !== 'tree' && !this.hasFixed) {
       columns = [{
         dataKey: 'jsxtreeIcon',
         width: 36,
@@ -815,7 +823,7 @@ class Table extends React.Component {
     const { headerHeight } = props;
 
     const data = state.data ? (state.data.datas || state.data.data) : [];
-    const isSelectAll = me.getIsSelectAll(data);
+    const checkStatus = me.getCheckStatus(data);
 
     const style = {
       width: props.passedData ? 'auto' : props.width,
@@ -848,9 +856,8 @@ class Table extends React.Component {
       rowSelection: props.rowSelection,
       addRowClassName: props.addRowClassName,
       locale: props.locale,
-      subComp: props.subComp,
       emptyText: props.emptyText,
-      renderSubComp: props.renderSubComp,
+      renderSubComp: this.hasFixed ? null : props.renderSubComp,
       rowHeight: props.rowHeight,
       loadingText: props.loadingText,
       checkboxColumnKey: me.checkboxColumnKey,
@@ -876,7 +883,7 @@ class Table extends React.Component {
       renderModel: props.renderModel,
       width: props.width,
       mode: props.mode,
-      isSelectAll,
+      checkStatus,
       selectAll: this.selectAll,
       orderColumnCB: this.handleOrderColumnCB,
       key: 'grid-header',

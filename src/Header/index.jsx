@@ -46,8 +46,8 @@ class Header extends React.Component {
     }
   }
 
-  handleCheckBoxChange() {
-    const v = this.checkbox.getValue();
+  handleCheckBoxChange(e) {
+    const v = e.target.checked;
     this.props.selectAll.apply(null, [v]);
   }
 
@@ -125,8 +125,9 @@ class Header extends React.Component {
 
       const checkBoxProps = {
         ref: me.saveRef('checkbox'),
-        checked: me.props.isSelectAll,
-        disable: ((me.props.mode !== Const.MODE.VIEW) ? item.disable : true),
+        checked: me.props.checkStatus.isAllChecked,
+        halfChecked: me.props.checkStatus.isHalfChecked,
+        disable: me.props.checkStatus.isAllDisabled,
         onChange: me.handleCheckBoxChange.bind(me),
       };
 
