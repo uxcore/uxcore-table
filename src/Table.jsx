@@ -37,8 +37,9 @@ class Table extends React.Component {
     super(props);
     this.uid = 0;
     this.fields = {};
+    this.copyData = deepcopy(this.props.jsxdata);
     this.state = {
-      data: this.addValuesInData(deepcopy(this.props.jsxdata)), // checkbox 内部交互
+      data: this.addValuesInData(this.copyData), // checkbox 内部交互
       columns: this.processColumn(), // column 内部交互
       showMask: props.showMask, // fetchData 时的内部状态改变
       pageSize: props.pageSize, // pagination 相关
@@ -82,7 +83,7 @@ class Table extends React.Component {
     const me = this;
     const newData = {};
     if (nextProps.jsxdata
-      && !deepEqual(nextProps.jsxdata, me.props.jsxdata)) {
+      && !deepEqual(nextProps.jsxdata, this.copyData)) {
       // Data has changed, so uid which is used to mark the data should be reset.
       me.uid = 0;
       me.fetchData('dataChange', nextProps);
@@ -616,7 +617,8 @@ class Table extends React.Component {
         props.onSearch(me.state.searchTxt);
       }
     } else {
-      const data = this.addValuesInData(deepcopy(props.jsxdata));
+      this.copyData = deepcopy(props.jsxdata);
+      const data = this.addValuesInData(this.copyData);
       const currentPage = (data && data.currentPage) || this.state.currentPage;
       me.data = deepcopy(data);
       me.setState({

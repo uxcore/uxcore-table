@@ -4,7 +4,7 @@
 
 ## 1.14.1
 
-* `CHANGED` only show fixedTable when data exist
+* `CHANGED` only show fixedTable when data exists
 
 ## 1.14.0
 
