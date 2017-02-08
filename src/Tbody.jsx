@@ -63,7 +63,7 @@ class Tbody extends React.Component {
         style.lineHeight = `${this.props.height - 10}px`;
       }
       return (
-        <EmptyData style={{ marginTop: '20px' }}>
+        <EmptyData style={{ marginTop: '20px', marginBottom: '20px' }}>
           {this.props.emptyText}
         </EmptyData>
       );
