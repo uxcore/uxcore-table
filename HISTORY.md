@@ -2,6 +2,10 @@
 
 ---
 
+## 1.14.4
+
+* `CHANGED` add margin-bottom to the empty data cell
+
 ## 1.14.3
 
 * `CHANGED` `moveRowUp` & `moveRowDown` support tree mode.

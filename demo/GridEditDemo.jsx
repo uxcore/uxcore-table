@@ -211,7 +211,8 @@ class Demo extends React.Component {
       {
         dataKey: 'action1',
         title: '操作1',
-        width: 280,
+        rightFixed: true,
+        width: 120,
         type: 'action',
         actionType: 'button',
         collapseNum: 2,
@@ -259,7 +260,7 @@ class Demo extends React.Component {
 
     const renderProps = {
       // height: 200,
-      // width: 600,
+      width: 600,
       showPager: true,
       fetchParams: {},
       showSearch: true,
