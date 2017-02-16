@@ -2,6 +2,10 @@
 
 ---
 
+## 2.0.0
+
+* `CHANGED` update `uxcore-date-cell-field` to ^0.3.0
+
 ## 1.14.4
 
 * `CHANGED` add margin-bottom to the empty data cell
