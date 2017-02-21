@@ -22,10 +22,11 @@ class CollapsedButton extends React.Component {
     };
     this.handleDropdownVisibleChange = this.handleDropdownVisibleChange.bind(this);
     this.handleMoreClick = this.handleMoreClick.bind(this);
+    this.refCallback = [];
   }
 
   componentWillReceiveProps(nextProps) {
-    if (React.Children.count(nextProps.children) < this.toNum(nextProps.maxLength)) {
+    if (React.Children.count(nextProps.children) < parseInt(nextProps.maxLength, 10)) {
       this.setState({
         dropdownVisible: false,
       });
@@ -35,35 +36,42 @@ class CollapsedButton extends React.Component {
   componentDidUpdate() {
     const { children, maxLength } = this.props;
     if (this.state.dropdownVisible
-      && this.toNum(maxLength) === 1
+      && parseInt(maxLength, 10) === 1
       && React.Children.count(children) > 1
     ) {
       const dropdownDOMNode = this.dropdownInstance.getPopupDomNode();
+      /* eslint-disable react/no-find-dom-node */
       const triggerDOMnode = ReactDOM.findDOMNode(this.triggerInstance);
-
+      /* eslint-enable react/no-find-dom-node */
       dropdownDOMNode.style.minWidth = `${(triggerDOMnode || this.triggerInstance).offsetWidth}px`;
     }
   }
 
-  toNum(variable) {
-    if (typeof variable === 'string') {
-      return variable - 0;
-    }
-    return variable;
-  }
-
   saveRef(refName) {
     const me = this;
-    return (c) => {
+    if (me.refCallback[refName]) {
+      return me.refCallback[refName];
+    }
+    me.refCallback[refName] = (c) => {
       me[refName] = c;
       return false;
     };
+    return me.refCallback[refName];
   }
 
   handleDropdownVisibleChange(visible) {
     const me = this;
     me.setState({
       dropdownVisible: visible,
+    });
+  }
+
+  handleMenuItemClick(action, e) {
+    if (action.props.onClick) {
+      action.props.onClick(e);
+    }
+    this.setState({
+      dropdownVisible: false,
     });
   }
 
@@ -117,7 +125,7 @@ class CollapsedButton extends React.Component {
       <Menu>
         {actions.map((action, index) => (
           <Menu.Item key={index} disabled={!!action.props.disabled}>
-            <a onClick={action.props.onClick}>{action.props.children}</a>
+            <a onClick={me.handleMenuItemClick.bind(me, action)}>{action.props.children}</a>
           </Menu.Item>
         ))}
       </Menu>
@@ -204,7 +212,7 @@ class CollapsedButton extends React.Component {
       options.push(
         <Menu.Item key={index} disabled={!!child.props.disabled}>
           <a
-            onClick={child.props.onClick}
+            onClick={me.handleMenuItemClick.bind(me, child)}
           >{child.props.children}</a>
         </Menu.Item>
       );
@@ -243,18 +251,18 @@ class CollapsedButton extends React.Component {
     const { children, maxLength } = me.props;
     const buttons = [];
     const options = [];
-    if (me.toNum(maxLength) === 1 && React.Children.count(children) > 1) {
+    if (parseInt(maxLength, 10) === 1 && React.Children.count(children) > 1) {
       return (
         <div>{me.renderHoverMenu()}</div>
       );
     }
-    if (React.Children.count(children) <= me.toNum(maxLength)) {
+    if (React.Children.count(children) <= parseInt(maxLength, 10)) {
       React.Children.forEach(children, (item, index) => {
         buttons.push(me.renderItem(item, index));
       });
     } else {
       React.Children.forEach(children, (item, index) => {
-        if (index < me.toNum(maxLength) - 1) {
+        if (index < parseInt(maxLength, 10) - 1) {
           buttons.push(me.renderItem(item, index));
         } else {
           options.push(item);
