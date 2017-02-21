@@ -2,6 +2,11 @@
 
 ---
 
+## 2.0.1
+
+* `CHANGED` show emptyData if fetch errors
+* `CHANGED` action hoverMenu will be hiden if a menu item is clicked.
+
 ## 2.0.0
 
 * `CHANGED` update `uxcore-date-cell-field` to ^0.3.0
