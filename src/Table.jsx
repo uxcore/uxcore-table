@@ -581,6 +581,12 @@ class Table extends React.Component {
       me.setState(updateObj, () => { cb(); });
     }).catch((err) => {
       props.onFetchError(err);
+      me.setState({
+        data: {
+          data: [],
+        },
+        showMask: false,
+      });
     });
   }
 
@@ -1155,7 +1161,9 @@ Table.defaultProps = {
   processData: data => data,
   beforeFetch: obj => obj,
   onFetchError: (err) => {
-    console.error(err.stack);
+    if (err && err.stack) {
+      console.error(err.stack);
+    }
   },
   addRowClassName: () => { },
   onChange: () => { },
