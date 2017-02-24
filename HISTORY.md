@@ -2,6 +2,10 @@
 
 ---
 
+## 2.0.2
+
+* `FIXED` remove useless code in `Cell` componentDidMount 
+
 ## 2.0.1
 
 * `CHANGED` show emptyData if fetch errors

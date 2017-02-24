@@ -29,14 +29,14 @@ const fieldsMap = {
 
 class Cell extends React.Component {
 
-  componentDidMount() {
-    const me = this;
-    if (me.props.column.type === 'checkbox'
-      || me.props.column.type === 'checkboxSelector'
-      || me.props.column.type === 'radioSelector') {
-      me.props.changeSelected(me.getCellData(), me.props.rowIndex, true);
-    }
-  }
+  // componentDidMount() {
+  //   const me = this;
+  //   if (me.props.column.type === 'checkbox'
+  //     || me.props.column.type === 'checkboxSelector'
+  //     || me.props.column.type === 'radioSelector') {
+  //     me.props.changeSelected(me.getCellData(), me.props.rowIndex, true);
+  //   }
+  // }
 
   shouldComponentUpdate(nextProps) {
     // 需要考虑的 prop 包括
