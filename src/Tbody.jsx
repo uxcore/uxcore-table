@@ -95,7 +95,8 @@ class Tbody extends React.Component {
       });
       style = {
         ...style,
-        marginBottom: `-${scrollBarWidth}px`,
+        // paddingBottom: `${scrollBarWidth}px`,
+        // marginBottom: `-${scrollBarWidth}px`,
         height: props.bodyHeight === 'auto' ? props.bodyHeight : `${props.bodyHeight - scrollBarWidth}px`,
       };
 
@@ -110,7 +111,8 @@ class Tbody extends React.Component {
       bodyWrapClassName = 'kuma-uxtable-body-right-fixed';
       style = {
         ...style,
-        marginBottom: `-${scrollBarWidth}px`,
+        // paddingBottom: `${scrollBarWidth}px`,
+        // marginBottom: `-${scrollBarWidth}px`,
         height: props.bodyHeight === 'auto' ? props.bodyHeight : `${props.bodyHeight - scrollBarWidth}px`,
       };
     } else if (props.fixedColumn === 'scroll') {

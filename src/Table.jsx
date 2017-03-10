@@ -114,13 +114,14 @@ class Table extends React.Component {
 
   renderTbody(renderBodyProps, bodyHeight, fixedColumn) {
     const isFixedTable = ['fixed', 'rightFixed'].indexOf(fixedColumn) !== -1;
+    const scrollBarWidth = util.measureScrollbar();
     return (
       <div
         className={classnames('kuma-uxtable-body-wrapper', {
           'kuma-uxtable-fixed-body-wrapper': isFixedTable,
         })}
         style={{
-          height: bodyHeight,
+          height: isFixedTable ? (bodyHeight - scrollBarWidth) : bodyHeight,
         }}
       >
         <Tbody

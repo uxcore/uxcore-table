@@ -134,14 +134,6 @@ class Demo extends React.Component {
       onPagerChange: (current, pageSize) => {
         console.log(current, pageSize);
       },
-      fitResponse: response =>
-        ({
-          content: response.content,
-          success: false,
-          error: {
-            message: response.content || response.errors,
-          },
-        }),
       showSearch: true,
       fetchUrl,
       jsxdata: {
