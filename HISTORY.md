@@ -2,6 +2,10 @@
 
 ---
 
+## 2.0.3
+
+* `FIXED` fix left fixed table style bug
+
 ## 2.0.2
 
 * `FIXED` remove useless code in `Cell` componentDidMount 
