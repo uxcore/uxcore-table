@@ -2,6 +2,10 @@
 
 ---
 
+## 3.0.0
+
+* `FIXED` scrolling to right end will cause unaligned header & body
+
 ## 2.0.3
 
 * `FIXED` fix left fixed table style bug
