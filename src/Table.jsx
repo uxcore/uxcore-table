@@ -50,6 +50,7 @@ class Table extends React.Component {
       expandedKeys: [],
     };
     this.handleBodyScroll = this.handleBodyScroll.bind(this);
+    this.handleHeaderScroll = this.handleHeaderScroll.bind(this);
     this.changeSelected = this.changeSelected.bind(this);
     this.handleDataChange = this.handleDataChange.bind(this);
     this.attachCellField = this.attachCellField.bind(this);
@@ -143,7 +144,12 @@ class Table extends React.Component {
     }
     return (
       <div className="kuma-uxtable-header-wrapper">
-        <Header {...renderHeaderProps} fixedColumn={fixedColumn} ref={util.saveRef(`header${upperFirst(fixedColumn)}`, this)} />
+        <Header
+          {...renderHeaderProps}
+          fixedColumn={fixedColumn}
+          ref={util.saveRef(`header${upperFirst(fixedColumn)}`, this)}
+          onScroll={this.handleHeaderScroll}
+        />
       </div>
     );
   }
@@ -395,6 +401,14 @@ class Table extends React.Component {
       });
     }
     me.checkBodyHScroll(scrollLeft);
+  }
+
+  handleHeaderScroll(scrollLeft) {
+    const me = this;
+    const bodyNode = me.bodyScroll;
+    if (scrollLeft !== undefined) {
+      bodyNode.getDom().scrollLeft = scrollLeft;
+    }
   }
 
   checkBodyHScroll(scrollLeft) {

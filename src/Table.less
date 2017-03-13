@@ -83,7 +83,7 @@
   white-space: nowrap;
   border-bottom: none;
   .@{uxtable-prefix}-row-cells {
-    transition: background-color 0.15s @transition-ease;
+    transition: background-color 0.15s ease-out;
   }
   &:first-child {
     border-top: none;
@@ -394,7 +394,7 @@
   position: absolute;
   top: 0;
   z-index: 2;
-  transition: box-shadow 0.3s @transition-ease;
+  transition: box-shadow 0.3s ease-out;
   &.has-scroll {
     box-shadow: 1px 0 6px rgba(0, 0, 0, 0.2);
   }
@@ -425,12 +425,12 @@
 }
 
 .@{uxtable-prefix}-header-no {
-  overflow: hidden;
+  overflow: scroll;
 }
 
 .@{uxtable-prefix}-header-scroll {
   position: static;
-  overflow: hidden;
+  overflow: scroll;
   z-index: 1;
   height: 100%;
   .@{uxtable-prefix}-header {

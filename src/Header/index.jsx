@@ -1,12 +1,15 @@
 /**
  * Created by xy on 15/4/13.
  */
-const CheckBox = require('../Cell/CheckBox');
 const assign = require('object-assign');
-const Const = require('uxcore-const');
+// const Const = require('uxcore-const');
 const Tooltip = require('uxcore-tooltip');
 const classnames = require('classnames');
 const React = require('react');
+const addEventListener = require('rc-util/lib/Dom/addEventListener');
+
+const CheckBox = require('../Cell/CheckBox');
+const util = require('../util');
 
 class Header extends React.Component {
 
@@ -17,6 +20,33 @@ class Header extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const me = this;
+    const { fixedColumn } = me.props;
+    if (fixedColumn === 'scroll') {
+      me.rootEl = me.root;
+      me.scrollHandler = me.onScroll.bind(me);
+      me.scrollListener = addEventListener(me.rootEl, 'scroll', me.scrollHandler);
+    }
+  }
+
+  componentWillUnmount() {
+    const me = this;
+    me.scrollListener.remove();
+  }
+
+  onScroll() {
+    const me = this;
+    const { fixedColumn } = me.props;
+    if (me.scrollEndTimer) {
+      clearTimeout(me.scrollEndTimer);
+    }
+    me.scrollEndTimer = setTimeout(() => {
+      me.props.onScroll(me.rootEl.scrollLeft, me.rootEl.scrollTop, fixedColumn);
+    }, 500);
+    me.props.onScroll(me.rootEl.scrollLeft, me.rootEl.scrollTop, fixedColumn);
+  }
+
   getDom() {
     return this.root;
   }
@@ -25,7 +55,6 @@ class Header extends React.Component {
     const me = this;
     return (c) => {
       me[refName] = c;
-      return false;
     };
   }
 
@@ -211,6 +240,7 @@ class Header extends React.Component {
     const me = this;
     const headerStyle = {};
     const leftFixedType = ['checkboxSelector', 'radioSelector', 'treeIcon'];
+    const scrollBarWidth = util.measureScrollbar();
     let width = 0;
     let headerWrapClassName;
     let columns;
@@ -253,8 +283,10 @@ class Header extends React.Component {
       columns = leftFixedColumns.concat(normalColumns, rightFixedColumns);
 
       assign(headerStyle, {
-        width: typeof props.width === 'number' ? props.width - 3 : props.width,
-        minWidth: typeof props.width === 'number' ? props.width - 3 : props.width,
+        marginBottom: `-${scrollBarWidth}px`,
+        overflowX: scrollBarWidth ? 'scroll' : 'hidden',
+        // width: typeof props.width === 'number' ? props.width - 3 : props.width,
+        // minWidth: typeof props.width === 'number' ? props.width - 3 : props.width,
       });
       headerWrapClassName = 'kuma-uxtable-header-scroll';
     } else {
@@ -268,14 +300,9 @@ class Header extends React.Component {
         break;
       }
     }
-    const defaultHeaderHeight = me.hasGroup ? 100 : 50;
-    assign(headerStyle, {
-      height: props.headerHeight ? props.headerHeight : defaultHeaderHeight,
-      lineHeight: `${props.headerHeight ? props.headerHeight : 50}px`,
-    });
     return (
       <div className={headerWrapClassName} style={headerStyle} ref={me.saveRef('root')}>
-        <div className={props.jsxprefixCls}>
+        <div className={props.prefixCls}>
           {me.renderColumns(columns)}
         </div>
       </div>
@@ -290,7 +317,7 @@ Header.propTypes = {
 };
 
 Header.defaultProps = {
-  jsxprefixCls: 'kuma-uxtable-header',
+  prefixCls: 'kuma-uxtable-header',
 };
 
 module.exports = Header;

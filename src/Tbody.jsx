@@ -23,7 +23,6 @@ class Tbody extends React.Component {
   componentDidMount() {
     const me = this;
     me.rootEl = me.root;
-    // me.scrollHandler = throttle(me.onScroll.bind(me), 50);
     me.scrollHandler = me.onScroll.bind(me);
     me.scrollListener = addEventListener(me.rootEl, 'scroll', me.scrollHandler);
   }
