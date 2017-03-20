@@ -2,6 +2,10 @@
 
 ---
 
+## 4.0.0
+
+* `CHANGED` update `uxcore-pagiantion` to ~0.4.0
+
 ## 3.0.0
 
 * `FIXED` scrolling to right end will cause unaligned header & body
