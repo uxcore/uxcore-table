@@ -2,7 +2,12 @@
 
 ---
 
-## 1.12.19
+## 1.12.21
+
+* `FIXED` set `this.data` in constructor
+* `CHANGED` abnormal `this.data` will be concerned in `getData` method
+
+## 1.12.20
 
 * `NEW` add new prop `onSave`
 

@@ -34,8 +34,9 @@ class Table extends React.Component {
     super(props);
     this.uid = 0;
     this.fields = {};
+    this.data = this.addValuesInData(deepcopy(this.props.jsxdata));
     this.state = {
-      data: this.addValuesInData(deepcopy(this.props.jsxdata)), // checkbox 内部交互
+      data: this.data, // checkbox 内部交互
       columns: this.processColumn(), // column 内部交互
       showMask: props.showMask, // fetchData 时的内部状态改变
       pageSize: props.pageSize, // pagination 相关
