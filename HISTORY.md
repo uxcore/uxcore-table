@@ -2,6 +2,10 @@
 
 ---
 
+## 1.12.19
+
+* `NEW` add new prop `onSave`
+
 ## 1.12.18
 
 * `NEW` `column.actions` can be a function
