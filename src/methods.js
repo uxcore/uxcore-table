@@ -44,7 +44,9 @@ function saveRow(rowData) {
   const newRowData = deepcopy(rowData);
   newRowData.__mode__ = Const.MODE.VIEW;
   newRowData.__edited__ = true;
-  this.syncRecord(newRowData);
+  this.syncRecord(newRowData, () => {
+    this.props.onSave();
+  });
 }
 
 function saveAllRow() {
@@ -58,7 +60,9 @@ function saveAllRow() {
     item.__mode__ = Const.MODE.VIEW;
     item.__edited__ = true;
   }
-  this.syncRecord(data);
+  this.syncRecord(data, () => {
+    this.props.onSave();
+  });
 }
 
 function editAllRow() {

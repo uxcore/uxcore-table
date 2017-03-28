@@ -1076,6 +1076,7 @@ Table.defaultProps = {
   },
   addRowClassName: () => { },
   onChange: () => { },
+  onSave: () => {},
 };
 
 // http://facebook.github.io/react/docs/reusable-components.html
