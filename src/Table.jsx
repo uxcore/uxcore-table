@@ -772,6 +772,7 @@ class Table extends React.Component {
       pagerSizeOptions,
       isMiniPager,
       showPagerSizeChanger,
+      showPagerQuickJumper,
     } = me.props;
     if (showPager && data && data.totalCount) {
       return (
@@ -783,6 +784,7 @@ class Table extends React.Component {
             ref={util.saveRef('pager', me)}
             locale={locale}
             showSizeChanger={showPagerSizeChanger}
+            showQuickJumper={showPagerQuickJumper}
             showTotal={showPagerTotal}
             total={data.totalCount}
             onShowSizeChange={me.handleShowSizeChange.bind(me)}
@@ -1151,9 +1153,10 @@ Table.defaultProps = {
   showPager: true,
   isMiniPager: false,
   showPagerSizeChanger: true,
+  showPagerQuickJumper: true,
   showColumnPicker: false,
   showHeaderBorder: false,
-  showPagerTotal: false,
+  showPagerTotal: true,
   showMask: false,
   showSearch: false,
   getSavedData: true,
@@ -1206,6 +1209,7 @@ Table.propTypes = {
   showPager: React.PropTypes.bool,
   isMiniPager: React.PropTypes.bool,
   showPagerTotal: React.PropTypes.bool,
+  showPagerQuickJumper: React.PropTypes.bool,
   pagerSizeOptions: React.PropTypes.array,
   showHeader: React.PropTypes.bool,
   showMask: React.PropTypes.bool,

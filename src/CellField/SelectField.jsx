@@ -61,6 +61,10 @@ class SelectField extends CellField {
     me.fetchData();
   }
 
+  addSpecificClass() {
+    return 'kuma-uxtable-select-cell-field';
+  }
+
   getConfig(props) {
     const me = this;
     return (props || me.props).column.config || {};

@@ -157,6 +157,7 @@ $ npm start
 |type            |string            |-         |optional |包含 'money', 'card', 'cnmobile', 'checkboxSelector', 'action', 'radio', 'text', 'select' 和 'custom'|
 |actions         |array             |-         |optional |当 type 是 action 的时候会用到，用于定义具体有哪些操作，格式见下方[说明](#actions)|
 |collapseNum     |number            |1.9.4     |optional |当 type 是 action 的时候会用到，默认 3，指定超过多少个 action 时折叠|
+|actionType      |string            |1.9.4     |optional |当 type 是 action 的时候会用到，默认 link，枚举值：link/button|
 |customField     |React Element     |-         |optional |当 type 是 custom 的时候会用到，用于传入自定义的 Field，用于行内编辑|
 |render          |function          |-         |optional |在查看模式下，用户定制渲染的方式，返回一个 jsx 格式|
 |fixed           |boolean           |-         |optional |是否固定在左侧，固定列不可以和折叠展开面板混合使用|

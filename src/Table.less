@@ -15,7 +15,7 @@
   }
   border-collapse: collapse;
   position: relative;
-  color: #666;
+  color: @dark-alpha-2;
   table-layout: fixed;
   .half-checked {
     display: inline-block;
@@ -55,7 +55,7 @@
 }
 
 .@{uxtable-prefix}-header {
-  background-color: @table-header-bg;
+  background-color: @normal-alpha-8;
   font-size: 14px;
   font-weight: 600;
   min-width: 100%;
@@ -90,7 +90,7 @@
   }
   &.even {
     .@{uxtable-prefix}-row-cells {
-      background-color: @basic-200;
+      background-color: @normal-alpha-8;
     }
   }
 }
@@ -117,10 +117,11 @@
   word-break: break-all;
   height: 50px;
   line-height: 50px;
-  .kuma-icon-information {
+  .kuma-icon-information,
+  .uxicon-tishi-full {
     color: @brand-info;
     -webkit-text-stroke-width: 0;
-    font-size: 14px;
+    font-size: 16px;
     margin-left: 4px;
   }
   &>div {
@@ -145,7 +146,6 @@
     top: 0;
   }
   .kuma-select2 {
-    width: 100%;
     vertical-align: top;
     margin-top: 7px;
   }
@@ -183,9 +183,18 @@
   &.hasError {
     .kuma-input,
     .kuma-select2-selection {
+      background: @brand-danger-alpha-8;
       border-color: @border-danger-color;
-      color: @text-danger-color;
     }
+    .kuma-checkbox-group {
+      color: @brand-danger;
+    }
+  }
+}
+
+.@{uxtable-prefix}-select-cell-field {
+  .kuma-select2 {
+    display: block;
   }
 }
 
@@ -231,7 +240,7 @@
   cursor: pointer;
   padding-right: 20px;
   font-weight: normal;
-  background: @table-header-bg;
+  background: @normal-alpha-8;
   &.hasGroup {
     .@{uxtable-prefix}-colmnpicker {
       top: 50px;
@@ -312,27 +321,31 @@
     cursor: pointer;
     display: inline-block;
     text-decoration: none;
-    &.collapse-one {
-      padding: 0 13px;
-    }
+    padding: 0 12px;
     &.disabled {
       color: @text-disabled-color;
       cursor: not-allowed
     }
+    &.first-action {
+      padding-left: 0px;
+    }
     i {
       color: @link-color;
+      vertical-align: middle;
+      font-size: 14px;
     }
     &.kuma-button {
+      padding: 0 16px;
       i {
         color: @brand-primary;
       }
     }
-    &+.action {
-      margin-left: 10px
+    &.more-action {
+      line-height: 49px;
     }
-  }
-  .split {
-    color: #ccc;
+    & + .kuma-button {
+      margin-left: 12px;
+    }
   }
 }
 
@@ -395,6 +408,7 @@
   top: 0;
   z-index: 2;
   transition: box-shadow 0.3s ease-out;
+  background: white;
   &.has-scroll {
     box-shadow: 1px 0 6px rgba(0, 0, 0, 0.2);
   }
@@ -434,7 +448,7 @@
   z-index: 1;
   height: 100%;
   .@{uxtable-prefix}-header {
-    background-color: @table-header-scroll-bg;
+    background-color: @normal-alpha-8;
   }
 }
 
@@ -462,6 +476,7 @@
   font-size: 18px;
   line-height: 18px;
   margin-right: 6px;
+  color: @normal-alpha-4;
   .kuma-icon-triangle-right {
     &:before {
       transition: transform .3s ease;
@@ -483,7 +498,7 @@
       background: white;
     }
     .@{uxtable-prefix}-row-cells {
-      border-bottom: 1px solid @basic-600;
+      border-bottom: 1px solid @normal-alpha-7;
     }
   }
   .@{uxtable-prefix}-content {
@@ -497,14 +512,14 @@
 
 .@{uxtable-prefix}-border-line {
   .@{uxtable-prefix}-content {
-    border: 1px solid @basic-600;
+    border: 1px solid @normal-alpha-7;
   }
   .@{uxtable-prefix}-row {
     &.even .@{uxtable-prefix}-row-cells {
       background: white;
     }
     .@{uxtable-prefix}-row-cells {
-      border-bottom: 1px solid @basic-600;
+      border-bottom: 1px solid @normal-alpha-7;
     }
     &.last {
       .@{uxtable-prefix}-row-cells {
@@ -513,14 +528,14 @@
     }
   }
   .@{uxtable-prefix}-cell {
-    border-right: 1px solid @basic-600;
+    border-right: 1px solid @normal-alpha-7;
     &.last {
       border-right: none;
     }
   }
   .@{uxtable-prefix}-header-group-name {
-    border-right: 1px solid @basic-600;
-    border-bottom: 1px solid @basic-600;
+    border-right: 1px solid @normal-alpha-7;
+    border-bottom: 1px solid @normal-alpha-7;
   }
   .@{uxtable-prefix}-row-hover {
     &.even {
@@ -536,7 +551,10 @@
 
 .@{uxtable-prefix}-cell-collapsed-button-more-dropdown {
   .kuma-dropdown-menu>.kuma-dropdown-menu-item {
-    padding: 4px 12px;
+    padding: 5px 16px;
+    &:hover {
+      background: @normal-alpha-9;
+    }
     a {
       color: @link-color;
       cursor: pointer;
@@ -549,4 +567,17 @@
       }
     }
   }
+  &.@{uxtable-prefix}-cell-collapsed-button-more-link-dropdown {
+    .kuma-dropdown-menu>.kuma-dropdown-menu-item {
+      padding: 5px 11px;
+    }
+  }
+}
+
+.@{uxtable-prefix}-cell-collapsed-button-text {
+  vertical-align: middle;
+}
+
+.@{uxtable-prefix}-cell-collapsed-button-split-line {
+  color: @split-line-color;
 }

@@ -118,18 +118,8 @@ class Demo extends React.Component {
         title: '城市',
         width: 200,
         type: 'select',
-        // renderChildren: () => (
-        //   [{
-        //     id: 'bj',
-        //     name: '北京',
-        //   }, {
-        //     id: 'hz',
-        //     name: '杭州',
-        //   }].map(item => <Option key={item.id}>{item.name}</Option>)
-        // ),
         config: {
           filterOption: false,
-          // multiple: true,
           data: () => ([{
             value: 'bj',
             text: '北京',
@@ -137,7 +127,6 @@ class Demo extends React.Component {
             value: 'hz',
             text: '杭州',
           }]),
-          // fetchUrl: 'http://suggest.taobao.com/sug',
           dataType: 'jsonp',
           beforeFetch: key => (key || { q: 1 }),
           afterFetch: (content) => {
@@ -151,11 +140,10 @@ class Demo extends React.Component {
             return data;
           },
         },
+        rules: {
+          validator: value => value.key !== 'bj',
+        },
         canEdit: rowData => rowData.name !== '小王',
-        // rules: {
-        //   validator: () => false,
-        //   errMsg: '出错了',
-        // },
       },
       {
         dataKey: 'name',
@@ -163,16 +151,6 @@ class Demo extends React.Component {
         title: '姓名',
         width: 200,
         type: 'check',
-        // customField: RadioField,
-        // renderChildren: () => (
-        //   [{
-        //     id: 'xiaoli',
-        //     name: '小李',
-        //   }, {
-        //     id: 'xiaowang',
-        //     name: '小王',
-        //   }].map(item => <RadioItem key={item.id} text={item.name} value={item.id} />)
-        // ),
         config: {
           data: () => [{
             value: 'xiaoli',
@@ -183,12 +161,14 @@ class Demo extends React.Component {
             text: '小王',
           }],
         },
+        rules: {
+          validator: value => value.indexOf('xiaowang') !== -1,
+        },
       },
       {
         dataKey: 'email',
         title: 'Email',
         width: 200,
-        // type: 'text',
         type: 'custom',
         customField: createCellField(),
         rules: {
@@ -207,6 +187,9 @@ class Demo extends React.Component {
         width: 200,
         editKey: 'timeId',
         type: 'date',
+        rules: {
+          validator: value => value > Date.now(),
+        },
       },
       {
         dataKey: 'action1',
@@ -214,8 +197,8 @@ class Demo extends React.Component {
         rightFixed: true,
         width: 200,
         type: 'action',
-        actionType: 'button',
-        collapseNum: 1,
+        actionType: 'link',
+        collapseNum: 2,
         actions: [
           {
             title: '编辑',
