@@ -139,9 +139,9 @@ describe('Table', () => {
 
     it('showPagerTotal', () => {
       const wrapper1 = mount(<Table {...common} />);
-      const wrapper2 = mount(<Table {...common} showPagerTotal />);
-      expect(wrapper1.node.getPager().props.showTotal).to.be(false);
-      expect(wrapper2.node.getPager().props.showTotal).to.be(true);
+      const wrapper2 = mount(<Table {...common} showPagerTotal={false} />);
+      expect(wrapper1.node.getPager().props.showTotal).to.be(true);
+      expect(wrapper2.node.getPager().props.showTotal).to.be(false);
     });
 
     it('showPagerSizeChanger', () => {
