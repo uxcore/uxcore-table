@@ -2,6 +2,10 @@
 
 ---
 
+## 5.0.1
+
+* `FIXED` default width of rowSelector is not equal in every case.
+
 ## 5.0.0
 
 * `CHANGED` update `uxcore-date-cell-field` to ^0.4.0

@@ -491,7 +491,7 @@ class Table extends React.Component {
     if (!!actualProps.rowSelection && !hasCheckboxColumn) {
       me.checkboxColumn = {
         dataKey: 'jsxchecked',
-        width: 46,
+        width: (/kuma-uxtable-border-line/.test(actualProps.className) ? 40 : 32),
         type: actualProps.rowSelector,
         align: 'right',
       };
@@ -501,7 +501,7 @@ class Table extends React.Component {
       // no rowSelection but has parentHasCheckbox, render placeholder
       columns = [{
         dataKey: 'jsxwhite',
-        width: 46,
+        width: (/kuma-uxtable-border-line/.test(actualProps.className) ? 40 : 32),
         type: 'empty',
       }].concat(columns);
     }
