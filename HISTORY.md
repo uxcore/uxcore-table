@@ -2,6 +2,10 @@
 
 ---
 
+## 1.12.22
+
+* `CHANGED` rowData will be passed in selectCellField's `beforeFetch` & `afterFetch` method.
+
 ## 1.12.21
 
 * `FIXED` set `this.data` in constructor

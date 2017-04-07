@@ -84,9 +84,9 @@ class SelectField extends CellField {
         : (/\.jsonp/.test(config.fetchUrl)),
       data: (config.beforeFetch || defaultBeforeFetch)({
         q: value,
-      }),
+      }, me.props.rowData),
       fit: (response) => {
-        const content = response.content || response;
+        const content = response.content === undefined ? response : response.content;
         let success = true;
         if (response.success !== undefined) {
           success = response.success;
@@ -101,7 +101,7 @@ class SelectField extends CellField {
       Promise,
     });
     me.fetch().then((content) => {
-      const fetchData = (config.afterFetch || defaultAfterFetch)(content);
+      const fetchData = (config.afterFetch || defaultAfterFetch)(content, me.props.rowData);
       me.setState({
         data: fetchData,
       });
@@ -140,7 +140,7 @@ class SelectField extends CellField {
           } else {
             const onSearch = me.getConfig().onSearch;
             if (typeof onSearch === 'function') {
-              onSearch(key);
+              onSearch(key, me.props.rowData);
             }
           }
         }, me.getConfig().searchDelay || 100);
