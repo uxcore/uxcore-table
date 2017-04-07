@@ -39,8 +39,9 @@ class Table extends React.Component {
     this.fields = {};
     this.copyData = deepcopy(this.props.jsxdata);
     this.hasFixed = util.hasFixColumn(props);
+    this.data = this.addValuesInData(deepcopy(this.props.jsxdata));
     this.state = {
-      data: this.addValuesInData(this.copyData), // checkbox 内部交互
+      data: this.data, // checkbox 内部交互
       columns: this.processColumn(), // column 内部交互
       showMask: props.showMask, // fetchData 时的内部状态改变
       pageSize: props.pageSize, // pagination 相关
@@ -1185,6 +1186,7 @@ Table.defaultProps = {
   },
   addRowClassName: () => { },
   onChange: () => { },
+  onSave: () => {},
 };
 
 // http://facebook.github.io/react/docs/reusable-components.html

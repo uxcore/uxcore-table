@@ -65,6 +65,19 @@
 
 * `NEW` new animation
 
+## 1.12.22
+
+* `CHANGED` rowData will be passed in selectCellField's `beforeFetch` & `afterFetch` method.
+
+## 1.12.21
+
+* `FIXED` set `this.data` in constructor
+* `CHANGED` abnormal `this.data` will be concerned in `getData` method
+
+## 1.12.20
+
+* `NEW` add new prop `onSave`
+
 ## 1.12.18
 
 * `NEW` `column.actions` can be a function

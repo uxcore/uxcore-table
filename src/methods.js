@@ -165,7 +165,9 @@ function getData(validate) {
   if (me.props.getSavedData) {
     // 滤除可能为空的元素
     const data = deepcopy(me.data);
-    data.data = data.data.filter(item => item !== undefined);
+    if (data && data.data instanceof Array) {
+      data.data = data.data.filter(item => item !== undefined);
+    }
     return {
       data,
       pass,
