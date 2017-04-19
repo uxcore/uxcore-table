@@ -11,6 +11,10 @@
 * `CHANGED` update `uxcore-date-cell-field` to ^0.4.0
 * `CHANGED` update `uxcore-pagiantion` to ~0.5.0
 
+## 4.1.0
+
+* `FIXED` method `getCheckStatus` & `selectAll` bug when `rowSelection.isDisabled` is used
+
 ## 4.0.0
 
 * `CHANGED` update `uxcore-pagiantion` to ~0.4.0

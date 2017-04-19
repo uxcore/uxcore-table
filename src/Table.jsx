@@ -230,6 +230,7 @@ class Table extends React.Component {
 
   getCheckStatus(data) {
     const me = this;
+    const { rowSelection } = me.props;
     const column = me.checkboxColumn;
     if (!column || data.length === 0) {
       return false;
@@ -241,7 +242,8 @@ class Table extends React.Component {
     let enabledColumn = 0;
     for (let i = 0; i < data.length; i++) {
       const item = data[i];
-      if (!column.disable && !(column.isDisable && column.isDisable(item))) {
+      if (!column.disable && !(column.isDisable && column.isDisable(item))
+        && !(typeof rowSelection === 'object' && rowSelection.isDisabled && rowSelection.isDisabled(item))) {
         isAllDisabled = false;
         enabledColumn += 1;
         if (item[checkboxColumnKey]) {
@@ -303,7 +305,8 @@ class Table extends React.Component {
       const column = me.checkboxColumn;
       const key = me.checkboxColumnKey;
       const item = data[i];
-      if ((!('isDisable' in column) || !column.isDisable(item)) && !column.disable) {
+      if ((!('isDisable' in column) || !column.isDisable(item)) && !column.disable
+      && !(typeof rowSelection === 'object' && rowSelection.isDisabled && rowSelection.isDisabled(item))) {
         item[key] = checked;
         selectedRows.push(item);
       }
