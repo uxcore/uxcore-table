@@ -18,7 +18,8 @@
   "chrome": "uxcore-tools run chrome",
   "browsers": "uxcore-tools run browsers",
   "saucelabs": "uxcore-tools run saucelabs",
-  "update": "uxcore-tools run update"
+  "update": "uxcore-tools run update",
+  "postinstall": "npm run build"
  },
  "bugs": {
   "url": "http://github.com/uxcore/uxcore-table/issues"
