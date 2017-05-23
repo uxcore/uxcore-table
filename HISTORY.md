@@ -4,7 +4,7 @@
 
 ## 5.1.1
 
-* `FIXED` change 
+* `FIXED` copyData can be changed by `addValuesInData` method
 
 ## 5.0.1
 
