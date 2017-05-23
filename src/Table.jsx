@@ -651,7 +651,7 @@ class Table extends React.Component {
       }
     } else {
       this.copyData = deepcopy(props.jsxdata);
-      const data = this.addValuesInData(this.copyData);
+      const data = this.addValuesInData(deepcopy(props.jsxdata));
       const currentPage = (data && data.currentPage) || this.state.currentPage;
       me.data = deepcopy(data);
       me.setState({

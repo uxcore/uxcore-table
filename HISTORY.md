@@ -2,6 +2,10 @@
 
 ---
 
+## 5.1.1
+
+* `FIXED` change 
+
 ## 5.0.1
 
 * `FIXED` default width of rowSelector is not equal in every case.
