@@ -2,6 +2,10 @@
 
 ---
 
+## 6.0.0
+
+* `CHANGED` update `uxcore-pagiantion` to ~0.6.0
+
 ## 5.1.1
 
 * `FIXED` copyData can be changed by `addValuesInData` method
