@@ -2,6 +2,10 @@
 
 ---
 
+## 6.0.1
+
+* `FIXED` undefined bug if column is fixed in `Header`
+
 ## 6.0.0
 
 * `CHANGED` update `uxcore-pagiantion` to ~0.6.0

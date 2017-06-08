@@ -31,8 +31,9 @@ class Header extends React.Component {
   }
 
   componentWillUnmount() {
-    const me = this;
-    me.scrollListener.remove();
+    if (this.scrollListener) {
+      this.scrollListener.remove();
+    }
   }
 
   onScroll() {
