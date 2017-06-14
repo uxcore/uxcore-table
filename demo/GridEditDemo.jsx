@@ -273,9 +273,9 @@ class Demo extends React.Component {
           },
         },
         {
-          title: '保存所有行',
+          title: '查看所有行',
           callback: () => {
-            me.table.saveAllRow();
+            me.table.resetAllRow();
           },
         },
       ],
@@ -290,12 +290,6 @@ class Demo extends React.Component {
           title: '操作外链二',
           callback: () => {
             alert(2);
-          },
-        },
-        {
-          title: '操作外链三',
-          callback: () => {
-            alert(3);
           },
         },
       ],

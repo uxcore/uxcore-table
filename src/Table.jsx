@@ -1039,7 +1039,7 @@ class Table extends React.Component {
   }
 
   /**
-   * update this.state.data using objAux by jsxid
+   * update this.state.data using obj by jsxid
    * @param {object/array} obj
    */
   updateRecord(obj, cb) {
@@ -1080,8 +1080,8 @@ class Table extends React.Component {
   }
 
   /**
-   * update this.state.data & this.data using objAux by jsxid
-   * @param {objtct/array} objAux
+   * update this.state.data & this.data using obj by jsxid
+   * @param {objtct/array} obj
    */
 
   syncRecord(obj, cb) {

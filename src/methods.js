@@ -24,6 +24,30 @@ function resetRow(rowData, cb) {
   this.updateRecord(updateData, cb);
 }
 
+function resetAllRow(cb) {
+  const me = this;
+  const copyData = deepcopy(me.data);
+  const stateData = me.state.data.data || me.state.data.datas;
+  if (copyData.data || copyData.datas) {
+    const data = copyData.data || copyData.datas;
+    for (let i = 0; i < data.length; i++) {
+      const item = data[i];
+      stateData.forEach((stateItem) => {
+        if (item.jsxid === stateItem.jsxid) {
+          item.__mode__ = stateItem.__mode__;
+        }
+      });
+    }
+    this.setState({
+      data: copyData,
+    }, () => {
+      if (cb) {
+        cb();
+      }
+    });
+  }
+}
+
 function delRow(rowData, cb) {
   this.removeRecords(rowData, cb);
 }
@@ -40,6 +64,26 @@ function viewRow(rowData, cb) {
   this.updateRecord(newRowData, cb);
 }
 
+function viewAllRow(cb) {
+  const me = this;
+  const data = deepcopy(me.state.data.data || me.state.data.datas);
+  for (let i = 0; i < data.length; i++) {
+    const item = data[i];
+    item.__mode__ = Const.MODE.VIEW;
+  }
+  this.updateRecord(data, cb);
+}
+
+function resetAndViewAllRow(cb) {
+  const me = this;
+  const data = deepcopy(me.data.data || me.data.datas);
+  for (let i = 0; i < data.length; i++) {
+    const item = data[i];
+    item.__mode__ = Const.MODE.VIEW;
+  }
+  this.updateRecord(data, cb);
+}
+
 function saveRow(rowData, cb) {
   const newRowData = deepcopy(rowData);
   newRowData.__mode__ = Const.MODE.VIEW;
@@ -50,9 +94,6 @@ function saveRow(rowData, cb) {
 function saveAllRow(cb) {
   const me = this;
   const data = deepcopy(me.state.data.data || me.state.data.datas);
-  // data.forEach((item) => {
-  //   me.saveRow(item);
-  // });
   for (let i = 0; i < data.length; i++) {
     const item = data[i];
     item.__mode__ = Const.MODE.VIEW;
@@ -195,12 +236,15 @@ module.exports = {
   addEmptyRow,
   addRow,
   resetRow,
+  resetAllRow,
   delRow,
-  editAllRow,
   editRow,
+  editAllRow,
   viewRow,
-  saveAllRow,
+  viewAllRow,
+  resetAndViewAllRow,
   saveRow,
+  saveAllRow,
   toggleSubComp,
   toggleTreeExpanded,
   getData,
