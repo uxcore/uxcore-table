@@ -2,6 +2,11 @@
 
 ---
 
+## 6.1.0
+
+* `NEW` add new method `viewAllRow`, `resetAllRow` and `resetAndViewAllRow`.
+* `FIXED` DateCellField icon style
+
 ## 6.0.1
 
 * `FIXED` undefined bug if column is fixed in `Header`
