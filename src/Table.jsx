@@ -575,6 +575,7 @@ class Table extends React.Component {
         showMask: true,
       });
     }
+
     const isJsonp = props.isJsonp === undefined
         ? /\.jsonp/.test(props.fetchUrl)
         : props.isJsonp;
@@ -591,8 +592,11 @@ class Table extends React.Component {
       const updateObj = {
         data: processedData,
         showMask: false,
-        expandedKeys: util.getDefaultExpandedKeys(processedData.data, props.levels),
       };
+      const resetExpandedKeys = props.shouldResetExpandedKeys(from) !== false;
+      if (resetExpandedKeys) {
+        updateObj.expandedKeys = util.getDefaultExpandedKeys(processedData.data, props.levels);
+      }
       if (processedData.currentPage !== undefined) {
         updateObj.currentPage = processedData.currentPage;
       }
@@ -653,12 +657,16 @@ class Table extends React.Component {
       this.copyData = deepcopy(props.jsxdata);
       const data = this.addValuesInData(deepcopy(props.jsxdata));
       const currentPage = (data && data.currentPage) || this.state.currentPage;
-      me.data = deepcopy(data);
-      me.setState({
+      this.data = deepcopy(data);
+      const updateObj = {
         data,
         currentPage,
-        expandedKeys: util.getDefaultExpandedKeys(data.data, props.levels),
-      }, () => {
+      };
+      const resetExpandedKeys = props.shouldResetExpandedKeys(from) !== false;
+      if (resetExpandedKeys) {
+        updateObj.expandedKeys = util.getDefaultExpandedKeys(data.data, props.levels);
+      }
+      this.setState(updateObj, () => {
         cb();
       });
     }
@@ -1190,6 +1198,7 @@ Table.defaultProps = {
   addRowClassName: () => { },
   onChange: () => { },
   onSave: () => {},
+  shouldResetExpandedKeys: () => {},
 };
 
 // http://facebook.github.io/react/docs/reusable-components.html
@@ -1245,12 +1254,12 @@ Table.propTypes = {
   beforeFetch: React.PropTypes.func,
   onFetchError: React.PropTypes.func,
   addRowClassName: React.PropTypes.func,
+  shouldResetExpandedKeys: React.PropTypes.func,
   passedData: React.PropTypes.object,
   getSavedData: React.PropTypes.bool,
   onChange: React.PropTypes.func,
   renderModel: React.PropTypes.string,
   levels: React.PropTypes.number,
-
 };
 
 Table.displayName = 'Table';

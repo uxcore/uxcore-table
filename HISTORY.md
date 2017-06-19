@@ -2,6 +2,10 @@
 
 ---
 
+## 6.2.0
+
+* `NEW` support new prop `shouldResetExpandedKeys`
+
 ## 6.1.0
 
 * `NEW` add new method `viewAllRow`, `resetAllRow` and `resetAndViewAllRow`.
