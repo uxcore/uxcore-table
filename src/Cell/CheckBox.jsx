@@ -2,9 +2,9 @@
  * A checkbox field
  */
 
-const Const = require('uxcore-const');
-const React = require('react');
-const classnames = require('classnames');
+import Const from 'uxcore-const';
+import React from 'react';
+import classnames from 'classnames';
 
 class CheckBox extends React.Component {
 
@@ -76,4 +76,4 @@ CheckBox.defaultProps = {
 
 };
 
-module.exports = CheckBox;
+export default CheckBox;

@@ -2,6 +2,11 @@
 
 ---
 
+## 6.2.2
+
+* `FIXED` `checkBodyHScroll` may throw error if `rightFixedTable` is not defined
+* `FIXED` rightFixedTable position bug if table width is too large to scroll.
+
 ## 6.2.1
 
 * `FIXED` `action.isDisable` fail to work.

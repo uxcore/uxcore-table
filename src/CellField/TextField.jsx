@@ -1,7 +1,7 @@
-const CellField = require('uxcore-cell-field');
-const classnames = require('classnames');
-const assign = require('object-assign');
-const React = require('react');
+import CellField from 'uxcore-cell-field';
+import classnames from 'classnames';
+import assign from 'object-assign';
+import React from 'react';
 
 class TextField extends CellField {
 
@@ -35,4 +35,4 @@ TextField.propTypes = assign({}, CellField.propTypes);
 
 TextField.defaultProps = assign({}, CellField.defaultProps);
 
-module.exports = TextField;
+export default TextField;

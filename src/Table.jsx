@@ -9,27 +9,31 @@
 /* eslint-disable react/sort-comp */
 
 
-const CellField = require('uxcore-cell-field');
-const Pagination = require('uxcore-pagination');
-const Const = require('uxcore-const');
-const assign = require('object-assign');
-const deepcopy = require('lodash/cloneDeep');
-const upperFirst = require('lodash/upperFirst');
-const deepEqual = require('lodash/isEqual');
-const classnames = require('classnames');
-const NattyFetch = require('natty-fetch/dist/natty-fetch.pc');
-const Promise = require('lie');
-const React = require('react');
-const Animate = require('uxcore-animate');
-const { addClass, removeClass } = require('rc-util/lib/Dom/class');
+import CellField from 'uxcore-cell-field';
+import Pagination from 'uxcore-pagination';
+import Const from 'uxcore-const';
+import assign from 'object-assign';
+import deepcopy from 'lodash/cloneDeep';
+import upperFirst from 'lodash/upperFirst';
+import deepEqual from 'lodash/isEqual';
+import classnames from 'classnames';
+import NattyFetch from 'natty-fetch/dist/natty-fetch.pc';
+import Promise from 'lie';
+import React from 'react';
+import Animate from 'uxcore-animate';
+import { addClass, removeClass } from 'rc-util/lib/Dom/class';
+import { get } from 'rc-util/lib/Dom/css';
+import addEventListener from 'rc-util/lib/Dom/addEventListener';
 
-const Mask = require('./Mask');
-const util = require('./util');
-const Header = require('./Header');
-const Tbody = require('./Tbody');
-const ActionBar = require('./ActionBar');
-const methods = require('./methods');
-const createCellField = require('./createCellField');
+import Mask from './Mask';
+import util from './util';
+import Header from './Header';
+import Tbody from './Tbody';
+import ActionBar from './ActionBar';
+import methods from './methods';
+import createCellField from './createCellField';
+
+const getStyle = get;
 
 class Table extends React.Component {
 
@@ -77,11 +81,11 @@ class Table extends React.Component {
     if (this.props.fetchDataOnMount) {
       this.fetchData(undefined, undefined, () => {
         this.checkBodyHScroll();
+        this.checkRightFixed();
+        this.resizeListener = this.listenWindowResize();
       });
     }
-    Object.keys(methods).forEach((key) => {
-      me[key] = methods[key].bind(me);
-    });
+    this.bindMethods();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -112,6 +116,71 @@ class Table extends React.Component {
       me.fetchData('propsChange', nextProps);
     }
     me.setState(newData);
+  }
+
+  componentWillUnmount() {
+    if (this.resizeListener) {
+      this.resizeListener.remove();
+    }
+  }
+
+  bindMethods() {
+    const me = this;
+    Object.keys(methods).forEach((key) => {
+      me[key] = methods[key].bind(me);
+    });
+  }
+
+  checkRightFixed() {
+    if (this.rightFixedTable) {
+      const headerScroll = this.headerScroll;
+      const headerScrollDom = headerScroll.getDom();
+      if (this.cachedHeaderScrollWidth === headerScrollDom.clientWidth) {
+        return;
+      }
+      const headerScrollInner = headerScroll.getScroller();
+      this.cachedHeaderScrollWidth = headerScrollDom.clientWidth;
+      if (headerScrollInner.clientWidth === headerScrollDom.clientWidth
+        && getStyle(this.rightFixedTable, 'display') === 'block') {
+        this.rightFixedTable.style.display = 'none';
+      } else if (headerScrollInner.clientWidth > headerScrollDom.clientWidth
+        && getStyle(this.rightFixedTable, 'display') === 'none') {
+        this.rightFixedTable.style.display = 'block';
+      }
+    }
+  }
+
+  checkBodyHScroll(scrollLeft) {
+    if (!this.hasFixed) {
+      return false;
+    }
+    const node = this.bodyScroll.getDom();
+    const wrapperScrollLeft = scrollLeft || node.scrollLeft;
+    if (this.hasFixed.hasLeft && this.fixedTable) {
+      if (wrapperScrollLeft > 0) {
+        addClass(this.fixedTable, 'has-scroll');
+      } else {
+        removeClass(this.fixedTable, 'has-scroll');
+      }
+    }
+    if (this.hasFixed.hasRight) {
+      const wrapperWidth = node.clientWidth;
+      const bodyWidth = node.children[0].clientWidth;
+      if (this.rightFixedTable) {
+        if (wrapperScrollLeft + wrapperWidth + 3 < bodyWidth) {
+          addClass(this.rightFixedTable, 'end-of-scroll');
+        } else {
+          removeClass(this.rightFixedTable, 'end-of-scroll');
+        }
+      }
+    }
+    return false;
+  }
+
+  listenWindowResize() {
+    return addEventListener(window, 'resize', () => {
+      this.checkRightFixed();
+    });
   }
 
   renderTbody(renderBodyProps, bodyHeight, fixedColumn) {
@@ -415,31 +484,6 @@ class Table extends React.Component {
     }
   }
 
-  checkBodyHScroll(scrollLeft) {
-    if (!this.hasFixed) {
-      return false;
-    }
-    const node = this.bodyScroll.getDom();
-    const wrapperScrollLeft = scrollLeft || node.scrollLeft;
-    if (this.hasFixed.hasLeft) {
-      if (wrapperScrollLeft > 0) {
-        addClass(this.fixedTable, 'has-scroll');
-      } else {
-        removeClass(this.fixedTable, 'has-scroll');
-      }
-    }
-    if (this.hasFixed.hasRight) {
-      const wrapperWidth = node.clientWidth;
-      const bodyWidth = node.children[0].clientWidth;
-      if (wrapperScrollLeft + wrapperWidth + 3 < bodyWidth) {
-        addClass(this.rightFixedTable, 'end-of-scroll');
-      } else {
-        removeClass(this.rightFixedTable, 'end-of-scroll');
-      }
-    }
-    return false;
-  }
-
   handleOrderColumnCB(type, column) {
     const me = this;
     me.setState({
@@ -484,8 +528,6 @@ class Table extends React.Component {
         item.align = item.align || 'left';
       }
     }
-
-
     // filter the column which has a dataKey 'jsxchecked' & 'jsxtreeIcon'
 
     columns = columns.filter(item =>
@@ -1267,4 +1309,4 @@ Table.CellField = CellField;
 Table.Constants = Const;
 Table.createCellField = createCellField;
 
-module.exports = Table;
+export default Table;

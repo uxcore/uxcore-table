@@ -1,6 +1,6 @@
-const CellField = require('uxcore-cell-field');
-const assign = require('object-assign');
-const React = require('react');
+import CellField from 'uxcore-cell-field';
+import assign from 'object-assign';
+import React from 'react';
 
 const Input = props =>
   <input className="kuma-input" {...props} value={props.value} onChange={(e) => { props.onChange(e.target.value); }} />;
@@ -37,4 +37,4 @@ const createCellField = (options) => {
   return CustomField;
 };
 
-module.exports = createCellField;
+export default createCellField;

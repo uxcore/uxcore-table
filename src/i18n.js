@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   'en-us': {
     'templated-column': 'Templated Column',
     more: 'more',

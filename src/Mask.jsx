@@ -3,8 +3,8 @@
  * @time : 8/12 2015
  */
 
-const classnames = require('classnames');
-const React = require('react');
+import classnames from 'classnames';
+import React from 'react';
 
 const Mask = (props) => {
   const { visible, text } = props;

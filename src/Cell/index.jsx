@@ -2,21 +2,21 @@
  * Created by xy on 15/4/13.
  */
 
-const React = require('react');
-const Const = require('uxcore-const');
-const classnames = require('classnames');
-const deepcopy = require('lodash/cloneDeep');
-const deepEqual = require('deep-equal');
-const DateField = require('uxcore-date-cell-field');
-const CheckField = require('uxcore-checkbox-cell-field');
+import React from 'react';
+import Const from 'uxcore-const';
+import classnames from 'classnames';
+import deepcopy from 'lodash/cloneDeep';
+import deepEqual from 'deep-equal';
+import DateField from 'uxcore-date-cell-field';
+import CheckField from 'uxcore-checkbox-cell-field';
 
-const CollapsedButton = require('../CollapsedButton');
-const CheckBox = require('./CheckBox');
-const Radio = require('./Radio');
-const TextField = require('../CellField/TextField');
-const SelectField = require('../CellField/SelectField');
-const RadioField = require('../CellField/RadioField');
-const util = require('../util');
+import CollapsedButton from '../CollapsedButton';
+import CheckBox from './CheckBox';
+import Radio from './Radio';
+import TextField from '../CellField/TextField';
+import SelectField from '../CellField/SelectField';
+import RadioField from '../CellField/RadioField';
+import util from '../util';
 
 
 const fieldsMap = {

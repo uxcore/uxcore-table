@@ -139,4 +139,4 @@ ActionBar.defaultProps = {
   prefixCls: 'kuma-uxtable-actionbar',
 };
 
-module.exports = ActionBar;
+export default ActionBar;

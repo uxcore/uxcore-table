@@ -1,7 +1,7 @@
-const CellField = require('uxcore-cell-field');
-const assign = require('object-assign');
-const RadioGroup = require('uxcore-radiogroup');
-const React = require('react');
+import CellField from 'uxcore-cell-field';
+import assign from 'object-assign';
+import RadioGroup from 'uxcore-radiogroup';
+import React from 'react';
 
 const { Item } = RadioGroup;
 
@@ -84,4 +84,4 @@ RadioField.propTypes = assign({}, CellField.propTypes);
 
 RadioField.defaultProps = assign({}, CellField.defaultProps);
 
-module.exports = RadioField;
+export default RadioField;

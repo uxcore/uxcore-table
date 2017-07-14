@@ -1,15 +1,13 @@
 /**
  * Created by xy on 15/4/13.
  */
-const assign = require('object-assign');
-const Tooltip = require('uxcore-tooltip');
-const Icon = require('uxcore-icon');
-const classnames = require('classnames');
-const React = require('react');
-const addEventListener = require('rc-util/lib/Dom/addEventListener');
-
-const CheckBox = require('../Cell/CheckBox');
-const util = require('../util');
+import assign from 'object-assign';
+import classnames from 'classnames';
+import React from 'react';
+import addEventListener from 'rc-util/lib/Dom/addEventListener';
+import CheckBox from '../Cell/CheckBox';
+import util from '../util';
+import MessageIcon from './MessageIcon';
 
 class Header extends React.Component {
 
@@ -50,6 +48,10 @@ class Header extends React.Component {
 
   getDom() {
     return this.root;
+  }
+
+  getScroller() {
+    return this.scroller;
   }
 
   saveRef(refName) {
@@ -106,22 +108,6 @@ class Header extends React.Component {
       );
     }
     return null;
-  }
-
-  renderMessageIcon(column) {
-    if (!column.message) {
-      return null;
-    }
-    return (
-      <Tooltip
-        overlay={<div className="kuma-uxtable-column-message">
-          {column.message}
-        </div>}
-        placement="top"
-      >
-        <Icon name="tishi-full" />
-      </Tooltip>
-    );
   }
 
   renderColumn(item, index, hasGroup, last) {
@@ -185,7 +171,7 @@ class Header extends React.Component {
       >
         {me.renderIndent(index)}
         {v}
-        {me.renderMessageIcon(item)}
+        <MessageIcon message={item.message} />
         {me.renderOrderIcon(item)}
       </div>
     );
@@ -303,7 +289,7 @@ class Header extends React.Component {
     }
     return (
       <div className={headerWrapClassName} style={headerStyle} ref={me.saveRef('root')}>
-        <div className={props.prefixCls}>
+        <div className={props.prefixCls} ref={(c) => { this.scroller = c; }}>
           {me.renderColumns(columns)}
         </div>
       </div>
@@ -321,4 +307,4 @@ Header.defaultProps = {
   prefixCls: 'kuma-uxtable-header',
 };
 
-module.exports = Header;
+export default Header;

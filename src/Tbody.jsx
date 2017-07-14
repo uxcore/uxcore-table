@@ -2,14 +2,12 @@
  * Created by xy on 15/4/13.
  */
 
-const Row = require('./Row');
-const util = require('./util');
-const deepcopy = require('lodash/cloneDeep');
-const React = require('react');
-const addEventListener = require('rc-util/lib/Dom/addEventListener');
-// const throttle = require('lodash/throttle');
-const EmptyData = require('uxcore-empty-data');
-// const QueueAnim = require('rc-queue-anim');
+import deepcopy from 'lodash/cloneDeep';
+import React from 'react';
+import addEventListener from 'rc-util/lib/Dom/addEventListener';
+import EmptyData from 'uxcore-empty-data';
+import Row from './Row';
+import util from './util';
 
 
 class Tbody extends React.Component {

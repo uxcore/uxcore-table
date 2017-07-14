@@ -1,6 +1,6 @@
-const deepcopy = require('lodash/cloneDeep');
-const Const = require('uxcore-const');
-const util = require('./util');
+import deepcopy from 'lodash/cloneDeep';
+import Const from 'uxcore-const';
+import util from './util';
 
 function addEmptyRow(cb) {
   this.insertRecords({}, cb);
@@ -232,7 +232,7 @@ function toggleTreeExpanded(rowData, cb) {
   });
 }
 
-module.exports = {
+export default {
   addEmptyRow,
   addRow,
   resetRow,

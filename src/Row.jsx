@@ -1,15 +1,14 @@
 /**
  * Created by xy on 15/4/13.
  */
-const Cell = require('./Cell');
-const classnames = require('classnames');
-const assign = require('object-assign');
-const deepEqual = require('deep-equal');
-const deepcopy = require('lodash/cloneDeep');
-const CheckBox = require('./Cell/CheckBox');
-const util = require('./util');
-
-const React = require('react');
+import classnames from 'classnames';
+import assign from 'object-assign';
+import deepEqual from 'deep-equal';
+import deepcopy from 'lodash/cloneDeep';
+import React from 'react';
+import Cell from './Cell';
+import CheckBox from './Cell/CheckBox';
+import util from './util';
 
 class Row extends React.Component {
 

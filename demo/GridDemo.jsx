@@ -117,7 +117,7 @@ class Demo extends React.Component {
         edit: () => { },
         del: () => { },
       },
-      width: 800,
+      width: 'auto',
       height: 400,
       className: 'kuma-uxtable-border-line',
       pagerSizeOptions: [5, 10, 15, 20],

@@ -1,11 +1,11 @@
-const assign = require('object-assign');
-const Select = require('uxcore-select2');
-const React = require('react');
-const NattyFetch = require('natty-fetch');
-const Promise = require('lie');
-const isEqual = require('lodash/isEqual');
+import assign from 'object-assign';
+import Select from 'uxcore-select2';
+import React from 'react';
+import NattyFetch from 'natty-fetch';
+import Promise from 'lie';
+import isEqual from 'lodash/isEqual';
 
-const CellField = require('uxcore-cell-field');
+import CellField from 'uxcore-cell-field';
 
 const { Option } = Select;
 
@@ -172,4 +172,4 @@ SelectField.propTypes = assign({}, CellField.propTypes);
 
 SelectField.defaultProps = assign({}, CellField.defaultProps);
 
-module.exports = SelectField;
+export default SelectField;

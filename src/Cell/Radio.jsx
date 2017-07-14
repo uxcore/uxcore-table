@@ -2,8 +2,8 @@
  * A radio field
  */
 
-const Const = require('uxcore-const');
-const React = require('react');
+import Const from 'uxcore-const';
+import React from 'react';
 
 class Radio extends React.Component {
 
