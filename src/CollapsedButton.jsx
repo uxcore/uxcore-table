@@ -67,6 +67,9 @@ class CollapsedButton extends React.Component {
   }
 
   handleMenuItemClick(action, e) {
+    if (action.props.disabled) {
+      return;
+    }
     if (action.props.onClick) {
       action.props.onClick(e);
     }

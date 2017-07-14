@@ -205,7 +205,6 @@ class Demo extends React.Component {
             callback: (rowData) => {
               me.table.editRow(rowData);
             },
-            // isDisable: () => '这个操作被禁止了',
             mode: Constants.MODE.VIEW,
           },
           {
@@ -214,6 +213,7 @@ class Demo extends React.Component {
               me.table.resetRow(rowData);
             },
             mode: Constants.MODE.VIEW,
+            isDisable: () => true,
           },
           {
             title: '保存',

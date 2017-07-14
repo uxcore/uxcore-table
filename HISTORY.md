@@ -2,6 +2,11 @@
 
 ---
 
+## 6.2.1
+
+* `FIXED` `action.isDisable` fail to work.
+* `CHANGED` pass rowData to `action.isDisable`
+
 ## 6.2.0
 
 * `NEW` support new prop `shouldResetExpandedKeys`
