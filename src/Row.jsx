@@ -38,6 +38,14 @@ class Row extends React.Component {
     return shouldUpdate;
   }
 
+  getDom() {
+    return this.root;
+  }
+
+  getInnerBox() {
+    return this.container;
+  }
+
   handleClick() {
     this.props.onClick();
   }
@@ -249,8 +257,9 @@ class Row extends React.Component {
         onMouseLeave={() => {
           this.handleMouseLeave();
         }}
+        ref={(c) => { this.root = c; }}
       >
-        <div className={`${this.props.prefixCls}-cells`}>
+        <div className={`${this.props.prefixCls}-cells`} ref={(c) => { this.container = c; }}>
           {_columns.map((item, index) => {
             const rowSelectorInTreeMode =
               (['checkboxSelector', 'radioSelector'].indexOf(item.type) !== -1)
@@ -322,6 +331,7 @@ Row.propTypes = {
   onClick: React.PropTypes.func,
   onMouseEnter: React.PropTypes.func,
   index: React.PropTypes.number,
+  height: React.PropTypes.number,
 };
 
 Row.defaultProps = {

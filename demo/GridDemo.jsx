@@ -11,7 +11,7 @@ const React = require('react');
 
 const Table = require('../src');
 
-// const urlPrefix = 'http://192.168.99.117:3000/';
+const urlPrefix = 'http://30.6.61.25:3000/';
 
 //* 第一列为radio的demo
 class Demo extends React.Component {
@@ -83,7 +83,7 @@ class Demo extends React.Component {
       }, {
         dataKey: 'action1',
         title: '操作1',
-        width: 100,
+        width: 200,
         rightFixed: true,
         type: 'action',
         actions: [{
@@ -111,7 +111,8 @@ class Demo extends React.Component {
         render: () => <div><a>111</a></div>,
       },
     ];
-    const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
+    // const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
+    const fetchUrl = `${urlPrefix}demo/data.json`;
     const renderProps = {
       actionColumn: {
         edit: () => { },
@@ -119,7 +120,7 @@ class Demo extends React.Component {
       },
       width: 800,
       height: 400,
-      className: 'kuma-uxtable-border-line',
+      // className: 'kuma-uxtable-border-line',
       pagerSizeOptions: [5, 10, 15, 20],
       actionBar: {
         'Action Button': () => {
@@ -141,7 +142,7 @@ class Demo extends React.Component {
         data: [],
       },
       addRowClassName() {
-        // return 'multiline multiline-centered';
+        return 'multiline';
       },
       rowSelector: 'checkboxSelector',
       jsxcolumns: columns,

@@ -3,8 +3,10 @@
  */
 
 import deepcopy from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
 import React from 'react';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
+import { hasClass } from 'rc-util/lib/Dom/class';
 import EmptyData from 'uxcore-empty-data';
 import Row from './Row';
 import util from './util';
@@ -23,12 +25,22 @@ class Tbody extends React.Component {
     me.rootEl = me.root;
     me.scrollHandler = me.onScroll.bind(me);
     me.scrollListener = addEventListener(me.rootEl, 'scroll', me.scrollHandler);
+    this.adjustMultilineFixedRowHeight();
   }
+
+  componentDidUpdate(prevProps) {
+    const isFixedTable = ['fixed', 'rightFixed'].indexOf(this.props.fixedColumn) !== -1;
+    if (isFixedTable && !isEqual(prevProps.data, this.props.data)) {
+      this.adjustMultilineFixedRowHeight();
+    }
+  }
+
 
   componentWillUnmount() {
     const me = this;
     me.scrollListener.remove();
   }
+
 
   onScroll() {
     const me = this;
@@ -44,6 +56,32 @@ class Tbody extends React.Component {
 
   getDom() {
     return this.root;
+  }
+
+  getRow(index) {
+    return this[`row${index}`];
+  }
+
+  adjustMultilineFixedRowHeight() {
+    const isFixedTable = ['fixed', 'rightFixed'].indexOf(this.props.fixedColumn) !== -1;
+    if (isFixedTable) {
+      const mainBody = this.props.root.getMainBody();
+      if (mainBody) {
+        this.props.data.forEach((item, index) => {
+          const mainTableRow = mainBody.getRow(index);
+          if (mainTableRow) {
+            const mainTableRowNode = mainTableRow.getDom();
+
+            if (hasClass(mainTableRowNode, 'multiline')) {
+              const height = mainTableRowNode.clientHeight;
+              const row = this.getRow(index);
+              const rowNode = row.getInnerBox();
+              rowNode.style.height = `${height}px`;
+            }
+          }
+        });
+      }
+    }
   }
 
   saveRef(name) {
@@ -146,6 +184,9 @@ class Tbody extends React.Component {
         subComp: props.subComp,
         actions: props.actions,
         key: `row${index}`,
+        ref: (c) => {
+          this[`row${index}`] = c;
+        },
         mode: props.mode,
         renderModel: props.renderModel,
         fixedColumn: props.fixedColumn,
@@ -191,6 +232,7 @@ Tbody.propTypes = {
   ]),
   mask: React.PropTypes.bool,
   onScroll: React.PropTypes.func,
+  root: React.PropTypes.any,
 };
 
 Tbody.defaultProps = {
