@@ -2,7 +2,7 @@
 
 ---
 
-## 6.2.3
+## 6.3.0
 
 * `CHANGED` `resetRow` & `resetAllRow` will do validate
 * `FIXED` fixed Row height not equal to main table if multiline row mode is on
