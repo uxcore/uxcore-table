@@ -2,6 +2,10 @@
 
 ---
 
+## 6.2.3
+
+* `CHANGED` `resetRow` & `resetAllRow` will do validate
+
 ## 6.2.2
 
 * `FIXED` `checkBodyHScroll` may throw error if `rightFixedTable` is not defined

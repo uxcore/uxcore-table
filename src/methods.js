@@ -21,7 +21,10 @@ function resetRow(rowData, cb) {
     }
   }
   updateData.__mode__ = Const.MODE.EDIT;
-  this.updateRecord(updateData, cb);
+  this.updateRecord(updateData, () => {
+    this.doValidate();
+    if (cb) { cb(); }
+  });
 }
 
 function resetAllRow(cb) {
@@ -41,6 +44,7 @@ function resetAllRow(cb) {
     this.setState({
       data: copyData,
     }, () => {
+      this.doValidate();
       if (cb) {
         cb();
       }
@@ -190,18 +194,25 @@ function moveRowDown(rowData, cb) {
   }
 }
 
+function doValidate() {
+  let pass = true;
+  const me = this;
+  const fieldKeys = Object.keys(me.fields);
+  fieldKeys.forEach((name) => {
+    const fieldPass = me.fields[name]();
+      // if one field fails to pass, the table fails to pass
+    if (pass) {
+      pass = fieldPass;
+    }
+  });
+  return pass;
+}
+
 function getData(validate) {
   const me = this;
   let pass = true;
   if (validate !== false) {
-    const fieldKeys = Object.keys(me.fields);
-    fieldKeys.forEach((name) => {
-      const fieldPass = me.fields[name]();
-      // if one field fails to pass, the table fails to pass
-      if (pass) {
-        pass = fieldPass;
-      }
-    });
+    pass = this.doValidate();
   }
   if (me.props.getSavedData) {
     // 滤除可能为空的元素
@@ -247,6 +258,7 @@ export default {
   saveAllRow,
   toggleSubComp,
   toggleTreeExpanded,
+  doValidate,
   getData,
   moveRowUp,
   moveRowDown,

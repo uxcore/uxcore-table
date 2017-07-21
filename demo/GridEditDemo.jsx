@@ -273,7 +273,7 @@ class Demo extends React.Component {
           },
         },
         {
-          title: '查看所有行',
+          title: '恢复所有行',
           callback: () => {
             me.table.resetAllRow();
           },
