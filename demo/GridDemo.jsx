@@ -84,7 +84,7 @@ class Demo extends React.Component {
         dataKey: 'action1',
         title: '操作1',
         width: 200,
-        rightFixed: true,
+        // rightFixed: true,
         type: 'action',
         actions: [{
           title: 'click',
@@ -119,8 +119,8 @@ class Demo extends React.Component {
         del: () => { },
       },
       width: 800,
-      height: 400,
-      className: 'kuma-uxtable-border-line',
+      // height: 400,
+      className: 'kuma-uxtable-split-line',
       pagerSizeOptions: [5, 10, 15, 20],
       actionBar: {
         'Action Button': () => {

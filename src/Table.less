@@ -344,7 +344,7 @@
     &.more-action {
       line-height: 49px;
     }
-    & + .kuma-button {
+    &+.kuma-button {
       margin-left: 12px;
     }
   }
@@ -420,10 +420,12 @@
 
 .@{uxtable-prefix}-left-fixed-table {
   left: 0;
+  border-right: 1px solid @normal-alpha-7;
 }
 
 .@{uxtable-prefix}-right-fixed-table {
   right: 0;
+  border-left: 1px solid @normal-alpha-7;
 }
 
 .@{uxtable-prefix}-body-no {
@@ -450,6 +452,13 @@
   height: 100%;
   .@{uxtable-prefix}-header {
     background-color: @normal-alpha-8;
+  }
+}
+
+.@{uxtable-prefix}-header-scroll,
+.@{uxtable-prefix}-body-scroll {
+  &.@{uxtable-prefix}-no-v-scroll {
+    overflow-y: auto;
   }
 }
 
@@ -545,9 +554,6 @@
         background-color: @brand-primary-alpha-8;
       }
     }
-  }
-  .@{uxtable-prefix}-left-fixed-table {
-    border-right: 1px solid @basic-600;
   }
 }
 

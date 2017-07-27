@@ -2,6 +2,10 @@
 
 ---
 
+## 6.4.1
+
+* `CHANGED` hide vertical scrollBar if body can not scroll vertically.
+
 ## 6.4.0
 
 * `NEW` support a new type `split-line`.
