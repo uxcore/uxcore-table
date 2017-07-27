@@ -511,7 +511,8 @@
   }
 }
 
-.@{uxtable-prefix}-border-line {
+.@{uxtable-prefix}-border-line,
+.@{uxtable-prefix}-split-line {
   .@{uxtable-prefix}-content {
     border: 1px solid @normal-alpha-7;
   }
@@ -529,7 +530,7 @@
     }
   }
   .@{uxtable-prefix}-cell {
-    border-right: 1px solid @normal-alpha-7;
+    // border-right: 1px solid @normal-alpha-7;
     &.last {
       border-right: none;
     }
@@ -547,6 +548,12 @@
   }
   .@{uxtable-prefix}-left-fixed-table {
     border-right: 1px solid @basic-600;
+  }
+}
+
+.@{uxtable-prefix}-border-line {
+  .@{uxtable-prefix}-cell {
+    border-right: 1px solid @normal-alpha-7;
   }
 }
 

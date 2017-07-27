@@ -111,8 +111,8 @@ class Demo extends React.Component {
         render: () => <div><a>111</a></div>,
       },
     ];
-    // const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
-    const fetchUrl = `${urlPrefix}demo/data.json`;
+    const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
+    // const fetchUrl = `${urlPrefix}demo/data.json`;
     const renderProps = {
       actionColumn: {
         edit: () => { },
@@ -120,7 +120,7 @@ class Demo extends React.Component {
       },
       width: 800,
       height: 400,
-      // className: 'kuma-uxtable-border-line',
+      className: 'kuma-uxtable-border-line',
       pagerSizeOptions: [5, 10, 15, 20],
       actionBar: {
         'Action Button': () => {
@@ -141,9 +141,9 @@ class Demo extends React.Component {
       jsxdata: {
         data: [],
       },
-      addRowClassName() {
-        return 'multiline';
-      },
+      // addRowClassName() {
+      //   return 'multiline';
+      // },
       rowSelector: 'checkboxSelector',
       jsxcolumns: columns,
       rowSelection,

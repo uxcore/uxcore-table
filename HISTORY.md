@@ -2,6 +2,10 @@
 
 ---
 
+## 6.4.0
+
+* `NEW` support a new type `split-line`.
+
 ## 6.3.0
 
 * `CHANGED` `resetRow` & `resetAllRow` will do validate
