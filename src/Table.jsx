@@ -265,19 +265,22 @@ class Table extends React.Component {
     if (this.bodyScroll && this.headerScroll) {
       const { prefixCls } = this.props;
       const node = this.bodyScroll.getDom();
-      const wrapperHeight = node.clientHeight;
-      const bodyHeight = node.children[0].clientHeight;
-      const headerDom = this.headerScroll.getDom();
-      const noVScroll = bodyHeight <= wrapperHeight;
-      if (this.noVScroll === undefined || this.noVScroll !== noVScroll) {
-        if (noVScroll) {
-          addClass(node, `${prefixCls}-no-v-scroll`);
-          addClass(headerDom, `${prefixCls}-no-v-scroll`);
-        } else {
-          removeClass(node, `${prefixCls}-no-v-scroll`);
-          removeClass(headerDom, `${prefixCls}-no-v-scroll`);
+      // body does not exist if no data
+      if (node.children[0]) {
+        const wrapperHeight = node.clientHeight;
+        const bodyHeight = node.children[0].clientHeight;
+        const headerDom = this.headerScroll.getDom();
+        const noVScroll = bodyHeight <= wrapperHeight;
+        if (this.noVScroll === undefined || this.noVScroll !== noVScroll) {
+          if (noVScroll) {
+            addClass(node, `${prefixCls}-no-v-scroll`);
+            addClass(headerDom, `${prefixCls}-no-v-scroll`);
+          } else {
+            removeClass(node, `${prefixCls}-no-v-scroll`);
+            removeClass(headerDom, `${prefixCls}-no-v-scroll`);
+          }
+          this.noVScroll = noVScroll;
         }
-        this.noVScroll = noVScroll;
       }
     }
   }

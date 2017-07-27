@@ -2,7 +2,7 @@
 
 ---
 
-## 6.4.1
+## 6.5.0
 
 * `CHANGED` hide vertical scrollBar if body can not scroll vertically.
 
