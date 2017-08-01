@@ -1,0 +1,82 @@
+.@{uxtable-prefix}-actionbar {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 6px 0px 4px;
+}
+
+.@{uxtable-prefix}-actionbar-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.@{uxtable-prefix}-column-picker {
+  float: right;
+  position: relative;
+}
+
+.@{uxtable-prefix}-column-picker-icon {
+  vertical-align: middle;
+  margin-right: 5px;
+  color: @normal-alpha-4;
+}
+
+.@{uxtable-prefix}-column-picker-title {
+  vertical-align: middle;
+  color: @brand-link;
+}
+
+.@{uxtable-prefix}-column-picker-trigger {
+  padding: 4px 10px;
+  z-index: 12;
+  position: relative;
+  background: white;
+  cursor: pointer;
+}
+
+.@{uxtable-prefix}-column-picker-popover {
+    .kuma-popover-inner {
+        min-width: 200px;
+    }
+}
+
+.@{uxtable-prefix}-searchbar {
+  float: right;
+  position: relative;
+  width: 355px;
+  .kuma-input {
+    height: 32px;
+  }
+  .kuma-icon-search {
+    position: absolute;
+    line-height: 16px;
+    color: @normal-alpha-4;
+    right: 8px;
+    top: 8px;
+    cursor: pointer;
+    &:hover {
+      color: @normal-alpha-3;
+    }
+  }
+}
+
+.@{uxtable-prefix}-linkbar {
+  float: right;
+  line-height: 30px;
+  margin-right: 10px;
+  a {
+    vertical-align: middle;
+  }
+}
+
+.@{uxtable-prefix}-linkbar-cutoff {
+  border-right: 2px solid @split-line-color;
+  height: 14px;
+  display: inline-block;
+  margin: 0 12px;
+  vertical-align: middle;
+}
+
+.@{uxtable-prefix}-linkbar-item {
+  cursor: pointer;
+  display: inline-block;
+}

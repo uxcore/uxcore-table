@@ -1,5 +1,7 @@
 import Formatter from 'uxcore-formatter';
 import deepcopy from 'lodash/cloneDeep';
+import cssAni from 'css-animation';
+
 
 let scrollbarWidth;
 
@@ -77,7 +79,7 @@ const formatValue = (value, type, delimiter) => {
 
 const mergeData = (data, obj) => {
   const newData = deepcopy(data);
-    // code compatible
+  // code compatible
   if (newData.datas) {
     newData.datas = newData.datas.concat(obj);
   } else if (newData.data) {
@@ -89,10 +91,10 @@ const mergeData = (data, obj) => {
 
 /* eslint-disable no-param-reassign */
 const saveRef = (refName, context) =>
-   (c) => {
-     context[refName] = c;
-   }
-;
+  (c) => {
+    context[refName] = c;
+  }
+  ;
 /* eslint-enable no-param-reassign */
 
 // For changeTreeSelected in Table.js
@@ -231,6 +233,35 @@ const measureScrollbar = () => {
   return scrollbarWidth;
 };
 
+/* eslint-disable no-param-reassign */
+
+const toggleHeightAnim = (node, show, done) => {
+  let height;
+  cssAni(node, '111', {
+    start() {
+      node.style.overflow = 'hidden';
+      if (!show) {
+        node.style.height = `${node.offsetHeight}px`;
+        node.style.opacity = 0;
+      } else {
+        height = node.offsetHeight;
+        node.style.height = 0;
+        node.style.opacity = 1;
+      }
+    },
+    active() {
+      node.style.height = `${show ? height : 0}px`;
+    },
+    end() {
+      node.style.height = '';
+      node.style.overflow = '';
+      done();
+    },
+  });
+};
+
+/* eslint-enable no-param-reassign */
+
 const utils = {
   getIEVer,
   toggleItemInArr,
@@ -245,6 +276,7 @@ const utils = {
   hasFixColumn,
   getDefaultExpandedKeys,
   measureScrollbar,
+  toggleHeightAnim,
 };
 
 export default utils;

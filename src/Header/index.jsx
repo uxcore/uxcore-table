@@ -112,7 +112,7 @@ class Header extends React.Component {
 
   renderColumn(item, index, hasGroup, last) {
     const me = this;
-    const { renderModel } = me.props;
+    const { renderModel, prefixCls } = me.props;
     const rowSelectorInTreeMode = (['checkboxSelector', 'radioSelector'].indexOf(item.type) !== -1)
       && (renderModel === 'tree');
     if (item.hidden || rowSelectorInTreeMode) {
@@ -171,7 +171,7 @@ class Header extends React.Component {
       >
         {me.renderIndent(index)}
         {v}
-        <MessageIcon message={item.message} />
+        <MessageIcon message={item.message} prefixCls={`${prefixCls}-msg`} />
         {me.renderOrderIcon(item)}
       </div>
     );

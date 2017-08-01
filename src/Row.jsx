@@ -6,6 +6,7 @@ import assign from 'object-assign';
 import deepEqual from 'deep-equal';
 import deepcopy from 'lodash/cloneDeep';
 import React from 'react';
+import Animate from 'uxcore-animate';
 import Cell from './Cell';
 import CheckBox from './Cell/CheckBox';
 import util from './util';
@@ -85,8 +86,10 @@ class Row extends React.Component {
   renderSubComp() {
     const props = this.props;
 
+    let sub;
+
     if (props.renderModel === 'tree') {
-      return false;
+      return null;
     }
     if (props.subComp) {
       if (props.rowData.showSubComp) {
@@ -95,17 +98,18 @@ class Row extends React.Component {
           parentHasCheckbox: !!this.props.rowSelection,
           parentHasCheck: !!this.props.rowSelection,
         });
-        return (<div className="kuma-uxtable-subrow">{subComp}</div>);
+        sub = (<div className="kuma-uxtable-subrow">{subComp}</div>);
       }
-      return false;
     } else if (props.renderSubComp) {
       const subComp = props.renderSubComp(deepcopy(props.rowData));
       if (subComp && props.rowData.showSubComp) {
-        return <div className="kuma-uxtable-subrow">{subComp}</div>;
+        sub = <div className="kuma-uxtable-subrow">{subComp}</div>;
       }
-      return false;
     }
-    return false;
+    if (sub) {
+      return sub;
+    }
+    return null;
   }
 
   renderChild() {
@@ -307,7 +311,15 @@ class Row extends React.Component {
           })}
         </div>
         {me.renderChild()}
-        {this.renderSubComp()}
+        <Animate
+          component=""
+          animation={{
+            enter: (node, done) => { util.toggleHeightAnim(node, true, done); },
+            leave: (node, done) => { util.toggleHeightAnim(node, false, done); },
+          }}
+        >
+          {this.renderSubComp()}
+        </Animate>
       </li>
     );
   }

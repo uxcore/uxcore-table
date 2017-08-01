@@ -13,13 +13,14 @@ const MessageIcon = (props) => {
       </div>}
       placement="top"
     >
-      <Icon name="tishi-full" />
+      <Icon name="xinxitishicopy" className={`${props.prefixCls}-icon`} />
     </Tooltip>
     );
 };
 
 MessageIcon.propTypes = {
   message: React.PropTypes.string,
+  prefixCls: React.PropTypes.string,
 };
 
 

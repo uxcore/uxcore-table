@@ -1,0 +1,547 @@
+/**
+ * Grid Component Style for uxcore
+ * @author zhouquan.yezq
+ *
+ * Copyright 2014-2015, Uxcore Team, Alinw.
+ * All rights reserved.
+ */
+
+.@{uxtable-prefix} {
+  input::-ms-clear {
+    display: none;
+  }
+  border-collapse: collapse;
+  position: relative;
+  color: @dark-alpha-2;
+  table-layout: fixed;
+  .half-checked {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url("@{svg-path}/checkbox-partial-checked.svg") no-repeat;
+    vertical-align: text-bottom;
+    margin-right: 12px;
+    color: @brand-primary;
+  }
+  .kuma-date-cell-field {
+  .kuma-calendar-picker-input {
+    line-height: 36px;
+    .kuma-icon-calender,
+    .kuma-icon-close,
+    .kuma-calendar-trigger-icon {
+      line-height: 24px;
+    }
+  }
+}
+}
+
+.@{uxtable-prefix}-content {
+  overflow-x: auto;
+  position: relative;
+}
+
+.@{uxtable-prefix}-content-scroller {
+  display: inline-block;
+}
+
+.@{uxtable-prefix}-header-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+.@{uxtable-prefix}-body-wrapper {
+  border-top: none;
+  position: relative;
+  min-height: 40px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.@{uxtable-prefix}-fixed-body-wrapper {
+  overflow-x: hidden;
+}
+
+.@{uxtable-prefix}-header {
+  background-color: @normal-alpha-8;
+  font-size: 14px;
+  font-weight: 600;
+  min-width: 100%;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.@{uxtable-prefix}-body {
+  position: relative;
+  display: inline-block;
+  min-width: 100%;
+  min-height: 40px;
+  white-space: normal;
+  background-color: @table-body-bg;
+}
+
+.@{uxtable-prefix}-body-emptyword {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.@{uxtable-prefix}-row {
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+  border-bottom: none;
+  .@{uxtable-prefix}-row-cells {
+    transition: background-color 0.15s ease-out;
+  }
+  &:first-child {
+    border-top: none;
+  }
+  &.even {
+    .@{uxtable-prefix}-row-cells {
+      background-color: @normal-alpha-8;
+    }
+  }
+}
+
+.@{uxtable-prefix}-row-hover {
+  .@{uxtable-prefix}-row-cells {
+    background-color: @brand-primary-alpha-8;
+  }
+  &.even {
+    .@{uxtable-prefix}-row-cells {
+      background-color: @brand-primary-alpha-8;
+    }
+  }
+}
+
+.@{uxtable-prefix}-cell {
+  display: inline-block;
+  text-align: left;
+  overflow: hidden;
+  height: 100%;
+  padding: 0 0 0 20px;
+  vertical-align: top;
+  position: relative;
+  word-break: break-all;
+  height: 50px;
+  line-height: 50px;
+  .@{uxtable-prefix}-header-msg-icon {
+    color: @brand-info;
+    -webkit-text-stroke-width: 0;
+    font-size: 16px;
+    margin-left: 4px;
+  }
+  &>div {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    height: 50px;
+    width: 100%;
+    white-space: nowrap;
+  }
+  >input.kuma-input {
+    vertical-align: top;
+    padding: 0 10px;
+    margin-top: 7px;
+    height: 36px;
+  }
+  .kuma-column-picker {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 0;
+  }
+  .kuma-select2 {
+    vertical-align: top;
+    margin-top: 7px;
+  }
+}
+
+.@{uxtable-prefix}-small-size {
+  .@{uxtable-prefix}-cell {
+    height: 44px;
+    line-height: 44px;
+    &>div {
+      height: 44px;
+    }
+  }
+}
+
+.@{uxtable-prefix}-row.multiline {
+  .@{uxtable-prefix}-cell {
+    height: auto;
+    min-height: 50px;
+    line-height: inherit;
+    white-space: normal;
+    .default-cell {
+      white-space: normal;
+      height: auto;
+    }
+    >div {
+      height: auto;
+      white-space: normal;
+    }
+  }
+}
+
+.@{uxtable-prefix}-row.multiline-centered {
+  .@{uxtable-prefix}-row-cells {
+    display: flex;
+    align-items: center;
+  }
+  .@{uxtable-prefix}-cell {
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+}
+
+@keyframes tableSubIn {
+  0% {
+    opacity: 0;
+    height: 0;
+  }
+  100% {
+    opacity: 1;
+    height: auto;
+  }
+}
+
+.@{uxtable-prefix}-subrow {
+  transition: all 0.3s ease-out;
+}
+
+.@{uxtable-prefix}-cell-field {
+  &.hasError {
+    .kuma-input,
+    .kuma-select2-selection {
+      background: @brand-danger-alpha-8;
+      border-color: @border-danger-color;
+    }
+    .kuma-checkbox-group {
+      color: @brand-danger;
+    }
+  }
+}
+
+.@{uxtable-prefix}-select-cell-field {
+  .kuma-select2 {
+    display: block;
+  }
+}
+
+.@{uxtable-prefix}-header .@{uxtable-prefix}-cell>div {
+  overflow: visible;
+}
+
+.@{uxtable-prefix}-tree-icon {
+  cursor: pointer;
+  vertical-align: middle;
+  >.kuma-icon {
+    font-size: 16px;
+    color: #999999;
+    &:before {
+      transition: transform 0.3s ease;
+      display: inline-block;
+      zoom: 1;
+    }
+    &.kuma-icon-triangle-right__open:before {
+      transform: rotate(90deg);
+      -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=1, M12=0, M21=0, M22=1)";
+      -ms-transform: rotate(90deg);
+    }
+  }
+}
+
+.@{uxtable-prefix}-emptyicon {
+  width: 22px;
+  display: inline-block;
+}
+
+.kuma-subgrid-mode {
+  .@{uxtable-prefix}-body-wrapper {
+    border: none;
+  }
+}
+
+.@{uxtable-prefix}-page {
+  text-align: right;
+  padding: 10px 0px;
+  .kuma-select2-selection__rendered {
+    text-align: left;
+  }
+}
+
+.@{uxtable-prefix} .kuma-page {
+  display: inline-block;
+}
+
+.@{uxtable-prefix}-h-sort {
+  position: relative;
+  vertical-align: middle;
+  cursor: pointer;
+  height: 20px;
+  width: 14px;
+  display: inline-block;
+  color: @normal-alpha-4;
+  .kuma-icon {
+    font-size: 13px;
+    height: 14px;
+    line-height: 11px;
+    position: absolute;
+    &.active {
+      color: @brand-primary;
+    }
+    -webkit-text-stroke-width: 0;
+  }
+  .kuma-icon-triangle-up {
+    top: 0;
+  }
+  .kuma-icon-triangle-down {
+    bottom: 0;
+  }
+}
+
+.action-container {
+  .action {
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    padding: 0 12px;
+    &.disabled {
+      color: @text-disabled-color;
+      cursor: not-allowed
+    }
+    &.first-action {
+      padding-left: 0px;
+    }
+    i {
+      color: @link-color;
+      vertical-align: middle;
+      font-size: 14px;
+    }
+    &.kuma-button {
+      padding: 0 16px;
+      i {
+        color: @brand-primary;
+      }
+    }
+    &.more-action {
+      line-height: 49px;
+    }
+    &+.kuma-button {
+      margin-left: 12px;
+    }
+  }
+}
+
+.@{uxtable-prefix} span.indent {
+  display: inline-block;
+  width: 27px;
+  margin: 0;
+  &.hasCheck {
+    margin-right: 25px;
+  }
+}
+
+.@{uxtable-prefix}-body-fixed,
+.@{uxtable-prefix}-body-right-fixed {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.@{uxtable-prefix}-body-fixed {
+  margin-right: -20px;
+}
+
+.@{uxtable-prefix}-left-fixed-table,
+.@{uxtable-prefix}-right-fixed-table {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  transition: box-shadow 0.3s ease-out;
+  background: white;
+  &.has-scroll {
+    box-shadow: 1px 0 4px rgba(31, 56, 88, 0.15);;
+  }
+  &.end-of-scroll {
+    box-shadow: -1px 0 4px rgba(31, 56, 88, 0.15);
+  }
+}
+
+.@{uxtable-prefix}-left-fixed-table {
+  left: 0;
+  border-right: 1px solid @normal-alpha-7;
+}
+
+.@{uxtable-prefix}-right-fixed-table {
+  right: 0;
+  border-left: 1px solid @normal-alpha-7;
+}
+
+.@{uxtable-prefix}-body-no {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.@{uxtable-prefix}-body-scroll {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: scroll;
+  z-index: 1;
+  height: 100%;
+}
+
+.@{uxtable-prefix}-header-no {
+  overflow: scroll;
+}
+
+.@{uxtable-prefix}-header-scroll {
+  position: static;
+  overflow: scroll;
+  z-index: 1;
+  height: 100%;
+  .@{uxtable-prefix}-header {
+    background-color: @normal-alpha-8;
+  }
+}
+
+.@{uxtable-prefix}-header-scroll,
+.@{uxtable-prefix}-body-scroll {
+  &.@{uxtable-prefix}-no-v-scroll {
+    overflow-y: hidden;
+  }
+}
+
+.@{uxtable-prefix}-header-column-group {
+  display: inline-block;
+}
+
+.@{uxtable-prefix}-header-group-name {
+  line-height: 50px;
+  text-align: center;
+}
+
+.@{uxtable-prefix}-column-message {
+  max-width: 200px;
+}
+
+.@{uxtable-prefix}-row-selector {
+  vertical-align: middle;
+}
+
+.@{uxtable-prefix}-expand-icon {
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 18px;
+  line-height: 18px;
+  margin-right: 6px;
+  color: @normal-alpha-4;
+  .kuma-icon-triangle-right {
+    &:before {
+      transition: transform .3s ease;
+      display: inline-block;
+    }
+    &.expanded:before {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.@{uxtable-prefix}-row-tree-selector {
+  margin-right: 12px;
+}
+
+.@{uxtable-prefix}-tree-mode {
+  .@{uxtable-prefix}-row {
+    &.even .@{uxtable-prefix}-row-cells {
+      background: white;
+    }
+    .@{uxtable-prefix}-row-cells {
+      border-bottom: 1px solid @normal-alpha-7;
+    }
+  }
+  .@{uxtable-prefix}-content {
+    .@{uxtable-prefix}-row.@{uxtable-prefix}-row-hover {
+      .@{uxtable-prefix}-row-cells {
+        background-color: white;
+      }
+    }
+  }
+}
+
+.@{uxtable-prefix}-border-line,
+.@{uxtable-prefix}-split-line {
+  .@{uxtable-prefix}-content {
+    border: 1px solid @normal-alpha-7;
+  }
+  .@{uxtable-prefix}-row {
+    &.even .@{uxtable-prefix}-row-cells {
+      background: white;
+    }
+    .@{uxtable-prefix}-row-cells {
+      border-bottom: 1px solid @normal-alpha-7;
+    }
+    &.last {
+      .@{uxtable-prefix}-row-cells {
+        border-bottom: none;
+      }
+    }
+  }
+  .@{uxtable-prefix}-cell {
+    &.last {
+      border-right: none;
+    }
+  }
+  .@{uxtable-prefix}-header-group-name {
+    border-right: 1px solid @normal-alpha-7;
+    border-bottom: 1px solid @normal-alpha-7;
+  }
+  .@{uxtable-prefix}-row-hover {
+    &.even {
+      .@{uxtable-prefix}-row-cells {
+        background-color: @brand-primary-alpha-8;
+      }
+    }
+  }
+}
+
+.@{uxtable-prefix}-border-line {
+  .@{uxtable-prefix}-cell {
+    border-right: 1px solid @normal-alpha-7;
+  }
+}
+
+.@{uxtable-prefix}-cell-collapsed-button-more-dropdown {
+  .kuma-dropdown-menu>.kuma-dropdown-menu-item {
+    padding: 5px 16px;
+    &:hover {
+      background: @normal-alpha-9;
+    }
+    a {
+      color: @link-color;
+      cursor: pointer;
+    }
+    &.kuma-dropdown-menu-item-disabled {
+      background: @bg-disabled-color;
+      a {
+        color: @text-disabled-color;
+        cursor: not-allowed;
+      }
+    }
+  }
+  &.@{uxtable-prefix}-cell-collapsed-button-more-link-dropdown {
+    .kuma-dropdown-menu>.kuma-dropdown-menu-item {
+      padding: 5px 11px;
+    }
+  }
+}
+
+.@{uxtable-prefix}-cell-collapsed-button-text {
+  vertical-align: middle;
+}
+
+.@{uxtable-prefix}-cell-collapsed-button-split-line {
+  color: @split-line-color;
+}

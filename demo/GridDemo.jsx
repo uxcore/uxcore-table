@@ -55,7 +55,7 @@ class Demo extends React.Component {
       },
       {
         dataKey: 'country',
-        fixed: true,
+        // fixed: true,
         title: '国家',
         width: 200,
         ordered: true,
@@ -146,6 +146,8 @@ class Demo extends React.Component {
       // },
       rowSelector: 'checkboxSelector',
       jsxcolumns: columns,
+      showColumnPicker: true,
+      size: 'small',
       rowSelection,
       renderSubComp: rowData =>
         (<div className="sub-box">

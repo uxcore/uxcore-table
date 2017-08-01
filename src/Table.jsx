@@ -831,7 +831,7 @@ class Table extends React.Component {
           'kuma-uxtable-fixed-body-wrapper': isFixedTable,
         })}
         style={{
-          height: isFixedTable ? (bodyHeight - scrollBarWidth) : bodyHeight,
+          height: (!isNaN(bodyHeight) && isFixedTable) ? (bodyHeight - scrollBarWidth) : bodyHeight,
         }}
       >
         <Tbody
@@ -1040,6 +1040,7 @@ class Table extends React.Component {
         className={classnames({
           [props.className]: !!props.className,
           [props.prefixCls]: true,
+          [`${props.prefixCls}-${props.size}-size`]: true,
           'kuma-subgrid-mode': !!props.passedData,
           [`${props.prefixCls}-tree-mode`]: props.renderModel === 'tree',
         })}
@@ -1067,6 +1068,7 @@ Table.defaultProps = {
   prefixCls: 'kuma-uxtable',
   jsxcolumns: [],
   locale: 'zh-cn',
+  size: 'middle',
   showHeader: true,
   width: 'auto',
   height: 'auto',
@@ -1120,6 +1122,7 @@ Table.defaultProps = {
 Table.propTypes = {
   prefixCls: React.PropTypes.string,
   locale: React.PropTypes.string,
+  size: React.PropTypes.oneOf(['small', 'middle']),
   jsxcolumns: React.PropTypes.arrayOf(React.PropTypes.object),
   width: React.PropTypes.oneOfType([
     React.PropTypes.string,

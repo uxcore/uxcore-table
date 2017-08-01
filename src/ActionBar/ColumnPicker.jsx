@@ -1,6 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
 import Tree from 'uxcore-tree';
+import Popover from 'uxcore-popover';
+import Icon from 'uxcore-icon';
 import i18n from '../i18n';
 import { getSelectedKeys, getConsts } from '../util';
 
@@ -13,8 +15,6 @@ class ColumnPicker extends React.Component {
     this.state = {
       visible: false,
     };
-    this.handleMouseEnter = this.handleMouseEnter.bind(this);
-    this.handleMouseLeave = this.handleMouseLeave.bind(this);
   }
 
   componentDidUpdate() {
@@ -37,27 +37,6 @@ class ColumnPicker extends React.Component {
     return this.dropDownDOMNode;
   }
 
-  // getSelectedKeys() {
-  //   const me = this;
-  //   const { columns } = me.props;
-  //   const realColumns = [];
-  //   const selectedKeys = [];
-  //   columns.forEach((item) => {
-  //     const isGroup = {}.hasOwnProperty.call(item, 'columns') && typeof item.columns === 'object';
-  //     if (isGroup) {
-  //       // realColumns = realColumns.concat(item.columns);
-  //     } else {
-  //       realColumns.push(item);
-  //     }
-  //   });
-  //   realColumns.forEach((item) => {
-  //     if (!item.hidden) {
-  //       selectedKeys.push(item.dataKey);
-  //     }
-  //   });
-  //   return selectedKeys;
-  // }
-
   handlePickerSelect(groupName, selectedKeys) {
     this.props.handleColumnPickerChange(selectedKeys, groupName);
   }
@@ -68,27 +47,6 @@ class ColumnPicker extends React.Component {
       me[refName] = c;
       return false;
     };
-  }
-
-  handleMouseEnter() {
-    const me = this;
-    if (me.hideDropDownTimer) {
-      clearTimeout(me.hideDropDownTimer);
-    }
-    if (!me.state.visible) {
-      me.setState({
-        visible: true,
-      });
-    }
-  }
-
-  handleMouseLeave() {
-    const me = this;
-    me.hideDropDownTimer = setTimeout(() => {
-      me.setState({
-        visible: false,
-      });
-    }, 200);
   }
 
   renderTree() {
@@ -117,7 +75,7 @@ class ColumnPicker extends React.Component {
         }
       } else if (isGroup) {
         groupTree.push(me.renderGroupTree(item, me.groupNum));
-        me.groupNum++;
+        me.groupNum += 1;
       }
     });
 
@@ -148,28 +106,9 @@ class ColumnPicker extends React.Component {
     );
   }
 
-  renderDropDown() {
-    const me = this;
-    const { prefixCls } = me.props;
-    const style = {
-      display: me.state.visible ? 'block' : 'none',
-    };
-    return (
-      <div
-        className={`${prefixCls}-dropdown`}
-        style={style}
-        ref={me.saveRef('dropDownDOMNode')}
-        onMouseEnter={me.handleMouseEnter}
-        onMouseLeave={me.handleMouseLeave}
-      >
-        {me.renderTree()}
-      </div>
-    );
-  }
-
   renderGroupTree(group, index) {
     const me = this;
-    const options = (group.columns || []).map((item) => (
+    const options = (group.columns || []).map(item => (
       <TreeNode
         key={item.dataKey}
         title={typeof item.title === 'function' ? item.title() : item.title}
@@ -200,20 +139,27 @@ class ColumnPicker extends React.Component {
     const me = this;
     const { prefixCls, locale } = me.props;
     return (
-      <div className={prefixCls}>
-        <div
-          className={classnames({
-            [`${prefixCls}-trigger`]: true,
-            [`${prefixCls}-trigger__dropdown-visible`]: !!me.state.visible,
-          })}
-          onMouseEnter={me.handleMouseEnter}
-          onMouseLeave={me.handleMouseLeave}
-        >
-          <i className="kuma-icon kuma-icon-list" />
-          <span className={`${prefixCls}-title`}>{i18n[locale]['templated-column']}</span>
+      <Popover
+        placement="bottomRight"
+        trigger="click"
+        overlay={me.renderTree()}
+        overlayClassName={`${prefixCls}-popover`}
+        align={{
+          offset: [0, -10],
+        }}
+      >
+        <div className={prefixCls}>
+          <div
+            className={classnames({
+              [`${prefixCls}-trigger`]: true,
+              [`${prefixCls}-trigger__dropdown-visible`]: !!me.state.visible,
+            })}
+          >
+            <Icon name="zidingyilie" className={`${prefixCls}-icon`} />
+            <span className={`${prefixCls}-title`}>{i18n[locale]['templated-column']}</span>
+          </div>
         </div>
-        {me.renderDropDown()}
-      </div>
+      </Popover>
     );
   }
 }

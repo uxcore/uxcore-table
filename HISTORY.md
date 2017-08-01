@@ -2,6 +2,14 @@
 
 ---
 
+## 7.0.0
+
+* `FIXED` fixed table height React warning
+* `CHANGED` use popover instead of column picker dropdown
+* `CHANGED` new column picker trigger icon
+* `CHANGED` style: mask color & fixed table box-shadow
+* `CHANGED` add animation when toggling sub component 
+
 ## 6.5.0
 
 * `CHANGED` hide vertical scrollBar if body can not scroll vertically.
