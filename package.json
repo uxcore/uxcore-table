@@ -57,7 +57,7 @@
   "rc-util": "4.x",
   "uxcore-animate": "^0.2.0",
   "uxcore-button": "~0.4.0",
-  "uxcore-cell-field": "^0.1.1",
+  "uxcore-cell-field": "^0.2.0",
   "uxcore-checkbox-cell-field": "^0.1.1",
   "uxcore-const": "~0.0.1",
   "uxcore-date-cell-field": "^0.4.0",

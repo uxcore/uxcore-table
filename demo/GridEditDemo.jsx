@@ -173,7 +173,7 @@ class Demo extends React.Component {
         customField: createCellField(),
         rules: {
           validator: Validator.isEmail,
-          errMsg: '',
+          errMsg: '出错',
         },
         config: {
           onBlur(e) {

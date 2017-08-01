@@ -5,6 +5,7 @@
 ## 7.1.0
 
 * `CHANGED` hide pager if totalCount is lower than pageSize and sizeChanger is hiden.
+* `CHANGED` update CellField to `^0.2.0`, support `errMsg`
 
 ## 7.0.0
 

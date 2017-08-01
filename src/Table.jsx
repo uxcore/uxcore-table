@@ -29,8 +29,8 @@ import Tbody from './Tbody';
 import ActionBar from './ActionBar';
 import methods from './methods';
 import innerMethods from './innerMethods';
-import createCellField from './createCellField';
 
+const { createCellField } = CellField;
 const getStyle = get;
 
 class Table extends React.Component {
