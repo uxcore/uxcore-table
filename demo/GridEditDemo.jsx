@@ -43,8 +43,8 @@ const mockData = {
       timeId: 1451692800000,
     },
   ],
-  currentPage: 2,
-  totalCount: 30,
+  currentPage: 1,
+  totalCount: 10,
 };
 
 class Demo extends React.Component {
@@ -305,6 +305,7 @@ class Demo extends React.Component {
       },
       processData: data => data,
       onChange: me.handleTableChange,
+      showPagerSizeChanger: false,
     };
 
     return (

@@ -2,6 +2,10 @@
 
 ---
 
+## 7.1.0
+
+* `CHANGED` hide pager if totalCount is lower than pageSize and sizeChanger is hiden.
+
 ## 7.0.0
 
 * `FIXED` fixed table height React warning

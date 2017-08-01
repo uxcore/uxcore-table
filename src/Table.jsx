@@ -877,6 +877,9 @@ class Table extends React.Component {
       showPagerQuickJumper,
     } = me.props;
     if (showPager && data && data.totalCount) {
+      if (parseInt(data.totalCount, 10) <= parseInt(pageSize, 10) && !showPagerSizeChanger) {
+        return null;
+      }
       return (
         <div className="kuma-uxtable-page">
           <Pagination
