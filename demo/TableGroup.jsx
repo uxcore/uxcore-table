@@ -83,47 +83,79 @@ class Demo extends React.Component {
         ],
       },
       {
-        dataKey: 'email',
-        title: 'Email',
-        width: 200,
-        ordered: true,
-      }, {
-        dataKey: 'action1',
-        title: '操作1',
-        width: 100,
-        type: 'action',
-        actions: [{
-          title: 'click',
-          callback() {
-            alert('click');
+        group: '分组6',
+        columns: [
+          {
+            dataKey: 'id',
+            title: 'ID',
+            width: 50,
           },
-          mode: 'edit',
-        }, {
-          title: '删除',
-          callback() {
-            alert('删除');
+          {
+            dataKey: 'country',
+            title: '国家',
+            width: 200,
+            ordered: true,
           },
-          mode: 'view',
-        }, {
-          title: 'view',
-          callback() {
-            alert('view');
-          },
-          mode: 'edit',
-        }, {
-          title: 'view',
-          callback() {
-            alert('view');
-          },
-        }],
-      }, {
-        dataKey: 'action',
-        title: '链接',
-        width: 100,
-        render() {
-          return <div><a>111</a></div>;
-        },
+        ],
       },
+      {
+        group: '分组7',
+        columns: [
+          {
+            dataKey: 'id',
+            title: 'ID',
+            width: 50,
+          },
+          {
+            dataKey: 'country',
+            title: '国家',
+            width: 200,
+            ordered: true,
+          },
+        ],
+      },
+      // {
+      //   dataKey: 'email',
+      //   title: 'Email',
+      //   width: 200,
+      //   ordered: true,
+      // }, {
+      //   dataKey: 'action1',
+      //   title: '操作1',
+      //   width: 100,
+      //   type: 'action',
+      //   actions: [{
+      //     title: 'click',
+      //     callback() {
+      //       alert('click');
+      //     },
+      //     mode: 'edit',
+      //   }, {
+      //     title: '删除',
+      //     callback() {
+      //       alert('删除');
+      //     },
+      //     mode: 'view',
+      //   }, {
+      //     title: 'view',
+      //     callback() {
+      //       alert('view');
+      //     },
+      //     mode: 'edit',
+      //   }, {
+      //     title: 'view',
+      //     callback() {
+      //       alert('view');
+      //     },
+      //   }],
+      // }, {
+      //   dataKey: 'action',
+      //   title: '链接',
+      //   width: 100,
+      //   render() {
+      //     return <div><a>111</a></div>;
+      //   },
+      // },
     ];
     const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
     const renderProps = {

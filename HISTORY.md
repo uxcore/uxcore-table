@@ -6,6 +6,10 @@
 
 * `CHANGED` hide pager if totalCount is lower than pageSize and sizeChanger is hiden.
 * `CHANGED` update CellField to `^0.2.0`, support `errMsg`
+* `CHANGED` collapsed Button style adjustment
+* `CHANGED` add a new theme type `ghost` for the nested table.
+* `FIXED` group table column picker bug when toggle an item's visibility in common group.
+* `FIXED` group fixed table border bug
 
 ## 7.0.0
 

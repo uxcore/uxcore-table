@@ -110,6 +110,14 @@ class Header extends React.Component {
     return null;
   }
 
+  renderRequired(item) {
+    const { prefixCls } = this.props;
+    if (item.required) {
+      return <span className={`${prefixCls}-item-required`}>* </span>;
+    }
+    return null;
+  }
+
   renderColumn(item, index, hasGroup, last) {
     const me = this;
     const { renderModel, prefixCls } = me.props;
@@ -170,6 +178,7 @@ class Header extends React.Component {
         style={style}
       >
         {me.renderIndent(index)}
+        {me.renderRequired(item)}
         {v}
         <MessageIcon message={item.message} prefixCls={`${prefixCls}-msg`} />
         {me.renderOrderIcon(item)}
@@ -207,11 +216,21 @@ class Header extends React.Component {
         const shouldRenderGroup = item.columns.some(column => !column.hidden);
         if (shouldRenderGroup) {
           return (
-            <div className="kuma-uxtable-header-column-group" key={index}>
-              <div className="kuma-uxtable-header-group-name">
+            <div
+              className="kuma-uxtable-header-column-group"
+              key={index}
+            >
+              <div
+                className={classnames('kuma-uxtable-header-group-name', {
+                  last,
+                })}
+              >
                 {item.group}
               </div>
-              {item.columns.map((column, i) => me.renderColumn(column, i, false, last))}
+              {item.columns.map((column, i) => {
+                const shouldHideBorderRight = i === item.columns.length - 1 && last && me.props.fixedColumn !== 'fixed';
+                return me.renderColumn(column, i, false, shouldHideBorderRight);
+              })}
             </div>
           );
         }
@@ -301,6 +320,7 @@ class Header extends React.Component {
 Header.propTypes = {
   handleColumnPickerChange: React.PropTypes.func,
   selectAll: React.PropTypes.func,
+  prefixCls: React.PropTypes.string,
 };
 
 Header.defaultProps = {

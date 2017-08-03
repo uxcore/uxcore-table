@@ -594,6 +594,7 @@ class Table extends React.Component {
   handleColumnPickerChange(checkedKeys, groupName) {
     const columns = deepcopy(this.state.columns);
     const notRenderColumns = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
+    notRenderColumns.push(this.checkboxColumnKey);
     const commonGroupName = util.getConsts().commonGroup;
     for (let i = 0; i < columns.length; i++) {
       const item = columns[i];
@@ -609,7 +610,7 @@ class Table extends React.Component {
           }
         }
         break;
-      } else if (groupName === commonGroupName) {
+      } else if (groupName === commonGroupName && item.group === undefined) {
         // current column is common group
         if (checkedKeys.indexOf(item.dataKey) !== -1
           || notRenderColumns.indexOf(item.dataKey) !== -1) {

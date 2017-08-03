@@ -100,8 +100,8 @@ class ColumnPicker extends React.Component {
 
     return (
       <div>
-        {commonTree}
         {groupTree}
+        {commonTree}
       </div>
     );
   }

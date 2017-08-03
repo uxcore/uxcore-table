@@ -12,7 +12,7 @@
   }
   border-collapse: collapse;
   position: relative;
-  color: @dark-alpha-2;
+  color: @dark-alpha-3;
   table-layout: fixed;
   .half-checked {
     display: inline-block;
@@ -24,20 +24,21 @@
     color: @brand-primary;
   }
   .kuma-date-cell-field {
-  .kuma-calendar-picker-input {
-    line-height: 36px;
-    .kuma-icon-calender,
-    .kuma-icon-close,
-    .kuma-calendar-trigger-icon {
-      line-height: 24px;
+    .kuma-calendar-picker-input {
+      line-height: 36px;
+      .kuma-icon-calender,
+      .kuma-icon-close,
+      .kuma-calendar-trigger-icon {
+        line-height: 24px;
+      }
     }
   }
-}
 }
 
 .@{uxtable-prefix}-content {
   overflow-x: auto;
   position: relative;
+  border-radius: @global-border-radius;
 }
 
 .@{uxtable-prefix}-content-scroller {
@@ -63,11 +64,15 @@
 
 .@{uxtable-prefix}-header {
   background-color: @normal-alpha-8;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   min-width: 100%;
   white-space: nowrap;
   display: inline-block;
+  color: @dark-alpha-2;
+  &-item-required {
+    color: @brand-danger;
+  }
 }
 
 .@{uxtable-prefix}-body {
@@ -96,18 +101,18 @@
     border-top: none;
   }
   &.even {
-    .@{uxtable-prefix}-row-cells {
+    >.@{uxtable-prefix}-row-cells {
       background-color: @normal-alpha-8;
     }
   }
 }
 
 .@{uxtable-prefix}-row-hover {
-  .@{uxtable-prefix}-row-cells {
+  >.@{uxtable-prefix}-row-cells {
     background-color: @brand-primary-alpha-8;
   }
   &.even {
-    .@{uxtable-prefix}-row-cells {
+    >.@{uxtable-prefix}-row-cells {
       background-color: @brand-primary-alpha-8;
     }
   }
@@ -129,6 +134,7 @@
     -webkit-text-stroke-width: 0;
     font-size: 16px;
     margin-left: 4px;
+    vertical-align: -1px;
   }
   &>div {
     display: inline-block;
@@ -320,9 +326,9 @@
       font-size: 14px;
     }
     &.kuma-button {
-      padding: 0 16px;
+      // padding: 0 16px;
       i {
-        color: @brand-primary;
+        color: @normal-alpha-3;
       }
     }
     &.more-action {
@@ -362,7 +368,8 @@
   transition: box-shadow 0.3s ease-out;
   background: white;
   &.has-scroll {
-    box-shadow: 1px 0 4px rgba(31, 56, 88, 0.15);;
+    box-shadow: 1px 0 4px rgba(31, 56, 88, 0.15);
+    ;
   }
   &.end-of-scroll {
     box-shadow: -1px 0 4px rgba(31, 56, 88, 0.15);
@@ -455,7 +462,7 @@
 
 .@{uxtable-prefix}-tree-mode {
   .@{uxtable-prefix}-row {
-    &.even .@{uxtable-prefix}-row-cells {
+    &.even>.@{uxtable-prefix}-row-cells {
       background: white;
     }
     .@{uxtable-prefix}-row-cells {
@@ -464,7 +471,7 @@
   }
   .@{uxtable-prefix}-content {
     .@{uxtable-prefix}-row.@{uxtable-prefix}-row-hover {
-      .@{uxtable-prefix}-row-cells {
+      >.@{uxtable-prefix}-row-cells {
         background-color: white;
       }
     }
@@ -477,7 +484,7 @@
     border: 1px solid @normal-alpha-7;
   }
   .@{uxtable-prefix}-row {
-    &.even .@{uxtable-prefix}-row-cells {
+    &.even>.@{uxtable-prefix}-row-cells {
       background: white;
     }
     .@{uxtable-prefix}-row-cells {
@@ -489,18 +496,9 @@
       }
     }
   }
-  .@{uxtable-prefix}-cell {
-    &.last {
-      border-right: none;
-    }
-  }
-  .@{uxtable-prefix}-header-group-name {
-    border-right: 1px solid @normal-alpha-7;
-    border-bottom: 1px solid @normal-alpha-7;
-  }
   .@{uxtable-prefix}-row-hover {
     &.even {
-      .@{uxtable-prefix}-row-cells {
+      >.@{uxtable-prefix}-row-cells {
         background-color: @brand-primary-alpha-8;
       }
     }
@@ -510,6 +508,66 @@
 .@{uxtable-prefix}-border-line {
   .@{uxtable-prefix}-cell {
     border-right: 1px solid @normal-alpha-7;
+  }
+  .@{uxtable-prefix}-left-fixed-table {
+    border-right: none;
+  }
+  .@{uxtable-prefix}-right-fixed-table {
+    border-left: none;
+  }
+  .@{uxtable-prefix}-cell {
+    &.last {
+      border-right: none;
+    }
+  }
+  .@{uxtable-prefix}-header-group-name {
+    border-right: 1px solid @normal-alpha-7;
+    border-bottom: 1px solid @normal-alpha-7;
+    &.last {
+      border-right: none;
+    }
+  }
+  .@{uxtable-prefix}-left-fixed-table {
+    .@{uxtable-prefix}-cell {
+      &.last {
+        border-right: 1px solid @normal-alpha-7;
+      }
+    }
+    .@{uxtable-prefix}-header-group-name {
+      &.last {
+        border-right: 1px solid @normal-alpha-7
+      }
+    }
+  }
+}
+
+.@{uxtable-prefix}-ghost {
+  .@{uxtable-prefix}-body {
+    background: transparent;
+  }
+  .@{uxtable-prefix}-row {
+    &.even>.@{uxtable-prefix}-row-cells {
+      background: transparent;
+    }
+  }
+  .@{uxtable-prefix}-header-scroll {
+    .@{uxtable-prefix}-header {
+      background: transparent;
+      border-bottom: 1px solid @split-line-color;
+    }
+  }
+  .@{uxtable-prefix}-row-hover {
+    >.@{uxtable-prefix}-row-cells {
+      background-color: transparent;
+    }
+  }
+}
+
+.@{uxtable-prefix}-split-line {
+  .@{uxtable-prefix}-content {
+    border-top: none;
+    border-left: none;
+    border-right: none;
   }
 }
 

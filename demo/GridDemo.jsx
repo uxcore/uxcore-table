@@ -149,14 +149,48 @@ class Demo extends React.Component {
       showColumnPicker: true,
       size: 'small',
       rowSelection,
-      renderSubComp: rowData =>
-        (<div className="sub-box">
-          <div className="sub-country">{`当前国家: ${rowData.country}`}</div>
-          <div className="sub-city">{`当前城市: ${rowData.city}`}</div>
-        </div>),
+      renderSubComp: (rowData) => {
+        const subProps = {
+          jsxcolumns: [
+            {
+              dataKey: 'id',
+              title: '序号',
+            },
+            {
+              dataKey: 'class',
+              title: '分类',
+              width: 200,
+            },
+            {
+              dataKey: 'dep',
+              title: '部门',
+              width: 200,
+            },
+            {
+              dataKey: 'person',
+              title: '采购员',
+              width: 200,
+            },
+          ],
+          jsxdata: {
+            data: [
+              { id: '001', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
+              { id: '002', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
+              { id: '003', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
+              { id: '004', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
+            ],
+          },
+          className: 'kuma-uxtable-ghost',
+        };
+        return (
+          <div style={{ padding: '0 24px', background: 'rgba(31,56,88,0.04)' }}>
+            <Table {...subProps} />
+          </div>
+        );
+      },
     };
     return (
-      <div>
+      <div className="demo1">
         {me.state.showTable
           ? <Table {...renderProps} ref={function saveRef(c) { me.table = c; }} />
           : null}

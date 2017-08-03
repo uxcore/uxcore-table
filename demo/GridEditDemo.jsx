@@ -151,6 +151,7 @@ class Demo extends React.Component {
         title: '姓名',
         width: 200,
         type: 'check',
+        required: true,
         config: {
           data: () => [{
             value: 'xiaoli',
@@ -195,9 +196,9 @@ class Demo extends React.Component {
         dataKey: 'action1',
         title: '操作1',
         rightFixed: true,
-        width: 200,
+        width: 300,
         type: 'action',
-        actionType: 'link',
+        actionType: 'button',
         collapseNum: 2,
         actions: [
           {
