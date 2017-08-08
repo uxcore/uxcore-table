@@ -55,7 +55,7 @@ class Demo extends React.Component {
       },
       {
         dataKey: 'country',
-        fixed: true,
+        // fixed: true,
         title: '国家',
         width: 200,
         ordered: true,
@@ -84,7 +84,7 @@ class Demo extends React.Component {
         dataKey: 'action1',
         title: '操作1',
         width: 200,
-        rightFixed: true,
+        // rightFixed: true,
         type: 'action',
         actions: [{
           title: 'click',

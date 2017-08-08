@@ -237,7 +237,7 @@ const measureScrollbar = () => {
 
 const toggleHeightAnim = (node, show, done) => {
   let height;
-  cssAni(node, '111', {
+  cssAni(node, '__css-animation__', {
     start() {
       node.style.overflow = 'hidden';
       if (!show) {
