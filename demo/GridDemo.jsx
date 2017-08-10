@@ -84,7 +84,7 @@ class Demo extends React.Component {
         dataKey: 'action1',
         title: '操作1',
         width: 200,
-        // rightFixed: true,
+        rightFixed: true,
         type: 'action',
         actions: [{
           title: 'click',

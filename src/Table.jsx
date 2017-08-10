@@ -75,17 +75,13 @@ class Table extends React.Component {
       console.warn('Table: subComp is deprecated, use renderSubComp instead.');
     }
     if (me.props.renderSubComp && this.hasFixed) {
-      console.error('Table: subComp cannot be rendered if fixed column exists, remove fixed column or props.renderSubComp');
+      console.warn('Table: subComp cannot be rendered if fixed column exists, remove fixed column or props.renderSubComp');
     }
     if (this.props.fetchDataOnMount) {
-      this.fetchData(undefined, undefined, () => {
-        this.checkBodyHScroll();
-        this.checkBodyVScroll();
-        this.checkRightFixed();
-        this.resizeListener = this.listenWindowResize();
-      });
+      this.fetchData();
     }
     this.bindMethods();
+    this.resizeListener = this.listenWindowResize();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -119,7 +115,10 @@ class Table extends React.Component {
   }
 
   componentDidUpdate() {
+    // TODO: performance need to be cared
     this.checkBodyVScroll();
+    this.checkBodyHScroll();
+    this.checkRightFixed();
   }
 
   componentWillUnmount() {
@@ -300,12 +299,14 @@ class Table extends React.Component {
     }
     if (this.hasFixed.hasRight) {
       const wrapperWidth = node.clientWidth;
-      const bodyWidth = node.children[0].clientWidth;
-      if (this.rightFixedTable) {
-        if (wrapperScrollLeft + wrapperWidth + 3 < bodyWidth) {
-          addClass(this.rightFixedTable, 'end-of-scroll');
-        } else {
-          removeClass(this.rightFixedTable, 'end-of-scroll');
+      if (node.children[0]) {
+        const bodyWidth = node.children[0].clientWidth;
+        if (this.rightFixedTable) {
+          if (wrapperScrollLeft + wrapperWidth + 3 < bodyWidth) {
+            addClass(this.rightFixedTable, 'end-of-scroll');
+          } else {
+            removeClass(this.rightFixedTable, 'end-of-scroll');
+          }
         }
       }
     }

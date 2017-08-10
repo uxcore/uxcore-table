@@ -2,6 +2,11 @@
 
 ---
 
+## 7.1.2
+
+* `CHANGED` more robust `checkBodyHScroll`
+* `FIXED` more reliable check logic
+
 ## 7.1.0
 
 * `CHANGED` hide pager if totalCount is lower than pageSize and sizeChanger is hiden.
