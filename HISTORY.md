@@ -2,6 +2,10 @@
 
 ---
 
+## 7.1.3
+
+* `CHANGED` style adjustment
+
 ## 7.1.2
 
 * `CHANGED` more robust `checkBodyHScroll`

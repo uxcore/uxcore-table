@@ -201,6 +201,9 @@ class Header extends React.Component {
           })}
         />
       );
+      // return (
+      //   <CheckBox className="kuma-uxtable-header-tree-selector" />
+      // );
     }
     return null;
   }
