@@ -120,7 +120,7 @@ class Demo extends React.Component {
       },
       width: 800,
       // height: 400,
-      className: 'kuma-uxtable-split-line',
+      className: 'kuma-uxtable-border-line',
       pagerSizeOptions: [5, 10, 15, 20],
       actionBar: {
         'Action Button': () => {
@@ -147,7 +147,7 @@ class Demo extends React.Component {
       rowSelector: 'checkboxSelector',
       jsxcolumns: columns,
       showColumnPicker: true,
-      size: 'small',
+      // size: 'small',
       rowSelection,
       renderSubComp: (rowData) => {
         const subProps = {

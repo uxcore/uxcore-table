@@ -72,6 +72,7 @@
   color: @dark-alpha-2;
   &-item-required {
     color: @brand-danger;
+    margin-right: 4px;
   }
 }
 
@@ -102,7 +103,7 @@
   }
   &.even {
     >.@{uxtable-prefix}-row-cells {
-      background-color: @normal-alpha-8;
+      background-color: @normal-alpha-9;
     }
   }
 }
@@ -123,7 +124,7 @@
   text-align: left;
   overflow: hidden;
   height: 100%;
-  padding: 0 0 0 20px;
+  padding: 0 20px 0 20px;
   vertical-align: top;
   position: relative;
   word-break: break-all;
@@ -271,7 +272,7 @@
 
 .@{uxtable-prefix}-page {
   text-align: right;
-  padding: 10px 0px;
+  padding: 24px 0px 10px;
   .kuma-select2-selection__rendered {
     text-align: left;
   }
@@ -289,6 +290,7 @@
   width: 14px;
   display: inline-block;
   color: @normal-alpha-4;
+  margin-left: 4px;
   .kuma-icon {
     font-size: 13px;
     height: 14px;
@@ -321,15 +323,12 @@
       padding-left: 0px;
     }
     i {
-      color: @link-color;
+      color: @normal-alpha-4;
       vertical-align: middle;
       font-size: 14px;
     }
-    &.kuma-button {
-      // padding: 0 16px;
-      i {
-        color: @normal-alpha-3;
-      }
+    .@{uxtable-prefix}-cell-collapsed-icon-active {
+      color: @normal-alpha-3;
     }
     &.more-action {
       line-height: 49px;

@@ -960,7 +960,7 @@ class Table extends React.Component {
       height: props.height,
     };
     const actionBarHeight = (props.actionBar || props.showSearch) ? props.actionBarHeight : 0;
-    const pagerHeight = (props.showPager && this.state.data && this.state.data.totalCount) ? 42 : 0;
+    const pagerHeight = (props.showPager && this.state.data && this.state.data.totalCount) ? 67 : 0;
 
     // decide whether the table has column groups
     let hasGroup = false;

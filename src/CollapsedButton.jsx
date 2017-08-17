@@ -158,6 +158,7 @@ class CollapsedButton extends React.Component {
             'kuma-icon': true,
             'kuma-icon-triangle-down': !me.state.dropdownVisible,
             'kuma-icon-triangle-up': me.state.dropdownVisible,
+            [`${me.props.prefixCls}-collapsed-icon-active`]: me.state.dropdownVisible,
           })}
         />
       </span>
