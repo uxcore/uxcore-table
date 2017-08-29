@@ -2,7 +2,11 @@
 
 ---
 
-## 7.1.3
+## 7.3.0
+
+* `CHANGED` only select cell text when the cell is double clicked
+
+## 7.2.0
 
 * `CHANGED` style adjustment
 

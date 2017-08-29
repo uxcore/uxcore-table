@@ -183,9 +183,12 @@ class Cell extends React.Component {
     const mode = props.rowData.__mode__;
     const style = {
       width: width || 100,
+      maxWidth: width || 100,
+      minWidth: width || 100,
       textAlign: props.column.align ? props.column.align : 'left',
     };
     let content = deepcopy(props.rowData);
+    let contentTitle = '';
     let renderProps;
 
     if (column.type === 'action') {
@@ -263,19 +266,20 @@ class Cell extends React.Component {
       }
       content = <Field {...renderProps} />;
     } else if (column.type === 'money' || column.type === 'card' || column.type === 'cnmobile') {
-      content = (
-        <div
-          className="default-cell"
-          title={me.getCellData()}
-        >
-          {util.formatValue(me.getCellData(), column.type, column.delimiter)}
-        </div>
-      );
+      contentTitle = me.getCellData();
+      content = util.formatValue(contentTitle, column.type, column.delimiter);
     } else if (column.render) {
       content = column.render.apply(null, [me.getCellData(), content]);
     } else {
-      content = <div className="default-cell" title={me.getCellData()}>{me.getCellData()}</div>;
+      contentTitle = me.getCellData();
+      content = me.getCellData();
     }
+
+    content = (
+      <div className="default-cell" title={contentTitle}>
+        {content}
+      </div>
+    );
 
     const child = me.props.children;
     return (

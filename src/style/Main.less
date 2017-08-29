@@ -10,7 +10,7 @@
   input::-ms-clear {
     display: none;
   }
-  border-collapse: collapse;
+  border-collapse: separate;
   position: relative;
   color: @dark-alpha-3;
   table-layout: fixed;
@@ -68,12 +68,16 @@
   font-weight: 600;
   min-width: 100%;
   white-space: nowrap;
-  display: inline-block;
+  // display: inline-block;
+  display: table-row;
   color: @dark-alpha-2;
   &-item-required {
     color: @brand-danger;
     margin-right: 4px;
   }
+  // .@{uxtable-prefix}-cell {
+  //   display: inline-block;
+  // }
 }
 
 .@{uxtable-prefix}-body {
@@ -120,7 +124,8 @@
 }
 
 .@{uxtable-prefix}-cell {
-  display: inline-block;
+  // display: inline-block;
+  display: table-cell;
   text-align: left;
   overflow: hidden;
   height: 100%;
