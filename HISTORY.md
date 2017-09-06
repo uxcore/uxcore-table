@@ -2,7 +2,11 @@
 
 ---
 
-## 7.1.3
+## 7.4.0
+
+* `CHANGED` reverse to `7.2.0`
+
+## 7.2.0
 
 * `CHANGED` style adjustment
 
