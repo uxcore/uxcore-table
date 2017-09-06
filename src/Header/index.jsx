@@ -130,8 +130,6 @@ class Header extends React.Component {
     const noBorderColumn = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
     const style = {
       width: item.width ? item.width : 100,
-      maxWidth: item.width ? item.width : 100,
-      minWidth: item.width ? item.width : 100,
       textAlign: item.align ? item.align : 'left',
     };
     let v;
@@ -179,13 +177,11 @@ class Header extends React.Component {
         })}
         style={style}
       >
-        <div className="default-cell">
-          {me.renderIndent(index)}
-          {me.renderRequired(item)}
-          {v}
-          <MessageIcon message={item.message} prefixCls={`${prefixCls}-msg`} />
-          {me.renderOrderIcon(item)}
-        </div>
+        {me.renderIndent(index)}
+        {me.renderRequired(item)}
+        {v}
+        <MessageIcon message={item.message} prefixCls={`${prefixCls}-msg`} />
+        {me.renderOrderIcon(item)}
       </div>
     );
   }
@@ -205,6 +201,9 @@ class Header extends React.Component {
           })}
         />
       );
+      // return (
+      //   <CheckBox className="kuma-uxtable-header-tree-selector" />
+      // );
     }
     return null;
   }
