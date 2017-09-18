@@ -240,12 +240,13 @@ class Table extends React.Component {
   /**
    * check if right fixed table is needed.
    * if table is wide enough, hide the right fixed.
+   * @param force force to check
    */
-  checkRightFixed() {
+  checkRightFixed(force) {
     if (this.rightFixedTable) {
       const headerScroll = this.headerScroll;
       const headerScrollDom = headerScroll.getDom();
-      if (this.cachedHeaderScrollWidth === headerScrollDom.clientWidth) {
+      if (force !== true && this.cachedHeaderScrollWidth === headerScrollDom.clientWidth) {
         return;
       }
       const headerScrollInner = headerScroll.getScroller();
@@ -630,6 +631,8 @@ class Table extends React.Component {
 
     this.setState({
       columns,
+    }, () => {
+      this.checkRightFixed(true);
     });
   }
 

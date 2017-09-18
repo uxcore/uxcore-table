@@ -2,6 +2,10 @@
 
 ---
 
+## 7.4.1
+
+* `FIXED` toggling column's visibility fails to toggle rightFixed table correctly 
+
 ## 7.4.0
 
 * `CHANGED` reverse to `7.2.0`

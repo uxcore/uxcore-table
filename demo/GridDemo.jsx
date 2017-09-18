@@ -59,6 +59,7 @@ class Demo extends React.Component {
         title: '国家',
         width: 200,
         ordered: true,
+        hidden: true,
       },
       {
         dataKey: 'city',
@@ -66,6 +67,7 @@ class Demo extends React.Component {
         width: 150,
         ordered: true,
         message: '都是中国城市',
+        hidden: true,
       },
       {
         dataKey: 'firstName',
