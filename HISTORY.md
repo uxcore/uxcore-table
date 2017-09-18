@@ -2,7 +2,7 @@
 
 ---
 
-## 7.4.1
+## 7.4.3
 
 * `FIXED` toggling column's visibility fails to toggle rightFixed table correctly 
 
