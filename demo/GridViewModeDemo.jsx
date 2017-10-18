@@ -6,10 +6,10 @@
  * All rights reserved.
  */
 
-const React = require('react');
-const Button = require('uxcore-button');
+import React from 'react';
 
-const Table = require('../src');
+import Button from 'uxcore-button';
+import Table from '../src';
 
 const urlPrefix = window.urlPrefix || 'http://30.9.174.1:3000/';
 const mockData = {
@@ -148,4 +148,4 @@ class Demo extends React.Component {
   }
 }
 
-module.exports = Demo;
+export default Demo;

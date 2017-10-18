@@ -6,10 +6,10 @@
  * All rights reserved.
  */
 
-const Button = require('uxcore-button');
-const React = require('react');
+import Button from 'uxcore-button';
 
-const Table = require('../src');
+import React from 'react';
+import Table from '../src';
 
 const urlPrefix = 'http://30.6.61.25:3000/';
 
@@ -50,21 +50,21 @@ class Demo extends React.Component {
       {
         dataKey: 'id',
         title: 'ID',
-        width: 50,
+        width: '50px',
         hidden: true,
       },
       {
         dataKey: 'country',
         // fixed: true,
         title: '国家',
-        width: 200,
+        width: '200px',
         ordered: true,
         hidden: true,
       },
       {
         dataKey: 'city',
         title: '城市',
-        width: 150,
+        width: '150px',
         ordered: true,
         message: '都是中国城市',
         hidden: true,
@@ -80,12 +80,12 @@ class Demo extends React.Component {
       {
         dataKey: 'email',
         title: 'Email',
-        width: 200,
+        width: '200px',
         ordered: true,
       }, {
         dataKey: 'action1',
         title: '操作1',
-        width: 200,
+        width: '200px',
         rightFixed: true,
         type: 'action',
         actions: [{
@@ -109,7 +109,7 @@ class Demo extends React.Component {
       }, {
         dataKey: 'action',
         title: '链接',
-        width: 100,
+        width: '100px',
         render: () => <div><a>111</a></div>,
       },
     ];
@@ -161,17 +161,17 @@ class Demo extends React.Component {
             {
               dataKey: 'class',
               title: '分类',
-              width: 200,
+              width: '200px',
             },
             {
               dataKey: 'dep',
               title: '部门',
-              width: 200,
+              width: '200px',
             },
             {
               dataKey: 'person',
               title: '采购员',
-              width: 200,
+              width: '200px',
             },
           ],
           jsxdata: {
@@ -207,4 +207,4 @@ class Demo extends React.Component {
   }
 }
 
-module.exports = Demo;
+export default Demo;

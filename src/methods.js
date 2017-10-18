@@ -200,7 +200,7 @@ function doValidate() {
   const fieldKeys = Object.keys(me.fields);
   fieldKeys.forEach((name) => {
     const fieldPass = me.fields[name]();
-      // if one field fails to pass, the table fails to pass
+    // if one field fails to pass, the table fails to pass
     if (pass) {
       pass = fieldPass;
     }

@@ -5,6 +5,7 @@
 import deepcopy from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import React from 'react';
+import PropTypes from 'prop-types';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import { hasClass } from 'rc-util/lib/Dom/class';
 import EmptyData from 'uxcore-empty-data';
@@ -219,20 +220,20 @@ class Tbody extends React.Component {
 }
 
 Tbody.propTypes = {
-  jsxprefixCls: React.PropTypes.string,
-  fixedColumn: React.PropTypes.string,
-  data: React.PropTypes.array,
-  emptyText: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.object,
+  jsxprefixCls: PropTypes.string,
+  fixedColumn: PropTypes.string,
+  data: PropTypes.array,
+  emptyText: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
   ]),
-  height: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number,
+  height: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
   ]),
-  mask: React.PropTypes.bool,
-  onScroll: React.PropTypes.func,
-  root: React.PropTypes.any,
+  mask: PropTypes.bool,
+  onScroll: PropTypes.func,
+  root: PropTypes.any,
 };
 
 Tbody.defaultProps = {

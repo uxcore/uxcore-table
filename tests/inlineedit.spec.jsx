@@ -1,8 +1,10 @@
 import expect from 'expect.js';
 import React from 'react';
-import { mount } from 'enzyme';
-
+import Enzyme, { mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
 import Table from '../src';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 const common = {
   // jsxcolumns: [
@@ -50,7 +52,7 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input').at(0).node.value).to.be('1');
+    expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input').at(0).instance().value).to.be('1');
   });
 
   it('type select', () => {
@@ -99,8 +101,9 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.editRow(wrapper.node.getData().data.data[0], () => {
-      expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(1);
+    wrapper.instance().editRow(wrapper.instance().getData().data.data[0], () => {
+      // expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(1);
+      expect(wrapper.find('.kuma-input')).to.have.length(1);
       done();
     });
   });
@@ -115,8 +118,9 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.editAllRow(() => {
-      expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(1);
+    wrapper.instance().editAllRow(() => {
+      // expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(1);
+      expect(wrapper.find('.kuma-input')).to.have.length(1);
       done();
     });
   });
@@ -130,8 +134,10 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.viewRow(wrapper.node.getData().data.data[0], () => {
-      expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(0);
+    window.wrapper = wrapper;
+    wrapper.instance().viewRow(wrapper.instance().getData().data.data[0], () => {
+      // expect(wrapper.find('li.kuma-uxtable-row').find('div.kuma-uxtable-cell').find('input.kuma-input')).to.have.length(0);
+      expect(wrapper.find('li.kuma-uxtable-row').find('div.kuma-uxtable-cell')).to.have.length(0);
       done();
     });
   });
@@ -145,7 +151,8 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.saveRow(wrapper.node.getData().data.data[0], () => {
+    window.wrapper = wrapper;
+    wrapper.instance().saveRow(wrapper.instance().getData().data.data[0], () => {
       expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(0);
       done();
     });
@@ -160,7 +167,7 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.saveAllRow(() => {
+    wrapper.instance().saveAllRow(() => {
       expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(0);
       done();
     });
@@ -175,8 +182,8 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.addEmptyRow(() => {
-      expect(wrapper.node.getData().data.data).to.have.length(2);
+    wrapper.instance().addEmptyRow(() => {
+      expect(wrapper.instance().getData().data.data).to.have.length(2);
       done();
     });
   });
@@ -190,9 +197,9 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.addRow({ id: '2' }, () => {
-      expect(wrapper.node.getData().data.data).to.have.length(2);
-      expect(wrapper.node.getData().data.data[1].id).to.be('2');
+    wrapper.instance().addRow({ id: '2' }, () => {
+      expect(wrapper.instance().getData().data.data).to.have.length(2);
+      expect(wrapper.instance().getData().data.data[1].id).to.be('2');
       done();
     });
   });
@@ -207,8 +214,8 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.delRow(wrapper.node.getData().data.data[0], () => {
-      expect(wrapper.node.getData().data.data).to.have.length(0);
+    wrapper.instance().delRow(wrapper.instance().getData().data.data[0], () => {
+      expect(wrapper.instance().getData().data.data).to.have.length(0);
       done();
     });
   });
@@ -227,8 +234,8 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.moveRowDown(wrapper.node.getData().data.data[0], () => {
-      expect(wrapper.node.getData().data.data[0].id).to.be('2');
+    wrapper.instance().moveRowDown(wrapper.instance().getData().data.data[0], () => {
+      expect(wrapper.instance().getData().data.data[0].id).to.be('2');
       done();
     });
   });
@@ -247,8 +254,8 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    wrapper.node.moveRowUp(wrapper.node.getData().data.data[1], () => {
-      expect(wrapper.node.getData().data.data[0].id).to.be('2');
+    wrapper.instance().moveRowUp(wrapper.instance().getData().data.data[1], () => {
+      expect(wrapper.instance().getData().data.data[0].id).to.be('2');
       done();
     });
   });
@@ -263,7 +270,7 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input').at(0).node.value).to.be('1');
+    expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input').at(0).instance().value).to.be('1');
   });
 
   it.skip('type select with remote data source', (done) => {
@@ -336,7 +343,7 @@ describe('inlineEdit', () => {
       />
     );
     const input = wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input').at(0);
-    input.node.value = '测试';
+    input.instance().value = '测试';
     input.simulate('change');
   });
 });

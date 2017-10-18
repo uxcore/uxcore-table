@@ -1,9 +1,12 @@
 import expect from 'expect.js';
 import React from 'react';
-import { mount } from 'enzyme';
+import Enzyme, { mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
 // import sinon from 'sinon';
 
 import Table from '../src';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 const common = {
   jsxcolumns: [
@@ -146,7 +149,7 @@ describe('Tree', () => {
         }}
       />
     );
-    wrapper.find('.kuma-uxtable-row .kuma-checkbox').at(0).node.checked = true;
+    wrapper.find('.kuma-uxtable-row .kuma-checkbox').at(0).instance().checked = true;
     wrapper.find('.kuma-uxtable-row .kuma-checkbox').at(0).simulate('change');
   });
 

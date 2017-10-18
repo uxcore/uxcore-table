@@ -5,9 +5,10 @@
  * Copyright 2014-2015, Uxcore Team, Alinw.
  * All rights reserved.
  */
-const Table = require('../src');
-const Button = require('uxcore-button');
-const React = require('react');
+
+import Button from 'uxcore-button';
+import React from 'react';
+import Table from '../src';
 // const urlPrefix = 'http://30.9.174.1:3000/';
 
 // 第一列为radio的demo
@@ -41,12 +42,12 @@ class Demo extends React.Component {
           {
             dataKey: 'id',
             title: 'ID',
-            width: 50,
+            width: '50px',
           },
           {
             dataKey: 'country',
             title: '国家',
-            width: 200,
+            width: '200px',
             ordered: true,
           },
         ],
@@ -54,7 +55,7 @@ class Demo extends React.Component {
       {
         dataKey: 'city',
         title: () => '城市',
-        width: 150,
+        width: '150px',
         ordered: true,
         message: '都是中国城市',
       },
@@ -72,12 +73,12 @@ class Demo extends React.Component {
           {
             dataKey: 'id',
             title: 'ID',
-            width: 50,
+            width: '50px',
           },
           {
             dataKey: 'country',
             title: '国家',
-            width: 200,
+            width: '200px',
             ordered: true,
           },
         ],
@@ -88,12 +89,12 @@ class Demo extends React.Component {
           {
             dataKey: 'id',
             title: 'ID',
-            width: 50,
+            width: '50px',
           },
           {
             dataKey: 'country',
             title: '国家',
-            width: 200,
+            width: '200px',
             ordered: true,
           },
         ],
@@ -104,12 +105,12 @@ class Demo extends React.Component {
           {
             dataKey: 'id',
             title: 'ID',
-            width: 50,
+            width: '50px',
           },
           {
             dataKey: 'country',
             title: '国家',
-            width: 200,
+            width: '200px',
             ordered: true,
           },
         ],
@@ -167,7 +168,7 @@ class Demo extends React.Component {
           });
         },
       },
-      width: 800,
+      width: '800px',
       showSearch: true,
       showColumnPicker: true,
       fetchUrl,
@@ -194,4 +195,4 @@ class Demo extends React.Component {
   }
 }
 
-module.exports = Demo;
+export default Demo;

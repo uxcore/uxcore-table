@@ -4,9 +4,14 @@
 
 import Const from 'uxcore-const';
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 class CheckBox extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
 
   getValue() {
     return this.checkbox.checked;
@@ -28,7 +33,7 @@ class CheckBox extends React.Component {
   renderHalfChecked() {
     return (
       <span className="kuma-uxtable-row-selector">
-        <i className="half-checked" onClick={this.handleClick.bind(this)} />
+        <i className="half-checked" onClick={this.handleClick} />
       </span>
     );
   }
@@ -67,9 +72,9 @@ class CheckBox extends React.Component {
 
 
 CheckBox.propTypes = {
-  onChange: React.PropTypes.func,
-  checked: React.PropTypes.bool,
-  className: React.PropTypes.string,
+  onChange: PropTypes.func,
+  checked: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 CheckBox.defaultProps = {

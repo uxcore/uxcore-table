@@ -6,6 +6,7 @@ import assign from 'object-assign';
 import deepEqual from 'deep-equal';
 import deepcopy from 'lodash/cloneDeep';
 import React from 'react';
+import PropTypes from 'prop-types';
 import Animate from 'uxcore-animate';
 import Cell from './Cell';
 import CheckBox from './Cell/CheckBox';
@@ -25,10 +26,10 @@ class Row extends React.Component {
     ['rowIndex', 'index', 'mode', 'renderModel', 'fixedColumn',
       'levels', 'addRowClassName', 'renderSubComp', 'visible',
       'checkboxColumnKey', 'locale', 'isHover'].forEach((item) => {
-        if (me.props[item] !== nextProps[item]) {
-          shouldUpdate = true;
-        }
-      });
+      if (me.props[item] !== nextProps[item]) {
+        shouldUpdate = true;
+      }
+    });
     if (!shouldUpdate) {
       ['columns', 'rowData', 'rowSelection', 'actions', 'expandedKeys'].forEach((item) => {
         if (!deepEqual(me.props[item], nextProps[item])) {
@@ -328,22 +329,22 @@ class Row extends React.Component {
 
 
 Row.propTypes = {
-  prefixCls: React.PropTypes.string,
-  renderModel: React.PropTypes.string,
-  checkboxColumnKey: React.PropTypes.string,
-  root: React.PropTypes.any,
-  rowData: React.PropTypes.object,
-  rowSelection: React.PropTypes.object,
-  showSubComp: React.PropTypes.bool,
-  last: React.PropTypes.bool,
-  visible: React.PropTypes.bool,
-  isHover: React.PropTypes.bool,
-  level: React.PropTypes.number,
-  levels: React.PropTypes.number,
-  onClick: React.PropTypes.func,
-  onMouseEnter: React.PropTypes.func,
-  index: React.PropTypes.number,
-  height: React.PropTypes.number,
+  prefixCls: PropTypes.string,
+  renderModel: PropTypes.string,
+  checkboxColumnKey: PropTypes.string,
+  root: PropTypes.any,
+  rowData: PropTypes.object,
+  rowSelection: PropTypes.object,
+  showSubComp: PropTypes.bool,
+  last: PropTypes.bool,
+  visible: PropTypes.bool,
+  isHover: PropTypes.bool,
+  level: PropTypes.number,
+  levels: PropTypes.number,
+  onClick: PropTypes.func,
+  onMouseEnter: PropTypes.func,
+  index: PropTypes.number,
+  height: PropTypes.number,
 };
 
 Row.defaultProps = {

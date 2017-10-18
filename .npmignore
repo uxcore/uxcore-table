@@ -1,7 +1,6 @@
 bower_components/
 *.cfg
 node_modules/
-coverage/
 nohup.out
 *.iml
 .idea/

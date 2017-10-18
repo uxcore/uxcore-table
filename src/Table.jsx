@@ -17,6 +17,7 @@ import classnames from 'classnames';
 import NattyFetch from 'natty-fetch/dist/natty-fetch.pc';
 import Promise from 'lie';
 import React from 'react';
+import PropTypes from 'prop-types';
 import Animate from 'uxcore-animate';
 import { addClass, removeClass } from 'rc-util/lib/Dom/class';
 import { get } from 'rc-util/lib/Dom/css';
@@ -374,8 +375,8 @@ class Table extends React.Component {
     }
 
     const isJsonp = props.isJsonp === undefined
-        ? /\.jsonp/.test(props.fetchUrl)
-        : props.isJsonp;
+      ? /\.jsonp/.test(props.fetchUrl)
+      : props.isJsonp;
     me.request = NattyFetch.create({
       url: props.fetchUrl,
       data: me.getQueryObj(from, props),
@@ -754,20 +755,20 @@ class Table extends React.Component {
         me.checkboxColumn = item;
         me.checkboxColumnKey = item.dataKey;
         item.width = item.width
-          || (/kuma-uxtable-border-line/.test(actualProps.className) ? 40 : 32);
+          || (/kuma-uxtable-border-line/.test(actualProps.className) ? '40px' : '32px');
         item.align = item.align || 'left';
       }
     }
     // filter the column which has a dataKey 'jsxchecked' & 'jsxtreeIcon'
 
     columns = columns.filter(item =>
-      item.dataKey !== 'jsxchecked' && item.dataKey !== 'jsxtreeIcon'
+      item.dataKey !== 'jsxchecked' && item.dataKey !== 'jsxtreeIcon',
     );
 
     if (!!actualProps.rowSelection && !hasCheckboxColumn) {
       me.checkboxColumn = {
         dataKey: 'jsxchecked',
-        width: (/kuma-uxtable-border-line/.test(actualProps.className) ? 40 : 32),
+        width: (/kuma-uxtable-border-line/.test(actualProps.className) ? '40px' : '32px'),
         type: actualProps.rowSelector,
         align: 'right',
       };
@@ -777,7 +778,7 @@ class Table extends React.Component {
       // no rowSelection but has parentHasCheckbox, render placeholder
       columns = [{
         dataKey: 'jsxwhite',
-        width: (/kuma-uxtable-border-line/.test(actualProps.className) ? 40 : 32),
+        width: (/kuma-uxtable-border-line/.test(actualProps.className) ? '40px' : '32px'),
         type: 'empty',
       }].concat(columns);
     }
@@ -785,7 +786,7 @@ class Table extends React.Component {
       && actualProps.renderModel !== 'tree' && !this.hasFixed) {
       columns = [{
         dataKey: 'jsxtreeIcon',
-        width: 36,
+        width: '36px',
         type: 'treeIcon',
       }].concat(columns);
     } else if (actualProps.passedData) {
@@ -793,7 +794,7 @@ class Table extends React.Component {
       // render tree icon placeholder
       columns = [{
         dataKey: 'jsxwhite',
-        width: 34,
+        width: '34px',
         type: 'empty',
       }].concat(columns);
     }
@@ -976,8 +977,8 @@ class Table extends React.Component {
     if (props.height === 'auto' || props.height === '100%') {
       bodyHeight = props.height;
     } else {
-      bodyHeight = parseInt(props.height, 10) - (headerHeight || (hasGroup ? 100 : 50))
-          - actionBarHeight - pagerHeight;
+      bodyHeight = `${parseInt(props.height, 10) - (headerHeight || (hasGroup ? 100 : 50))
+          - actionBarHeight - pagerHeight}px`;
     }
     const renderBodyProps = {
       columns: state.columns,
@@ -1102,7 +1103,7 @@ Table.defaultProps = {
   rowHeight: 76,
   fetchParams: {},
   currentPage: 1,
-  emptyText: <div style={{ lineHeight: 2 }}>暂无数据</div>,
+  emptyText: <div style={{ lineHeight: '2px' }}>暂无数据</div>,
   searchBarPlaceholder: '搜索表格内容',
   loadingText: 'loading',
   fitResponse: response =>
@@ -1128,64 +1129,64 @@ Table.defaultProps = {
 
 // http://facebook.github.io/react/docs/reusable-components.html
 Table.propTypes = {
-  prefixCls: React.PropTypes.string,
-  locale: React.PropTypes.string,
-  size: React.PropTypes.oneOf(['small', 'middle']),
-  jsxcolumns: React.PropTypes.arrayOf(React.PropTypes.object),
-  width: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number,
+  prefixCls: PropTypes.string,
+  locale: PropTypes.string,
+  size: PropTypes.oneOf(['small', 'middle']),
+  jsxcolumns: PropTypes.arrayOf(PropTypes.object),
+  width: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
   ]),
-  height: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number,
+  height: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
   ]),
-  headerHeight: React.PropTypes.number,
-  pageSize: React.PropTypes.number,
-  queryKeys: React.PropTypes.array,
-  fetchDataOnMount: React.PropTypes.bool,
-  doubleClickToEdit: React.PropTypes.bool,
-  showColumnPicker: React.PropTypes.bool,
-  showPager: React.PropTypes.bool,
-  isMiniPager: React.PropTypes.bool,
-  showPagerTotal: React.PropTypes.bool,
-  showPagerQuickJumper: React.PropTypes.bool,
-  pagerSizeOptions: React.PropTypes.array,
-  showHeader: React.PropTypes.bool,
-  showMask: React.PropTypes.bool,
-  showSearch: React.PropTypes.bool,
-  searchBarPlaceholder: React.PropTypes.string,
-  loadingText: React.PropTypes.string,
-  subComp: React.PropTypes.element,
-  emptyText: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.element,
-    React.PropTypes.object,
+  headerHeight: PropTypes.number,
+  pageSize: PropTypes.number,
+  queryKeys: PropTypes.array,
+  fetchDataOnMount: PropTypes.bool,
+  doubleClickToEdit: PropTypes.bool,
+  showColumnPicker: PropTypes.bool,
+  showPager: PropTypes.bool,
+  isMiniPager: PropTypes.bool,
+  showPagerTotal: PropTypes.bool,
+  showPagerQuickJumper: PropTypes.bool,
+  pagerSizeOptions: PropTypes.array,
+  showHeader: PropTypes.bool,
+  showMask: PropTypes.bool,
+  showSearch: PropTypes.bool,
+  searchBarPlaceholder: PropTypes.string,
+  loadingText: PropTypes.string,
+  subComp: PropTypes.element,
+  emptyText: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+    PropTypes.object,
   ]),
-  jsxdata: React.PropTypes.object,
-  fetchUrl: React.PropTypes.string,
-  fetchParams: React.PropTypes.object,
-  currentPage: React.PropTypes.number,
-  rowSelector: React.PropTypes.string,
-  actionBar: React.PropTypes.oneOfType([
-    React.PropTypes.array,
-    React.PropTypes.object,
+  jsxdata: PropTypes.object,
+  fetchUrl: PropTypes.string,
+  fetchParams: PropTypes.object,
+  currentPage: PropTypes.number,
+  rowSelector: PropTypes.string,
+  actionBar: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
   ]),
-  linkBar: React.PropTypes.oneOfType([
-    React.PropTypes.array,
-    React.PropTypes.object,
+  linkBar: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
   ]),
-  fitResponse: React.PropTypes.func,
-  processData: React.PropTypes.func,
-  beforeFetch: React.PropTypes.func,
-  onFetchError: React.PropTypes.func,
-  addRowClassName: React.PropTypes.func,
-  shouldResetExpandedKeys: React.PropTypes.func,
-  passedData: React.PropTypes.object,
-  getSavedData: React.PropTypes.bool,
-  onChange: React.PropTypes.func,
-  renderModel: React.PropTypes.string,
-  levels: React.PropTypes.number,
+  fitResponse: PropTypes.func,
+  processData: PropTypes.func,
+  beforeFetch: PropTypes.func,
+  onFetchError: PropTypes.func,
+  addRowClassName: PropTypes.func,
+  shouldResetExpandedKeys: PropTypes.func,
+  passedData: PropTypes.object,
+  getSavedData: PropTypes.bool,
+  onChange: PropTypes.func,
+  renderModel: PropTypes.string,
+  levels: PropTypes.number,
 };
 
 Table.displayName = 'Table';

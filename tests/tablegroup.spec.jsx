@@ -1,8 +1,10 @@
 import expect from 'expect.js';
 import React from 'react';
-import { mount } from 'enzyme';
-
+import Enzyme, { mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
 import Table from '../src';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 const common = {
   jsxcolumns: [

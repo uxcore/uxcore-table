@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class LinkBar extends React.Component {
 
@@ -36,8 +37,8 @@ class LinkBar extends React.Component {
 }
 
 LinkBar.propTypes = {
-  prefixCls: React.PropTypes.string,
-  config: React.PropTypes.array,
+  prefixCls: PropTypes.string,
+  config: PropTypes.array,
 };
 LinkBar.defaultProps = {
   prefixCls: 'kuma-uxtable-linkbar',

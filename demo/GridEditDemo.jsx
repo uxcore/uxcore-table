@@ -6,13 +6,13 @@
  * All rights reserved.
  */
 
-const Validator = require('uxcore-validator');
-const Button = require('uxcore-button');
-const Constants = require('uxcore-const');
-const React = require('react');
-const deepcopy = require('lodash/cloneDeep');
+import Validator from 'uxcore-validator';
 
-const Table = require('../src');
+import Button from 'uxcore-button';
+import Constants from 'uxcore-const';
+import React from 'react';
+import deepcopy from 'lodash/cloneDeep';
+import Table from '../src';
 // const Select = require('uxcore-select2');
 // const RadioGroup = require('uxcore-radiogroup');
 // const RadioField = require('./RadioField');
@@ -55,6 +55,8 @@ class Demo extends React.Component {
       data: mockData,
       showOtherColumn: false,
     };
+    this.getTableValues = this.getTableValues.bind(this);
+    this.handleDataChange = this.handleDataChange.bind(this);
   }
 
 
@@ -312,11 +314,11 @@ class Demo extends React.Component {
     return (
       <div>
         <Table {...renderProps} ref={(c) => { this.table = c; }} />
-        <Button onClick={me.getTableValues.bind(me)}>获取 Table 的值</Button>
-        <Button onClick={me.handleDataChange.bind(me)}>更改 Data</Button>
+        <Button onClick={me.getTableValues}>获取 Table 的值</Button>
+        <Button onClick={me.handleDataChange}>更改 Data</Button>
       </div>
     );
   }
 }
 
-module.exports = Demo;
+export default Demo;
