@@ -134,10 +134,8 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    window.wrapper = wrapper;
     wrapper.instance().viewRow(wrapper.instance().getData().data.data[0], () => {
-      // expect(wrapper.find('li.kuma-uxtable-row').find('div.kuma-uxtable-cell').find('input.kuma-input')).to.have.length(0);
-      expect(wrapper.find('li.kuma-uxtable-row').find('div.kuma-uxtable-cell')).to.have.length(0);
+      expect(wrapper.find('li.kuma-uxtable-row').find('div.kuma-uxtable-cell').find('input.kuma-input')).to.have.length(0);
       done();
     });
   });
