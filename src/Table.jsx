@@ -1103,7 +1103,7 @@ Table.defaultProps = {
   rowHeight: 76,
   fetchParams: {},
   currentPage: 1,
-  emptyText: <div style={{ lineHeight: '2px' }}>暂无数据</div>,
+  emptyText: <div style={{ lineHeight: 2 }}>暂无数据</div>,
   searchBarPlaceholder: '搜索表格内容',
   loadingText: 'loading',
   fitResponse: response =>

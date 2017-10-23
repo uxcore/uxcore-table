@@ -74,7 +74,7 @@ class ActionBar extends React.Component {
     if (this.props.showSearch) {
       const me = this;
       const searchBarProps = {
-        onSearch: me.handleSearch.bind(this),
+        onSearch: me.handleSearch.bind(me),
         key: 'searchbar',
         placeholder: me.props.searchBarPlaceholder,
       };
