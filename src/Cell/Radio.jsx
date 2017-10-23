@@ -4,6 +4,7 @@
 
 import Const from 'uxcore-const';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Radio extends React.Component {
 
@@ -42,8 +43,8 @@ class Radio extends React.Component {
 }
 
 Radio.propTypes = {
-  onChange: React.PropTypes.func,
-  checked: React.PropTypes.bool,
+  onChange: PropTypes.func,
+  checked: PropTypes.bool,
 };
 
 Radio.defaultProps = {

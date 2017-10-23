@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Const from 'uxcore-const';
 import classnames from 'classnames';
 import deepcopy from 'lodash/cloneDeep';
@@ -28,7 +29,11 @@ const fieldsMap = {
 };
 
 class Cell extends React.Component {
-
+  constructor(props) {
+    super(props);
+    this.showSubComp = this.showSubComp.bind(this);
+    this.handleCheckChange = this.handleCheckChange.bind(this);
+  }
   shouldComponentUpdate(nextProps) {
     // 需要考虑的 prop 包括
     // column, rowData, rowIndex(s), index(s), cellIndex(s), hasSubComp(s)
@@ -138,7 +143,7 @@ class Cell extends React.Component {
               (action.callback || (() => {})).bind(me, rowData, me.props.root))}
           >
             {content}
-          </CollapsedButton.Item>
+          </CollapsedButton.Item>,
         );
       }
     });
@@ -160,7 +165,7 @@ class Cell extends React.Component {
       return (
         <span
           className="kuma-uxtable-tree-icon"
-          onClick={this.showSubComp.bind(this)}
+          onClick={this.showSubComp}
         >
           <i
             className={classnames({
@@ -182,7 +187,7 @@ class Cell extends React.Component {
     const width = column.width;
     const mode = props.rowData.__mode__;
     const style = {
-      width: width || 100,
+      width: width || '100px',
       textAlign: props.column.align ? props.column.align : 'left',
     };
     let content = deepcopy(props.rowData);
@@ -195,8 +200,8 @@ class Cell extends React.Component {
         </div>
       );
     } else if (column.type === 'checkbox' || column.type === 'checkboxSelector') {
-      style.paddingRight = 4;
-      style.paddingLeft = 12;
+      style.paddingRight = '4px';
+      style.paddingLeft = '12px';
 
       const checked = me.getCellData();
       let disable = props.rowSelection.isDisabled
@@ -212,12 +217,12 @@ class Cell extends React.Component {
           mode={props.mode}
           align={props.column.align}
           checked={checked}
-          onChange={me.handleCheckChange.bind(me)}
+          onChange={me.handleCheckChange}
         />
       );
     } else if (column.type === 'radioSelector') {
-      style.paddingRight = 4;
-      style.paddingLeft = 12;
+      style.paddingRight = '4px';
+      style.paddingLeft = '12px';
 
       const checked = me.getCellData();
       let disable = props.rowSelection.isDisabled
@@ -233,7 +238,7 @@ class Cell extends React.Component {
           mode={props.mode}
           align={props.column.align}
           checked={checked}
-          onChange={me.handleCheckChange.bind(me)}
+          onChange={me.handleCheckChange}
         />
       );
     } else if (column.type === 'treeIcon') {
@@ -294,11 +299,11 @@ class Cell extends React.Component {
 }
 
 Cell.propTypes = {
-  cellIndex: React.PropTypes.number,
-  hasSubComp: React.PropTypes.bool,
-  rowData: React.PropTypes.object,
-  jsxprefixCls: React.PropTypes.string,
-  showSubCompCallback: React.PropTypes.func,
+  cellIndex: PropTypes.number,
+  hasSubComp: PropTypes.bool,
+  rowData: PropTypes.object,
+  jsxprefixCls: PropTypes.string,
+  showSubCompCallback: PropTypes.func,
 };
 
 Cell.defaultProps = {

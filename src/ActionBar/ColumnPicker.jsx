@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Tree from 'uxcore-tree';
 import Popover from 'uxcore-popover';
@@ -70,7 +71,7 @@ class ColumnPicker extends React.Component {
             <TreeNode
               key={item.dataKey}
               title={typeof item.title === 'function' ? item.title() : item.title}
-            />
+            />,
           );
         }
       } else if (isGroup) {
@@ -170,10 +171,10 @@ ColumnPicker.defaultProps = {
   columns: [],
 };
 ColumnPicker.propTypes = {
-  prefixCls: React.PropTypes.string,
-  locale: React.PropTypes.string,
-  columns: React.PropTypes.array,
-  handleColumnPickerChange: React.PropTypes.func,
+  prefixCls: PropTypes.string,
+  locale: PropTypes.string,
+  columns: PropTypes.array,
+  handleColumnPickerChange: PropTypes.func,
 };
 
 ColumnPicker.displayName = 'ColumnPicker';

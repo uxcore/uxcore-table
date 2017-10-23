@@ -6,8 +6,9 @@
  * All rights reserved.
  */
 
-const Table = require('../src');
-const React = require('react');
+import React from 'react';
+import Table from '../src';
+
 
 const urlPrefix = window.urlPrefix || 'http://30.9.174.1:3000/';
 
@@ -25,13 +26,13 @@ class Demo extends React.Component {
       {
         dataKey: 'id',
         title: 'ID',
-        width: 50,
+        width: '50px',
         hidden: true,
       },
       {
         dataKey: 'country',
         title: '国家国家国家国家',
-        width: 200,
+        width: '200px',
         ordered: true,
         type: 'money',
         fixed: true,
@@ -40,7 +41,7 @@ class Demo extends React.Component {
       {
         dataKey: 'city',
         title: '城市',
-        width: 150,
+        width: '150px',
       },
       {
         dataKey: 'firstName',
@@ -53,13 +54,13 @@ class Demo extends React.Component {
       {
         dataKey: 'email',
         title: 'Email',
-        width: 200,
+        width: '200px',
         ordered: true,
       },
       {
         title: '操作',
         type: 'action',
-        width: 200,
+        width: '200px',
         actions: [
           {
             title: '上移',
@@ -74,8 +75,8 @@ class Demo extends React.Component {
     ];
 
     const renderProps = {
-      height: 400,
-      width: 1000,
+      height: '400px',
+      width: '1000px',
       showSearch: true,
       levels: 2,
       fetchUrl: `${urlPrefix}demo/data.json`,
@@ -95,4 +96,4 @@ class Demo extends React.Component {
   }
 }
 
-module.exports = Demo;
+export default Demo;

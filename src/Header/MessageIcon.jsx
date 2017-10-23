@@ -1,6 +1,7 @@
 import Icon from 'uxcore-icon';
 import Tooltip from 'uxcore-tooltip';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const MessageIcon = (props) => {
   if (!props.message) {
@@ -19,8 +20,8 @@ const MessageIcon = (props) => {
 };
 
 MessageIcon.propTypes = {
-  message: React.PropTypes.string,
-  prefixCls: React.PropTypes.string,
+  message: PropTypes.string,
+  prefixCls: PropTypes.string,
 };
 
 

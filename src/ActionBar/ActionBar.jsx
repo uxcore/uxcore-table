@@ -8,6 +8,7 @@
 
 
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
 import Button from 'uxcore-button';
 import React from 'react';
 import SearchBar from './SearchBar';
@@ -15,7 +16,6 @@ import ColumnPicker from './ColumnPicker';
 import LinkBar from './LinkBar';
 
 class ActionBar extends React.Component {
-
 
   /**
    *  convert ActionBar config from hash to array
@@ -126,13 +126,12 @@ class ActionBar extends React.Component {
       </div>
     );
   }
-
 }
 
 ActionBar.propTypes = {
-  showSearch: React.PropTypes.bool,
-  onSearch: React.PropTypes.func,
-  prefixCls: React.PropTypes.string,
+  showSearch: PropTypes.bool,
+  onSearch: PropTypes.func,
+  prefixCls: PropTypes.string,
 };
 
 ActionBar.defaultProps = {

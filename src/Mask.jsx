@@ -5,6 +5,7 @@
 
 import classnames from 'classnames';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Mask = (props) => {
   const { visible, text } = props;
@@ -23,9 +24,9 @@ const Mask = (props) => {
 };
 
 Mask.propTypes = {
-  prefixCls: React.PropTypes.string,
-  visible: React.PropTypes.bool,
-  text: React.PropTypes.string,
+  prefixCls: PropTypes.string,
+  visible: PropTypes.bool,
+  text: PropTypes.string,
 };
 
 Mask.defaultProps = {

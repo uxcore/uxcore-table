@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import Button from 'uxcore-button';
 import Dropdown from 'uxcore-dropdown';
@@ -222,7 +223,7 @@ class CollapsedButton extends React.Component {
           <a
             onClick={me.handleMenuItemClick.bind(me, child)}
           >{child.props.children}</a>
-        </Menu.Item>
+        </Menu.Item>,
       );
     });
     const menu = (
@@ -301,10 +302,10 @@ CollapsedButton.displayName = 'CollapsedButton';
 CollapsedButton.Item = CollapsedButtonItem;
 
 CollapsedButton.propTypes = {
-  children: React.PropTypes.any,
-  locale: React.PropTypes.string,
-  maxLength: React.PropTypes.number,
-  onClick: React.PropTypes.func,
+  children: PropTypes.any,
+  locale: PropTypes.string,
+  maxLength: PropTypes.number,
+  onClick: PropTypes.func,
 };
 CollapsedButton.defaultProps = {
   maxLength: 3,

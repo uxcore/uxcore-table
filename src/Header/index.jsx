@@ -4,6 +4,7 @@
 import assign from 'object-assign';
 import classnames from 'classnames';
 import React from 'react';
+import PropTypes from 'prop-types';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import CheckBox from '../Cell/CheckBox';
 import util from '../util';
@@ -129,22 +130,22 @@ class Header extends React.Component {
     }
     const noBorderColumn = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
     const style = {
-      width: item.width ? item.width : 100,
+      width: item.width ? item.width : '100px',
       textAlign: item.align ? item.align : 'left',
     };
     let v;
     if (hasGroup) {
       assign(style, {
-        height: 100,
+        height: '100px',
         lineHeight: '100px',
       });
     }
 
     if (item.type === 'checkbox' || item.type === 'checkboxSelector') {
       assign(style, {
-        paddingRight: 4,
-        paddingLeft: 12,
-        width: item.width ? item.width : 92,
+        paddingRight: '4px',
+        paddingLeft: '12px',
+        width: item.width ? item.width : '92px',
       });
 
       const checkBoxProps = {
@@ -321,9 +322,9 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  handleColumnPickerChange: React.PropTypes.func,
-  selectAll: React.PropTypes.func,
-  prefixCls: React.PropTypes.string,
+  handleColumnPickerChange: PropTypes.func,
+  selectAll: PropTypes.func,
+  prefixCls: PropTypes.string,
 };
 
 Header.defaultProps = {

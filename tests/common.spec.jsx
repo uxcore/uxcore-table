@@ -1,9 +1,12 @@
 import expect from 'expect.js';
 import React from 'react';
-import { mount } from 'enzyme';
+import Enzyme, { mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
 import sinon from 'sinon';
 
 import Table from '../src';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 const common = {
   jsxcolumns: [
@@ -80,30 +83,30 @@ describe('Table', () => {
       }
     }
     const wrapper = mount(<Demo />);
-    wrapper.node.changeState();
+    wrapper.instance().changeState();
     expect(Table.prototype.componentWillReceiveProps.calledOnce).to.be(true);
-    expect(wrapper.node.table.state.data.data[0].id).to.be('2');
+    expect(wrapper.instance().table.state.data.data[0].id).to.be('2');
   });
   describe('Props', () => {
     let wrapper;
     it('width support number', () => {
       wrapper = mount(<Table width={500} />);
-      expect(wrapper.node.getDom().style.width).to.be('500px');
+      expect(wrapper.instance().getDom().style.width).to.be('500px');
     });
 
     it('width support string', () => {
       wrapper = mount(<Table width="500px" />);
-      expect(wrapper.node.getDom().style.width).to.be('500px');
+      expect(wrapper.instance().getDom().style.width).to.be('500px');
     });
 
     it('height support number', () => {
       wrapper = mount(<Table height={500} />);
-      expect(wrapper.node.getDom().style.height).to.be('500px');
+      expect(wrapper.instance().getDom().style.height).to.be('500px');
     });
 
     it('height support string', () => {
       wrapper = mount(<Table height="500px" />);
-      expect(wrapper.node.getDom().style.height).to.be('500px');
+      expect(wrapper.instance().getDom().style.height).to.be('500px');
     });
 
     it('showColumnPicker', () => {
@@ -113,7 +116,7 @@ describe('Table', () => {
 
     it('showColumnPicker with handleColumnPickerChange', () => {
       wrapper = mount(<Table {...common} showColumnPicker />);
-      wrapper.node.handleColumnPickerChange(['country'], '__common__');
+      wrapper.instance().handleColumnPickerChange(['country'], '__common__');
       expect(wrapper.state('columns').filter(item => item.dataKey === 'id')[0].hidden).to.be(true);
     });
 
@@ -140,22 +143,22 @@ describe('Table', () => {
     it('showPagerTotal', () => {
       const wrapper1 = mount(<Table {...common} />);
       const wrapper2 = mount(<Table {...common} showPagerTotal={false} />);
-      expect(wrapper1.node.getPager().props.showTotal).to.be(true);
-      expect(wrapper2.node.getPager().props.showTotal).to.be(false);
+      expect(wrapper1.instance().getPager().props.showTotal).to.be(true);
+      expect(wrapper2.instance().getPager().props.showTotal).to.be(false);
     });
 
     it('showPagerSizeChanger', () => {
       const wrapper1 = mount(<Table {...common} />);
       const wrapper2 = mount(<Table {...common} showPagerSizeChanger={false} />);
-      expect(wrapper1.node.getPager().props.showSizeChanger).to.be(true);
-      expect(wrapper2.node.getPager().props.showSizeChanger).to.be(false);
+      expect(wrapper1.instance().getPager().props.showSizeChanger).to.be(true);
+      expect(wrapper2.instance().getPager().props.showSizeChanger).to.be(false);
     });
 
     it('isMiniPager', () => {
       const wrapper1 = mount(<Table {...common} />);
       const wrapper2 = mount(<Table {...common} isMiniPager />);
-      expect(wrapper1.find('.mini')).to.have.length(0);
-      expect(wrapper2.find('.mini')).to.have.length(1);
+      expect(wrapper1.find('ul.mini')).to.have.length(0);
+      expect(wrapper2.find('ul.mini')).to.have.length(1);
     });
 
     it('actionBar', () => {
@@ -178,7 +181,7 @@ describe('Table', () => {
           ]}
         />
       );
-      expect(wrapper.find('.kuma-uxtable-actionbar-item')).to.have.length(3);
+      expect(wrapper.find('button.kuma-uxtable-actionbar-item')).to.have.length(3);
     });
 
     it('linkBar', () => {
@@ -220,7 +223,7 @@ describe('Table', () => {
           }}
         />
       );
-      wrapper.find('.kuma-uxtable-row .kuma-checkbox').node.checked = true;
+      wrapper.find('.kuma-uxtable-row .kuma-checkbox').instance().checked = true;
       wrapper.find('.kuma-uxtable-row .kuma-checkbox').simulate('change');
     });
 
@@ -239,9 +242,9 @@ describe('Table', () => {
           }}
         />
       );
-      wrapper.find('.kuma-uxtable-row .kuma-checkbox').node.checked = true;
+      wrapper.find('.kuma-uxtable-row .kuma-checkbox').instance().checked = true;
       wrapper.find('.kuma-uxtable-row .kuma-checkbox').simulate('change');
-      wrapper.find('.kuma-uxtable-row .kuma-checkbox').node.checked = false;
+      wrapper.find('.kuma-uxtable-row .kuma-checkbox').instance().checked = false;
       wrapper.find('.kuma-uxtable-row .kuma-checkbox').simulate('change');
     });
 
@@ -258,7 +261,7 @@ describe('Table', () => {
           }}
         />
       );
-      wrapper.find('.kuma-uxtable-header .kuma-checkbox').node.checked = true;
+      wrapper.find('.kuma-uxtable-header .kuma-checkbox').instance().checked = true;
       wrapper.find('.kuma-uxtable-header .kuma-checkbox').simulate('change');
     });
 
@@ -276,9 +279,9 @@ describe('Table', () => {
           }}
         />
       );
-      wrapper.find('.kuma-uxtable-header .kuma-checkbox').node.checked = true;
+      wrapper.find('.kuma-uxtable-header .kuma-checkbox').instance().checked = true;
       wrapper.find('.kuma-uxtable-header .kuma-checkbox').simulate('change');
-      wrapper.find('.kuma-uxtable-header .kuma-checkbox').node.checked = false;
+      wrapper.find('.kuma-uxtable-header .kuma-checkbox').instance().checked = false;
       wrapper.find('.kuma-uxtable-header .kuma-checkbox').simulate('change');
     });
 
@@ -335,7 +338,7 @@ describe('Table', () => {
           }}
         />
       );
-      wrapper.find('.kuma-uxtable-row .kuma-checkbox').at(0).node.checked = true;
+      wrapper.find('.kuma-uxtable-row .kuma-checkbox').at(0).instance().checked = true;
       wrapper.find('.kuma-uxtable-row .kuma-checkbox').at(0).simulate('change');
     });
 

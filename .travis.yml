@@ -2,6 +2,11 @@ language: node_js
 
 sudo: false
 
+addons:
+  apt:
+    packages:
+      - xvfb
+
 notification:
   email:
     - wsj7552715@hotmail.com
@@ -17,6 +22,11 @@ before_install:
     exit
   fi
   phantomjs --version
+install:
+  - export DISPLAY=':99.0'
+  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+  - npm install
+
 
 script:
 - |
@@ -25,7 +35,6 @@ script:
   else
     npm run $TEST_TYPE
   fi
-
 env:
   matrix:
   - TEST_TYPE=test

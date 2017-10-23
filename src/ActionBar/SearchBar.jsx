@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class SearchBar extends React.Component {
 
@@ -15,6 +16,9 @@ class SearchBar extends React.Component {
     this.state = {
       searchTxt: '',
     };
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.doSearch = this.doSearch.bind(this);
   }
 
   onKeyDown(e) {
@@ -43,18 +47,18 @@ class SearchBar extends React.Component {
           className="kuma-input"
           placeholder={placeholder}
           value={this.state.value}
-          onKeyDown={this.onKeyDown.bind(this)}
-          onChange={this.handleChange.bind(this)}
+          onKeyDown={this.onKeyDown}
+          onChange={this.handleChange}
         />
-        <i className="kuma-icon kuma-icon-search" onClick={this.doSearch.bind(this)} />
+        <i className="kuma-icon kuma-icon-search" onClick={this.doSearch} />
       </div>
     );
   }
 }
 
 SearchBar.propTypes = {
-  onSearch: React.PropTypes.func,
-  prefixCls: React.PropTypes.string,
+  onSearch: PropTypes.func,
+  prefixCls: PropTypes.string,
 };
 
 SearchBar.defaultProps = {

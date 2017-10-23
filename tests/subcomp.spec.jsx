@@ -1,9 +1,12 @@
 import expect from 'expect.js';
 import React from 'react';
-import { mount } from 'enzyme';
+import Enzyme, { mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
 // import sinon from 'sinon';
 
 import Table from '../src';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 const common = {
   jsxcolumns: [
@@ -40,7 +43,7 @@ describe('SubComp', () => {
     wrapper = mount(
       <Table {...common} renderSubComp={() => <div>1</div>} />
     );
-    wrapper.node.toggleSubComp(wrapper.node.getData().data.data[0]);
+    wrapper.instance().toggleSubComp(wrapper.instance().getData().data.data[0]);
     expect(wrapper.find('.kuma-uxtable-subrow').contains(<div>1</div>)).to.be(true);
   });
 });
