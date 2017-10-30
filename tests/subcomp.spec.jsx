@@ -39,12 +39,15 @@ describe('SubComp', () => {
     expect(wrapper.find('.kuma-uxtable-subrow').contains(<div>1</div>)).to.be(true);
   });
 
-  it('api toggleSubComp', () => {
+  it('api toggleSubComp', (done) => {
     wrapper = mount(
       <Table {...common} renderSubComp={() => <div>1</div>} />
     );
-    wrapper.instance().toggleSubComp(wrapper.instance().getData().data.data[0]);
-    expect(wrapper.find('.kuma-uxtable-subrow').contains(<div>1</div>)).to.be(true);
+    wrapper.instance().toggleSubComp(wrapper.instance().getData().data.data[0], () => {
+      console.log(wrapper.findWhere(n => n.hasClass('kuma-uxtable-subrow')));
+      expect(wrapper.find('li.kuma-uxtable-row').html().indexOf('<div>1</div>')).to.not.be(-1);
+      done();
+    });
   });
 });
 

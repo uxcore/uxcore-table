@@ -523,7 +523,7 @@ class Table extends React.Component {
       queryObj = assign({}, queryObj, props.fetchParams);
     }
 
-    return props.beforeFetch(queryObj, from);
+    return props.beforeFetch(deepcopy(queryObj), from);
   }
 
   getCheckStatus(data) {

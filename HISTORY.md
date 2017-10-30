@@ -2,6 +2,14 @@
 
 ---
 
+## 7.5.1
+
+* `FIXED` deepcopy beforeFetch params before passed
+
+## 7.5.0
+
+* `CHANGED` fit React@15
+
 ## 7.4.3
 
 * `FIXED` toggling column's visibility fails to toggle rightFixed table correctly 
