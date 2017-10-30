@@ -169,6 +169,7 @@ class Demo extends React.Component {
         },
       },
       width: '800px',
+      height: 400,
       showSearch: true,
       showColumnPicker: true,
       fetchUrl,

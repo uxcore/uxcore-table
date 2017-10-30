@@ -35,7 +35,6 @@ const { createCellField } = CellField;
 const getStyle = get;
 
 class Table extends React.Component {
-
   constructor(props) {
     super(props);
     this.bindInnerMethods();
@@ -1103,7 +1102,6 @@ Table.defaultProps = {
   rowHeight: 76,
   fetchParams: {},
   currentPage: 1,
-  emptyText: <div style={{ lineHeight: 2 }}>暂无数据</div>,
   searchBarPlaceholder: '搜索表格内容',
   loadingText: 'loading',
   fitResponse: response =>

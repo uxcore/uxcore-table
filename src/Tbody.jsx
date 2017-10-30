@@ -11,10 +11,10 @@ import { hasClass } from 'rc-util/lib/Dom/class';
 import EmptyData from 'uxcore-empty-data';
 import Row from './Row';
 import util from './util';
+import i18n from './i18n';
 
 
 class Tbody extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -98,9 +98,10 @@ class Tbody extends React.Component {
       if (typeof this.props.height === 'number') {
         style.lineHeight = `${this.props.height - 10}px`;
       }
+      const defaultEmptyText = <div style={{ lineHeight: 2 }}>{i18n[this.props.locale]['default-empty-text']}</div>;
       return (
         <EmptyData style={{ marginTop: '20px', marginBottom: '20px' }}>
-          {this.props.emptyText}
+          {this.props.emptyText || defaultEmptyText}
         </EmptyData>
       );
     }
@@ -222,6 +223,7 @@ class Tbody extends React.Component {
 Tbody.propTypes = {
   jsxprefixCls: PropTypes.string,
   fixedColumn: PropTypes.string,
+  locale: PropTypes.string,
   data: PropTypes.array,
   emptyText: PropTypes.oneOfType([
     PropTypes.string,

@@ -35,7 +35,7 @@ class Demo extends React.Component {
         width: '200px',
         ordered: true,
         type: 'money',
-        fixed: true,
+        // fixed: true,
         delimiter: ',',
       },
       {
