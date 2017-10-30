@@ -86,7 +86,7 @@ class Demo extends React.Component {
         dataKey: 'action1',
         title: '操作1',
         width: '200px',
-        rightFixed: true,
+        // rightFixed: true,
         type: 'action',
         actions: [{
           title: 'click',
@@ -122,11 +122,11 @@ class Demo extends React.Component {
       },
       width: 800,
       // height: 400,
-      className: 'kuma-uxtable-border-line',
+      // className: 'kuma-uxtable-border-line',
       pagerSizeOptions: [5, 10, 15, 20],
       actionBar: {
         'Action Button': () => {
-          me.table.checkBodyScroll();
+          console.log(me.table.getData());
         },
       },
       onSearch: (searchTxt) => {

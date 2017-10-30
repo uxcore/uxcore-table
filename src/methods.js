@@ -128,13 +128,14 @@ function toggleSubComp(rowData, cb) {
         break;
       }
     }
-    this.setState({
-      data: content,
-    }, () => {
-      if (cb) {
-        cb();
-      }
-    });
+    // this.setState({
+    //   data: content,
+    // }, () => {
+    //   if (cb) {
+    //     cb();
+    //   }
+    // });
+    this.syncRecord(data, cb);
   }
 }
 
