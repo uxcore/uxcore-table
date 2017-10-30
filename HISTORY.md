@@ -2,6 +2,10 @@
 
 ---
 
+## 7.6.0
+
+* `CHANGED` add new prop `showUnknownTotalPager`
+
 ## 7.5.0
 
 * `CHANGED` fit React@15

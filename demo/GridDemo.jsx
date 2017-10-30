@@ -39,14 +39,14 @@ class Demo extends React.Component {
       onSelectAll(selected, selectedRows) {
         console.log(selected, selectedRows);
       },
-      isDisabled: rowData => true,
+      // isDisabled: rowData => true,
     };
     const columns = [
-      {
-        dataKey: 'select',
-        type: 'checkboxSelector',
-        // isDisable: rowData => /c/.test(rowData.country),
-      },
+      // {
+      //   dataKey: 'select',
+      //   type: 'checkboxSelector',
+      //   // isDisable: rowData => /c/.test(rowData.country),
+      // },
       {
         dataKey: 'id',
         title: 'ID',

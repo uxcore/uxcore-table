@@ -880,31 +880,39 @@ class Table extends React.Component {
       isMiniPager,
       showPagerSizeChanger,
       showPagerQuickJumper,
+      showUnknownTotalPager,
     } = me.props;
-    if (showPager && data && data.totalCount) {
-      if (parseInt(data.totalCount, 10) <= parseInt(pageSize, 10) && !showPagerSizeChanger) {
-        return null;
-      }
-      return (
+
+    if (showPager && data) {
+      const pagersProps = {
+        className: classnames({
+          mini: isMiniPager,
+        }),
+        ref: util.saveRef('pager', me),
+        locale,
+        showSizeChanger: showPagerSizeChanger,
+        showQuickJumper: showPagerQuickJumper,
+        showTotal: showPagerTotal,
+        total: data.totalCount,
+        onShowSizeChange: me.handleShowSizeChange.bind(me),
+        onChange: me.onPageChange.bind(me),
+        current: currentPage,
+        pageSize,
+        sizeOptions: pagerSizeOptions,
+      };
+      const pager = (
         <div className="kuma-uxtable-page">
-          <Pagination
-            className={classnames({
-              mini: isMiniPager,
-            })}
-            ref={util.saveRef('pager', me)}
-            locale={locale}
-            showSizeChanger={showPagerSizeChanger}
-            showQuickJumper={showPagerQuickJumper}
-            showTotal={showPagerTotal}
-            total={data.totalCount}
-            onShowSizeChange={me.handleShowSizeChange.bind(me)}
-            onChange={me.onPageChange.bind(me)}
-            current={currentPage}
-            pageSize={pageSize}
-            sizeOptions={pagerSizeOptions}
-          />
+          <Pagination {...pagersProps} />
         </div>
       );
+      if (data.totalCount) {
+        if (parseInt(data.totalCount, 10) <= parseInt(pageSize, 10) && !showPagerSizeChanger) {
+          return null;
+        }
+        return pager;
+      } else if (showUnknownTotalPager) {
+        return pager;
+      }
     }
     return null;
   }

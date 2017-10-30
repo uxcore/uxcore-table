@@ -59,7 +59,7 @@ class CheckBox extends React.Component {
     }
     const renderProps = {
       className: 'kuma-checkbox',
-      checked: this.props.checked,
+      checked: this.props.checked || false,
       onChange: this.handleChange.bind(this),
     };
     if (!!props.disable || props.mode === Const.MODE.VIEW) {
@@ -67,7 +67,6 @@ class CheckBox extends React.Component {
     }
     return this.renderCheckBox(renderProps);
   }
-
 }
 
 

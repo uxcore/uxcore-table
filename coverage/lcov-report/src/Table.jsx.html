@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">77.62% </span>
+        <span class="strong">77.64% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>444/572</span>
+        <span class='fraction'>448/577</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">60.9% </span>
+        <span class="strong">60.95% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>243/399</span>
+        <span class='fraction'>245/402</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">70.11% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>61/87</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">77.49% </span>
+        <span class="strong">77.51% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>420/542</span>
+        <span class='fraction'>424/547</span>
       </div>
     </div>
   </div>
@@ -1331,7 +1331,15 @@
 1286
 1287
 1288
-1289</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1289
+1290
+1291
+1292
+1293
+1294
+1295
+1296
+1297</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2315,29 +2323,37 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">147×</span>
+<span class="cline-any cline-yes">132×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">132×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">132×</span>
 <span class="cline-any cline-yes">113×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">113×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">34×</span>
@@ -3601,32 +3617,40 @@ var Table = function (_React$Component) {
         pagerSizeOptions = _me$props.pagerSizeOptions,
         isMiniPager = _me$props.isMiniPager,
         showPagerSizeChanger = _me$props.showPagerSizeChanger,
-        showPagerQuickJumper = _me$props.showPagerQuickJumper;
+        showPagerQuickJumper = _me$props.showPagerQuickJumper,
+        showUnknownTotalPager = _me$props.showUnknownTotalPager;
 &nbsp;
-    if (showPager &amp;&amp; data &amp;&amp; data.totalCount) {
-      <span class="missing-if-branch" title="if path not taken" >I</span>if (parseInt(data.totalCount, 10) &lt;= parseInt(pageSize, 10) &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!showPagerSizeChanger)</span> {
-<span class="cstat-no" title="statement not covered" >        return null;</span>
-      }
-      return _react2['default'].createElement(
+&nbsp;
+    if (showPager &amp;&amp; data) {
+      var pagersProps = {
+        className: (0, _classnames3['default'])({
+          mini: isMiniPager
+        }),
+        ref: _util2['default'].saveRef('pager', me),
+        locale: locale,
+        showSizeChanger: showPagerSizeChanger,
+        showQuickJumper: showPagerQuickJumper,
+        showTotal: showPagerTotal,
+        total: data.totalCount,
+        onShowSizeChange: me.handleShowSizeChange.bind(me),
+        onChange: me.onPageChange.bind(me),
+        current: currentPage,
+        pageSize: pageSize,
+        sizeOptions: pagerSizeOptions
+      };
+      var pager = _react2['default'].createElement(
         'div',
         { className: 'kuma-uxtable-page' },
-        _react2['default'].createElement(_uxcorePagination2['default'], {
-          className: (0, _classnames3['default'])({
-            mini: isMiniPager
-          }),
-          ref: _util2['default'].saveRef('pager', me),
-          locale: locale,
-          showSizeChanger: showPagerSizeChanger,
-          showQuickJumper: showPagerQuickJumper,
-          showTotal: showPagerTotal,
-          total: data.totalCount,
-          onShowSizeChange: me.handleShowSizeChange.bind(me),
-          onChange: me.onPageChange.bind(me),
-          current: currentPage,
-          pageSize: pageSize,
-          sizeOptions: pagerSizeOptions
-        })
+        _react2['default'].createElement(_uxcorePagination2['default'], pagersProps)
       );
+      if (data.totalCount) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (parseInt(data.totalCount, 10) &lt;= parseInt(pageSize, 10) &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!showPagerSizeChanger)</span> {
+<span class="cstat-no" title="statement not covered" >          return null;</span>
+        }
+        return pager;
+      } else <span class="missing-if-branch" title="if path not taken" >I</span>if (showUnknownTotalPager) {
+<span class="cstat-no" title="statement not covered" >        return pager;</span>
+      }
     }
     return null;
   };
@@ -3913,7 +3937,7 @@ module.exports = exports['default'];
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Oct 30 2017 15:07:10 GMT+0800 (CST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Oct 30 2017 15:47:16 GMT+0800 (CST)
 </div>
 </div>
 <script src="../prettify.js"></script>
