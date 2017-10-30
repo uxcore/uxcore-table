@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">78.21% </span>
+        <span class="strong">79.25% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>122/156</span>
+        <span class='fraction'>126/159</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">58.02% </span>
+        <span class="strong">60.24% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>47/81</span>
+        <span class='fraction'>50/83</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">74.07% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>20/27</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">77.27% </span>
+        <span class="strong">78.52% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>102/132</span>
+        <span class='fraction'>106/135</span>
       </div>
     </div>
   </div>
@@ -330,7 +330,17 @@
 285
 286
 287
-288</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -372,7 +382,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -472,7 +486,12 @@
 <span class="cline-any cline-yes">149×</span>
 <span class="cline-any cline-yes">13×</span>
 <span class="cline-any cline-yes">13×</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">13×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -610,6 +629,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -658,6 +678,10 @@ var _Row2 = _interopRequireDefault(_Row);
 var _util = require('./util');
 &nbsp;
 var _util2 = _interopRequireDefault(_util);
+&nbsp;
+var _i18n = require('./i18n');
+&nbsp;
+var _i18n2 = _interopRequireDefault(_i18n);
 &nbsp;
 function _interopRequireDefault(obj) { return obj &amp;&amp; obj.__esModule ? <span class="branch-0 cbranch-no" title="branch not covered" >obj </span>: { 'default': obj }; }
 &nbsp;
@@ -758,13 +782,18 @@ var Tbody = function (_React$Component) {
   Tbody.prototype.renderEmptyData = function renderEmptyData() {
     if (this.props.data.length === 0 &amp;&amp; !this.props.mask) {
       var style = {};
-      <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof this.props.height === 'number') {
-<span class="cstat-no" title="statement not covered" >        style.lineHeight = this.props.height - 10 + 'px';</span>
+      if (typeof this.props.height === 'number') {
+        style.lineHeight = this.props.height - 10 + 'px';
       }
+      var defaultEmptyText = _react2['default'].createElement(
+        'div',
+        { style: { lineHeight: 2 } },
+        _i18n2['default'][this.props.locale]['default-empty-text']
+      );
       return _react2['default'].createElement(
         _uxcoreEmptyData2['default'],
         { style: { marginTop: '20px', marginBottom: '20px' } },
-        this.props.emptyText
+        this.props.emptyText || defaultEmptyText
       );
     }
     return null;
@@ -889,6 +918,7 @@ var Tbody = function (_React$Component) {
 Tbody.propTypes = {
   jsxprefixCls: _propTypes2['default'].string,
   fixedColumn: _propTypes2['default'].string,
+  locale: _propTypes2['default'].string,
   data: _propTypes2['default'].array,
   emptyText: _propTypes2['default'].oneOfType([_propTypes2['default'].string, _propTypes2['default'].object]),
   height: _propTypes2['default'].oneOfType([_propTypes2['default'].string, _propTypes2['default'].number]),
@@ -910,7 +940,7 @@ module.exports = exports['default'];
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 28 2017 12:15:22 GMT+0800 (CST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Oct 30 2017 15:07:10 GMT+0800 (CST)
 </div>
 </div>
 <script src="../prettify.js"></script>
