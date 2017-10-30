@@ -976,8 +976,8 @@ class Table extends React.Component {
     if (props.height === 'auto' || props.height === '100%') {
       bodyHeight = props.height;
     } else {
-      bodyHeight = `${parseInt(props.height, 10) - (headerHeight || (hasGroup ? 100 : 50))
-          - actionBarHeight - pagerHeight}px`;
+      bodyHeight = parseInt(props.height, 10) - (headerHeight || (hasGroup ? 100 : 50))
+          - actionBarHeight - pagerHeight;
     }
     const renderBodyProps = {
       columns: state.columns,

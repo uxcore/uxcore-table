@@ -101,6 +101,7 @@ class Demo extends React.Component {
       },
       {
         group: '分组7',
+        rightFixed: true,
         columns: [
           {
             dataKey: 'id',
@@ -168,7 +169,7 @@ class Demo extends React.Component {
           });
         },
       },
-      width: '800px',
+      width: 1200,
       height: 400,
       showSearch: true,
       showColumnPicker: true,
