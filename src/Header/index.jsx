@@ -11,7 +11,6 @@ import util from '../util';
 import MessageIcon from './MessageIcon';
 
 class Header extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -169,12 +168,14 @@ class Header extends React.Component {
       });
     }
 
+
     return (
       <div
         key={index}
         className={classnames({
           'kuma-uxtable-cell': true,
           'show-border': me.props.showHeaderBorder,
+          'kuma-uxtable-cell__action-collapsed': item.type === 'action' && item.collapseNum === 1,
         })}
         style={style}
       >
@@ -318,7 +319,6 @@ class Header extends React.Component {
       </div>
     );
   }
-
 }
 
 Header.propTypes = {

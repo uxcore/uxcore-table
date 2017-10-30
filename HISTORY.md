@@ -2,13 +2,14 @@
 
 ---
 
-## 7.5.1
-
-* `FIXED` deepcopy beforeFetch params before passed
-
 ## 7.5.0
 
 * `CHANGED` fit React@15
+* `FIXED` deepcopy beforeFetch params before passed
+* `CHANGED` default empty data for locale
+* `CHANGED` action column title padding adjustment
+* `CHANGED` add new action config `buttonType`
+
 
 ## 7.4.3
 

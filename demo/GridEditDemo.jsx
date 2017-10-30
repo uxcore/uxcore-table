@@ -48,7 +48,6 @@ const mockData = {
 };
 
 class Demo extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -208,6 +207,7 @@ class Demo extends React.Component {
             callback: (rowData) => {
               me.table.editRow(rowData);
             },
+            buttonType: 'secondary',
             mode: Constants.MODE.VIEW,
           },
           {
@@ -216,6 +216,7 @@ class Demo extends React.Component {
               me.table.resetRow(rowData);
             },
             mode: Constants.MODE.VIEW,
+            buttonType: 'outline',
             isDisable: () => true,
           },
           {

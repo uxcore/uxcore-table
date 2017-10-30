@@ -15,7 +15,6 @@ const CollapsedButtonItem = () => {};
 
 
 class CollapsedButton extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -99,7 +98,7 @@ class CollapsedButton extends React.Component {
       return (
         <Button
           {...itemProps}
-          type={index === 0 ? 'outline' : 'secondary'}
+          type={item.props.buttonType || (index === 0 ? 'outline' : 'secondary')}
           size="small"
           disabled={!!item.props.disabled}
         >
@@ -167,7 +166,7 @@ class CollapsedButton extends React.Component {
     if (me.props.type === 'button') {
       return (
         <Dropdown {...dropdownOptions}>
-          <Button className="action" type="secondary" size="small">{content}</Button>
+          <Button className="action" type={'secondary'} size="small">{content}</Button>
         </Dropdown>
       );
     }
