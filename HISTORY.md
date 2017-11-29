@@ -2,6 +2,11 @@
 
 ---
 
+## 7.6.1
+
+* `CHANGED` adjust column picker style
+* `FIXED` unexpected space between body and header 
+
 ## 7.6.0
 
 * `CHANGED` add new prop `showUnknownTotalPager`

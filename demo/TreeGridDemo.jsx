@@ -14,7 +14,6 @@ const urlPrefix = window.urlPrefix || 'http://30.9.174.1:3000/';
 
 
 class Demo extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
