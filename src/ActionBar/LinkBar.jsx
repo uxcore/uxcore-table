@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class LinkBar extends React.Component {
-
   renderActionBtn(item, index, last) {
     const me = this;
     const itemProps = {
