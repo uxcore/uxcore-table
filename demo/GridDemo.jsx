@@ -151,6 +151,9 @@ class Demo extends React.Component {
       showColumnPicker: true,
       // size: 'small',
       rowSelection,
+      onColumnPick: (columns) => {
+        console.log(columns);
+      },
       renderSubComp: (rowData) => {
         const subProps = {
           jsxcolumns: [

@@ -120,6 +120,7 @@ $ npm start
 |onSearch            |function(searchTxt) |optional  |noop        | 1.6.1     |未配置 fetchUrl 的情况下触发，传回搜索的关键词|
 |onOrder             |function(column, orderType) | optional | noop | 1.6.1   |未配置 fetchUrl 的情况下触发，传回排序的列和排序方式|
 |onPagerChange       |function(current, pageSize) | optional | noop | 1.6.1   |未配置 fetchUrl 的情况下触发，传回要到达的分页和每页条数|
+|onColumnPick        |function(columns)   |optional  |noop        | 7.6.0     |勾选自定义列时触发，参数为勾选后的 columns |
 |addRowClassName     |function(rowData)   |optional  |noop        | -         |用于为特定的某几行添加特殊的 class，用于样式定制|
 |rowSelection        |object              |optional  |noop        | -         |选中复选框时触发的回调，rowSelection 是由回调函数组成的对象，包括 onSelect 和 onSelectAll，例子见此| 
 

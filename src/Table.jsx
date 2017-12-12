@@ -632,6 +632,9 @@ class Table extends React.Component {
     this.setState({
       columns,
     }, () => {
+      if (typeof this.props.onColumnPick === 'function') {
+        this.props.onColumnPick(deepcopy(columns));
+      }
       this.checkRightFixed(true);
     });
   }
@@ -1186,6 +1189,7 @@ Table.propTypes = {
   processData: PropTypes.func,
   beforeFetch: PropTypes.func,
   onFetchError: PropTypes.func,
+  onColumnPick: PropTypes.func,
   addRowClassName: PropTypes.func,
   shouldResetExpandedKeys: PropTypes.func,
   passedData: PropTypes.object,

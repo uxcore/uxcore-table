@@ -16,7 +16,6 @@ import ColumnPicker from './ColumnPicker';
 import LinkBar from './LinkBar';
 
 class ActionBar extends React.Component {
-
   /**
    *  convert ActionBar config from hash to array
    */

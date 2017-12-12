@@ -2,14 +2,12 @@
 
 ---
 
-## 7.6.1
-
-* `CHANGED` adjust column picker style
-* `FIXED` unexpected space between body and header 
-
 ## 7.6.0
 
 * `CHANGED` add new prop `showUnknownTotalPager`
+* `CHANGED` adjust column picker style
+* `FIXED` unexpected space between body and header 
+* `NEW` support new prop `onColumnPick`
 
 ## 7.5.0
 
