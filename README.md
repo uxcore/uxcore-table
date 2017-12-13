@@ -155,7 +155,7 @@ $ npm start
 |editKey         |string            |-         |optional |表格的数据中用于编辑模式的字段，如对于 select 来说，此项应为选项里的 key| 
 |align           |string            |-         |optional |文字居中方式，默认 'left'|
 |title           |string/func       |-         |required |列头标题，可以是个函数，根据返回值进行渲染|
-|width           |number            |-         |required |列宽|
+|width           |number            |-         |required |列宽，支持 100px, 100, '30%'(7.7.0 之后支持)|
 |hidden          |boolean           |-         |optional |是否隐藏，默认为 false|
 |ordered         |boolean           |-         |optional |是否显示内置的排序，默认为 false|
 |type            |string            |-         |optional |包含 'money', 'card', 'cnmobile', 'checkboxSelector', 'action', 'radio', 'text', 'select' 和 'custom'|

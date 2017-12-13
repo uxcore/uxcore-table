@@ -2,6 +2,10 @@
 
 ---
 
+## 7.7.0
+
+* `CHANGED` column.width support percentage
+
 ## 7.6.0
 
 * `CHANGED` add new prop `showUnknownTotalPager`

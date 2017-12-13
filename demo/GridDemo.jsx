@@ -11,8 +11,6 @@ import Button from 'uxcore-button';
 import React from 'react';
 import Table from '../src';
 
-const urlPrefix = 'http://30.6.61.25:3000/';
-
 //* 第一列为radio的demo
 class Demo extends React.Component {
   constructor(props) {
@@ -42,11 +40,6 @@ class Demo extends React.Component {
       // isDisabled: rowData => true,
     };
     const columns = [
-      // {
-      //   dataKey: 'select',
-      //   type: 'checkboxSelector',
-      //   // isDisable: rowData => /c/.test(rowData.country),
-      // },
       {
         dataKey: 'id',
         title: 'ID',
@@ -54,74 +47,59 @@ class Demo extends React.Component {
         hidden: true,
       },
       {
-        dataKey: 'country',
-        // fixed: true,
-        title: '国家',
-        width: '200px',
-        ordered: true,
-        hidden: true,
-      },
-      {
-        dataKey: 'city',
-        title: '城市',
-        width: '150px',
-        ordered: true,
-        message: '都是中国城市',
-        hidden: true,
-      },
-      {
         dataKey: 'firstName',
         title: 'FristName',
+        width: '30%',
+        fixed: true,
       },
       {
         dataKey: 'lastName',
         title: 'LastName',
+        width: '50%',
       },
       {
         dataKey: 'email',
         title: 'Email',
-        width: '200px',
+        width: '30%',
         ordered: true,
-      }, {
-        dataKey: 'action1',
-        title: '操作1',
-        width: '200px',
-        // rightFixed: true,
-        type: 'action',
-        actions: [{
-          title: 'click',
-          callback: () => {
-          },
-          mode: 'edit',
-        }, {
-          title: '删除',
-          callback: () => {
-          },
-          mode: 'view',
-        }, {
-          title: 'view',
-          callback: () => { },
-          mode: 'edit',
-        }, {
-          title: 'view',
-          callback: () => { },
-        }],
-      }, {
-        dataKey: 'action',
-        title: '链接',
-        width: '100px',
-        render: () => <div><a>111</a></div>,
       },
+      // {
+      //   dataKey: 'action1',
+      //   title: '操作1',
+      //   width: '200px',
+      //   type: 'action',
+      //   actions: [{
+      //     title: 'click',
+      //     callback: () => {
+      //     },
+      //     mode: 'edit',
+      //   }, {
+      //     title: '删除',
+      //     callback: () => {
+      //     },
+      //     mode: 'view',
+      //   }, {
+      //     title: 'view',
+      //     callback: () => { },
+      //     mode: 'edit',
+      //   }, {
+      //     title: 'view',
+      //     callback: () => { },
+      //   }],
+      // }, {
+      //   dataKey: 'action',
+      //   title: '链接',
+      //   width: '100px',
+      //   render: () => <div><a>111</a></div>,
+      // },
     ];
     const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
-    // const fetchUrl = `${urlPrefix}demo/data.json`;
     const renderProps = {
       actionColumn: {
         edit: () => { },
         del: () => { },
       },
-      width: 800,
-      // height: 400,
+      // width: 800,
       className: 'kuma-uxtable-split-line',
       pagerSizeOptions: [5, 10, 15, 20],
       actionBar: {
@@ -150,49 +128,49 @@ class Demo extends React.Component {
       jsxcolumns: columns,
       showColumnPicker: true,
       // size: 'small',
-      rowSelection,
+      // rowSelection,
       onColumnPick: (columns) => {
         console.log(columns);
       },
-      renderSubComp: (rowData) => {
-        const subProps = {
-          jsxcolumns: [
-            {
-              dataKey: 'id',
-              title: '序号',
-            },
-            {
-              dataKey: 'class',
-              title: '分类',
-              width: '200px',
-            },
-            {
-              dataKey: 'dep',
-              title: '部门',
-              width: '200px',
-            },
-            {
-              dataKey: 'person',
-              title: '采购员',
-              width: '200px',
-            },
-          ],
-          jsxdata: {
-            data: [
-              { id: '001', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
-              { id: '002', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
-              { id: '003', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
-              { id: '004', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
-            ],
-          },
-          className: 'kuma-uxtable-ghost',
-        };
-        return (
-          <div style={{ padding: '0 24px', background: 'rgba(31,56,88,0.04)' }}>
-            <Table {...subProps} />
-          </div>
-        );
-      },
+      // renderSubComp: (rowData) => {
+      //   const subProps = {
+      //     jsxcolumns: [
+      //       {
+      //         dataKey: 'id',
+      //         title: '序号',
+      //       },
+      //       {
+      //         dataKey: 'class',
+      //         title: '分类',
+      //         width: '200px',
+      //       },
+      //       {
+      //         dataKey: 'dep',
+      //         title: '部门',
+      //         width: '200px',
+      //       },
+      //       {
+      //         dataKey: 'person',
+      //         title: '采购员',
+      //         width: '200px',
+      //       },
+      //     ],
+      //     jsxdata: {
+      //       data: [
+      //         { id: '001', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
+      //         { id: '002', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
+      //         { id: '003', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
+      //         { id: '004', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
+      //       ],
+      //     },
+      //     className: 'kuma-uxtable-ghost',
+      //   };
+      //   return (
+      //     <div style={{ padding: '0 24px', background: 'rgba(31,56,88,0.04)' }}>
+      //       <Table {...subProps} />
+      //     </div>
+      //   );
+      // },
     };
     return (
       <div className="demo1">

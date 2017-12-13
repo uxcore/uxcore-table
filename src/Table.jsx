@@ -82,6 +82,16 @@ class Table extends React.Component {
     }
     this.bindMethods();
     this.resizeListener = this.listenWindowResize();
+    if (this.root) {
+      this.rootWidth = this.root.clientWidth;
+    }
+    if (this.hasPercentWidth) {
+      setTimeout(() => {
+        this.setState({
+          columns: this.processColumn(),
+        });
+      }, 200);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -723,6 +733,7 @@ class Table extends React.Component {
   listenWindowResize() {
     return addEventListener(window, 'resize', () => {
       this.checkRightFixed();
+      this.resizeColumns();
     });
   }
 
@@ -742,7 +753,7 @@ class Table extends React.Component {
     const me = this;
     let columns = deepcopy(actualProps.jsxcolumns);
     let hasCheckboxColumn = false;
-
+    this.hasPercentWidth = false;
     for (let i = 0; i < columns.length; i++) {
       const item = columns[i];
       // only one rowSelector can be rendered in Table.
@@ -759,6 +770,13 @@ class Table extends React.Component {
         item.width = item.width
           || (/kuma-uxtable-border-line/.test(actualProps.className) ? '40px' : '32px');
         item.align = item.align || 'left';
+      }
+      if (/\d+%/.test(`${item.width}`)) {
+        this.hasPercentWidth = true;
+        if (this.root) {
+          const tableWidth = this.root.clientWidth;
+          item.width = (parseFloat(item.width) * tableWidth) / 100;
+        }
       }
     }
     // filter the column which has a dataKey 'jsxchecked' & 'jsxtreeIcon'
@@ -801,6 +819,15 @@ class Table extends React.Component {
       }].concat(columns);
     }
     return columns;
+  }
+
+  resizeColumns() {
+    if (this.hasPercentWidth && this.root && this.root.clientWidth !== this.rootWidth) {
+      this.rootWidth = this.root.clientWidth;
+      this.setState({
+        columns: this.processColumn(),
+      });
+    }
   }
 
   selectAll(checked) {
