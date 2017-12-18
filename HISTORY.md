@@ -2,6 +2,11 @@
 
 ---
 
+## 7.7.1
+
+* `FIXED` left fixed table can not match the height with the mainTable, when table is multiline.
+* `FIXED` when table is resized & mulitiline, fixed table's height can not match.
+
 ## 7.7.0
 
 * `CHANGED` column.width support percentage

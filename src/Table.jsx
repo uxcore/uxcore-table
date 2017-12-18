@@ -30,6 +30,7 @@ import Tbody from './Tbody';
 import ActionBar from './ActionBar';
 import methods from './methods';
 import innerMethods from './innerMethods';
+import { setTimeout } from 'core-js/library/web/timers';
 
 const { createCellField } = CellField;
 const getStyle = get;
@@ -89,6 +90,8 @@ class Table extends React.Component {
       setTimeout(() => {
         this.setState({
           columns: this.processColumn(),
+        }, () => {
+          this.checkRightFixed(true);
         });
       }, 200);
     }
@@ -734,6 +737,15 @@ class Table extends React.Component {
     return addEventListener(window, 'resize', () => {
       this.checkRightFixed();
       this.resizeColumns();
+      clearTimeout(this.adjustFixedTimer);
+      this.adjustFixedTimer = setTimeout(() => {
+        if (this.bodyFixed) {
+          this.bodyFixed.adjustMultilineFixedRowHeight();
+        }
+        if (this.bodyRightFixed) {
+          this.bodyRightFixed.adjustMultilineFixedRowHeight();
+        }
+      }, 200);
     });
   }
 
@@ -1100,8 +1112,8 @@ class Table extends React.Component {
             width: props.passedData ? 'auto' : props.width,
           }}
         >
-          {this.renderLeftFixedTable(renderHeaderProps, renderBodyProps, bodyHeight)}
           {this.renderMainTable(renderHeaderProps, renderBodyProps, bodyHeight)}
+          {this.renderLeftFixedTable(renderHeaderProps, renderBodyProps, bodyHeight)}
           {this.renderRightFixedTable(renderHeaderProps, renderBodyProps, bodyHeight)}
         </div>
         {this.renderPager()}

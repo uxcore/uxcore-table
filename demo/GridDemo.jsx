@@ -56,11 +56,13 @@ class Demo extends React.Component {
         dataKey: 'lastName',
         title: 'LastName',
         width: '50%',
+        render: () => '111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
       },
       {
         dataKey: 'email',
         title: 'Email',
         width: '30%',
+        rightFixed: true,
         ordered: true,
       },
       // {
@@ -93,7 +95,7 @@ class Demo extends React.Component {
       //   render: () => <div><a>111</a></div>,
       // },
     ];
-    const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
+    // const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
     const renderProps = {
       actionColumn: {
         edit: () => { },
@@ -117,13 +119,17 @@ class Demo extends React.Component {
         console.log(current, pageSize);
       },
       showSearch: true,
-      fetchUrl,
+      // fetchUrl,
       jsxdata: {
-        data: [],
+        data: [
+          {},
+          {},
+          {},
+        ],
       },
-      // addRowClassName() {
-      //   return 'multiline';
-      // },
+      addRowClassName() {
+        return 'multiline';
+      },
       rowSelector: 'checkboxSelector',
       jsxcolumns: columns,
       showColumnPicker: true,
