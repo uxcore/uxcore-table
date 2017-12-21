@@ -41,7 +41,6 @@ const mockData = {
 
 
 class Demo extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -128,6 +127,7 @@ class Demo extends React.Component {
       mode: 'view',
       showSearch: true,
       fetchParams: {},
+      // fetchMethod: 'POST',
       // jsxdata: mockData,
       // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
       fetchUrl: `${urlPrefix}demo/data.json`,
@@ -136,8 +136,8 @@ class Demo extends React.Component {
       // subComp:(<Grid {...renderSubProps}  ref="subGrid"/>),
       // rowSelection: rowSelection,
       addRowClassName: () => { },
-      beforeFetch: (sendData) => sendData,
-      processData: (data) => data,
+      beforeFetch: sendData => sendData,
+      processData: data => data,
     };
     return (
       <div>

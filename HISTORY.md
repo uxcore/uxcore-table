@@ -2,6 +2,10 @@
 
 ---
 
+## 7.7.2
+
+* `FIXED` missing `POST` fetch method
+
 ## 7.7.1
 
 * `FIXED` left fixed table can not match the height with the mainTable, when table is multiline.

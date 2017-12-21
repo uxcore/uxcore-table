@@ -390,6 +390,7 @@ class Table extends React.Component {
       ? /\.jsonp/.test(props.fetchUrl)
       : props.isJsonp;
     me.request = NattyFetch.create({
+      method: props.fetchMethod,
       url: props.fetchUrl,
       data: me.getQueryObj(from, props),
       fit: props.fitResponse,
