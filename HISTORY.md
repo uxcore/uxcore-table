@@ -2,6 +2,10 @@
 
 ---
 
+## 7.7.3
+
+* `FIXED` hide content bottom border line when there is no data
+
 ## 7.7.2
 
 * `FIXED` missing `POST` fetch method
