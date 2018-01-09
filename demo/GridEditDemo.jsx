@@ -199,8 +199,8 @@ class Demo extends React.Component {
         rightFixed: true,
         width: 300,
         type: 'action',
-        actionType: 'button',
-        collapseNum: 2,
+        actionType: 'link',
+        collapseNum: 1,
         actions: [
           {
             title: '编辑',

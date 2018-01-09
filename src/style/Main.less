@@ -313,35 +313,35 @@
   }
 }
 
-.action-container {
-  .action {
-    cursor: pointer;
-    display: inline-block;
-    text-decoration: none;
-    padding: 0 12px;
-    &.disabled {
-      color: @text-disabled-color;
-      cursor: not-allowed
-    }
-    &.first-action {
-      padding-left: 0px;
-    }
-    i {
-      color: @normal-alpha-4;
-      vertical-align: middle;
-      font-size: 14px;
-    }
-    .@{uxtable-prefix}-cell-collapsed-icon-active {
-      color: @normal-alpha-3;
-    }
-    &.more-action {
-      line-height: 49px;
-    }
-    &+.kuma-button {
-      margin-left: 12px;
-    }
-  }
-}
+// .action-container {
+//   .action {
+//     cursor: pointer;
+//     display: inline-block;
+//     text-decoration: none;
+//     padding: 0 12px;
+//     &.disabled {
+//       color: @text-disabled-color;
+//       cursor: not-allowed
+//     }
+//     &.first-action {
+//       padding-left: 0px;
+//     }
+//     i {
+//       color: @normal-alpha-4;
+//       vertical-align: middle;
+//       font-size: 14px;
+//     }
+//     .@{uxtable-prefix}-cell-collapsed-icon-active {
+//       color: @normal-alpha-3;
+//     }
+//     &.more-action {
+//       line-height: 49px;
+//     }
+//     &+.kuma-button {
+//       margin-left: 12px;
+//     }
+//   }
+// }
 
 .@{uxtable-prefix} span.indent {
   display: inline-block;
@@ -584,35 +584,42 @@
   }
 }
 
-.@{uxtable-prefix}-cell-collapsed-button-more-dropdown {
-  .kuma-dropdown-menu>.kuma-dropdown-menu-item {
-    padding: 5px 16px;
-    &:hover {
-      background: @normal-alpha-9;
-    }
-    a {
-      color: @link-color;
-      cursor: pointer;
-    }
-    &.kuma-dropdown-menu-item-disabled {
-      background: @bg-disabled-color;
-      a {
-        color: @text-disabled-color;
-        cursor: not-allowed;
-      }
-    }
-  }
-  &.@{uxtable-prefix}-cell-collapsed-button-more-link-dropdown {
-    .kuma-dropdown-menu>.kuma-dropdown-menu-item {
-      padding: 5px 11px;
-    }
-  }
-}
+// .@{uxtable-prefix}-cell-collapsed-button-more-dropdown {
+//   .kuma-dropdown-menu>.kuma-dropdown-menu-item {
+//     padding: 5px 16px;
+//     &:hover {
+//       background: @normal-alpha-9;
+//     }
+//     a {
+//       color: @link-color;
+//       cursor: pointer;
+//     }
+//     &.kuma-dropdown-menu-item-disabled {
+//       background: @bg-disabled-color;
+//       a {
+//         color: @text-disabled-color;
+//         cursor: not-allowed;
+//       }
+//     }
+//   }
+//   &.@{uxtable-prefix}-cell-collapsed-button-more-link-dropdown {
+//     .kuma-dropdown-menu>.kuma-dropdown-menu-item {
+//       padding: 5px 11px;
+//     }
+//   }
+// }
 
-.@{uxtable-prefix}-cell-collapsed-button-text {
-  vertical-align: middle;
-}
+// .@{uxtable-prefix}-cell-collapsed-button-text {
+//   vertical-align: middle;
+// }
 
-.@{uxtable-prefix}-cell-collapsed-button-split-line {
-  color: @split-line-color;
+// .@{uxtable-prefix}-cell-collapsed-button-split-line {
+//   color: @split-line-color;
+// }
+
+
+.action-container {
+  .kuma-button-group-separated {
+    line-height: 1.5;
+  }
 }

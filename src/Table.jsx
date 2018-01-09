@@ -787,7 +787,8 @@ class Table extends React.Component {
       if (/\d+%/.test(`${item.width}`)) {
         this.hasPercentWidth = true;
         if (this.root) {
-          const tableWidth = this.root.clientWidth;
+          const scrollBarWidth = util.measureScrollbar();
+          const tableWidth = this.root.clientWidth - scrollBarWidth;
           item.width = (parseFloat(item.width) * tableWidth) / 100;
         }
       }

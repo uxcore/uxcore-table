@@ -41,28 +41,19 @@ class Demo extends React.Component {
     };
     const columns = [
       {
-        dataKey: 'id',
-        title: 'ID',
-        width: '50px',
-        hidden: true,
-      },
-      {
         dataKey: 'firstName',
         title: 'FristName',
-        width: '30%',
-        fixed: true,
+        width: '15%',
       },
       {
         dataKey: 'lastName',
         title: 'LastName',
-        width: '50%',
-        render: () => '111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
+        width: '55%',
       },
       {
         dataKey: 'email',
         title: 'Email',
         width: '30%',
-        rightFixed: true,
         ordered: true,
       },
       // {
@@ -95,7 +86,7 @@ class Demo extends React.Component {
       //   render: () => <div><a>111</a></div>,
       // },
     ];
-    // const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
+    const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
     const renderProps = {
       actionColumn: {
         edit: () => { },
@@ -119,17 +110,11 @@ class Demo extends React.Component {
         console.log(current, pageSize);
       },
       showSearch: true,
-      // fetchUrl,
-      jsxdata: {
-        data: [
-          {},
-          {},
-          {},
-        ],
-      },
-      addRowClassName() {
-        return 'multiline';
-      },
+      fetchUrl,
+      // height: 400,
+      // addRowClassName() {
+      //   return 'multiline';
+      // },
       rowSelector: 'checkboxSelector',
       jsxcolumns: columns,
       showColumnPicker: true,

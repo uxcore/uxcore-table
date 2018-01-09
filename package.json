@@ -1,6 +1,6 @@
 {
  "name": "uxcore-table",
- "version": "7.7.3",
+ "version": "8.0.0",
  "description": "table ui component for react",
  "repository": "https://github.com/uxcore/uxcore-table.git",
  "author": "zhouquan.yezq",
@@ -58,6 +58,7 @@
   "rc-util": "4.x",
   "uxcore-animate": "^0.2.0",
   "uxcore-button": "^0.4.0",
+  "uxcore-button-group": "^0.1.1",
   "uxcore-cell-field": "^0.2.2",
   "uxcore-checkbox-cell-field": "^0.1.1",
   "uxcore-const": "~0.0.1",

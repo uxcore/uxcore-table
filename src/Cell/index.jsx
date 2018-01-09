@@ -10,8 +10,8 @@ import deepcopy from 'lodash/cloneDeep';
 import deepEqual from 'deep-equal';
 import DateField from 'uxcore-date-cell-field';
 import CheckField from 'uxcore-checkbox-cell-field';
-
-import CollapsedButton from '../CollapsedButton';
+import Button from 'uxcore-button';
+import ButtonGroup from 'uxcore-button-group';
 import CheckBox from './CheckBox';
 import Radio from './Radio';
 import TextField from '../CellField/TextField';
@@ -136,27 +136,29 @@ class Cell extends React.Component {
         : action.title;
       if (content) {
         items.push(
-          <CollapsedButton.Item
+          <Button
             buttonType={action.buttonType}
+            type="outline"
             key={index}
             disabled={typeof action.isDisable === 'function' ? action.isDisable(rowData) : false}
             onClick={me.handleActionClick.bind(me,
               (action.callback || (() => {})).bind(me, rowData, me.props.root))}
           >
             {content}
-          </CollapsedButton.Item>,
+          </Button>,
         );
       }
     });
     return (
-      <CollapsedButton
-        prefixCls={me.props.jsxprefixCls}
+      <ButtonGroup
+        separated
+        size="small"
         maxLength={column.collapseNum}
-        type={column.actionType}
+        actionType={column.actionType}
         locale={me.props.locale}
       >
         {items}
-      </CollapsedButton>
+      </ButtonGroup>
     );
   }
 

@@ -2,6 +2,10 @@
 
 ---
 
+## 8.0.0
+
+* `CHANGED` replace inner `CollapsedButton` with `uxcore-button-group` 
+
 ## 7.7.3
 
 * `FIXED` hide content bottom border line when there is no data
