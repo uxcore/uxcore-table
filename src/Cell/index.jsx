@@ -154,7 +154,7 @@ class Cell extends React.Component {
         separated
         size="small"
         maxLength={column.collapseNum}
-        actionType={column.actionType}
+        actionType={column.actionType || 'link'}
         locale={me.props.locale}
       >
         {items}

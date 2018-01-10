@@ -2,6 +2,10 @@
 
 ---
 
+## 8.0.1
+
+* `FIXED` default action type should be `link` 
+
 ## 8.0.0
 
 * `CHANGED` replace inner `CollapsedButton` with `uxcore-button-group` 
