@@ -66,7 +66,7 @@ class ColumnPicker extends React.Component {
         me.hasGroup = true;
       }
       if (notRenderColumns.indexOf(item.dataKey) === -1 && !isGroup) {
-        if (item.dataKey) {
+        if (item.dataKey && item.type !== 'action') {
           options.push(
             <TreeNode
               key={item.dataKey}

@@ -2,6 +2,10 @@
 
 ---
 
+## 8.0.2
+
+* `CHANGED` action column will not be shown in column picker.
+
 ## 8.0.1
 
 * `FIXED` default action type should be `link` 
