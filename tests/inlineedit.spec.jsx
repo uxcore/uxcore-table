@@ -7,12 +7,6 @@ import Table from '../src';
 Enzyme.configure({ adapter: new Adapter() });
 
 const common = {
-  // jsxcolumns: [
-  //   { dataKey: 'id', title: 'ID', width: 50, hidden: true },
-  //   { dataKey: 'country', title: '国家', width: 200, ordered: true },
-  //   { dataKey: 'city', title: '城市', width: 150, ordered: true },
-  //   { dataKey: 'firstName', title: 'FristName' },
-  // ],
   getSavedData: false,
   jsxdata: {
     data: [
@@ -103,7 +97,6 @@ describe('inlineEdit', () => {
       />
     );
     wrapper.instance().editRow(wrapper.instance().getData().data.data[0], () => {
-      // expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(1);
       expect(wrapper.find('.kuma-input')).to.have.length(1);
       done();
     });
@@ -120,7 +113,6 @@ describe('inlineEdit', () => {
       />
     );
     wrapper.instance().editAllRow(() => {
-      // expect(wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input')).to.have.length(1);
       expect(wrapper.find('.kuma-input')).to.have.length(1);
       done();
     });
@@ -136,7 +128,22 @@ describe('inlineEdit', () => {
       />
     );
     wrapper.instance().viewRow(wrapper.instance().getData().data.data[0], () => {
-      expect(wrapper.find('li.kuma-uxtable-row').find('div.kuma-uxtable-cell').html().indexOf('kuma-input')).to.be(-1);
+      expect(wrapper.update().find('li.kuma-uxtable-row').find('.kuma-input')).to.have.length(0);
+      done();
+    });
+  });
+
+  it('api viewAllRow', (done) => {
+    wrapper = mount(
+      <Table
+        {...common}
+        jsxcolumns={[{
+          dataKey: 'id', title: 'ID', type: 'text',
+        }]}
+      />
+    );
+    wrapper.instance().viewAllRow(() => {
+      expect(wrapper.update().find('li.kuma-uxtable-row').find('.kuma-input')).to.have.length(0);
       done();
     });
   });
@@ -150,9 +157,8 @@ describe('inlineEdit', () => {
         }]}
       />
     );
-    window.wrapper = wrapper;
     wrapper.instance().saveRow(wrapper.instance().getData().data.data[0], () => {
-      expect(wrapper.find('li.kuma-uxtable-row').find('div.kuma-uxtable-cell').html().indexOf('kuma-input')).to.be(-1);
+      expect(wrapper.update().find('li.kuma-uxtable-row').find('.kuma-input')).to.have.length(0);
       done();
     });
   });
@@ -167,7 +173,65 @@ describe('inlineEdit', () => {
       />
     );
     wrapper.instance().saveAllRow(() => {
-      expect(wrapper.find('li.kuma-uxtable-row').find('div.kuma-uxtable-cell').html().indexOf('kuma-input')).to.be(-1);
+      expect(wrapper.update().find('li.kuma-uxtable-row').find('.kuma-input')).to.have.length(0);
+      done();
+    });
+  });
+
+  it('resetRow', (done) => {
+    wrapper = mount(
+      <Table
+        {...common}
+        jsxcolumns={[{
+          dataKey: 'id', title: 'ID', type: 'text',
+        }]}
+      />
+    );
+    const input = wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input').at(0);
+    input.instance().value = '测试';
+    input.simulate('change');
+    expect(wrapper.update().find('li.kuma-uxtable-row').find('.kuma-input').instance().value).to.be('测试');
+    wrapper.instance().resetRow(wrapper.instance().getData().data.data[0], () => {
+      expect(wrapper.update().find('li.kuma-uxtable-row').find('.kuma-input').instance().value).to.be('1');
+      done();
+    });
+  });
+
+  it('resetAllRow', (done) => {
+    wrapper = mount(
+      <Table
+        {...common}
+        jsxcolumns={[{
+          dataKey: 'id', title: 'ID', type: 'text',
+        }]}
+      />
+    );
+    const input = wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input').at(0);
+    input.instance().value = '测试';
+    input.simulate('change');
+    expect(wrapper.update().find('li.kuma-uxtable-row').find('.kuma-input').instance().value).to.be('测试');
+    wrapper.instance().resetAllRow(() => {
+      expect(wrapper.update().find('li.kuma-uxtable-row').find('.kuma-input').instance().value).to.be('1');
+      done();
+    });
+  });
+
+  it('resetAndViewAllRow', (done) => {
+    wrapper = mount(
+      <Table
+        {...common}
+        jsxcolumns={[{
+          dataKey: 'id', title: 'ID', type: 'text',
+        }]}
+      />
+    );
+    const input = wrapper.find('.kuma-uxtable-row').find('.kuma-uxtable-cell').find('.kuma-input').at(0);
+    input.instance().value = '测试';
+    input.simulate('change');
+    expect(wrapper.instance().getData().data.data[0].id).to.be('测试');
+    wrapper.instance().resetAndViewAllRow(() => {
+      expect(wrapper.instance().getData().data.data[0].id).to.be('1');
+      expect(wrapper.update().find('li.kuma-uxtable-row').find('.kuma-input')).to.have.length(0);
       done();
     });
   });

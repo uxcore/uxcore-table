@@ -1,9 +1,9 @@
 import expect from 'expect.js';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-15';
 import sinon from 'sinon';
-
 import Table from '../src';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -22,6 +22,9 @@ const common = {
         country: 'country1',
         city: 'city1',
         firstName: 'firstName1',
+        money: 10000,
+        card: '20000000',
+        mobile: '15652963333',
       },
     ],
     currentPage: 1,
@@ -107,6 +110,17 @@ describe('Table', () => {
     it('height support string', () => {
       wrapper = mount(<Table height="500px" />);
       expect(wrapper.instance().getDom().style.height).to.be('500px');
+    });
+
+    it('column width support percentage', () => {
+      const mountNode = document.createElement('div');
+      document.body.appendChild(mountNode);
+      let ref;
+      ReactDOM.render(<Table width={900} ref={(c) => { ref = c; }} jsxcolumns={[{ width: '30%', title: '列', dataKey: 'test' }]} />, mountNode);
+      expect(ref.getDom().querySelector('.kuma-uxtable-cell').clientWidth).to.be(270);
+      ref = null;
+      ReactDOM.unmountComponentAtNode(mountNode);
+      document.body.removeChild(mountNode);
     });
 
     it('showColumnPicker', () => {
@@ -442,7 +456,7 @@ describe('Table', () => {
           jsxcolumns={[...common.jsxcolumns, {
             type: 'action',
             actions: {
-              编辑: () => {},
+              编辑: () => { },
             },
           }]}
         />
@@ -491,7 +505,7 @@ describe('Table', () => {
           }]}
         />
       );
-      expect(wrapper.find('.action-container').find('.action')).to.have.length(1);
+      expect(wrapper.find('.action-container').find('.kuma-button-group-separated-item')).to.have.length(1);
     });
 
     it('collapseNum is 2', () => {
@@ -515,7 +529,7 @@ describe('Table', () => {
           }]}
         />
       );
-      expect(wrapper.find('.action-container').find('.action')).to.have.length(2);
+      expect(wrapper.find('.action-container').find('.kuma-button-group-separated-item')).to.have.length(2);
     });
   });
   it('fixed column', () => {
@@ -529,5 +543,48 @@ describe('Table', () => {
     );
     expect(wrapper.find('.kuma-uxtable-header-scroll')).to.have.length(1);
     expect(wrapper.find('.kuma-uxtable-header-fixed')).to.have.length(1);
+  });
+
+  it('right fixed column', () => {
+    const wrapper = mount(
+      <Table
+        {...common}
+        jsxcolumns={[
+          { dataKey: 'id', title: 'ID', width: 50, rightFixed: true },
+        ]}
+      />
+    );
+    expect(wrapper.find('.kuma-uxtable-header-scroll')).to.have.length(1);
+    expect(wrapper.find('.kuma-uxtable-header-right-fixed')).to.have.length(1);
+  });
+
+  it('type money', () => {
+    const wrapper = mount(
+      <Table
+        jsxdata={common.jsxdata}
+        jsxcolumns={[{ dataKey: 'money', title: '金额', type: 'money' }]}
+      />
+    );
+    expect(wrapper.find('.kuma-uxtable-body').find('.kuma-uxtable-cell').at(0).text()).to.be('10 000');
+  });
+
+  it('type card', () => {
+    const wrapper = mount(
+      <Table
+        jsxdata={common.jsxdata}
+        jsxcolumns={[{ dataKey: 'card', title: '卡片', type: 'card' }]}
+      />
+    );
+    expect(wrapper.find('.kuma-uxtable-body').find('.kuma-uxtable-cell').at(0).text()).to.be('2000 0000');
+  });
+
+  it('type cnmobile', () => {
+    const wrapper = mount(
+      <Table
+        jsxdata={common.jsxdata}
+        jsxcolumns={[{ dataKey: 'mobile', title: '手机', type: 'cnmobile' }]}
+      />
+    );
+    expect(wrapper.find('.kuma-uxtable-body').find('.kuma-uxtable-cell').at(0).text()).to.be('1565 2963 333');
   });
 });
