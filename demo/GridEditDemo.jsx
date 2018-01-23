@@ -111,7 +111,7 @@ class Demo extends React.Component {
         dataKey: 'jsxid',
         title: 'jsxid2',
         width: 80,
-        fixed: true,
+        // fixed: true,
       },
       {
         dataKey: 'city',
@@ -196,7 +196,7 @@ class Demo extends React.Component {
       {
         dataKey: 'action1',
         title: '操作1',
-        rightFixed: true,
+        // rightFixed: true,
         width: 300,
         type: 'action',
         actionType: 'link',

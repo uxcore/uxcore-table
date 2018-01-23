@@ -2,6 +2,10 @@
 
 ---
 
+## 8.1.0
+
+* `CHANGED` imporve scroll performance using raf.
+
 ## 8.0.2
 
 * `CHANGED` action column will not be shown in column picker.

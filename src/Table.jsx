@@ -30,7 +30,6 @@ import Tbody from './Tbody';
 import ActionBar from './ActionBar';
 import methods from './methods';
 import innerMethods from './innerMethods';
-import { setTimeout } from 'core-js/library/web/timers';
 
 const { createCellField } = CellField;
 const getStyle = get;

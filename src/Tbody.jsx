@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import { hasClass } from 'rc-util/lib/Dom/class';
 import EmptyData from 'uxcore-empty-data';
+import raf from 'raf';
 import Row from './Row';
 import util from './util';
 import i18n from './i18n';
@@ -27,6 +28,7 @@ class Tbody extends React.Component {
     me.scrollHandler = me.onScroll.bind(me);
     me.scrollListener = addEventListener(me.rootEl, 'scroll', me.scrollHandler);
     this.adjustMultilineFixedRowHeight();
+    this.ieVer = util.getIEVer();
   }
 
   componentDidUpdate(prevProps) {
@@ -40,19 +42,36 @@ class Tbody extends React.Component {
   componentWillUnmount() {
     const me = this;
     me.scrollListener.remove();
+    me.removeScrollTimer();
+    if (this.scrollRafer) {
+      raf.cancel(this.scrollRafer);
+      this.scrollRafer = null;
+    }
   }
 
 
   onScroll() {
     const me = this;
     const { fixedColumn } = me.props;
-    if (me.scrollEndTimer) {
-      clearTimeout(me.scrollEndTimer);
-    }
+    me.removeScrollTimer();
     me.scrollEndTimer = setTimeout(() => {
       me.props.onScroll(me.rootEl.scrollLeft, me.rootEl.scrollTop, fixedColumn);
-    }, 500);
-    me.props.onScroll(me.rootEl.scrollLeft, me.rootEl.scrollTop, fixedColumn);
+      const forceRepaint = (node) => {
+        /* eslint-disable no-param-reassign */
+        /* eslint-disable no-unused-expressions */
+        node.style.display = 'none';
+        node.offsetHeight; // no need to store this anywhere, the reference is enough
+        node.style.display = '';
+        /* eslint-enable no-unused-expressions */
+        /* eslint-enable no-param-reassign */
+      };
+      if (this.ieVer < 9) {
+        forceRepaint(me.rootEl);
+      }
+    }, 200);
+    this.scrollRafer = requestAnimationFrame(() => {
+      me.props.onScroll(me.rootEl.scrollLeft, me.rootEl.scrollTop, fixedColumn);
+    });
   }
 
   getDom() {
@@ -61,6 +80,14 @@ class Tbody extends React.Component {
 
   getRow(index) {
     return this[`row${index}`];
+  }
+
+  removeScrollTimer() {
+    const me = this;
+    if (me.scrollEndTimer) {
+      clearTimeout(me.scrollEndTimer);
+      me.scrollEndTimer = null;
+    }
   }
 
   adjustMultilineFixedRowHeight() {
