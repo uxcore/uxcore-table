@@ -104,6 +104,7 @@ class Table extends React.Component {
       // Data has changed, so uid which is used to mark the data should be reset.
       me.uid = 0;
       me.fetchData('dataChange', nextProps);
+      // TODO: need reduce times
       this.forceToCheckRight = true;
     }
     if (nextProps.pageSize !== me.props.pageSize) {
