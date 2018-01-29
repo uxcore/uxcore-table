@@ -2,6 +2,10 @@
 
 ---
 
+## 8.1.1
+
+* `FIXED` data change don't check right fixed.
+
 ## 8.1.0
 
 * `CHANGED` imporve scroll performance using raf.

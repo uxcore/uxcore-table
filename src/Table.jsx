@@ -104,6 +104,7 @@ class Table extends React.Component {
       // Data has changed, so uid which is used to mark the data should be reset.
       me.uid = 0;
       me.fetchData('dataChange', nextProps);
+      this.forceToCheckRight = true;
     }
     if (nextProps.pageSize !== me.props.pageSize) {
       newData.pageSize = nextProps.pageSize;
@@ -130,7 +131,8 @@ class Table extends React.Component {
     // TODO: performance need to be cared
     this.checkBodyVScroll();
     this.checkBodyHScroll();
-    this.checkRightFixed();
+    this.checkRightFixed(this.forceToCheckRight);
+    this.forceToCheckRight = false;
   }
 
   componentWillUnmount() {

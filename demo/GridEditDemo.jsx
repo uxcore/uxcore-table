@@ -24,24 +24,6 @@ const { createCellField } = Table;
 
 const mockData = {
   data: [
-    {
-      email: 'xw@abc.com',
-      nameId: 'xiaowang',
-      name: '小王',
-      cityId: 'bj',
-      city: '北京',
-      time: '2016-01-02',
-      timeId: 1451692800000,
-    },
-    {
-      email: 'xl@abc.com',
-      nameId: 'xiaoli',
-      name: '小李',
-      cityId: 'hz',
-      city: '杭州',
-      time: '2016-01-02',
-      timeId: 1451692800000,
-    },
   ],
   currentPage: 1,
   totalCount: 10,
@@ -196,7 +178,7 @@ class Demo extends React.Component {
       {
         dataKey: 'action1',
         title: '操作1',
-        // rightFixed: true,
+        rightFixed: true,
         width: 300,
         type: 'action',
         actionType: 'link',
@@ -247,7 +229,7 @@ class Demo extends React.Component {
 
     const renderProps = {
       // height: 200,
-      width: 1000,
+      // width: 1000,
       showPager: true,
       fetchParams: {},
       showSearch: true,
