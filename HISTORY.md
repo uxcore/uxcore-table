@@ -2,6 +2,7 @@
 
 ---
 
+
 ## 8.1.1
 
 * `FIXED` data change don't check right fixed.
@@ -21,6 +22,10 @@
 ## 8.0.0
 
 * `CHANGED` replace inner `CollapsedButton` with `uxcore-button-group` 
+
+## 7.8.0
+
+* `NEW` new prop `fetchWithCredentials`
 
 ## 7.7.3
 

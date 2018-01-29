@@ -396,6 +396,7 @@ class Table extends React.Component {
       url: props.fetchUrl,
       data: me.getQueryObj(from, props),
       fit: props.fitResponse,
+      withCredentials: props.fetchWithCredentials,
       jsonp: isJsonp,
       Promise,
     });
