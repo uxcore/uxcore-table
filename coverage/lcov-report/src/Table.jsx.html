@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">76.38% </span>
+        <span class="strong">75.66% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>456/597</span>
+        <span class='fraction'>457/604</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">59.71% </span>
+        <span class="strong">59.14% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>249/417</span>
+        <span class='fraction'>249/421</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">68.54% </span>
+        <span class="strong">67.03% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>61/89</span>
+        <span class='fraction'>61/91</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">76.19% </span>
+        <span class="strong">75.44% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>432/567</span>
+        <span class='fraction'>433/574</span>
       </div>
     </div>
   </div>
@@ -1373,7 +1373,21 @@
 1328
 1329
 1330
-1331</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1331
+1332
+1333
+1334
+1335
+1336
+1337
+1338
+1339
+1340
+1341
+1342
+1343
+1344
+1345</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1471,11 +1485,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">21×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">735×</span>
+<span class="cline-any cline-yes">882×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">61×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1555,6 +1571,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1854,6 +1872,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2218,6 +2238,15 @@
 <span class="cline-any cline-yes">61×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2251,7 +2280,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">176×</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2801,6 +2829,8 @@ var _innerMethods = require('./innerMethods');
 &nbsp;
 var _innerMethods2 = _interopRequireDefault(_innerMethods);
 &nbsp;
+var _timers = require('core-js/library/web/timers');
+&nbsp;
 function _interopRequireDefault(obj) { return obj &amp;&amp; obj.__esModule ? <span class="branch-0 cbranch-no" title="branch not covered" >obj </span>: { 'default': obj }; }
 &nbsp;
 function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i &lt; keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); <span class="missing-if-branch" title="if path not taken" >I</span>if (value &amp;&amp; value.configurable &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >obj[key] === undefined)</span> { <span class="cstat-no" title="statement not covered" >Object.defineProperty(obj, key, value); </span>} } return obj; }
@@ -2882,9 +2912,11 @@ var Table = function (_React$Component) {
       this.rootWidth = this.root.clientWidth;
     }
     <span class="missing-if-branch" title="if path not taken" >I</span>if (this.hasPercentWidth) {
-<span class="cstat-no" title="statement not covered" >      setTimeout(<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >      (0, _timers.setTimeout)(<span class="fstat-no" title="function not covered" >function () {</span></span>
 <span class="cstat-no" title="statement not covered" >        _this2.setState({</span>
           columns: _this2.processColumn()
+        }, <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >          _this2.checkRightFixed(true);</span>
         });
       }, 200);
     }
@@ -3184,9 +3216,11 @@ var Table = function (_React$Component) {
 &nbsp;
     var isJsonp = props.isJsonp === undefined ? /\.jsonp/.test(props.fetchUrl) : <span class="branch-1 cbranch-no" title="branch not covered" >props.isJsonp;</span>
     me.request = _nattyFetch2['default'].create({
+      method: props.fetchMethod,
       url: props.fetchUrl,
       data: me.getQueryObj(from, props),
       fit: props.fitResponse,
+      withCredentials: props.fetchWithCredentials,
       jsonp: isJsonp,
       Promise: _lie2['default']
     });
@@ -3382,7 +3416,7 @@ var Table = function (_React$Component) {
 <span class="cstat-no" title="statement not covered" >    var _this3 = this;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (!isEnter) {</span>
-<span class="cstat-no" title="statement not covered" >      this.rowHoverTimer = setTimeout(<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >      this.rowHoverTimer = (0, _timers.setTimeout)(<span class="fstat-no" title="function not covered" >function () {</span></span>
 <span class="cstat-no" title="statement not covered" >        _this3.setState({</span>
           currentHoverRow: -1
         });
@@ -3548,6 +3582,15 @@ var Table = function (_React$Component) {
     return (0, _addEventListener2['default'])(window, 'resize', <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >      _this5.checkRightFixed();</span>
 <span class="cstat-no" title="statement not covered" >      _this5.resizeColumns();</span>
+<span class="cstat-no" title="statement not covered" >      clearTimeout(_this5.adjustFixedTimer);</span>
+<span class="cstat-no" title="statement not covered" >      _this5.adjustFixedTimer = (0, _timers.setTimeout)(<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (_this5.bodyFixed) {</span>
+<span class="cstat-no" title="statement not covered" >          _this5.bodyFixed.adjustMultilineFixedRowHeight();</span>
+        }
+<span class="cstat-no" title="statement not covered" >        if (_this5.bodyRightFixed) {</span>
+<span class="cstat-no" title="statement not covered" >          _this5.bodyRightFixed.adjustMultilineFixedRowHeight();</span>
+        }
+      }, 200);
     });
   };
 &nbsp;
@@ -3584,7 +3627,6 @@ var Table = function (_React$Component) {
 <span class="cstat-no" title="statement not covered" >        this.hasPercentWidth = true;</span>
 <span class="cstat-no" title="statement not covered" >        if (this.root) {</span>
 <span class="cstat-no" title="statement not covered" >          var tableWidth = this.root.clientWidth;</span>
-<span class="cstat-no" title="statement not covered" >          console.log(tableWidth);</span>
 <span class="cstat-no" title="statement not covered" >          item.width = parseFloat(item.width) * tableWidth / 100;</span>
         }
       }
@@ -3897,7 +3939,7 @@ var Table = function (_React$Component) {
     return _react2['default'].createElement(
       'div',
       {
-        className: (0, _classnames3['default'])((_classnames = {}, _defineProperty(_classnames, props.className, !!props.className), _defineProperty(_classnames, props.prefixCls, true), _defineProperty(_classnames, props.prefixCls + '-' + props.size + '-size', true), _defineProperty(_classnames, 'kuma-subgrid-mode', !!props.passedData), _defineProperty(_classnames, props.prefixCls + '-tree-mode', props.renderModel === 'tree'), _classnames)),
+        className: (0, _classnames3['default'])((_classnames = {}, _defineProperty(_classnames, props.className, !!props.className), _defineProperty(_classnames, props.prefixCls, true), _defineProperty(_classnames, props.prefixCls + '-' + props.size + '-size', true), _defineProperty(_classnames, 'kuma-subgrid-mode', !!props.passedData), _defineProperty(_classnames, props.prefixCls + '-tree-mode', props.renderModel === 'tree'), _defineProperty(_classnames, props.prefixCls + '__no-data', data.length === 0), _classnames)),
         style: style,
         ref: _util2['default'].saveRef('root', this)
       },
@@ -3910,8 +3952,8 @@ var Table = function (_React$Component) {
             width: props.passedData ? 'auto' : props.width
           }
         },
-        this.renderLeftFixedTable(renderHeaderProps, renderBodyProps, bodyHeight),
         this.renderMainTable(renderHeaderProps, renderBodyProps, bodyHeight),
+        this.renderLeftFixedTable(renderHeaderProps, renderBodyProps, bodyHeight),
         this.renderRightFixedTable(renderHeaderProps, renderBodyProps, bodyHeight)
       ),
       this.renderPager()
@@ -4039,7 +4081,7 @@ module.exports = exports['default'];
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Dec 13 2017 20:12:22 GMT+0800 (CST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jan 29 2018 20:43:46 GMT+0800 (CST)
 </div>
 </div>
 <script src="../prettify.js"></script>

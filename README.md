@@ -113,6 +113,7 @@ $ npm start
 |jsxdata             |object              |optional  |-           | -         |在远端数据还没有返回时用作默认数据|
 |fetchUrl            |string              |optional  |""          | -         |表格的数据源|
 |fetchParams         |object              |optional  |-           | -         |表格在请求数据时，会额外附带的参数，具有最高的优先级|
+|fetchWithCredentials|bool                |optional  |-   | 7.8.0     | 同 [NattyFetch](https://github.com/jias/natty-fetch/blob/master/docs/options.md#withcredentials) 配置
 |actionBar           |object/array        |optional  |null        | -         |表格内置的操作条配置，详细[见此](#actionbar)|
 |beforeFetch         |function(data, from)|optional  |noop        | -         |两个参数，data 表示表格请求数据时即将发送的参数，from 表示这次请求数据的行为从哪里产生，内置的有 `search`(搜索栏),`order`(排序) & `pagination`(分页)，该函数需要返回值，返回值为真正请求所携带的参数。|
 |processData         |function(data)      |optional  |noop        | -         |有时源返回的数据格式，并不符合 Table 的要求，可以通过此函数进行调整，参数 data 是返回数据中 content 字段的 value，该函数需要返回值，返回值为符合 content 字段 value 的数据结构。|
