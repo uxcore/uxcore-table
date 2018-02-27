@@ -797,9 +797,10 @@ class Table extends React.Component {
       }
     }
     // filter the column which has a dataKey 'jsxchecked' & 'jsxtreeIcon'
+    // filter the column whose dataKey is rowGroupKey
 
     columns = columns.filter(item =>
-      item.dataKey !== 'jsxchecked' && item.dataKey !== 'jsxtreeIcon',
+      item.dataKey !== 'jsxchecked' && item.dataKey !== 'jsxtreeIcon' && item.dataKey !== actualProps.rowGroupKey,
     );
 
     if (!!actualProps.rowSelection && !hasCheckboxColumn) {
@@ -1053,8 +1054,9 @@ class Table extends React.Component {
       width: props.width,
       mode: props.mode,
       levels: props.levels,
-      root: this,
       renderModel: props.renderModel,
+      rowGroupKey: props.rowGroupKey,
+      root: this,
       changeSelected: this.changeSelected,
       handleDataChange: this.handleDataChange,
       attachCellField: this.attachCellField,

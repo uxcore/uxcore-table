@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import { hasClass } from 'rc-util/lib/Dom/class';
 import EmptyData from 'uxcore-empty-data';
+import Collapse from 'uxcore-collapse';
 import raf from 'raf';
 import Row from './Row';
 import util from './util';
@@ -90,24 +91,38 @@ class Tbody extends React.Component {
     }
   }
 
+  adjustRowsHeight(index) {
+    const mainBody = this.props.root.getMainBody();
+    const mainTableRow = mainBody.getRow(index);
+    if (mainTableRow) {
+      const mainTableRowNode = mainTableRow.getDom();
+
+      if (hasClass(mainTableRowNode, 'multiline')) {
+        const height = mainTableRowNode.clientHeight;
+        const row = this.getRow(index);
+        const rowNode = row.getInnerBox();
+        rowNode.style.height = `${height}px`;
+      }
+    }
+  }
+
   adjustMultilineFixedRowHeight() {
     const isFixedTable = ['fixed', 'rightFixed'].indexOf(this.props.fixedColumn) !== -1;
     if (isFixedTable) {
       const mainBody = this.props.root.getMainBody();
       if (mainBody) {
-        this.props.data.forEach((item, index) => {
-          const mainTableRow = mainBody.getRow(index);
-          if (mainTableRow) {
-            const mainTableRowNode = mainTableRow.getDom();
-
-            if (hasClass(mainTableRowNode, 'multiline')) {
-              const height = mainTableRowNode.clientHeight;
-              const row = this.getRow(index);
-              const rowNode = row.getInnerBox();
-              rowNode.style.height = `${height}px`;
-            }
-          }
-        });
+        if (!this.props.rowGroupKey) {
+          this.props.data.forEach((item, index) => {
+            this.adjustRowsHeight(index);
+          });
+        } else {
+          this.rowGroupArr.forEach((rowGroupName, i) => {
+            this.rowGroupMap[rowGroupName].forEach((item, j) => {
+              const index = `${i}-${j}`;
+              this.adjustRowsHeight(index);
+            });
+          });
+        }
       }
     }
   }
@@ -200,42 +215,92 @@ class Tbody extends React.Component {
     } else {
       bodyWrapClassName = 'kuma-uxtable-body-no';
     }
-    const rows = data.map((item, index) => {
-      const renderProps = {
-        columns,
-        index,
-        data,
-        rowIndex: item.jsxid, // tree mode, rowIndex need think more, so use jsxid
-        rowData: deepcopy(data[index]),
-        isHover: props.currentHoverRow === index,
-        root: props.root,
-        locale: props.locale,
-        subComp: props.subComp,
-        actions: props.actions,
-        key: `row${index}`,
-        ref: (c) => {
-          this[`row${index}`] = c;
-        },
-        mode: props.mode,
-        renderModel: props.renderModel,
-        fixedColumn: props.fixedColumn,
-        level: 1,
-        levels: props.levels,
-        expandedKeys: props.expandedKeys,
-        renderSubComp: props.renderSubComp,
-        changeSelected: me.props.changeSelected,
-        checkboxColumnKey: props.checkboxColumnKey,
-        addRowClassName: props.addRowClassName,
-        rowSelection: props.rowSelection,
-        handleDataChange: props.handleDataChange,
-        attachCellField: props.attachCellField,
-        detachCellField: props.detachCellField,
-        visible: true,
-        last: (index === data.length - 1),
-      };
-      return <Row {...renderProps} />;
-    });
-    // const content = util.getIEVer() >= 8 ? rows : <QueueAnim>{rows}</QueueAnim>;
+    let rows = [];
+    const commonProps = {
+      columns,
+      data,
+      root: props.root,
+      locale: props.locale,
+      subComp: props.subComp,
+      actions: props.actions,
+      mode: props.mode,
+      renderModel: props.renderModel,
+      fixedColumn: props.fixedColumn,
+      level: 1,
+      levels: props.levels,
+      expandedKeys: props.expandedKeys,
+      renderSubComp: props.renderSubComp,
+      changeSelected: props.changeSelected,
+      checkboxColumnKey: props.checkboxColumnKey,
+      addRowClassName: props.addRowClassName,
+      rowSelection: props.rowSelection,
+      handleDataChange: props.handleDataChange,
+      attachCellField: props.attachCellField,
+      detachCellField: props.detachCellField,
+      visible: true,
+    };
+    if (!this.props.rowGroupKey) {
+      rows = data.map((item, index) => {
+        const renderProps = {
+          ...commonProps,
+          index,
+          rowIndex: item.jsxid, // tree mode, rowIndex need think more, so use jsxid
+          rowData: item,
+          isHover: props.currentHoverRow === index,
+          key: `row${index}`,
+          ref: (c) => {
+            this[`row${index}`] = c;
+          },
+          last: (index === data.length - 1),
+        };
+        return <Row {...renderProps} />;
+      });
+    } else {
+      this.rowGroupMap = {};
+      this.rowGroupArr = [];
+      for (let i = 0; i < data.length; i++) {
+        const item = data[i];
+        let rowGroupName = item[this.props.rowGroupKey];
+        if (!rowGroupName) {
+          rowGroupName = '__others__';
+        }
+        if (typeof rowGroupName !== 'string') {
+          console.error('Table: the corresponding data\'s type of rowGroupKey should be a string!');
+          this.rowGroupMap = {};
+          this.rowGroupArr = [];
+          break;
+        }
+        if (!Object.prototype.hasOwnProperty.call(this.rowGroupMap, rowGroupName)) {
+          this.rowGroupMap[rowGroupName] = [];
+          this.rowGroupArr.push(rowGroupName);
+        }
+        this.rowGroupMap[rowGroupName].push(item);
+      }
+      rows = (
+        <Collapse className={`${props.jsxprefixCls}-collapse`} onChange={(key) => { console.log(key); }}>
+          {this.rowGroupArr.map((rowGroupName, i) => (
+            <Collapse.Panel header={rowGroupName} key={i}>
+              {this.rowGroupMap[rowGroupName].map((item, j) => {
+                const index = `${i}-${j}`;
+                const renderProps = {
+                  ...commonProps,
+                  index,
+                  rowIndex: item.jsxid, // tree mode, rowIndex need think more, so use jsxid
+                  rowData: item,
+                  isHover: props.currentHoverRow === index,
+                  key: `row${index}`,
+                  ref: (c) => {
+                    this[`row${index}`] = c;
+                  },
+                  last: false,
+                };
+                return <Row {...renderProps} />;
+              })}
+            </Collapse.Panel>
+          ))}
+        </Collapse>
+      );
+    }
     return (
       <div className={bodyWrapClassName} ref={this.saveRef('root')} style={style}>
         {this.renderEmptyData()}
@@ -263,6 +328,7 @@ Tbody.propTypes = {
   mask: PropTypes.bool,
   onScroll: PropTypes.func,
   root: PropTypes.any,
+  rowGroupKey: PropTypes.string,
 };
 
 Tbody.defaultProps = {

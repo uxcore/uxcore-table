@@ -13,7 +13,6 @@ import CheckBox from './Cell/CheckBox';
 import util from './util';
 
 class Row extends React.Component {
-
   shouldComponentUpdate(nextProps) {
     // 需要考虑的 prop 包括
     // columns, rowIndex(s => simple), rowData, index(s),
@@ -217,12 +216,11 @@ class Row extends React.Component {
   }
 
   render() {
+    const me = this;
     const props = this.props;
     let _columns = [];
     let _style = {};
-    const _data = props.data;
-    const me = this;
-    const otherCls = props.addRowClassName(_data[props.index]);
+    const otherCls = props.addRowClassName(deepcopy(props.rowData));
 
     if (!this.props.visible) {
       _style = {
@@ -324,7 +322,6 @@ class Row extends React.Component {
       </li>
     );
   }
-
 }
 
 
@@ -343,7 +340,10 @@ Row.propTypes = {
   levels: PropTypes.number,
   onClick: PropTypes.func,
   onMouseEnter: PropTypes.func,
-  index: PropTypes.number,
+  index: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]),
   height: PropTypes.number,
 };
 
