@@ -24,6 +24,20 @@ const { createCellField } = Table;
 
 const mockData = {
   data: [
+    {
+      email: 'xw@abc.com',
+      nameId: 'xiaowang',
+      name: '小王',
+      cityId: 'bj',
+      city: '北京',
+    },
+    {
+      email: 'xl@abc.com',
+      nameId: 'xiaoli',
+      name: '小李',
+      cityId: 'hz',
+      city: '杭州',
+    },
   ],
   currentPage: 1,
   totalCount: 10,
@@ -182,7 +196,7 @@ class Demo extends React.Component {
         width: 300,
         type: 'action',
         actionType: 'link',
-        collapseNum: 1,
+        collapseNum: 3,
         actions: [
           {
             title: '编辑',
