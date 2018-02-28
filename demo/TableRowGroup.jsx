@@ -43,7 +43,7 @@ class Demo extends React.Component {
     const tableProps = {
       jsxcolumns: [
         { dataKey: 'company', title: '公司', width: 200 },
-        { dataKey: 'title', title: '标题', width: 200 },
+        { dataKey: 'title', title: '标题', width: 200, fixed: true },
         { dataKey: 'entity', title: '支付实体', width: 200 },
         { dataKey: 'institution', title: '金融机构', width: 200 },
         { dataKey: 'person', title: '申请人', width: 200 },
@@ -53,6 +53,8 @@ class Demo extends React.Component {
       },
       className: 'kuma-uxtable-split-line',
       rowGroupKey: 'company',
+      showColumnPicker: true,
+      width: 600,
     };
     return (
       <Table {...tableProps} />

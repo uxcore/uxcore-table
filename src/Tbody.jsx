@@ -277,7 +277,7 @@ class Tbody extends React.Component {
         this.rowGroupMap[rowGroupName].push(item);
       }
       rows = (
-        <Collapse className={`${props.jsxprefixCls}-collapse`} onChange={(key) => { console.log(key); }}>
+        <Collapse activeKey={props.rowGroupActiveKey || '0'} className={`${props.jsxprefixCls}-collapse`} onChange={(key, activeKey) => { props.onCollapseChange(activeKey); }}>
           {this.rowGroupArr.map((rowGroupName, i) => (
             <Collapse.Panel header={rowGroupName} key={i}>
               {this.rowGroupMap[rowGroupName].map((item, j) => {

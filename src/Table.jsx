@@ -1040,6 +1040,8 @@ class Table extends React.Component {
       mask: state.showMask,
       expandedKeys: state.expandedKeys,
       currentHoverRow: state.currentHoverRow,
+      rowGroupActiveKey: state.rowGroupActiveKey,
+      onCollapseChange: (activeKey) => { this.setState({ rowGroupActiveKey: activeKey }); },
       data,
       bodyHeight,
       rowSelection: props.rowSelection,

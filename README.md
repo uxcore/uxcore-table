@@ -124,6 +124,7 @@ $ npm start
 |onColumnPick        |function(columns)   |optional  |noop        | 7.6.0     |勾选自定义列时触发，参数为勾选后的 columns |
 |addRowClassName     |function(rowData)   |optional  |noop        | -         |用于为特定的某几行添加特殊的 class，用于样式定制|
 |rowSelection        |object              |optional  |noop        | -         |选中复选框时触发的回调，rowSelection 是由回调函数组成的对象，包括 onSelect 和 onSelectAll，例子见此| 
+|rowGroupKey         |string              |optional  |            | 8.3.0     |用于行分组，可选值为 columns 设置中 dataKey，使用对应的列内容做行分组 |
 
 
 ### 折叠展开专用
