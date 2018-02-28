@@ -2,6 +2,9 @@
 
 ---
 
+## 8.2.0
+
+* `CHANGED` update `uxcore-checkbox-cell-field` to `^0.2.0`
 
 ## 8.1.1
 

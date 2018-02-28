@@ -6,7 +6,6 @@ import React from 'react';
 const { Item } = RadioGroup;
 
 class RadioField extends CellField {
-
   getTextMap() {
     const me = this;
     const obj = {};
@@ -77,7 +76,6 @@ class RadioField extends CellField {
       </RadioGroup>
     );
   }
-
 }
 
 RadioField.propTypes = assign({}, CellField.propTypes);
