@@ -134,6 +134,13 @@ class Tbody extends React.Component {
     };
   }
 
+  getRowGroupName(name) {
+    if (name === '__others__') {
+      return i18n[this.props.locale][name];
+    }
+    return name;
+  }
+
   renderEmptyData() {
     if (this.props.data.length === 0 && !this.props.mask) {
       const style = {};
@@ -279,7 +286,7 @@ class Tbody extends React.Component {
       rows = (
         <Collapse activeKey={props.rowGroupActiveKey || '0'} className={`${props.jsxprefixCls}-collapse`} onChange={(key, activeKey) => { props.onCollapseChange(activeKey); }}>
           {this.rowGroupArr.map((rowGroupName, i) => (
-            <Collapse.Panel header={rowGroupName} key={i}>
+            <Collapse.Panel header={this.getRowGroupName(rowGroupName)} key={i}>
               {this.rowGroupMap[rowGroupName].map((item, j) => {
                 const index = `${i}-${j}`;
                 const renderProps = {
