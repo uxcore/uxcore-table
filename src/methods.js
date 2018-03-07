@@ -6,8 +6,16 @@ function addEmptyRow(cb) {
   this.insertRecords({}, cb);
 }
 
+function addEmptyRowFromTop(cb) {
+  this.insertRecords({}, cb, true);
+}
+
 function addRow(rowData, cb) {
   this.insertRecords(rowData, cb);
+}
+
+function addRowFromTop(rowData, cb) {
+  this.insertRecords(rowData, cb, true);
 }
 
 function resetRow(rowData, cb) {
@@ -246,7 +254,9 @@ function toggleTreeExpanded(rowData, cb) {
 
 export default {
   addEmptyRow,
+  addEmptyRowFromTop,
   addRow,
+  addRowFromTop,
   resetRow,
   resetAllRow,
   delRow,

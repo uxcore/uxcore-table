@@ -251,6 +251,22 @@ describe('inlineEdit', () => {
     });
   });
 
+  it('api addEmptyRowFromTop', (done) => {
+    wrapper = mount(
+      <Table
+        {...common}
+        jsxcolumns={[{
+          dataKey: 'id', title: 'ID', type: 'text',
+        }]}
+      />
+    );
+    wrapper.instance().addEmptyRowFromTop(() => {
+      expect(wrapper.instance().getData().data.data).to.have.length(2);
+      expect(wrapper.instance().getData().data.data[1].id).to.be('1');
+      done();
+    });
+  });
+
   it('api addRow', (done) => {
     wrapper = mount(
       <Table
@@ -263,6 +279,22 @@ describe('inlineEdit', () => {
     wrapper.instance().addRow({ id: '2' }, () => {
       expect(wrapper.instance().getData().data.data).to.have.length(2);
       expect(wrapper.instance().getData().data.data[1].id).to.be('2');
+      done();
+    });
+  });
+
+  it('api addRowFromTop', (done) => {
+    wrapper = mount(
+      <Table
+        {...common}
+        jsxcolumns={[{
+          dataKey: 'id', title: 'ID', type: 'text',
+        }]}
+      />
+    );
+    wrapper.instance().addRowFromTop({ id: '2' }, () => {
+      expect(wrapper.instance().getData().data.data).to.have.length(2);
+      expect(wrapper.instance().getData().data.data[0].id).to.be('2');
       done();
     });
   });

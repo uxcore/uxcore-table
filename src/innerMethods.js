@@ -55,7 +55,7 @@ function addValuesInData(objAux) {
  * @param objAux {Array or Object} datum or data need to be inserted
  */
 
-function insertRecords(obj, cb) {
+function insertRecords(obj, cb, reverse) {
   if (typeof obj !== 'object') return;
   const me = this;
   let objAux = deepcopy(obj);
@@ -63,7 +63,7 @@ function insertRecords(obj, cb) {
     objAux = [objAux];
   }
   objAux = me.addJSXIdsForRecord(objAux);
-  const content = util.mergeData(me.state.data, objAux);
+  const content = util.mergeData(me.state.data, objAux, reverse);
   me.data = content;
   me.setState({
     data: content,

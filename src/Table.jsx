@@ -1102,7 +1102,6 @@ class Table extends React.Component {
       };
       actionBar = <ActionBar {...renderActionProps} />;
     }
-
     return (
       <div
         className={classnames({

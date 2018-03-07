@@ -43,7 +43,9 @@ $ npm start
 
 * getData(): 返回表格的数据，并作校验。
 * addEmptyRow(): 添加一个空的新行。
+* addEmptyRowFromTop(): 从顶部添加一个空的新行。
 * addRow(rowData): 以指定数据添加一个新行。
+* addRowFromTop(): 以指定数据从顶部添加一个新行。
 * delRow(rowData): 删除一个新行。
 * editRow(rowData): 使指定的行切换到编辑模式。
 * editAllRow(): 使所有行切换到编辑模式。
