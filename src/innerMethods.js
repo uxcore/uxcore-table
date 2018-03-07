@@ -55,7 +55,7 @@ function addValuesInData(objAux) {
  * @param objAux {Array or Object} datum or data need to be inserted
  */
 
-function insertRecords(obj, cb, reverse) {
+function insertRecords(obj, reverse, cb) {
   if (typeof obj !== 'object') return;
   const me = this;
   let objAux = deepcopy(obj);
