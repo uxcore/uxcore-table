@@ -3,11 +3,19 @@ import Const from 'uxcore-const';
 import util from './util';
 
 function addEmptyRow(cb) {
-  this.insertRecords({}, cb);
+  this.insertRecords({}, false, cb);
+}
+
+function addEmptyRowFromTop(cb) {
+  this.insertRecords({}, true, cb);
 }
 
 function addRow(rowData, cb) {
-  this.insertRecords(rowData, cb);
+  this.insertRecords(rowData, false, cb);
+}
+
+function addRowFromTop(rowData, cb) {
+  this.insertRecords(rowData, true, cb);
 }
 
 function resetRow(rowData, cb) {
@@ -246,7 +254,9 @@ function toggleTreeExpanded(rowData, cb) {
 
 export default {
   addEmptyRow,
+  addEmptyRowFromTop,
   addRow,
+  addRowFromTop,
   resetRow,
   resetAllRow,
   delRow,

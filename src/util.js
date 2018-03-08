@@ -77,13 +77,18 @@ const formatValue = (value, type, delimiter) => {
   return newValue;
 };
 
-const mergeData = (data, obj) => {
+const arrayConcat = (oldArr, newArr, reverse) => {
+  const resArr = reverse ? newArr.concat(oldArr) : oldArr.concat(newArr);
+  return resArr;
+};
+
+const mergeData = (data, obj, reverse) => {
   const newData = deepcopy(data);
   // code compatible
   if (newData.datas) {
-    newData.datas = newData.datas.concat(obj);
+    newData.datas = arrayConcat(newData.datas, obj, reverse);
   } else if (newData.data) {
-    newData.data = newData.data.concat(obj);
+    newData.data = arrayConcat(newData.data, obj, reverse);
   }
   newData.totalCount += 1;
   return newData;

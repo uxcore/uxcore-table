@@ -267,6 +267,12 @@ class Demo extends React.Component {
           },
         },
         {
+          title: '从顶部新增行',
+          callback: () => {
+            me.table.addEmptyRowFromTop();
+          },
+        },
+        {
           title: '编辑所有行',
           callback: () => {
             me.table.editAllRow();
