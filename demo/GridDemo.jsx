@@ -7,11 +7,13 @@
  */
 
 import Button from 'uxcore-button';
-
 import React from 'react';
 import Table from '../src';
 
-//* 第一列为radio的demo
+/**
+ * @name Demo的标题
+ * @description Demo的描述，使用 react-docgen 挖出对应的内容，并作为组件站点 md 生成的源。
+ */
 class Demo extends React.Component {
   constructor(props) {
     super(props);

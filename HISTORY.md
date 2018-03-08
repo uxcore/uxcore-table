@@ -2,6 +2,10 @@
 
 ---
 
+## 8.3.0
+
+* `NEW` add new API `addEmptyRowFromTop` & `addRowFromTop(rowData)`
+
 ## 8.2.0
 
 * `CHANGED` update `uxcore-checkbox-cell-field` to `^0.2.0`
