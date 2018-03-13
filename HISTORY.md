@@ -2,6 +2,10 @@
 
 ---
 
+## 8.3.1
+
+* `CHANGED` remove Tbody repaint logic
+
 ## 8.3.0
 
 * `NEW` add new API `addEmptyRowFromTop` & `addRowFromTop(rowData)`

@@ -32,7 +32,6 @@ const processValue = (value) => {
 
 
 class SelectField extends CellField {
-
   constructor(props) {
     super(props);
     const me = this;
@@ -165,7 +164,6 @@ class SelectField extends CellField {
       </Select>
     );
   }
-
 }
 
 SelectField.propTypes = assign({}, CellField.propTypes);
