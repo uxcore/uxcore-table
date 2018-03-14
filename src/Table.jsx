@@ -1110,6 +1110,7 @@ class Table extends React.Component {
           [`${props.prefixCls}-${props.size}-size`]: true,
           'kuma-subgrid-mode': !!props.passedData,
           [`${props.prefixCls}-tree-mode`]: props.renderModel === 'tree',
+          [`${props.prefixCls}-row-group-mode`]: !!props.rowGroupKey,
           [`${props.prefixCls}__no-data`]: data.length === 0,
         })}
         style={style}

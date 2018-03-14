@@ -54,7 +54,7 @@ class Demo extends React.Component {
       className: 'kuma-uxtable-split-line',
       rowGroupKey: 'company',
       showColumnPicker: true,
-      width: 600,
+      // width: 600,
     };
     return (
       <Table {...tableProps} />
