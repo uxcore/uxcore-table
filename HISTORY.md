@@ -2,6 +2,10 @@
 
 ---
 
+## 8.3.2
+
+* `CHANGED` row group style adjustment.
+
 ## 8.3.1
 
 * `CHANGED` remove Tbody repaint logic
