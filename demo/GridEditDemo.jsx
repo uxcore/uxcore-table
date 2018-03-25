@@ -243,7 +243,7 @@ class Demo extends React.Component {
 
     const renderProps = {
       // height: 200,
-      // width: 1000,
+      width: 500,
       showPager: true,
       fetchParams: {},
       showSearch: true,

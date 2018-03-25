@@ -2,6 +2,10 @@
 
 ---
 
+## 8.3.4
+
+* `FIXED` body and header scroll will trigger each other additionally.
+
 ## 8.3.2
 
 * `CHANGED` row group style adjustment.

@@ -657,6 +657,11 @@ class Table extends React.Component {
   }
 
   handleBodyScroll(scrollLeft, scrollTop, column) {
+    this.bodyIsScorlling = true;
+    if (this.headerIsScrolling) {
+      this.headerIsScrolling = false;
+      return;
+    }
     const me = this;
     const headerNode = me.headerScroll;
     if (scrollLeft !== undefined && column === 'scroll') {
@@ -676,6 +681,11 @@ class Table extends React.Component {
   }
 
   handleHeaderScroll(scrollLeft) {
+    this.headerIsScrolling = true;
+    if (this.bodyIsScorlling) {
+      this.bodyIsScorlling = false;
+      return;
+    }
     const me = this;
     const bodyNode = me.bodyScroll;
     if (scrollLeft !== undefined) {
