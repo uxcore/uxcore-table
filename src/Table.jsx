@@ -34,6 +34,8 @@ import innerMethods from './innerMethods';
 const { createCellField } = CellField;
 const getStyle = get;
 
+let scrollCount = 0;
+
 class Table extends React.Component {
   constructor(props) {
     super(props);
@@ -664,6 +666,9 @@ class Table extends React.Component {
     }
     const me = this;
     const headerNode = me.headerScroll;
+    if(scrollCount < 5) {
+      scrollCount++;
+    }
     if (scrollLeft !== undefined && column === 'scroll') {
       headerNode.getDom().scrollLeft = scrollLeft;
     }
@@ -688,7 +693,8 @@ class Table extends React.Component {
     }
     const me = this;
     const bodyNode = me.bodyScroll;
-    if (scrollLeft !== undefined) {
+    scrollCount--;
+    if (scrollLeft !== undefined && scrollCount < 1) {
       bodyNode.getDom().scrollLeft = scrollLeft;
     }
   }

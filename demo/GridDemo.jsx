@@ -45,17 +45,32 @@ class Demo extends React.Component {
       {
         dataKey: 'firstName',
         title: 'FristName',
-        width: '15%',
+        width: 300,
       },
       {
         dataKey: 'lastName',
         title: 'LastName',
-        width: '55%',
+        width: 300,
       },
       {
         dataKey: 'email',
         title: 'Email',
-        width: '30%',
+        width: 300,
+        ordered: true,
+      },{
+        dataKey: 'firstName',
+        title: 'FristName',
+        width: 300,
+      },
+      {
+        dataKey: 'lastName',
+        title: 'LastName',
+        width: 300,
+      },
+      {
+        dataKey: 'email',
+        title: 'Email',
+        width: 300,
         ordered: true,
       },
       // {
