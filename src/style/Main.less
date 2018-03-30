@@ -269,7 +269,7 @@
   vertical-align: middle;
   >.kuma-icon {
     font-size: 16px;
-    color: #999999;
+    color: @normal-alpha-4;
     &:before {
       transition: transform 0.3s ease;
       display: inline-block;
@@ -577,6 +577,9 @@
 .@{uxtable-prefix}-row-group-mode {
   .@{uxtable-prefix}-content {
     border-bottom: none;
+  }
+  .@{uxtable-prefix}-header-wrapper {
+    border-bottom: 1px solid @split-line-color;
   }
 }
 

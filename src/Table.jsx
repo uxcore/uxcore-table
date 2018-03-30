@@ -402,7 +402,7 @@ class Table extends React.Component {
     });
 
     me.request().then((content) => {
-      const processedData = me.addValuesInData(props.processData(deepcopy(content)));
+      const processedData = me.addValuesInData(props.processData(deepcopy(content))) || {};
       const updateObj = {
         data: processedData,
         showMask: false,
