@@ -50,7 +50,7 @@ class SearchBar extends React.Component {
           onKeyDown={this.onKeyDown}
           onChange={this.handleChange}
         />
-        <i className="kuma-icon kuma-icon-search" onClick={this.doSearch} />
+        <i className="kuma-icon-search uxcore-icon uxicon-sousuo" onClick={this.doSearch} />
       </div>
     );
   }
