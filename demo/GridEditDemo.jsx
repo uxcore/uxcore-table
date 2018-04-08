@@ -246,7 +246,7 @@ class Demo extends React.Component {
       // width: 500,
       showPager: true,
       fetchParams: {},
-      showSearch: true,
+      // showSearch: true,
       showHeaderBorder: true,
       getSavedData: true,
       jsxdata: me.state.data,
@@ -258,51 +258,51 @@ class Demo extends React.Component {
           data: newData,
         });
       },
-      actionBar: [
-        {
-          title: '新增行',
-          // disabled: true,
-          callback: () => {
-            me.table.addEmptyRow();
-          },
-        },
-        {
-          title: '从顶部新增行',
-          callback: () => {
-            me.table.addEmptyRowFromTop();
-          },
-        },
-        {
-          title: '编辑所有行',
-          callback: () => {
-            me.table.editAllRow();
-          },
-        },
-        {
-          title: '恢复所有行',
-          callback: () => {
-            me.table.resetAllRow();
-          },
-        },
-      ],
-      linkBar: [
-        {
-          title: '操作外链一',
-          callback: () => {
-            alert(1);
-          },
-        },
-        {
-          title: '操作外链二',
-          callback: () => {
-            alert(2);
-          },
-        },
-      ],
+      // actionBar: [
+      //   {
+      //     title: '新增行',
+      //     // disabled: true,
+      //     callback: () => {
+      //       me.table.addEmptyRow();
+      //     },
+      //   },
+      //   {
+      //     title: '从顶部新增行',
+      //     callback: () => {
+      //       me.table.addEmptyRowFromTop();
+      //     },
+      //   },
+      //   {
+      //     title: '编辑所有行',
+      //     callback: () => {
+      //       me.table.editAllRow();
+      //     },
+      //   },
+      //   {
+      //     title: '恢复所有行',
+      //     callback: () => {
+      //       me.table.resetAllRow();
+      //     },
+      //   },
+      // ],
+      // linkBar: [
+      //   {
+      //     title: '操作外链一',
+      //     callback: () => {
+      //       alert(1);
+      //     },
+      //   },
+      //   {
+      //     title: '操作外链二',
+      //     callback: () => {
+      //       alert(2);
+      //     },
+      //   },
+      // ],
       // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
       // fetchUrl: "http://10.1.159.52:3002/demo/data.json",
       jsxcolumns: columns,
-      showColumnPicker: true,
+      // showColumnPicker: true,
       // locale: 'en-us',
       beforeFetch: (sendData) => {
         const newData = { ...sendData };

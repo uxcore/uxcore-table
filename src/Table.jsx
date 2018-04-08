@@ -1094,8 +1094,12 @@ class Table extends React.Component {
 
     let actionBar;
 
-
-    if (props.actionBar || props.linkBar || props.showSearch || props.showColumnPicker) {
+    const shouldRenderActionBar = config =>
+      (config.actionBar && config.actionBar.length)
+      || (config.linkBar && config.linkBar.length)
+      || config.showSearch
+      || config.showColumnPicker;
+    if (shouldRenderActionBar(props)) {
       const renderActionProps = {
         actionBarConfig: this.props.actionBar,
         showColumnPicker: this.props.showColumnPicker,
