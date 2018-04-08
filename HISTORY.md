@@ -2,6 +2,10 @@
 
 ---
 
+## 8.3.7
+
+* `FIXED` should not render ActionBar only when `props.actionBar` is an empty array
+
 ## 8.3.4
 
 * `FIXED` body and header scroll will trigger each other additionally.
