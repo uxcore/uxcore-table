@@ -289,6 +289,7 @@ class Row extends React.Component {
               rowSelection: props.rowSelection,
               actions: props.actions,
               mode: props.mode,
+              bodyNode: props.bodyNode,
               handleDataChange: props.handleDataChange,
               attachCellField: props.attachCellField,
               detachCellField: props.detachCellField,

@@ -38,6 +38,48 @@ const mockData = {
       cityId: 'hz',
       city: '杭州',
     },
+    {
+      email: 'xl@abc.com',
+      nameId: 'xiaoli',
+      name: '小李',
+      cityId: 'hz',
+      city: '杭州',
+    },
+    {
+      email: 'xl@abc.com',
+      nameId: 'xiaoli',
+      name: '小李',
+      cityId: 'hz',
+      city: '杭州',
+    },
+    {
+      email: 'xl@abc.com',
+      nameId: 'xiaoli',
+      name: '小李',
+      cityId: 'hz',
+      city: '杭州',
+    },
+    {
+      email: 'xl@abc.com',
+      nameId: 'xiaoli',
+      name: '小李',
+      cityId: 'hz',
+      city: '杭州',
+    },
+    {
+      email: 'xl@abc.com',
+      nameId: 'xiaoli',
+      name: '小李',
+      cityId: 'hz',
+      city: '杭州',
+    },
+    {
+      email: 'xl@abc.com',
+      nameId: 'xiaoli',
+      name: '小李',
+      cityId: 'hz',
+      city: '杭州',
+    },
   ],
   currentPage: 1,
   totalCount: 10,
@@ -242,7 +284,7 @@ class Demo extends React.Component {
 
 
     const renderProps = {
-      // height: 200,
+      height: 300,
       // width: 500,
       showPager: true,
       fetchParams: {},

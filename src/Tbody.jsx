@@ -57,20 +57,6 @@ class Tbody extends React.Component {
     me.removeScrollTimer();
     me.scrollEndTimer = setTimeout(() => {
       me.props.onScroll(me.rootEl.scrollLeft, me.rootEl.scrollTop, fixedColumn);
-      // TODO: this force repainting logic will lead to a page's scrollToTop
-      // disable it until a more elegant method is proposed. 
-      // const forceRepaint = (node) => {
-      //   /* eslint-disable no-param-reassign */
-      //   /* eslint-disable no-unused-expressions */
-      //   node.style.display = 'none';
-      //   node.offsetHeight; // no need to store this anywhere, the reference is enough
-      //   node.style.display = '';
-      //   /* eslint-enable no-unused-expressions */
-      //   /* eslint-enable no-param-reassign */
-      // };
-      // if (this.ieVer < 9) {
-      //   forceRepaint(me.rootEl);
-      // }
     }, 200);
     this.scrollRafer = requestAnimationFrame(() => {
       me.props.onScroll(me.rootEl.scrollLeft, me.rootEl.scrollTop, fixedColumn);
@@ -248,6 +234,7 @@ class Tbody extends React.Component {
       attachCellField: props.attachCellField,
       detachCellField: props.detachCellField,
       visible: true,
+      bodyNode: this.root,
     };
     if (!this.props.rowGroupKey) {
       rows = data.map((item, index) => {

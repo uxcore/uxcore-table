@@ -2,6 +2,10 @@
 
 ---
 
+## 8.3.8
+
+* `FIXED` error tooltip fail to move with body scrolling
+
 ## 8.3.7
 
 * `FIXED` should not render ActionBar only when `props.actionBar` is an empty array
