@@ -565,7 +565,7 @@ describe('Table', () => {
         jsxcolumns={[{ dataKey: 'money', title: '金额', type: 'money' }]}
       />
     );
-    expect(wrapper.find('.kuma-uxtable-body').find('.kuma-uxtable-cell').at(0).text()).to.be('10 000');
+    expect(wrapper.find('.kuma-uxtable-body').find('.kuma-uxtable-cell').at(0).text()).to.be('10,000');
   });
 
   it('type card', () => {
