@@ -151,6 +151,17 @@ $ npm start
 |getSavedData    |boolean             |optional  |-          |true   |onChange 中的数据是否是保存之后的数据(通过了 saveRow() 的数据)|
 
 
+### 页底（Footer）
+
+页底是固定在表格底部的一个特殊行，可用于统计合计等场景。
+
+|Name            |Type                |Require   |Since Ver. |Default|Note |
+|---             |---                 |---       |---        |---    |---|
+|showFooter      |boolean             |optional  |8.4.0      |true   |在配置了 footer 参数后，是否显示页底|
+|showRowGroupFooter|boolean           |optional  |8.4.0      |false  |是否显示行分组中的 footer |
+|footer          |function({data, column, rowGroupData, from})|optional|8.4.0| - | 页底渲染函数，data 为表格数据（一个数组），column 为当前列配置，rowGroupData 和 from 在 showRowGroupFooter 为 true 时生效，分别返回当前行分组的所有数据，和一个标志位 'rowGroup' |
+
+
 ### 列配置项(jsxcolumns)
 
 |Key Name        |Type              |Since Ver.|Require  |Note   | 

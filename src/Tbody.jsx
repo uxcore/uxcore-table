@@ -10,10 +10,10 @@ import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import { hasClass } from 'rc-util/lib/Dom/class';
 import EmptyData from 'uxcore-empty-data';
 import Collapse from 'uxcore-collapse';
-import raf from 'raf';
 import Row from './Row';
 import util from './util';
 import i18n from './i18n';
+import Footer from './Footer';
 
 
 class Tbody extends React.Component {
@@ -44,23 +44,23 @@ class Tbody extends React.Component {
     const me = this;
     me.scrollListener.remove();
     me.removeScrollTimer();
-    if (this.scrollRafer) {
-      raf.cancel(this.scrollRafer);
-      this.scrollRafer = null;
-    }
+    // if (this.scrollRafer) {
+    //   raf.cancel(this.scrollRafer);
+    //   this.scrollRafer = null;
+    // }
   }
 
 
   onScroll() {
     const me = this;
     const { fixedColumn } = me.props;
+    me.props.onScroll(me.rootEl.scrollLeft, me.rootEl.scrollTop, fixedColumn);
+    // this.scrollRafer = requestAnimationFrame(() => {
+    // });
     me.removeScrollTimer();
     me.scrollEndTimer = setTimeout(() => {
       me.props.onScroll(me.rootEl.scrollLeft, me.rootEl.scrollTop, fixedColumn);
-    }, 200);
-    this.scrollRafer = requestAnimationFrame(() => {
-      me.props.onScroll(me.rootEl.scrollLeft, me.rootEl.scrollTop, fixedColumn);
-    });
+    }, 50);
   }
 
   getDom() {
@@ -146,6 +146,22 @@ class Tbody extends React.Component {
     return null;
   }
 
+  renderRowGroupFooter(rowGroupData) {
+    const { hasFooter, showRowGroupFooter, data, columns, footer, fixedColumn } = this.props;
+    if (!hasFooter || !showRowGroupFooter) {
+      return null;
+    }
+    const footerProps = {
+      data,
+      columns,
+      footer,
+      rowGroupData,
+      from: 'rowGroup',
+      fixedColumn,
+    };
+    return <Footer {...footerProps} />;
+  }
+
   render() {
     const me = this;
     const props = me.props;
@@ -208,6 +224,13 @@ class Tbody extends React.Component {
 
       columns = leftFixedColumns.concat(normalColumns, rightFixedColumns);
       bodyWrapClassName = 'kuma-uxtable-body-scroll';
+      if (props.hasFooter) {
+        style = {
+          ...style,
+          marginBottom: `-${scrollBarWidth}px`,
+          overflowX: 'scroll',
+        };
+      }
     } else {
       bodyWrapClassName = 'kuma-uxtable-body-no';
     }
@@ -289,10 +312,12 @@ class Tbody extends React.Component {
                   ref: (c) => {
                     this[`row${index}`] = c;
                   },
-                  last: false,
+                  last: i === this.rowGroupArr.length - 1
+                    && j === this.rowGroupMap[rowGroupName].length - 1,
                 };
                 return <Row {...renderProps} />;
               })}
+              {this.renderRowGroupFooter(this.rowGroupMap[rowGroupName])}
             </Collapse.Panel>
           ))}
         </Collapse>
@@ -310,6 +335,7 @@ class Tbody extends React.Component {
 }
 
 Tbody.propTypes = {
+  columns: PropTypes.any,
   jsxprefixCls: PropTypes.string,
   fixedColumn: PropTypes.string,
   locale: PropTypes.string,
@@ -326,6 +352,9 @@ Tbody.propTypes = {
   onScroll: PropTypes.func,
   root: PropTypes.any,
   rowGroupKey: PropTypes.string,
+  hasFooter: PropTypes.bool,
+  showRowGroupFooter: PropTypes.bool,
+  footer: PropTypes.func,
 };
 
 Tbody.defaultProps = {

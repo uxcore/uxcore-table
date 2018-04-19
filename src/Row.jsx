@@ -353,6 +353,7 @@ Row.defaultProps = {
   showSubComp: false,
   onClick: () => {},
   onMouseEnter: () => {},
+  addRowClassName: () => {},
 };
 
 export default Row;

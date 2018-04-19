@@ -14,7 +14,7 @@ import deepcopy from 'lodash/cloneDeep';
 import upperFirst from 'lodash/upperFirst';
 import deepEqual from 'lodash/isEqual';
 import classnames from 'classnames';
-import NattyFetch from 'natty-fetch/dist/natty-fetch.pc';
+import NattyFetch from 'natty-fetch';
 import Promise from 'lie';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -26,6 +26,7 @@ import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import Mask from './Mask';
 import util from './util';
 import Header from './Header';
+import Footer from './Footer';
 import Tbody from './Tbody';
 import ActionBar from './ActionBar';
 import methods from './methods';
@@ -276,30 +277,47 @@ class Table extends React.Component {
     }
   }
 
+  /**
+   * hide vertical scrollbar if table is not vertically scrollable
+   */
   checkBodyVScroll() {
-    if (this.bodyScroll && this.headerScroll) {
+    if (this.bodyScroll) {
       const { prefixCls } = this.props;
       const node = this.bodyScroll.getDom();
       // body does not exist if no data
       if (node.children[0]) {
         const wrapperHeight = node.clientHeight;
         const bodyHeight = node.children[0].clientHeight;
-        const headerDom = this.headerScroll.getDom();
+        const headerDom = this.headerScroll ? this.headerScroll.getDom() : null;
+        const footerDom = this.footerScroll ? this.footerScroll.getDom() : null;
         const noVScroll = bodyHeight <= wrapperHeight;
         if (this.noVScroll === undefined || this.noVScroll !== noVScroll) {
           if (noVScroll) {
             addClass(node, `${prefixCls}-no-v-scroll`);
-            addClass(headerDom, `${prefixCls}-no-v-scroll`);
+            if (headerDom) {
+              addClass(headerDom, `${prefixCls}-no-v-scroll`);
+            }
+            if (footerDom) {
+              addClass(footerDom, `${prefixCls}-no-v-scroll`);
+            }
           } else {
             removeClass(node, `${prefixCls}-no-v-scroll`);
-            removeClass(headerDom, `${prefixCls}-no-v-scroll`);
+            if (headerDom) {
+              removeClass(headerDom, `${prefixCls}-no-v-scroll`);
+            }
+            if (footerDom) {
+              removeClass(footerDom, `${prefixCls}-no-v-scroll`);
+            }
           }
           this.noVScroll = noVScroll;
         }
       }
     }
   }
-
+  /**
+   * add fixed body box-shadow when body is scrolling horizontally
+   * @param {number} scrollLeft body's current scrollLeft
+   */
   checkBodyHScroll(scrollLeft) {
     if (!this.hasFixed) {
       return false;
@@ -332,7 +350,7 @@ class Table extends React.Component {
 
   /**
    * cancel the CellField when it is unmounted.
-   * @param field {element} the cell field to be canceled.
+   * @param {element} field  the cell field to be canceled.
    */
 
   detachCellField(name) {
@@ -342,7 +360,7 @@ class Table extends React.Component {
 
   /**
    * fetch Data via Ajax
-   * @param from {string} tell fetchData where it is invoked, the param will be
+   * @param {string} from tell fetchData where it is invoked, the param will be
    * passed to props.beforeFetch in order to help the user.
    */
 
@@ -489,7 +507,7 @@ class Table extends React.Component {
   /**
    * get Query Object by combining data from searchBar, column order, pagination
    * and fetchParams.
-   * @param from {string} used in props.beforeFetch
+   * @param {string} from used in props.beforeFetch
    */
 
   getQueryObj(from, props) {
@@ -632,7 +650,8 @@ class Table extends React.Component {
       } else if (groupName === commonGroupName && item.group === undefined) {
         // current column is common group
         if (checkedKeys.indexOf(item.dataKey) !== -1
-          || notRenderColumns.indexOf(item.dataKey) !== -1) {
+          || notRenderColumns.indexOf(item.dataKey) !== -1
+          || item.type === 'action') {
           item.hidden = false;
         } else {
           item.hidden = true;
@@ -662,10 +681,20 @@ class Table extends React.Component {
       this.headerIsScrolling = false;
       return;
     }
+    if (this.footerIsScorlling) {
+      this.footerIsScorlling = false;
+      return;
+    }
     const me = this;
-    const headerNode = me.headerScroll;
     if (scrollLeft !== undefined && column === 'scroll') {
-      headerNode.getDom().scrollLeft = scrollLeft;
+      const headerNode = me.headerScroll;
+      const footerNode = me.footerScroll;
+      if (headerNode) {
+        headerNode.getDom().scrollLeft = scrollLeft;
+      }
+      if (footerNode) {
+        footerNode.getDom().scrollLeft = scrollLeft;
+      }
     }
     if (scrollTop !== undefined && this.hasFixed) {
       const columnType = ['fixed', 'rightFixed', 'scroll'];
@@ -686,10 +715,40 @@ class Table extends React.Component {
       this.bodyIsScorlling = false;
       return;
     }
-    const me = this;
-    const bodyNode = me.bodyScroll;
+    if (this.footerIsScorlling) {
+      this.footerIsScorlling = false;
+      return;
+    }
     if (scrollLeft !== undefined) {
+      const me = this;
+      const bodyNode = me.bodyScroll;
       bodyNode.getDom().scrollLeft = scrollLeft;
+      const footerDom = me.footerScroll ? me.footerScroll.getDom() : null;
+      if (footerDom) {
+        footerDom.scrollLeft = scrollLeft;
+      }
+    }
+  }
+
+  handleFooterScroll(scrollLeft) {
+    this.footerIsScrolling = true;
+    if (this.bodyIsScorlling) {
+      this.bodyIsScorlling = false;
+      return;
+    }
+    if (this.headerIsScrolling) {
+      this.headerIsScrolling = false;
+      return;
+    }
+
+    if (scrollLeft !== undefined) {
+      const me = this;
+      const bodyNode = me.bodyScroll;
+      bodyNode.getDom().scrollLeft = scrollLeft;
+      const headerDom = me.headerScrol ? me.headerScrol.getDom() : null;
+      if (headerDom) {
+        headerDom.scrollLeft = scrollLeft;
+      }
     }
   }
 
@@ -797,6 +856,10 @@ class Table extends React.Component {
           || (/kuma-uxtable-border-line/.test(actualProps.className) ? '40px' : '32px');
         item.align = item.align || 'left';
       }
+      if (item.type === 'money') {
+        item.align = item.align || 'right';
+        item.delimiter = item.delimiter || ',';
+      }
       if (/\d+%/.test(`${item.width}`)) {
         this.hasPercentWidth = true;
         if (this.root) {
@@ -885,18 +948,18 @@ class Table extends React.Component {
     });
   }
 
+  hasFooter() {
+    return this.props.showFooter && typeof this.props.footer === 'function';
+  }
+
 
   renderTbody(renderBodyProps, bodyHeight, fixedColumn) {
     const isFixedTable = ['fixed', 'rightFixed'].indexOf(fixedColumn) !== -1;
-    const scrollBarWidth = util.measureScrollbar();
     return (
       <div
         className={classnames('kuma-uxtable-body-wrapper', {
           'kuma-uxtable-fixed-body-wrapper': isFixedTable,
         })}
-        style={{
-          height: (!isNaN(bodyHeight) && isFixedTable) ? (bodyHeight - scrollBarWidth) : bodyHeight,
-        }}
       >
         <Tbody
           {...renderBodyProps}
@@ -922,6 +985,22 @@ class Table extends React.Component {
           fixedColumn={fixedColumn}
           ref={util.saveRef(`header${upperFirst(fixedColumn)}`, this)}
           onScroll={this.handleHeaderScroll}
+        />
+      </div>
+    );
+  }
+
+  renderFooter(renderFooterProps = {}, fixedColumn) {
+    if (!this.hasFooter()) {
+      return null;
+    }
+    return (
+      <div className="kuma-uxtable-footer-wrapper">
+        <Footer
+          {...renderFooterProps}
+          fixedColumn={fixedColumn}
+          ref={util.saveRef(`footer${upperFirst(fixedColumn)}`, this)}
+          onScroll={(scrollLeft) => { this.handleFooterScroll(scrollLeft); }}
         />
       </div>
     );
@@ -976,17 +1055,18 @@ class Table extends React.Component {
     return null;
   }
 
-  renderMainTable(renderHeaderProps, renderBodyProps, bodyHeight) {
+  renderMainTable({ renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight }) {
     const { prefixCls } = this.props;
     return (
       <div className={`${prefixCls}-main-table`} ref={util.saveRef('mainTable', this)}>
         {this.renderHeader(renderHeaderProps, 'scroll')}
         {this.renderTbody(renderBodyProps, bodyHeight, 'scroll')}
+        {this.renderFooter(renderFooterProps, 'scroll')}
       </div>
     );
   }
 
-  renderLeftFixedTable(renderHeaderProps, renderBodyProps, bodyHeight) {
+  renderLeftFixedTable({ renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight }) {
     if (!this.hasFixed || !this.hasFixed.hasLeft
       || !renderBodyProps.data || !renderBodyProps.data.length) {
       return null;
@@ -996,11 +1076,12 @@ class Table extends React.Component {
       <div className={`${prefixCls}-left-fixed-table`} ref={util.saveRef('fixedTable', this)}>
         {this.renderHeader(renderHeaderProps, 'fixed')}
         {this.renderTbody(renderBodyProps, bodyHeight, 'fixed')}
+        {this.renderFooter(renderFooterProps, 'fixed')}
       </div>
     );
   }
 
-  renderRightFixedTable(renderHeaderProps, renderBodyProps, bodyHeight) {
+  renderRightFixedTable({ renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight }) {
     if (!this.hasFixed || !this.hasFixed.hasRight
       || !renderBodyProps.data || !renderBodyProps.data.length) {
       return null;
@@ -1010,18 +1091,43 @@ class Table extends React.Component {
       <div className={`${prefixCls}-right-fixed-table`} ref={util.saveRef('rightFixedTable', this)}>
         {this.renderHeader(renderHeaderProps, 'rightFixed')}
         {this.renderTbody(renderBodyProps, bodyHeight, 'rightFixed')}
+        {this.renderFooter(renderFooterProps, 'rightFixed')}
       </div>
     );
+  }
+
+  renderActionBar() {
+    const shouldRenderActionBar = config =>
+      (config.actionBar && config.actionBar.length)
+      || (config.linkBar && config.linkBar.length)
+      || config.showSearch
+      || config.showColumnPicker;
+    if (shouldRenderActionBar(this.props)) {
+      const renderActionProps = {
+        actionBarConfig: this.props.actionBar,
+        showColumnPicker: this.props.showColumnPicker,
+        locale: this.props.locale,
+        linkBar: this.props.linkBar,
+        checkboxColumnKey: this.checkboxColumnKey,
+        showSearch: this.props.showSearch,
+        searchBarPlaceholder: this.props.searchBarPlaceholder,
+        columns: this.state.columns,
+        width: this.props.width,
+        onSearch: this.handleActionBarSearch,
+        handleColumnPickerChange: this.handleColumnPickerChange,
+        key: 'grid-actionbar',
+      };
+      return <ActionBar {...renderActionProps} />;
+    }
+    return null;
   }
 
   render() {
     const me = this;
     const { props, state } = this;
-    let bodyHeight;
     // if table is in sub mode, people always want to align the parent
     // and the sub table, so width should not be cared.
     const { headerHeight } = props;
-
     const data = state.data ? (state.data.datas || state.data.data) : [];
     const checkStatus = me.getCheckStatus(data);
 
@@ -1040,21 +1146,32 @@ class Table extends React.Component {
         break;
       }
     }
+
+    let bodyHeight;
     if (props.height === 'auto' || props.height === '100%') {
       bodyHeight = props.height;
     } else {
       bodyHeight = parseInt(props.height, 10) - (headerHeight || (hasGroup ? 100 : 50))
           - actionBarHeight - pagerHeight;
     }
-    const renderBodyProps = {
+
+    const commonProps = {
       columns: state.columns,
+      width: props.width,
+      mode: props.mode,
+      renderModel: props.renderModel,
+      checkboxColumnKey: me.checkboxColumnKey,
+    };
+
+    const renderBodyProps = {
+      ...commonProps,
       mask: state.showMask,
       expandedKeys: state.expandedKeys,
       currentHoverRow: state.currentHoverRow,
       rowGroupActiveKey: state.rowGroupActiveKey,
-      onCollapseChange: (activeKey) => { this.setState({ rowGroupActiveKey: activeKey }); },
       data,
       bodyHeight,
+      hasFooter: this.hasFooter(),
       rowSelection: props.rowSelection,
       addRowClassName: props.addRowClassName,
       locale: props.locale,
@@ -1062,84 +1179,64 @@ class Table extends React.Component {
       renderSubComp: this.hasFixed ? null : props.renderSubComp,
       rowHeight: props.rowHeight,
       loadingText: props.loadingText,
-      checkboxColumnKey: me.checkboxColumnKey,
       height: bodyHeight,
-      width: props.width,
-      mode: props.mode,
       levels: props.levels,
-      renderModel: props.renderModel,
       rowGroupKey: props.rowGroupKey,
+      footer: props.footer,
+      showRowGroupFooter: props.showRowGroupFooter,
       root: this,
+      onCollapseChange: (activeKey) => { this.setState({ rowGroupActiveKey: activeKey }); },
       changeSelected: this.changeSelected,
       handleDataChange: this.handleDataChange,
       attachCellField: this.attachCellField,
       detachCellField: this.detachCellField,
-      key: 'grid-body',
+      key: 'table-body',
     };
     const renderHeaderProps = {
-      columns: state.columns,
+      ...commonProps,
       activeColumn: state.activeColumn,
       orderType: state.orderType,
-      checkboxColumnKey: me.checkboxColumnKey,
       showHeaderBorder: props.showHeaderBorder,
       headerHeight: props.headerHeight,
-      renderModel: props.renderModel,
-      width: props.width,
-      mode: props.mode,
       checkStatus,
       selectAll: this.selectAll,
       orderColumnCB: this.handleOrderColumnCB,
-      key: 'grid-header',
+      key: 'table-header',
     };
 
-    let actionBar;
+    const renderFooterProps = {
+      ...commonProps,
+      data,
+      footer: props.footer,
+    };
 
-    const shouldRenderActionBar = config =>
-      (config.actionBar && config.actionBar.length)
-      || (config.linkBar && config.linkBar.length)
-      || config.showSearch
-      || config.showColumnPicker;
-    if (shouldRenderActionBar(props)) {
-      const renderActionProps = {
-        actionBarConfig: this.props.actionBar,
-        showColumnPicker: this.props.showColumnPicker,
-        locale: this.props.locale,
-        linkBar: this.props.linkBar,
-        checkboxColumnKey: me.checkboxColumnKey,
-        showSearch: this.props.showSearch,
-        searchBarPlaceholder: this.props.searchBarPlaceholder,
-        columns: state.columns,
-        width: props.width,
-        onSearch: this.handleActionBarSearch,
-        handleColumnPickerChange: this.handleColumnPickerChange,
-        key: 'grid-actionbar',
-      };
-      actionBar = <ActionBar {...renderActionProps} />;
-    }
+    const config = { renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight };
+
     return (
       <div
         className={classnames({
-          [props.className]: !!props.className,
           [props.prefixCls]: true,
           [`${props.prefixCls}-${props.size}-size`]: true,
+          [props.className]: !!props.className,
           'kuma-subgrid-mode': !!props.passedData,
           [`${props.prefixCls}-tree-mode`]: props.renderModel === 'tree',
           [`${props.prefixCls}-row-group-mode`]: !!props.rowGroupKey,
           [`${props.prefixCls}__no-data`]: data.length === 0,
+          [`${props.prefixCls}__has-footer`]: this.hasFooter(),
         })}
         style={style}
         ref={util.saveRef('root', this)}
       >
-        {actionBar}
+        {this.renderActionBar()}
         <div
           className="kuma-uxtable-content"
           style={{
             width: props.passedData ? 'auto' : props.width,
           }}
         >
-          {this.renderMainTable(renderHeaderProps, renderBodyProps, bodyHeight)}
-          {this.renderLeftFixedTable(renderHeaderProps, renderBodyProps, bodyHeight)}
-          {this.renderRightFixedTable(renderHeaderProps, renderBodyProps, bodyHeight)}
+          {this.renderMainTable(config)}
+          {this.renderLeftFixedTable(config)}
+          {this.renderRightFixedTable(config)}
         </div>
         {this.renderPager()}
       </div>
@@ -1153,6 +1250,8 @@ Table.defaultProps = {
   locale: 'zh-cn',
   size: 'middle',
   showHeader: true,
+  showFooter: true,
+  showRowGroupFooter: false,
   width: 'auto',
   height: 'auto',
   mode: Const.MODE.EDIT,
@@ -1221,6 +1320,8 @@ Table.propTypes = {
   doubleClickToEdit: PropTypes.bool,
   showColumnPicker: PropTypes.bool,
   showPager: PropTypes.bool,
+  showFooter: PropTypes.bool,
+  showRowGroupFooter: PropTypes.bool,
   isMiniPager: PropTypes.bool,
   showPagerTotal: PropTypes.bool,
   showPagerQuickJumper: PropTypes.bool,
@@ -1261,6 +1362,7 @@ Table.propTypes = {
   onChange: PropTypes.func,
   renderModel: PropTypes.string,
   levels: PropTypes.number,
+  footer: PropTypes.func,
 };
 
 Table.displayName = 'Table';

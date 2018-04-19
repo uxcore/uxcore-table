@@ -2,6 +2,11 @@
 
 ---
 
+## 8.4.0
+
+* `FIXED` action column will be hidden if columns' visibility is changed
+* `NEW` support `footer`, `showFooter`, `showRowGroupFooter`
+
 ## 8.3.8
 
 * `FIXED` error tooltip fail to move with body scrolling

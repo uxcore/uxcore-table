@@ -144,7 +144,7 @@ class Header extends React.Component {
       assign(style, {
         paddingRight: '4px',
         paddingLeft: '12px',
-        width: item.width ? item.width : '92px',
+        width: item.width ? item.width : '32px',
       });
 
       const checkBoxProps = {

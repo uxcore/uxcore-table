@@ -43,6 +43,11 @@
         background: @normal-alpha-9;
         border-bottom: 1px solid @split-line-color;
       }
+      &:last-child {
+        > .kuma-collapse-header[aria-expanded="false"] {
+          border-bottom: none;
+        }
+      }
     }
     .kuma-collapse-content {
       padding: 0;
@@ -78,6 +83,12 @@
   overflow-y: hidden;
 }
 
+.@{uxtable-prefix}-footer-wrapper {
+  overflow: hidden;
+  position: relative;
+  border-top: 1px solid @split-line-color;
+}
+
 .@{uxtable-prefix}-fixed-body-wrapper {
   overflow-x: hidden;
 }
@@ -96,6 +107,13 @@
   }
 }
 
+.@{uxtable-prefix}-footer {
+  display: inline-block;
+  color: @dark-alpha-2;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 .@{uxtable-prefix}-body {
   position: relative;
   display: inline-block;
@@ -105,6 +123,46 @@
   white-space: normal;
   background-color: @table-body-bg;
 }
+
+.@{uxtable-prefix}-body-no {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.@{uxtable-prefix}-body-scroll {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: scroll;
+  z-index: 1;
+  height: 100%;
+}
+
+.@{uxtable-prefix}-header-no {
+  overflow: scroll;
+}
+
+.@{uxtable-prefix}-header-scroll {
+  position: static;
+  overflow: scroll;
+  z-index: 1;
+  height: 100%;
+  .@{uxtable-prefix}-header {
+    background-color: @normal-alpha-8;
+  }
+}
+
+.@{uxtable-prefix}-footer-scroll {
+  overflow-x: auto;
+}
+
+.@{uxtable-prefix}-header-scroll,
+.@{uxtable-prefix}-body-scroll,
+.@{uxtable-prefix}-footer-scroll {
+  &.@{uxtable-prefix}-no-v-scroll {
+    overflow-y: hidden;
+  }
+}
+
 
 .@{uxtable-prefix}-body-emptyword {
   text-align: center;
@@ -195,6 +253,10 @@
     &>div {
       height: 40px;
     }
+  }
+  .kuma-uxtable-body-collapse > .kuma-collapse-item > .kuma-collapse-header {
+    height: 40px;
+    line-height: 40px;
   }
 }
 
@@ -377,40 +439,6 @@
 .@{uxtable-prefix}-right-fixed-table {
   right: 0;
   border-left: 1px solid @normal-alpha-7;
-}
-
-.@{uxtable-prefix}-body-no {
-  height: 100%;
-  overflow-y: auto;
-}
-
-.@{uxtable-prefix}-body-scroll {
-  position: relative;
-  overflow-x: auto;
-  overflow-y: scroll;
-  z-index: 1;
-  height: 100%;
-}
-
-.@{uxtable-prefix}-header-no {
-  overflow: scroll;
-}
-
-.@{uxtable-prefix}-header-scroll {
-  position: static;
-  overflow: scroll;
-  z-index: 1;
-  height: 100%;
-  .@{uxtable-prefix}-header {
-    background-color: @normal-alpha-8;
-  }
-}
-
-.@{uxtable-prefix}-header-scroll,
-.@{uxtable-prefix}-body-scroll {
-  &.@{uxtable-prefix}-no-v-scroll {
-    overflow-y: hidden;
-  }
 }
 
 .@{uxtable-prefix}-header-column-group {
