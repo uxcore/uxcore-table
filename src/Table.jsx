@@ -1097,11 +1097,24 @@ class Table extends React.Component {
   }
 
   renderActionBar() {
-    const shouldRenderActionBar = config =>
-      (config.actionBar && config.actionBar.length)
+    const shouldRenderActionBar = (config) => {
+      let shouldRenderAction = false;
+      if (config.actionBar) {
+        if (Array.isArray(config.actionBar)) {
+          if (config.actionBar.length) {
+            shouldRenderAction = true;
+          }
+        } else if (typeof actionBar === 'object') {
+          shouldRenderAction = true;
+        }
+      }
+      const shouldRender = shouldRenderAction
       || (config.linkBar && config.linkBar.length)
       || config.showSearch
       || config.showColumnPicker;
+      return shouldRender;
+    };
+
     if (shouldRenderActionBar(this.props)) {
       const renderActionProps = {
         actionBarConfig: this.props.actionBar,

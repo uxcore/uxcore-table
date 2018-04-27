@@ -2,6 +2,10 @@
 
 ---
 
+## 8.4.1
+
+* `FIXED` actionBar cannot show if `props.actionBar` is an object
+
 ## 8.4.0
 
 * `FIXED` action column will be hidden if columns' visibility is changed
