@@ -1104,7 +1104,7 @@ class Table extends React.Component {
           if (config.actionBar.length) {
             shouldRenderAction = true;
           }
-        } else if (typeof actionBar === 'object') {
+        } else if (typeof config.actionBar === 'object') {
           shouldRenderAction = true;
         }
       }

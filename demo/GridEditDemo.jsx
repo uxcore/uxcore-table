@@ -300,7 +300,9 @@ class Demo extends React.Component {
           data: newData,
         });
       },
-      actionBar: [],
+      actionBar: {
+        新增航: () => {},
+      },
       // actionBar: [
       //   {
       //     title: '新增行',
