@@ -2,6 +2,10 @@
 
 ---
 
+## 8.5.0
+
+* `CHANGED` support new prop `toggleSubCompOnRowClick`
+
 ## 8.4.1
 
 * `FIXED` actionBar cannot show if `props.actionBar` is an object

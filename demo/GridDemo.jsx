@@ -46,6 +46,23 @@ class Demo extends React.Component {
         dataKey: 'firstName',
         title: 'FristName',
         width: '15%',
+        filters: [{
+          text: 'Joe',
+          value: 'Joe',
+        }, {
+          text: 'Jim',
+          value: 'Jim',
+        }, {
+          text: 'Submenu',
+          value: 'Submenu',
+          children: [{
+            text: 'Green',
+            value: 'Green',
+          }, {
+            text: 'Black',
+            value: 'Black',
+          }],
+        }],
       },
       {
         dataKey: 'lastName',
@@ -58,35 +75,29 @@ class Demo extends React.Component {
         width: '30%',
         ordered: true,
       },
-      // {
-      //   dataKey: 'action1',
-      //   title: '操作1',
-      //   width: '200px',
-      //   type: 'action',
-      //   actions: [{
-      //     title: 'click',
-      //     callback: () => {
-      //     },
-      //     mode: 'edit',
-      //   }, {
-      //     title: '删除',
-      //     callback: () => {
-      //     },
-      //     mode: 'view',
-      //   }, {
-      //     title: 'view',
-      //     callback: () => { },
-      //     mode: 'edit',
-      //   }, {
-      //     title: 'view',
-      //     callback: () => { },
-      //   }],
-      // }, {
-      //   dataKey: 'action',
-      //   title: '链接',
-      //   width: '100px',
-      //   render: () => <div><a>111</a></div>,
-      // },
+      {
+        title: '操作1',
+        width: '200px',
+        type: 'action',
+        actions: [{
+          title: 'click',
+          callback: () => {
+          },
+          mode: 'edit',
+        }, {
+          title: '删除',
+          callback: () => {
+          },
+          mode: 'view',
+        }, {
+          title: 'view',
+          callback: () => { },
+          mode: 'edit',
+        }, {
+          title: 'view',
+          callback: () => { },
+        }],
+      },
     ];
     const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
     const renderProps = {
@@ -94,9 +105,11 @@ class Demo extends React.Component {
         edit: () => { },
         del: () => { },
       },
+      toggleSubCompOnRowClick: true,
       // width: 800,
       className: 'kuma-uxtable-split-line',
       pagerSizeOptions: [5, 10, 15, 20],
+      rowSelection,
       actionBar: {
         'Action Button': () => {
           console.log(me.table.getData());
@@ -125,45 +138,45 @@ class Demo extends React.Component {
       onColumnPick: (columns) => {
         console.log(columns);
       },
-      // renderSubComp: (rowData) => {
-      //   const subProps = {
-      //     jsxcolumns: [
-      //       {
-      //         dataKey: 'id',
-      //         title: '序号',
-      //       },
-      //       {
-      //         dataKey: 'class',
-      //         title: '分类',
-      //         width: '200px',
-      //       },
-      //       {
-      //         dataKey: 'dep',
-      //         title: '部门',
-      //         width: '200px',
-      //       },
-      //       {
-      //         dataKey: 'person',
-      //         title: '采购员',
-      //         width: '200px',
-      //       },
-      //     ],
-      //     jsxdata: {
-      //       data: [
-      //         { id: '001', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
-      //         { id: '002', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
-      //         { id: '003', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
-      //         { id: '004', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
-      //       ],
-      //     },
-      //     className: 'kuma-uxtable-ghost',
-      //   };
-      //   return (
-      //     <div style={{ padding: '0 24px', background: 'rgba(31,56,88,0.04)' }}>
-      //       <Table {...subProps} />
-      //     </div>
-      //   );
-      // },
+      renderSubComp: (rowData) => {
+        const subProps = {
+          jsxcolumns: [
+            {
+              dataKey: 'id',
+              title: '序号',
+            },
+            {
+              dataKey: 'class',
+              title: '分类',
+              width: '200px',
+            },
+            {
+              dataKey: 'dep',
+              title: '部门',
+              width: '200px',
+            },
+            {
+              dataKey: 'person',
+              title: '采购员',
+              width: '200px',
+            },
+          ],
+          jsxdata: {
+            data: [
+              { id: '001', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
+              { id: '002', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
+              { id: '003', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
+              { id: '004', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
+            ],
+          },
+          className: 'kuma-uxtable-ghost',
+        };
+        return (
+          <div style={{ padding: '0 24px', background: 'rgba(31,56,88,0.04)' }}>
+            <Table {...subProps} />
+          </div>
+        );
+      },
     };
     return (
       <div className="demo1">

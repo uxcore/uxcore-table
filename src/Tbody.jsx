@@ -238,6 +238,7 @@ class Tbody extends React.Component {
     const commonProps = {
       columns,
       data,
+      toggleSubCompOnRowClick: props.toggleSubCompOnRowClick,
       root: props.root,
       locale: props.locale,
       subComp: props.subComp,

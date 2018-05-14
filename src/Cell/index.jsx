@@ -115,6 +115,15 @@ class Cell extends React.Component {
     }
   }
 
+  handleCellClick(e) {
+    const me = this;
+    const { column, toggleSubCompOnRowClick } = me.props;
+    const { type } = column;
+    if (type === 'action' && toggleSubCompOnRowClick) {
+      e.stopPropagation();
+    }
+  }
+
   showSubComp() {
     this.props.showSubCompCallback.apply();
   }
@@ -202,6 +211,7 @@ class Cell extends React.Component {
           {me.renderActionItems(column, content, mode)}
         </div>
       );
+      style.cursor = 'default';
     } else if (column.type === 'checkbox' || column.type === 'checkboxSelector') {
       style.paddingRight = '4px';
       style.paddingLeft = '12px';
@@ -294,6 +304,7 @@ class Cell extends React.Component {
           last: props.last,
         })}
         style={style}
+        onClick={(e) => { this.handleCellClick(e); }}
       >
         {child}
         {content}

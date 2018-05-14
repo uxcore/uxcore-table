@@ -53,6 +53,7 @@ class Table extends React.Component {
       activeColumn: null,
       searchTxt: '',
       expandedKeys: [],
+      filterColumns: {},
     };
     this.handleBodyScroll = this.handleBodyScroll.bind(this);
     this.handleHeaderScroll = this.handleHeaderScroll.bind(this);
@@ -64,6 +65,7 @@ class Table extends React.Component {
     this.handleOrderColumnCB = this.handleOrderColumnCB.bind(this);
     this.handleColumnPickerChange = this.handleColumnPickerChange.bind(this);
     this.handleActionBarSearch = this.handleActionBarSearch.bind(this);
+    this.handleFilter = this.handleFilter.bind(this);
   }
 
   componentDidMount() {
@@ -473,7 +475,7 @@ class Table extends React.Component {
 
   fetchLocalData(from, props, cb = () => {}) {
     const me = this;
-    if (['pagination', 'order', 'search'].indexOf(from) !== -1) {
+    if (['pagination', 'order', 'search', 'filter'].indexOf(from) !== -1) {
       if (from === 'pagination' && props.onPagerChange) {
         props.onPagerChange(me.state.currentPage, me.state.pageSize);
       }
@@ -484,6 +486,10 @@ class Table extends React.Component {
 
       if (from === 'search' && props.onSearch) {
         props.onSearch(me.state.searchTxt);
+      }
+
+      if (from === 'filter' && props.onFilter) {
+        props.onFilter(me.state.filterColumns);
       }
     } else {
       this.copyData = deepcopy(props.jsxdata);
@@ -551,6 +557,10 @@ class Table extends React.Component {
         searchTxt,
       });
     }
+
+    // filter
+
+    queryObj = { ...queryObj, ...this.state.filterColumns };
 
     // fetchParams has the top priority
     if (props.fetchParams) {
@@ -759,6 +769,16 @@ class Table extends React.Component {
       orderType: type,
     }, () => {
       me.fetchData('order');
+    });
+  }
+
+  handleFilter(filterKeys, column) {
+    const filterColumns = { ...this.state.filterColumns };
+    filterColumns[column.dataKey] = filterKeys;
+    this.setState({
+      filterColumns,
+    }, () => {
+      this.fetchData('filter');
     });
   }
 
@@ -1185,6 +1205,7 @@ class Table extends React.Component {
       data,
       bodyHeight,
       hasFooter: this.hasFooter(),
+      toggleSubCompOnRowClick: props.toggleSubCompOnRowClick,
       rowSelection: props.rowSelection,
       addRowClassName: props.addRowClassName,
       locale: props.locale,
@@ -1208,12 +1229,14 @@ class Table extends React.Component {
     const renderHeaderProps = {
       ...commonProps,
       activeColumn: state.activeColumn,
+      filterColumns: state.filterColumns,
       orderType: state.orderType,
       showHeaderBorder: props.showHeaderBorder,
       headerHeight: props.headerHeight,
       checkStatus,
       selectAll: this.selectAll,
       orderColumnCB: this.handleOrderColumnCB,
+      onColumnFilter: this.handleFilter,
       key: 'table-header',
     };
 
@@ -1284,6 +1307,7 @@ Table.defaultProps = {
   showMask: false,
   showSearch: false,
   getSavedData: true,
+  toggleSubCompOnRowClick: false,
   pageSize: 10,
   pagerSizeOptions: [10, 20, 30, 40],
   rowHeight: 76,
@@ -1343,6 +1367,7 @@ Table.propTypes = {
   showMask: PropTypes.bool,
   showSearch: PropTypes.bool,
   searchBarPlaceholder: PropTypes.string,
+  toggleSubCompOnRowClick: PropTypes.bool,
   loadingText: PropTypes.string,
   subComp: PropTypes.element,
   emptyText: PropTypes.oneOfType([

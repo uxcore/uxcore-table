@@ -1,0 +1,277 @@
+import React from 'react';
+import assign from 'object-assign';
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import Dropdown from 'uxcore-dropdown';
+import CheckBoxGroup from 'uxcore-checkbox-group';
+import Icon from 'uxcore-icon';
+import Menu from 'uxcore-menu';
+import isEqual from 'lodash/isEqual';
+import CheckBox from '../Cell/CheckBox';
+import MessageIcon from './MessageIcon';
+
+export default class HeaderCell extends React.Component {
+  static displayName = 'HeaderCell';
+  static propTypes = {
+    prefixCls: PropTypes.string,
+    onCheckboxChange: PropTypes.func,
+    onFilter: PropTypes.func,
+    filterSelectedKeys: PropTypes.array,
+  }
+
+  static defaultProps = {
+    onFilter: () => {},
+    filterSelectedKeys: [],
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      filterSelectedKeys: props.filterSelectedKeys,
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.props.filterSelectedKeys, nextProps.filterSelectedKeys)) {
+      this.setState({
+        filterSelectedKeys: nextProps.filterSelectedKeys,
+      });
+    }
+  }
+  saveRef(refName) {
+    const me = this;
+    return (c) => {
+      me[refName] = c;
+    };
+  }
+
+  handleFilterDropdownVisible(filterVisible) {
+    this.setState({
+      filterVisible,
+    });
+  }
+
+  handleFilterCheckboxChange(checked, value) {
+    let filterSelectedKeys = this.state.filterSelectedKeys.slice(0);
+    if (checked) {
+      filterSelectedKeys.push(value);
+    } else {
+      filterSelectedKeys = filterSelectedKeys.filter(item => item !== value);
+    }
+    this.setState({
+      filterSelectedKeys,
+    });
+  }
+
+  handleFilterActionReset() {
+    this.setState({
+      filterVisible: false,
+      filterSelectedKeys: [],
+    }, () => {
+      this.props.onFilter([]);
+    });
+  }
+
+  handleFilterActionConfirm() {
+    this.setState({
+      filterVisible: false,
+    }, () => {
+      this.props.onFilter(this.state.filterSelectedKeys);
+    });
+  }
+
+  renderIndent(index) {
+    if (this.firstIndex !== index) {
+      return null;
+    }
+    const me = this;
+    const { renderModel, checkboxColumnKey } = me.props;
+    if (renderModel === 'tree') {
+      return (
+        <span
+          className={classnames({
+            indent: true,
+            hasCheck: checkboxColumnKey,
+          })}
+        />
+      );
+    }
+    return null;
+  }
+
+  renderRequired(item) {
+    const { prefixCls } = this.props;
+    if (item.required) {
+      return <span className={`${prefixCls}-item-required`}>* </span>;
+    }
+    return null;
+  }
+
+  renderFilterMenu(filter) {
+    const { prefixCls } = this.props;
+    if (Array.isArray(filter.children) && filter.children.length) {
+      return (
+        <Menu.SubMenu key={filter.value} title={filter.text}>
+          {filter.children.map(child => this.renderFilterMenu(child))}
+        </Menu.SubMenu>
+      );
+    }
+    return (
+      <Menu.Item key={filter.value}>
+        <CheckBoxGroup.Item
+          checked={this.state.filterSelectedKeys.indexOf(filter.value) !== -1}
+          onChange={(checked, value) => { this.handleFilterCheckboxChange(checked, value); }}
+          text={filter.text}
+          value={filter.value}
+          className={`${prefixCls}-item-filter-checkbox`}
+        />
+      </Menu.Item>
+    );
+  }
+
+  renderFilterIcon(column) {
+    const { prefixCls } = this.props;
+    if (Array.isArray(column.filters) && column.filters.length) {
+      const menu = (
+        <Menu
+          mode="vertical"
+          prefixCls={'kuma-dropdown-menu'}
+          getPopupContainer={triggerNode => triggerNode.parentNode}
+        >
+          {column.filters.map(filter => this.renderFilterMenu(filter))}
+        </Menu>
+      );
+
+      const overlay = (
+        <div>
+          {menu}
+          <div className={`${prefixCls}-item-filter-action-bar`}>
+            <div
+              className={`${prefixCls}-item-filter-action-button ${prefixCls}-item-filter-action-button-reset`}
+              onClick={() => { this.handleFilterActionReset(); }}
+            >重置</div>
+            <div
+              className={`${prefixCls}-item-filter-action-button ${prefixCls}-item-filter-action-button-confirm`}
+              onClick={() => { this.handleFilterActionConfirm(); }}
+            >确认</div>
+          </div>
+        </div>
+      );
+      return (
+        <Dropdown
+          overlayClassName={`${prefixCls}-item-filter-dropdown`}
+          overlay={overlay}
+          trigger={['click']}
+          visible={this.state.filterVisible}
+          onVisibleChange={(visible) => { this.handleFilterDropdownVisible(visible); }}
+        >
+          <Icon
+            name="shaixuan"
+            className={classnames(`${prefixCls}-item-filter-icon`, {
+              [`${prefixCls}-item-filter-icon__active`]: this.state.filterSelectedKeys.length > 0,
+            })}
+          />
+        </Dropdown>
+      );
+    }
+    return null;
+  }
+
+  renderOrderIcon(column) {
+    const me = this;
+    const { orderType, activeColumn, onColumnOrder } = me.props;
+    if (column.ordered) {
+      const desc = 'triangle-down';
+      const asc = 'triangle-up';
+      const isActive = activeColumn && activeColumn.dataKey === column.dataKey;
+      return (
+        <span className="kuma-uxtable-h-sort" onClick={() => { onColumnOrder(); }}>
+          <i
+            className={classnames({
+              [`kuma-icon kuma-icon-${asc}`]: true,
+              active: isActive && orderType === 'asc',
+            })}
+          />
+          <i
+            className={classnames({
+              [`kuma-icon kuma-icon-${desc}`]: true,
+              active: isActive && orderType === 'desc',
+            })}
+          />
+        </span>
+      );
+    }
+    return null;
+  }
+
+  render() {
+    const me = this;
+    const { renderModel, prefixCls, column, index, hasGroup, last } = me.props;
+    const rowSelectorInTreeMode = (['checkboxSelector', 'radioSelector'].indexOf(column.type) !== -1)
+      && (renderModel === 'tree');
+    if (column.hidden || rowSelectorInTreeMode) {
+      me.firstIndex = index + 1;
+      return null;
+    }
+    const noBorderColumn = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
+    const style = {
+      width: column.width ? column.width : '100px',
+      textAlign: column.align ? column.align : 'left',
+    };
+    let v;
+    if (hasGroup) {
+      assign(style, {
+        height: '100px',
+        lineHeight: '100px',
+      });
+    }
+
+    if (column.type === 'checkbox' || column.type === 'checkboxSelector') {
+      assign(style, {
+        paddingRight: '4px',
+        paddingLeft: '12px',
+        width: column.width ? column.width : '32px',
+      });
+
+      const checkBoxProps = {
+        ref: me.saveRef('checkbox'),
+        checked: me.props.checkStatus.isAllChecked,
+        halfChecked: me.props.checkStatus.isHalfChecked,
+        disable: me.props.checkStatus.isAllDisabled,
+        onChange: this.props.onCheckboxChange,
+      };
+
+      v = <CheckBox {...checkBoxProps} />;
+    } else {
+      const content = (typeof column.title === 'function') ? column.title() : column.title;
+      const title = (typeof column.title === 'function') ? undefined : column.title;
+      v = <span title={title}>{content}</span>;
+    }
+
+    if (noBorderColumn.indexOf(column.dataKey) !== -1 || last) {
+      assign(style, {
+        borderRight: 'none',
+      });
+    }
+
+
+    return (
+      <div
+        key={index}
+        className={classnames({
+          'kuma-uxtable-cell': true,
+          'show-border': me.props.showHeaderBorder,
+          'kuma-uxtable-cell__action-collapsed': column.type === 'action' && column.collapseNum === 1,
+        })}
+        style={style}
+      >
+        {me.renderIndent(index)}
+        {me.renderRequired(column)}
+        {v}
+        {me.renderOrderIcon(column)}
+        {me.renderFilterIcon(column)}
+        <MessageIcon message={column.message} prefixCls={`${prefixCls}-msg`} />
+      </div>
+    );
+  }
+}

@@ -6,9 +6,9 @@ import classnames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
-import CheckBox from '../Cell/CheckBox';
 import util from '../util';
-import MessageIcon from './MessageIcon';
+import HeaderCell from './HeaderCell';
+
 
 class Header extends React.Component {
   constructor(props) {
@@ -83,133 +83,41 @@ class Header extends React.Component {
     this.props.selectAll.apply(null, [v]);
   }
 
-  renderOrderIcon(column) {
-    const me = this;
-    const { orderType, activeColumn } = me.props;
-    if (column.ordered) {
-      const desc = 'triangle-down';
-      const asc = 'triangle-up';
-      const isActive = activeColumn && activeColumn.dataKey === column.dataKey;
-      return (
-        <span className="kuma-uxtable-h-sort" onClick={me.handleColumnOrder.bind(me, column)}>
-          <i
-            className={classnames({
-              [`kuma-icon kuma-icon-${asc}`]: true,
-              active: isActive && orderType === 'asc',
-            })}
-          />
-          <i
-            className={classnames({
-              [`kuma-icon kuma-icon-${desc}`]: true,
-              active: isActive && orderType === 'desc',
-            })}
-          />
-        </span>
-      );
-    }
-    return null;
-  }
-
-  renderRequired(item) {
-    const { prefixCls } = this.props;
-    if (item.required) {
-      return <span className={`${prefixCls}-item-required`}>* </span>;
-    }
-    return null;
+  handleColumnFilter(filterKeys, column) {
+    this.props.onColumnFilter(filterKeys, column);
   }
 
   renderColumn(item, index, hasGroup, last) {
     const me = this;
-    const { renderModel, prefixCls } = me.props;
-    const rowSelectorInTreeMode = (['checkboxSelector', 'radioSelector'].indexOf(item.type) !== -1)
-      && (renderModel === 'tree');
-    if (item.hidden || rowSelectorInTreeMode) {
-      me.firstIndex = index + 1;
-      return null;
-    }
-    const noBorderColumn = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
-    const style = {
-      width: item.width ? item.width : '100px',
-      textAlign: item.align ? item.align : 'left',
+    const {
+      renderModel,
+      checkboxColumnKey,
+      prefixCls,
+      orderType,
+      activeColumn,
+      checkStatus,
+      filterColumns,
+    } = me.props;
+    const cellProps = {
+      column: item,
+      index,
+      hasGroup,
+      last,
+      renderModel,
+      checkboxColumnKey,
+      prefixCls,
+      orderType,
+      activeColumn,
+      filterSelectedKeys: filterColumns[item.dataKey],
+      checkStatus,
+      onCheckboxChange: (e) => { this.handleCheckBoxChange(e); },
+      onColumnOrder: () => { this.handleColumnOrder(item); },
+      onFilter: (filterKeys) => { this.handleColumnFilter(filterKeys, item); },
     };
-    let v;
-    if (hasGroup) {
-      assign(style, {
-        height: '100px',
-        lineHeight: '100px',
-      });
-    }
-
-    if (item.type === 'checkbox' || item.type === 'checkboxSelector') {
-      assign(style, {
-        paddingRight: '4px',
-        paddingLeft: '12px',
-        width: item.width ? item.width : '32px',
-      });
-
-      const checkBoxProps = {
-        ref: me.saveRef('checkbox'),
-        checked: me.props.checkStatus.isAllChecked,
-        halfChecked: me.props.checkStatus.isHalfChecked,
-        disable: me.props.checkStatus.isAllDisabled,
-        onChange: me.handleCheckBoxChange.bind(me),
-      };
-
-      v = <CheckBox {...checkBoxProps} />;
-    } else {
-      const content = (typeof item.title === 'function') ? item.title() : item.title;
-      const title = (typeof item.title === 'function') ? undefined : item.title;
-      v = <span title={title}>{content}</span>;
-    }
-
-    if (noBorderColumn.indexOf(item.dataKey) !== -1 || last) {
-      assign(style, {
-        borderRight: 'none',
-      });
-    }
-
-
     return (
-      <div
-        key={index}
-        className={classnames({
-          'kuma-uxtable-cell': true,
-          'show-border': me.props.showHeaderBorder,
-          'kuma-uxtable-cell__action-collapsed': item.type === 'action' && item.collapseNum === 1,
-        })}
-        style={style}
-      >
-        {me.renderIndent(index)}
-        {me.renderRequired(item)}
-        {v}
-        <MessageIcon message={item.message} prefixCls={`${prefixCls}-msg`} />
-        {me.renderOrderIcon(item)}
-      </div>
+      <HeaderCell {...cellProps} key={index} />
     );
   }
-
-  renderIndent(index) {
-    if (this.firstIndex !== index) {
-      return null;
-    }
-    const me = this;
-    const { renderModel, checkboxColumnKey } = me.props;
-    if (renderModel === 'tree') {
-      return (
-        <span
-          className={classnames({
-            indent: true,
-            hasCheck: checkboxColumnKey,
-          })}
-        />
-      );
-      // return (
-      //   <CheckBox className="kuma-uxtable-header-tree-selector" />
-      // );
-    }
-    return null;
-  }
-
 
   renderColumns(_columns) {
     const me = this;
@@ -325,10 +233,13 @@ Header.propTypes = {
   handleColumnPickerChange: PropTypes.func,
   selectAll: PropTypes.func,
   prefixCls: PropTypes.string,
+  onColumnFilter: PropTypes.func,
+  filterColumns: PropTypes.object,
 };
 
 Header.defaultProps = {
   prefixCls: 'kuma-uxtable-header',
+  onColumnFilter: () => {},
 };
 
 export default Header;

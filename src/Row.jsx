@@ -262,7 +262,18 @@ class Row extends React.Component {
         }}
         ref={(c) => { this.root = c; }}
       >
-        <div className={`${this.props.prefixCls}-cells`} ref={(c) => { this.container = c; }}>
+        <div
+          className={`${this.props.prefixCls}-cells`}
+          ref={(c) => { this.container = c; }}
+          style={{
+            cursor: props.toggleSubCompOnRowClick ? 'pointer' : 'default',
+          }}
+          onClick={() => {
+            if (props.toggleSubCompOnRowClick) {
+              this.showSubCompFunc(props.rowData);
+            }
+          }}
+        >
           {_columns.map((item, index) => {
             const rowSelectorInTreeMode =
               (['checkboxSelector', 'radioSelector'].indexOf(item.type) !== -1)
@@ -291,6 +302,7 @@ class Row extends React.Component {
               mode: props.mode,
               bodyNode: props.bodyNode,
               handleDataChange: props.handleDataChange,
+              toggleSubCompOnRowClick: props.toggleSubCompOnRowClick,
               attachCellField: props.attachCellField,
               detachCellField: props.detachCellField,
               last: (index === _columns.length - 1),

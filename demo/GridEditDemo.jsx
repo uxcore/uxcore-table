@@ -191,6 +191,23 @@ class Demo extends React.Component {
         width: 200,
         type: 'check',
         required: true,
+        filters: [{
+          text: 'Joe',
+          value: 'Joe',
+        }, {
+          text: 'Jim',
+          value: 'Jim',
+        }, {
+          text: 'Submenu',
+          value: 'Submenu',
+          children: [{
+            text: 'Green',
+            value: 'Green',
+          }, {
+            text: 'Black',
+            value: 'Black',
+          }],
+        }],
         config: {
           data: () => [{
             value: 'xiaoli',
@@ -300,50 +317,47 @@ class Demo extends React.Component {
           data: newData,
         });
       },
-      actionBar: {
-        新增航: () => {},
-      },
-      // actionBar: [
-      //   {
-      //     title: '新增行',
-      //     // disabled: true,
-      //     callback: () => {
-      //       me.table.addEmptyRow();
-      //     },
-      //   },
-      //   {
-      //     title: '从顶部新增行',
-      //     callback: () => {
-      //       me.table.addEmptyRowFromTop();
-      //     },
-      //   },
-      //   {
-      //     title: '编辑所有行',
-      //     callback: () => {
-      //       me.table.editAllRow();
-      //     },
-      //   },
-      //   {
-      //     title: '恢复所有行',
-      //     callback: () => {
-      //       me.table.resetAllRow();
-      //     },
-      //   },
-      // ],
-      // linkBar: [
-      //   {
-      //     title: '操作外链一',
-      //     callback: () => {
-      //       alert(1);
-      //     },
-      //   },
-      //   {
-      //     title: '操作外链二',
-      //     callback: () => {
-      //       alert(2);
-      //     },
-      //   },
-      // ],
+      actionBar: [
+        {
+          title: '新增行',
+          // disabled: true,
+          callback: () => {
+            me.table.addEmptyRow();
+          },
+        },
+        {
+          title: '从顶部新增行',
+          callback: () => {
+            me.table.addEmptyRowFromTop();
+          },
+        },
+        {
+          title: '编辑所有行',
+          callback: () => {
+            me.table.editAllRow();
+          },
+        },
+        {
+          title: '恢复所有行',
+          callback: () => {
+            me.table.resetAllRow();
+          },
+        },
+      ],
+      linkBar: [
+        {
+          title: '操作外链一',
+          callback: () => {
+            alert(1);
+          },
+        },
+        {
+          title: '操作外链二',
+          callback: () => {
+            alert(2);
+          },
+        },
+      ],
       // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
       // fetchUrl: "http://10.1.159.52:3002/demo/data.json",
       jsxcolumns: columns,
@@ -357,6 +371,7 @@ class Demo extends React.Component {
       processData: data => data,
       onChange: me.handleTableChange,
       showPagerSizeChanger: false,
+      onFilter: (filterColumns) => { console.log(filterColumns); },
     };
 
     return (
