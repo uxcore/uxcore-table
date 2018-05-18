@@ -44,10 +44,6 @@ class Tbody extends React.Component {
     const me = this;
     me.scrollListener.remove();
     me.removeScrollTimer();
-    // if (this.scrollRafer) {
-    //   raf.cancel(this.scrollRafer);
-    //   this.scrollRafer = null;
-    // }
   }
 
 
@@ -55,8 +51,6 @@ class Tbody extends React.Component {
     const me = this;
     const { fixedColumn } = me.props;
     me.props.onScroll(me.rootEl.scrollLeft, me.rootEl.scrollTop, fixedColumn);
-    // this.scrollRafer = requestAnimationFrame(() => {
-    // });
     me.removeScrollTimer();
     me.scrollEndTimer = setTimeout(() => {
       me.props.onScroll(me.rootEl.scrollLeft, me.rootEl.scrollTop, fixedColumn);

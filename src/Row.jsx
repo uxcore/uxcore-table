@@ -3,7 +3,7 @@
  */
 import classnames from 'classnames';
 import assign from 'object-assign';
-import deepEqual from 'deep-equal';
+import deepEqual from 'lodash/isEqual';
 import deepcopy from 'lodash/cloneDeep';
 import React from 'react';
 import PropTypes from 'prop-types';

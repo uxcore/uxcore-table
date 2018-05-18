@@ -2,6 +2,10 @@
 
 ---
 
+## 9.0.2
+
+* `CHANGED` remove useless dependencies
+
 ## 9.0.0
 
 * `CHANGED` update `uxcore-tree` to `^0.3.0`

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import Const from 'uxcore-const';
 import classnames from 'classnames';
 import deepcopy from 'lodash/cloneDeep';
-import deepEqual from 'deep-equal';
+import deepEqual from 'lodash/isEqual';
 import DateField from 'uxcore-date-cell-field';
 import CheckField from 'uxcore-checkbox-cell-field';
 import Button from 'uxcore-button';
