@@ -1,28 +1,28 @@
-.@{uxtable-prefix}-header-no {
+.@{__table-prefix-cls}-header-no {
   overflow: scroll;
 }
 
-.@{uxtable-prefix}-header-scroll {
+.@{__table-prefix-cls}-header-scroll {
   position: static;
   overflow: scroll;
   z-index: 1;
   height: 100%;
-  .@{uxtable-prefix}-header {
+  .@{__table-prefix-cls}-header {
     background-color: @normal-alpha-8;
   }
 }
 
-.@{uxtable-prefix}-header-scroll, {
-  &.@{uxtable-prefix}-no-v-scroll {
+.@{__table-prefix-cls}-header-scroll, {
+  &.@{__table-prefix-cls}-no-v-scroll {
     overflow-y: hidden;
   }
 }
 
-.@{uxtable-prefix}-header .@{uxtable-prefix}-cell>div {
+.@{__table-prefix-cls}-header .@{__table-prefix-cls}-cell>div {
   overflow: visible;
 }
 
-.@{uxtable-prefix}-header-msg-icon {
+.@{__table-prefix-cls}-header-msg-icon {
   color: @brand-info;
   -webkit-text-stroke-width: 0;
   font-size: 16px;
@@ -30,20 +30,29 @@
   vertical-align: -1px;
 }
 
-.@{uxtable-prefix}-header-item-filter-dropdown {
+.@{__table-prefix-cls}-header-item-filter-dropdown {
   box-shadow: @box-shadow-1;
   border: 1px solid @border-color;
   border-radius: @global-border-radius;
   padding-top: 0;
-  .kuma-dropdown-menu {
+  .@{__dropdown-prefix-cls}-menu {
     box-shadow: none;
     border: none;
     border-radius: 0;
+    min-width: 104px;
+    max-width: 232px;
+  }
+  .@{__dropdown-prefix-cls}-menu-sub {
+    border: 1px solid @border-color;
+    box-shadow: @box-shadow-1;
+    border-radius: @global-border-radius;
   }
 }
 
-.@{uxtable-prefix}-header-item-filter-icon {
+.@{__table-prefix-cls}-header-item-filter-icon {
   color: @normal-alpha-3;
+  vertical-align: -1px;
+  margin-left: 4px;
   cursor: pointer;
   &:hover{
     color: @normal-alpha-3;
@@ -56,13 +65,14 @@
   }
 }
 
-.@{uxtable-prefix}-header-item-filter-action-bar {
+.@{__table-prefix-cls}-header-item-filter-action-bar {
   position: relative;
   height: 36px;
   border-top: 1px solid @split-line-color;
+  background: white;
 }
 
-.@{uxtable-prefix}-header-item-filter-action-button {
+.@{__table-prefix-cls}-header-item-filter-action-button {
   position: absolute;
   color: @brand-primary;
   display: inline-block;
@@ -76,33 +86,36 @@
   }
 }
 
-.@{uxtable-prefix}-header-item-filter-checkbox {
+.@{__table-prefix-cls}-header-item-filter-checkbox {
   margin-bottom: 0;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.@{uxtable-prefix}-header-column-group {
+.@{__table-prefix-cls}-header-column-group {
   display: inline-block;
 }
 
-.@{uxtable-prefix}-header-group-name {
+.@{__table-prefix-cls}-header-group-name {
   line-height: 50px;
   text-align: center;
 }
 
-.@{uxtable-prefix}-header-tree-selector {
+.@{__table-prefix-cls}-header-tree-selector {
   margin-left: 22px;
 }
 
-.@{uxtable-prefix}-border-line {
-  .@{uxtable-prefix}-header-group-name {
+.@{__table-prefix-cls}-border-line {
+  .@{__table-prefix-cls}-header-group-name {
     border-right: 1px solid @normal-alpha-7;
     border-bottom: 1px solid @normal-alpha-7;
     &.last {
       border-right: none;
     }
   }
-  .@{uxtable-prefix}-left-fixed-table {
-    .@{uxtable-prefix}-header-group-name {
+  .@{__table-prefix-cls}-left-fixed-table {
+    .@{__table-prefix-cls}-header-group-name {
       &.last {
         border-right: 1px solid @normal-alpha-7
       }
@@ -110,17 +123,17 @@
   }
 }
 
-.@{uxtable-prefix}-ghost {
-  .@{uxtable-prefix}-header-scroll {
-    .@{uxtable-prefix}-header {
+.@{__table-prefix-cls}-ghost {
+  .@{__table-prefix-cls}-header-scroll {
+    .@{__table-prefix-cls}-header {
       background: transparent;
       border-bottom: 1px solid @split-line-color;
     }
   }
 }
 
-.@{uxtable-prefix}-row-group-mode {
-  .@{uxtable-prefix}-header-wrapper {
+.@{__table-prefix-cls}-row-group-mode {
+  .@{__table-prefix-cls}-header-wrapper {
     border-bottom: 1px solid @split-line-color;
   }
 }

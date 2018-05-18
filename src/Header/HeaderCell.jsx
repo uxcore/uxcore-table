@@ -48,6 +48,11 @@ export default class HeaderCell extends React.Component {
   handleFilterDropdownVisible(filterVisible) {
     this.setState({
       filterVisible,
+    }, () => {
+      if (filterVisible === false
+          && !isEqual(this.state.filterSelectedKeys, this.props.filterSelectedKeys)) {
+        this.props.onFilter(this.state.filterSelectedKeys);
+      }
     });
   }
 
@@ -76,7 +81,9 @@ export default class HeaderCell extends React.Component {
     this.setState({
       filterVisible: false,
     }, () => {
-      this.props.onFilter(this.state.filterSelectedKeys);
+      if (!isEqual(this.state.filterSelectedKeys, this.props.filterSelectedKeys)) {
+        this.props.onFilter(this.state.filterSelectedKeys);
+      }
     });
   }
 

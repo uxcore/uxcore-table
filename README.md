@@ -124,6 +124,7 @@ $ npm start
 |onOrder             |function(column, orderType) | optional | noop | 1.6.1   |未配置 fetchUrl 的情况下触发，传回排序的列和排序方式|
 |onPagerChange       |function(current, pageSize) | optional | noop | 1.6.1   |未配置 fetchUrl 的情况下触发，传回要到达的分页和每页条数|
 |onColumnPick        |function(columns)   |optional  |noop        | 7.6.0     |勾选自定义列时触发，参数为勾选后的 columns |
+|onFilter            |function(filters)   |optional  |noop        | 9.0.0     |未配置 fetchUrl 的情况下触发，传回需要进行过滤的参数|
 |addRowClassName     |function(rowData)   |optional  |noop        | -         |用于为特定的某几行添加特殊的 class，用于样式定制|
 |rowSelection        |object              |optional  |noop        | -         |选中复选框时触发的回调，rowSelection 是由回调函数组成的对象，包括 onSelect 和 onSelectAll，例子见此| 
 |rowGroupKey         |string              |optional  |            | 8.2.0     |用于行分组，可选值为 columns 设置中 dataKey，使用对应的列内容做行分组 |
@@ -132,7 +133,6 @@ $ npm start
 ### 折叠展开专用
 |Name            |Type                |Require   |Since Ver. |Default|Note |
 |---             |---                 |---       |---        |---    |---|
-|SubComp         |React Element       |optional  |-          | -     |传入二级组件，已废弃，请使用 renderSubComp, 自 1.7.0 版本后不再保证此部分功能的完整性。|
 |renderSubComp   |function(rowData)   |optional  |1.3.15     | -     |传入二级组件，该函数需要返回值，返回 false，表示不渲染二级，返回 jsx，则渲染该 jsx|
 | toggleSubCompOnRowClick | boolean   |optional  |8.5.0      |false  |在点击行的时候，展开和收起折叠面板，操作列不受影响。其他区域如果不想触发需要自行 stopPropagation |
 
@@ -149,7 +149,7 @@ $ npm start
 |Name            |Type                |Require   |Since Ver. |Default|Note |
 |---             |---                 |---       |---        |---    |---|
 |onChange        |function(data)      |optional  |-          |noop   |有表格编辑行为触发，参数的数据格式为 {data: 表格的所有数据, changedData: 变动行的数据, dataKey: xxx, editKey: xxx, pass: 正在编辑的域是否通过校验} |
-|getSavedData    |boolean             |optional  |-          |true   |onChange 中的数据是否是保存之后的数据(通过了 saveRow() 的数据)|
+|getSavedData    |boolean             |optional  |-          |true   |getValues() 和 onChange 返回的数据是否是保存之后的数据(通过了 saveRow() 的数据)|
 
 
 ### 页底（Footer）
@@ -187,7 +187,8 @@ $ npm start
 |isDisable       |function(rowData) |1.3.1     |optional |在 tpye 为 checkboxSelector 时使用，为一个回调函数，用于根据 rowData 去判断是否禁用该行的 checkbox|
 |canEdit         |function(rowData) |1.3.3     |optional |在 type 为可编辑表格的类别时使用，为一个回调函数，用于根据 rowData 去判断该行该列是否可以编辑|
 |config          |object            |1.5.0     |optional |在 type 为 text/select/radio 时使用，传入对应的配置项，配置项与对应的组件(uxcore-selelct2)相同|
-|renderChildren  |function          |1.5.0     | -       |在 type 为 select/radio 时使用，通过返回 jsx 传入选项。|         
+|renderChildren  |function          |1.5.0     | -       |在 type 为 select/radio 时使用，通过返回 jsx 传入选项。| 
+|filters         |array             |9.0.0     |optional |表头的筛选菜单项。具体格式见下方|        
  
 
 
@@ -195,27 +196,36 @@ $ npm start
 ```javascript
 
 let columns = [
-        { dataKey: 'check', type: 'checkbox', isDisable: function(rowData) {return /city/.test(rowData.city)}}, // 定制 checkbox 列，dataKey 对应的应是一个 bool 值，表明是否被选中。
-        { dataKey: 'country', title:'国家', width: 200,ordered:true},
-        { dataKey: 'action1', title:'操作1', width:100, type:"action",actions: [
-            {
-                title: '编辑',
-                callback: (rowData) => {
-                    me.refs.grid.editRow(rowData);
-                },
-                mode: Constants.MODE.VIEW
-            },
-            {
-                title: '保存',
-                callback: (rowData) => {
-                    me.refs.grid.saveRow(rowData);
-                },
-                mode: Constants.MODE.EDIT
-            }
-        ]},
-        { dataKey: 'action', title:'链接', width:100, render: function(cellData,rowData) {
-            return <div><a href="#">{rowData.email}</a></div>
-        }}
+    // 定制 checkbox 列，dataKey 对应的应是一个 bool 值，表明是否被选中，可以用于控制行选中。
+    { dataKey: 'check', type: 'checkbox' }, 
+    // 定制渲染的例子
+    { dataKey: 'name', render: (cellData) => (<a>{cellData}</a>) },
+    // filters 配置的例子
+    {
+        dataKey: 'firstName',
+        title: 'FristName',
+        width: '15%',
+        filters: [{
+          text: 'Joe',
+          value: 'Joe',
+        }, {
+          text: 'Jim',
+          value: 'Jim',
+        }, {
+          text: 'Submenu',
+          value: 'Submenu',
+          children: [{
+            text: 'Green',
+            value: 'Green',
+          }, {
+            text: 'Black',
+            value: 'Black',
+          }],
+        }],
+        message: '这是一个提示',
+        ordered: true,
+      },
+    }
  ]
 
 ```

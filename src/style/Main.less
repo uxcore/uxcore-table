@@ -1,12 +1,4 @@
-/**
- * Grid Component Style for uxcore
- * @author zhouquan.yezq
- *
- * Copyright 2014-2015, Uxcore Team, Alinw.
- * All rights reserved.
- */
-
-.@{uxtable-prefix} {
+.@{__table-prefix-cls} {
   input::-ms-clear {
     display: none;
   }
@@ -24,58 +16,58 @@
     color: @brand-primary;
   }
   .kuma-date-cell-field {
-    .kuma-calendar-picker-input {
+    .@{__calendar-prefix-cls}-picker-input {
       line-height: 36px;
       .kuma-icon-calender,
       .kuma-icon-close,
-      .kuma-calendar-trigger-icon {
+      .@{__calendar-prefix-cls}-trigger-icon {
         line-height: 24px;
       }
     }
   }
-  .@{uxtable-prefix}-body-collapse {
+  .@{__table-prefix-cls}-body-collapse {
     border: none;
-    > .kuma-collapse-item {
+    > .@{__collapse-prefix-cls}-item {
       border-top: none;
-      > .kuma-collapse-header {
+      > .@{__collapse-prefix-cls}-header {
         height: 50px;
         line-height: 50px;
         background: @normal-alpha-9;
         border-bottom: 1px solid @split-line-color;
       }
       &:last-child {
-        > .kuma-collapse-header[aria-expanded="false"] {
+        > .@{__collapse-prefix-cls}-header[aria-expanded="false"] {
           border-bottom: none;
         }
       }
     }
-    .kuma-collapse-content {
+    .@{__collapse-prefix-cls}-content {
       padding: 0;
       background-color: transparent;
       color: @dark-alpha-3;
-      > .kuma-collapse-content-box {
+      > .@{__collapse-prefix-cls}-content-box {
         padding: 0;
       }
     }
   }
 }
 
-.@{uxtable-prefix}-content {
+.@{__table-prefix-cls}-content {
   overflow-x: auto;
   position: relative;
   border-radius: @global-border-radius;
 }
 
-.@{uxtable-prefix}-content-scroller {
+.@{__table-prefix-cls}-content-scroller {
   display: inline-block;
 }
 
-.@{uxtable-prefix}-header-wrapper {
+.@{__table-prefix-cls}-header-wrapper {
   overflow: hidden;
   position: relative;
 }
 
-.@{uxtable-prefix}-body-wrapper {
+.@{__table-prefix-cls}-body-wrapper {
   border-top: none;
   position: relative;
   min-height: 40px;
@@ -83,17 +75,17 @@
   overflow-y: hidden;
 }
 
-.@{uxtable-prefix}-footer-wrapper {
+.@{__table-prefix-cls}-footer-wrapper {
   overflow: hidden;
   position: relative;
   border-top: 1px solid @split-line-color;
 }
 
-.@{uxtable-prefix}-fixed-body-wrapper {
+.@{__table-prefix-cls}-fixed-body-wrapper {
   overflow-x: hidden;
 }
 
-.@{uxtable-prefix}-header {
+.@{__table-prefix-cls}-header {
   background-color: @normal-alpha-8;
   font-size: 12px;
   font-weight: 600;
@@ -107,14 +99,14 @@
   }
 }
 
-.@{uxtable-prefix}-footer {
+.@{__table-prefix-cls}-footer {
   display: inline-block;
   color: @dark-alpha-2;
   font-weight: 600;
   white-space: nowrap;
 }
 
-.@{uxtable-prefix}-body {
+.@{__table-prefix-cls}-body {
   position: relative;
   display: inline-block;
   vertical-align: top;
@@ -124,12 +116,12 @@
   background-color: @table-body-bg;
 }
 
-.@{uxtable-prefix}-body-no {
+.@{__table-prefix-cls}-body-no {
   height: 100%;
   overflow-y: auto;
 }
 
-.@{uxtable-prefix}-body-scroll {
+.@{__table-prefix-cls}-body-scroll {
   position: relative;
   overflow-x: auto;
   overflow-y: scroll;
@@ -137,53 +129,53 @@
   height: 100%;
 }
 
-.@{uxtable-prefix}-footer-scroll {
+.@{__table-prefix-cls}-footer-scroll {
   overflow-x: auto;
 }
 
-.@{uxtable-prefix}-body-scroll,
-.@{uxtable-prefix}-footer-scroll {
-  &.@{uxtable-prefix}-no-v-scroll {
+.@{__table-prefix-cls}-body-scroll,
+.@{__table-prefix-cls}-footer-scroll {
+  &.@{__table-prefix-cls}-no-v-scroll {
     overflow-y: hidden;
   }
 }
 
 
-.@{uxtable-prefix}-body-emptyword {
+.@{__table-prefix-cls}-body-emptyword {
   text-align: center;
   vertical-align: middle;
 }
 
-.@{uxtable-prefix}-row {
+.@{__table-prefix-cls}-row {
   display: block;
   width: 100%;
   white-space: nowrap;
   border-bottom: none;
-  .@{uxtable-prefix}-row-cells {
+  .@{__table-prefix-cls}-row-cells {
     transition: background-color 0.15s ease-out;
   }
   &:first-child {
     border-top: none;
   }
   &.even {
-    >.@{uxtable-prefix}-row-cells {
+    >.@{__table-prefix-cls}-row-cells {
       background-color: @normal-alpha-9;
     }
   }
 }
 
-.@{uxtable-prefix}-row-hover {
-  >.@{uxtable-prefix}-row-cells {
+.@{__table-prefix-cls}-row-hover {
+  >.@{__table-prefix-cls}-row-cells {
     background-color: @brand-primary-alpha-8;
   }
   &.even {
-    >.@{uxtable-prefix}-row-cells {
+    >.@{__table-prefix-cls}-row-cells {
       background-color: @brand-primary-alpha-8;
     }
   }
 }
 
-.@{uxtable-prefix}-cell {
+.@{__table-prefix-cls}-cell {
   display: inline-block;
   text-align: left;
   overflow: hidden;
@@ -204,7 +196,7 @@
     width: 100%;
     white-space: nowrap;
   }
-  >input.kuma-input {
+  >input.@{__input-prefix-cls} {
     vertical-align: top;
     padding: 0 10px;
     margin-top: 7px;
@@ -216,7 +208,7 @@
     right: 10px;
     top: 0;
   }
-  .kuma-select2 {
+  .@{__select-prefix-cls} {
     vertical-align: top;
     margin-top: 7px;
   }
@@ -225,22 +217,22 @@
   }
 }
 
-.@{uxtable-prefix}-small-size {
-  .@{uxtable-prefix}-cell {
+.@{__table-prefix-cls}-small-size {
+  .@{__table-prefix-cls}-cell {
     height: 40px;
     line-height: 40px;
     &>div {
       height: 40px;
     }
   }
-  .kuma-uxtable-body-collapse > .kuma-collapse-item > .kuma-collapse-header {
+  .@{__table-prefix-cls}-body-collapse > .@{__collapse-prefix-cls}-item > .@{__collapse-prefix-cls}-header {
     height: 40px;
     line-height: 40px;
   }
 }
 
-.@{uxtable-prefix}-row.multiline {
-  .@{uxtable-prefix}-cell {
+.@{__table-prefix-cls}-row.multiline {
+  .@{__table-prefix-cls}-cell {
     height: auto;
     min-height: 50px;
     line-height: inherit;
@@ -256,12 +248,12 @@
   }
 }
 
-.@{uxtable-prefix}-row.multiline-centered {
-  .@{uxtable-prefix}-row-cells {
+.@{__table-prefix-cls}-row.multiline-centered {
+  .@{__table-prefix-cls}-row-cells {
     display: flex;
     align-items: center;
   }
-  .@{uxtable-prefix}-cell {
+  .@{__table-prefix-cls}-cell {
     padding-top: 18px;
     padding-bottom: 18px;
   }
@@ -278,14 +270,14 @@
   }
 }
 
-.@{uxtable-prefix}-subrow {
+.@{__table-prefix-cls}-subrow {
   transition: all 0.3s ease-out;
 }
 
-.@{uxtable-prefix}-cell-field {
+.@{__table-prefix-cls}-cell-field {
   &.hasError {
-    .kuma-input,
-    .kuma-select2-selection {
+    .@{__input-prefix-cls},
+    .@{__select-prefix-cls}-selection {
       background: @brand-danger-alpha-8;
       border-color: @border-danger-color;
     }
@@ -295,13 +287,13 @@
   }
 }
 
-.@{uxtable-prefix}-select-cell-field {
-  .kuma-select2 {
+.@{__table-prefix-cls}-select-cell-field {
+  .@{__select-prefix-cls} {
     display: block;
   }
 }
 
-.@{uxtable-prefix}-tree-icon {
+.@{__table-prefix-cls}-tree-icon {
   cursor: pointer;
   vertical-align: middle;
   >.kuma-icon {
@@ -320,30 +312,30 @@
   }
 }
 
-.@{uxtable-prefix}-emptyicon {
+.@{__table-prefix-cls}-emptyicon {
   width: 22px;
   display: inline-block;
 }
 
 .kuma-subgrid-mode {
-  .@{uxtable-prefix}-body-wrapper {
+  .@{__table-prefix-cls}-body-wrapper {
     border: none;
   }
 }
 
-.@{uxtable-prefix}-page {
+.@{__table-prefix-cls}-page {
   text-align: right;
   padding: 24px 0px 10px;
-  .kuma-select2-selection__rendered {
+  .@{__select-prefix-cls}-selection__rendered {
     text-align: left;
   }
 }
 
-.@{uxtable-prefix} .kuma-page {
+.@{__table-prefix-cls} .kuma-page {
   display: inline-block;
 }
 
-.@{uxtable-prefix}-h-sort {
+.@{__table-prefix-cls}-h-sort {
   position: relative;
   vertical-align: middle;
   cursor: pointer;
@@ -370,7 +362,7 @@
   }
 }
 
-.@{uxtable-prefix} span.indent {
+.@{__table-prefix-cls} span.indent {
   display: inline-block;
   width: 27px;
   margin: 0;
@@ -379,18 +371,18 @@
   }
 }
 
-.@{uxtable-prefix}-body-fixed,
-.@{uxtable-prefix}-body-right-fixed {
+.@{__table-prefix-cls}-body-fixed,
+.@{__table-prefix-cls}-body-right-fixed {
   overflow-x: hidden;
   overflow-y: auto;
 }
 
-.@{uxtable-prefix}-body-fixed {
+.@{__table-prefix-cls}-body-fixed {
   margin-right: -20px;
 }
 
-.@{uxtable-prefix}-left-fixed-table,
-.@{uxtable-prefix}-right-fixed-table {
+.@{__table-prefix-cls}-left-fixed-table,
+.@{__table-prefix-cls}-right-fixed-table {
   overflow: hidden;
   position: absolute;
   top: 0;
@@ -406,25 +398,25 @@
   }
 }
 
-.@{uxtable-prefix}-left-fixed-table {
+.@{__table-prefix-cls}-left-fixed-table {
   left: 0;
   border-right: 1px solid @normal-alpha-7;
 }
 
-.@{uxtable-prefix}-right-fixed-table {
+.@{__table-prefix-cls}-right-fixed-table {
   right: 0;
   border-left: 1px solid @normal-alpha-7;
 }
 
-.@{uxtable-prefix}-column-message {
+.@{__table-prefix-cls}-column-message {
   max-width: 200px;
 }
 
-.@{uxtable-prefix}-row-selector {
+.@{__table-prefix-cls}-row-selector {
   vertical-align: middle;
 }
 
-.@{uxtable-prefix}-expand-icon {
+.@{__table-prefix-cls}-expand-icon {
   cursor: pointer;
   display: inline-block;
   vertical-align: middle;
@@ -443,74 +435,74 @@
   }
 }
 
-.@{uxtable-prefix}-row-tree-selector {
+.@{__table-prefix-cls}-row-tree-selector {
   margin-right: 12px;
 }
 
 
-.@{uxtable-prefix}-tree-mode {
-  .@{uxtable-prefix}-row {
-    &.even>.@{uxtable-prefix}-row-cells {
+.@{__table-prefix-cls}-tree-mode {
+  .@{__table-prefix-cls}-row {
+    &.even>.@{__table-prefix-cls}-row-cells {
       background: white;
     }
-    .@{uxtable-prefix}-row-cells {
+    .@{__table-prefix-cls}-row-cells {
       border-bottom: 1px solid @normal-alpha-7;
     }
   }
-  .@{uxtable-prefix}-content {
-    .@{uxtable-prefix}-row.@{uxtable-prefix}-row-hover {
-      >.@{uxtable-prefix}-row-cells {
+  .@{__table-prefix-cls}-content {
+    .@{__table-prefix-cls}-row.@{__table-prefix-cls}-row-hover {
+      >.@{__table-prefix-cls}-row-cells {
         background-color: white;
       }
     }
   }
 }
 
-.@{uxtable-prefix}-border-line,
-.@{uxtable-prefix}-split-line {
-  .@{uxtable-prefix}-content {
+.@{__table-prefix-cls}-border-line,
+.@{__table-prefix-cls}-split-line {
+  .@{__table-prefix-cls}-content {
     border: 1px solid @normal-alpha-7;
   }
-  &.@{uxtable-prefix}__no-data {
-    .@{uxtable-prefix}-content {
+  &.@{__table-prefix-cls}__no-data {
+    .@{__table-prefix-cls}-content {
       border-bottom: none;
     }
   }
-  .@{uxtable-prefix}-row {
-    &.even>.@{uxtable-prefix}-row-cells {
+  .@{__table-prefix-cls}-row {
+    &.even>.@{__table-prefix-cls}-row-cells {
       background: white;
     }
-    .@{uxtable-prefix}-row-cells {
+    .@{__table-prefix-cls}-row-cells {
       border-bottom: 1px solid @normal-alpha-7;
     }
     &.last {
-      .@{uxtable-prefix}-row-cells {
+      .@{__table-prefix-cls}-row-cells {
         border-bottom: none;
       }
     }
   }
-  .@{uxtable-prefix}-row-hover {
+  .@{__table-prefix-cls}-row-hover {
     &.even {
-      >.@{uxtable-prefix}-row-cells {
+      >.@{__table-prefix-cls}-row-cells {
         background-color: @brand-primary-alpha-8;
       }
     }
   }
 }
 
-.@{uxtable-prefix}-border-line {
-  .@{uxtable-prefix}-right-fixed-table {
+.@{__table-prefix-cls}-border-line {
+  .@{__table-prefix-cls}-right-fixed-table {
     border-left: none;
   }
-  .@{uxtable-prefix}-left-fixed-table {
+  .@{__table-prefix-cls}-left-fixed-table {
     border-right: none;
-    .@{uxtable-prefix}-cell {
+    .@{__table-prefix-cls}-cell {
       &.last {
         border-right: 1px solid @normal-alpha-7;
       }
     }
   }
-  .@{uxtable-prefix}-cell {
+  .@{__table-prefix-cls}-cell {
     border-right: 1px solid @normal-alpha-7;
     &.last {
       border-right: none;
@@ -518,32 +510,32 @@
   }
 }
 
-.@{uxtable-prefix}-ghost {
-  .@{uxtable-prefix}-body {
+.@{__table-prefix-cls}-ghost {
+  .@{__table-prefix-cls}-body {
     background: transparent;
   }
-  .@{uxtable-prefix}-row {
-    &.even>.@{uxtable-prefix}-row-cells {
+  .@{__table-prefix-cls}-row {
+    &.even>.@{__table-prefix-cls}-row-cells {
       background: transparent;
     }
   }
-  .@{uxtable-prefix}-row-hover {
-    >.@{uxtable-prefix}-row-cells {
+  .@{__table-prefix-cls}-row-hover {
+    >.@{__table-prefix-cls}-row-cells {
       background-color: transparent;
     }
   }
 }
 
-.@{uxtable-prefix}-split-line {
-  .@{uxtable-prefix}-content {
+.@{__table-prefix-cls}-split-line {
+  .@{__table-prefix-cls}-content {
     border-top: none;
     border-left: none;
     border-right: none;
   }
 }
 
-.@{uxtable-prefix}-row-group-mode {
-  .@{uxtable-prefix}-content {
+.@{__table-prefix-cls}-row-group-mode {
+  .@{__table-prefix-cls}-content {
     border-bottom: none;
   }
 }

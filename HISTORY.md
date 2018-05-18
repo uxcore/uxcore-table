@@ -2,6 +2,12 @@
 
 ---
 
+## 9.0.0
+
+* `CHANGED` update `uxcore-tree` to `^0.3.0`
+* `CHANGED` new feature column.filters
+
+
 ## 8.5.0
 
 * `CHANGED` support new prop `toggleSubCompOnRowClick`

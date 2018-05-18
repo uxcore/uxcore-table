@@ -50,7 +50,7 @@ class Demo extends React.Component {
           text: 'Joe',
           value: 'Joe',
         }, {
-          text: 'Jim',
+          text: 'Jimmmmmmmmmmmmmmmmmmmmmmmmmmmmm',
           value: 'Jim',
         }, {
           text: 'Submenu',
@@ -63,6 +63,8 @@ class Demo extends React.Component {
             value: 'Black',
           }],
         }],
+        message: '这是一个提示',
+        ordered: true,
       },
       {
         dataKey: 'lastName',
