@@ -2,6 +2,10 @@
 
 ---
 
+## 9.0.3
+
+* `FIXED` currentPage will always be set to 1
+
 ## 9.0.2
 
 * `CHANGED` remove useless dependencies

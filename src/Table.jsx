@@ -555,14 +555,17 @@ class Table extends React.Component {
     if (searchTxt) {
       queryObj = assign({}, queryObj, {
         searchTxt,
-        currentPage: 1,
       });
     }
 
     // filter
     const filterColumns = this.state.filterColumns;
     if (filterColumns) {
-      queryObj = { ...queryObj, ...filterColumns, currentPage: 1 };
+      queryObj = { ...queryObj, ...filterColumns };
+    }
+
+    if (['search', 'filter'].indexOf(from) !== -1) {
+      queryObj = { ...queryObj, currentPage: 1 };
     }
 
     // fetchParams has the top priority
