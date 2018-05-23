@@ -44,7 +44,8 @@
     "react-dom": "15.x",
     "react-test-renderer": "15.x",
     "uxcore-kuma": "*",
-    "uxcore-tools": "0.2.x"
+    "uxcore-tools": "0.2.x",
+    "uxcore-validator": "^0.2.4"
   },
   "dependencies": {
     "classnames": "^2.1.2",

@@ -28,3 +28,4 @@ dist
 build
 coverage
 assets/**/*.css
+coverage
