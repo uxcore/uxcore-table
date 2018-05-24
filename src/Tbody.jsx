@@ -233,6 +233,7 @@ class Tbody extends React.Component {
       columns,
       data,
       toggleSubCompOnRowClick: props.toggleSubCompOnRowClick,
+      toggleTreeExpandOnRowClick: props.toggleTreeExpandOnRowClick,
       root: props.root,
       locale: props.locale,
       subComp: props.subComp,

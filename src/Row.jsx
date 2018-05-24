@@ -266,11 +266,14 @@ class Row extends React.Component {
           className={`${this.props.prefixCls}-cells`}
           ref={(c) => { this.container = c; }}
           style={{
-            cursor: props.toggleSubCompOnRowClick ? 'pointer' : 'default',
+            cursor: (props.toggleSubCompOnRowClick || props.toggleTreeExpandOnRowClick) ? 'pointer' : 'default',
           }}
-          onClick={() => {
+          onClick={(e) => {
             if (props.toggleSubCompOnRowClick) {
               this.showSubCompFunc(props.rowData);
+            }
+            if (props.toggleTreeExpandOnRowClick) {
+              this.toggleExpanded(e);
             }
           }}
         >

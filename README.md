@@ -143,6 +143,7 @@ $ npm start
 |---             |---                 |---       |---        |---    |---|
 |renderModel     |string              |optional  |-          |''     |使用 tree 模式时，此项为 'tree'|
 |levels          |number              |optional  |-          |0      |tree 模式默认展开的级数|
+|toggleTreeExpandOnRowClick | boolean |optional  |9.1.0      |false  |在点击行的时候，展开和收起对应的树节点，操作列不受影响。
 
 ### 行内编辑表格专用
 

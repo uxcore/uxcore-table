@@ -1212,6 +1212,7 @@ class Table extends React.Component {
       bodyHeight,
       hasFooter: this.hasFooter(),
       toggleSubCompOnRowClick: props.toggleSubCompOnRowClick,
+      toggleTreeExpandOnRowClick: props.toggleTreeExpandOnRowClick,
       rowSelection: props.rowSelection,
       addRowClassName: props.addRowClassName,
       locale: props.locale,
@@ -1314,6 +1315,7 @@ Table.defaultProps = {
   showSearch: false,
   getSavedData: true,
   toggleSubCompOnRowClick: false,
+  toggleTreeExpandOnRowClick: false,
   pageSize: 10,
   pagerSizeOptions: [10, 20, 30, 40],
   rowHeight: 76,
@@ -1374,6 +1376,7 @@ Table.propTypes = {
   showSearch: PropTypes.bool,
   searchBarPlaceholder: PropTypes.string,
   toggleSubCompOnRowClick: PropTypes.bool,
+  toggleTreeExpandOnRowClick: PropTypes.bool,
   loadingText: PropTypes.string,
   subComp: PropTypes.element,
   emptyText: PropTypes.oneOfType([

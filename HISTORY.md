@@ -2,6 +2,10 @@
 
 ---
 
+## 9.1.0
+
+* `CHANGED` support new prop `toggleTreeExpandOnRowClick`
+
 ## 9.0.3
 
 * `FIXED` currentPage will always be set to 1

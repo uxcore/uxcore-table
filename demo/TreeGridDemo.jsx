@@ -81,6 +81,7 @@ class Demo extends React.Component {
       fetchUrl: `${urlPrefix}demo/data.json`,
       jsxcolumns: columns,
       renderModel: 'tree',
+      toggleTreeExpandOnRowClick: true,
       rowSelection: {
         onSelect: (checked, selectedRow, selectedRows) => {
           console.log(checked, selectedRow, selectedRows);
