@@ -34,10 +34,13 @@ function addJSXIdsForRecord(obj) {
  * used in method fetchData
  */
 
-function addValuesInData(objAux) {
+function addValuesInData(objAux, operation) {
   if (!objAux || (!objAux.datas && !objAux.data)) return null;
   const me = this;
   const data = objAux.datas || objAux.data;
+  if (operation === 'reset') {
+    me.uid = 0;
+  }
   for (let i = 0; i < data.length; i++) {
     const node = data[i];
     node.jsxid = me.uid;
