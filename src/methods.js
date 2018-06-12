@@ -240,7 +240,7 @@ function getData(validate) {
   };
 }
 
-function changeTreeExpandState({ tableData, rowData }, cb = null) {
+function changeTreeExpandState({ tableData, rowData }, cb = () => {}) {
   const expandedKeys = deepcopy(this.state.expandedKeys);
   util.toggleItemInArr(rowData.jsxid, expandedKeys);
   if (tableData) {
@@ -249,17 +249,13 @@ function changeTreeExpandState({ tableData, rowData }, cb = null) {
       expandedKeys,
       data: tableData,
     }, () => {
-      if (cb) {
-        cb();
-      }
+      cb();
     });
   } else {
     this.setState({
       expandedKeys,
     }, () => {
-      if (cb) {
-        cb();
-      }
+      cb();
     });
   }
 }
