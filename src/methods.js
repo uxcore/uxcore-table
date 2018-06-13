@@ -1,6 +1,7 @@
 import deepcopy from 'lodash/cloneDeep';
 import Const from 'uxcore-const';
 import util from './util';
+import { loadavg } from 'os';
 
 function addEmptyRow(cb) {
   this.insertRecords({}, false, cb);
@@ -264,15 +265,16 @@ function toggleTreeExpanded(rowData, cb) {
   const { loadTreeData } = this.props;
   if (Array.isArray(rowData.data) && !rowData.data.length && loadTreeData) {
     const loadedResult = loadTreeData(rowData);
+    const loadedAction = (content) => {
+      const { tableData, newRowData } = this.addDataToSelectedRow(content, rowData);
+      this.changeTreeExpandState({ tableData, rowData: newRowData }, cb);
+    };
     if (typeof loadedResult === 'object' && loadedResult.then) {
-      loadedResult
-      .then((content) => {
-        const { tableData, newRowData } = this.addDataToSelectedRow(content, rowData);
-        this.changeTreeExpandState({ tableData, rowData: newRowData }, cb);
+      loadedResult.then((content) => {
+        loadedAction(content);
       });
     } else {
-      const { tableData, newRowData } = this.addDataToSelectedRow(loadedResult, rowData);
-      this.changeTreeExpandState({ tableData, rowData: newRowData }, cb);
+      loadedAction(loadedResult);
     }
   } else {
     this.changeTreeExpandState({ rowData }, cb);
@@ -299,7 +301,10 @@ function addDataInRow(table, treeId, newData) {
 
 function addDataToSelectedRow(content, rowData) {
   const me = this;
-  const { tableData, newRowData } = this.addDataInRow(me.state.data, rowData.__treeId__, content.data);
+  const {
+    tableData,
+    newRowData,
+  } = this.addDataInRow(me.state.data, rowData.__treeId__, content.data);
   const processedData = me.addValuesInData({ data: tableData }, 'reset') || {};
   return { tableData: processedData, newRowData };
 }

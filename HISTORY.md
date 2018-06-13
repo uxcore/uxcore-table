@@ -2,6 +2,10 @@
 
 ---
 
+## 9.2.0
+
+* `CHANGED` support new prop `loadTreeData`
+
 ## 9.1.0
 
 * `CHANGED` support new prop `toggleTreeExpandOnRowClick`
@@ -18,7 +22,6 @@
 
 * `CHANGED` update `uxcore-tree` to `^0.3.0`
 * `CHANGED` new feature column.filters
-
 
 ## 8.5.0
 
