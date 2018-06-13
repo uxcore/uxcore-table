@@ -8,10 +8,19 @@
 
 import React from 'react';
 import Table from '../src';
-
+import NattyFetch from 'natty-fetch';
 
 const urlPrefix = window.urlPrefix || 'http://30.9.174.1:3000/';
 
+function loadTreeData(rowData) {
+  const request = NattyFetch.create({
+    method: 'GET',
+    url: `${urlPrefix}demo/rowData.json`,
+    data: '',
+    Promise,
+  });
+  return request();
+}
 
 class Demo extends React.Component {
   constructor(props) {
@@ -30,9 +39,10 @@ class Demo extends React.Component {
       },
       {
         dataKey: 'country',
-        title: '国家国家国家国家',
+        title: '国家',
         width: '200px',
         ordered: true,
+        align: 'left',
         type: 'money',
         // fixed: true,
         delimiter: ',',
@@ -77,8 +87,9 @@ class Demo extends React.Component {
       height: '400px',
       width: '1000px',
       showSearch: true,
-      levels: 2,
+      levels: 0,
       fetchUrl: `${urlPrefix}demo/data.json`,
+      loadTreeData,
       jsxcolumns: columns,
       renderModel: 'tree',
       toggleTreeExpandOnRowClick: true,

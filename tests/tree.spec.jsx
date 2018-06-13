@@ -2,6 +2,7 @@ import expect from 'expect.js';
 import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-15';
+import Promise from 'lie';
 // import sinon from 'sinon';
 
 import Table from '../src';
@@ -111,12 +112,46 @@ const common = {
             ],
           },
         ],
+      }, {
+        check: false,
+        id: '2',
+        grade: 'grade2',
+        email: 'email',
+        firstName: 'firstName1',
+        lastName: 'lastName1',
+        birthDate: 'birthDate1',
+        country: '086156529655931.121(xsxs)',
+        city: '87181',
+        data: [],
       },
     ],
     currentPage: 1,
     totalCount: 30,
   },
 };
+
+const addedContent = {
+  data: [
+    {
+      id: '3',
+      grade: 'grade2',
+      email: 'email',
+      firstName: 'firstName1',
+      lastName: 'lastName1',
+      birthDate: 'birthDate1',
+      country: '086156529655931.121(xsxs)',
+      city: '9527',
+    },
+  ],
+};
+
+function loadTreeDataWithSync() {
+  return addedContent;
+}
+
+function loadTreeDataWithAsync() {
+  return Promise.resolve(addedContent);
+}
 
 describe('Tree', () => {
   let wrapper;
@@ -159,6 +194,26 @@ describe('Tree', () => {
     );
     wrapper.find('.kuma-uxtable-row .kuma-uxtable-expand-icon').at(0).simulate('change');
     expect(wrapper.find('.kuma-uxtable-row .kuma-uxtable-tree-row').length).not.to.be(0);
+  });
+
+  it('should asynchronous add remote row to toggle tree ', () => {
+    wrapper = mount(
+      <Table {...common} loadTreeData={loadTreeDataWithAsync} renderModel="tree" levels={0} />
+    );
+    const rowLength = wrapper.find('.kuma-uxtable-row').length;
+    wrapper.find('.kuma-icon .kuma-icon-triangle-right').at(4).simulate('click');
+    setTimeout(() => {
+      expect(wrapper.find('.kuma-uxtable-row').length).to.be(rowLength + 1);
+    });
+  });
+
+  it('should synchronous add remote row to toggle tree', () => {
+    wrapper = mount(
+      <Table {...common} loadTreeData={loadTreeDataWithSync} renderModel="tree" levels={0} />
+    );
+    const rowLength = wrapper.find('.kuma-uxtable-row').length;
+    wrapper.find('.kuma-icon .kuma-icon-triangle-right').at(4).simulate('click');
+    expect(wrapper.find('.kuma-uxtable-row').length).to.be(rowLength + 1);
   });
 });
 

@@ -40,6 +40,7 @@
     "es5-shim": "^4.5.8",
     "expect.js": "~0.3.1",
     "kuma-base": "1.x",
+    "lie": "^3.3.0",
     "react": "15.x",
     "react-dom": "15.x",
     "react-test-renderer": "15.x",

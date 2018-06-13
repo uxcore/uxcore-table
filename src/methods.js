@@ -240,16 +240,68 @@ function getData(validate) {
   };
 }
 
-function toggleTreeExpanded(rowData, cb) {
+function changeTreeExpandState({ tableData, rowData }, cb = () => {}) {
   const expandedKeys = deepcopy(this.state.expandedKeys);
   util.toggleItemInArr(rowData.jsxid, expandedKeys);
-  this.setState({
-    expandedKeys,
-  }, () => {
-    if (cb) {
+  if (tableData) {
+    this.data = tableData;
+    this.setState({
+      expandedKeys,
+      data: tableData,
+    }, () => {
       cb();
+    });
+  } else {
+    this.setState({
+      expandedKeys,
+    }, () => {
+      cb();
+    });
+  }
+}
+
+function toggleTreeExpanded(rowData, cb) {
+  const { loadTreeData } = this.props;
+  if (Array.isArray(rowData.data) && !rowData.data.length && loadTreeData) {
+    const loadedResult = loadTreeData(rowData);
+    if (typeof loadedResult === 'object' && loadedResult.then) {
+      loadedResult
+      .then((content) => {
+        const { tableData, newRowData } = this.addDataToSelectedRow(content, rowData);
+        this.changeTreeExpandState({ tableData, rowData: newRowData }, cb);
+      });
+    } else {
+      const { tableData, newRowData } = this.addDataToSelectedRow(loadedResult, rowData);
+      this.changeTreeExpandState({ tableData, rowData: newRowData }, cb);
     }
-  });
+  } else {
+    this.changeTreeExpandState({ rowData }, cb);
+  }
+}
+
+function addDataInRow(table, treeId, newData) {
+  const tableData = deepcopy(table.data);
+  const rowPositionArr = treeId.split('-');
+  let temp = tableData;
+  let index;
+  let newRowData;
+  for (let i = 0; i < rowPositionArr.length; i++) {
+    index = rowPositionArr[i];
+    if (i === rowPositionArr.length - 1) {
+      newRowData = temp[index];
+      newRowData.data = newData;
+    } else {
+      temp = temp[index].data;
+    }
+  }
+  return { tableData, newRowData };
+}
+
+function addDataToSelectedRow(content, rowData) {
+  const me = this;
+  const { tableData, newRowData } = this.addDataInRow(me.state.data, rowData.__treeId__, content.data);
+  const processedData = me.addValuesInData({ data: tableData }, 'reset') || {};
+  return { tableData: processedData, newRowData };
 }
 
 export default {
@@ -268,6 +320,9 @@ export default {
   saveRow,
   saveAllRow,
   toggleSubComp,
+  addDataInRow,
+  addDataToSelectedRow,
+  changeTreeExpandState,
   toggleTreeExpanded,
   doValidate,
   getData,
