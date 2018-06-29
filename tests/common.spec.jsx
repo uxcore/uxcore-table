@@ -2,8 +2,9 @@ import expect from 'expect.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Enzyme, { mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15';
+import Adapter from 'enzyme-adapter-react-16';
 import sinon from 'sinon';
+import util from '../src/util';
 import Table from '../src';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -32,7 +33,6 @@ const common = {
   },
 };
 sinon.spy(Table.prototype, 'componentDidMount');
-sinon.spy(Table.prototype, 'componentWillReceiveProps');
 sinon.spy(Table.prototype, 'fetchRemoteData');
 
 describe('Table', () => {
@@ -42,7 +42,7 @@ describe('Table', () => {
     );
     expect(Table.prototype.componentDidMount.calledOnce).to.be(true);
   });
-  it('calls willReceiveProps', () => {
+  it('data can be changed', () => {
     class Demo extends React.Component {
       constructor(props) {
         super(props);
@@ -87,7 +87,6 @@ describe('Table', () => {
     }
     const wrapper = mount(<Demo />);
     wrapper.instance().changeState();
-    expect(Table.prototype.componentWillReceiveProps.calledOnce).to.be(true);
     expect(wrapper.instance().table.state.data.data[0].id).to.be('2');
   });
   describe('Props', () => {
@@ -116,8 +115,10 @@ describe('Table', () => {
       const mountNode = document.createElement('div');
       document.body.appendChild(mountNode);
       let ref;
+      const scrollbarWidth = util.measureScrollbar();
+      console.log(scrollbarWidth);
       ReactDOM.render(<Table width={900} ref={(c) => { ref = c; }} jsxcolumns={[{ width: '30%', title: '列', dataKey: 'test' }]} />, mountNode);
-      expect(ref.getDom().querySelector('.kuma-uxtable-cell').clientWidth).to.be(270);
+      expect(ref.getDom().querySelector('.kuma-uxtable-cell').clientWidth).to.be(Math.round((900 - scrollbarWidth) * 0.3));
       ref = null;
       ReactDOM.unmountComponentAtNode(mountNode);
       document.body.removeChild(mountNode);

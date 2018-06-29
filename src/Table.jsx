@@ -17,7 +17,6 @@ import classnames from 'classnames';
 import NattyFetch from 'natty-fetch';
 import Promise from 'lie';
 import React from 'react';
-import PropTypes from 'prop-types';
 import Animate from 'uxcore-animate';
 import { addClass, removeClass } from 'rc-util/lib/Dom/class';
 import { get } from 'rc-util/lib/Dom/css';
@@ -31,22 +30,126 @@ import Tbody from './Tbody';
 import ActionBar from './ActionBar';
 import methods from './methods';
 import innerMethods from './innerMethods';
+import { propTypes, defaultProps } from './prop';
 
 const { createCellField } = CellField;
 const getStyle = get;
 
 class Table extends React.Component {
+  static getDerivedStateFromProps = (props, state) => {
+    let newData = {};
+    if (props.pageSize !== state.lastPageSize) {
+      newData.pageSize = props.pageSize;
+      newData.lastPageSize = props.pageSize;
+    }
+    if (props.currentPage !== state.lastCurrentPage) {
+      newData.currentPage = props.currentPage;
+      newData.lastCurrentPage = props.currentPage;
+    }
+    if (!!props.jsxcolumns
+      && !deepEqual(props.jsxcolumns, state.lastJsxcolumns)) {
+      newData = { ...newData, ...Table.processColumn(props, state) };
+      newData.hasFixed = util.hasFixColumn(props);
+    }
+    if (props.showMask !== state.lastShowMask) {
+      newData.showMask = props.showMask;
+    }
+
+    return newData;
+  }
+
+  static processColumn = (props, state = {}, extra = {}) => {
+    const actualProps = props;
+    let columns = deepcopy(actualProps.jsxcolumns);
+    let hasCheckboxColumn = false;
+    let hasPercentWidth = false;
+    let checkboxColumn;
+    let checkboxColumnKey;
+    for (let i = 0; i < columns.length; i++) {
+      const item = columns[i];
+      // only one rowSelector can be rendered in Table.
+      if (item.type === 'checkbox'
+        || item.type === 'radioSelector'
+        || item.type === 'checkboxSelector') {
+        if (item.type === 'checkbox') {
+          console.warn("rowSelector using 'type: checkbox' is deprecated,"
+            + " use 'type: checkboxSelector' instead.");
+        }
+        hasCheckboxColumn = true;
+        checkboxColumn = item;
+        checkboxColumnKey = item.dataKey;
+        item.width = item.width
+          || (/kuma-uxtable-border-line/.test(actualProps.className) ? '40px' : '32px');
+        item.align = item.align || 'left';
+      }
+      if (item.type === 'money') {
+        item.align = item.align || 'right';
+        item.delimiter = item.delimiter || ',';
+      }
+      if (/\d+%/.test(`${item.width}`)) {
+        hasPercentWidth = true;
+        const tableWidth = extra.tableWidth || state.tableWidth;
+        if (tableWidth) {
+          const scrollBarWidth = util.measureScrollbar();
+          const trueTableWidth = tableWidth - scrollBarWidth;
+          item.width = (parseFloat(item.width) * trueTableWidth) / 100;
+        }
+      }
+    }
+    // filter the column which has a dataKey 'jsxchecked' & 'jsxtreeIcon'
+    // filter the column whose dataKey is rowGroupKey
+
+    columns = columns.filter(item =>
+      item.dataKey === undefined ||
+      (item.dataKey !== 'jsxchecked' && item.dataKey !== 'jsxtreeIcon' && item.dataKey !== actualProps.rowGroupKey),
+    );
+
+    if (!!actualProps.rowSelection && !hasCheckboxColumn) {
+      checkboxColumn = {
+        dataKey: 'jsxchecked',
+        width: (/kuma-uxtable-border-line/.test(actualProps.className) ? '40px' : '32px'),
+        type: actualProps.rowSelector,
+        align: 'right',
+      };
+      checkboxColumnKey = 'jsxchecked';
+      columns = [checkboxColumn].concat(columns);
+    } else if (actualProps.parentHasCheckbox) {
+      // no rowSelection but has parentHasCheckbox, render placeholder
+      columns = [{
+        dataKey: 'jsxwhite',
+        width: (/kuma-uxtable-border-line/.test(actualProps.className) ? '40px' : '32px'),
+        type: 'empty',
+      }].concat(columns);
+    }
+    if ((actualProps.subComp || actualProps.renderSubComp)
+      && actualProps.renderModel !== 'tree' && !state.hasFixed) {
+      columns = [{
+        dataKey: 'jsxtreeIcon',
+        width: '36px',
+        type: 'treeIcon',
+      }].concat(columns);
+    } else if (actualProps.passedData) {
+      // no subComp but has passedData, means sub mode, parent should has tree icon,
+      // render tree icon placeholder
+      columns = [{
+        dataKey: 'jsxwhite',
+        width: '34px',
+        type: 'empty',
+      }].concat(columns);
+    }
+    return { columns, checkboxColumn, checkboxColumnKey, hasPercentWidth };
+  }
+
   constructor(props) {
     super(props);
     this.bindInnerMethods();
     this.uid = 0;
     this.fields = {};
     this.copyData = deepcopy(this.props.jsxdata);
-    this.hasFixed = util.hasFixColumn(props);
     this.data = this.addValuesInData(deepcopy(this.props.jsxdata));
     this.state = {
       data: this.data, // checkbox 内部交互
-      columns: this.processColumn(), // column 内部交互
+      ...Table.processColumn(props), // column 内部交互
       showMask: props.showMask, // fetchData 时的内部状态改变
       pageSize: props.pageSize, // pagination 相关
       currentPage: props.currentPage, // pagination 相关
@@ -54,6 +157,12 @@ class Table extends React.Component {
       searchTxt: '',
       expandedKeys: [],
       filterColumns: {},
+      hasFixed: util.hasFixColumn(props),
+      // mirror for gDSFP
+      lastPageSize: props.pageSize,
+      lastCurrentPage: props.currentPage,
+      lastJsxcolumns: props.jsxcolumns,
+      lastShowMask: props.showMask,
     };
     this.handleBodyScroll = this.handleBodyScroll.bind(this);
     this.handleHeaderScroll = this.handleHeaderScroll.bind(this);
@@ -77,7 +186,7 @@ class Table extends React.Component {
     if (me.props.subComp) {
       console.warn('Table: subComp is deprecated, use renderSubComp instead.');
     }
-    if (me.props.renderSubComp && this.hasFixed) {
+    if (me.props.renderSubComp && this.state.hasFixed) {
       console.warn('Table: subComp cannot be rendered if fixed column exists, remove fixed column or props.renderSubComp');
     }
     if (this.props.fetchDataOnMount) {
@@ -88,50 +197,29 @@ class Table extends React.Component {
     if (this.root) {
       this.rootWidth = this.root.clientWidth;
     }
-    if (this.hasPercentWidth) {
-      setTimeout(() => {
-        this.setState({
-          columns: this.processColumn(),
-        }, () => {
-          this.checkRightFixed(true);
-        });
-      }, 200);
-    }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const me = this;
-    const newData = {};
-    if (nextProps.jsxdata
-      && !deepEqual(nextProps.jsxdata, this.copyData)) {
-      // Data has changed, so uid which is used to mark the data should be reset.
-      me.uid = 0;
-      me.fetchData('dataChange', nextProps);
+  componentDidUpdate(prevProps) {
+    if (this.props.jsxdata
+      && !deepEqual(this.props.jsxdata, this.copyData)) {
+      this.fetchData('dataChange', this.props);
       // TODO: need reduce times
       this.forceToCheckRight = true;
     }
-    if (nextProps.pageSize !== me.props.pageSize) {
-      newData.pageSize = nextProps.pageSize;
+    if (prevProps.fetchUrl !== this.props.fetchUrl
+      || !deepEqual(prevProps.fetchParams, this.props.fetchParams)) {
+      this.fetchData('propsChange', this.props);
     }
-    if (nextProps.currentPage !== me.props.currentPage) {
-      newData.currentPage = nextProps.currentPage;
-    }
-    if (!!nextProps.jsxcolumns
-      && !deepEqual(nextProps.jsxcolumns, me.props.jsxcolumns)) {
-      newData.columns = me.processColumn(nextProps);
-      this.hasFixed = util.hasFixColumn(nextProps);
-    }
-    if (nextProps.showMask !== me.props.showMask) {
-      newData.showMask = nextProps.showMask;
-    }
-    if (nextProps.fetchUrl !== me.props.fetchUrl
-      || !deepEqual(nextProps.fetchParams, me.props.fetchParams)) {
-      me.fetchData('propsChange', nextProps);
-    }
-    me.setState(newData);
-  }
 
-  componentDidUpdate() {
+    if (this.state.hasPercentWidth
+      && this.root && this.root.clientWidth !== this.state.tableWidth) {
+      /* eslint-disable react/no-did-update-set-state */
+      this.setState({
+        tableWidth: this.root.clientWidth,
+        ...Table.processColumn(this.props, this.state, { tableWidth: this.root.clientWidth }),
+      });
+      /* eslint-enable react/no-did-update-set-state */
+    }
     // TODO: performance need to be cared
     this.checkBodyVScroll();
     this.checkBodyHScroll();
@@ -185,20 +273,20 @@ class Table extends React.Component {
     const content = deepcopy(this.state.data);
     const _data = content.datas || content.data;
 
-    if (me.checkboxColumn.type === 'radioSelector') {
+    if (me.state.checkboxColumn.type === 'radioSelector') {
       for (let i = 0; i < _data.length; i++) {
         const item = _data[i];
         if (item.jsxid === rowIndex) {
-          item[me.checkboxColumnKey] = checked;
-        } else if (item[me.checkboxColumnKey]) {
-          item[me.checkboxColumnKey] = false;
+          item[me.state.checkboxColumnKey] = checked;
+        } else if (item[me.state.checkboxColumnKey]) {
+          item[me.state.checkboxColumnKey] = false;
         }
       }
     } else {
       for (let i = 0; i < _data.length; i++) {
         const item = _data[i];
         if (item.jsxid === rowIndex) {
-          item[me.checkboxColumnKey] = checked;
+          item[me.state.checkboxColumnKey] = checked;
           break;
         }
       }
@@ -209,7 +297,7 @@ class Table extends React.Component {
     }, () => {
       if (!fromMount) {
         const data = me.state.data.datas || me.state.data.data;
-        const selectedRows = data.filter(item => item[me.checkboxColumnKey] === true);
+        const selectedRows = data.filter(item => item[me.state.checkboxColumnKey] === true);
         if (me.props.rowSelection && me.props.rowSelection.onSelect) {
           me.props.rowSelection.onSelect(checked, data[rowIndex], selectedRows);
         }
@@ -236,19 +324,19 @@ class Table extends React.Component {
     }
     // check/uncheck current row and all its children
     current = current[currentLevel[levelDepth - 1]];
-    current[me.checkboxColumnKey] = checked;
-    util.changeValueR(current, me.checkboxColumnKey, checked);
+    current[me.state.checkboxColumnKey] = checked;
+    util.changeValueR(current, me.state.checkboxColumnKey, checked);
 
     // reverse recursion, check/uncheck parents by its children.
     for (let i = treeMap.length - 1; i >= 0; i--) {
-      treeMap[i][currentLevel[i]][me.checkboxColumnKey] =
-        treeMap[i][currentLevel[i]].data.every(item => item[me.checkboxColumnKey] === true);
+      treeMap[i][currentLevel[i]][me.state.checkboxColumnKey] =
+        treeMap[i][currentLevel[i]].data.every(item => item[me.state.checkboxColumnKey] === true);
     }
 
     me.setState({
       data,
     }, () => {
-      const selectedRows = util.getAllSelectedRows(deepcopy(data), me.checkboxColumnKey);
+      const selectedRows = util.getAllSelectedRows(deepcopy(data), me.state.checkboxColumnKey);
       if (me.props.rowSelection && me.props.rowSelection.onSelect) {
         me.props.rowSelection.onSelect(checked, current, selectedRows);
       }
@@ -321,19 +409,19 @@ class Table extends React.Component {
    * @param {number} scrollLeft body's current scrollLeft
    */
   checkBodyHScroll(scrollLeft) {
-    if (!this.hasFixed) {
+    if (!this.state.hasFixed) {
       return false;
     }
     const node = this.bodyScroll.getDom();
     const wrapperScrollLeft = scrollLeft || node.scrollLeft;
-    if (this.hasFixed.hasLeft && this.fixedTable) {
+    if (this.state.hasFixed.hasLeft && this.fixedTable) {
       if (wrapperScrollLeft > 0) {
         addClass(this.fixedTable, 'has-scroll');
       } else {
         removeClass(this.fixedTable, 'has-scroll');
       }
     }
-    if (this.hasFixed.hasRight) {
+    if (this.state.hasFixed.hasRight) {
       const wrapperWidth = node.clientWidth;
       if (node.children[0]) {
         const bodyWidth = node.children[0].clientWidth;
@@ -422,6 +510,8 @@ class Table extends React.Component {
     });
 
     me.request().then((content) => {
+      // Data has changed, so uid which is used to mark the data should be reset.
+      me.uid = 0;
       const processedData = me.addValuesInData(props.processData(deepcopy(content))) || {};
       const updateObj = {
         data: processedData,
@@ -475,6 +565,8 @@ class Table extends React.Component {
 
   fetchLocalData(from, props, cb = () => {}) {
     const me = this;
+    // Data has changed, so uid which is used to mark the data should be reset.
+    me.uid = 0;
     if (['pagination', 'order', 'search', 'filter'].indexOf(from) !== -1) {
       if (from === 'pagination' && props.onPagerChange) {
         props.onPagerChange(me.state.currentPage, me.state.pageSize);
@@ -579,11 +671,11 @@ class Table extends React.Component {
   getCheckStatus(data) {
     const me = this;
     const { rowSelection } = me.props;
-    const column = me.checkboxColumn;
+    const column = me.state.checkboxColumn;
     if (!column || data.length === 0) {
       return false;
     }
-    const checkboxColumnKey = me.checkboxColumnKey;
+    const checkboxColumnKey = me.state.checkboxColumnKey;
     let isAllDisabled = true;
     let isHalfChecked = false;
     let checkedColumn = 0;
@@ -647,7 +739,7 @@ class Table extends React.Component {
   handleColumnPickerChange(checkedKeys, groupName) {
     const columns = deepcopy(this.state.columns);
     const notRenderColumns = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
-    notRenderColumns.push(this.checkboxColumnKey);
+    notRenderColumns.push(this.state.checkboxColumnKey);
     const commonGroupName = util.getConsts().commonGroup;
     for (let i = 0; i < columns.length; i++) {
       const item = columns[i];
@@ -712,7 +804,7 @@ class Table extends React.Component {
         footerNode.getDom().scrollLeft = scrollLeft;
       }
     }
-    if (scrollTop !== undefined && this.hasFixed) {
+    if (scrollTop !== undefined && this.state.hasFixed) {
       const columnType = ['fixed', 'rightFixed', 'scroll'];
       const columnToScroll = columnType.filter(item => item !== column);
       columnToScroll.forEach((item) => {
@@ -857,93 +949,11 @@ class Table extends React.Component {
     });
   }
 
-
-  processColumn(props) {
-    const actualProps = props || this.props;
-
-    const me = this;
-    let columns = deepcopy(actualProps.jsxcolumns);
-    let hasCheckboxColumn = false;
-    this.hasPercentWidth = false;
-    for (let i = 0; i < columns.length; i++) {
-      const item = columns[i];
-      // only one rowSelector can be rendered in Table.
-      if (item.type === 'checkbox'
-        || item.type === 'radioSelector'
-        || item.type === 'checkboxSelector') {
-        if (item.type === 'checkbox') {
-          console.warn("rowSelector using 'type: checkbox' is deprecated,"
-            + " use 'type: checkboxSelector' instead.");
-        }
-        hasCheckboxColumn = true;
-        me.checkboxColumn = item;
-        me.checkboxColumnKey = item.dataKey;
-        item.width = item.width
-          || (/kuma-uxtable-border-line/.test(actualProps.className) ? '40px' : '32px');
-        item.align = item.align || 'left';
-      }
-      if (item.type === 'money') {
-        item.align = item.align || 'right';
-        item.delimiter = item.delimiter || ',';
-      }
-      if (/\d+%/.test(`${item.width}`)) {
-        this.hasPercentWidth = true;
-        if (this.root) {
-          const scrollBarWidth = util.measureScrollbar();
-          const tableWidth = this.root.clientWidth - scrollBarWidth;
-          item.width = (parseFloat(item.width) * tableWidth) / 100;
-        }
-      }
-    }
-    // filter the column which has a dataKey 'jsxchecked' & 'jsxtreeIcon'
-    // filter the column whose dataKey is rowGroupKey
-
-    columns = columns.filter(item =>
-      item.dataKey === undefined ||
-      (item.dataKey !== 'jsxchecked' && item.dataKey !== 'jsxtreeIcon' && item.dataKey !== actualProps.rowGroupKey),
-    );
-
-    if (!!actualProps.rowSelection && !hasCheckboxColumn) {
-      me.checkboxColumn = {
-        dataKey: 'jsxchecked',
-        width: (/kuma-uxtable-border-line/.test(actualProps.className) ? '40px' : '32px'),
-        type: actualProps.rowSelector,
-        align: 'right',
-      };
-      me.checkboxColumnKey = 'jsxchecked';
-      columns = [me.checkboxColumn].concat(columns);
-    } else if (actualProps.parentHasCheckbox) {
-      // no rowSelection but has parentHasCheckbox, render placeholder
-      columns = [{
-        dataKey: 'jsxwhite',
-        width: (/kuma-uxtable-border-line/.test(actualProps.className) ? '40px' : '32px'),
-        type: 'empty',
-      }].concat(columns);
-    }
-    if ((actualProps.subComp || actualProps.renderSubComp)
-      && actualProps.renderModel !== 'tree' && !this.hasFixed) {
-      columns = [{
-        dataKey: 'jsxtreeIcon',
-        width: '36px',
-        type: 'treeIcon',
-      }].concat(columns);
-    } else if (actualProps.passedData) {
-      // no subComp but has passedData, means sub mode, parent should has tree icon,
-      // render tree icon placeholder
-      columns = [{
-        dataKey: 'jsxwhite',
-        width: '34px',
-        type: 'empty',
-      }].concat(columns);
-    }
-    return columns;
-  }
-
   resizeColumns() {
-    if (this.hasPercentWidth && this.root && this.root.clientWidth !== this.rootWidth) {
+    if (this.state.hasPercentWidth && this.root && this.root.clientWidth !== this.rootWidth) {
       this.rootWidth = this.root.clientWidth;
       this.setState({
-        columns: this.processColumn(),
+        ...Table.processColumn(this.props, this.state),
       });
     }
   }
@@ -956,8 +966,8 @@ class Table extends React.Component {
 
     const selectedRows = [];
     for (let i = 0; i < data.length; i++) {
-      const column = me.checkboxColumn;
-      const key = me.checkboxColumnKey;
+      const column = me.state.checkboxColumn;
+      const key = me.state.checkboxColumnKey;
       const item = data[i];
       if ((!('isDisable' in column) || !column.isDisable(item)) && !column.disable
       && !(typeof rowSelection === 'object' && rowSelection.isDisabled && rowSelection.isDisabled(item))) {
@@ -1093,7 +1103,7 @@ class Table extends React.Component {
   }
 
   renderLeftFixedTable({ renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight }) {
-    if (!this.hasFixed || !this.hasFixed.hasLeft
+    if (!this.state.hasFixed || !this.state.hasFixed.hasLeft
       || !renderBodyProps.data || !renderBodyProps.data.length) {
       return null;
     }
@@ -1108,7 +1118,7 @@ class Table extends React.Component {
   }
 
   renderRightFixedTable({ renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight }) {
-    if (!this.hasFixed || !this.hasFixed.hasRight
+    if (!this.state.hasFixed || !this.state.hasFixed.hasRight
       || !renderBodyProps.data || !renderBodyProps.data.length) {
       return null;
     }
@@ -1147,7 +1157,7 @@ class Table extends React.Component {
         showColumnPicker: this.props.showColumnPicker,
         locale: this.props.locale,
         linkBar: this.props.linkBar,
-        checkboxColumnKey: this.checkboxColumnKey,
+        checkboxColumnKey: this.state.checkboxColumnKey,
         showSearch: this.props.showSearch,
         searchBarPlaceholder: this.props.searchBarPlaceholder,
         columns: this.state.columns,
@@ -1199,7 +1209,7 @@ class Table extends React.Component {
       width: props.width,
       mode: props.mode,
       renderModel: props.renderModel,
-      checkboxColumnKey: me.checkboxColumnKey,
+      checkboxColumnKey: me.state.checkboxColumnKey,
     };
 
     const renderBodyProps = {
@@ -1217,7 +1227,7 @@ class Table extends React.Component {
       addRowClassName: props.addRowClassName,
       locale: props.locale,
       emptyText: props.emptyText,
-      renderSubComp: this.hasFixed ? null : props.renderSubComp,
+      renderSubComp: this.state.hasFixed ? null : props.renderSubComp,
       rowHeight: props.rowHeight,
       loadingText: props.loadingText,
       height: bodyHeight,
@@ -1287,131 +1297,8 @@ class Table extends React.Component {
   }
 }
 
-Table.defaultProps = {
-  prefixCls: 'kuma-uxtable',
-  jsxcolumns: [],
-  locale: 'zh-cn',
-  size: 'middle',
-  showHeader: true,
-  showFooter: true,
-  showRowGroupFooter: false,
-  width: 'auto',
-  height: 'auto',
-  mode: Const.MODE.EDIT,
-  renderModel: '',
-  levels: 0,
-  actionBarHeight: 54,
-  fetchDataOnMount: true,
-  doubleClickToEdit: true,
-  rowSelector: 'checkboxSelector',
-  showPager: true,
-  isMiniPager: false,
-  showPagerSizeChanger: true,
-  showPagerQuickJumper: true,
-  showColumnPicker: false,
-  showHeaderBorder: false,
-  showPagerTotal: true,
-  showMask: false,
-  showSearch: false,
-  getSavedData: true,
-  toggleSubCompOnRowClick: false,
-  toggleTreeExpandOnRowClick: false,
-  pageSize: 10,
-  pagerSizeOptions: [10, 20, 30, 40],
-  rowHeight: 76,
-  fetchParams: {},
-  currentPage: 1,
-  searchBarPlaceholder: '搜索表格内容',
-  loadingText: 'loading',
-  fitResponse: response =>
-    ({
-      content: response.content,
-      success: response.success === undefined ? !response.hasError : response.success,
-      error: {
-        message: response.content || response.errors,
-      },
-    }),
-  processData: data => data,
-  beforeFetch: obj => obj,
-  onFetchError: (err) => {
-    if (err && err.stack) {
-      console.error(err.stack);
-    }
-  },
-  addRowClassName: () => { },
-  onChange: () => { },
-  onSave: () => {},
-  shouldResetExpandedKeys: () => {},
-};
-
-// http://facebook.github.io/react/docs/reusable-components.html
-Table.propTypes = {
-  prefixCls: PropTypes.string,
-  locale: PropTypes.string,
-  size: PropTypes.oneOf(['small', 'middle']),
-  jsxcolumns: PropTypes.arrayOf(PropTypes.object),
-  width: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
-  height: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
-  headerHeight: PropTypes.number,
-  pageSize: PropTypes.number,
-  queryKeys: PropTypes.array,
-  fetchDataOnMount: PropTypes.bool,
-  doubleClickToEdit: PropTypes.bool,
-  showColumnPicker: PropTypes.bool,
-  showPager: PropTypes.bool,
-  showFooter: PropTypes.bool,
-  showRowGroupFooter: PropTypes.bool,
-  isMiniPager: PropTypes.bool,
-  showPagerTotal: PropTypes.bool,
-  showPagerQuickJumper: PropTypes.bool,
-  pagerSizeOptions: PropTypes.array,
-  showHeader: PropTypes.bool,
-  showMask: PropTypes.bool,
-  showSearch: PropTypes.bool,
-  searchBarPlaceholder: PropTypes.string,
-  toggleSubCompOnRowClick: PropTypes.bool,
-  toggleTreeExpandOnRowClick: PropTypes.bool,
-  loadingText: PropTypes.string,
-  subComp: PropTypes.element,
-  emptyText: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-    PropTypes.object,
-  ]),
-  jsxdata: PropTypes.object,
-  fetchUrl: PropTypes.string,
-  fetchParams: PropTypes.object,
-  currentPage: PropTypes.number,
-  rowSelector: PropTypes.string,
-  actionBar: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.object,
-  ]),
-  linkBar: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.object,
-  ]),
-  fitResponse: PropTypes.func,
-  processData: PropTypes.func,
-  beforeFetch: PropTypes.func,
-  onFetchError: PropTypes.func,
-  onColumnPick: PropTypes.func,
-  addRowClassName: PropTypes.func,
-  shouldResetExpandedKeys: PropTypes.func,
-  passedData: PropTypes.object,
-  getSavedData: PropTypes.bool,
-  onChange: PropTypes.func,
-  renderModel: PropTypes.string,
-  levels: PropTypes.number,
-  footer: PropTypes.func,
-};
-
+Table.defaultProps = defaultProps;
+Table.propTypes = propTypes;
 Table.displayName = 'Table';
 Table.CellField = CellField;
 Table.Constants = Const;
