@@ -21,6 +21,7 @@ import Animate from 'uxcore-animate';
 import { addClass, removeClass } from 'rc-util/lib/Dom/class';
 import { get } from 'rc-util/lib/Dom/css';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
+import { polyfill } from 'react-lifecycles-compat';
 
 import Mask from './Mask';
 import util from './util';
@@ -1303,5 +1304,7 @@ Table.displayName = 'Table';
 Table.CellField = CellField;
 Table.Constants = Const;
 Table.createCellField = createCellField;
+
+polyfill(Table);
 
 export default Table;

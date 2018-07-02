@@ -2,6 +2,16 @@
 
 ---
 
+## 10.0.0
+
+* `CHANGED` fit React@16
+* `CHANGED` update `uxcore-button-group` to `^0.2.0`
+* `CHANGED` update `uxcore-date-cell-field` to `^0.6.0`
+* `CHANGED` update `uxcore-dropdown` to `^0.5.0`
+* `CHANGED` update `uxcore-pagination` to `^0.7.0`
+* `CHANGED` update `uxcore-popover` to `^0.6.0`
+* `CHANGED` update `uxcore-select2` to `^0.5.0`
+
 ## 9.2.0
 
 * `CHANGED` support new prop `loadTreeData`

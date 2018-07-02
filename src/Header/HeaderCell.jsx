@@ -7,10 +7,11 @@ import CheckBoxGroup from 'uxcore-checkbox-group';
 import Icon from 'uxcore-icon';
 import Menu from 'uxcore-menu';
 import isEqual from 'lodash/isEqual';
+import { polyfill } from 'react-lifecycles-compat';
 import CheckBox from '../Cell/CheckBox';
 import MessageIcon from './MessageIcon';
 
-export default class HeaderCell extends React.Component {
+class HeaderCell extends React.Component {
   static displayName = 'HeaderCell';
   static propTypes = {
     prefixCls: PropTypes.string,
@@ -24,20 +25,24 @@ export default class HeaderCell extends React.Component {
     filterSelectedKeys: [],
   }
 
+  static getDerivedStateFromProps = (props, state) => {
+    if (props.filterSelectedKeys !== state.lastFilterSelectedKeys) {
+      return {
+        filterSelectedKeys: props.filterSelectedKeys,
+        lastFilterSelectedKeys: props.filterSelectedKeys,
+      };
+    }
+    return null;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       filterSelectedKeys: props.filterSelectedKeys,
+      lastFilterSelectedKeys: props.filterSelectedKeys,
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!isEqual(this.props.filterSelectedKeys, nextProps.filterSelectedKeys)) {
-      this.setState({
-        filterSelectedKeys: nextProps.filterSelectedKeys,
-      });
-    }
-  }
   saveRef(refName) {
     const me = this;
     return (c) => {
@@ -173,6 +178,7 @@ export default class HeaderCell extends React.Component {
           onVisibleChange={(visible) => { this.handleFilterDropdownVisible(visible); }}
         >
           <Icon
+            usei
             name="shaixuan"
             className={classnames(`${prefixCls}-item-filter-icon`, {
               [`${prefixCls}-item-filter-icon__active`]: this.state.filterSelectedKeys.length > 0,
@@ -282,3 +288,7 @@ export default class HeaderCell extends React.Component {
     );
   }
 }
+
+polyfill(HeaderCell);
+
+export default HeaderCell;

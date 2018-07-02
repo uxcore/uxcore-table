@@ -116,7 +116,6 @@ describe('Table', () => {
       document.body.appendChild(mountNode);
       let ref;
       const scrollbarWidth = util.measureScrollbar();
-      console.log(scrollbarWidth);
       ReactDOM.render(<Table width={900} ref={(c) => { ref = c; }} jsxcolumns={[{ width: '30%', title: '列', dataKey: 'test' }]} />, mountNode);
       expect(ref.getDom().querySelector('.kuma-uxtable-cell').clientWidth).to.be(Math.round((900 - scrollbarWidth) * 0.3));
       ref = null;

@@ -156,7 +156,7 @@ class ColumnPicker extends React.Component {
               [`${prefixCls}-trigger__dropdown-visible`]: !!me.state.visible,
             })}
           >
-            <Icon name="zidingyilie" className={`${prefixCls}-icon`} />
+            <Icon usei name="zidingyilie" className={`${prefixCls}-icon`} />
             <span className={`${prefixCls}-title`}>{i18n[locale]['templated-column']}</span>
           </div>
         </div>
