@@ -100,10 +100,8 @@ class Table extends React.Component {
     // filter the column which has a dataKey 'jsxchecked' & 'jsxtreeIcon'
     // filter the column whose dataKey is rowGroupKey
 
-    columns = columns.filter(item =>
-      item.dataKey === undefined ||
-      (item.dataKey !== 'jsxchecked' && item.dataKey !== 'jsxtreeIcon' && item.dataKey !== actualProps.rowGroupKey),
-    );
+    columns = columns.filter(item => item.dataKey === undefined
+      || (item.dataKey !== 'jsxchecked' && item.dataKey !== 'jsxtreeIcon' && item.dataKey !== actualProps.rowGroupKey));
 
     if (!!actualProps.rowSelection && !hasCheckboxColumn) {
       checkboxColumn = {
@@ -138,7 +136,9 @@ class Table extends React.Component {
         type: 'empty',
       }].concat(columns);
     }
-    return { columns, checkboxColumn, checkboxColumnKey, hasPercentWidth };
+    return {
+      columns, checkboxColumn, checkboxColumnKey, hasPercentWidth,
+    };
   }
 
   constructor(props) {
@@ -146,8 +146,8 @@ class Table extends React.Component {
     this.bindInnerMethods();
     this.uid = 0;
     this.fields = {};
-    this.copyData = deepcopy(this.props.jsxdata);
-    this.data = this.addValuesInData(deepcopy(this.props.jsxdata));
+    this.copyData = deepcopy(props.jsxdata);
+    this.data = this.addValuesInData(deepcopy(props.jsxdata));
     this.state = {
       data: this.data, // checkbox 内部交互
       ...Table.processColumn(props), // column 内部交互
@@ -330,8 +330,8 @@ class Table extends React.Component {
 
     // reverse recursion, check/uncheck parents by its children.
     for (let i = treeMap.length - 1; i >= 0; i--) {
-      treeMap[i][currentLevel[i]][me.state.checkboxColumnKey] =
-        treeMap[i][currentLevel[i]].data.every(item => item[me.state.checkboxColumnKey] === true);
+      treeMap[i][currentLevel[i]][me.state.checkboxColumnKey] = treeMap[i][currentLevel[i]]
+        .data.every(item => item[me.state.checkboxColumnKey] === true);
     }
 
     me.setState({
@@ -351,7 +351,7 @@ class Table extends React.Component {
    */
   checkRightFixed(force) {
     if (this.rightFixedTable) {
-      const headerScroll = this.headerScroll;
+      const { headerScroll } = this;
       const headerScrollDom = headerScroll.getDom();
       if (force !== true && this.cachedHeaderScrollWidth === headerScrollDom.clientWidth) {
         return;
@@ -405,6 +405,7 @@ class Table extends React.Component {
       }
     }
   }
+
   /**
    * add fixed body box-shadow when body is scrolling horizontally
    * @param {number} scrollLeft body's current scrollLeft
@@ -613,7 +614,7 @@ class Table extends React.Component {
     const me = this;
     let queryObj = {};
     if (props.passedData) {
-      const queryKeys = props.queryKeys;
+      const { queryKeys } = props;
       if (!queryKeys) {
         queryObj = props.passedData;
       } else {
@@ -899,7 +900,9 @@ class Table extends React.Component {
 
   handleDataChange(obj) {
     const me = this;
-    const { jsxid, column, value, text, pass } = obj;
+    const {
+      jsxid, column, value, text, pass,
+    } = obj;
     const dataKey = column.dataKey;
     const editKey = column.editKey || dataKey;
     const data = deepcopy(me.state.data);
@@ -1004,9 +1007,11 @@ class Table extends React.Component {
           onScroll={this.handleBodyScroll}
           ref={util.saveRef(`body${upperFirst(fixedColumn)}`, this)}
         />
-        {!isFixedTable ? <Animate showProp="visible" transitionName="tableMaskFade">
-          <Mask visible={this.state.showMask} text={this.props.loadingText} />
-        </Animate> : null}
+        {!isFixedTable ? (
+          <Animate showProp="visible" transitionName="tableMaskFade">
+            <Mask visible={this.state.showMask} text={this.props.loadingText} />
+          </Animate>
+        ) : null}
       </div>
     );
   }
@@ -1085,14 +1090,16 @@ class Table extends React.Component {
           return null;
         }
         return pager;
-      } else if (showUnknownTotalPager) {
+      } if (showUnknownTotalPager) {
         return pager;
       }
     }
     return null;
   }
 
-  renderMainTable({ renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight }) {
+  renderMainTable({
+    renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight,
+  }) {
     const { prefixCls } = this.props;
     return (
       <div className={`${prefixCls}-main-table`} ref={util.saveRef('mainTable', this)}>
@@ -1103,7 +1110,9 @@ class Table extends React.Component {
     );
   }
 
-  renderLeftFixedTable({ renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight }) {
+  renderLeftFixedTable({
+    renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight,
+  }) {
     if (!this.state.hasFixed || !this.state.hasFixed.hasLeft
       || !renderBodyProps.data || !renderBodyProps.data.length) {
       return null;
@@ -1118,7 +1127,9 @@ class Table extends React.Component {
     );
   }
 
-  renderRightFixedTable({ renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight }) {
+  renderRightFixedTable({
+    renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight,
+  }) {
     if (!this.state.hasFixed || !this.state.hasFixed.hasRight
       || !renderBodyProps.data || !renderBodyProps.data.length) {
       return null;
@@ -1264,7 +1275,9 @@ class Table extends React.Component {
       footer: props.footer,
     };
 
-    const config = { renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight };
+    const config = {
+      renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight,
+    };
 
     return (
       <div

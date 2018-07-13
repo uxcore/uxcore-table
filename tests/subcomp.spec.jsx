@@ -10,9 +10,15 @@ Enzyme.configure({ adapter: new Adapter() });
 
 const common = {
   jsxcolumns: [
-    { dataKey: 'id', title: 'ID', width: 50, hidden: true },
-    { dataKey: 'country', title: '国家', width: 200, ordered: true },
-    { dataKey: 'city', title: '城市', width: 150, ordered: true },
+    {
+      dataKey: 'id', title: 'ID', width: 50, hidden: true,
+    },
+    {
+      dataKey: 'country', title: '国家', width: 200, ordered: true,
+    },
+    {
+      dataKey: 'city', title: '城市', width: 150, ordered: true,
+    },
     { dataKey: 'firstName', title: 'FristName' },
   ],
   jsxdata: {
@@ -33,21 +39,35 @@ describe('SubComp', () => {
   let wrapper;
   it('props renderSubComp', () => {
     wrapper = mount(
-      <Table {...common} renderSubComp={() => <div>1</div>} />
+      <Table
+        {...common}
+        renderSubComp={() => (
+          <div>
+            1
+          </div>
+        )}
+      />,
     );
     wrapper.find('.kuma-uxtable-tree-icon').simulate('click');
-    expect(wrapper.find('.kuma-uxtable-subrow').contains(<div>1</div>)).to.be(true);
+    expect(wrapper.find('.kuma-uxtable-subrow').contains(<div>
+      1
+                                                         </div>)).to.be(true);
   });
 
   it('api toggleSubComp', (done) => {
     wrapper = mount(
-      <Table {...common} renderSubComp={() => <div>1</div>} />
+      <Table
+        {...common}
+        renderSubComp={() => (
+          <div>
+            1
+          </div>
+        )}
+      />,
     );
     wrapper.instance().toggleSubComp(wrapper.instance().getData().data.data[0], () => {
-      console.log(wrapper.findWhere(n => n.hasClass('kuma-uxtable-subrow')));
       expect(wrapper.find('li.kuma-uxtable-row').html().indexOf('<div>1</div>')).to.not.be(-1);
       done();
     });
   });
 });
-
