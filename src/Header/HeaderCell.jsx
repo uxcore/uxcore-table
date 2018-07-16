@@ -12,6 +12,7 @@ import MessageIcon from './MessageIcon';
 
 export default class HeaderCell extends React.Component {
   static displayName = 'HeaderCell';
+
   static propTypes = {
     prefixCls: PropTypes.string,
     onCheckboxChange: PropTypes.func,
@@ -20,7 +21,7 @@ export default class HeaderCell extends React.Component {
   }
 
   static defaultProps = {
-    onFilter: () => {},
+    onFilter: () => { },
     filterSelectedKeys: [],
   }
 
@@ -38,6 +39,7 @@ export default class HeaderCell extends React.Component {
       });
     }
   }
+
   saveRef(refName) {
     const me = this;
     return (c) => {
@@ -45,12 +47,19 @@ export default class HeaderCell extends React.Component {
     };
   }
 
+  getWidth() {
+    if (this.root) {
+      return this.root.clientWidth;
+    }
+    return 0;
+  }
+
   handleFilterDropdownVisible(filterVisible) {
     this.setState({
       filterVisible,
     }, () => {
       if (filterVisible === false
-          && !isEqual(this.state.filterSelectedKeys, this.props.filterSelectedKeys)) {
+        && !isEqual(this.state.filterSelectedKeys, this.props.filterSelectedKeys)) {
         this.props.onFilter(this.state.filterSelectedKeys);
       }
     });
@@ -109,7 +118,12 @@ export default class HeaderCell extends React.Component {
   renderRequired(item) {
     const { prefixCls } = this.props;
     if (item.required) {
-      return <span className={`${prefixCls}-item-required`}>* </span>;
+      return (
+        <span className={`${prefixCls}-item-required`}>
+          *
+          {' '}
+        </span>
+      );
     }
     return null;
   }
@@ -142,7 +156,7 @@ export default class HeaderCell extends React.Component {
       const menu = (
         <Menu
           mode="vertical"
-          prefixCls={'kuma-dropdown-menu'}
+          prefixCls="kuma-dropdown-menu"
           getPopupContainer={triggerNode => triggerNode.parentNode}
         >
           {column.filters.map(filter => this.renderFilterMenu(filter))}
@@ -156,11 +170,17 @@ export default class HeaderCell extends React.Component {
             <div
               className={`${prefixCls}-item-filter-action-button ${prefixCls}-item-filter-action-button-reset`}
               onClick={() => { this.handleFilterActionReset(); }}
-            >重置</div>
+            >
+              重置
+
+            </div>
             <div
               className={`${prefixCls}-item-filter-action-button ${prefixCls}-item-filter-action-button-confirm`}
               onClick={() => { this.handleFilterActionConfirm(); }}
-            >确认</div>
+            >
+              确认
+
+            </div>
           </div>
         </div>
       );
@@ -213,7 +233,9 @@ export default class HeaderCell extends React.Component {
 
   render() {
     const me = this;
-    const { renderModel, prefixCls, column, index, hasGroup, last } = me.props;
+    const {
+      renderModel, prefixCls, column, index, hasGroup, last,
+    } = me.props;
     const rowSelectorInTreeMode = (['checkboxSelector', 'radioSelector'].indexOf(column.type) !== -1)
       && (renderModel === 'tree');
     if (column.hidden || rowSelectorInTreeMode) {
@@ -252,7 +274,11 @@ export default class HeaderCell extends React.Component {
     } else {
       const content = (typeof column.title === 'function') ? column.title() : column.title;
       const title = (typeof column.title === 'function') ? undefined : column.title;
-      v = <span title={title}>{content}</span>;
+      v = (
+        <span title={title}>
+          {content}
+        </span>
+      );
     }
 
     if (noBorderColumn.indexOf(column.dataKey) !== -1 || last) {
@@ -271,6 +297,7 @@ export default class HeaderCell extends React.Component {
           'kuma-uxtable-cell__action-collapsed': column.type === 'action' && column.collapseNum === 1,
         })}
         style={style}
+        ref={(c) => { this.root = c; }}
       >
         {me.renderIndent(index)}
         {me.renderRequired(column)}

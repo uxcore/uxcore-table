@@ -9,14 +9,11 @@ import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import util from '../util';
 import HeaderCell from './HeaderCell';
 
+const leftFixedType = ['checkboxSelector', 'radioSelector', 'treeIcon'];
+
 
 class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      pickerDisplay: false,
-    };
-  }
+  static isFixedColumn = item => item.fixed || leftFixedType.indexOf(item.type) !== -1
 
   componentDidMount() {
     const me = this;
@@ -52,6 +49,17 @@ class Header extends React.Component {
 
   getScroller() {
     return this.scroller;
+  }
+
+  getFixedColumnsWidth() {
+    let width = 0;
+    const cellKeys = Object.keys(this).filter(item => /fixedCell\d/.test(item));
+    cellKeys.forEach((key) => {
+      if (this[key]) {
+        width += this[key].getWidth();
+      }
+    });
+    return width;
   }
 
   saveRef(refName) {
@@ -110,6 +118,7 @@ class Header extends React.Component {
       activeColumn,
       filterSelectedKeys: filterColumns[item.dataKey],
       checkStatus,
+      ref: (c) => { if (Header.isFixedColumn(item)) { this[`fixedCell${index}`] = c; } },
       onCheckboxChange: (e) => { this.handleCheckBoxChange(e); },
       onColumnOrder: () => { this.handleColumnOrder(item); },
       onFilter: (filterKeys) => { this.handleColumnFilter(filterKeys, item); },
@@ -158,7 +167,6 @@ class Header extends React.Component {
     const props = this.props;
     const me = this;
     const headerStyle = {};
-    const leftFixedType = ['checkboxSelector', 'radioSelector', 'treeIcon'];
     const scrollBarWidth = util.measureScrollbar();
     let width = 0;
     let headerWrapClassName;
@@ -167,13 +175,19 @@ class Header extends React.Component {
 
     if (props.fixedColumn === 'fixed') {
       columns = props.columns.filter((item) => {
-        if ((item.fixed && !item.hidden) || (leftFixedType.indexOf(item.type) !== -1)) {
+        if (!item.hidden && Header.isFixedColumn(item)) {
           width = parseInt(item.width, 10) + width;
           return true;
         }
         return false;
       });
       headerWrapClassName = 'kuma-uxtable-header-fixed';
+      if (props.leftFixedMaxWidth) {
+        assign(headerStyle, {
+          marginBottom: `-${scrollBarWidth}px`,
+          overflowX: scrollBarWidth ? 'scroll' : 'hidden',
+        });
+      }
     } else if (props.fixedColumn === 'rightFixed') {
       columns = props.columns.filter((item) => {
         if (item.rightFixed && !item.hidden) {
@@ -189,7 +203,7 @@ class Header extends React.Component {
       const rightFixedColumns = [];
       props.columns.forEach((item) => {
         if (!item.hidden) {
-          if (item.fixed || leftFixedType.indexOf(item.type) !== -1) {
+          if (Header.isFixedColumn(item)) {
             leftFixedColumns.push(item);
           } else if (item.rightFixed) {
             rightFixedColumns.push(item);
@@ -204,8 +218,6 @@ class Header extends React.Component {
       assign(headerStyle, {
         marginBottom: `-${scrollBarWidth}px`,
         overflowX: scrollBarWidth ? 'scroll' : 'hidden',
-        // width: typeof props.width === 'number' ? props.width - 3 : props.width,
-        // minWidth: typeof props.width === 'number' ? props.width - 3 : props.width,
       });
       headerWrapClassName = 'kuma-uxtable-header-scroll';
     } else {

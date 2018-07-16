@@ -2,6 +2,10 @@
 
 ---
 
+## 9.3.0
+
+* `CHANGED` support new prop `leftFixedMaxWidth`
+
 ## 9.2.0
 
 * `CHANGED` support new prop `loadTreeData`

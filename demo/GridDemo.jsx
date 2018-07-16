@@ -29,6 +29,7 @@ class Demo extends React.Component {
       showTable: !this.state.showTable,
     });
   }
+
   render() {
     const me = this;
     // 通过 rowSelection 对象表明需要行选择
@@ -45,6 +46,7 @@ class Demo extends React.Component {
       {
         dataKey: 'firstName',
         title: 'FristName',
+        fixed: true,
         width: '15%',
         filters: [{
           text: 'Joe',
@@ -69,6 +71,7 @@ class Demo extends React.Component {
       {
         dataKey: 'lastName',
         title: 'LastName',
+        fixed: true,
         width: '55%',
       },
       {
@@ -135,6 +138,7 @@ class Demo extends React.Component {
       rowSelector: 'checkboxSelector',
       jsxcolumns: columns,
       showColumnPicker: true,
+      leftFixedMaxWidth: 500,
       // size: 'small',
       // rowSelection,
       onColumnPick: (columns) => {
@@ -165,10 +169,18 @@ class Demo extends React.Component {
           ],
           jsxdata: {
             data: [
-              { id: '001', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
-              { id: '002', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
-              { id: '003', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
-              { id: '004', class: 'API管理系统', dep: '用户体验部', person: '大圣' },
+              {
+                id: '001', class: 'API管理系统', dep: '用户体验部', person: '大圣',
+              },
+              {
+                id: '002', class: 'API管理系统', dep: '用户体验部', person: '大圣',
+              },
+              {
+                id: '003', class: 'API管理系统', dep: '用户体验部', person: '大圣',
+              },
+              {
+                id: '004', class: 'API管理系统', dep: '用户体验部', person: '大圣',
+              },
             ],
           },
           className: 'kuma-uxtable-ghost',
@@ -189,8 +201,13 @@ class Demo extends React.Component {
           onClick={() => {
             me.table.fetchData();
           }}
-        >重新获取数据</Button>
-        <Button onClick={this.toggleShowTable}>卸载/恢复组件</Button>
+        >
+重新获取数据
+
+        </Button>
+        <Button onClick={this.toggleShowTable}>
+卸载/恢复组件
+                </Button>
       </div>
     );
   }

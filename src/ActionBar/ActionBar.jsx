@@ -47,7 +47,11 @@ class ActionBar extends React.Component {
       key: index,
     };
     if (!!item.render && typeof item.render === 'function') {
-      return <div {...itemProps}>{item.render(item.title)}</div>;
+      return (
+        <div {...itemProps}>
+          {item.render(item.title)}
+        </div>
+      );
     }
     if (index === 0) {
       itemProps.type = 'outline';

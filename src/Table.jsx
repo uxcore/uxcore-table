@@ -94,6 +94,7 @@ class Table extends React.Component {
           columns: this.processColumn(),
         }, () => {
           this.checkRightFixed(true);
+          this.checkFixedMaxWidth();
         });
       }, 200);
     }
@@ -137,6 +138,7 @@ class Table extends React.Component {
     this.checkBodyHScroll();
     this.checkRightFixed(this.forceToCheckRight);
     this.forceToCheckRight = false;
+    this.checkFixedMaxWidth();
   }
 
   componentWillUnmount() {
@@ -241,8 +243,7 @@ class Table extends React.Component {
 
     // reverse recursion, check/uncheck parents by its children.
     for (let i = treeMap.length - 1; i >= 0; i--) {
-      treeMap[i][currentLevel[i]][me.checkboxColumnKey] =
-        treeMap[i][currentLevel[i]].data.every(item => item[me.checkboxColumnKey] === true);
+      treeMap[i][currentLevel[i]][me.checkboxColumnKey] = treeMap[i][currentLevel[i]].data.every(item => item[me.checkboxColumnKey] === true);
     }
 
     me.setState({
@@ -316,6 +317,7 @@ class Table extends React.Component {
       }
     }
   }
+
   /**
    * add fixed body box-shadow when body is scrolling horizontally
    * @param {number} scrollLeft body's current scrollLeft
@@ -347,6 +349,21 @@ class Table extends React.Component {
       }
     }
     return false;
+  }
+
+  /**
+   * check if main table need to be right positioned if leftFixedMaxWidth is set
+   */
+  checkFixedMaxWidth() {
+    const { leftFixedMaxWidth } = this.props;
+    if (!leftFixedMaxWidth || !this.headerFixed || !this.mainTable) return;
+    const fixedColumnsWidth = this.headerFixed.getFixedColumnsWidth();
+    if (fixedColumnsWidth && fixedColumnsWidth !== this.fixedColumnsWidth) {
+      this.fixedColumnsWidth = fixedColumnsWidth;
+      this.mainTable.style.position = 'relative';
+      this.mainTable.style.left = `${leftFixedMaxWidth - fixedColumnsWidth}px`;
+      this.mainTable.style.width = `calc(100% + ${fixedColumnsWidth - leftFixedMaxWidth}px)`;
+    }
   }
 
 
@@ -702,9 +719,9 @@ class Table extends React.Component {
       return;
     }
     const me = this;
-    if (scrollLeft !== undefined && column === 'scroll') {
-      const headerNode = me.headerScroll;
-      const footerNode = me.footerScroll;
+    if (scrollLeft !== undefined && ['scroll', 'fixed'].indexOf(column) !== -1) {
+      const headerNode = me[`header${upperFirst(column)}`];
+      const footerNode = me[`footer${upperFirst(column)}`];
       if (headerNode) {
         headerNode.getDom().scrollLeft = scrollLeft;
       }
@@ -806,7 +823,9 @@ class Table extends React.Component {
 
   handleDataChange(obj) {
     const me = this;
-    const { jsxid, column, value, text, pass } = obj;
+    const {
+      jsxid, column, value, text, pass,
+    } = obj;
     const dataKey = column.dataKey;
     const editKey = column.editKey || dataKey;
     const data = deepcopy(me.state.data);
@@ -898,10 +917,8 @@ class Table extends React.Component {
     // filter the column which has a dataKey 'jsxchecked' & 'jsxtreeIcon'
     // filter the column whose dataKey is rowGroupKey
 
-    columns = columns.filter(item =>
-      item.dataKey === undefined ||
-      (item.dataKey !== 'jsxchecked' && item.dataKey !== 'jsxtreeIcon' && item.dataKey !== actualProps.rowGroupKey),
-    );
+    columns = columns.filter(item => item.dataKey === undefined
+      || (item.dataKey !== 'jsxchecked' && item.dataKey !== 'jsxtreeIcon' && item.dataKey !== actualProps.rowGroupKey));
 
     if (!!actualProps.rowSelection && !hasCheckboxColumn) {
       me.checkboxColumn = {
@@ -993,9 +1010,11 @@ class Table extends React.Component {
           onScroll={this.handleBodyScroll}
           ref={util.saveRef(`body${upperFirst(fixedColumn)}`, this)}
         />
-        {!isFixedTable ? <Animate showProp="visible" transitionName="tableMaskFade">
-          <Mask visible={this.state.showMask} text={this.props.loadingText} />
-        </Animate> : null}
+        {!isFixedTable ? (
+          <Animate showProp="visible" transitionName="tableMaskFade">
+            <Mask visible={this.state.showMask} text={this.props.loadingText} />
+          </Animate>
+        ) : null}
       </div>
     );
   }
@@ -1074,17 +1093,20 @@ class Table extends React.Component {
           return null;
         }
         return pager;
-      } else if (showUnknownTotalPager) {
+      } if (showUnknownTotalPager) {
         return pager;
       }
     }
     return null;
   }
 
-  renderMainTable({ renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight }) {
+  renderMainTable({
+    renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight,
+  }) {
     const { prefixCls } = this.props;
+    const style = {};
     return (
-      <div className={`${prefixCls}-main-table`} ref={util.saveRef('mainTable', this)}>
+      <div className={`${prefixCls}-main-table`} style={style} ref={util.saveRef('mainTable', this)}>
         {this.renderHeader(renderHeaderProps, 'scroll')}
         {this.renderTbody(renderBodyProps, bodyHeight, 'scroll')}
         {this.renderFooter(renderFooterProps, 'scroll')}
@@ -1092,14 +1114,23 @@ class Table extends React.Component {
     );
   }
 
-  renderLeftFixedTable({ renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight }) {
+  renderLeftFixedTable({
+    renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight,
+  }) {
     if (!this.hasFixed || !this.hasFixed.hasLeft
       || !renderBodyProps.data || !renderBodyProps.data.length) {
       return null;
     }
-    const { prefixCls } = this.props;
+    const { prefixCls, leftFixedMaxWidth } = this.props;
+    const style = {
+      maxWidth: leftFixedMaxWidth,
+    };
     return (
-      <div className={`${prefixCls}-left-fixed-table`} ref={util.saveRef('fixedTable', this)}>
+      <div
+        className={classnames(`${prefixCls}-left-fixed-table`)}
+        style={style}
+        ref={util.saveRef('fixedTable', this)}
+      >
         {this.renderHeader(renderHeaderProps, 'fixed')}
         {this.renderTbody(renderBodyProps, bodyHeight, 'fixed')}
         {this.renderFooter(renderFooterProps, 'fixed')}
@@ -1107,7 +1138,9 @@ class Table extends React.Component {
     );
   }
 
-  renderRightFixedTable({ renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight }) {
+  renderRightFixedTable({
+    renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight,
+  }) {
     if (!this.hasFixed || !this.hasFixed.hasRight
       || !renderBodyProps.data || !renderBodyProps.data.length) {
       return null;
@@ -1200,6 +1233,7 @@ class Table extends React.Component {
       mode: props.mode,
       renderModel: props.renderModel,
       checkboxColumnKey: me.checkboxColumnKey,
+      leftFixedMaxWidth: props.leftFixedMaxWidth,
     };
 
     const renderBodyProps = {
@@ -1253,7 +1287,9 @@ class Table extends React.Component {
       footer: props.footer,
     };
 
-    const config = { renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight };
+    const config = {
+      renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight,
+    };
 
     return (
       <div
@@ -1323,14 +1359,13 @@ Table.defaultProps = {
   currentPage: 1,
   searchBarPlaceholder: '搜索表格内容',
   loadingText: 'loading',
-  fitResponse: response =>
-    ({
-      content: response.content,
-      success: response.success === undefined ? !response.hasError : response.success,
-      error: {
-        message: response.content || response.errors,
-      },
-    }),
+  fitResponse: response => ({
+    content: response.content,
+    success: response.success === undefined ? !response.hasError : response.success,
+    error: {
+      message: response.content || response.errors,
+    },
+  }),
   processData: data => data,
   beforeFetch: obj => obj,
   onFetchError: (err) => {
