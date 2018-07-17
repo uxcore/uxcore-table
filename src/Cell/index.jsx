@@ -34,6 +34,7 @@ class Cell extends React.Component {
     this.showSubComp = this.showSubComp.bind(this);
     this.handleCheckChange = this.handleCheckChange.bind(this);
   }
+
   shouldComponentUpdate(nextProps) {
     // 需要考虑的 prop 包括
     // column, rowData, rowIndex(s), index(s), cellIndex(s), hasSubComp(s)
@@ -293,7 +294,11 @@ class Cell extends React.Component {
     } else if (column.render) {
       content = column.render.apply(null, [me.getCellData(), content]);
     } else {
-      content = <div className="default-cell" title={me.getCellData()}>{me.getCellData()}</div>;
+      content = (
+        <div className="default-cell" title={me.getCellData()}>
+          {me.getCellData()}
+        </div>
+      );
     }
 
     const child = me.props.children;
@@ -305,6 +310,7 @@ class Cell extends React.Component {
         })}
         style={style}
         onClick={(e) => { this.handleCellClick(e); }}
+        ref={(c) => { this.root = c; }}
       >
         {child}
         {content}

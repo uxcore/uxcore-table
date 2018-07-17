@@ -226,6 +226,7 @@ class Table extends React.Component {
     this.checkBodyHScroll();
     this.checkRightFixed(this.forceToCheckRight);
     this.forceToCheckRight = false;
+    this.checkFixedMaxWidth();
   }
 
   componentWillUnmount() {
@@ -437,6 +438,21 @@ class Table extends React.Component {
       }
     }
     return false;
+  }
+
+  /**
+   * check if main table need to be right positioned if leftFixedMaxWidth is set
+   */
+  checkFixedMaxWidth() {
+    const { leftFixedMaxWidth } = this.props;
+    if (!leftFixedMaxWidth || !this.headerFixed || !this.mainTable) return;
+    const fixedColumnsWidth = this.headerFixed.getFixedColumnsWidth();
+    if (fixedColumnsWidth && fixedColumnsWidth !== this.fixedColumnsWidth) {
+      this.fixedColumnsWidth = fixedColumnsWidth;
+      this.mainTable.style.position = 'relative';
+      this.mainTable.style.left = `${leftFixedMaxWidth - fixedColumnsWidth}px`;
+      this.mainTable.style.width = `calc(100% + ${fixedColumnsWidth - leftFixedMaxWidth}px)`;
+    }
   }
 
 
@@ -796,9 +812,9 @@ class Table extends React.Component {
       return;
     }
     const me = this;
-    if (scrollLeft !== undefined && column === 'scroll') {
-      const headerNode = me.headerScroll;
-      const footerNode = me.footerScroll;
+    if (scrollLeft !== undefined && ['scroll', 'fixed'].indexOf(column) !== -1) {
+      const headerNode = me[`header${upperFirst(column)}`];
+      const footerNode = me[`footer${upperFirst(column)}`];
       if (headerNode) {
         headerNode.getDom().scrollLeft = scrollLeft;
       }
@@ -1101,8 +1117,9 @@ class Table extends React.Component {
     renderHeaderProps, renderBodyProps, renderFooterProps, bodyHeight,
   }) {
     const { prefixCls } = this.props;
+    const style = {};
     return (
-      <div className={`${prefixCls}-main-table`} ref={util.saveRef('mainTable', this)}>
+      <div className={`${prefixCls}-main-table`} style={style} ref={util.saveRef('mainTable', this)}>
         {this.renderHeader(renderHeaderProps, 'scroll')}
         {this.renderTbody(renderBodyProps, bodyHeight, 'scroll')}
         {this.renderFooter(renderFooterProps, 'scroll')}
@@ -1117,9 +1134,16 @@ class Table extends React.Component {
       || !renderBodyProps.data || !renderBodyProps.data.length) {
       return null;
     }
-    const { prefixCls } = this.props;
+    const { prefixCls, leftFixedMaxWidth } = this.props;
+    const style = {
+      maxWidth: leftFixedMaxWidth,
+    };
     return (
-      <div className={`${prefixCls}-left-fixed-table`} ref={util.saveRef('fixedTable', this)}>
+      <div
+        className={classnames(`${prefixCls}-left-fixed-table`)}
+        style={style}
+        ref={util.saveRef('fixedTable', this)}
+      >
         {this.renderHeader(renderHeaderProps, 'fixed')}
         {this.renderTbody(renderBodyProps, bodyHeight, 'fixed')}
         {this.renderFooter(renderFooterProps, 'fixed')}
@@ -1222,6 +1246,7 @@ class Table extends React.Component {
       mode: props.mode,
       renderModel: props.renderModel,
       checkboxColumnKey: me.state.checkboxColumnKey,
+      leftFixedMaxWidth: props.leftFixedMaxWidth,
     };
 
     const renderBodyProps = {

@@ -130,7 +130,11 @@ class Tbody extends React.Component {
       if (typeof this.props.height === 'number') {
         style.lineHeight = `${this.props.height - 10}px`;
       }
-      const defaultEmptyText = <div style={{ lineHeight: 2 }}>{i18n[this.props.locale]['default-empty-text']}</div>;
+      const defaultEmptyText = (
+        <div style={{ lineHeight: 2 }}>
+          {i18n[this.props.locale]['default-empty-text']}
+        </div>
+      );
       return (
         <EmptyData style={{ marginTop: '20px', marginBottom: '20px' }}>
           {this.props.emptyText || defaultEmptyText}
@@ -141,7 +145,9 @@ class Tbody extends React.Component {
   }
 
   renderRowGroupFooter(rowGroupData) {
-    const { hasFooter, showRowGroupFooter, data, columns, footer, fixedColumn } = this.props;
+    const {
+      hasFooter, showRowGroupFooter, data, columns, footer, fixedColumn,
+    } = this.props;
     if (!hasFooter || !showRowGroupFooter) {
       return null;
     }
@@ -185,6 +191,12 @@ class Tbody extends React.Component {
         height: props.bodyHeight === 'auto' ? props.bodyHeight : `${props.bodyHeight - scrollBarWidth}px`,
       };
 
+      if (props.leftFixedMaxWidth) {
+        style = {
+          ...style,
+          overflowX: 'scroll',
+        };
+      }
       bodyWrapClassName = 'kuma-uxtable-body-fixed';
     } else if (props.fixedColumn === 'rightFixed') {
       columns = props.columns.filter((item) => {
@@ -196,8 +208,6 @@ class Tbody extends React.Component {
       bodyWrapClassName = 'kuma-uxtable-body-right-fixed';
       style = {
         ...style,
-        // paddingBottom: `${scrollBarWidth}px`,
-        // marginBottom: `-${scrollBarWidth}px`,
         height: props.bodyHeight === 'auto' ? props.bodyHeight : `${props.bodyHeight - scrollBarWidth}px`,
       };
     } else if (props.fixedColumn === 'scroll') {
@@ -322,9 +332,11 @@ class Tbody extends React.Component {
     return (
       <div className={bodyWrapClassName} ref={this.saveRef('root')} style={style}>
         {this.renderEmptyData()}
-        {data.length > 0 ? <ul className={this.props.jsxprefixCls}>
-          {rows}
-        </ul> : null}
+        {data.length > 0 ? (
+          <ul className={this.props.jsxprefixCls}>
+            {rows}
+          </ul>
+        ) : null}
       </div>
     );
   }
@@ -355,7 +367,7 @@ Tbody.propTypes = {
 
 Tbody.defaultProps = {
   jsxprefixCls: 'kuma-uxtable-body',
-  onScroll: () => {},
+  onScroll: () => { },
 };
 
 export default Tbody;

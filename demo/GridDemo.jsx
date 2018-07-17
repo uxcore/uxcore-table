@@ -46,6 +46,7 @@ class Demo extends React.Component {
       {
         dataKey: 'firstName',
         title: 'FristName',
+        fixed: true,
         width: '15%',
         filters: [{
           text: 'Joe',
@@ -70,6 +71,7 @@ class Demo extends React.Component {
       {
         dataKey: 'lastName',
         title: 'LastName',
+        fixed: true,
         width: '55%',
       },
       {
@@ -136,6 +138,7 @@ class Demo extends React.Component {
       rowSelector: 'checkboxSelector',
       jsxcolumns: columns,
       showColumnPicker: true,
+      leftFixedMaxWidth: 900,
       // size: 'small',
       // rowSelection,
       onColumnPick: (columns) => {
@@ -200,7 +203,6 @@ class Demo extends React.Component {
           }}
         >
           重新获取数据
-
         </Button>
         <Button onClick={this.toggleShowTable}>
           卸载/恢复组件

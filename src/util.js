@@ -69,7 +69,7 @@ const formatValue = (value, type, delimiter) => {
   const newValue = value.toString();
   if (type === 'money') {
     return Formatter.money(newValue, newDelimiter);
-  } else if (type === 'card') {
+  } if (type === 'card') {
     return Formatter.card(newValue, newDelimiter);
   } else if (type === 'cnmobile') {
     return Formatter.cnmobile(newValue, newDelimiter);
@@ -95,8 +95,7 @@ const mergeData = (data, obj, reverse) => {
 };
 
 /* eslint-disable no-param-reassign */
-const saveRef = (refName, context) =>
-  (c) => {
+const saveRef = (refName, context) => (c) => {
     context[refName] = c;
   }
   ;
@@ -285,4 +284,3 @@ const utils = {
 };
 
 export default utils;
-

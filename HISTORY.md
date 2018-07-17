@@ -12,6 +12,10 @@
 * `CHANGED` update `uxcore-popover` to `^0.6.0`
 * `CHANGED` update `uxcore-select2` to `^0.5.0`
 
+## 9.3.0
+
+* `CHANGED` support new prop `leftFixedMaxWidth`
+
 ## 9.2.0
 
 * `CHANGED` support new prop `loadTreeData`
