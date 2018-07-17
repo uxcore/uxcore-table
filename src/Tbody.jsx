@@ -194,7 +194,7 @@ class Tbody extends React.Component {
       if (props.leftFixedMaxWidth) {
         style = {
           ...style,
-          overflowX: 'scroll',
+          overflowX: 'auto',
         };
       }
       bodyWrapClassName = 'kuma-uxtable-body-fixed';

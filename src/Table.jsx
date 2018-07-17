@@ -449,9 +449,12 @@ class Table extends React.Component {
     const fixedColumnsWidth = this.headerFixed.getFixedColumnsWidth();
     if (fixedColumnsWidth && fixedColumnsWidth !== this.fixedColumnsWidth) {
       this.fixedColumnsWidth = fixedColumnsWidth;
-      this.mainTable.style.position = 'relative';
-      this.mainTable.style.left = `${leftFixedMaxWidth - fixedColumnsWidth}px`;
-      this.mainTable.style.width = `calc(100% + ${fixedColumnsWidth - leftFixedMaxWidth}px)`;
+      const offset = leftFixedMaxWidth - fixedColumnsWidth;
+      if (offset < 0) {
+        this.mainTable.style.position = 'relative';
+        this.mainTable.style.left = `${offset}px`;
+        this.mainTable.style.width = `calc(100% + ${-offset}px)`;
+      }
     }
   }
 
