@@ -433,6 +433,14 @@
       transform: rotate(90deg);
     }
   }
+  .loading-icon {
+    display: inline-block;
+    animation: rotating 1s linear infinite;
+    @keyframes rotating {
+      from {transform: rotate(0)}
+      to {transform: rotate(360deg)}
+    }
+  }
 }
 
 .@{__table-prefix-cls}-row-tree-selector {
