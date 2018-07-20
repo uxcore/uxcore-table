@@ -214,11 +214,11 @@ describe('Tree', () => {
       <Table {...common} loadTreeData={loadTreeDataWithAsync} renderModel="tree" levels={0} />
     );
     wrapper.find('.kuma-icon .kuma-icon-triangle-right').at(4).simulate('click');
-    expect(wrapper.find('.loading-icon').length).above(0);
+    expect(wrapper.find('.kuma-uxtable-row-tree-loading-icon').length).above(0);
 
     setTimeout(() => {
       wrapper.update();
-      expect(wrapper.find('.loading-icon').length).to.equal(0);
+      expect(wrapper.find('.kuma-uxtable-row-tree-loading-icon').length).to.equal(0);
       done();
     }, 0);
   });
