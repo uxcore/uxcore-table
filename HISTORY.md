@@ -2,6 +2,10 @@
 
 ---
 
+## 9.4.0
+
+* `CHANGED` support tree loading icon
+
 ## 9.3.0
 
 * `CHANGED` support new prop `leftFixedMaxWidth`

@@ -27,16 +27,16 @@
   }
   .@{__table-prefix-cls}-body-collapse {
     border: none;
-    > .@{__collapse-prefix-cls}-item {
+    >.@{__collapse-prefix-cls}-item {
       border-top: none;
-      > .@{__collapse-prefix-cls}-header {
+      >.@{__collapse-prefix-cls}-header {
         height: 50px;
         line-height: 50px;
         background: @normal-alpha-9;
         border-bottom: 1px solid @split-line-color;
       }
       &:last-child {
-        > .@{__collapse-prefix-cls}-header[aria-expanded="false"] {
+        >.@{__collapse-prefix-cls}-header[aria-expanded="false"] {
           border-bottom: none;
         }
       }
@@ -45,7 +45,7 @@
       padding: 0;
       background-color: transparent;
       color: @dark-alpha-3;
-      > .@{__collapse-prefix-cls}-content-box {
+      >.@{__collapse-prefix-cls}-content-box {
         padding: 0;
       }
     }
@@ -140,7 +140,6 @@
   }
 }
 
-
 .@{__table-prefix-cls}-body-emptyword {
   text-align: center;
   vertical-align: middle;
@@ -186,7 +185,6 @@
   word-break: break-all;
   height: 50px;
   line-height: 50px;
-  
   &>div {
     display: inline-block;
     overflow: hidden;
@@ -225,7 +223,7 @@
       height: 40px;
     }
   }
-  .@{__table-prefix-cls}-body-collapse > .@{__collapse-prefix-cls}-item > .@{__collapse-prefix-cls}-header {
+  .@{__table-prefix-cls}-body-collapse>.@{__collapse-prefix-cls}-item>.@{__collapse-prefix-cls}-header {
     height: 40px;
     line-height: 40px;
   }
@@ -435,10 +433,22 @@
   }
 }
 
+.@{__table-prefix-cls}-row-tree-loading-icon {
+  display: inline-block;
+  animation: treeIconLoading 1s linear infinite;
+  @keyframes treeIconLoading {
+    from {
+      transform: rotate(0)
+    }
+    to {
+      transform: rotate(360deg)
+    }
+  }
+}
+
 .@{__table-prefix-cls}-row-tree-selector {
   margin-right: 12px;
 }
-
 
 .@{__table-prefix-cls}-tree-mode {
   .@{__table-prefix-cls}-row {

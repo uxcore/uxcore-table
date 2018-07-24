@@ -8,6 +8,7 @@ import deepcopy from 'lodash/cloneDeep';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Animate from 'uxcore-animate';
+import Icon from 'uxcore-icon';
 import Cell from './Cell';
 import CheckBox from './Cell/CheckBox';
 import util from './util';
@@ -24,7 +25,7 @@ class Row extends React.Component {
 
     ['rowIndex', 'index', 'mode', 'renderModel', 'fixedColumn',
       'levels', 'addRowClassName', 'renderSubComp', 'visible',
-      'checkboxColumnKey', 'locale', 'isHover'].forEach((item) => {
+      'checkboxColumnKey', 'locale', 'isHover', 'isTreeLoading'].forEach((item) => {
       if (me.props[item] !== nextProps[item]) {
         shouldUpdate = true;
       }
@@ -98,12 +99,20 @@ class Row extends React.Component {
           parentHasCheckbox: !!this.props.rowSelection,
           parentHasCheck: !!this.props.rowSelection,
         });
-        sub = (<div className="kuma-uxtable-subrow">{subComp}</div>);
+        sub = (
+          <div className="kuma-uxtable-subrow">
+            {subComp}
+          </div>
+        );
       }
     } else if (props.renderSubComp) {
       const subComp = props.renderSubComp(deepcopy(props.rowData));
       if (subComp && props.rowData.showSubComp) {
-        sub = <div className="kuma-uxtable-subrow">{subComp}</div>;
+        sub = (
+          <div className="kuma-uxtable-subrow">
+            {subComp}
+          </div>
+        );
       }
     }
     if (sub) {
@@ -140,7 +149,11 @@ class Row extends React.Component {
         className: 'kuma-uxtable-tree-row',
       };
 
-      children = <ul {...renderProps}>{children}</ul>;
+      children = (
+        <ul {...renderProps}>
+          {children}
+        </ul>
+      );
     }
 
     return children;
@@ -153,6 +166,17 @@ class Row extends React.Component {
 
     if (props.renderModel !== 'tree') {
       return false;
+    }
+
+    if (props.isTreeLoading) {
+      expandCollapseIcon = (
+        <span
+          className="kuma-uxtable-expand-icon"
+          data-index={rowIndex}
+        >
+          <Icon name="loading-icon-round" className={`${props.prefixCls}-tree-loading-icon`} usei />
+        </span>
+      );
     }
 
     if (props.rowData.data) {
@@ -278,8 +302,7 @@ class Row extends React.Component {
           }}
         >
           {_columns.map((item, index) => {
-            const rowSelectorInTreeMode =
-              (['checkboxSelector', 'radioSelector'].indexOf(item.type) !== -1)
+            const rowSelectorInTreeMode = (['checkboxSelector', 'radioSelector'].indexOf(item.type) !== -1)
               && (props.renderModel === 'tree');
             if (item.hidden || rowSelectorInTreeMode) {
               return null;
@@ -315,11 +338,13 @@ class Row extends React.Component {
             };
 
             if (firstVisableColumn === 1) {
-              return (<Cell {...renderProps} >
-                {me.renderIndent()}
-                {me.renderExpandIcon(props.rowIndex)}
-                {me.renderTreeRowSelector()}
-              </Cell>);
+              return (
+                <Cell {...renderProps}>
+                  {me.renderIndent()}
+                  {me.renderExpandIcon(props.rowIndex)}
+                  {me.renderTreeRowSelector()}
+                </Cell>
+              );
             }
             // if have vertical data structure, how to process it
             return <Cell {...renderProps} />;

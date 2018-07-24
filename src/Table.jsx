@@ -1245,6 +1245,7 @@ class Table extends React.Component {
       expandedKeys: state.expandedKeys,
       currentHoverRow: state.currentHoverRow,
       rowGroupActiveKey: state.rowGroupActiveKey,
+      isTreeLoading: state.isTreeLoading,
       data,
       bodyHeight,
       hasFooter: this.hasFooter(),
