@@ -2,6 +2,11 @@
 
 ---
 
+## 10.1.0
+
+* `CHANGED` support tree loading icon
+* `CHANGED` update `uxcore-menu` to `^4.0.0`
+
 ## 10.0.0
 
 * `CHANGED` fit React@16
