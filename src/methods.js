@@ -247,6 +247,7 @@ function changeTreeExpandState({ tableData, rowData }, cb = () => {}) {
   if (tableData) {
     this.data = tableData;
     this.setState({
+      isTreeLoading: false,
       expandedKeys,
       data: tableData,
     }, () => {
@@ -254,6 +255,7 @@ function changeTreeExpandState({ tableData, rowData }, cb = () => {}) {
     });
   } else {
     this.setState({
+      isTreeLoading: false,
       expandedKeys,
     }, () => {
       cb();
@@ -262,8 +264,14 @@ function changeTreeExpandState({ tableData, rowData }, cb = () => {}) {
 }
 
 function toggleTreeExpanded(rowData, cb) {
+  if (this.state.isTreeLoading) {
+    return;
+  }
   const { loadTreeData } = this.props;
   if (Array.isArray(rowData.data) && !rowData.data.length && loadTreeData) {
+    this.setState({
+      isTreeLoading: true,
+    });
     const loadedResult = loadTreeData(rowData);
     const loadedAction = (content) => {
       const { tableData, newRowData } = this.addDataToSelectedRow(content, rowData);

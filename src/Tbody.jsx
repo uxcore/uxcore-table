@@ -252,6 +252,7 @@ class Tbody extends React.Component {
       renderModel: props.renderModel,
       fixedColumn: props.fixedColumn,
       level: 1,
+      isTreeLoading: props.isTreeLoading,
       levels: props.levels,
       expandedKeys: props.expandedKeys,
       renderSubComp: props.renderSubComp,

@@ -11,6 +11,7 @@ import Animate from 'uxcore-animate';
 import Cell from './Cell';
 import CheckBox from './Cell/CheckBox';
 import util from './util';
+import Icon from 'uxcore-icon';
 
 class Row extends React.Component {
   shouldComponentUpdate(nextProps) {
@@ -24,7 +25,7 @@ class Row extends React.Component {
 
     ['rowIndex', 'index', 'mode', 'renderModel', 'fixedColumn',
       'levels', 'addRowClassName', 'renderSubComp', 'visible',
-      'checkboxColumnKey', 'locale', 'isHover'].forEach((item) => {
+      'checkboxColumnKey', 'locale', 'isHover', 'isTreeLoading'].forEach((item) => {
       if (me.props[item] !== nextProps[item]) {
         shouldUpdate = true;
       }
@@ -150,12 +151,20 @@ class Row extends React.Component {
     let expandCollapseIcon;
     let _expandIconClass;
     const props = this.props;
-
+    
     if (props.renderModel !== 'tree') {
       return false;
     }
-
-    if (props.rowData.data) {
+    if (props.isTreeLoading) {
+      expandCollapseIcon = (
+        <span
+          className="kuma-uxtable-expand-icon"
+          data-index={rowIndex}
+        >
+          <Icon name="loading-icon-round" className={`${props.prefixCls}-tree-loading-icon`} usei />
+        </span>
+      );
+    } else if (props.rowData.data) {
       _expandIconClass = {
         'kuma-icon': true,
         'kuma-icon-triangle-right': true,
