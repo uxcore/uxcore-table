@@ -49,11 +49,16 @@ class Table extends React.Component {
     }
     if (!!props.jsxcolumns
       && !deepEqual(props.jsxcolumns, state.lastJsxcolumns)) {
-      newData = { ...newData, ...Table.processColumn(props, state) };
+      newData = {
+        ...newData,
+        ...Table.processColumn(props, state),
+        lastJsxcolumns: props.jsxcolumns,
+      };
       newData.hasFixed = util.hasFixColumn(props);
     }
     if (props.showMask !== state.lastShowMask) {
       newData.showMask = props.showMask;
+      newData.lastShowMask = props.showMask;
     }
 
     return newData;

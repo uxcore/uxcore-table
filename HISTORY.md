@@ -2,6 +2,10 @@
 
 ---
 
+## 10.1.1
+
+* `FIXED` lastJsxcolumns & lastShowMask is not updated in gDSFP
+
 ## 10.1.0
 
 * `CHANGED` support tree loading icon
