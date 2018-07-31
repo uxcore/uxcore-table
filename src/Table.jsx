@@ -41,9 +41,9 @@ class Table extends React.Component {
     this.bindInnerMethods();
     this.uid = 0;
     this.fields = {};
-    this.copyData = deepcopy(this.props.jsxdata);
+    this.copyData = deepcopy(props.jsxdata);
     this.hasFixed = util.hasFixColumn(props);
-    this.data = this.addValuesInData(deepcopy(this.props.jsxdata));
+    this.data = this.addValuesInData(deepcopy(props.jsxdata));
     this.state = {
       data: this.data, // checkbox 内部交互
       columns: this.processColumn(), // column 内部交互
