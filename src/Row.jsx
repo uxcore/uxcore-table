@@ -177,9 +177,7 @@ class Row extends React.Component {
           <Icon name="loading-icon-round" className={`${props.prefixCls}-tree-loading-icon`} usei />
         </span>
       );
-    }
-
-    if (props.rowData.data) {
+    } else if (props.rowData.data) {
       _expandIconClass = {
         'kuma-icon': true,
         'kuma-icon-triangle-right': true,
