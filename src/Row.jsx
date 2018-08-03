@@ -25,7 +25,7 @@ class Row extends React.Component {
 
     ['rowIndex', 'index', 'mode', 'renderModel', 'fixedColumn',
       'levels', 'addRowClassName', 'renderSubComp', 'visible',
-      'checkboxColumnKey', 'locale', 'isHover', 'isTreeLoading'].forEach((item) => {
+      'checkboxColumnKey', 'locale', 'isHover', 'treeLoadingIds'].forEach((item) => {
       if (me.props[item] !== nextProps[item]) {
         shouldUpdate = true;
       }
@@ -147,7 +147,7 @@ class Row extends React.Component {
     return children;
   }
 
-  renderExpandIcon(rowIndex) {
+  renderExpandIcon(rowIndex, treeId) {
     let expandCollapseIcon;
     let _expandIconClass;
     const props = this.props;
@@ -155,7 +155,7 @@ class Row extends React.Component {
     if (props.renderModel !== 'tree') {
       return false;
     }
-    if (props.isTreeLoading) {
+    if (props.treeLoadingIds.includes(treeId)) {
       expandCollapseIcon = (
         <span
           className="kuma-uxtable-expand-icon"
@@ -326,7 +326,7 @@ class Row extends React.Component {
             if (firstVisableColumn === 1) {
               return (<Cell {...renderProps} >
                 {me.renderIndent()}
-                {me.renderExpandIcon(props.rowIndex)}
+                {me.renderExpandIcon(props.rowIndex, props.rowData.__treeId__)}
                 {me.renderTreeRowSelector()}
               </Cell>);
             }

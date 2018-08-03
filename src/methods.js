@@ -244,10 +244,11 @@ function getData(validate) {
 function changeTreeExpandState({ tableData, rowData }, cb = () => {}) {
   const expandedKeys = deepcopy(this.state.expandedKeys);
   util.toggleItemInArr(rowData.jsxid, expandedKeys);
+  const filteredTreeLoadingIds = deepcopy(this.state.treeLoadingIds).filter(id => id !== rowData.__treeId__);
   if (tableData) {
     this.data = tableData;
     this.setState({
-      isTreeLoading: false,
+      treeLoadingIds: filteredTreeLoadingIds,
       expandedKeys,
       data: tableData,
     }, () => {
@@ -255,7 +256,7 @@ function changeTreeExpandState({ tableData, rowData }, cb = () => {}) {
     });
   } else {
     this.setState({
-      isTreeLoading: false,
+      treeLoadingIds: filteredTreeLoadingIds,
       expandedKeys,
     }, () => {
       cb();
@@ -264,13 +265,12 @@ function changeTreeExpandState({ tableData, rowData }, cb = () => {}) {
 }
 
 function toggleTreeExpanded(rowData, cb) {
-  if (this.state.isTreeLoading) {
-    return;
-  }
   const { loadTreeData } = this.props;
   if (Array.isArray(rowData.data) && !rowData.data.length && loadTreeData) {
+    const treeLoadingIds = deepcopy(this.state.treeLoadingIds);
+    treeLoadingIds.push(rowData.__treeId__);
     this.setState({
-      isTreeLoading: true,
+      treeLoadingIds,
     });
     const loadedResult = loadTreeData(rowData);
     const loadedAction = (content) => {
