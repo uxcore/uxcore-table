@@ -21,4 +21,4 @@ ReactDOM.render(<Demo2 />, document.getElementById('UXCoreDemo2'));
 ReactDOM.render(<Demo3 />, document.getElementById('UXCoreDemo3'));
 ReactDOM.render(<Demo4 />, document.getElementById('UXCoreDemo4'));
 ReactDOM.render(<Demo5 />, document.getElementById('UXCoreDemo5'));
-ReactDOM.render(<Demo6 /> , document.getElementById('UXCoreDemo6'));
+ReactDOM.render(<Demo6 />, document.getElementById('UXCoreDemo6'));

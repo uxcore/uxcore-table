@@ -155,7 +155,7 @@ class Row extends React.Component {
     if (props.renderModel !== 'tree') {
       return false;
     }
-    if (props.treeLoadingIds.includes(treeId)) {
+    if (props.treeLoadingIds.indexOf(treeId) > -1) {
       expandCollapseIcon = (
         <span
           className="kuma-uxtable-expand-icon"
