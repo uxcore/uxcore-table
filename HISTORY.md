@@ -2,6 +2,10 @@
 
 ---
 
+## 10.2.0
+
+* `CHANGED` method `toggleSubComp` support multiple rows
+
 ## 10.1.1
 
 * `FIXED` lastJsxcolumns & lastShowMask is not updated in gDSFP

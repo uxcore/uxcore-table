@@ -1,7 +1,7 @@
 import deepcopy from 'lodash/cloneDeep';
 import Const from 'uxcore-const';
-import util from './util';
 import { loadavg } from 'os';
+import util from './util';
 
 function addEmptyRow(cb) {
   this.insertRecords({}, false, cb);
@@ -128,22 +128,19 @@ function editAllRow(cb) {
 function toggleSubComp(rowData, cb) {
   const content = deepcopy(this.state.data);
   const data = content.data || content.datas;
+  const rows = Array.isArray(rowData) ? rowData : [rowData];
+
 
   if (data) {
-    for (let i = 0; i < data.length; i++) {
-      const item = data[i];
-      if (item.jsxid === rowData.jsxid) {
-        item.showSubComp = !item.showSubComp;
-        break;
+    rows.forEach((row) => {
+      for (let i = 0; i < data.length; i++) {
+        const item = data[i];
+        if (item.jsxid === row.jsxid) {
+          item.showSubComp = !item.showSubComp;
+          break;
+        }
       }
-    }
-    // this.setState({
-    //   data: content,
-    // }, () => {
-    //   if (cb) {
-    //     cb();
-    //   }
-    // });
+    });
     this.syncRecord(data, cb);
   }
 }
@@ -342,4 +339,3 @@ export default {
   moveRowUp,
   moveRowDown,
 };
-
