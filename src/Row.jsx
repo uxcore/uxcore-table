@@ -8,10 +8,10 @@ import deepcopy from 'lodash/cloneDeep';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Animate from 'uxcore-animate';
+import Icon from 'uxcore-icon';
 import Cell from './Cell';
 import CheckBox from './Cell/CheckBox';
 import util from './util';
-import Icon from 'uxcore-icon';
 
 class Row extends React.Component {
   shouldComponentUpdate(nextProps) {
@@ -99,12 +99,20 @@ class Row extends React.Component {
           parentHasCheckbox: !!this.props.rowSelection,
           parentHasCheck: !!this.props.rowSelection,
         });
-        sub = (<div className="kuma-uxtable-subrow">{subComp}</div>);
+        sub = (
+          <div className="kuma-uxtable-subrow">
+            {subComp}
+                    </div>
+        );
       }
     } else if (props.renderSubComp) {
       const subComp = props.renderSubComp(deepcopy(props.rowData));
       if (subComp && props.rowData.showSubComp) {
-        sub = <div className="kuma-uxtable-subrow">{subComp}</div>;
+        sub = (
+          <div className="kuma-uxtable-subrow">
+            {subComp}
+                    </div>
+        );
       }
     }
     if (sub) {
@@ -141,7 +149,11 @@ class Row extends React.Component {
         className: 'kuma-uxtable-tree-row',
       };
 
-      children = <ul {...renderProps}>{children}</ul>;
+      children = (
+        <ul {...renderProps}>
+          {children}
+                </ul>
+      );
     }
 
     return children;
@@ -151,7 +163,7 @@ class Row extends React.Component {
     let expandCollapseIcon;
     let _expandIconClass;
     const props = this.props;
-    
+
     if (props.renderModel !== 'tree') {
       return false;
     }
@@ -287,8 +299,7 @@ class Row extends React.Component {
           }}
         >
           {_columns.map((item, index) => {
-            const rowSelectorInTreeMode =
-              (['checkboxSelector', 'radioSelector'].indexOf(item.type) !== -1)
+            const rowSelectorInTreeMode = (['checkboxSelector', 'radioSelector'].indexOf(item.type) !== -1)
               && (props.renderModel === 'tree');
             if (item.hidden || rowSelectorInTreeMode) {
               return null;

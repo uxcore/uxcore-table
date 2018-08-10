@@ -46,7 +46,7 @@ class Demo extends React.Component {
       {
         dataKey: 'firstName',
         title: 'FristName',
-        fixed: true,
+        // fixed: true,
         width: '15%',
         filters: [{
           text: 'Joe',
@@ -71,7 +71,7 @@ class Demo extends React.Component {
       {
         dataKey: 'lastName',
         title: 'LastName',
-        fixed: true,
+        // fixed: true,
         width: '55%',
       },
       {
@@ -118,6 +118,7 @@ class Demo extends React.Component {
       actionBar: {
         'Action Button': () => {
           console.log(me.table.getData());
+          me.table.toggleSubComp(me.table.getData().data.datas);
         },
       },
       onSearch: (searchTxt) => {

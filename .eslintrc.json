@@ -24,6 +24,7 @@
         "jsx-a11y/no-static-element-interactions": "off",
         "react/no-did-mount-set-state": "off",
         "react/prefer-stateless-function": "off",
-        "react/destructuring-assignment": "off"
+        "react/destructuring-assignment": "off",
+        "jsx-a11y/click-events-have-key-events": "off"
     }
 }
