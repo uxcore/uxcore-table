@@ -163,7 +163,7 @@ class Table extends React.Component {
       searchTxt: '',
       expandedKeys: [],
       filterColumns: {},
-      isTreeLoading: false,
+      treeLoadingIds: [],
       hasFixed: util.hasFixColumn(props),
       // mirror for gDSFP
       lastPageSize: props.pageSize,
@@ -1265,7 +1265,7 @@ class Table extends React.Component {
       currentHoverRow: state.currentHoverRow,
       rowGroupActiveKey: state.rowGroupActiveKey,
       data,
-      isTreeLoading: this.state.isTreeLoading,
+      treeLoadingIds: this.state.treeLoadingIds,
       bodyHeight,
       hasFooter: this.hasFooter(),
       toggleSubCompOnRowClick: props.toggleSubCompOnRowClick,
