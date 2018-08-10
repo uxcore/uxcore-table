@@ -113,7 +113,7 @@ function updateRecord(obj, cb) {
     data: stateData,
   }, () => {
     if (cb) {
-      cb();
+      cb(obj);
     }
   });
 }

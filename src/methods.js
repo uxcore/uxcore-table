@@ -29,10 +29,9 @@ function resetRow(rowData, cb) {
       break;
     }
   }
-  updateData.__mode__ = Const.MODE.EDIT;
   this.updateRecord(updateData, () => {
     this.doValidate();
-    if (cb) { cb(); }
+    if (cb) { cb(updateData); }
   });
 }
 
@@ -263,11 +262,12 @@ function changeTreeExpandState({ tableData, rowData }, cb = () => {}) {
 
 function toggleTreeExpanded(rowData, cb) {
   const { loadTreeData } = this.props;
+  const { treeLoadingIds } = this.state;
   if (Array.isArray(rowData.data) && !rowData.data.length && loadTreeData) {
-    const treeLoadingIds = deepcopy(this.state.treeLoadingIds);
-    treeLoadingIds.push(rowData.__treeId__);
+    const newTreeLoadingIds = [...treeLoadingIds];
+    newTreeLoadingIds.push(rowData.__treeId__);
     this.setState({
-      treeLoadingIds,
+      treeLoadingIds: newTreeLoadingIds,
     });
     const loadedResult = loadTreeData(rowData);
     const loadedAction = (content) => {

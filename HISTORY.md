@@ -2,6 +2,10 @@
 
 ---
 
+## 10.2.2
+
+* `CHANGED` method `resetRow` callback will pass updated data as first paramter.
+
 ## 10.2.0
 
 * `CHANGED` method `toggleSubComp` support multiple rows
