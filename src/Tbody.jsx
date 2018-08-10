@@ -262,7 +262,7 @@ class Tbody extends React.Component {
       handleDataChange: props.handleDataChange,
       attachCellField: props.attachCellField,
       detachCellField: props.detachCellField,
-      isTreeLoading: props.isTreeLoading,
+      treeLoadingIds: props.treeLoadingIds,
       visible: true,
       bodyNode: this.root,
     };

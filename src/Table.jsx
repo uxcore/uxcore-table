@@ -54,6 +54,7 @@ class Table extends React.Component {
       searchTxt: '',
       expandedKeys: [],
       filterColumns: {},
+      treeLoadingIds: [],
     };
     this.handleBodyScroll = this.handleBodyScroll.bind(this);
     this.handleHeaderScroll = this.handleHeaderScroll.bind(this);
@@ -1245,7 +1246,7 @@ class Table extends React.Component {
       expandedKeys: state.expandedKeys,
       currentHoverRow: state.currentHoverRow,
       rowGroupActiveKey: state.rowGroupActiveKey,
-      isTreeLoading: state.isTreeLoading,
+      treeLoadingIds: state.treeLoadingIds,
       data,
       bodyHeight,
       hasFooter: this.hasFooter(),
