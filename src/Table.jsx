@@ -244,7 +244,8 @@ class Table extends React.Component {
 
     // reverse recursion, check/uncheck parents by its children.
     for (let i = treeMap.length - 1; i >= 0; i--) {
-      treeMap[i][currentLevel[i]][me.checkboxColumnKey] = treeMap[i][currentLevel[i]].data.every(item => item[me.checkboxColumnKey] === true);
+      treeMap[i][currentLevel[i]][me.checkboxColumnKey] = treeMap[i][currentLevel[i]]
+        .data.every(item => item[me.checkboxColumnKey] === true);
     }
 
     me.setState({

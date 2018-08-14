@@ -46,7 +46,7 @@ class Demo extends React.Component {
       {
         dataKey: 'firstName',
         title: 'FristName',
-        fixed: true,
+        // fixed: true,
         width: '15%',
         filters: [{
           text: 'Joe',
@@ -71,7 +71,7 @@ class Demo extends React.Component {
       {
         dataKey: 'lastName',
         title: 'LastName',
-        fixed: true,
+        // fixed: true,
         width: '55%',
       },
       {
@@ -84,6 +84,7 @@ class Demo extends React.Component {
         title: '操作1',
         width: '200px',
         type: 'action',
+        rightFixed: true,
         actions: [{
           title: 'click',
           callback: () => {
