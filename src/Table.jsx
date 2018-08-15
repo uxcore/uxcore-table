@@ -460,6 +460,9 @@ class Table extends React.Component {
         this.mainTable.style.position = 'relative';
         this.mainTable.style.left = `${offset}px`;
         this.mainTable.style.width = `calc(100% + ${-offset}px)`;
+      } else {
+        this.mainTable.style.left = '0px';
+        this.mainTable.style.width = 'calc(100%)';
       }
     }
   }

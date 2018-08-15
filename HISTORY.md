@@ -2,6 +2,10 @@
 
 ---
 
+## 10.2.3
+
+* `FIXED` a logic addition to method `checkFixedMaxWidth` if offset is larger than 0
+
 ## 10.2.2
 
 * `CHANGED` method `resetRow` callback will pass updated data as first paramter.
