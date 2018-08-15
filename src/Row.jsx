@@ -102,7 +102,7 @@ class Row extends React.Component {
         sub = (
           <div className="kuma-uxtable-subrow">
             {subComp}
-                    </div>
+          </div>
         );
       }
     } else if (props.renderSubComp) {
@@ -111,7 +111,7 @@ class Row extends React.Component {
         sub = (
           <div className="kuma-uxtable-subrow">
             {subComp}
-                    </div>
+          </div>
         );
       }
     }
@@ -130,6 +130,7 @@ class Row extends React.Component {
       return children;
     }
     if (props.rowData.data) {
+      const needEmptyIconIntree = !!props.rowData.data.filter(item => item.data).length;
       props.rowData.data.forEach((node, index) => {
         const renderProps = assign({}, props, {
           level: me.props.level + 1,
@@ -140,6 +141,7 @@ class Row extends React.Component {
           key: node.jsxid,
           showSubComp: false,
           visible: (props.expandedKeys.indexOf(props.rowData.jsxid) !== -1),
+          needEmptyIconIntree,
         });
         children.push(<Row {...renderProps} />);
       });
@@ -152,7 +154,7 @@ class Row extends React.Component {
       children = (
         <ul {...renderProps}>
           {children}
-                </ul>
+        </ul>
       );
     }
 
@@ -192,6 +194,8 @@ class Row extends React.Component {
           <i className={classnames(_expandIconClass)} />
         </span>
       );
+    } else if (!props.needEmptyIconIntree) {
+      expandCollapseIcon = null;
     } else {
       expandCollapseIcon = (
         <span className="kuma-uxtable-emptyicon" />
@@ -335,11 +339,13 @@ class Row extends React.Component {
             };
 
             if (firstVisableColumn === 1) {
-              return (<Cell {...renderProps} >
-                {me.renderIndent()}
-                {me.renderExpandIcon(props.rowIndex, props.rowData.__treeId__)}
-                {me.renderTreeRowSelector()}
-              </Cell>);
+              return (
+                <Cell {...renderProps}>
+  {me.renderIndent()}
+  {me.renderExpandIcon(props.rowIndex, props.rowData.__treeId__)}
+  {me.renderTreeRowSelector()}
+</Cell>
+              );
             }
             // if have vertical data structure, how to process it
             return <Cell {...renderProps} />;

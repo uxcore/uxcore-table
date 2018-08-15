@@ -38,7 +38,7 @@ sinon.spy(Table.prototype, 'fetchRemoteData');
 describe('Table', () => {
   it('calls componentDidMount', () => {
     mount(
-      <Table />
+      <Table />,
     );
     expect(Table.prototype.componentDidMount.calledOnce).to.be(true);
   });
@@ -59,12 +59,14 @@ describe('Table', () => {
           },
         };
       }
+
       saveRef(refName) {
         const me = this;
         return (c) => {
           me[refName] = c;
         };
       }
+
       changeState() {
         this.setState({
           data: {
@@ -79,6 +81,7 @@ describe('Table', () => {
           },
         });
       }
+
       render() {
         return (
           <Table {...common} jsxdata={this.state.data} ref={this.saveRef('table')} />
@@ -111,16 +114,19 @@ describe('Table', () => {
       expect(wrapper.instance().getDom().style.height).to.be('500px');
     });
 
-    it('column width support percentage', () => {
+    it('column width support percentage', (done) => {
       const mountNode = document.createElement('div');
       document.body.appendChild(mountNode);
       let ref;
       const scrollbarWidth = util.measureScrollbar();
       ReactDOM.render(<Table width={900} ref={(c) => { ref = c; }} jsxcolumns={[{ width: '30%', title: '列', dataKey: 'test' }]} />, mountNode);
-      expect(ref.getDom().querySelector('.kuma-uxtable-cell').clientWidth).to.be(Math.round((900 - scrollbarWidth) * 0.3));
-      ref = null;
-      ReactDOM.unmountComponentAtNode(mountNode);
-      document.body.removeChild(mountNode);
+      setTimeout(() => {
+        expect(ref.getDom().querySelector('.kuma-uxtable-cell').clientWidth).to.be(Math.round((900 - scrollbarWidth) * 0.3));
+        ref = null;
+        ReactDOM.unmountComponentAtNode(mountNode);
+        document.body.removeChild(mountNode);
+        done();
+      }, 200);
     });
 
     it('showColumnPicker', () => {
@@ -193,7 +199,7 @@ describe('Table', () => {
               callback: () => { },
             },
           ]}
-        />
+        />,
       );
       expect(wrapper.find('button.kuma-uxtable-actionbar-item')).to.have.length(3);
     });
@@ -212,7 +218,7 @@ describe('Table', () => {
               callback: () => { },
             },
           ]}
-        />
+        />,
       );
       expect(wrapper.find('.kuma-uxtable-linkbar-item')).to.have.length(2);
     });
@@ -235,7 +241,7 @@ describe('Table', () => {
               done();
             },
           }}
-        />
+        />,
       );
       wrapper.find('.kuma-uxtable-row .kuma-checkbox').instance().checked = true;
       wrapper.find('.kuma-uxtable-row .kuma-checkbox').simulate('change');
@@ -254,7 +260,7 @@ describe('Table', () => {
               }
             },
           }}
-        />
+        />,
       );
       wrapper.find('.kuma-uxtable-row .kuma-checkbox').instance().checked = true;
       wrapper.find('.kuma-uxtable-row .kuma-checkbox').simulate('change');
@@ -273,7 +279,7 @@ describe('Table', () => {
               done();
             },
           }}
-        />
+        />,
       );
       wrapper.find('.kuma-uxtable-header .kuma-checkbox').instance().checked = true;
       wrapper.find('.kuma-uxtable-header .kuma-checkbox').simulate('change');
@@ -291,7 +297,7 @@ describe('Table', () => {
               }
             },
           }}
-        />
+        />,
       );
       wrapper.find('.kuma-uxtable-header .kuma-checkbox').instance().checked = true;
       wrapper.find('.kuma-uxtable-header .kuma-checkbox').simulate('change');
@@ -325,7 +331,7 @@ describe('Table', () => {
             onSelectAll: () => { },
             isDisabled: rowData => rowData.id === '1',
           }}
-        />
+        />,
       );
       expect(!!wrapper.find('Row CheckBox').at(0).prop('disable')).to.be(true);
     });
@@ -350,7 +356,7 @@ describe('Table', () => {
               done();
             },
           }}
-        />
+        />,
       );
       wrapper.find('.kuma-uxtable-row .kuma-checkbox').at(0).instance().checked = true;
       wrapper.find('.kuma-uxtable-row .kuma-checkbox').at(0).simulate('change');
@@ -362,7 +368,7 @@ describe('Table', () => {
           {...common}
           jsxdata={null}
           fetchUrl="http://eternalsky.me:8122/file/getGridJson.jsonp"
-        />
+        />,
       );
       expect(Table.prototype.fetchRemoteData.calledOnce).to.be(true);
     });
@@ -377,7 +383,7 @@ describe('Table', () => {
             expect(JSON.stringify(data)).to.be(JSON.stringify({ pageSize: 10, currentPage: 1 }));
             done();
           }}
-        />
+        />,
       );
     });
 
@@ -393,7 +399,7 @@ describe('Table', () => {
               .to.be(JSON.stringify({ pageSize: 10, currentPage: 1, a: 1 }));
             done();
           }}
-        />
+        />,
       );
     });
 
@@ -407,7 +413,7 @@ describe('Table', () => {
           fetchDataOnMount={false}
           fetchUrl="http://eternalsky.me:8122/file/getGridJson.jsonp"
           beforeFetch={beforeFetch}
-        />
+        />,
       );
       expect(beforeFetch.calledOnce).to.be(false);
     });
@@ -444,7 +450,7 @@ describe('Table', () => {
               },
             ],
           }]}
-        />
+        />,
       );
       expect(wrapper.find('.action-container')).to.have.length(1);
     });
@@ -459,7 +465,7 @@ describe('Table', () => {
               编辑: () => { },
             },
           }]}
-        />
+        />,
       );
       expect(wrapper.find('.action-container')).to.have.length(1);
     });
@@ -482,7 +488,7 @@ describe('Table', () => {
               ];
             },
           }]}
-        />
+        />,
       );
       expect(wrapper.find('.action-container')).to.have.length(1);
     });
@@ -503,7 +509,7 @@ describe('Table', () => {
               },
             ],
           }]}
-        />
+        />,
       );
       expect(wrapper.find('.action-container').find('.kuma-button-group-separated-item')).to.have.length(1);
     });
@@ -527,7 +533,7 @@ describe('Table', () => {
               },
             ],
           }]}
-        />
+        />,
       );
       expect(wrapper.find('.action-container').find('.kuma-button-group-separated-item')).to.have.length(2);
     });
@@ -537,9 +543,11 @@ describe('Table', () => {
       <Table
         {...common}
         jsxcolumns={[
-          { dataKey: 'id', title: 'ID', width: 50, fixed: true },
+          {
+ dataKey: 'id', title: 'ID', width: 50, fixed: true 
+},
         ]}
-      />
+      />,
     );
     expect(wrapper.find('.kuma-uxtable-header-scroll')).to.have.length(1);
     expect(wrapper.find('.kuma-uxtable-header-fixed')).to.have.length(1);
@@ -550,9 +558,11 @@ describe('Table', () => {
       <Table
         {...common}
         jsxcolumns={[
-          { dataKey: 'id', title: 'ID', width: 50, rightFixed: true },
+          {
+ dataKey: 'id', title: 'ID', width: 50, rightFixed: true 
+},
         ]}
-      />
+      />,
     );
     expect(wrapper.find('.kuma-uxtable-header-scroll')).to.have.length(1);
     expect(wrapper.find('.kuma-uxtable-header-right-fixed')).to.have.length(1);
@@ -563,7 +573,7 @@ describe('Table', () => {
       <Table
         jsxdata={common.jsxdata}
         jsxcolumns={[{ dataKey: 'money', title: '金额', type: 'money' }]}
-      />
+      />,
     );
     expect(wrapper.find('.kuma-uxtable-body').find('.kuma-uxtable-cell').at(0).text()).to.be('10,000');
   });
@@ -573,7 +583,7 @@ describe('Table', () => {
       <Table
         jsxdata={common.jsxdata}
         jsxcolumns={[{ dataKey: 'card', title: '卡片', type: 'card' }]}
-      />
+      />,
     );
     expect(wrapper.find('.kuma-uxtable-body').find('.kuma-uxtable-cell').at(0).text()).to.be('2000 0000');
   });
@@ -583,7 +593,7 @@ describe('Table', () => {
       <Table
         jsxdata={common.jsxdata}
         jsxcolumns={[{ dataKey: 'mobile', title: '手机', type: 'cnmobile' }]}
-      />
+      />,
     );
     expect(wrapper.find('.kuma-uxtable-body').find('.kuma-uxtable-cell').at(0).text()).to.be('1565 2963 333');
   });

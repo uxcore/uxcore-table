@@ -53,6 +53,7 @@ class Table extends React.Component {
         ...newData,
         ...Table.processColumn(props, state),
         lastJsxcolumns: props.jsxcolumns,
+        forceToCheckRight: true,
       };
       newData.hasFixed = util.hasFixColumn(props);
     }
@@ -221,9 +222,16 @@ class Table extends React.Component {
     if (this.state.hasPercentWidth
       && this.root && this.root.clientWidth !== this.state.tableWidth) {
       /* eslint-disable react/no-did-update-set-state */
-      this.setState({
-        tableWidth: this.root.clientWidth,
-        ...Table.processColumn(this.props, this.state, { tableWidth: this.root.clientWidth }),
+      this.setState((state) => {
+        const newState = {
+          tableWidth: this.root.clientWidth,
+          ...Table.processColumn(this.props, state, { tableWidth: this.root.clientWidth }),
+        };
+        if (state.forceToCheckRight) {
+          this.forceToCheckRight(true);
+          newState.forceToCheckRight = false;
+        }
+        return newState;
       });
       /* eslint-enable react/no-did-update-set-state */
     }
