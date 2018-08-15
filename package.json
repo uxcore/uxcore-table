@@ -1,6 +1,6 @@
 {
   "name": "uxcore-table",
-  "version": "9.4.4",
+  "version": "9.4.5",
   "description": "table ui component for react",
   "repository": "https://github.com/uxcore/uxcore-table.git",
   "author": "zhouquan.yezq",
@@ -10,8 +10,8 @@
     "server": "uxcore-tools run server",
     "lint": "uxcore-tools run lint",
     "build": "uxcore-tools run build",
-    "test": "uxcore-tools run test",
-    "coverage": "uxcore-tools run coverage",
+    "test": "uxcore-tools run electron",
+    "coverage": "uxcore-tools run electron-coverage",
     "pub": "uxcore-tools run pub",
     "dep": "uxcore-tools run dep",
     "tnpm-dep": "uxcore-tools run tnpm-dep",
