@@ -130,6 +130,7 @@ class Row extends React.Component {
       return children;
     }
     if (props.rowData.data) {
+      const needEmptyIconIntree = !!props.rowData.data.filter(item => item.data).length;
       props.rowData.data.forEach((node, index) => {
         const renderProps = assign({}, props, {
           level: me.props.level + 1,
@@ -140,6 +141,7 @@ class Row extends React.Component {
           key: node.jsxid,
           showSubComp: false,
           visible: (props.expandedKeys.indexOf(props.rowData.jsxid) !== -1),
+          needEmptyIconIntree,
         });
         children.push(<Row {...renderProps} />);
       });
@@ -193,6 +195,8 @@ class Row extends React.Component {
           <i className={classnames(_expandIconClass)} />
         </span>
       );
+    } else if (!props.needEmptyIconIntree) {
+      expandCollapseIcon = null;
     } else {
       expandCollapseIcon = (
         <span className="kuma-uxtable-emptyicon" />

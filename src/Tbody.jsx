@@ -266,6 +266,11 @@ class Tbody extends React.Component {
       visible: true,
       bodyNode: this.root,
     };
+
+    let needEmptyIconIntree = false;
+    if (props.renderModel === 'tree') {
+      needEmptyIconIntree = !!data.filter(rowData => rowData.data).length;
+    }
     if (!this.props.rowGroupKey) {
       rows = data.map((item, index) => {
         const renderProps = {
@@ -279,6 +284,7 @@ class Tbody extends React.Component {
             this[`row${index}`] = c;
           },
           last: (index === data.length - 1),
+          needEmptyIconIntree,
         };
         return <Row {...renderProps} />;
       });

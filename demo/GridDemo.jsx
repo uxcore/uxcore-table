@@ -203,12 +203,11 @@ class Demo extends React.Component {
             me.table.fetchData();
           }}
         >
-重新获取数据
-
+          重新获取数据
         </Button>
         <Button onClick={this.toggleShowTable}>
-卸载/恢复组件
-                </Button>
+          卸载/恢复组件
+        </Button>
       </div>
     );
   }
