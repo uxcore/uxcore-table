@@ -20,6 +20,7 @@ class Demo extends React.Component {
     this.state = {
       text: 1,
       showTable: true,
+      padding: 100,
     };
     this.toggleShowTable = this.toggleShowTable.bind(this);
   }
@@ -28,6 +29,12 @@ class Demo extends React.Component {
     this.setState({
       showTable: !this.state.showTable,
     });
+  }
+
+  handlePadding = () => {
+    this.setState(state => ({
+      padding: !state.padding ? 100 : 0,
+    }));
   }
 
   render() {
@@ -194,7 +201,7 @@ class Demo extends React.Component {
       },
     };
     return (
-      <div className="demo1">
+      <div className="demo1" style={{ paddingLeft: this.state.padding }}>
         {me.state.showTable
           ? <Table {...renderProps} ref={function saveRef(c) { me.table = c; }} />
           : null}
@@ -207,6 +214,9 @@ class Demo extends React.Component {
         </Button>
         <Button onClick={this.toggleShowTable}>
           卸载/恢复组件
+        </Button>
+        <Button onClick={this.handlePadding}>
+          切换间距
         </Button>
       </div>
     );

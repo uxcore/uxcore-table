@@ -122,6 +122,7 @@ class Table extends React.Component {
       && !deepEqual(nextProps.jsxcolumns, me.props.jsxcolumns)) {
       newData.columns = me.processColumn(nextProps);
       this.hasFixed = util.hasFixColumn(nextProps);
+      this.forceToCheckRight = true;
     }
     if (nextProps.showMask !== me.props.showMask) {
       newData.showMask = nextProps.showMask;
