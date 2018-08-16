@@ -4,8 +4,8 @@
 
 ## 10.2.4
 
-`FIXED` tree render emptyicon
-`FIXED` force check right fixed if columns is changed
+* `FIXED` tree render emptyicon
+* `FIXED` force check right fixed if columns is changed
 
 ## 10.2.3
 

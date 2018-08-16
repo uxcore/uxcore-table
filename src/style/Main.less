@@ -1,4 +1,4 @@
-.@{__table-prefix-cls} {
+.@{__tablePrefixCls} {
   input::-ms-clear {
     display: none;
   }
@@ -16,58 +16,58 @@
     color: @brand-primary;
   }
   .kuma-date-cell-field {
-    .@{__calendar-prefix-cls}-picker-input {
+    .@{__calendarPrefixCls}-picker-input {
       line-height: 36px;
       .kuma-icon-calender,
       .kuma-icon-close,
-      .@{__calendar-prefix-cls}-trigger-icon {
+      .@{__calendarPrefixCls}-trigger-icon {
         line-height: 24px;
       }
     }
   }
-  .@{__table-prefix-cls}-body-collapse {
+  .@{__tablePrefixCls}-body-collapse {
     border: none;
-    > .@{__collapse-prefix-cls}-item {
+    > .@{__collapsePrefixCls}-item {
       border-top: none;
-      > .@{__collapse-prefix-cls}-header {
+      > .@{__collapsePrefixCls}-header {
         height: 50px;
         line-height: 50px;
         background: @normal-alpha-9;
         border-bottom: 1px solid @split-line-color;
       }
       &:last-child {
-        > .@{__collapse-prefix-cls}-header[aria-expanded="false"] {
+        > .@{__collapsePrefixCls}-header[aria-expanded="false"] {
           border-bottom: none;
         }
       }
     }
-    .@{__collapse-prefix-cls}-content {
+    .@{__collapsePrefixCls}-content {
       padding: 0;
       background-color: transparent;
       color: @dark-alpha-3;
-      > .@{__collapse-prefix-cls}-content-box {
+      > .@{__collapsePrefixCls}-content-box {
         padding: 0;
       }
     }
   }
 }
 
-.@{__table-prefix-cls}-content {
+.@{__tablePrefixCls}-content {
   overflow-x: auto;
   position: relative;
   border-radius: @global-border-radius;
 }
 
-.@{__table-prefix-cls}-content-scroller {
+.@{__tablePrefixCls}-content-scroller {
   display: inline-block;
 }
 
-.@{__table-prefix-cls}-header-wrapper {
+.@{__tablePrefixCls}-header-wrapper {
   overflow: hidden;
   position: relative;
 }
 
-.@{__table-prefix-cls}-body-wrapper {
+.@{__tablePrefixCls}-body-wrapper {
   border-top: none;
   position: relative;
   min-height: 40px;
@@ -75,17 +75,17 @@
   overflow-y: hidden;
 }
 
-.@{__table-prefix-cls}-footer-wrapper {
+.@{__tablePrefixCls}-footer-wrapper {
   overflow: hidden;
   position: relative;
   border-top: 1px solid @split-line-color;
 }
 
-.@{__table-prefix-cls}-fixed-body-wrapper {
+.@{__tablePrefixCls}-fixed-body-wrapper {
   overflow-x: hidden;
 }
 
-.@{__table-prefix-cls}-header {
+.@{__tablePrefixCls}-header {
   background-color: @normal-alpha-8;
   font-size: 12px;
   font-weight: 600;
@@ -99,14 +99,14 @@
   }
 }
 
-.@{__table-prefix-cls}-footer {
+.@{__tablePrefixCls}-footer {
   display: inline-block;
   color: @dark-alpha-2;
   font-weight: 600;
   white-space: nowrap;
 }
 
-.@{__table-prefix-cls}-body {
+.@{__tablePrefixCls}-body {
   position: relative;
   display: inline-block;
   vertical-align: top;
@@ -116,12 +116,12 @@
   background-color: @table-body-bg;
 }
 
-.@{__table-prefix-cls}-body-no {
+.@{__tablePrefixCls}-body-no {
   height: 100%;
   overflow-y: auto;
 }
 
-.@{__table-prefix-cls}-body-scroll {
+.@{__tablePrefixCls}-body-scroll {
   position: relative;
   overflow-x: auto;
   overflow-y: scroll;
@@ -129,53 +129,53 @@
   height: 100%;
 }
 
-.@{__table-prefix-cls}-footer-scroll {
+.@{__tablePrefixCls}-footer-scroll {
   overflow-x: auto;
 }
 
-.@{__table-prefix-cls}-body-scroll,
-.@{__table-prefix-cls}-footer-scroll {
-  &.@{__table-prefix-cls}-no-v-scroll {
+.@{__tablePrefixCls}-body-scroll,
+.@{__tablePrefixCls}-footer-scroll {
+  &.@{__tablePrefixCls}-no-v-scroll {
     overflow-y: hidden;
   }
 }
 
 
-.@{__table-prefix-cls}-body-emptyword {
+.@{__tablePrefixCls}-body-emptyword {
   text-align: center;
   vertical-align: middle;
 }
 
-.@{__table-prefix-cls}-row {
+.@{__tablePrefixCls}-row {
   display: block;
   width: 100%;
   white-space: nowrap;
   border-bottom: none;
-  .@{__table-prefix-cls}-row-cells {
+  .@{__tablePrefixCls}-row-cells {
     transition: background-color 0.15s ease-out;
   }
   &:first-child {
     border-top: none;
   }
   &.even {
-    >.@{__table-prefix-cls}-row-cells {
+    >.@{__tablePrefixCls}-row-cells {
       background-color: @normal-alpha-9;
     }
   }
 }
 
-.@{__table-prefix-cls}-row-hover {
-  >.@{__table-prefix-cls}-row-cells {
+.@{__tablePrefixCls}-row-hover {
+  >.@{__tablePrefixCls}-row-cells {
     background-color: @brand-primary-alpha-8;
   }
   &.even {
-    >.@{__table-prefix-cls}-row-cells {
+    >.@{__tablePrefixCls}-row-cells {
       background-color: @brand-primary-alpha-8;
     }
   }
 }
 
-.@{__table-prefix-cls}-cell {
+.@{__tablePrefixCls}-cell {
   display: inline-block;
   text-align: left;
   overflow: hidden;
@@ -196,7 +196,7 @@
     width: 100%;
     white-space: nowrap;
   }
-  >input.@{__input-prefix-cls} {
+  >input.@{__inputPrefixCls} {
     vertical-align: top;
     padding: 0 10px;
     margin-top: 7px;
@@ -208,7 +208,7 @@
     right: 10px;
     top: 0;
   }
-  .@{__select-prefix-cls} {
+  .@{__selectPrefixCls} {
     vertical-align: top;
     margin-top: 7px;
   }
@@ -217,22 +217,22 @@
   }
 }
 
-.@{__table-prefix-cls}-small-size {
-  .@{__table-prefix-cls}-cell {
+.@{__tablePrefixCls}-small-size {
+  .@{__tablePrefixCls}-cell {
     height: 40px;
     line-height: 40px;
     &>div {
       height: 40px;
     }
   }
-  .@{__table-prefix-cls}-body-collapse > .@{__collapse-prefix-cls}-item > .@{__collapse-prefix-cls}-header {
+  .@{__tablePrefixCls}-body-collapse > .@{__collapsePrefixCls}-item > .@{__collapsePrefixCls}-header {
     height: 40px;
     line-height: 40px;
   }
 }
 
-.@{__table-prefix-cls}-row.multiline {
-  .@{__table-prefix-cls}-cell {
+.@{__tablePrefixCls}-row.multiline {
+  .@{__tablePrefixCls}-cell {
     height: auto;
     min-height: 50px;
     line-height: inherit;
@@ -248,12 +248,12 @@
   }
 }
 
-.@{__table-prefix-cls}-row.multiline-centered {
-  .@{__table-prefix-cls}-row-cells {
+.@{__tablePrefixCls}-row.multiline-centered {
+  .@{__tablePrefixCls}-row-cells {
     display: flex;
     align-items: center;
   }
-  .@{__table-prefix-cls}-cell {
+  .@{__tablePrefixCls}-cell {
     padding-top: 18px;
     padding-bottom: 18px;
   }
@@ -270,14 +270,14 @@
   }
 }
 
-.@{__table-prefix-cls}-subrow {
+.@{__tablePrefixCls}-subrow {
   transition: all 0.3s ease-out;
 }
 
-.@{__table-prefix-cls}-cell-field {
+.@{__tablePrefixCls}-cell-field {
   &.hasError {
-    .@{__input-prefix-cls},
-    .@{__select-prefix-cls}-selection {
+    .@{__inputPrefixCls},
+    .@{__selectPrefixCls}-selection {
       background: @brand-danger-alpha-8;
       border-color: @border-danger-color;
     }
@@ -287,13 +287,13 @@
   }
 }
 
-.@{__table-prefix-cls}-select-cell-field {
-  .@{__select-prefix-cls} {
+.@{__tablePrefixCls}-select-cell-field {
+  .@{__selectPrefixCls} {
     display: block;
   }
 }
 
-.@{__table-prefix-cls}-tree-icon {
+.@{__tablePrefixCls}-tree-icon {
   cursor: pointer;
   vertical-align: middle;
   >.kuma-icon {
@@ -312,30 +312,30 @@
   }
 }
 
-.@{__table-prefix-cls}-emptyicon {
+.@{__tablePrefixCls}-emptyicon {
   width: 22px;
   display: inline-block;
 }
 
 .kuma-subgrid-mode {
-  .@{__table-prefix-cls}-body-wrapper {
+  .@{__tablePrefixCls}-body-wrapper {
     border: none;
   }
 }
 
-.@{__table-prefix-cls}-page {
+.@{__tablePrefixCls}-page {
   text-align: right;
   padding: 24px 0px 10px;
-  .@{__select-prefix-cls}-selection__rendered {
+  .@{__selectPrefixCls}-selection__rendered {
     text-align: left;
   }
 }
 
-.@{__table-prefix-cls} .kuma-page {
+.@{__tablePrefixCls} .kuma-page {
   display: inline-block;
 }
 
-.@{__table-prefix-cls}-h-sort {
+.@{__tablePrefixCls}-h-sort {
   position: relative;
   vertical-align: middle;
   cursor: pointer;
@@ -362,7 +362,7 @@
   }
 }
 
-.@{__table-prefix-cls} span.indent {
+.@{__tablePrefixCls} span.indent {
   display: inline-block;
   width: 27px;
   margin: 0;
@@ -371,18 +371,18 @@
   }
 }
 
-.@{__table-prefix-cls}-body-fixed,
-.@{__table-prefix-cls}-body-right-fixed {
+.@{__tablePrefixCls}-body-fixed,
+.@{__tablePrefixCls}-body-right-fixed {
   overflow-x: hidden;
   overflow-y: auto;
 }
 
-.@{__table-prefix-cls}-body-fixed {
+.@{__tablePrefixCls}-body-fixed {
   margin-right: -20px;
 }
 
-.@{__table-prefix-cls}-left-fixed-table,
-.@{__table-prefix-cls}-right-fixed-table {
+.@{__tablePrefixCls}-left-fixed-table,
+.@{__tablePrefixCls}-right-fixed-table {
   overflow: hidden;
   position: absolute;
   top: 0;
@@ -398,25 +398,25 @@
   }
 }
 
-.@{__table-prefix-cls}-left-fixed-table {
+.@{__tablePrefixCls}-left-fixed-table {
   left: 0;
   border-right: 1px solid @normal-alpha-7;
 }
 
-.@{__table-prefix-cls}-right-fixed-table {
+.@{__tablePrefixCls}-right-fixed-table {
   right: 0;
   border-left: 1px solid @normal-alpha-7;
 }
 
-.@{__table-prefix-cls}-column-message {
+.@{__tablePrefixCls}-column-message {
   max-width: 200px;
 }
 
-.@{__table-prefix-cls}-row-selector {
+.@{__tablePrefixCls}-row-selector {
   vertical-align: middle;
 }
 
-.@{__table-prefix-cls}-expand-icon {
+.@{__tablePrefixCls}-expand-icon {
   cursor: pointer;
   display: inline-block;
   vertical-align: middle;
@@ -433,7 +433,7 @@
       transform: rotate(90deg);
     }
   }
-  .@{__table-prefix-cls}-row-tree-loading-icon {
+  .@{__tablePrefixCls}-row-tree-loading-icon {
     display: inline-block;
     animation: tableTreeIconLoading 1s linear infinite;
     @keyframes tableTreeIconLoading {
@@ -443,74 +443,74 @@
   }
 }
 
-.@{__table-prefix-cls}-row-tree-selector {
+.@{__tablePrefixCls}-row-tree-selector {
   margin-right: 12px;
 }
 
 
-.@{__table-prefix-cls}-tree-mode {
-  .@{__table-prefix-cls}-row {
-    &.even>.@{__table-prefix-cls}-row-cells {
+.@{__tablePrefixCls}-tree-mode {
+  .@{__tablePrefixCls}-row {
+    &.even>.@{__tablePrefixCls}-row-cells {
       background: white;
     }
-    .@{__table-prefix-cls}-row-cells {
+    .@{__tablePrefixCls}-row-cells {
       border-bottom: 1px solid @normal-alpha-7;
     }
   }
-  .@{__table-prefix-cls}-content {
-    .@{__table-prefix-cls}-row.@{__table-prefix-cls}-row-hover {
-      >.@{__table-prefix-cls}-row-cells {
+  .@{__tablePrefixCls}-content {
+    .@{__tablePrefixCls}-row.@{__tablePrefixCls}-row-hover {
+      >.@{__tablePrefixCls}-row-cells {
         background-color: white;
       }
     }
   }
 }
 
-.@{__table-prefix-cls}-border-line,
-.@{__table-prefix-cls}-split-line {
-  .@{__table-prefix-cls}-content {
+.@{__tablePrefixCls}-border-line,
+.@{__tablePrefixCls}-split-line {
+  .@{__tablePrefixCls}-content {
     border: 1px solid @normal-alpha-7;
   }
-  &.@{__table-prefix-cls}__no-data {
-    .@{__table-prefix-cls}-content {
+  &.@{__tablePrefixCls}__no-data {
+    .@{__tablePrefixCls}-content {
       border-bottom: none;
     }
   }
-  .@{__table-prefix-cls}-row {
-    &.even>.@{__table-prefix-cls}-row-cells {
+  .@{__tablePrefixCls}-row {
+    &.even>.@{__tablePrefixCls}-row-cells {
       background: white;
     }
-    .@{__table-prefix-cls}-row-cells {
+    .@{__tablePrefixCls}-row-cells {
       border-bottom: 1px solid @normal-alpha-7;
     }
     &.last {
-      .@{__table-prefix-cls}-row-cells {
+      .@{__tablePrefixCls}-row-cells {
         border-bottom: none;
       }
     }
   }
-  .@{__table-prefix-cls}-row-hover {
+  .@{__tablePrefixCls}-row-hover {
     &.even {
-      >.@{__table-prefix-cls}-row-cells {
+      >.@{__tablePrefixCls}-row-cells {
         background-color: @brand-primary-alpha-8;
       }
     }
   }
 }
 
-.@{__table-prefix-cls}-border-line {
-  .@{__table-prefix-cls}-right-fixed-table {
+.@{__tablePrefixCls}-border-line {
+  .@{__tablePrefixCls}-right-fixed-table {
     border-left: none;
   }
-  .@{__table-prefix-cls}-left-fixed-table {
+  .@{__tablePrefixCls}-left-fixed-table {
     border-right: none;
-    .@{__table-prefix-cls}-cell {
+    .@{__tablePrefixCls}-cell {
       &.last {
         border-right: 1px solid @normal-alpha-7;
       }
     }
   }
-  .@{__table-prefix-cls}-cell {
+  .@{__tablePrefixCls}-cell {
     border-right: 1px solid @normal-alpha-7;
     &.last {
       border-right: none;
@@ -518,32 +518,32 @@
   }
 }
 
-.@{__table-prefix-cls}-ghost {
-  .@{__table-prefix-cls}-body {
+.@{__tablePrefixCls}-ghost {
+  .@{__tablePrefixCls}-body {
     background: transparent;
   }
-  .@{__table-prefix-cls}-row {
-    &.even>.@{__table-prefix-cls}-row-cells {
+  .@{__tablePrefixCls}-row {
+    &.even>.@{__tablePrefixCls}-row-cells {
       background: transparent;
     }
   }
-  .@{__table-prefix-cls}-row-hover {
-    >.@{__table-prefix-cls}-row-cells {
+  .@{__tablePrefixCls}-row-hover {
+    >.@{__tablePrefixCls}-row-cells {
       background-color: transparent;
     }
   }
 }
 
-.@{__table-prefix-cls}-split-line {
-  .@{__table-prefix-cls}-content {
+.@{__tablePrefixCls}-split-line {
+  .@{__tablePrefixCls}-content {
     border-top: none;
     border-left: none;
     border-right: none;
   }
 }
 
-.@{__table-prefix-cls}-row-group-mode {
-  .@{__table-prefix-cls}-content {
+.@{__tablePrefixCls}-row-group-mode {
+  .@{__tablePrefixCls}-content {
     border-bottom: none;
   }
 }
