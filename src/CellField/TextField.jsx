@@ -4,7 +4,6 @@ import assign from 'object-assign';
 import React from 'react';
 
 class TextField extends CellField {
-
   renderContent() {
     const me = this;
     const fieldProps = {
@@ -28,7 +27,6 @@ class TextField extends CellField {
     }
     return <input {...fieldProps} />;
   }
-
 }
 
 TextField.propTypes = assign({}, CellField.propTypes);
