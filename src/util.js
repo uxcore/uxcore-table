@@ -71,7 +71,7 @@ const formatValue = (value, type, delimiter) => {
     return Formatter.money(newValue, newDelimiter);
   } if (type === 'card') {
     return Formatter.card(newValue, newDelimiter);
-  } else if (type === 'cnmobile') {
+  } if (type === 'cnmobile') {
     return Formatter.cnmobile(newValue, newDelimiter);
   }
   return newValue;
@@ -96,9 +96,8 @@ const mergeData = (data, obj, reverse) => {
 
 /* eslint-disable no-param-reassign */
 const saveRef = (refName, context) => (c) => {
-    context[refName] = c;
-  }
-  ;
+  context[refName] = c;
+};
 /* eslint-enable no-param-reassign */
 
 // For changeTreeSelected in Table.js
@@ -184,6 +183,7 @@ const getAllSelectedRows = (rowData, checkboxColumnKey) => {
 const getSelectedKeys = (columns) => {
   let realColumns = [];
   const selectedKeys = [];
+  let isHalfChecked = false;
   columns.forEach((item) => {
     const isGroup = {}.hasOwnProperty.call(item, 'columns') && typeof item.columns === 'object';
     if (isGroup) {
@@ -193,11 +193,13 @@ const getSelectedKeys = (columns) => {
     }
   });
   realColumns.forEach((item) => {
-    if (!item.hidden) {
+    if (!item.hidden && item.dataKey && ['jsxchecked', 'jsxtreeIcon'].indexOf(item.dataKey) === -1) {
       selectedKeys.push(item.dataKey);
+    } else if (item.hidden && item.dataKey) {
+      isHalfChecked = true;
     }
   });
-  return selectedKeys;
+  return { selectedKeys, isHalfChecked };
 };
 
 const getConsts = () => ({

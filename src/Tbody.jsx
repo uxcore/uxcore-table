@@ -132,7 +132,7 @@ class Tbody extends React.Component {
       }
       const defaultEmptyText = (
         <div style={{ lineHeight: 2 }}>
-          {i18n[this.props.locale]['default-empty-text']}
+          {i18n[this.props.locale].default_empty_text}
         </div>
       );
       return (
@@ -164,8 +164,8 @@ class Tbody extends React.Component {
 
   render() {
     const me = this;
-    const props = me.props;
-    const data = props.data;
+    const { props } = me;
+    const { data } = props;
     const leftFixedType = ['checkboxSelector', 'radioSelector', 'treeIcon'];
     let style = {
       height: props.bodyHeight,
@@ -374,6 +374,18 @@ Tbody.propTypes = {
 Tbody.defaultProps = {
   jsxprefixCls: 'kuma-uxtable-body',
   onScroll: () => { },
+  columns: undefined,
+  fixedColumn: undefined,
+  locale: undefined,
+  data: undefined,
+  emptyText: '',
+  height: undefined,
+  mask: undefined,
+  root: undefined,
+  rowGroupKey: undefined,
+  hasFooter: undefined,
+  showRowGroupFooter: undefined,
+  footer: undefined,
 };
 
 export default Tbody;

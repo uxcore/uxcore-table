@@ -5,12 +5,14 @@ import Tree from 'uxcore-tree';
 import Popover from 'uxcore-popover';
 import Icon from 'uxcore-icon';
 import i18n from '../i18n';
-import { getSelectedKeys, getConsts } from '../util';
+import util from '../util';
+import Checkbox from '../Cell/CheckBox';
+
+const { getSelectedKeys, getConsts } = util;
 
 const { TreeNode } = Tree;
 
 class ColumnPicker extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -20,7 +22,7 @@ class ColumnPicker extends React.Component {
 
   componentDidUpdate() {
     const me = this;
-    if (me.state.visible) {
+    if (this.state.visible) {
       const dropDownDOMNode = me.getDropDownDOMNOde();
       const commonTreeDOMNode = me.commonTree.refs.tree;
       let width = commonTreeDOMNode.offsetWidth + 41;
@@ -38,9 +40,14 @@ class ColumnPicker extends React.Component {
     return this.dropDownDOMNode;
   }
 
+  handleChexkAll = (e) => {
+    this.props.handleColumnPickerCheckAll(e.target.checked);
+  }
+
   handlePickerSelect(groupName, selectedKeys) {
     this.props.handleColumnPickerChange(selectedKeys, groupName);
   }
+
 
   saveRef(refName) {
     const me = this;
@@ -50,6 +57,26 @@ class ColumnPicker extends React.Component {
     };
   }
 
+  renderCheckAll() {
+    const { locale, prefixCls, columns, showColumnPickerCheckAll } = this.props;
+    if (!showColumnPickerCheckAll) {
+      return false;
+    }
+    const { selectedKeys, isHalfChecked } = getSelectedKeys(columns);
+    return (
+      <div className={`${prefixCls}-check-all`}>
+        <span style={{ width: 22, display: 'inline-block' }} />
+        <Checkbox
+          onChange={this.handleChexkAll}
+          checked={selectedKeys.length !== 0}
+          halfChecked={selectedKeys.length !== 0 ? isHalfChecked : false}
+        />
+        {i18n[locale].check_all}
+        <div className={`${prefixCls}-check-all-split-line`} />
+      </div>
+    );
+  }
+
   renderTree() {
     const me = this;
     const { columns } = me.props;
@@ -57,7 +84,6 @@ class ColumnPicker extends React.Component {
     notRenderColumns.push(me.props.checkboxColumnKey);
     const options = [];
     const groupTree = [];
-    const selectedKeys = getSelectedKeys(columns);
     me.groupNum = 0;
     columns.forEach((item) => {
       // the column is not the notRender one and is not the group.
@@ -81,6 +107,10 @@ class ColumnPicker extends React.Component {
     });
 
     const commonGroupName = getConsts().commonGroup;
+    const { selectedKeys: commonSelectedKeys } = getSelectedKeys(columns.filter((item) => {
+      const isGroup = {}.hasOwnProperty.call(item, 'columns') && typeof item.columns === 'object';
+      return !isGroup;
+    }));
     const commonTree = (
       <Tree
         checkable
@@ -88,19 +118,20 @@ class ColumnPicker extends React.Component {
         selectable={false}
         className={!me.hasGroup ? 'no-group' : ''}
         ref={me.saveRef('commonTree')}
-        checkedKeys={selectedKeys}
+        checkedKeys={commonSelectedKeys}
         onCheck={me.handlePickerSelect.bind(me, commonGroupName)}
       >
         {options}
       </Tree>
     );
 
-    if (!me.hasGroup) {
-      return commonTree;
-    }
+    // if (!me.hasGroup) {
+    //   return commonTree;
+    // }
 
     return (
       <div>
+        {this.renderCheckAll()}
         {groupTree}
         {commonTree}
       </div>
@@ -116,7 +147,7 @@ class ColumnPicker extends React.Component {
       />
     ));
 
-    const selectedKeys = getSelectedKeys(group.columns);
+    const { selectedKeys } = getSelectedKeys(group.columns);
 
     return (
       <Tree
@@ -157,7 +188,9 @@ class ColumnPicker extends React.Component {
             })}
           >
             <Icon usei name="zidingyilie" className={`${prefixCls}-icon`} />
-            <span className={`${prefixCls}-title`}>{i18n[locale]['templated-column']}</span>
+            <span className={`${prefixCls}-title`}>
+              {i18n[locale].templated_column}
+            </span>
           </div>
         </div>
       </Popover>
@@ -167,14 +200,19 @@ class ColumnPicker extends React.Component {
 
 ColumnPicker.defaultProps = {
   prefixCls: 'kuma-uxtable-column-picker',
+  showColumnPickerCheckAll: false,
   locale: 'zh-cn',
   columns: [],
+  handleColumnPickerChange: () => {},
+  handleColumnPickerCheckAll: () => {},
 };
 ColumnPicker.propTypes = {
   prefixCls: PropTypes.string,
+  showColumnPickerCheckAll: PropTypes.bool,
   locale: PropTypes.string,
   columns: PropTypes.array,
   handleColumnPickerChange: PropTypes.func,
+  handleColumnPickerCheckAll: PropTypes.func,
 };
 
 ColumnPicker.displayName = 'ColumnPicker';

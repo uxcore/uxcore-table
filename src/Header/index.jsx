@@ -164,7 +164,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const props = this.props;
+    const { props } = this;
     const me = this;
     const headerStyle = {};
     const scrollBarWidth = util.measureScrollbar();
@@ -221,7 +221,7 @@ class Header extends React.Component {
       });
       headerWrapClassName = 'kuma-uxtable-header-scroll';
     } else {
-      columns = props.columns;
+      ({ columns } = props);
       headerWrapClassName = 'kuma-uxtable-header-no';
     }
     me.hasGroup = false;
@@ -250,8 +250,11 @@ Header.propTypes = {
 };
 
 Header.defaultProps = {
+  handleColumnPickerChange: () => {},
+  selectAll: () => {},
   prefixCls: 'kuma-uxtable-header',
   onColumnFilter: () => {},
+  filterColumns: {},
 };
 
 export default Header;

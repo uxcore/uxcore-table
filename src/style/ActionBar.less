@@ -41,10 +41,33 @@
         overflow: auto;
         padding: 16px 12px;
     }
+    .@{__tablePrefixCls}-row-selector {
+      margin-right: 8px;
+    }
+    .half-checked {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background: url("@{svg-path}/checkbox-partial-checked.svg") no-repeat;
+      vertical-align: text-bottom;
+      color: @brand-primary;
+    }
     .@{__treePrefixCls} {
       padding: 0;
     }
+    .@{__treePrefixCls}-checkbox {
+      margin-right: 8px;
+    }
 }
+
+.@{__tablePrefixCls}-column-picker-check-all {
+  color: @dark-alpha-3;
+  &-split-line {
+    border-bottom: 1px solid @split-line-color;
+    margin: 4px 0;
+  }
+}
+
 
 .@{__tablePrefixCls}-searchbar {
   float: right;

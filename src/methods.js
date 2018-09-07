@@ -1,6 +1,5 @@
 import deepcopy from 'lodash/cloneDeep';
 import Const from 'uxcore-const';
-import { loadavg } from 'os';
 import util from './util';
 
 function addEmptyRow(cb) {

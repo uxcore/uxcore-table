@@ -45,14 +45,13 @@ const defaultProps = {
   currentPage: 1,
   searchBarPlaceholder: '搜索表格内容',
   loadingText: 'loading',
-  fitResponse: response =>
-    ({
-      content: response.content,
-      success: response.success === undefined ? !response.hasError : response.success,
-      error: {
-        message: response.content || response.errors,
-      },
-    }),
+  fitResponse: response => ({
+    content: response.content,
+    success: response.success === undefined ? !response.hasError : response.success,
+    error: {
+      message: response.content || response.errors,
+    },
+  }),
   processData: data => data,
   beforeFetch: obj => obj,
   onFetchError: (err) => {
@@ -64,6 +63,7 @@ const defaultProps = {
   onChange: () => { },
   onSave: () => {},
   shouldResetExpandedKeys: () => {},
+  showColumnPickerCheckAll: false,
 };
 
 // http://facebook.github.io/react/docs/reusable-components.html
@@ -132,9 +132,10 @@ const propTypes = {
   renderModel: PropTypes.string,
   levels: PropTypes.number,
   footer: PropTypes.func,
+  showColumnPickerCheckAll: PropTypes.bool,
 };
 
-export default {
+export {
   propTypes,
   defaultProps,
 };

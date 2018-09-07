@@ -85,7 +85,7 @@ class Row extends React.Component {
   }
 
   renderSubComp() {
-    const props = this.props;
+    const { props } = this;
 
     let sub;
 
@@ -122,7 +122,7 @@ class Row extends React.Component {
   }
 
   renderChild() {
-    const props = this.props;
+    const { props } = this;
     const me = this;
     let children = [];
 
@@ -164,7 +164,7 @@ class Row extends React.Component {
   renderExpandIcon(rowIndex, treeId) {
     let expandCollapseIcon;
     let _expandIconClass;
-    const props = this.props;
+    const { props } = this;
 
     if (props.renderModel !== 'tree') {
       return false;
@@ -242,7 +242,7 @@ class Row extends React.Component {
 
   render() {
     const me = this;
-    const props = this.props;
+    const { props } = this;
     let _columns = [];
     let _style = {};
     const otherCls = props.addRowClassName(deepcopy(props.rowData));
@@ -341,10 +341,10 @@ class Row extends React.Component {
             if (firstVisableColumn === 1) {
               return (
                 <Cell {...renderProps}>
-  {me.renderIndent()}
-  {me.renderExpandIcon(props.rowIndex, props.rowData.__treeId__)}
-  {me.renderTreeRowSelector()}
-</Cell>
+                  {me.renderIndent()}
+                  {me.renderExpandIcon(props.rowIndex, props.rowData.__treeId__)}
+                  {me.renderTreeRowSelector()}
+                </Cell>
               );
             }
             // if have vertical data structure, how to process it
@@ -387,6 +387,7 @@ Row.propTypes = {
     PropTypes.string,
   ]),
   height: PropTypes.number,
+  addRowClassName: PropTypes.func,
 };
 
 Row.defaultProps = {
@@ -395,6 +396,18 @@ Row.defaultProps = {
   onClick: () => {},
   onMouseEnter: () => {},
   addRowClassName: () => {},
+  height: undefined,
+  index: undefined,
+  levels: undefined,
+  level: undefined,
+  isHover: undefined,
+  visible: undefined,
+  last: undefined,
+  rowSelection: undefined,
+  rowData: undefined,
+  root: undefined,
+  checkboxColumnKey: undefined,
+  renderModel: undefined,
 };
 
 export default Row;

@@ -91,14 +91,14 @@ class Cell extends React.Component {
 
   getEditData() {
     const me = this;
-    const column = me.props.column;
+    const { column } = me.props;
     const editKey = column.editKey || column.dataKey;
     return me.props.rowData[editKey];
   }
 
   getCellData(nextProps) {
     const props = nextProps || this.props;
-    const column = props.column;
+    const { column } = props;
     const cellData = props.rowData[column.dataKey];
     return cellData;
   }
@@ -195,9 +195,9 @@ class Cell extends React.Component {
 
   render() {
     const me = this;
-    const props = me.props;
-    const column = props.column;
-    const width = column.width;
+    const { props } = me;
+    const { column } = props;
+    const { width } = column;
     const mode = props.rowData.__mode__;
     const style = {
       width: width || '100px',
@@ -221,7 +221,7 @@ class Cell extends React.Component {
       let disable = props.rowSelection.isDisabled
         ? props.rowSelection.isDisabled(props.rowData) : false;
       if ('disable' in column) {
-        disable = column.disable;
+        ({ disable } = column);
       } else if ('isDisable' in column) {
         disable = !!column.isDisable(props.rowData);
       }
@@ -242,7 +242,7 @@ class Cell extends React.Component {
       let disable = props.rowSelection.isDisabled
         ? props.rowSelection.isDisabled(props.rowData) : false;
       if ('disable' in column) {
-        disable = column.disable;
+        ({ disable } = column);
       } else if ('isDisable' in column) {
         disable = !!column.isDisable(props.rowData);
       }
@@ -325,11 +325,16 @@ Cell.propTypes = {
   rowData: PropTypes.object,
   jsxprefixCls: PropTypes.string,
   showSubCompCallback: PropTypes.func,
+  rowSelection: PropTypes.object,
 };
 
 Cell.defaultProps = {
   jsxprefixCls: 'kuma-uxtable-cell',
+  showSubCompCallback: () => {},
   rowSelection: {},
+  rowData: undefined,
+  hasSubComp: undefined,
+  cellIndex: undefined,
 };
 
 export default Cell;

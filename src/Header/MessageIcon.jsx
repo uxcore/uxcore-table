@@ -9,9 +9,11 @@ const MessageIcon = (props) => {
   }
   return (
     <Tooltip
-      overlay={<div className="kuma-uxtable-column-message">
-        {props.message}
-      </div>}
+      overlay={(
+        <div className="kuma-uxtable-column-message">
+          {props.message}
+        </div>
+      )}
       placement="top"
     >
       <Icon usei name="xinxitishicopy" className={`${props.prefixCls}-icon`} />
@@ -22,6 +24,11 @@ const MessageIcon = (props) => {
 MessageIcon.propTypes = {
   message: PropTypes.string,
   prefixCls: PropTypes.string,
+};
+
+MessageIcon.defaultProps = {
+  message: '',
+  prefixCls: undefined,
 };
 
 

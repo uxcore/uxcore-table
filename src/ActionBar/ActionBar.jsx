@@ -19,7 +19,7 @@ class ActionBar extends React.Component {
   /**
    *  convert ActionBar config from hash to array
    */
-  getActionItem(config) {
+  static getActionItem(config) {
     let items = [];
     if (config instanceof Array) {
       items = config;
@@ -92,7 +92,9 @@ class ActionBar extends React.Component {
       showColumnPicker,
       columns,
       handleColumnPickerChange,
+      handleColumnPickerCheckAll,
       checkboxColumnKey,
+      showColumnPickerCheckAll,
       width,
       locale,
     } = me.props;
@@ -106,13 +108,15 @@ class ActionBar extends React.Component {
         dropdownMaxWidth={width}
         checkboxColumnKey={checkboxColumnKey}
         handleColumnPickerChange={handleColumnPickerChange}
+        handleColumnPickerCheckAll={handleColumnPickerCheckAll}
+        showColumnPickerCheckAll={showColumnPickerCheckAll}
       />
     );
   }
 
   render() {
     const me = this;
-    const props = me.props;
+    const { props } = me;
     const barConfig = props.actionBarConfig;
 
     return (
@@ -122,7 +126,7 @@ class ActionBar extends React.Component {
           'fn-clear': true,
         })}
       >
-        {me.getActionItem(barConfig).map((item, index) => me.renderActionBtn(item, index))}
+        {ActionBar.getActionItem(barConfig).map((item, index) => me.renderActionBtn(item, index))}
         {me.renderSearchBar()}
         {me.renderColumnPicker()}
         {me.renderLinkBar()}
@@ -138,6 +142,8 @@ ActionBar.propTypes = {
 };
 
 ActionBar.defaultProps = {
+  showSearch: false,
+  onSearch: () => {},
   prefixCls: 'kuma-uxtable-actionbar',
 };
 

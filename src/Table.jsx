@@ -37,34 +37,6 @@ const { createCellField } = CellField;
 const getStyle = get;
 
 class Table extends React.Component {
-  static getDerivedStateFromProps = (props, state) => {
-    let newData = {};
-    if (props.pageSize !== state.lastPageSize) {
-      newData.pageSize = props.pageSize;
-      newData.lastPageSize = props.pageSize;
-    }
-    if (props.currentPage !== state.lastCurrentPage) {
-      newData.currentPage = props.currentPage;
-      newData.lastCurrentPage = props.currentPage;
-    }
-    if (!!props.jsxcolumns
-      && !deepEqual(props.jsxcolumns, state.lastJsxcolumns)) {
-      newData = {
-        ...newData,
-        ...Table.processColumn(props, state),
-        lastJsxcolumns: props.jsxcolumns,
-        forceToCheckRight: true,
-      };
-      newData.hasFixed = util.hasFixColumn(props);
-    }
-    if (props.showMask !== state.lastShowMask) {
-      newData.showMask = props.showMask;
-      newData.lastShowMask = props.showMask;
-    }
-
-    return newData;
-  }
-
   static processColumn = (props, state = {}, extra = {}) => {
     const actualProps = props;
     let columns = deepcopy(actualProps.jsxcolumns);
@@ -607,19 +579,19 @@ class Table extends React.Component {
     me.uid = 0;
     if (['pagination', 'order', 'search', 'filter'].indexOf(from) !== -1) {
       if (from === 'pagination' && props.onPagerChange) {
-        props.onPagerChange(me.state.currentPage, me.state.pageSize);
+        props.onPagerChange(this.state.currentPage, this.state.pageSize);
       }
 
       if (from === 'order' && props.onOrder) {
-        props.onOrder(me.state.activeColumn, me.state.orderType);
+        props.onOrder(this.state.activeColumn, this.state.orderType);
       }
 
       if (from === 'search' && props.onSearch) {
-        props.onSearch(me.state.searchTxt);
+        props.onSearch(this.state.searchTxt);
       }
 
       if (from === 'filter' && props.onFilter) {
-        props.onFilter(me.state.filterColumns);
+        props.onFilter(this.state.filterColumns);
       }
     } else {
       this.copyData = deepcopy(props.jsxdata);
@@ -669,8 +641,7 @@ class Table extends React.Component {
     });
 
     // column order
-    const activeColumn = me.state.activeColumn;
-    const orderType = me.state.orderType;
+    const { activeColumn, orderType } = me.state;
     if (activeColumn) {
       queryObj = assign({}, queryObj, {
         orderColumn: activeColumn.dataKey,
@@ -681,7 +652,7 @@ class Table extends React.Component {
     }
 
     // search query
-    const searchTxt = me.state.searchTxt;
+    const { searchTxt } = me.state;
     if (searchTxt) {
       queryObj = assign({}, queryObj, {
         searchTxt,
@@ -689,7 +660,7 @@ class Table extends React.Component {
     }
 
     // filter
-    const filterColumns = this.state.filterColumns;
+    const { filterColumns } = this.state;
     if (filterColumns) {
       queryObj = { ...queryObj, ...filterColumns };
     }
@@ -713,7 +684,7 @@ class Table extends React.Component {
     if (!column || data.length === 0) {
       return false;
     }
-    const checkboxColumnKey = me.state.checkboxColumnKey;
+    const { checkboxColumnKey } = me.state;
     let isAllDisabled = true;
     let isHalfChecked = false;
     let checkedColumn = 0;
@@ -774,6 +745,34 @@ class Table extends React.Component {
     });
   }
 
+  handleColumnPickerCheckAll = (checked) => {
+    const columns = deepcopy(this.state.columns);
+    const notRenderColumns = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
+    notRenderColumns.push(this.state.checkboxColumnKey);
+    for (let i = 0; i < columns.length; i++) {
+      const item = columns[i];
+      const isGroup = {}.hasOwnProperty.call(item, 'columns') && typeof item.columns === 'object';
+      // current column is a group and groupName is right
+      if (isGroup) {
+        for (let j = 0; j < item.columns.length; j++) {
+          const ele = item.columns[j];
+          ele.hidden = !checked;
+        }
+      } else if (notRenderColumns.indexOf(item.dataKey) === -1) {
+        item.hidden = !checked;
+      }
+    }
+
+    this.setState({
+      columns,
+    }, () => {
+      if (typeof this.props.onColumnPick === 'function') {
+        this.props.onColumnPick(deepcopy(columns));
+      }
+      this.checkRightFixed(true);
+    });
+  }
+
   handleColumnPickerChange(checkedKeys, groupName) {
     const columns = deepcopy(this.state.columns);
     const notRenderColumns = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
@@ -805,7 +804,7 @@ class Table extends React.Component {
       }
     }
 
-    const selectedKeys = util.getSelectedKeys(columns);
+    const { selectedKeys } = util.getSelectedKeys(columns);
 
     if (selectedKeys.length === 0) {
       return;
@@ -939,7 +938,7 @@ class Table extends React.Component {
     const {
       jsxid, column, value, text, pass,
     } = obj;
-    const dataKey = column.dataKey;
+    const { dataKey } = column;
     const editKey = column.editKey || dataKey;
     const data = deepcopy(me.state.data);
     let changedData = {};
@@ -989,12 +988,42 @@ class Table extends React.Component {
     });
   }
 
+  static getDerivedStateFromProps = (props, state) => {
+    let newData = {};
+    if (props.pageSize !== state.lastPageSize) {
+      newData.pageSize = props.pageSize;
+      newData.lastPageSize = props.pageSize;
+    }
+    if (props.currentPage !== state.lastCurrentPage) {
+      newData.currentPage = props.currentPage;
+      newData.lastCurrentPage = props.currentPage;
+    }
+    if (!!props.jsxcolumns
+      && !deepEqual(props.jsxcolumns, state.lastJsxcolumns)) {
+      newData = {
+        ...newData,
+        ...Table.processColumn(props, state),
+        lastJsxcolumns: props.jsxcolumns,
+        forceToCheckRight: true,
+      };
+      newData.hasFixed = util.hasFixColumn(props);
+    }
+    if (props.showMask !== state.lastShowMask) {
+      newData.showMask = props.showMask;
+      newData.lastShowMask = props.showMask;
+    }
+
+    return newData;
+  }
+
   resizeColumns() {
     if (this.state.hasPercentWidth && this.root && this.root.clientWidth !== this.rootWidth) {
       this.rootWidth = this.root.clientWidth;
-      this.setState({
-        ...Table.processColumn(this.props, this.state),
-      });
+      this.setState(state => (
+        {
+          ...Table.processColumn(this.props, state),
+        }
+      ));
     }
   }
 
@@ -1002,7 +1031,7 @@ class Table extends React.Component {
     const me = this;
     const content = deepcopy(me.state.data);
     const data = content.datas || content.data;
-    const rowSelection = me.props.rowSelection;
+    const { rowSelection } = me.props;
 
     const selectedRows = [];
     for (let i = 0; i < data.length; i++) {
@@ -1087,7 +1116,7 @@ class Table extends React.Component {
 
   renderPager() {
     const me = this;
-    const { data, currentPage, pageSize } = me.state;
+    const { data, currentPage, pageSize } = this.state;
     const {
       showPagerTotal,
       showPager,
@@ -1219,7 +1248,9 @@ class Table extends React.Component {
         columns: this.state.columns,
         width: this.props.width,
         onSearch: this.handleActionBarSearch,
+        showColumnPickerCheckAll: this.props.showColumnPickerCheckAll,
         handleColumnPickerChange: this.handleColumnPickerChange,
+        handleColumnPickerCheckAll: this.handleColumnPickerCheckAll,
         key: 'grid-actionbar',
       };
       return <ActionBar {...renderActionProps} />;

@@ -19,6 +19,7 @@ class Demo extends React.Component {
       text: 1,
     };
   }
+
   render() {
     const me = this;
     // 通过 rowSelection 对象表明需要行选择

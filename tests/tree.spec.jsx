@@ -11,9 +11,15 @@ Enzyme.configure({ adapter: new Adapter() });
 
 const common = {
   jsxcolumns: [
-    { dataKey: 'id', title: 'ID', width: 50, hidden: true },
-    { dataKey: 'country', title: '国家', width: 200, ordered: true },
-    { dataKey: 'city', title: '城市', width: 150, ordered: true },
+    {
+      dataKey: 'id', title: 'ID', width: 50, hidden: true,
+    },
+    {
+      dataKey: 'country', title: '国家', width: 200, ordered: true,
+    },
+    {
+      dataKey: 'city', title: '城市', width: 150, ordered: true,
+    },
     { dataKey: 'firstName', title: 'FristName' },
   ],
   jsxdata: {
@@ -157,14 +163,14 @@ describe('Tree', () => {
   let wrapper;
   it('props renderModel', () => {
     wrapper = mount(
-      <Table {...common} renderModel="tree" />
+      <Table {...common} renderModel="tree" />,
     );
     expect(wrapper.find('.kuma-uxtable-expand-icon').length).not.to.be(0);
   });
 
   it('props levels', () => {
     wrapper = mount(
-      <Table {...common} renderModel="tree" levels={1} />
+      <Table {...common} renderModel="tree" levels={1} />,
     );
     expect(wrapper.find('.kuma-uxtable-expand-icon .kuma-icon').at(0).hasClass('expanded')).to.be(true);
   });
@@ -182,7 +188,7 @@ describe('Tree', () => {
             done();
           },
         }}
-      />
+      />,
     );
     wrapper.find('.kuma-uxtable-row .kuma-checkbox').at(0).instance().checked = true;
     wrapper.find('.kuma-uxtable-row .kuma-checkbox').at(0).simulate('change');
@@ -190,7 +196,7 @@ describe('Tree', () => {
 
   it('should be able to toggle tree', () => {
     wrapper = mount(
-      <Table {...common} renderModel="tree" levels={1} />
+      <Table {...common} renderModel="tree" levels={1} />,
     );
     wrapper.find('.kuma-uxtable-row .kuma-uxtable-expand-icon').at(0).simulate('change');
     expect(wrapper.find('.kuma-uxtable-row .kuma-uxtable-tree-row').length).not.to.be(0);
@@ -198,22 +204,22 @@ describe('Tree', () => {
 
   it('should asynchronous add remote row to toggle tree ', (done) => {
     wrapper = mount(
-      <Table {...common} loadTreeData={loadTreeDataWithAsync} renderModel="tree" levels={0} />
+      <Table {...common} loadTreeData={loadTreeDataWithAsync} renderModel="tree" levels={0} />,
     );
     const rowLength = wrapper.find('.kuma-uxtable-row').length;
-    wrapper.find('.kuma-icon .kuma-icon-triangle-right').at(4).simulate('click');
+    wrapper.find('.kuma-icon.kuma-icon-triangle-right').at(4).simulate('click');
     setTimeout(() => {
       wrapper.update();
-      expect(wrapper.find('.kuma-uxtable-row').length).to.equal(rowLength+1);
+      expect(wrapper.find('.kuma-uxtable-row').length).to.equal(rowLength + 1);
       done();
     }, 0);
   });
 
   it('should change icon type when asynchronous add remote row to toggle tree ', (done) => {
     wrapper = mount(
-      <Table {...common} loadTreeData={loadTreeDataWithAsync} renderModel="tree" levels={0} />
+      <Table {...common} loadTreeData={loadTreeDataWithAsync} renderModel="tree" levels={0} />,
     );
-    wrapper.find('.kuma-icon .kuma-icon-triangle-right').at(4).simulate('click');
+    wrapper.find('.kuma-icon.kuma-icon-triangle-right').at(4).simulate('click');
     expect(wrapper.find('.kuma-uxtable-row-tree-loading-icon').length).above(0);
 
     setTimeout(() => {
@@ -225,11 +231,10 @@ describe('Tree', () => {
 
   it('should synchronous add remote row to toggle tree', () => {
     wrapper = mount(
-      <Table {...common} loadTreeData={loadTreeDataWithSync} renderModel="tree" levels={0} />
+      <Table {...common} loadTreeData={loadTreeDataWithSync} renderModel="tree" levels={0} />,
     );
     const rowLength = wrapper.find('.kuma-uxtable-row').length;
-    wrapper.find('.kuma-icon .kuma-icon-triangle-right').at(4).simulate('click');
+    wrapper.find('.kuma-icon.kuma-icon-triangle-right').at(4).simulate('click');
     expect(wrapper.find('.kuma-uxtable-row').length).to.be(rowLength + 1);
   });
 });
-

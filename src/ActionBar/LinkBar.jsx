@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class LinkBar extends React.Component {
-
   renderActionBtn(item, index, last) {
     const me = this;
     const itemProps = {
@@ -11,9 +10,17 @@ class LinkBar extends React.Component {
     let action;
     const cutOff = <div className={`${me.props.prefixCls}-cutoff`} />;
     if (!!item.render && typeof item.render === 'function') {
-      action = <div {...itemProps}>{item.render(item.title)}</div>;
+      action = (
+        <div {...itemProps}>
+          {item.render(item.title)}
+        </div>
+      );
     } else {
-      action = <a {...itemProps}>{item.title}</a>;
+      action = (
+        <a {...itemProps}>
+          {item.title}
+        </a>
+      );
     }
 
     return (
@@ -47,4 +54,3 @@ LinkBar.defaultProps = {
 LinkBar.displayName = 'LinkBar';
 
 export default LinkBar;
-

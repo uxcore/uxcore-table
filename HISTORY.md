@@ -2,6 +2,10 @@
 
 ---
 
+## 10.3.0
+
+* `NEW` support column picker check all button
+
 ## 10.2.4
 
 * `FIXED` tree render emptyicon

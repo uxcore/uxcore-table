@@ -1,14 +1,17 @@
 export default {
   'en-us': {
-    'templated-column': 'Templated Column',
+    templated_column: 'Templated Column',
     more: 'more',
-    'default-empty-text': 'No Data',
+    default_empty_text: 'No Data',
     __others__: 'Others',
+    check_all: 'All',
+
   },
   'zh-cn': {
-    'templated-column': '自定义列',
+    templated_column: '自定义列',
     more: '更多',
-    'default-empty-text': '暂无数据',
+    default_empty_text: '暂无数据',
     __others__: '其他',
+    check_all: '全选',
   },
 };

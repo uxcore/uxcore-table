@@ -32,7 +32,12 @@ class CheckBox extends React.Component {
 
   renderHalfChecked() {
     return (
-      <span className="kuma-uxtable-row-selector">
+      <span
+        className={classnames({
+          'kuma-uxtable-row-selector': true,
+          [this.props.className]: !!this.props.className,
+        })}
+      >
         <i className="half-checked" onClick={this.handleClick} />
       </span>
     );
@@ -46,14 +51,15 @@ class CheckBox extends React.Component {
           [this.props.className]: !!this.props.className,
         })}
       >
-        <input type="checkbox" ref={(c) => { this.checkbox = c; }} {...renderProps} /><s />
+        <input type="checkbox" ref={(c) => { this.checkbox = c; }} {...renderProps} />
+        <s />
       </label>
     );
   }
 
 
   render() {
-    const props = this.props;
+    const { props } = this;
     if (props.halfChecked) {
       return this.renderHalfChecked();
     }
@@ -78,6 +84,8 @@ CheckBox.propTypes = {
 
 CheckBox.defaultProps = {
   onChange: () => {},
+  checked: undefined,
+  className: '',
 };
 
 export default CheckBox;
