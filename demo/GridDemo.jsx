@@ -139,6 +139,7 @@ class Demo extends React.Component {
       rowSelector: 'checkboxSelector',
       jsxcolumns: columns,
       showColumnPicker: true,
+      showColumnPickerCheckAll: true,
       leftFixedMaxWidth: 900,
       // size: 'small',
       // rowSelection,

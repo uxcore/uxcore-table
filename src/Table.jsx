@@ -200,7 +200,7 @@ class Table extends React.Component {
           ...Table.processColumn(this.props, state, { tableWidth: this.root.clientWidth }),
         };
         if (state.forceToCheckRight) {
-          this.forceToCheckRight(true);
+          this.checkRightFixed(true);
           newState.forceToCheckRight = false;
         }
         return newState;
