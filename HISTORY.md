@@ -2,6 +2,10 @@
 
 ---
 
+## 10.3.2
+
+* `CHANGED` check right fixed when fetch params change
+
 ## 10.3.0
 
 * `NEW` support column picker check all button

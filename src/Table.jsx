@@ -188,7 +188,9 @@ class Table extends React.Component {
     }
     if (prevProps.fetchUrl !== this.props.fetchUrl
       || !deepEqual(prevProps.fetchParams, this.props.fetchParams)) {
-      this.fetchData('propsChange', this.props);
+      this.fetchData('propsChange', this.props, () => {
+        this.checkRightFixed(true);
+      });
     }
 
     if (this.state.hasPercentWidth
