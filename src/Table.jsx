@@ -129,8 +129,9 @@ class Table extends React.Component {
     }
     if (nextProps.fetchUrl !== me.props.fetchUrl
       || !deepEqual(nextProps.fetchParams, me.props.fetchParams)) {
-      this.forceToCheckRight = true;
-      me.fetchData('propsChange', nextProps);
+      me.fetchData('propsChange', nextProps, () => {
+        this.checkRightFixed(true);
+      });
     }
     me.setState(newData);
   }
