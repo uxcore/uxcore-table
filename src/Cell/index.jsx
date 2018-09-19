@@ -269,7 +269,7 @@ class Cell extends React.Component {
         rowData: props.rowData,
         index: props.index,
         column,
-        getTooltipContainer: () => props.bodyNode,
+        getTooltipContainer: () => (props.rowLength < 5 ? document.body : props.bodyNode),
         handleDataChange: props.handleDataChange,
         attachCellField: props.attachCellField,
         detachCellField: props.detachCellField,

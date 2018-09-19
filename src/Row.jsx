@@ -336,6 +336,7 @@ class Row extends React.Component {
               cellIndex: index,
               hasSubComp,
               showSubCompCallback: me.showSubCompFunc.bind(me),
+              rowLength: props.data.length,
             };
 
             if (firstVisableColumn === 1) {

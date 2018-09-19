@@ -2,6 +2,10 @@
 
 ---
 
+## 10.3.3
+
+* `FIXED` cellField error message will cover the input if the sum of rows is small
+
 ## 10.3.2
 
 * `CHANGED` check right fixed when fetch params change
