@@ -30,7 +30,6 @@ function resetRow(rowData, cb) {
   }
   updateData.__mode__ = Const.MODE.EDIT;
   this.updateRecord(updateData, () => {
-    this.doValidate();
     if (cb) { cb(); }
   });
 }

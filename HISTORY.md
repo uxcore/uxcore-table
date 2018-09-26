@@ -2,6 +2,10 @@
 
 ---
 
+## 9.5.0
+
+* `CHANGED` remove `doValidate` logic in method `resetRow`
+
 ## 9.4.0
 
 * `CHANGED` support tree loading icon
