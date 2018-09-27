@@ -69,8 +69,8 @@ class ActionBar extends React.Component {
 
   renderLinkBar() {
     const me = this;
-    const { linkBar } = me.props;
-    return <LinkBar config={linkBar} />;
+    const { linkBar, tablePrefixCls } = me.props;
+    return <LinkBar config={linkBar} prefixCls={`${tablePrefixCls}-linkbar`} />;
   }
 
   renderSearchBar() {
@@ -80,6 +80,7 @@ class ActionBar extends React.Component {
         onSearch: me.handleSearch.bind(me),
         key: 'searchbar',
         placeholder: me.props.searchBarPlaceholder,
+        prefixCls: `${me.props.tablePrefixCls}-searchbar`,
       };
       return <SearchBar {...searchBarProps} />;
     }
@@ -97,6 +98,7 @@ class ActionBar extends React.Component {
       showColumnPickerCheckAll,
       width,
       locale,
+      tablePrefixCls,
     } = me.props;
     if (!showColumnPicker) {
       return null;
@@ -110,6 +112,7 @@ class ActionBar extends React.Component {
         handleColumnPickerChange={handleColumnPickerChange}
         handleColumnPickerCheckAll={handleColumnPickerCheckAll}
         showColumnPickerCheckAll={showColumnPickerCheckAll}
+        prefixCls={`${tablePrefixCls}-column-picker`}
       />
     );
   }
@@ -121,8 +124,7 @@ class ActionBar extends React.Component {
 
     return (
       <div
-        className={classnames({
-          [props.prefixCls]: !!props.prefixCls,
+        className={classnames(`${props.tablePrefixCls}-actionbar`, {
           'fn-clear': true,
         })}
       >
@@ -138,13 +140,11 @@ class ActionBar extends React.Component {
 ActionBar.propTypes = {
   showSearch: PropTypes.bool,
   onSearch: PropTypes.func,
-  prefixCls: PropTypes.string,
 };
 
 ActionBar.defaultProps = {
   showSearch: false,
   onSearch: () => {},
-  prefixCls: 'kuma-uxtable-actionbar',
 };
 
 export default ActionBar;

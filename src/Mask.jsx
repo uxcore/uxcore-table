@@ -17,7 +17,9 @@ const Mask = (props) => {
     <div className={className}>
       <div className={`${props.prefixCls}-centerblk`}>
         <span className="kuma-loading" />
-        <span className={`${props.prefixCls}-text`}>{text}</span>
+        <span className={`${props.prefixCls}-text`}>
+          {text}
+        </span>
       </div>
     </div>
   );
@@ -32,6 +34,7 @@ Mask.propTypes = {
 Mask.defaultProps = {
   prefixCls: 'kuma-uxmask',
   text: '加载中',
+  visible: false,
 };
 
 export default Mask;

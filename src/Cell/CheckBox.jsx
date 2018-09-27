@@ -6,6 +6,7 @@ import Const from 'uxcore-const';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import TableContext from '../context';
 
 class CheckBox extends React.Component {
   constructor(props) {
@@ -32,14 +33,19 @@ class CheckBox extends React.Component {
 
   renderHalfChecked() {
     return (
-      <span
-        className={classnames({
-          'kuma-uxtable-row-selector': true,
-          [this.props.className]: !!this.props.className,
-        })}
-      >
-        <i className="half-checked" onClick={this.handleClick} />
-      </span>
+      <TableContext.Consumer>
+        {context => (
+          <span
+            className={classnames({
+              [`${context.prefixCls}-row-selector`]: true,
+              [this.props.className]: !!this.props.className,
+            })}
+          >
+            <i className="half-checked" onClick={this.handleClick} />
+          </span>
+        )}
+      </TableContext.Consumer>
+
     );
   }
 

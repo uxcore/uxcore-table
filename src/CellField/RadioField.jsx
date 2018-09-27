@@ -45,8 +45,14 @@ class RadioField extends CellField {
       if (config.data instanceof Array) {
         configData = config.data;
       }
-      return configData.map((item, index) =>
-        <Item key={index} value={item.value} text={item.text} disabled={item.disabled} />);
+      return configData.map((item, index) => (
+        <Item
+          key={index}
+          value={item.value}
+          text={item.text}
+          disabled={item.disabled}
+        />
+      ));
     }
     return [];
   }

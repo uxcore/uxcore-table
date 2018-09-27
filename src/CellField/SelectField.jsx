@@ -12,7 +12,7 @@ const { Option } = Select;
 const getTextFromValue = (value) => {
   if (Array.isArray(value)) {
     return value.map(item => item.label).join(', ');
-  } else if (typeof value === 'object') {
+  } if (typeof value === 'object') {
     return value.label;
   }
   return '';
@@ -35,7 +35,7 @@ class SelectField extends CellField {
   constructor(props) {
     super(props);
     const me = this;
-    const data = me.getConfig().data;
+    const { data } = me.getConfig();
     assign(me.state, {
       data: (typeof data === 'function') ? data(props.rowData) : data,
     });
@@ -44,7 +44,7 @@ class SelectField extends CellField {
   componentWillReceiveProps(nextProps) {
     const me = this;
     let nextData = me.getConfig(nextProps).data;
-    let data = me.getConfig().data;
+    let { data } = me.getConfig();
     nextData = (typeof nextData === 'function') ? nextData(nextProps.rowData) : nextData;
     data = (typeof data === 'function') ? data(me.props.rowData) : data;
     if (!isEqual(nextData, data)) {
@@ -120,7 +120,11 @@ class SelectField extends CellField {
     if (renderChildren) {
       return renderChildren(rowData);
     }
-    return (me.state.data || []).map(item => <Option key={item.value}>{item.text}</Option>);
+    return (me.state.data || []).map(item => (
+      <Option key={item.value}>
+        {item.text}
+      </Option>
+    ));
   }
 
   renderContent() {
@@ -141,7 +145,7 @@ class SelectField extends CellField {
           if (me.getConfig().fetchUrl) {
             me.fetchData(key);
           } else {
-            const onSearch = me.getConfig().onSearch;
+            const { onSearch } = me.getConfig();
             if (typeof onSearch === 'function') {
               onSearch(key, me.props.rowData);
             }

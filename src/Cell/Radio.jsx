@@ -7,7 +7,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Radio extends React.Component {
-
   getValue() {
     return this.radio.checked;
   }
@@ -17,7 +16,7 @@ class Radio extends React.Component {
   }
 
   render() {
-    const props = this.props;
+    const { props } = this;
     const renderProps = {
       className: 'kuma-checkbox',
       checked: this.props.checked,
@@ -39,7 +38,6 @@ class Radio extends React.Component {
       </label>
     );
   }
-
 }
 
 Radio.propTypes = {
@@ -48,7 +46,8 @@ Radio.propTypes = {
 };
 
 Radio.defaultProps = {
-
+  onChange: () => {},
+  checked: undefined,
 };
 
 export default Radio;

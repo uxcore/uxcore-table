@@ -105,6 +105,7 @@ class Header extends React.Component {
       activeColumn,
       checkStatus,
       filterColumns,
+      tablePrefixCls,
     } = me.props;
     const cellProps = {
       column: item,
@@ -118,6 +119,7 @@ class Header extends React.Component {
       activeColumn,
       filterSelectedKeys: filterColumns[item.dataKey],
       checkStatus,
+      tablePrefixCls,
       ref: (c) => { if (Header.isFixedColumn(item)) { this[`fixedCell${index}`] = c; } },
       onCheckboxChange: (e) => { this.handleCheckBoxChange(e); },
       onColumnOrder: () => { this.handleColumnOrder(item); },
@@ -130,6 +132,7 @@ class Header extends React.Component {
 
   renderColumns(_columns) {
     const me = this;
+    const { prefixCls } = this.props;
     const columns = _columns.map((item, index) => {
       const last = (index === _columns.length - 1);
       if ({}.hasOwnProperty.call(item, 'columns') && typeof item.columns === 'object') {
@@ -139,11 +142,11 @@ class Header extends React.Component {
         if (shouldRenderGroup) {
           return (
             <div
-              className="kuma-uxtable-header-column-group"
+              className={`${prefixCls}-column-group`}
               key={index}
             >
               <div
-                className={classnames('kuma-uxtable-header-group-name', {
+                className={classnames(`${prefixCls}-group-name`, {
                   last,
                 })}
               >
@@ -181,7 +184,7 @@ class Header extends React.Component {
         }
         return false;
       });
-      headerWrapClassName = 'kuma-uxtable-header-fixed';
+      headerWrapClassName = `${props.prefixCls}-fixed`;
       if (props.leftFixedMaxWidth) {
         assign(headerStyle, {
           marginBottom: `-${scrollBarWidth}px`,
@@ -196,7 +199,7 @@ class Header extends React.Component {
         }
         return false;
       });
-      headerWrapClassName = 'kuma-uxtable-header-right-fixed';
+      headerWrapClassName = `${props.prefixCls}-right-fixed`;
     } else if (props.fixedColumn === 'scroll') {
       const leftFixedColumns = [];
       const normalColumns = [];
@@ -219,10 +222,10 @@ class Header extends React.Component {
         marginBottom: `-${scrollBarWidth}px`,
         overflowX: scrollBarWidth ? 'scroll' : 'hidden',
       });
-      headerWrapClassName = 'kuma-uxtable-header-scroll';
+      headerWrapClassName = `${props.prefixCls}-scroll`;
     } else {
       ({ columns } = props);
-      headerWrapClassName = 'kuma-uxtable-header-no';
+      headerWrapClassName = `${props.prefixCls}-no`;
     }
     me.hasGroup = false;
     for (let i = 0; i < columns.length; i++) {

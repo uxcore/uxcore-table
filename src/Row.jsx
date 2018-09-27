@@ -337,6 +337,7 @@ class Row extends React.Component {
               hasSubComp,
               showSubCompCallback: me.showSubCompFunc.bind(me),
               rowLength: props.data.length,
+              prefixCls: `${props.tablePrefixCls}-cell`,
             };
 
             if (firstVisableColumn === 1) {

@@ -151,8 +151,15 @@ class Cell extends React.Component {
             type="outline"
             key={index}
             disabled={typeof action.isDisable === 'function' ? action.isDisable(rowData) : false}
-            onClick={me.handleActionClick.bind(me,
-              (action.callback || (() => {})).bind(me, rowData, me.props.root))}
+            // onClick={me.handleActionClick.bind(me,
+            //   (action.callback || (() => {})).bind(me, rowData, me.props.root))}
+            onClick={(e) => {
+              const noop = () => {};
+              const cb = () => {
+                (action.callback || noop)(rowData, me.props.root);
+              };
+              this.handleActionClick(cb, e);
+            }}
           >
             {content}
           </Button>,
@@ -305,7 +312,7 @@ class Cell extends React.Component {
     return (
       <div
         className={classnames({
-          [props.jsxprefixCls]: true,
+          [props.prefixCls]: true,
           last: props.last,
         })}
         style={style}
@@ -323,13 +330,13 @@ Cell.propTypes = {
   cellIndex: PropTypes.number,
   hasSubComp: PropTypes.bool,
   rowData: PropTypes.object,
-  jsxprefixCls: PropTypes.string,
+  prefixCls: PropTypes.string,
   showSubCompCallback: PropTypes.func,
   rowSelection: PropTypes.object,
 };
 
 Cell.defaultProps = {
-  jsxprefixCls: 'kuma-uxtable-cell',
+  prefixCls: 'kuma-uxtable-cell',
   showSubCompCallback: () => {},
   rowSelection: {},
   rowData: undefined,

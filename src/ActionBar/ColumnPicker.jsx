@@ -58,7 +58,9 @@ class ColumnPicker extends React.Component {
   }
 
   renderCheckAll() {
-    const { locale, prefixCls, columns, showColumnPickerCheckAll } = this.props;
+    const {
+      locale, prefixCls, columns, showColumnPickerCheckAll,
+    } = this.props;
     if (!showColumnPickerCheckAll) {
       return false;
     }

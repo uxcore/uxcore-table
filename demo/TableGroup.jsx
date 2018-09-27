@@ -178,6 +178,7 @@ class Demo extends React.Component {
       rowSelector: 'checkboxSelector',
       jsxcolumns: columns,
       rowSelection,
+      // prefixCls: 'aaa',
     };
     return (
       <div>

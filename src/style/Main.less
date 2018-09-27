@@ -1,4 +1,8 @@
 .@{__tablePrefixCls} {
+  box-sizing: border-box;
+  * {
+    box-sizing: inherit;
+  }
   input::-ms-clear {
     display: none;
   }
@@ -27,16 +31,16 @@
   }
   .@{__tablePrefixCls}-body-collapse {
     border: none;
-    > .@{__collapsePrefixCls}-item {
+    >.@{__collapsePrefixCls}-item {
       border-top: none;
-      > .@{__collapsePrefixCls}-header {
+      >.@{__collapsePrefixCls}-header {
         height: 50px;
         line-height: 50px;
         background: @normal-alpha-9;
         border-bottom: 1px solid @split-line-color;
       }
       &:last-child {
-        > .@{__collapsePrefixCls}-header[aria-expanded="false"] {
+        >.@{__collapsePrefixCls}-header[aria-expanded="false"] {
           border-bottom: none;
         }
       }
@@ -45,7 +49,7 @@
       padding: 0;
       background-color: transparent;
       color: @dark-alpha-3;
-      > .@{__collapsePrefixCls}-content-box {
+      >.@{__collapsePrefixCls}-content-box {
         padding: 0;
       }
     }
@@ -113,7 +117,7 @@
   min-width: 100%;
   min-height: 40px;
   white-space: normal;
-  background-color: @table-body-bg;
+  background-color: white;
 }
 
 .@{__tablePrefixCls}-body-no {
@@ -139,7 +143,6 @@
     overflow-y: hidden;
   }
 }
-
 
 .@{__tablePrefixCls}-body-emptyword {
   text-align: center;
@@ -186,7 +189,6 @@
   word-break: break-all;
   height: 50px;
   line-height: 50px;
-  
   &>div {
     display: inline-block;
     overflow: hidden;
@@ -225,7 +227,7 @@
       height: 40px;
     }
   }
-  .@{__tablePrefixCls}-body-collapse > .@{__collapsePrefixCls}-item > .@{__collapsePrefixCls}-header {
+  .@{__tablePrefixCls}-body-collapse>.@{__collapsePrefixCls}-item>.@{__collapsePrefixCls}-header {
     height: 40px;
     line-height: 40px;
   }
@@ -437,8 +439,12 @@
     display: inline-block;
     animation: tableTreeIconLoading 1s linear infinite;
     @keyframes tableTreeIconLoading {
-      from {transform: rotate(0)}
-      to {transform: rotate(360deg)}
+      from {
+        transform: rotate(0)
+      }
+      to {
+        transform: rotate(360deg)
+      }
     }
   }
 }
@@ -446,7 +452,6 @@
 .@{__tablePrefixCls}-row-tree-selector {
   margin-right: 12px;
 }
-
 
 .@{__tablePrefixCls}-tree-mode {
   .@{__tablePrefixCls}-row {

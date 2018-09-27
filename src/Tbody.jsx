@@ -263,6 +263,8 @@ class Tbody extends React.Component {
       handleDataChange: props.handleDataChange,
       attachCellField: props.attachCellField,
       detachCellField: props.detachCellField,
+      prefixCls: `${props.tablePrefixCls}-row`,
+      tablePrefixCls: props.tablePrefixCls,
       visible: true,
       bodyNode: this.root,
     };
@@ -309,7 +311,7 @@ class Tbody extends React.Component {
         this.rowGroupMap[rowGroupName].push(item);
       }
       rows = (
-        <Collapse activeKey={props.rowGroupActiveKey || '0'} className={`${props.jsxprefixCls}-collapse`} onChange={(key, activeKey) => { props.onCollapseChange(activeKey); }}>
+        <Collapse activeKey={props.rowGroupActiveKey || '0'} className={`${props.prefixCls}-collapse`} onChange={(key, activeKey) => { props.onCollapseChange(activeKey); }}>
           {this.rowGroupArr.map((rowGroupName, i) => (
             <Collapse.Panel header={this.getRowGroupName(rowGroupName)} key={i}>
               {this.rowGroupMap[rowGroupName].map((item, j) => {
@@ -339,7 +341,7 @@ class Tbody extends React.Component {
       <div className={bodyWrapClassName} ref={this.saveRef('root')} style={style}>
         {this.renderEmptyData()}
         {data.length > 0 ? (
-          <ul className={this.props.jsxprefixCls}>
+          <ul className={this.props.prefixCls}>
             {rows}
           </ul>
         ) : null}
@@ -350,7 +352,7 @@ class Tbody extends React.Component {
 
 Tbody.propTypes = {
   columns: PropTypes.any,
-  jsxprefixCls: PropTypes.string,
+  prefixCls: PropTypes.string,
   fixedColumn: PropTypes.string,
   locale: PropTypes.string,
   data: PropTypes.array,
@@ -372,7 +374,7 @@ Tbody.propTypes = {
 };
 
 Tbody.defaultProps = {
-  jsxprefixCls: 'kuma-uxtable-body',
+  prefixCls: 'kuma-uxtable-body',
   onScroll: () => { },
   columns: undefined,
   fixedColumn: undefined,

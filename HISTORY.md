@@ -2,6 +2,11 @@
 
 ---
 
+## 10.4.0
+
+* `CHANGED` all dom class is generated from `props.prefixCls`
+* `CHANGED` support js style export
+
 ## 10.3.3
 
 * `FIXED` cellField error message will cover the input if the sum of rows is small

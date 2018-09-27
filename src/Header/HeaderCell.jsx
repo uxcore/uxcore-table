@@ -211,13 +211,15 @@ class HeaderCell extends React.Component {
 
   renderOrderIcon(column) {
     const me = this;
-    const { orderType, activeColumn, onColumnOrder } = me.props;
+    const {
+      orderType, activeColumn, onColumnOrder, tablePrefixCls,
+    } = me.props;
     if (column.ordered) {
       const desc = 'triangle-down';
       const asc = 'triangle-up';
       const isActive = activeColumn && activeColumn.dataKey === column.dataKey;
       return (
-        <span className="kuma-uxtable-h-sort" onClick={() => { onColumnOrder(); }}>
+        <span className={`${tablePrefixCls}-h-sort`} onClick={() => { onColumnOrder(); }}>
           <i
             className={classnames({
               [`kuma-icon kuma-icon-${asc}`]: true,
@@ -239,7 +241,7 @@ class HeaderCell extends React.Component {
   render() {
     const me = this;
     const {
-      renderModel, prefixCls, column, index, hasGroup, last,
+      renderModel, prefixCls, column, index, hasGroup, last, tablePrefixCls,
     } = me.props;
     const rowSelectorInTreeMode = (['checkboxSelector', 'radioSelector'].indexOf(column.type) !== -1)
       && (renderModel === 'tree');
@@ -297,9 +299,9 @@ class HeaderCell extends React.Component {
       <div
         key={index}
         className={classnames({
-          'kuma-uxtable-cell': true,
+          [`${tablePrefixCls}-cell`]: true,
+          [`${tablePrefixCls}-cell__action-collapsed`]: column.type === 'action' && column.collapseNum === 1,
           'show-border': me.props.showHeaderBorder,
-          'kuma-uxtable-cell__action-collapsed': column.type === 'action' && column.collapseNum === 1,
         })}
         style={style}
         ref={(c) => { this.root = c; }}

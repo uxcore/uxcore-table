@@ -32,6 +32,7 @@ import ActionBar from './ActionBar';
 import methods from './methods';
 import innerMethods from './innerMethods';
 import { propTypes, defaultProps } from './prop';
+import TableContext from './context';
 
 const { createCellField } = CellField;
 const getStyle = get;
@@ -58,7 +59,7 @@ class Table extends React.Component {
         checkboxColumn = item;
         checkboxColumnKey = item.dataKey;
         item.width = item.width
-          || (/kuma-uxtable-border-line/.test(actualProps.className) ? '40px' : '32px');
+          || (new RegExp(`${props.prefixCls}-border-line`).test(actualProps.className) ? '40px' : '32px');
         item.align = item.align || 'left';
       }
       if (item.type === 'money') {
@@ -84,7 +85,7 @@ class Table extends React.Component {
     if (!!actualProps.rowSelection && !hasCheckboxColumn) {
       checkboxColumn = {
         dataKey: 'jsxchecked',
-        width: (/kuma-uxtable-border-line/.test(actualProps.className) ? '40px' : '32px'),
+        width: (new RegExp(`${props.prefixCls}-border-line`).test(actualProps.className) ? '40px' : '32px'),
         type: actualProps.rowSelector,
         align: 'right',
       };
@@ -94,7 +95,7 @@ class Table extends React.Component {
       // no rowSelection but has parentHasCheckbox, render placeholder
       columns = [{
         dataKey: 'jsxwhite',
-        width: (/kuma-uxtable-border-line/.test(actualProps.className) ? '40px' : '32px'),
+        width: (new RegExp(`${props.prefixCls}-border-line`).test(actualProps.className) ? '40px' : '32px'),
         type: 'empty',
       }].concat(columns);
     }
@@ -1061,11 +1062,12 @@ class Table extends React.Component {
 
 
   renderTbody(renderBodyProps, bodyHeight, fixedColumn) {
+    const { prefixCls } = this.props;
     const isFixedTable = ['fixed', 'rightFixed'].indexOf(fixedColumn) !== -1;
     return (
       <div
-        className={classnames('kuma-uxtable-body-wrapper', {
-          'kuma-uxtable-fixed-body-wrapper': isFixedTable,
+        className={classnames(`${prefixCls}-body-wrapper`, {
+          [`${prefixCls}-fixed-body-wrapper`]: isFixedTable,
         })}
       >
         <Tbody
@@ -1084,11 +1086,12 @@ class Table extends React.Component {
   }
 
   renderHeader(renderHeaderProps, fixedColumn) {
-    if (!this.props.showHeader) {
+    const { prefixCls, showHeader } = this.props;
+    if (!showHeader) {
       return null;
     }
     return (
-      <div className="kuma-uxtable-header-wrapper">
+      <div className={`${prefixCls}-header-wrapper`}>
         <Header
           {...renderHeaderProps}
           fixedColumn={fixedColumn}
@@ -1100,11 +1103,12 @@ class Table extends React.Component {
   }
 
   renderFooter(renderFooterProps = {}, fixedColumn) {
+    const { prefixCls } = this.props;
     if (!this.hasFooter()) {
       return null;
     }
     return (
-      <div className="kuma-uxtable-footer-wrapper">
+      <div className={`${prefixCls}-footer-wrapper`}>
         <Footer
           {...renderFooterProps}
           fixedColumn={fixedColumn}
@@ -1128,6 +1132,7 @@ class Table extends React.Component {
       showPagerSizeChanger,
       showPagerQuickJumper,
       showUnknownTotalPager,
+      prefixCls,
     } = me.props;
 
     if (showPager && data) {
@@ -1148,7 +1153,7 @@ class Table extends React.Component {
         sizeOptions: pagerSizeOptions,
       };
       const pager = (
-        <div className="kuma-uxtable-page">
+        <div className={`${prefixCls}-page`}>
           <Pagination {...pagersProps} />
         </div>
       );
@@ -1254,6 +1259,8 @@ class Table extends React.Component {
         handleColumnPickerChange: this.handleColumnPickerChange,
         handleColumnPickerCheckAll: this.handleColumnPickerCheckAll,
         key: 'grid-actionbar',
+        prefixCls: `${this.props.prefixCls}-actionbar`,
+        tablePrefixCls: this.props.prefixCls,
       };
       return <ActionBar {...renderActionProps} />;
     }
@@ -1300,6 +1307,7 @@ class Table extends React.Component {
       renderModel: props.renderModel,
       checkboxColumnKey: me.state.checkboxColumnKey,
       leftFixedMaxWidth: props.leftFixedMaxWidth,
+      tablePrefixCls: props.prefixCls,
     };
 
     const renderBodyProps = {
@@ -1312,6 +1320,7 @@ class Table extends React.Component {
       treeLoadingIds: this.state.treeLoadingIds,
       bodyHeight,
       hasFooter: this.hasFooter(),
+      prefixCls: `${props.prefixCls}-body`,
       toggleSubCompOnRowClick: props.toggleSubCompOnRowClick,
       toggleTreeExpandOnRowClick: props.toggleTreeExpandOnRowClick,
       rowSelection: props.rowSelection,
@@ -1339,6 +1348,7 @@ class Table extends React.Component {
       activeColumn: state.activeColumn,
       filterColumns: state.filterColumns,
       orderType: state.orderType,
+      prefixCls: `${props.prefixCls}-header`,
       showHeaderBorder: props.showHeaderBorder,
       headerHeight: props.headerHeight,
       checkStatus,
@@ -1359,33 +1369,39 @@ class Table extends React.Component {
     };
 
     return (
-      <div
-        className={classnames({
-          [props.prefixCls]: true,
-          [`${props.prefixCls}-${props.size}-size`]: true,
-          [props.className]: !!props.className,
-          'kuma-subgrid-mode': !!props.passedData,
-          [`${props.prefixCls}-tree-mode`]: props.renderModel === 'tree',
-          [`${props.prefixCls}-row-group-mode`]: !!props.rowGroupKey,
-          [`${props.prefixCls}__no-data`]: data.length === 0,
-          [`${props.prefixCls}__has-footer`]: this.hasFooter(),
-        })}
-        style={style}
-        ref={util.saveRef('root', this)}
+      <TableContext.Provider value={{
+        prefixCls: props.prefixCls,
+      }}
       >
-        {this.renderActionBar()}
         <div
-          className="kuma-uxtable-content"
-          style={{
-            width: props.passedData ? 'auto' : props.width,
-          }}
+          className={classnames({
+            [props.prefixCls]: true,
+            [`${props.prefixCls}-${props.size}-size`]: true,
+            [props.className]: !!props.className,
+            'kuma-subgrid-mode': !!props.passedData,
+            [`${props.prefixCls}-tree-mode`]: props.renderModel === 'tree',
+            [`${props.prefixCls}-row-group-mode`]: !!props.rowGroupKey,
+            [`${props.prefixCls}__no-data`]: data.length === 0,
+            [`${props.prefixCls}__has-footer`]: this.hasFooter(),
+          })}
+          style={style}
+          ref={util.saveRef('root', this)}
         >
-          {this.renderMainTable(config)}
-          {this.renderLeftFixedTable(config)}
-          {this.renderRightFixedTable(config)}
+          {this.renderActionBar()}
+          <div
+            className={`${props.prefixCls}-content`}
+            style={{
+              width: props.passedData ? 'auto' : props.width,
+            }}
+          >
+            {this.renderMainTable(config)}
+            {this.renderLeftFixedTable(config)}
+            {this.renderRightFixedTable(config)}
+          </div>
+          {this.renderPager()}
         </div>
-        {this.renderPager()}
-      </div>
+      </TableContext.Provider>
+
     );
   }
 }
