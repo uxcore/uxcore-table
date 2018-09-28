@@ -45,21 +45,24 @@ class CheckBox extends React.Component {
           </span>
         )}
       </TableContext.Consumer>
-
     );
   }
 
   renderCheckBox(renderProps) {
     return (
-      <label
-        className={classnames({
-          'kuma-uxtable-row-selector': true,
-          [this.props.className]: !!this.props.className,
-        })}
-      >
-        <input type="checkbox" ref={(c) => { this.checkbox = c; }} {...renderProps} />
-        <s />
-      </label>
+      <TableContext.Consumer>
+        {context => (
+          <label
+            className={classnames({
+              [`${context.prefixCls}-row-selector`]: true,
+              [this.props.className]: !!this.props.className,
+            })}
+          >
+            <input type="checkbox" ref={(c) => { this.checkbox = c; }} {...renderProps} />
+            <s />
+          </label>
+        )}
+      </TableContext.Consumer>
     );
   }
 
