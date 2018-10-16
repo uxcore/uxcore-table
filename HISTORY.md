@@ -2,6 +2,10 @@
 
 ---
 
+## 10.4.2
+
+* `CHANGED` change columns comparing logic in gDSFP
+
 ## 10.4.0
 
 * `CHANGED` all dom class is generated from `props.prefixCls`

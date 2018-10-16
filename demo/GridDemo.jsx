@@ -117,6 +117,7 @@ class Demo extends React.Component {
       rowSelection,
       actionBar: {
         'Action Button': () => {
+          this.forceUpdate();
           console.log(me.table.getData());
           me.table.toggleSubComp(me.table.getData().data.datas);
         },

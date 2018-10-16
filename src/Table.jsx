@@ -120,6 +120,15 @@ class Table extends React.Component {
     };
   }
 
+  static isColumnsEqual = (newColumns, oldColumns) => {
+    // drop the key whose type is function from columns first
+    // func key is always not equal in columns cause anonymous function is widely used,
+    // so comparing columns with func key is unnecessary.
+    const newToCompare = util.dropFunc(newColumns);
+    const oldToCompare = util.dropFunc(oldColumns);
+    return deepEqual(newToCompare, oldToCompare);
+  }
+
   constructor(props) {
     super(props);
     this.bindInnerMethods();
@@ -991,6 +1000,7 @@ class Table extends React.Component {
     });
   }
 
+
   static getDerivedStateFromProps = (props, state) => {
     let newData = {};
     if (props.pageSize !== state.lastPageSize) {
@@ -1002,7 +1012,7 @@ class Table extends React.Component {
       newData.lastCurrentPage = props.currentPage;
     }
     if (!!props.jsxcolumns
-      && !deepEqual(props.jsxcolumns, state.lastJsxcolumns)) {
+      && !Table.isColumnsEqual(props.jsxcolumns, state.lastJsxcolumns)) {
       newData = {
         ...newData,
         ...Table.processColumn(props, state),
