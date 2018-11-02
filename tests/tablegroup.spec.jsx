@@ -8,13 +8,21 @@ Enzyme.configure({ adapter: new Adapter() });
 
 const common = {
   jsxcolumns: [
-    { dataKey: 'id', title: 'ID', width: 50, hidden: true },
-    { dataKey: 'country', title: '国家', width: 200, ordered: true },
-    { group: '分组',
-     columns: [
-      { dataKey: 'city', title: '城市', width: 150, ordered: true },
-      { dataKey: 'firstName', title: 'FristName' },
-     ] },
+    {
+      dataKey: 'id', title: 'ID', width: 50, hidden: true,
+    },
+    {
+      dataKey: 'country', title: '国家', width: 200, ordered: true,
+    },
+    {
+      group: '分组',
+      columns: [
+        {
+          dataKey: 'city', title: '城市', width: 150, ordered: true,
+        },
+        { dataKey: 'firstName', title: 'FristName' },
+      ],
+    },
   ],
   jsxdata: {
     data: [
@@ -34,13 +42,13 @@ describe('TableGroup', () => {
   let wrapper;
   it('should work', () => {
     wrapper = mount(
-      <Table {...common} />
+      <Table {...common} />,
     );
     expect(wrapper.find('.kuma-uxtable-header-column-group').find('.kuma-uxtable-header-group-name').text()).to.be('分组');
   });
   it('showColumnPicker', () => {
     wrapper = mount(
-      <Table {...common} showColumnPicker />
+      <Table {...common} showColumnPicker />,
     );
     expect(wrapper.find('.kuma-uxtable-column-picker')).to.have.length(1);
   });

@@ -82,6 +82,9 @@ class Table extends React.Component {
     let rowGroupColumn;
 
     columns = columns.filter((item) => {
+      if (item.dataKey === undefined) {
+        return true;
+      }
       if (item.dataKey === actualProps.rowGroupKey) {
         rowGroupColumn = item;
         return false;

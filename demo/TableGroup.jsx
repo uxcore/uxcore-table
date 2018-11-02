@@ -117,48 +117,48 @@ class Demo extends React.Component {
           },
         ],
       },
-      // {
-      //   dataKey: 'email',
-      //   title: 'Email',
-      //   width: 200,
-      //   ordered: true,
-      // }, {
-      //   dataKey: 'action1',
-      //   title: '操作1',
-      //   width: 100,
-      //   type: 'action',
-      //   actions: [{
-      //     title: 'click',
-      //     callback() {
-      //       alert('click');
-      //     },
-      //     mode: 'edit',
-      //   }, {
-      //     title: '删除',
-      //     callback() {
-      //       alert('删除');
-      //     },
-      //     mode: 'view',
-      //   }, {
-      //     title: 'view',
-      //     callback() {
-      //       alert('view');
-      //     },
-      //     mode: 'edit',
-      //   }, {
-      //     title: 'view',
-      //     callback() {
-      //       alert('view');
-      //     },
-      //   }],
-      // }, {
-      //   dataKey: 'action',
-      //   title: '链接',
-      //   width: 100,
-      //   render() {
-      //     return <div><a>111</a></div>;
-      //   },
-      // },
+      {
+        dataKey: 'email',
+        title: 'Email',
+        width: 200,
+        ordered: true,
+      }, {
+        dataKey: 'action1',
+        title: '操作1',
+        width: 100,
+        type: 'action',
+        actions: [{
+          title: 'click',
+          callback() {
+            alert('click');
+          },
+          mode: 'edit',
+        }, {
+          title: '删除',
+          callback() {
+            alert('删除');
+          },
+          mode: 'view',
+        }, {
+          title: 'view',
+          callback() {
+            alert('view');
+          },
+          mode: 'edit',
+        }, {
+          title: 'view',
+          callback() {
+            alert('view');
+          },
+        }],
+      }, {
+        dataKey: 'action',
+        title: '链接',
+        width: 100,
+        render() {
+          return <div><a>111</a></div>;
+        },
+      },
     ];
     const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
     const renderProps = {
