@@ -79,8 +79,18 @@ class Table extends React.Component {
     // filter the column which has a dataKey 'jsxchecked' & 'jsxtreeIcon'
     // filter the column whose dataKey is rowGroupKey
 
-    columns = columns.filter(item => item.dataKey === undefined
-      || (item.dataKey !== 'jsxchecked' && item.dataKey !== 'jsxtreeIcon' && item.dataKey !== actualProps.rowGroupKey));
+    let rowGroupColumn;
+
+    columns = columns.filter((item) => {
+      if (item.dataKey === actualProps.rowGroupKey) {
+        rowGroupColumn = item;
+        return false;
+      }
+      if (item.dataKey === 'jsxchecked' || item.dataKey === 'jsxtreeIcon') {
+        return false;
+      }
+      return true;
+    });
 
     if (!!actualProps.rowSelection && !hasCheckboxColumn) {
       checkboxColumn = {
@@ -116,7 +126,7 @@ class Table extends React.Component {
       }].concat(columns);
     }
     return {
-      columns, checkboxColumn, checkboxColumnKey, hasPercentWidth,
+      columns, checkboxColumn, checkboxColumnKey, hasPercentWidth, rowGroupColumn,
     };
   }
 
@@ -1322,6 +1332,7 @@ class Table extends React.Component {
 
     const renderBodyProps = {
       ...commonProps,
+      rowGroupColumn: state.rowGroupColumn,
       mask: state.showMask,
       expandedKeys: state.expandedKeys,
       currentHoverRow: state.currentHoverRow,

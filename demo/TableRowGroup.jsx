@@ -53,9 +53,15 @@ class Demo extends React.Component {
     };
     const tableProps = {
       jsxcolumns: [
-        { dataKey: 'company', title: '公司', width: '20%' },
-        { dataKey: 'title', title: '标题', width: '20%', fixed: true },
-        { dataKey: 'money', title: '金额', width: '20%', type: 'money' },
+        {
+          dataKey: 'company', title: '公司', width: '20%', render: () => 'aaa',
+        },
+        {
+          dataKey: 'title', title: '标题', width: '20%', fixed: true,
+        },
+        {
+          dataKey: 'money', title: '金额', width: '20%', type: 'money',
+        },
         { dataKey: 'entity', title: '支付实体', width: '50%' },
         { dataKey: 'institution', title: '金融机构', width: '20%' },
         { dataKey: 'person', title: '申请人', width: '20%' },
@@ -66,7 +72,9 @@ class Demo extends React.Component {
       className: 'kuma-uxtable-split-line',
       rowGroupKey: 'company',
       showColumnPicker: true,
-      footer: ({ data, column, from, rowGroupData = [] }) => {
+      footer: ({
+        data, column, from, rowGroupData = [],
+      }) => {
         if (column.dataKey === 'title') {
           return '合计';
         }

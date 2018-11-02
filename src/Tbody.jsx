@@ -66,10 +66,12 @@ class Tbody extends React.Component {
   }
 
   getRowGroupName(name) {
+    const { rowGroupColumn = {}, locale } = this.props;
+    const data = this.rowGroupMap[name];
     if (name === '__others__') {
-      return i18n[this.props.locale][name];
+      return i18n[locale][name];
     }
-    return name;
+    return rowGroupColumn.render ? rowGroupColumn.render(name, deepcopy(data)) : name;
   }
 
   removeScrollTimer() {
@@ -106,7 +108,7 @@ class Tbody extends React.Component {
           });
         } else {
           this.rowGroupArr.forEach((rowGroupName, i) => {
-            this.rowGroupMap[rowGroupName].forEach((item, j) => {
+            this.rowGroupMap[rowGroupName].items.forEach((item, j) => {
               const index = `${i}-${j}`;
               this.adjustRowsHeight(index);
             });
@@ -305,16 +307,19 @@ class Tbody extends React.Component {
           break;
         }
         if (!Object.prototype.hasOwnProperty.call(this.rowGroupMap, rowGroupName)) {
-          this.rowGroupMap[rowGroupName] = [];
+          this.rowGroupMap[rowGroupName] = {
+            data: item,
+            items: [],
+          };
           this.rowGroupArr.push(rowGroupName);
         }
-        this.rowGroupMap[rowGroupName].push(item);
+        this.rowGroupMap[rowGroupName].items.push(item);
       }
       rows = (
         <Collapse activeKey={props.rowGroupActiveKey || '0'} className={`${props.prefixCls}-collapse`} onChange={(key, activeKey) => { props.onCollapseChange(activeKey); }}>
           {this.rowGroupArr.map((rowGroupName, i) => (
             <Collapse.Panel header={this.getRowGroupName(rowGroupName)} key={i}>
-              {this.rowGroupMap[rowGroupName].map((item, j) => {
+              {this.rowGroupMap[rowGroupName].items.map((item, j) => {
                 const index = `${i}-${j}`;
                 const renderProps = {
                   ...commonProps,
@@ -371,6 +376,7 @@ Tbody.propTypes = {
   hasFooter: PropTypes.bool,
   showRowGroupFooter: PropTypes.bool,
   footer: PropTypes.func,
+  rowGroupColumn: PropTypes.object,
 };
 
 Tbody.defaultProps = {
@@ -388,6 +394,7 @@ Tbody.defaultProps = {
   hasFooter: undefined,
   showRowGroupFooter: undefined,
   footer: undefined,
+  rowGroupColumn: undefined,
 };
 
 export default Tbody;

@@ -2,6 +2,10 @@
 
 ---
 
+## 10.4.3
+
+* `CHANGED` rowGroupHeader support column.render
+
 ## 10.4.2
 
 * `CHANGED` change columns comparing logic in gDSFP
