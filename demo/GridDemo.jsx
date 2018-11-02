@@ -133,6 +133,10 @@ class Demo extends React.Component {
       },
       showSearch: true,
       fetchUrl,
+      beforeFetch: (data, from, config) => {
+        console.log(data, from, config);
+        return data;
+      },
       // height: 400,
       // addRowClassName() {
       //   return 'multiline';

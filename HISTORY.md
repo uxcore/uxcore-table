@@ -2,6 +2,10 @@
 
 ---
 
+## 10.4.5
+
+* `CHANGED` refactor beforeFetch logic using natty-fetch's willFetch callback
+
 ## 10.4.3
 
 * `CHANGED` rowGroupHeader support column.render

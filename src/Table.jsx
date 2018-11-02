@@ -537,6 +537,12 @@ class Table extends React.Component {
     me.request = NattyFetch.create({
       method: props.fetchMethod,
       url: props.fetchUrl,
+      willFetch: (vars, config) => {
+        /* eslint-disable no-param-reassign */
+        /* natty-fetch api design force to make param reassign */
+        vars.data = props.beforeFetch(deepcopy(vars.data), from, config);
+        /* eslint-enable no-param-reassign */
+      },
       data: me.getQueryObj(from, props),
       fit: props.fitResponse,
       withCredentials: props.fetchWithCredentials,
@@ -699,7 +705,8 @@ class Table extends React.Component {
       queryObj = assign({}, queryObj, props.fetchParams);
     }
 
-    return props.beforeFetch(deepcopy(queryObj), from);
+    // return props.beforeFetch(deepcopy(queryObj), from);
+    return queryObj;
   }
 
   getCheckStatus(data) {
