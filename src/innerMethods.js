@@ -148,6 +148,21 @@ function syncRecord(obj, cb) {
 }
 
 /**
+ * update sub row's treeId
+ * @param obj row object
+ * @param prefixStr
+ */
+function updateSubTreeId(obj, prefixStr) {
+  if (obj.data) {
+    obj.data.forEach(item => {
+      updateSubTreeId(item, prefixStr)
+    })
+  } else {
+    obj.__treeId__ = prefixStr + obj.__treeId__.substr(prefixStr.length)
+  }
+}
+
+/**
  * remove some items from this.state.data & this.data
  * @param {object/array} obj items to be removed
  */
@@ -155,16 +170,31 @@ function removeRecords(obj, cb) {
   const me = this;
   const content = deepcopy(me.state.data);
   const data = content.data || content.datas;
+  const treeIdArr = obj.__treeId__.split('-');
+  let rows = data;
+  for (let i = 0; i < treeIdArr.length - 1; i++) {
+    const rowIndex = treeIdArr[i];
+    rows = rows[rowIndex].data;
+  }
   let objAux = deepcopy(obj);
   if (Object.prototype.toString.call(objAux) !== '[object Array]') {
     objAux = [objAux];
   }
+  let hasRemove = false;
   objAux.forEach((item) => {
-    for (let i = 0; i < data.length; i++) {
-      const element = data[i];
-      if (element.jsxid === item.jsxid) {
-        data.splice(i, 1);
-        break;
+    for (let i = 0; i < rows.length; i++) {
+      const element = rows[i];
+      if (hasRemove) {
+        let tmpTreeIdArr = [...treeIdArr];
+        let newTreeId = tmpTreeIdArr.splice(0, tmpTreeIdArr.length - 1).concat([i]).join('-');
+        element.__treeId__ = newTreeId;
+        updateSubTreeId(element, newTreeId)
+      } else {
+        if (element.jsxid === item.jsxid) {
+          rows.splice(i, 1);
+          i--;
+          hasRemove = true;
+        }
       }
     }
   });
@@ -186,3 +216,4 @@ export default {
   syncRecord,
   removeRecords,
 };
+

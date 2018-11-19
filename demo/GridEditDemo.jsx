@@ -282,6 +282,20 @@ class Demo extends React.Component {
             mode: Constants.MODE.EDIT,
           },
           {
+            title: '上移',
+            callback: (rowData) => {
+              me.table.moveRowUp(rowData);
+            },
+            mode: Constants.MODE.VIEW,
+          },
+          {
+            title: '下移',
+            callback: (rowData) => {
+              me.table.moveRowDown(rowData);
+            },
+            mode: Constants.MODE.VIEW,
+          },
+          {
             title: '删除',
             callback: (rowData) => {
               me.table.delRow(rowData);
