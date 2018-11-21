@@ -73,7 +73,15 @@ class Demo extends React.Component {
         actions: [
           {
             title: '上移',
-            callback: (rowData) => { this.table.moveRowUp(rowData); },
+            callback: (rowData) => {
+              this.table.moveRowUp(rowData);
+            },
+          },
+          {
+            title: '删除',
+            callback: (rowData) => {
+              this.table.delRow(rowData);
+            },
           },
           {
             title: '下移',

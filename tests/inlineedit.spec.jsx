@@ -315,6 +315,45 @@ describe('inlineEdit', () => {
     });
   });
 
+  it('api update treeId', (done) => {
+    wrapper = mount(
+      <Table
+        {...common}
+        jsxdata={{
+          data: [
+            {
+              id: '1'
+            },
+            {
+              id: '2',
+              data:[
+                {
+                  id: '3',
+                },
+                {
+                  id: '4'
+                }
+              ]
+            }
+          ]
+        }}
+        jsxcolumns={[{
+          dataKey: 'id', title: 'ID', type: 'text',
+        }]}
+      />
+    );
+    expect(wrapper.instance().getData().data.data[1].id).to.be('2');
+    wrapper.instance().delRow(wrapper.instance().getData().data.data[0], () => {
+      const data = wrapper.instance().getData().data;
+      expect(data.data[0].id).to.be('2');
+      expect(data.data[0].__treeId__).to.be('0');
+      expect(data.data[0].data[0].id).to.be('3');
+      expect(data.data[0].data[0].__treeId__).to.be('0-0');
+      done();
+    });
+  });
+
+
   it('api moveRowDown', (done) => {
     wrapper = mount(
       <Table
@@ -330,10 +369,14 @@ describe('inlineEdit', () => {
       />
     );
     wrapper.instance().moveRowDown(wrapper.instance().getData().data.data[0], () => {
-      expect(wrapper.instance().getData().data.data[0].id).to.be('2');
+      const data = wrapper.instance().getData().data;
+      expect(data.data[0].id).to.be('2');
+      expect(data.data[0].__treeId__).to.be('0');
       done();
     });
   });
+
+
 
   it('api moveRowUp', (done) => {
     wrapper = mount(
@@ -350,7 +393,9 @@ describe('inlineEdit', () => {
       />
     );
     wrapper.instance().moveRowUp(wrapper.instance().getData().data.data[1], () => {
-      expect(wrapper.instance().getData().data.data[0].id).to.be('2');
+      const data = wrapper.instance().getData().data;
+      expect(data.data[0].id).to.be('2');
+      expect(data.data[1].__treeId__).to.be('1');
       done();
     });
   });

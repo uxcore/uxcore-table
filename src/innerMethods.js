@@ -146,6 +146,24 @@ function syncRecord(obj, cb) {
     }
   });
 }
+/**
+ * update row's treeId
+ * @param rows
+ * @param prefix
+ */
+function updateTreeId(rows, prefix) {
+  if (!rows || !rows.length) {
+    return;
+  }
+  for (let i = 0; i < rows.length; i++) {
+    let row = rows[i];
+    let treeId = prefix ? `${prefix}-${i}` : `${i}`;
+    row.__treeId__ = treeId;
+    if (row.data) {
+      updateTreeId(row.data, treeId);
+    }
+  }
+}
 
 /**
  * remove some items from this.state.data & this.data
@@ -155,19 +173,26 @@ function removeRecords(obj, cb) {
   const me = this;
   const content = deepcopy(me.state.data);
   const data = content.data || content.datas;
+  const treeIdArr = obj.__treeId__.split('-').map(item => parseInt(item, 10));
+  let rows = data;
+  for (let i = 0; i < treeIdArr.length - 1; i++) {
+    const rowIndex = treeIdArr[i];
+    rows = rows[rowIndex].data;
+  }
   let objAux = deepcopy(obj);
   if (Object.prototype.toString.call(objAux) !== '[object Array]') {
     objAux = [objAux];
   }
   objAux.forEach((item) => {
-    for (let i = 0; i < data.length; i++) {
-      const element = data[i];
+    for (let i = 0; i < rows.length; i++) {
+      const element = rows[i];
       if (element.jsxid === item.jsxid) {
-        data.splice(i, 1);
+        rows.splice(i, 1);
         break;
       }
     }
   });
+  updateTreeId(content.data);
   me.data = content;
   this.setState({
     data: content,
@@ -185,4 +210,6 @@ export default {
   updateRecord,
   syncRecord,
   removeRecords,
+  updateTreeId
 };
+
