@@ -146,19 +146,22 @@ function syncRecord(obj, cb) {
     }
   });
 }
-
 /**
- * update sub row's treeId
- * @param obj row object
- * @param prefixStr
+ * update row's treeId
+ * @param rows
+ * @param prefix
  */
-function updateSubTreeId(obj, prefixStr) {
-  if (obj.data) {
-    obj.data.forEach(item => {
-      updateSubTreeId(item, prefixStr)
-    })
-  } else {
-    obj.__treeId__ = prefixStr + obj.__treeId__.substr(prefixStr.length)
+function updateTreeId(rows, prefix) {
+  if (!rows || !rows.length) {
+    return;
+  }
+  for (let i = 0; i < rows.length; i++) {
+    let row = rows[i];
+    let treeId = prefix ? `${prefix}-${i}` : `${i}`;
+    row.__treeId__ = treeId;
+    if (row.data) {
+      updateTreeId(row.data, treeId);
+    }
   }
 }
 
@@ -170,7 +173,7 @@ function removeRecords(obj, cb) {
   const me = this;
   const content = deepcopy(me.state.data);
   const data = content.data || content.datas;
-  const treeIdArr = obj.__treeId__.split('-');
+  const treeIdArr = obj.__treeId__.split('-').map(item => parseInt(item, 10));
   let rows = data;
   for (let i = 0; i < treeIdArr.length - 1; i++) {
     const rowIndex = treeIdArr[i];
@@ -180,24 +183,16 @@ function removeRecords(obj, cb) {
   if (Object.prototype.toString.call(objAux) !== '[object Array]') {
     objAux = [objAux];
   }
-  let hasRemove = false;
   objAux.forEach((item) => {
     for (let i = 0; i < rows.length; i++) {
       const element = rows[i];
-      if (hasRemove) {
-        let tmpTreeIdArr = [...treeIdArr];
-        let newTreeId = tmpTreeIdArr.splice(0, tmpTreeIdArr.length - 1).concat([i]).join('-');
-        element.__treeId__ = newTreeId;
-        updateSubTreeId(element, newTreeId)
-      } else {
-        if (element.jsxid === item.jsxid) {
-          rows.splice(i, 1);
-          i--;
-          hasRemove = true;
-        }
+      if (element.jsxid === item.jsxid) {
+        rows.splice(i, 1);
+        break;
       }
     }
   });
+  updateTreeId(content.data);
   me.data = content;
   this.setState({
     data: content,
@@ -215,5 +210,6 @@ export default {
   updateRecord,
   syncRecord,
   removeRecords,
+  updateTreeId
 };
 

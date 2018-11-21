@@ -156,8 +156,6 @@ function moveRowUp(rowData, cb) {
     const lastIndex = treeIdArr.pop();
     if (lastIndex > 0) {
       rows.splice(lastIndex, 1);
-      // change treeId before setState;
-      rows[lastIndex - 1].__treeId__ = treeIdArr.concat([lastIndex]).join('-');
       rows.splice(lastIndex - 1, 0, { ...rowData, __treeId__: treeIdArr.concat([lastIndex - 1]).join('-') });
       this.data = content;
       this.setState({
@@ -168,6 +166,7 @@ function moveRowUp(rowData, cb) {
         }
       });
     }
+    this.updateTreeId(data)
   }
 }
 
@@ -183,8 +182,6 @@ function moveRowDown(rowData, cb) {
     }
     const lastIndex = treeIdArr.pop();
     if (lastIndex < rows.length - 1) {
-      // change treeId before setState;
-      rows[lastIndex + 1].__treeId__ = treeIdArr.concat([lastIndex]).join('-');
       rows.splice(lastIndex, 1);
       rows.splice(lastIndex + 1, 0, { ...rowData, __treeId__: treeIdArr.concat([lastIndex + 1]).join('-') });
       this.data = content;
@@ -196,6 +193,7 @@ function moveRowDown(rowData, cb) {
         }
       });
     }
+    this.updateTreeId(data)
   }
 }
 
