@@ -342,6 +342,7 @@ describe('inlineEdit', () => {
         }]}
       />
     );
+    expect(wrapper.instance().getData().data.data[1].id).to.be('2');
     wrapper.instance().delRow(wrapper.instance().getData().data.data[0], () => {
       const data = wrapper.instance().getData().data;
       expect(data.data[0].id).to.be('2');
