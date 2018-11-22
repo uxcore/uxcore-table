@@ -1,6 +1,6 @@
 # History
 
-## 10.4.6
+## 10.4.7
 * `FIXED` updateTreeId in method delRow, moveRowUp and moveRowDown
 
 ## 10.4.5
