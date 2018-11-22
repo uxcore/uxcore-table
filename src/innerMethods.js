@@ -67,6 +67,7 @@ function insertRecords(obj, reverse, cb) {
   }
   objAux = me.addJSXIdsForRecord(objAux);
   const content = util.mergeData(me.state.data, objAux, reverse);
+  updateTreeId(content.data);
   me.data = content;
   me.setState({
     data: content,

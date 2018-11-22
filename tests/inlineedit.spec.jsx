@@ -277,8 +277,10 @@ describe('inlineEdit', () => {
       />
     );
     wrapper.instance().addRow({ id: '2' }, () => {
-      expect(wrapper.instance().getData().data.data).to.have.length(2);
-      expect(wrapper.instance().getData().data.data[1].id).to.be('2');
+      const data = wrapper.instance().getData().data;
+      expect(data.data).to.have.length(2);
+      expect(data.data[1].id).to.be('2');
+      expect(data.data[1].__treeId__).to.be('1');
       done();
     });
   });
