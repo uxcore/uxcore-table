@@ -1,5 +1,8 @@
 # History
 
+## 10.4.8
+* `FIXED` when obj is null in util.dropFunc
+
 ## 10.4.7
 * `FIXED` updateTreeId in method delRow, moveRowUp and moveRowDown
 
