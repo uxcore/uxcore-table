@@ -271,6 +271,9 @@ const toggleHeightAnim = (node, show, done) => {
  * @param {*} obj object to drop key
  */
 const dropFunc = (obj) => {
+  if (obj === null) {
+    return obj
+  }
   if (Array.isArray(obj)) {
     const newArr = [];
     obj.forEach((item) => {
@@ -279,7 +282,8 @@ const dropFunc = (obj) => {
       }
     });
     return newArr;
-  } if (typeof obj === 'object') {
+  }
+  if (typeof obj === 'object') {
     const newObj = {};
     Object.keys(obj).forEach((key) => {
       const value = obj[key];

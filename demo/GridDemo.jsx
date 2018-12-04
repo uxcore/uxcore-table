@@ -45,7 +45,7 @@ class Demo extends React.Component {
     const columns = [
       {
         dataKey: 'firstName',
-        title: 'FristName',
+        title: <span>123123123</span>,
         // fixed: true,
         width: '15%',
         filters: [{
