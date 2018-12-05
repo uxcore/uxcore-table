@@ -1,4 +1,6 @@
 # History
+## 10.4.10
+* `FIXED` the change of columnPicker will cause the action column from hidden to show
 
 ## 10.4.8
 * `FIXED` when obj is null in util.dropFunc
