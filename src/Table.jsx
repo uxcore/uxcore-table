@@ -827,10 +827,9 @@ class Table extends React.Component {
       } else if (groupName === commonGroupName && item.group === undefined) {
         // current column is common group
         if (checkedKeys.indexOf(item.dataKey) !== -1
-          || notRenderColumns.indexOf(item.dataKey) !== -1
-          || item.type === 'action') {
+          || notRenderColumns.indexOf(item.dataKey) !== -1) {
           item.hidden = false;
-        } else {
+        } else if (item.type !== 'action') {
           item.hidden = true;
         }
       }

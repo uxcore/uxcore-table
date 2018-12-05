@@ -69,9 +69,11 @@ const formatValue = (value, type, delimiter) => {
   const newValue = value.toString();
   if (type === 'money') {
     return Formatter.money(newValue, newDelimiter);
-  } if (type === 'card') {
+  }
+  if (type === 'card') {
     return Formatter.card(newValue, newDelimiter);
-  } if (type === 'cnmobile') {
+  }
+  if (type === 'cnmobile') {
     return Formatter.cnmobile(newValue, newDelimiter);
   }
   return newValue;
@@ -193,7 +195,11 @@ const getSelectedKeys = (columns) => {
     }
   });
   realColumns.forEach((item) => {
-    if (!item.hidden && item.dataKey && ['jsxchecked', 'jsxtreeIcon'].indexOf(item.dataKey) === -1) {
+    if (!item.hidden &&
+      item.dataKey &&
+      ['jsxchecked', 'jsxtreeIcon'].indexOf(item.dataKey) === -1 &&
+      item.type !== 'action'
+    ) {
       selectedKeys.push(item.dataKey);
     } else if (item.hidden && item.dataKey) {
       isHalfChecked = true;
