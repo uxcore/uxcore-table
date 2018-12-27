@@ -1265,12 +1265,16 @@ class Table extends React.Component {
           shouldRenderAction = true;
         }
       }
-      const shouldRender = shouldRenderAction
+      return shouldRenderAction
       || (config.linkBar && config.linkBar.length)
       || config.showSearch
       || config.showColumnPicker;
-      return shouldRender;
     };
+
+    const me = this;
+    const { state } = me;
+    const data = state.data ? (state.data.datas || state.data.data) : [];
+    const checkStatus = me.getCheckStatus(data);
 
     if (shouldRenderActionBar(this.props)) {
       const renderActionProps = {
@@ -1278,6 +1282,8 @@ class Table extends React.Component {
         showColumnPicker: this.props.showColumnPicker,
         locale: this.props.locale,
         linkBar: this.props.linkBar,
+        checkStatus,
+        selectAll: this.selectAll.bind(this),
         checkboxColumnKey: this.state.checkboxColumnKey,
         showSearch: this.props.showSearch,
         searchBarPlaceholder: this.props.searchBarPlaceholder,

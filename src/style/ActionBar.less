@@ -1,12 +1,22 @@
 .@{__tablePrefixCls}-actionbar {
   width: 100%;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
   padding: 6px 0px 4px;
 }
 
 .@{__tablePrefixCls}-actionbar-item {
   display: inline-block;
   margin-right: 10px;
+}
+.@{__tablePrefixCls}-select-all {
+  display: inline-block;
+  margin: 0 24px;
+  cursor: pointer;
+  height: 28px;
+  line-height: 28px;
+  i.half-checked {
+    margin-right: 0;
+  }
 }
 
 .@{__tablePrefixCls}-column-picker {
@@ -109,4 +119,40 @@
 .@{__tablePrefixCls}-linkbar-item {
   cursor: pointer;
   display: inline-block;
+}
+
+.@{__tablePrefixCls}-list-action-bar {
+  .left {
+    display: inline-block;
+  }
+  .right {
+    display: inline-block;
+    width: 400px;
+    float: right;
+    height: 28px;
+    margin-right: 20px;
+    line-height: 28px;
+    cursor: pointer;
+    > div {
+      float: right;
+      margin-right: 20px;
+      position: relative;
+    }
+    .order-icon {
+      position: absolute;
+      left: -18px;
+    }
+  }
+}
+
+.list-action-bar-order-menu {
+  .icon-wrapper {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+    float: right;
+    icon {
+      color: @brand-primary;
+    }
+  }
 }

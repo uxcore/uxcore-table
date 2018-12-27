@@ -116,12 +116,90 @@ class Demo extends React.Component {
       pagerSizeOptions: [5, 10, 15, 20],
       rowSelection,
       actionBar: {
-        'Action Button': () => {
-          this.forceUpdate();
-          console.log(me.table.getData());
-          me.table.toggleSubComp(me.table.getData().data.datas);
+        useListActionBar: true,
+        showSelectAll: true,
+        buttons: [
+          {
+            title: 'Action Button',
+            // type: 'primary',
+            // size: 'normal',
+            callback: () => {
+              this.forceUpdate();
+              console.log(me.table.getData());
+              me.table.toggleSubComp(me.table.getData().data.datas);
+            },
+          },
+          {
+            title: '123123',
+            // type: 'secondary',
+            size: 'small',
+            callback: () => {
+              me.table.selectAll(true);
+              console.log(123123)
+            }
+          }
+        ],
+        actionBarTip: '已经为您找到记录123条',
+        customRenderView() {
+          return (
+            <p>自定义内容</p>
+          )
         },
+        orderBy: {
+          iconName: 'paixu-jiangxu',
+          defaultValue: {
+            text: '排序方式ldasjlslkjf',
+            value: '123'
+          },
+          items: [
+            {
+              text: '排序方式ldasjlslkjf',
+              value: '123'
+            },
+            {
+              text: '排序方式2',
+              value: '456'
+            }
+          ],
+          onChange(data) {
+            console.log(data)
+          }
+        },
+        columnsPicker: {
+          showColumnPickerCheckAll: true,
+          onChange(data) {
+            console.log(data)
+          }
+        }
       },
+      // actionBar: [
+      //   {
+      //     title: 'Action Button',
+      //     callback: () => {
+      //       this.forceUpdate();
+      //       console.log(me.table.getData());
+      //       me.table.toggleSubComp(me.table.getData().data.datas);
+      //     },
+      //   },
+      //   {
+      //     title: '123123',
+      //     callback: () => {
+      //       me.table.selectAll(true);
+      //       console.log(123123)
+      //     }
+      //   }
+      // ],
+      // actionBar: {
+      //   'Action Button': () => {
+      //     this.forceUpdate();
+      //     console.log(me.table.getData());
+      //     me.table.toggleSubComp(me.table.getData().data.datas);
+      //   },
+      //   '123123': () => {
+      //     me.table.selectAll(true);
+      //     console.log(123123)
+      //   }
+      // },
       onSearch: (searchTxt) => {
         console.log(searchTxt);
       },
