@@ -3,19 +3,22 @@ import PropTypes from 'prop-types';
 import Menu from 'uxcore-menu'
 import Dropdown from 'uxcore-dropdown'
 import Icon from 'uxcore-icon'
+import classnames from 'classnames'
 
-class Order extends React.Component {
+class ListOrder extends React.Component {
   static propTypes = {
     iconName: PropTypes.string,
     items: PropTypes.array,
     defaultValue: PropTypes.object,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    isTableView: PropTypes.bool
   }
   static defaultProps = {
     iconName: 'paixu-jiangxu',
     defaultValue: {},
     items: [],
-    onChange: () => {}
+    onChange: () => {},
+    isTableView: true
   }
   constructor(props) {
     super(props)
@@ -56,15 +59,18 @@ class Order extends React.Component {
   }
   render() {
     const p = this.props;
+    const disabled = !p.keepActiveInCustomView && !p.isTableView
     return (
-      <Dropdown overlay={this.renderMenus()}>
-        <div>
-          <Icon name={p.iconName} className={'order-icon'} />
-          {this.state.value.text}
+      <Dropdown overlay={!disabled ? this.renderMenus() : <div/>} trigger={['click']}>
+        <div className={classnames('order-title', {
+          'disabled': disabled
+        })}>
+          <Icon name={p.iconName} />
+          <span>{this.state.value.text}</span>
         </div>
       </Dropdown>
     )
   }
 }
 
-export default Order;
+export default ListOrder;

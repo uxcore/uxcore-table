@@ -10,6 +10,14 @@ import Button from 'uxcore-button';
 import React from 'react';
 import Table from '../src';
 
+class Test extends React.Component {
+  render() {
+    return (
+      <div>{this.props.name}</div>
+    )
+  }
+}
+
 /**
  * @name Demo的标题
  * @description Demo的描述，使用 react-docgen 挖出对应的内容，并作为组件站点 md 生成的源。
@@ -121,8 +129,7 @@ class Demo extends React.Component {
         buttons: [
           {
             title: 'Action Button',
-            // type: 'primary',
-            // size: 'normal',
+            keepActiveInCustomView: true,
             callback: () => {
               this.forceUpdate();
               console.log(me.table.getData());
@@ -132,28 +139,29 @@ class Demo extends React.Component {
           {
             title: '123123',
             // type: 'secondary',
+            keepActiveInCustomView: true,
             size: 'small',
             callback: () => {
               me.table.selectAll(true);
-              console.log(123123)
             }
           }
         ],
         actionBarTip: '已经为您找到记录123条',
-        customRenderView() {
+        renderCustomBarItem() {
           return (
             <p>自定义内容</p>
           )
         },
         orderBy: {
           iconName: 'paixu-jiangxu',
+          // keepActiveInCustomView: true,
           defaultValue: {
-            text: '排序方式ldasjlslkjf',
+            text: '按照什么什么排序',
             value: '123'
           },
           items: [
             {
-              text: '排序方式ldasjlslkjf',
+              text: '按照什么什么排序',
               value: '123'
             },
             {
@@ -170,7 +178,14 @@ class Demo extends React.Component {
           onChange(data) {
             console.log(data)
           }
-        }
+        },
+        showPager: true,
+        renderCustomView() {
+          return (
+            <Test name={'123123123'}/>
+          )
+        },
+        removePagerInCustomView: false
       },
       // actionBar: [
       //   {

@@ -15,7 +15,8 @@ import SearchBar from './SearchBar';
 import ColumnPicker from './ColumnPicker';
 import LinkBar from './LinkBar';
 import CheckBox from "../Cell/CheckBox";
-import Order from './Order'
+import ListOrder from './ListOrder'
+import Icon from 'uxcore-icon'
 
 class ActionBar extends React.Component {
   /**
@@ -40,6 +41,13 @@ class ActionBar extends React.Component {
       });
     }
     return items;
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      activatedView: 'table',
+    }
   }
 
   handleSearch(value) {
@@ -67,7 +75,7 @@ class ActionBar extends React.Component {
     return (
       <Button
         size={item.size || 'small'}
-        disabled={item.disabled || false}
+        disabled={(me.state.activatedView !== 'table' || item.disabled) && !item.keepActiveInCustomView}
         {...itemProps}
       >
         {item.title}
@@ -145,16 +153,41 @@ class ActionBar extends React.Component {
     )
   }
 
+  changeView = async (e) => {
+    const { useCustomView, actionBarConfig } = this.props
+    const { renderCustomView, removePagerInCustomView } = actionBarConfig
+    const target = e.target;
+    const name = target.getAttribute('data-name');
+    if (!name) {
+      return
+    }
+    this.setState({
+      activatedView: name
+    })
+    if (name === 'custom') {
+      const view = await renderCustomView();
+      if (view && typeof view === 'object' && view.type && view.props && name !== 'table') {
+        useCustomView(view, removePagerInCustomView)
+      }
+    } else {
+      useCustomView(null)
+    }
+  }
+
   renderListActionBar() {
     const me = this;
     const {
       useListActionBar,
       showSelectAll,
       actionBarTip,
-      customRenderView,
+      renderCustomBarItem,
       orderBy,
-      columnsPicker
+      columnsPicker,
+      showPager
     } = me.props.actionBarConfig;
+
+    const { activatedView } = me.state;
+
     if (!useListActionBar) {
       return null
     }
@@ -176,23 +209,38 @@ class ActionBar extends React.Component {
           }
         </div>
         {
-          customRenderView ? <div style={{ display: 'inline-block' }}>
+          renderCustomBarItem ? <div style={{ display: 'inline-block' }}>
             {
-              typeof customRenderView === 'string' ? customRenderView : typeof customRenderView === 'function' ? customRenderView() : null
+              typeof renderCustomBarItem === 'string' ? renderCustomBarItem : typeof renderCustomBarItem === 'function' ? renderCustomBarItem() : null
             }
           </div> : null
         }
         <div className={'right'}>
+          <div onClick={this.changeView}>
+            <Icon className={classnames({
+              active: activatedView === 'table'
+            })} data-name={'table'} name={'renwufull'} />
+            <Icon className={classnames({
+              active: activatedView === 'custom'
+            })} data-name={'custom'} name={'biaoge1'} />
+          </div>
           {
-            columnsPicker ? <div>
-              picker
+            showPager ? <div style={{ paddingTop: '5px'}}>
+              {
+                this.props.renderPager(true)
+              }
             </div> : null
           }
           {
-            orderBy ? <Order {...orderBy}/> : null
+            columnsPicker ? this.renderColumnPicker() : null
+          }
+          {
+            orderBy ? <ListOrder
+              {...orderBy}
+              isTableView={activatedView === 'table'}
+            /> : null
           }
         </div>
-
       </div>
     )
   }

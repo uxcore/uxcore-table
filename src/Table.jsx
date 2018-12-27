@@ -166,6 +166,8 @@ class Table extends React.Component {
       lastCurrentPage: props.currentPage,
       lastJsxcolumns: props.jsxcolumns,
       lastShowMask: props.showMask,
+      customView: null,
+      removeCustomPager: false
     };
     this.handleBodyScroll = this.handleBodyScroll.bind(this);
     this.handleHeaderScroll = this.handleHeaderScroll.bind(this);
@@ -244,6 +246,13 @@ class Table extends React.Component {
     if (this.resizeListener) {
       this.resizeListener.remove();
     }
+  }
+
+  useCustomView(view, removeCustomPager) {
+    this.setState({
+      customView: view,
+      removeCustomPager
+    })
   }
 
   /**
@@ -1149,7 +1158,9 @@ class Table extends React.Component {
   }
 
 
-  renderPager() {
+
+  renderPager(miniType) {
+
     const me = this;
     const { data, currentPage, pageSize } = this.state;
     const {
@@ -1163,6 +1174,12 @@ class Table extends React.Component {
       showUnknownTotalPager,
       prefixCls,
     } = me.props;
+
+    if (miniType && data) {
+      return (
+        <Pagination simple current={currentPage} onChange={me.onPageChange.bind(me)} total={data.totalCount} />
+      )
+    }
 
     if (showPager && data) {
       const pagersProps = {
@@ -1296,6 +1313,8 @@ class Table extends React.Component {
         key: 'grid-actionbar',
         prefixCls: `${this.props.prefixCls}-actionbar`,
         tablePrefixCls: this.props.prefixCls,
+        renderPager: this.renderPager.bind(this),
+        useCustomView: this.useCustomView.bind(this)
       };
       return <ActionBar {...renderActionProps} />;
     }
@@ -1424,17 +1443,19 @@ class Table extends React.Component {
           ref={util.saveRef('root', this)}
         >
           {this.renderActionBar()}
-          <div
-            className={`${props.prefixCls}-content`}
-            style={{
-              width: props.passedData ? 'auto' : props.width,
-            }}
-          >
-            {this.renderMainTable(config)}
-            {this.renderLeftFixedTable(config)}
-            {this.renderRightFixedTable(config)}
-          </div>
-          {this.renderPager()}
+          {
+            !this.state.customView ? <div
+              className={`${props.prefixCls}-content`}
+              style={{
+                width: props.passedData ? 'auto' : props.width,
+              }}
+            >
+              {this.renderMainTable(config)}
+              {this.renderLeftFixedTable(config)}
+              {this.renderRightFixedTable(config)}
+            </div> : this.state.customView
+          }
+          {!this.state.removeCustomPager ? this.renderPager() : null}
         </div>
       </TableContext.Provider>
 

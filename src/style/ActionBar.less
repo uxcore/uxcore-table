@@ -10,7 +10,8 @@
 }
 .@{__tablePrefixCls}-select-all {
   display: inline-block;
-  margin: 0 24px;
+  //margin: 0 24px;
+  margin-right: 24px;
   cursor: pointer;
   height: 28px;
   line-height: 28px;
@@ -32,11 +33,11 @@
 
 .@{__tablePrefixCls}-column-picker-title {
   vertical-align: middle;
-  color: @brand-link;
+  //color: @brand-link;
 }
 
 .@{__tablePrefixCls}-column-picker-trigger {
-  padding: 4px 10px;
+  //padding: 4px 10px;
   z-index: 12;
   position: relative;
   background: white;
@@ -124,13 +125,14 @@
 .@{__tablePrefixCls}-list-action-bar {
   .left {
     display: inline-block;
+    padding-left: 24px;
   }
   .right {
     display: inline-block;
     width: 400px;
     float: right;
     height: 28px;
-    margin-right: 20px;
+    //margin-right: 20px;
     line-height: 28px;
     cursor: pointer;
     > div {
@@ -138,9 +140,20 @@
       margin-right: 20px;
       position: relative;
     }
-    .order-icon {
-      position: absolute;
-      left: -18px;
+    .order-title {
+      icon {
+        position: absolute;
+        color: @normal-alpha-4;
+      }
+      span {
+        padding-left: 20px;
+      }
+      &.disabled {
+        color: @normal-alpha-4
+      }
+    }
+    icon.active {
+      color: @brand-primary;
     }
   }
 }
