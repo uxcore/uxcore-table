@@ -1,6 +1,6 @@
 .@{__tablePrefixCls}-actionbar {
   width: 100%;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
   padding: 6px 0px 4px;
 }
 
@@ -132,7 +132,6 @@
     width: 400px;
     float: right;
     height: 28px;
-    //margin-right: 20px;
     line-height: 28px;
     cursor: pointer;
     > div {
@@ -140,8 +139,9 @@
       margin-right: 20px;
       position: relative;
     }
-    .order-title {
-      icon {
+    .order-title,
+    .picker-title {
+      i {
         position: absolute;
         color: @normal-alpha-4;
       }
@@ -152,7 +152,7 @@
         color: @normal-alpha-4
       }
     }
-    icon.active {
+    i.active {
       color: @brand-primary;
     }
   }
@@ -164,8 +164,84 @@
     width: 100px;
     text-align: right;
     float: right;
-    icon {
+    i {
       color: @brand-primary;
     }
   }
+}
+
+.list-action-bar-picker-overlay,
+.list-action-bar-order-overlay
+{
+  .kuma-popover-arrow {
+    display: none;
+  }
+  .half-checked {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url("@{svg-path}/checkbox-partial-checked.svg") no-repeat;
+    vertical-align: text-bottom;
+    color: @brand-primary;
+  }
+  .kuma-popover-inner {
+    min-width: 200px;
+    padding: 0;
+    border-color: @normal-alpha-7;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    .kuma-menu {
+      .kuma-menu-item {
+        margin: 0;
+        &:not(:last-child) {
+          margin: 0;
+        }
+        &:hover {
+          background: @normal-alpha-9;
+        }
+      }
+    }
+    .kuma-popover-button-group {
+      padding: 10px;
+    }
+  }
+}
+
+.@{__tablePrefixCls}-column-picker-groups {
+  width: 420px;
+  background: #fff;
+  border-radius: 3px;
+  background-clip: padding-box;
+}
+.@{__tablePrefixCls}-column-picker-check-all {
+  position: absolute;
+  left: 15px;
+  bottom: -34px
+}
+.@{__tablePrefixCls}-column-picker-group {
+  display: flex;
+  flex-wrap: wrap;
+  label {
+    width: 90px;
+    height: 30px;
+    line-height: 30px;
+    margin: 0 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    span {
+      display: inline-block;
+      margin: 0 5px;
+    }
+  }
+}
+.@{__tablePrefixCls}-column-picker-header {
+  border-bottom: 1px solid @normal-alpha-7;
+  padding: 10px;
+  font-size: 14px;
+  color: @normal-alpha-4;
+}
+.@{__tablePrefixCls}-column-picker-content {
+  padding: 10px;
+  border-bottom: 1px solid @normal-alpha-7;
 }

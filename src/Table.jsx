@@ -835,8 +835,7 @@ class Table extends React.Component {
         break;
       } else if (groupName === commonGroupName && item.group === undefined) {
         // current column is common group
-        if (checkedKeys.indexOf(item.dataKey) !== -1
-          || notRenderColumns.indexOf(item.dataKey) !== -1) {
+        if (checkedKeys.indexOf(item.dataKey) !== -1 || notRenderColumns.indexOf(item.dataKey) !== -1) {
           item.hidden = false;
         } else if (item.type !== 'action') {
           item.hidden = true;
@@ -1300,6 +1299,8 @@ class Table extends React.Component {
         locale: this.props.locale,
         linkBar: this.props.linkBar,
         checkStatus,
+        data,
+        currentPage: state.currentPage,
         selectAll: this.selectAll.bind(this),
         checkboxColumnKey: this.state.checkboxColumnKey,
         showSearch: this.props.showSearch,

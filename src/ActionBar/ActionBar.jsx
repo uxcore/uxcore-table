@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import Button from 'uxcore-button';
 import React from 'react';
 import SearchBar from './SearchBar';
-import ColumnPicker from './ColumnPicker';
+import ColumnPicker from './ColumnPickerNew';
 import LinkBar from './LinkBar';
 import CheckBox from "../Cell/CheckBox";
 import ListOrder from './ListOrder'
@@ -115,12 +115,16 @@ class ActionBar extends React.Component {
       width,
       locale,
       tablePrefixCls,
+      actionBarConfig,
     } = me.props;
     if (!showColumnPicker) {
       return null;
     }
+    const  { columnsPicker } = actionBarConfig;
     return (
       <ColumnPicker
+        {...columnsPicker}
+        isTableView={me.state.activatedView === 'table'}
         columns={columns}
         locale={locale}
         dropdownMaxWidth={width}
@@ -154,7 +158,7 @@ class ActionBar extends React.Component {
   }
 
   changeView = async (e) => {
-    const { useCustomView, actionBarConfig } = this.props
+    const { useCustomView, actionBarConfig, data, currentPage } = this.props
     const { renderCustomView, removePagerInCustomView } = actionBarConfig
     const target = e.target;
     const name = target.getAttribute('data-name');
@@ -165,7 +169,7 @@ class ActionBar extends React.Component {
       activatedView: name
     })
     if (name === 'custom') {
-      const view = await renderCustomView();
+      const view = await renderCustomView(data, currentPage);
       if (view && typeof view === 'object' && view.type && view.props && name !== 'table') {
         useCustomView(view, removePagerInCustomView)
       }
@@ -217,10 +221,10 @@ class ActionBar extends React.Component {
         }
         <div className={'right'}>
           <div onClick={this.changeView}>
-            <Icon className={classnames({
+            <Icon usei className={classnames({
               active: activatedView === 'table'
             })} data-name={'table'} name={'renwufull'} />
-            <Icon className={classnames({
+            <Icon usei className={classnames({
               active: activatedView === 'custom'
             })} data-name={'custom'} name={'biaoge1'} />
           </div>

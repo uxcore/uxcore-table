@@ -124,7 +124,7 @@ class Demo extends React.Component {
       pagerSizeOptions: [5, 10, 15, 20],
       rowSelection,
       actionBar: {
-        useListActionBar: true,
+        useListActionBar: false,
         showSelectAll: true,
         buttons: [
           {
@@ -174,13 +174,17 @@ class Demo extends React.Component {
           }
         },
         columnsPicker: {
-          showColumnPickerCheckAll: true,
+          iconName: 'zidingyilie',
+          title: '列选择器',
+          // keepActiveInCustomView: true,
           onChange(data) {
             console.log(data)
           }
         },
         showPager: true,
-        renderCustomView() {
+        // 支持返回promise
+        renderCustomView(data, currentPage) {
+          console.log(data, currentPage)
           return (
             <Test name={'123123123'}/>
           )
