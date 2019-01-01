@@ -124,7 +124,7 @@ class Demo extends React.Component {
       pagerSizeOptions: [5, 10, 15, 20],
       rowSelection,
       actionBar: {
-        useListActionBar: false,
+        useListActionBar: true,
         showSelectAll: true,
         buttons: [
           {
