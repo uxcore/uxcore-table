@@ -120,13 +120,14 @@ class ActionBar extends React.Component {
     if (!showColumnPicker) {
       return null;
     }
-    const  { columnsPicker } = actionBarConfig;
+    const  { columnsPicker, useListActionBar } = actionBarConfig;
     return (
       <ColumnPicker
         {...columnsPicker}
         isTableView={me.state.activatedView === 'table'}
         columns={columns}
         locale={locale}
+        useListActionBar={useListActionBar}
         dropdownMaxWidth={width}
         checkboxColumnKey={checkboxColumnKey}
         handleColumnPickerChange={handleColumnPickerChange}

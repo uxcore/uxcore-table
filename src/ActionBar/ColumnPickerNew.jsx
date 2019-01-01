@@ -23,12 +23,41 @@ class ColumnPicker extends React.Component {
     };
   }
 
+  componentDidUpdate() {
+    const me = this;
+    if (this.state.visible) {
+      const dropDownDOMNode = me.getDropDownDOMNOde();
+      const commonTreeDOMNode = me.commonTree.refs.tree;
+      let width = commonTreeDOMNode.offsetWidth + 41;
+      for (let i = 0; i < me.groupNum; i++) {
+        width += me[`groupTree-${i}`].refs.tree.offsetWidth;
+      }
+      const maxWidth = typeof me.props.dropdownMaxWidth === 'number'
+        ? me.props.dropdownMaxWidth
+        : 1000;
+      dropDownDOMNode.style.width = `${width <= maxWidth ? width : maxWidth}px`;
+    }
+  }
+
   getDropDownDOMNOde() {
     return this.dropDownDOMNode;
   }
 
   handleChexkAll = (e) => {
     this.props.handleColumnPickerCheckAll(e.target.checked);
+  }
+
+  handlePickerSelect(groupName, selectedKeys) {
+    this.props.handleColumnPickerChange(selectedKeys, groupName);
+  }
+
+
+  saveRef(refName) {
+    const me = this;
+    return (c) => {
+      me[refName] = c;
+      return false;
+    };
   }
 
   renderCheckAll() {
@@ -78,6 +107,95 @@ class ColumnPicker extends React.Component {
     })
   };
 
+  renderTree() {
+    const me = this;
+    const { columns } = me.props;
+    const notRenderColumns = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
+    notRenderColumns.push(me.props.checkboxColumnKey);
+    const options = [];
+    const groupTree = [];
+    me.groupNum = 0;
+    columns.forEach((item) => {
+      // the column is not the notRender one and is not the group.
+      const isGroup = {}.hasOwnProperty.call(item, 'columns') && typeof item.columns === 'object';
+      if (isGroup) {
+        me.hasGroup = true;
+      }
+      if (notRenderColumns.indexOf(item.dataKey) === -1 && !isGroup) {
+        if (item.dataKey && item.type !== 'action') {
+          options.push(
+            <TreeNode
+              key={item.dataKey}
+              title={typeof item.title === 'function' ? item.title() : item.title}
+            />,
+          );
+        }
+      } else if (isGroup) {
+        groupTree.push(me.renderGroupTree(item, me.groupNum));
+        me.groupNum += 1;
+      }
+    });
+
+    const commonGroupName = getConsts().commonGroup;
+    const { selectedKeys: commonSelectedKeys } = getSelectedKeys(columns.filter((item) => {
+      const isGroup = {}.hasOwnProperty.call(item, 'columns') && typeof item.columns === 'object';
+      return !isGroup;
+    }));
+    const commonTree = (
+      <Tree
+        checkable
+        multiple
+        selectable={false}
+        className={!me.hasGroup ? 'no-group' : ''}
+        ref={me.saveRef('commonTree')}
+        checkedKeys={commonSelectedKeys}
+        onCheck={me.handlePickerSelect.bind(me, commonGroupName)}
+      >
+        {options}
+      </Tree>
+    );
+
+    // if (!me.hasGroup) {
+    //   return commonTree;
+    // }
+
+    return (
+      <div>
+        {this.renderCheckAll()}
+        {groupTree}
+        {commonTree}
+      </div>
+    );
+  }
+
+  renderGroupTree(group, index) {
+    const me = this;
+    const options = (group.columns || []).map(item => (
+      <TreeNode
+        key={item.dataKey}
+        title={typeof item.title === 'function' ? item.title() : item.title}
+      />
+    ));
+
+    const { selectedKeys } = getSelectedKeys(group.columns);
+
+    return (
+      <Tree
+        key={group.group}
+        ref={this.saveRef(`groupTree-${index}`)}
+        checkable
+        multiple
+        selectable={false}
+        defaultExpandAll
+        checkedKeys={selectedKeys}
+        onCheck={me.handlePickerSelect.bind(me, group.group)}
+      >
+        <TreeNode title={group.group} key={group.group}>
+          {options}
+        </TreeNode>
+      </Tree>
+    );
+  }
 
   renderPickerGroup(group) {
     const { prefixCls } = this.props;
@@ -167,7 +285,7 @@ class ColumnPicker extends React.Component {
 
   handleOk = (hideCallback) => {
     const { selectedKeys, checkAbleColumns } = this.state
-    const { handleColumnPickerChange, handleColumnPickerCheckAll} = this.props
+    const { handleColumnPickerChange, handleColumnPickerCheckAll, onChange} = this.props
     const checkAll = selectedKeys.length === checkAbleColumns.length
     const checkNone = !selectedKeys.length
     if (checkAll || checkNone ) {
@@ -179,30 +297,24 @@ class ColumnPicker extends React.Component {
     } else {
       handleColumnPickerChange(selectedKeys, getConsts().commonGroup)
     }
+    onChange(selectedKeys)
     hideCallback()
   }
 
-  handleCancel = () => {
-
-  }
-
-  render() {
+  renderListActionBar() {
     const me = this;
     const p = me.props;
     const disabled = !p.keepActiveInCustomView && !p.isTableView;
     return (
       <Popover
+        placement={'bottomRight'}
+        trigger={['click']}
         overlay={!disabled ? me.renderPickerGroups() : <div/>}
-        // onClick={me.handleClick}
-        // visible={me.state.visible}
         overlayClassName={classnames({
           'list-action-bar-picker-overlay': true,
           'kuma-popover-hidden': disabled
         })}
-        trigger={['click']}
-        placement={'bottomRight'}
         onOk={this.handleOk}
-        onCancel={this.handleCancel}
         showButton
       >
         <div className={classnames('picker-title', {
@@ -210,6 +322,40 @@ class ColumnPicker extends React.Component {
         })}>
           <Icon usei name={p.iconName} />
           <span>{p.title}</span>
+        </div>
+      </Popover>
+    );
+  }
+
+  render() {
+    const me = this;
+    const p = me.props;
+    if (p.useListActionBar) {
+      return this.renderListActionBar()
+    }
+    const { prefixCls, locale } = p;
+    return (
+      <Popover
+        placement="bottomRight"
+        trigger="click"
+        overlay={me.renderTree()}
+        overlayClassName={`${prefixCls}-popover`}
+        align={{
+          offset: [0, -10],
+        }}
+      >
+        <div className={prefixCls}>
+          <div
+            className={classnames({
+              [`${prefixCls}-trigger`]: true,
+              [`${prefixCls}-trigger__dropdown-visible`]: !!me.state.visible,
+            })}
+          >
+            <Icon usei name="zidingyilie" className={`${prefixCls}-icon`} />
+            <span className={`${prefixCls}-title`}>
+              {i18n[locale].templated_column}
+            </span>
+          </div>
         </div>
       </Popover>
     );
@@ -223,6 +369,7 @@ ColumnPicker.defaultProps = {
   columns: [],
   handleColumnPickerChange: () => {},
   handleColumnPickerCheckAll: () => {},
+  onChange: () => {}
 };
 ColumnPicker.propTypes = {
   prefixCls: PropTypes.string,
@@ -231,6 +378,7 @@ ColumnPicker.propTypes = {
   columns: PropTypes.array,
   handleColumnPickerChange: PropTypes.func,
   handleColumnPickerCheckAll: PropTypes.func,
+  onChange: PropTypes.func
 };
 
 ColumnPicker.displayName = 'ColumnPicker';

@@ -33,11 +33,11 @@
 
 .@{__tablePrefixCls}-column-picker-title {
   vertical-align: middle;
-  //color: @brand-link;
+  color: @brand-link;
 }
 
 .@{__tablePrefixCls}-column-picker-trigger {
-  //padding: 4px 10px;
+  padding: 4px 10px;
   z-index: 12;
   position: relative;
   background: white;
@@ -173,6 +173,9 @@
 .list-action-bar-picker-overlay,
 .list-action-bar-order-overlay
 {
+  .@{__tablePrefixCls}-column-picker-check-all {
+    position: absolute;
+  }
   .kuma-popover-arrow {
     display: none;
   }
@@ -214,7 +217,6 @@
   background-clip: padding-box;
 }
 .@{__tablePrefixCls}-column-picker-check-all {
-  position: absolute;
   left: 15px;
   bottom: -34px
 }

@@ -147,11 +147,11 @@ class Demo extends React.Component {
           }
         ],
         actionBarTip: '已经为您找到记录123条',
-        renderCustomBarItem() {
-          return (
-            <p>自定义内容</p>
-          )
-        },
+        // renderCustomBarItem() {
+        //   return (
+        //     <p>自定义内容</p>
+        //   )
+        // },
         orderBy: {
           iconName: 'paixu-jiangxu',
           // keepActiveInCustomView: true,
