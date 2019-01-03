@@ -18,7 +18,7 @@ class ColumnPicker extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      checkAbleColumns: this.getCheckAbleColumns(props.columns).columnsKey,
+      checkAbleColumns: util.getCheckAbleColumns(props.columns).columnsKey,
       selectedKeys: getSelectedKeys(props.columns).selectedKeys
     };
   }
@@ -222,7 +222,7 @@ class ColumnPicker extends React.Component {
   renderPickerGroups() {
     const { prefixCls, locale, showColumnPickerCheckAll } = this.props;
     const { selectedKeys } = this.state;
-    const { columns }  = this.getCheckAbleColumns();
+    const { columns }  = util.getCheckAbleColumns(this.props.columns);
     const isChecked = selectedKeys.length === columns.length
     const isHalfChecked = selectedKeys.length && !isChecked;
     const groups = this.getPickerGroups();
@@ -248,39 +248,14 @@ class ColumnPicker extends React.Component {
     )
   }
 
-  getCheckAbleColumns() {
-    const { columns } = this.props;
-    const blackList = {'jsxchecked': 1, 'jsxtreeIcon': 1, 'jsxwhite': 1};
-    let columnsKey = [];
-    return {
-      columns: columns.filter(column => {
-        if (column.dataKey in blackList) {
-          return false
-        }
-        if (column.type === 'action') {
-          return false
-        }
-        columnsKey.push(column.dataKey);
-        return true
-      }),
-      columnsKey: columnsKey
-    }
-  }
-
   getPickerGroups() {
-    const { columns } = this.getCheckAbleColumns();
+    const { columns } = util.getCheckAbleColumns(this.props.columns);
     return [
       {
         title: '分组2',
         columns
       }
     ]
-  }
-
-  handleClick = (e) => {
-    this.setState({
-      visible: !this.state.visible
-    })
   }
 
   handleOk = (hideCallback) => {

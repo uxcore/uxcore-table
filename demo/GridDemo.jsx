@@ -55,7 +55,7 @@ class Demo extends React.Component {
         dataKey: 'firstName',
         title: <span>123123123</span>,
         // fixed: true,
-        width: '15%',
+        // width: '15%',
         filters: [{
           text: 'Joe',
           value: 'Joe',
@@ -80,12 +80,12 @@ class Demo extends React.Component {
         dataKey: 'lastName',
         title: 'LastName',
         // fixed: true,
-        width: '55%',
+        // width: '55%',
       },
       {
         dataKey: 'email',
         title: 'Email',
-        width: '30%',
+        // width: '30%',
         ordered: true,
       },
       {
@@ -152,23 +152,32 @@ class Demo extends React.Component {
         //     <p>自定义内容</p>
         //   )
         // },
-        orderBy: {
+        rowOrder: {
           iconName: 'paixu-jiangxu',
           // keepActiveInCustomView: true,
           defaultValue: {
-            text: '按照什么什么排序',
+            text: '行排序',
             value: '123'
           },
           items: [
             {
-              text: '按照什么什么排序',
+              text: '行排序',
               value: '123'
             },
             {
-              text: '排序方式2',
+              text: '排序方式',
               value: '456'
             }
           ],
+          onChange(data) {
+            console.log(data)
+          }
+        },
+        columnsOrder: {
+          iconName: 'huxiangguanzhu',
+          // keepActiveInCustomView: true,
+          title: '列排序',
+          includeActionColumn: true,
           onChange(data) {
             console.log(data)
           }
@@ -181,7 +190,6 @@ class Demo extends React.Component {
             console.log(data)
           }
         },
-        showPager: true,
         // 支持返回promise
         renderCustomView(data, currentPage) {
           console.log(data, currentPage)
@@ -189,6 +197,7 @@ class Demo extends React.Component {
             <Test name={'123123123'}/>
           )
         },
+        showPager: true,
         removePagerInCustomView: false
       },
       // actionBar: [

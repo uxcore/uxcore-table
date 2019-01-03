@@ -814,6 +814,12 @@ class Table extends React.Component {
     });
   }
 
+  handleColumnOrderChange = (columns) => {
+    this.setState({
+      columns
+    })
+  }
+
   handleColumnPickerChange(checkedKeys, groupName) {
     const columns = deepcopy(this.state.columns);
     const notRenderColumns = ['jsxchecked', 'jsxtreeIcon', 'jsxwhite'];
@@ -1311,6 +1317,7 @@ class Table extends React.Component {
         showColumnPickerCheckAll: this.props.showColumnPickerCheckAll,
         handleColumnPickerChange: this.handleColumnPickerChange,
         handleColumnPickerCheckAll: this.handleColumnPickerCheckAll,
+        handleColumnOrderChange: this.handleColumnOrderChange,
         key: 'grid-actionbar',
         prefixCls: `${this.props.prefixCls}-actionbar`,
         tablePrefixCls: this.props.prefixCls,

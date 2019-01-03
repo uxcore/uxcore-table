@@ -129,7 +129,7 @@
   }
   .right {
     display: inline-block;
-    width: 400px;
+    width: 420px;
     float: right;
     height: 28px;
     line-height: 28px;
@@ -140,6 +140,7 @@
       position: relative;
     }
     .order-title,
+    .column-order-title,
     .picker-title {
       i {
         position: absolute;
@@ -171,7 +172,8 @@
 }
 
 .list-action-bar-picker-overlay,
-.list-action-bar-order-overlay
+.list-action-bar-order-overlay,
+.list-action-bar-column-order-overlay
 {
   .@{__tablePrefixCls}-column-picker-check-all {
     position: absolute;
@@ -206,6 +208,32 @@
     }
     .kuma-popover-button-group {
       padding: 10px;
+    }
+
+    .kuma-draggable-list-wrapper {
+      > .kuma-draggable-list-item {
+        position: relative;
+        display: block;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 10px;
+        padding-right: 40px;
+        &.can-drag {
+          cursor: move;
+        }
+        &:hover {
+          background: @normal-alpha-9;
+        }
+        &.is-dragging {
+          color: @brand-link;
+        }
+        i {
+          display: inline-block;
+          position: absolute;
+          top: 0;
+          right: 10px;
+        }
+      }
     }
   }
 }
@@ -247,3 +275,4 @@
   padding: 10px;
   border-bottom: 1px solid @normal-alpha-7;
 }
+

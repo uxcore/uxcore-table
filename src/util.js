@@ -300,6 +300,30 @@ const dropFunc = (obj) => {
   return obj;
 };
 
+const getCheckAbleColumns = (columns, includeActionColumn) => {
+  const blackList = {'jsxchecked': 1, 'jsxtreeIcon': 1, 'jsxwhite': 1};
+  let columnsKey = [];
+  let actionColumn = null;
+  let otherColumns = [];
+  return {
+    columns: columns.filter(column => {
+      if (column.dataKey in blackList) {
+        otherColumns.push(column)
+        return false
+      }
+      if (column.type === 'action') {
+        actionColumn = column;
+        return includeActionColumn;
+      }
+      columnsKey.push(column.dataKey);
+      return true
+    }),
+    columnsKey: columnsKey,
+    actionColumn,
+    otherColumns
+  }
+}
+
 /* eslint-enable no-param-reassign */
 
 const utils = {
@@ -318,6 +342,7 @@ const utils = {
   measureScrollbar,
   toggleHeightAnim,
   dropFunc,
+  getCheckAbleColumns,
 };
 
 export default utils;

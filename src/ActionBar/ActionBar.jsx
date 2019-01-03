@@ -15,7 +15,8 @@ import SearchBar from './SearchBar';
 import ColumnPicker from './ColumnPickerNew';
 import LinkBar from './LinkBar';
 import CheckBox from "../Cell/CheckBox";
-import ListOrder from './ListOrder'
+import RowOrder from './RowOrder'
+import ColumnOrder from './ColumnOrder'
 import Icon from 'uxcore-icon'
 
 class ActionBar extends React.Component {
@@ -186,12 +187,14 @@ class ActionBar extends React.Component {
       showSelectAll,
       actionBarTip,
       renderCustomBarItem,
-      orderBy,
+      rowOrder,
+      columnsOrder,
       columnsPicker,
-      showPager
+      showPager,
     } = me.props.actionBarConfig;
 
     const { activatedView } = me.state;
+    const { columns, handleColumnOrderChange } = me.props;
 
     if (!useListActionBar) {
       return null
@@ -240,8 +243,16 @@ class ActionBar extends React.Component {
             columnsPicker ? this.renderColumnPicker() : null
           }
           {
-            orderBy ? <ListOrder
-              {...orderBy}
+            columnsOrder ? <ColumnOrder
+              {...columnsOrder}
+              handleColumnOrderChange={handleColumnOrderChange}
+              columns={columns}
+              isTableView={activatedView === 'table'}
+            /> : null
+          }
+          {
+            rowOrder ? <RowOrder
+              {...rowOrder}
               isTableView={activatedView === 'table'}
             /> : null
           }
