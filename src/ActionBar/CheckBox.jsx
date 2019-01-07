@@ -61,6 +61,7 @@ class CheckBox extends Component {
       className: 'kuma-checkbox',
       checked: this.props.checked,
       onChange: this.handleChange.bind(this),
+      disabled: this.props.disabled
     };
     return this.renderCheckBox(renderProps);
   }
@@ -71,12 +72,14 @@ class CheckBox extends Component {
 CheckBox.propTypes = {
   onChange: PropTypes.func,
   checked: PropTypes.bool,
+  disabled: PropTypes.bool,
   className: PropTypes.string,
   children: PropTypes.any,
 };
 
 CheckBox.defaultProps = {
   onChange: () => {},
+  disabled: false
 };
 
 export default CheckBox;

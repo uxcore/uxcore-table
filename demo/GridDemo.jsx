@@ -79,6 +79,7 @@ class Demo extends React.Component {
       {
         dataKey: 'lastName',
         title: 'LastName',
+        disabled: true
         // fixed: true,
         // width: '55%',
       },
@@ -123,6 +124,8 @@ class Demo extends React.Component {
       className: 'kuma-uxtable-split-line',
       pagerSizeOptions: [5, 10, 15, 20],
       rowSelection,
+      showColumnPicker: true,
+      showColumnPickerCheckAll: true,
       actionBar: {
         useListActionBar: true,
         showSelectAll: true,
@@ -178,7 +181,7 @@ class Demo extends React.Component {
           // keepActiveInCustomView: true,
           title: '列排序',
           includeActionColumn: true,
-          onChange(data) {
+          onChange(dragInfo, data) {
             console.log(data)
           }
         },
@@ -249,8 +252,7 @@ class Demo extends React.Component {
       // },
       rowSelector: 'checkboxSelector',
       jsxcolumns: columns,
-      showColumnPicker: true,
-      showColumnPickerCheckAll: true,
+
       leftFixedMaxWidth: 900,
       // size: 'small',
       // rowSelection,

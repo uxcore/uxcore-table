@@ -67,8 +67,7 @@ class RowOrder extends React.Component {
     return (
       <Popover
         overlay={!disabled ? this.renderMenus() : <div/>}
-        trigger={['click']}
-        // onClick={(e) => {debugger;e.preventDefault()}}
+        trigger={'click'}
         overlayClassName={classnames({
           'list-action-bar-order-overlay': true,
           'kuma-popover-hidden': disabled

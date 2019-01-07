@@ -58,7 +58,13 @@ class DraggableList extends React.Component {
   }
   onDragEnd = (e) => {
     const { prefixCls, onDrop, data } = this.props
-    this.state.dragElement.classList.remove('is-dragging')
+    const { dragElement } = this.state
+    dragElement.classList.remove('is-dragging')
+    const dragInfo = {
+      dragColumn: dragElement.getAttribute('data-key'),
+      dragPosition: +dragElement.getAttribute('data-index'),
+      dropPosition: 0
+    }
     this.setState({
       dragElement: null,
       isDragging: false
@@ -68,9 +74,12 @@ class DraggableList extends React.Component {
     for (let i = 0; i < resultNodes.length; i++) {
       const node = resultNodes[i]
       const index = node.getAttribute('data-index')
+      if (index === dragInfo.dragPosition) {
+        dragInfo.dropPosition = i
+      }
       newData[i] = data[index]
     }
-    onDrop(newData)
+    onDrop(newData, dragInfo)
   }
 
   render() {
@@ -81,9 +90,10 @@ class DraggableList extends React.Component {
           data.map((item, index) => {
             return (
               <div
-                key={item.dataKey || item.key || item.id || `key_${Math.random()}`}
+                key={item.dataKey || item.type || `key_${Math.random()}`}
                 className={classnames(`${prefixCls}-item`, {'can-drag': draggable})}
                 data-index={index}
+                data-key={item.dataKey || item.type}
                 draggable={draggable}
                 onDragStart={this.onDragStart}
                 onDragEnter={this.onDragEnter}

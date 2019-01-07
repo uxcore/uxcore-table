@@ -107,11 +107,11 @@ class ActionBar extends React.Component {
   renderColumnPicker() {
     const me = this;
     const {
-      showColumnPicker,
       columns,
       handleColumnPickerChange,
       handleColumnPickerCheckAll,
       checkboxColumnKey,
+      showColumnPicker,
       showColumnPickerCheckAll,
       width,
       locale,
@@ -121,20 +121,26 @@ class ActionBar extends React.Component {
     if (!showColumnPicker) {
       return null;
     }
+    const commonRenders = {
+      columns,
+      locale,
+      dropdownMaxWidth: width,
+      checkboxColumnKey,
+      handleColumnPickerChange,
+      handleColumnPickerCheckAll,
+      showColumnPickerCheckAll,
+      prefixCls: `${tablePrefixCls}-column-picker`
+    };
+    if (!actionBarConfig || !actionBarConfig.useListActionBar) {
+      return <ColumnPicker {...commonRenders}/>
+    }
     const  { columnsPicker, useListActionBar } = actionBarConfig;
     return (
       <ColumnPicker
+        {...commonRenders}
         {...columnsPicker}
         isTableView={me.state.activatedView === 'table'}
-        columns={columns}
-        locale={locale}
         useListActionBar={useListActionBar}
-        dropdownMaxWidth={width}
-        checkboxColumnKey={checkboxColumnKey}
-        handleColumnPickerChange={handleColumnPickerChange}
-        handleColumnPickerCheckAll={handleColumnPickerCheckAll}
-        showColumnPickerCheckAll={showColumnPickerCheckAll}
-        prefixCls={`${tablePrefixCls}-column-picker`}
       />
     );
   }
@@ -264,8 +270,8 @@ class ActionBar extends React.Component {
   render() {
     const me = this;
     const { props } = me;
-    const barConfig = props.actionBarConfig;
-    const { useListActionBar } = barConfig;
+    const actionBarConfig = props.actionBarConfig;
+    const useListActionBar = actionBarConfig && actionBarConfig.useListActionBar
     return (
       <div
         className={classnames(`${props.tablePrefixCls}-actionbar`, {
@@ -273,7 +279,7 @@ class ActionBar extends React.Component {
         })}
       >
         {
-          !useListActionBar ? ActionBar.getActionItem(barConfig).map((item, index) => {
+          !useListActionBar ? ActionBar.getActionItem(actionBarConfig).map((item, index) => {
             return me.renderActionBtn(item, index)
           }): null
         }

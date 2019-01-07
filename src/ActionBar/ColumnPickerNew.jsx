@@ -102,8 +102,9 @@ class ColumnPicker extends React.Component {
 
   handleCheckAll = e => {
     const checked = e.target.checked;
+    const { readOnlyColumnKeys } = util.getCheckAbleColumns(this.props.columns)
     this.setState({
-      selectedKeys: !checked ? [] : this.state.checkAbleColumns
+      selectedKeys: !checked ? [].concat(readOnlyColumnKeys) : this.state.checkAbleColumns
     })
   };
 
@@ -200,7 +201,7 @@ class ColumnPicker extends React.Component {
   renderPickerGroup(group) {
     const { prefixCls } = this.props;
     return (
-      <div className={`${prefixCls}-group`}>
+      <div className={`${prefixCls}-group`} key={group.title}>
         {/*{*/}
           {/*group.title ? <p style={{ width: '100%'}}> {group.title}</p> : null*/}
         {/*}*/}
@@ -208,7 +209,9 @@ class ColumnPicker extends React.Component {
           return (
             column.dataKey ?
             <CheckBox
+              key={column.dataKey}
               checked={this.isChecked(column.dataKey)}
+              disabled={column.disabled}
               onChange={(e) => {this.handleCheck(e, column.dataKey)}}
             >
               <span>{column.dataKey}</span>
@@ -283,7 +286,7 @@ class ColumnPicker extends React.Component {
     return (
       <Popover
         placement={'bottomRight'}
-        trigger={['click']}
+        trigger={'click'}
         overlay={!disabled ? me.renderPickerGroups() : <div/>}
         overlayClassName={classnames({
           'list-action-bar-picker-overlay': true,

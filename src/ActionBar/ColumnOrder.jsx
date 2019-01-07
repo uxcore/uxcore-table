@@ -22,11 +22,13 @@ class ColumnOrder extends React.Component {
     super(props)
     this.state = {
       value: props.defaultValue,
-      checkAbleColumns: getCheckAbleColumns(props.columns, props.includeActionColumn)
+      checkAbleColumns: getCheckAbleColumns(props.columns, props.includeActionColumn),
     }
   }
-  onDrop = (data) => {
-    this.props.handleColumnOrderChange(data)
+  onDrop = (data, dragInfo) => {
+    const { otherColumns } = this.state.checkAbleColumns
+    this.props.onChange(dragInfo, data, otherColumns)
+    this.props.handleColumnOrderChange(data.concat(otherColumns))
   }
   renderColumns() {
     const { columns } = this.state.checkAbleColumns
@@ -59,7 +61,7 @@ class ColumnOrder extends React.Component {
     return (
       <Popover
         overlay={!disabled ? this.renderColumns() : <div/>}
-        trigger={['click']}
+        trigger={'click'}
         overlayClassName={classnames({
           'list-action-bar-column-order-overlay': true,
           'kuma-popover-hidden': disabled
