@@ -306,14 +306,18 @@ const getCheckAbleColumns = (columns, includeActionColumn) => {
   let actionColumn = null;
   let otherColumns = [];
   let readOnlyColumnKeys = [];
+  let actionColumnPos = -1;
   return {
-    columns: columns.filter(column => {
+    columns: columns.filter((column, index) => {
       if (column.dataKey in blackList) {
         otherColumns.push(column)
         return false
       }
       if (column.type === 'action') {
         actionColumn = column;
+        if (!includeActionColumn) {
+          actionColumnPos = index
+        }
         return includeActionColumn;
       }
       if (column.disabled) {
@@ -324,6 +328,7 @@ const getCheckAbleColumns = (columns, includeActionColumn) => {
     }),
     columnsKey,
     actionColumn,
+    'actionColumnPos': actionColumnPos,
     otherColumns,
     readOnlyColumnKeys
   }

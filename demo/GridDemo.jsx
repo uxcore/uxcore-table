@@ -77,19 +77,6 @@ class Demo extends React.Component {
         ordered: true,
       },
       {
-        dataKey: 'lastName',
-        title: 'LastName',
-        disabled: true
-        // fixed: true,
-        // width: '55%',
-      },
-      {
-        dataKey: 'email',
-        title: 'Email',
-        // width: '30%',
-        ordered: true,
-      },
-      {
         title: '操作1',
         width: '200px',
         type: 'action',
@@ -112,6 +99,20 @@ class Demo extends React.Component {
           callback: () => { },
         }],
       },
+      {
+        dataKey: 'lastName',
+        title: 'LastName',
+        disabled: true
+        // fixed: true,
+        // width: '55%',
+      },
+      {
+        dataKey: 'email',
+        title: 'Email',
+        // width: '30%',
+        ordered: true,
+      },
+
     ];
     const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
     const renderProps = {

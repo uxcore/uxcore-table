@@ -26,9 +26,14 @@ class ColumnOrder extends React.Component {
     }
   }
   onDrop = (data, dragInfo) => {
-    const { otherColumns } = this.state.checkAbleColumns
+    const { otherColumns, actionColumnPos, actionColumn } = this.state.checkAbleColumns
+    const { includeActionColumn } = this.props
     this.props.onChange(dragInfo, data, otherColumns)
-    this.props.handleColumnOrderChange(data.concat(otherColumns))
+    // 如果不允许排序操作列，则此处需要添加回去
+    if (!includeActionColumn) {
+      data.splice(actionColumnPos - otherColumns.length, 0, actionColumn);
+    }
+    this.props.handleColumnOrderChange(otherColumns.concat(data))
   }
   renderColumns() {
     const { columns } = this.state.checkAbleColumns
