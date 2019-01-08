@@ -10,6 +10,14 @@ import Button from 'uxcore-button';
 import React from 'react';
 import Table from '../src';
 
+class Test extends React.Component {
+  render() {
+    return (
+      <div>{this.props.name}</div>
+    )
+  }
+}
+
 /**
  * @name Demo的标题
  * @description Demo的描述，使用 react-docgen 挖出对应的内容，并作为组件站点 md 生成的源。
@@ -47,7 +55,7 @@ class Demo extends React.Component {
         dataKey: 'firstName',
         title: <span>123123123</span>,
         // fixed: true,
-        width: '15%',
+        // width: '15%',
         filters: [{
           text: 'Joe',
           value: 'Joe',
@@ -71,13 +79,14 @@ class Demo extends React.Component {
       {
         dataKey: 'lastName',
         title: 'LastName',
+        disabled: true
         // fixed: true,
-        width: '55%',
+        // width: '55%',
       },
       {
         dataKey: 'email',
         title: 'Email',
-        width: '30%',
+        // width: '30%',
         ordered: true,
       },
       {
@@ -115,13 +124,113 @@ class Demo extends React.Component {
       className: 'kuma-uxtable-split-line',
       pagerSizeOptions: [5, 10, 15, 20],
       rowSelection,
+      showColumnPicker: true,
+      showColumnPickerCheckAll: true,
       actionBar: {
-        'Action Button': () => {
-          this.forceUpdate();
-          console.log(me.table.getData());
-          me.table.toggleSubComp(me.table.getData().data.datas);
+        useListActionBar: true,
+        showSelectAll: true,
+        buttons: [
+          {
+            title: 'Action Button',
+            keepActiveInCustomView: true,
+            callback: () => {
+              this.forceUpdate();
+              console.log(me.table.getData());
+              me.table.toggleSubComp(me.table.getData().data.datas);
+            },
+          },
+          {
+            title: '123123',
+            // type: 'secondary',
+            keepActiveInCustomView: true,
+            size: 'small',
+            callback: () => {
+              me.table.selectAll(true);
+            }
+          }
+        ],
+        actionBarTip: '已经为您找到记录123条',
+        // renderCustomBarItem() {
+        //   return (
+        //     <p>自定义内容</p>
+        //   )
+        // },
+        rowOrder: {
+          iconName: 'paixu-jiangxu',
+          // keepActiveInCustomView: true,
+          defaultValue: {
+            text: '行排序',
+            value: '123'
+          },
+          items: [
+            {
+              text: '行排序',
+              value: '123'
+            },
+            {
+              text: '排序方式',
+              value: '456'
+            }
+          ],
+          onChange(data) {
+            console.log(data)
+          }
         },
+        columnsOrder: {
+          iconName: 'huxiangguanzhu',
+          // keepActiveInCustomView: true,
+          title: '列排序',
+          includeActionColumn: true,
+          onChange(dragInfo, data) {
+            console.log(data)
+          }
+        },
+        columnsPicker: {
+          iconName: 'zidingyilie',
+          title: '列选择器',
+          // keepActiveInCustomView: true,
+          onChange(data) {
+            console.log(data)
+          }
+        },
+        // 支持返回promise
+        renderCustomView(data, currentPage) {
+          console.log(data, currentPage)
+          return (
+            <Test name={'123123123'}/>
+          )
+        },
+        showPager: true,
+        removePagerInCustomView: false
       },
+      // actionBar: [
+      //   {
+      //     title: 'Action Button',
+      //     callback: () => {
+      //       this.forceUpdate();
+      //       console.log(me.table.getData());
+      //       me.table.toggleSubComp(me.table.getData().data.datas);
+      //     },
+      //   },
+      //   {
+      //     title: '123123',
+      //     callback: () => {
+      //       me.table.selectAll(true);
+      //       console.log(123123)
+      //     }
+      //   }
+      // ],
+      // actionBar: {
+      //   'Action Button': () => {
+      //     this.forceUpdate();
+      //     console.log(me.table.getData());
+      //     me.table.toggleSubComp(me.table.getData().data.datas);
+      //   },
+      //   '123123': () => {
+      //     me.table.selectAll(true);
+      //     console.log(123123)
+      //   }
+      // },
       onSearch: (searchTxt) => {
         console.log(searchTxt);
       },
@@ -143,8 +252,7 @@ class Demo extends React.Component {
       // },
       rowSelector: 'checkboxSelector',
       jsxcolumns: columns,
-      showColumnPicker: true,
-      showColumnPickerCheckAll: true,
+
       leftFixedMaxWidth: 900,
       // size: 'small',
       // rowSelection,

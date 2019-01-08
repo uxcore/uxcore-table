@@ -60,12 +60,12 @@ class CheckBox extends React.Component {
           >
             <input type="checkbox" ref={(c) => { this.checkbox = c; }} {...renderProps} />
             <s />
+            {' ' + renderProps.text || null}
           </label>
         )}
       </TableContext.Consumer>
     );
   }
-
 
   render() {
     const { props } = this;
@@ -76,6 +76,7 @@ class CheckBox extends React.Component {
       className: 'kuma-checkbox',
       checked: this.props.checked || false,
       onChange: this.handleChange.bind(this),
+      text: this.props.text
     };
     if (!!props.disable || props.mode === Const.MODE.VIEW) {
       renderProps.disabled = true;
@@ -89,12 +90,14 @@ CheckBox.propTypes = {
   onChange: PropTypes.func,
   checked: PropTypes.bool,
   className: PropTypes.string,
+  text: PropTypes.string
 };
 
 CheckBox.defaultProps = {
   onChange: () => {},
   checked: undefined,
   className: '',
+  text: ''
 };
 
 export default CheckBox;

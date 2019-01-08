@@ -277,9 +277,6 @@ const toggleHeightAnim = (node, show, done) => {
  * @param {*} obj object to drop key
  */
 const dropFunc = (obj) => {
-  if (obj === null) {
-    return obj
-  }
   if (Array.isArray(obj)) {
     const newArr = [];
     obj.forEach((item) => {
@@ -289,11 +286,12 @@ const dropFunc = (obj) => {
     });
     return newArr;
   }
-  if (typeof obj === 'object') {
+  if (obj && typeof obj === 'object') {
     const newObj = {};
     Object.keys(obj).forEach((key) => {
       const value = obj[key];
-      if (typeof value !== 'function') {
+      // by taoqili _owner属性存在循环引用, 过滤掉；否则会造成本方法递归溢出
+      if (typeof value !== 'function' && !/^_/.test(key)) {
         newObj[key] = dropFunc(value);
       }
     });
@@ -301,6 +299,35 @@ const dropFunc = (obj) => {
   }
   return obj;
 };
+
+const getCheckAbleColumns = (columns, includeActionColumn) => {
+  const blackList = {'jsxchecked': 1, 'jsxtreeIcon': 1, 'jsxwhite': 1};
+  let columnsKey = [];
+  let actionColumn = null;
+  let otherColumns = [];
+  let readOnlyColumnKeys = [];
+  return {
+    columns: columns.filter(column => {
+      if (column.dataKey in blackList) {
+        otherColumns.push(column)
+        return false
+      }
+      if (column.type === 'action') {
+        actionColumn = column;
+        return includeActionColumn;
+      }
+      if (column.disabled) {
+        readOnlyColumnKeys.push(column.dataKey)
+      }
+      columnsKey.push(column.dataKey);
+      return true
+    }),
+    columnsKey,
+    actionColumn,
+    otherColumns,
+    readOnlyColumnKeys
+  }
+}
 
 /* eslint-enable no-param-reassign */
 
@@ -320,6 +347,7 @@ const utils = {
   measureScrollbar,
   toggleHeightAnim,
   dropFunc,
+  getCheckAbleColumns,
 };
 
 export default utils;

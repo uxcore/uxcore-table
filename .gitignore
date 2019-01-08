@@ -29,3 +29,4 @@ build
 coverage
 assets/**/*.css
 coveragepackage-lock.json
+count

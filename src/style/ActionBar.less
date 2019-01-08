@@ -1,12 +1,23 @@
 .@{__tablePrefixCls}-actionbar {
   width: 100%;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   padding: 6px 0px 4px;
 }
 
 .@{__tablePrefixCls}-actionbar-item {
   display: inline-block;
   margin-right: 10px;
+}
+.@{__tablePrefixCls}-select-all {
+  display: inline-block;
+  //margin: 0 24px;
+  margin-right: 24px;
+  cursor: pointer;
+  height: 28px;
+  line-height: 28px;
+  i.half-checked {
+    margin-right: 0;
+  }
 }
 
 .@{__tablePrefixCls}-column-picker {
@@ -110,3 +121,158 @@
   cursor: pointer;
   display: inline-block;
 }
+
+.@{__tablePrefixCls}-list-action-bar {
+  .left {
+    display: inline-block;
+    padding-left: 24px;
+  }
+  .right {
+    display: inline-block;
+    width: 420px;
+    float: right;
+    height: 28px;
+    line-height: 28px;
+    cursor: pointer;
+    > div {
+      float: right;
+      margin-right: 20px;
+      position: relative;
+    }
+    .order-title,
+    .column-order-title,
+    .picker-title {
+      i {
+        position: absolute;
+        color: @normal-alpha-4;
+      }
+      span {
+        padding-left: 20px;
+      }
+      &.disabled {
+        color: @normal-alpha-4
+      }
+    }
+    i.active {
+      color: @brand-primary;
+    }
+  }
+}
+
+.list-action-bar-order-menu {
+  .icon-wrapper {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+    float: right;
+    i {
+      color: @brand-primary;
+    }
+  }
+}
+
+.list-action-bar-picker-overlay,
+.list-action-bar-order-overlay,
+.list-action-bar-column-order-overlay
+{
+  .@{__tablePrefixCls}-column-picker-check-all {
+    position: absolute;
+  }
+  .kuma-popover-arrow {
+    display: none;
+  }
+  .half-checked {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url("@{svg-path}/checkbox-partial-checked.svg") no-repeat;
+    vertical-align: text-bottom;
+    color: @brand-primary;
+  }
+  .kuma-popover-inner {
+    min-width: 200px;
+    padding: 0;
+    border-color: @normal-alpha-7;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    .kuma-menu {
+      .kuma-menu-item {
+        margin: 0;
+        &:not(:last-child) {
+          margin: 0;
+        }
+        &:hover {
+          background: @normal-alpha-9;
+        }
+      }
+    }
+    .kuma-popover-button-group {
+      padding: 10px;
+    }
+
+    .kuma-draggable-list-wrapper {
+      > .kuma-draggable-list-item {
+        position: relative;
+        display: block;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 10px;
+        padding-right: 40px;
+        &.can-drag {
+          cursor: move;
+        }
+        &:hover {
+          background: @normal-alpha-9;
+        }
+        &.is-dragging {
+          color: @brand-link;
+        }
+        i {
+          display: inline-block;
+          position: absolute;
+          top: 0;
+          right: 10px;
+        }
+      }
+    }
+  }
+}
+
+.@{__tablePrefixCls}-column-picker-groups {
+  width: 420px;
+  background: #fff;
+  border-radius: 3px;
+  background-clip: padding-box;
+}
+.@{__tablePrefixCls}-column-picker-check-all {
+  left: 15px;
+  bottom: -34px
+}
+.@{__tablePrefixCls}-column-picker-group {
+  display: flex;
+  flex-wrap: wrap;
+  label {
+    width: 90px;
+    height: 30px;
+    line-height: 30px;
+    margin: 0 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    span {
+      display: inline-block;
+      margin: 0 5px;
+    }
+  }
+}
+.@{__tablePrefixCls}-column-picker-header {
+  border-bottom: 1px solid @normal-alpha-7;
+  padding: 10px;
+  font-size: 14px;
+  color: @normal-alpha-4;
+}
+.@{__tablePrefixCls}-column-picker-content {
+  padding: 10px;
+  border-bottom: 1px solid @normal-alpha-7;
+}
+

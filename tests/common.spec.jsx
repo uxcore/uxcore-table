@@ -182,7 +182,7 @@ describe('Table', () => {
     });
 
     it('actionBar', () => {
-      wrapper = mount(
+      const wrapper1 = mount(
         <Table
           {...common}
           actionBar={[
@@ -201,7 +201,109 @@ describe('Table', () => {
           ]}
         />,
       );
-      expect(wrapper.find('button.kuma-uxtable-actionbar-item')).to.have.length(3);
+
+      const wrapper2 = mount(
+        <Table
+          {...common}
+          actionBar={
+            {
+              useListActionBar: true,
+              showSelectAll: true,
+              buttons: [
+                {
+                  title: 'Action Button',
+                  keepActiveInCustomView: true,
+                  callback: () => {
+                    this.forceUpdate();
+                    console.log(me.table.getData());
+                    me.table.toggleSubComp(me.table.getData().data.datas);
+                  },
+                },
+                {
+                  title: '123123',
+                  // type: 'secondary',
+                  keepActiveInCustomView: true,
+                  size: 'small',
+                  callback: () => {
+                    me.table.selectAll(true);
+                  }
+                }
+              ],
+              actionBarTip: '已经为您找到记录123条',
+              // renderCustomBarItem() {
+              //   return (
+              //     <p>自定义内容</p>
+              //   )
+              // },
+              rowOrder: {
+                iconName: 'paixu-jiangxu',
+                // keepActiveInCustomView: true,
+                defaultValue: {
+                  text: '行排序',
+                  value: '123'
+                },
+                items: [
+                  {
+                    text: '行排序',
+                    value: '123'
+                  },
+                  {
+                    text: '排序方式',
+                    value: '456'
+                  }
+                ],
+                onChange(data) {
+                  console.log(data)
+                }
+              },
+              columnsOrder: {
+                iconName: 'huxiangguanzhu',
+                // keepActiveInCustomView: true,
+                title: '列排序',
+                includeActionColumn: true,
+                onChange(dragInfo, data) {
+                  console.log(data)
+                }
+              },
+              columnsPicker: {
+                iconName: 'zidingyilie',
+                title: '列选择器',
+                // keepActiveInCustomView: true,
+                onChange(data) {
+                  console.log(data)
+                }
+              },
+              // 支持返回promise
+              renderCustomView(data, currentPage) {
+                console.log(data, currentPage)
+                return (
+                  <Test name={'123123123'}/>
+                )
+              },
+              showPager: true,
+              removePagerInCustomView: false
+            }
+          }
+        />,
+      );
+      expect(wrapper1.find('button.kuma-uxtable-actionbar-item')).to.have.length(3);
+      expect(wrapper2.find('.kuma-uxtable-select-all')).to.have.length(1);
+      expect(wrapper2.find('button.kuma-uxtable-actionbar-item')).to.have.length(2);
+      expect(wrapper2.find('.kuma-page-simple')).to.have.length(1);
+      const orderTitle = wrapper2.find('.order-title')
+      const columnOrderTitle = wrapper2.find('.column-order-title')
+      const biaoge1 = wrapper2.find('.uxcore-icon.uxicon-biaoge1')
+      expect(orderTitle).to.have.length(1);
+      expect(columnOrderTitle).to.have.length(1);
+      expect(biaoge1).to.have.length(1)
+      // biaoge1.at(4).simulate('click');
+      // setTimeout(function () {
+      //   // wrapper2.update();
+      //   // expect(wrapper2.find('.kuma-uxtable-row').length).to.equal(rowLength + 1);
+      //   done();
+      // })
+
+
     });
 
     it('linkBar', () => {
@@ -544,7 +646,7 @@ describe('Table', () => {
         {...common}
         jsxcolumns={[
           {
- dataKey: 'id', title: 'ID', width: 50, fixed: true 
+ dataKey: 'id', title: 'ID', width: 50, fixed: true
 },
         ]}
       />,
@@ -559,7 +661,7 @@ describe('Table', () => {
         {...common}
         jsxcolumns={[
           {
- dataKey: 'id', title: 'ID', width: 50, rightFixed: true 
+ dataKey: 'id', title: 'ID', width: 50, rightFixed: true
 },
         ]}
       />,
