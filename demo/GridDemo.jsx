@@ -194,7 +194,7 @@ class Demo extends React.Component {
             console.log(data)
           }
         },
-        // 支持返回promise
+        // todo 支持返回promise
         renderCustomView(data, currentPage) {
           console.log(data, currentPage)
           return (
