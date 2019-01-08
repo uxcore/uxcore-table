@@ -262,7 +262,6 @@ describe('Table', () => {
                 title: '列排序',
                 includeActionColumn: true,
                 onChange(dragInfo, data) {
-                  debugger
                   console.log(data)
                 }
               },
@@ -288,6 +287,22 @@ describe('Table', () => {
         />,
       );
       expect(wrapper1.find('button.kuma-uxtable-actionbar-item')).to.have.length(3);
+      expect(wrapper2.find('.kuma-uxtable-select-all')).to.have.length(1);
+      expect(wrapper2.find('button.kuma-uxtable-actionbar-item')).to.have.length(2);
+      expect(wrapper2.find('.kuma-page-simple')).to.have.length(1);
+      const orderTitle = wrapper2.find('.order-title')
+      const columnOrderTitle = wrapper2.find('.column-order-title')
+      const biaoge1 = wrapper2.find('.uxcore-icon.uxicon-biaoge1')
+      expect(orderTitle).to.have.length(1);
+      expect(columnOrderTitle).to.have.length(1);
+      expect(biaoge1).to.have.length(1)
+      // biaoge1.at(4).simulate('click');
+      // setTimeout(function () {
+      //   // wrapper2.update();
+      //   // expect(wrapper2.find('.kuma-uxtable-row').length).to.equal(rowLength + 1);
+      //   done();
+      // })
+
 
     });
 

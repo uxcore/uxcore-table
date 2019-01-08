@@ -197,6 +197,7 @@ class ActionBar extends React.Component {
       columnsOrder,
       columnsPicker,
       showPager,
+      renderCustomView
     } = me.props.actionBarConfig;
 
     const { activatedView } = me.state;
@@ -230,14 +231,14 @@ class ActionBar extends React.Component {
           </div> : null
         }
         <div className={'right'}>
-          <div onClick={this.changeView}>
+          {renderCustomView ? <div onClick={this.changeView}>
             <Icon usei className={classnames({
               active: activatedView === 'table'
             })} data-name={'table'} name={'renwufull'} />
             <Icon usei className={classnames({
               active: activatedView === 'custom'
             })} data-name={'custom'} name={'biaoge1'} />
-          </div>
+          </div> : null }
           {
             showPager ? <div style={{ paddingTop: '5px'}}>
               {
