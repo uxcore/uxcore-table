@@ -255,7 +255,7 @@ class ColumnPicker extends React.Component {
     const { columns } = util.getCheckAbleColumns(this.props.columns);
     return [
       {
-        title: '分组2',
+        title: '分组名称',
         columns
       }
     ]

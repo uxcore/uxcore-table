@@ -165,7 +165,7 @@ class ActionBar extends React.Component {
     )
   }
 
-  changeView = async (e) => {
+  changeView = (e) => {
     const { useCustomView, actionBarConfig, data, currentPage } = this.props
     const { renderCustomView, removePagerInCustomView } = actionBarConfig
     const target = e.target;
@@ -177,7 +177,8 @@ class ActionBar extends React.Component {
       activatedView: name
     })
     if (name === 'custom') {
-      const view = await renderCustomView(data, currentPage);
+      // todo  先回退，再支持async
+      const view = renderCustomView(data, currentPage);
       if (view && typeof view === 'object' && view.type && view.props && name !== 'table') {
         useCustomView(view, removePagerInCustomView)
       }

@@ -102,7 +102,7 @@ class Demo extends React.Component {
       {
         dataKey: 'lastName',
         title: 'LastName',
-        disabled: true
+        disable: true
         // fixed: true,
         // width: '55%',
       },

@@ -320,15 +320,19 @@ const getCheckAbleColumns = (columns, includeActionColumn) => {
         }
         return includeActionColumn;
       }
-      if (column.disabled) {
+      if (column.disable) {
         readOnlyColumnKeys.push(column.dataKey)
       }
+      if (!column.disable && column.isDisable && column.isDisable()) {
+        readOnlyColumnKeys.push(column.dataKey)
+      }
+
       columnsKey.push(column.dataKey);
       return true
     }),
     columnsKey,
     actionColumn,
-    'actionColumnPos': actionColumnPos,
+    actionColumnPos,
     otherColumns,
     readOnlyColumnKeys
   }
