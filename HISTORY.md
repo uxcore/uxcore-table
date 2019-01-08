@@ -1,4 +1,7 @@
 # History
+## 10.4.13
+* `REVERT`  async
+
 ## 10.4.12
 * `FIXED` when includeActionColumn is false, the actionColumn will disappear when in drops event
 
