@@ -181,7 +181,7 @@ class Demo extends React.Component {
           iconName: 'huxiangguanzhu',
           // keepActiveInCustomView: true,
           title: '列排序',
-          includeActionColumn: true,
+          includeActionColumn: false,
           onChange(dragInfo, data) {
             console.log(data)
           }

@@ -1,4 +1,7 @@
 # History
+## 10.4.12
+* `FIXED` when includeActionColumn is false, the actionColumn will disappear when in drops event
+
 ## 10.4.11
 * `FIXED` util.dropFunc will cause stack overflow
 * `CHANGED` optimize the action-bar to list-action-bar
