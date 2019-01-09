@@ -66,7 +66,7 @@ class ActionBar extends React.Component {
     };
     if (!!item.render && typeof item.render === 'function') {
       return (
-        <div {...itemProps}>
+        <div {...itemProps} style={{cursor: 'pointer'}}>
           {item.render(item.title)}
         </div>
       );

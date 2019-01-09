@@ -319,7 +319,9 @@ const getColumnsInfo = (columns, includeActionColumn) => {
         if (!includeActionColumn) {
           actionColumnPos = index
         }
-        return includeActionColumn;
+        if (!column.fixed) {
+          return includeActionColumn;
+        }
       }
       if (column.disable) {
         readOnlyColumnKeys.push(column.dataKey)

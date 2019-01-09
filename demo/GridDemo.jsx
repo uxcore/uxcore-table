@@ -98,6 +98,7 @@ class Demo extends React.Component {
         title: '操作1',
         width: '200px',
         type: 'action',
+        fixed: false,
         actions: [{
           title: 'click',
           callback: () => {
@@ -142,8 +143,14 @@ class Demo extends React.Component {
         buttons: [
           {
             title: 'Action Button',
+            render() {
+              return (
+                <p>123123</p>
+              )
+            },
             keepActiveInCustomView: true,
             callback: () => {
+              debugger
               this.forceUpdate();
               console.log(me.table.getData());
               me.table.toggleSubComp(me.table.getData().data.datas);
@@ -195,7 +202,7 @@ class Demo extends React.Component {
           iconName: 'huxiangguanzhu',
           // keepActiveInCustomView: true,
           title: '列排序',
-          includeActionColumn: true,
+          includeActionColumn: true,  // 优先级低于fixed和rightFixed
           onChange(dragInfo, data) {
             console.log(data)
           }
