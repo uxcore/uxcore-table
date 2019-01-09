@@ -3,6 +3,23 @@ import Tooltip from 'uxcore-tooltip';
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const getMessage = (message) => {
+  if (!message || typeof message !== 'string') return null;
+  const lines = message.split(/(\n|\r|\t)/);
+  return (
+    <div style={{
+      textAlign: lines.length > 1 ? 'left' : 'center'
+    }}>
+      {
+        lines.map(line => {
+          return (
+            <p>{line}</p>
+          )
+        })
+      }
+    </div>
+  )
+}
 const MessageIcon = (props) => {
   if (!props.message) {
     return <noscript />;
@@ -11,7 +28,7 @@ const MessageIcon = (props) => {
     <Tooltip
       overlay={(
         <div className="kuma-uxtable-column-message">
-          {props.message}
+          {getMessage(props.message)}
         </div>
       )}
       placement="top"

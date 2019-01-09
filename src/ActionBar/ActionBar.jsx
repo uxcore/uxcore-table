@@ -18,6 +18,7 @@ import CheckBox from "../Cell/CheckBox";
 import RowOrder from './RowOrder'
 import ColumnOrder from './ColumnOrder'
 import Icon from 'uxcore-icon'
+import Promise from 'lie'
 
 class ActionBar extends React.Component {
   /**
@@ -58,14 +59,14 @@ class ActionBar extends React.Component {
   renderActionBtn(item, index) {
     const me = this;
     const itemProps = {
-      className: `${me.props.prefixCls}-item`,
+      className: `${me.props.prefixCls}-item ${item.className || ''}`,
       onClick: item.callback || (() => {}),
       type: item.type || 'secondary',
       key: index,
     };
     if (!!item.render && typeof item.render === 'function') {
       return (
-        <div {...itemProps}>
+        <div {...itemProps} style={{cursor: 'pointer'}}>
           {item.render(item.title)}
         </div>
       );
@@ -75,9 +76,9 @@ class ActionBar extends React.Component {
     }
     return (
       <Button
+        {...itemProps}
         size={item.size || 'small'}
         disabled={(me.state.activatedView !== 'table' || item.disabled) && !item.keepActiveInCustomView}
-        {...itemProps}
       >
         {item.title}
       </Button>
@@ -177,11 +178,20 @@ class ActionBar extends React.Component {
       activatedView: name
     })
     if (name === 'custom') {
-      // todo  先回退，再支持async
       const view = renderCustomView(data, currentPage);
-      if (view && typeof view === 'object' && view.type && view.props && name !== 'table') {
+      if (typeof view.$$typeof === 'symbol') {
         useCustomView(view, removePagerInCustomView)
+      } else if (view.constructor.name === 'Promise') {
+        view.then(data => {
+          useCustomView(data, removePagerInCustomView)
+        })
+      } else {
+        console.warn('不支持的customView类型')
       }
+      // const view = renderCustomView(data, currentPage);
+      // if (view && typeof view === 'object' && view.type && view.props && name !== 'table') {
+      //   useCustomView(view, removePagerInCustomView)
+      // }
     } else {
       useCustomView(null)
     }
@@ -191,6 +201,7 @@ class ActionBar extends React.Component {
     const me = this;
     const {
       useListActionBar,
+      className,
       showSelectAll,
       actionBarTip,
       renderCustomBarItem,
@@ -208,7 +219,9 @@ class ActionBar extends React.Component {
       return null
     }
     return (
-      <div className={`${me.props.tablePrefixCls}-list-action-bar`}>
+      <div className={classnames(`${me.props.tablePrefixCls}-list-action-bar`, {
+        [className]: className
+      })}>
         <div className={'left'}>
           {showSelectAll ? me.renderSelectAll() : null}
           {

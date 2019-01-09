@@ -300,13 +300,14 @@ const dropFunc = (obj) => {
   return obj;
 };
 
-const getCheckAbleColumns = (columns, includeActionColumn) => {
+const getColumnsInfo = (columns, includeActionColumn) => {
   const blackList = {'jsxchecked': 1, 'jsxtreeIcon': 1, 'jsxwhite': 1};
   let columnsKey = [];
   let actionColumn = null;
   let otherColumns = [];
   let readOnlyColumnKeys = [];
   let actionColumnPos = -1;
+  let fixedColumns = [];
   return {
     columns: columns.filter((column, index) => {
       if (column.dataKey in blackList) {
@@ -318,15 +319,19 @@ const getCheckAbleColumns = (columns, includeActionColumn) => {
         if (!includeActionColumn) {
           actionColumnPos = index
         }
-        return includeActionColumn;
+        if (!column.fixed) {
+          return includeActionColumn;
+        }
       }
       if (column.disable) {
         readOnlyColumnKeys.push(column.dataKey)
-      }
-      if (!column.disable && column.isDisable && column.isDisable()) {
+      } else if (column.isDisable && column.isDisable()) {
         readOnlyColumnKeys.push(column.dataKey)
       }
 
+      if (column.fixed || column.rightFixed) {
+        fixedColumns.push(column)
+      }
       columnsKey.push(column.dataKey);
       return true
     }),
@@ -334,6 +339,7 @@ const getCheckAbleColumns = (columns, includeActionColumn) => {
     actionColumn,
     actionColumnPos,
     otherColumns,
+    fixedColumns,
     readOnlyColumnKeys
   }
 }
@@ -356,7 +362,7 @@ const utils = {
   measureScrollbar,
   toggleHeightAnim,
   dropFunc,
-  getCheckAbleColumns,
+  getColumnsInfo,
 };
 
 export default utils;

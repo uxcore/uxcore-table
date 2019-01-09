@@ -435,6 +435,9 @@ class Table extends React.Component {
     if (!this.state.hasFixed) {
       return false;
     }
+    if (!this.bodyScroll) {
+      return false;
+    }
     const node = this.bodyScroll.getDom();
     const wrapperScrollLeft = scrollLeft || node.scrollLeft;
     if (this.state.hasFixed.hasLeft && this.fixedTable) {
@@ -934,7 +937,9 @@ class Table extends React.Component {
     if (scrollLeft !== undefined) {
       const me = this;
       const bodyNode = me.bodyScroll;
-      bodyNode.getDom().scrollLeft = scrollLeft;
+      if (bodyNode) {
+        bodyNode.getDom().scrollLeft = scrollLeft;
+      }
       const headerDom = me.headerScrol ? me.headerScrol.getDom() : null;
       if (headerDom) {
         headerDom.scrollLeft = scrollLeft;

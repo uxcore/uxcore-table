@@ -9,6 +9,7 @@
 import Button from 'uxcore-button';
 import React from 'react';
 import Table from '../src';
+import Promise from 'lie'
 
 class Test extends React.Component {
   render() {
@@ -76,10 +77,30 @@ class Demo extends React.Component {
         message: '这是一个提示',
         ordered: true,
       },
+
+      {
+        dataKey: 'lastName',
+        title: 'LastName',
+        message: 'nihao',
+        isDisable: function() {
+          return true
+        },
+        // fixed: true,
+        // rightFixed: true
+        // width: '55%',
+      },
+      {
+        dataKey: 'email',
+        title: 'Email',
+        // width: '30%',
+        ordered: true,
+        message: `sadfsdf\nnsafdasdfasdf`
+      },
       {
         title: '操作1',
         width: '200px',
         type: 'action',
+        // fixed: false,
         actions: [{
           title: 'click',
           callback: () => {
@@ -99,19 +120,6 @@ class Demo extends React.Component {
           callback: () => { },
         }],
       },
-      {
-        dataKey: 'lastName',
-        title: 'LastName',
-        disable: true
-        // fixed: true,
-        // width: '55%',
-      },
-      {
-        dataKey: 'email',
-        title: 'Email',
-        // width: '30%',
-        ordered: true,
-      },
 
     ];
     const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
@@ -128,12 +136,21 @@ class Demo extends React.Component {
       showColumnPicker: true,
       showColumnPickerCheckAll: true,
       actionBar: {
+        className: 'my-list-action-bar',
+        // 是否使用list-action-bar模式
         useListActionBar: true,
+        // 是否显示全选
         showSelectAll: true,
+        // 按钮配置
         buttons: [
           {
             title: 'Action Button',
-            keepActiveInCustomView: true,
+            render() {
+              return (
+                <p>123123</p>
+              )
+            },
+            keepActiveInCustomView: false,
             callback: () => {
               this.forceUpdate();
               console.log(me.table.getData());
@@ -142,20 +159,24 @@ class Demo extends React.Component {
           },
           {
             title: '123123',
-            // type: 'secondary',
-            keepActiveInCustomView: true,
-            size: 'small',
+            keepActiveInCustomView: false,
+            // size: 'large',
+            type: 'primary',
+            // className: 'xxxxx',
             callback: () => {
               me.table.selectAll(true);
             }
           }
         ],
+        // 文案提示
         actionBarTip: '已经为您找到记录123条',
+        // 自定义内容
         // renderCustomBarItem() {
         //   return (
         //     <p>自定义内容</p>
         //   )
         // },
+        // 行排序
         rowOrder: {
           iconName: 'paixu-jiangxu',
           // keepActiveInCustomView: true,
@@ -177,15 +198,17 @@ class Demo extends React.Component {
             console.log(data)
           }
         },
+        // 列排序
         columnsOrder: {
           iconName: 'huxiangguanzhu',
           // keepActiveInCustomView: true,
           title: '列排序',
-          includeActionColumn: false,
+          includeActionColumn: true,  // 优先级低于fixed和rightFixed
           onChange(dragInfo, data) {
             console.log(data)
           }
         },
+        // 列选择
         columnsPicker: {
           iconName: 'zidingyilie',
           title: '列选择器',
@@ -194,14 +217,21 @@ class Demo extends React.Component {
             console.log(data)
           }
         },
-        // todo 支持返回promise
+        // 自定义视图，支持返回promise和component
         renderCustomView(data, currentPage) {
-          console.log(data, currentPage)
-          return (
-            <Test name={'123123123'}/>
-          )
+          console.log(data, currentPage);
+          // return (
+          //   <Test name={'1231323123'}/>
+          // )
+          return new Promise(function(resolve) {
+            setTimeout(() => {
+              resolve(<Test name={'1231323123'}/>)
+            })
+          })
         },
+        // 是否显示翻页器
         showPager: true,
+        // 在自定义视图下是否显示翻页器
         removePagerInCustomView: false
       },
       // actionBar: [
