@@ -85,7 +85,7 @@ class Demo extends React.Component {
           return true
         },
         // fixed: true,
-        rightFixed: true
+        // rightFixed: true
         // width: '55%',
       },
       {
@@ -98,7 +98,7 @@ class Demo extends React.Component {
         title: '操作1',
         width: '200px',
         type: 'action',
-        fixed: false,
+        // fixed: false,
         actions: [{
           title: 'click',
           callback: () => {
