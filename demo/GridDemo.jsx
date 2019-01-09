@@ -81,6 +81,7 @@ class Demo extends React.Component {
       {
         dataKey: 'lastName',
         title: 'LastName',
+        message: 'nihao',
         isDisable: function() {
           return true
         },
@@ -93,6 +94,7 @@ class Demo extends React.Component {
         title: 'Email',
         // width: '30%',
         ordered: true,
+        message: `sadfsdf\nnsafdasdfasdf`
       },
       {
         title: '操作1',
