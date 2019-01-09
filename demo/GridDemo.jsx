@@ -84,10 +84,16 @@ class Demo extends React.Component {
         isDisable: function() {
           return true
         },
-        fixed: true,
+        // fixed: true,
+        rightFixed: true
         // width: '55%',
       },
-
+      {
+        dataKey: 'email',
+        title: 'Email',
+        // width: '30%',
+        ordered: true,
+      },
       {
         title: '操作1',
         width: '200px',
@@ -111,12 +117,7 @@ class Demo extends React.Component {
           callback: () => { },
         }],
       },
-      {
-        dataKey: 'email',
-        title: 'Email',
-        // width: '30%',
-        ordered: true,
-      },
+
     ];
     const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
     const renderProps = {
@@ -132,8 +133,12 @@ class Demo extends React.Component {
       showColumnPicker: true,
       showColumnPickerCheckAll: true,
       actionBar: {
+        className: 'my-list-action-bar',
+        // 是否使用list-action-bar模式
         useListActionBar: true,
+        // 是否显示全选
         showSelectAll: true,
+        // 按钮配置
         buttons: [
           {
             title: 'Action Button',
@@ -146,20 +151,24 @@ class Demo extends React.Component {
           },
           {
             title: '123123',
-            // type: 'secondary',
             keepActiveInCustomView: true,
-            size: 'small',
+            // size: 'large',
+            type: 'primary',
+            className: 'xxxxx',
             callback: () => {
               me.table.selectAll(true);
             }
           }
         ],
+        // 文案提示
         actionBarTip: '已经为您找到记录123条',
+        // 自定义内容
         // renderCustomBarItem() {
         //   return (
         //     <p>自定义内容</p>
         //   )
         // },
+        // 行排序
         rowOrder: {
           iconName: 'paixu-jiangxu',
           // keepActiveInCustomView: true,
@@ -181,6 +190,7 @@ class Demo extends React.Component {
             console.log(data)
           }
         },
+        // 列排序
         columnsOrder: {
           iconName: 'huxiangguanzhu',
           // keepActiveInCustomView: true,
@@ -190,6 +200,7 @@ class Demo extends React.Component {
             console.log(data)
           }
         },
+        // 列选择
         columnsPicker: {
           iconName: 'zidingyilie',
           title: '列选择器',
@@ -198,19 +209,21 @@ class Demo extends React.Component {
             console.log(data)
           }
         },
-        // 支持返回promise和component
+        // 自定义视图，支持返回promise和component
         renderCustomView(data, currentPage) {
-          console.log(data, currentPage)
-          return (
-            <Test name={'1231323123'}/>
-          )
-          // return new Promise(function(resolve) {
-          //   setTimeout(() => {
-          //     resolve(<Test name={'1231323123'}/>)
-          //   })
-          // })
+          console.log(data, currentPage);
+          // return (
+          //   <Test name={'1231323123'}/>
+          // )
+          return new Promise(function(resolve) {
+            setTimeout(() => {
+              resolve(<Test name={'1231323123'}/>)
+            })
+          })
         },
+        // 是否显示翻页器
         showPager: true,
+        // 在自定义视图下是否显示翻页器
         removePagerInCustomView: false
       },
       // actionBar: [
