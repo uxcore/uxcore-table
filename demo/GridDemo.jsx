@@ -148,9 +148,8 @@ class Demo extends React.Component {
                 <p>123123</p>
               )
             },
-            keepActiveInCustomView: true,
+            keepActiveInCustomView: false,
             callback: () => {
-              debugger
               this.forceUpdate();
               console.log(me.table.getData());
               me.table.toggleSubComp(me.table.getData().data.datas);
@@ -158,7 +157,7 @@ class Demo extends React.Component {
           },
           {
             title: '123123',
-            keepActiveInCustomView: true,
+            keepActiveInCustomView: false,
             // size: 'large',
             type: 'primary',
             className: 'xxxxx',
