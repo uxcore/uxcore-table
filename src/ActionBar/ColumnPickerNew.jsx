@@ -16,9 +16,10 @@ const { TreeNode } = Tree;
 class ColumnPicker extends React.Component {
   constructor(props) {
     super(props);
+    const columnsInfo = util.getColumnsInfo(props.columns);
     this.state = {
       visible: false,
-      checkAbleColumns: util.getCheckAbleColumns(props.columns).columnsKey,
+      columnsInfo,
       selectedKeys: getSelectedKeys(props.columns).selectedKeys
     };
   }
@@ -102,9 +103,9 @@ class ColumnPicker extends React.Component {
 
   handleCheckAll = e => {
     const checked = e.target.checked;
-    const { readOnlyColumnKeys } = util.getCheckAbleColumns(this.props.columns)
+    const { readOnlyColumnKeys, columnsKey } = this.state.columnsInfo
     this.setState({
-      selectedKeys: !checked ? [].concat(readOnlyColumnKeys) : this.state.checkAbleColumns
+      selectedKeys: !checked ? [].concat(readOnlyColumnKeys) : columnsKey
     })
   };
 
@@ -211,7 +212,7 @@ class ColumnPicker extends React.Component {
             <CheckBox
               key={column.dataKey}
               checked={this.isChecked(column.dataKey)}
-              disabled={column.disabled}
+              disable={column.disable || column.isDisable && column.isDisable()}
               onChange={(e) => {this.handleCheck(e, column.dataKey)}}
             >
               <span>{column.dataKey}</span>
@@ -224,8 +225,8 @@ class ColumnPicker extends React.Component {
 
   renderPickerGroups() {
     const { prefixCls, locale, showColumnPickerCheckAll } = this.props;
-    const { selectedKeys } = this.state;
-    const { columns }  = util.getCheckAbleColumns(this.props.columns);
+    const { selectedKeys, columnsInfo } = this.state;
+    const { columns }  = columnsInfo;
     const isChecked = selectedKeys.length === columns.length
     const isHalfChecked = selectedKeys.length && !isChecked;
     const groups = this.getPickerGroups();
@@ -252,7 +253,7 @@ class ColumnPicker extends React.Component {
   }
 
   getPickerGroups() {
-    const { columns } = util.getCheckAbleColumns(this.props.columns);
+    const { columns } = this.state.columnsInfo;
     return [
       {
         title: '分组名称',
@@ -262,9 +263,9 @@ class ColumnPicker extends React.Component {
   }
 
   handleOk = (hideCallback) => {
-    const { selectedKeys, checkAbleColumns } = this.state
+    const { selectedKeys, columnsInfo } = this.state
     const { handleColumnPickerChange, handleColumnPickerCheckAll, onChange} = this.props
-    const checkAll = selectedKeys.length === checkAbleColumns.length
+    const checkAll = selectedKeys.length === columnsInfo.columnsKey.length
     const checkNone = !selectedKeys.length
     if (checkAll || checkNone ) {
       if (checkAll) {

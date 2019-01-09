@@ -9,6 +9,7 @@
 import Button from 'uxcore-button';
 import React from 'react';
 import Table from '../src';
+import Promise from 'lie'
 
 class Test extends React.Component {
   render() {
@@ -76,6 +77,17 @@ class Demo extends React.Component {
         message: '这是一个提示',
         ordered: true,
       },
+
+      {
+        dataKey: 'lastName',
+        title: 'LastName',
+        isDisable: function() {
+          return true
+        },
+        fixed: true,
+        // width: '55%',
+      },
+
       {
         title: '操作1',
         width: '200px',
@@ -100,19 +112,11 @@ class Demo extends React.Component {
         }],
       },
       {
-        dataKey: 'lastName',
-        title: 'LastName',
-        disable: true
-        // fixed: true,
-        // width: '55%',
-      },
-      {
         dataKey: 'email',
         title: 'Email',
         // width: '30%',
         ordered: true,
       },
-
     ];
     const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
     const renderProps = {
@@ -181,7 +185,7 @@ class Demo extends React.Component {
           iconName: 'huxiangguanzhu',
           // keepActiveInCustomView: true,
           title: '列排序',
-          includeActionColumn: false,
+          includeActionColumn: true,
           onChange(dragInfo, data) {
             console.log(data)
           }
@@ -194,12 +198,17 @@ class Demo extends React.Component {
             console.log(data)
           }
         },
-        // todo 支持返回promise
+        // 支持返回promise和component
         renderCustomView(data, currentPage) {
           console.log(data, currentPage)
           return (
-            <Test name={'123123123'}/>
+            <Test name={'1231323123'}/>
           )
+          // return new Promise(function(resolve) {
+          //   setTimeout(() => {
+          //     resolve(<Test name={'1231323123'}/>)
+          //   })
+          // })
         },
         showPager: true,
         removePagerInCustomView: false

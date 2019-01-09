@@ -18,6 +18,7 @@ import CheckBox from "../Cell/CheckBox";
 import RowOrder from './RowOrder'
 import ColumnOrder from './ColumnOrder'
 import Icon from 'uxcore-icon'
+import Promise from 'lie'
 
 class ActionBar extends React.Component {
   /**
@@ -75,9 +76,9 @@ class ActionBar extends React.Component {
     }
     return (
       <Button
+        {...itemProps}
         size={item.size || 'small'}
         disabled={(me.state.activatedView !== 'table' || item.disabled) && !item.keepActiveInCustomView}
-        {...itemProps}
       >
         {item.title}
       </Button>
@@ -177,7 +178,16 @@ class ActionBar extends React.Component {
       activatedView: name
     })
     if (name === 'custom') {
-      // todo  先回退，再支持async
+      // const view = renderCustomView(data, currentPage);
+      // if (typeof view.$$typeof === 'symbol') {
+      //   useCustomView(view, removePagerInCustomView)
+      // } else if (view.constructor.name === 'Promise') {
+      //   view.then(data => {
+      //     useCustomView(data, removePagerInCustomView)
+      //   })
+      // } else {
+      //   console.warn('不支持的customView类型')
+      // }
       const view = renderCustomView(data, currentPage);
       if (view && typeof view === 'object' && view.type && view.props && name !== 'table') {
         useCustomView(view, removePagerInCustomView)
