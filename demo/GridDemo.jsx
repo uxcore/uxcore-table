@@ -160,7 +160,7 @@ class Demo extends React.Component {
             keepActiveInCustomView: false,
             // size: 'large',
             type: 'primary',
-            className: 'xxxxx',
+            // className: 'xxxxx',
             callback: () => {
               me.table.selectAll(true);
             }
