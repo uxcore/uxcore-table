@@ -99,7 +99,7 @@ class Table extends React.Component {
       checkboxColumn = {
         dataKey: 'jsxchecked',
         width: (new RegExp(`${props.prefixCls}-border-line`).test(actualProps.className) ? '40px' : '32px'),
-        type: actualProps.rowSelector,
+        type: typeof actualProps.rowSelector === 'function' ? actualProps.rowSelector(actualProps) : actualProps.rowSelector,
         align: 'right',
       };
       checkboxColumnKey = 'jsxchecked';

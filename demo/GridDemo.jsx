@@ -281,7 +281,9 @@ class Demo extends React.Component {
       // addRowClassName() {
       //   return 'multiline';
       // },
-      rowSelector: 'checkboxSelector',
+      rowSelector: function(props) {
+        return 'checkboxSelector'
+      }, //'checkboxSelector',
       jsxcolumns: columns,
 
       leftFixedMaxWidth: 900,

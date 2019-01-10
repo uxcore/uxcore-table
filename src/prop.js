@@ -110,7 +110,10 @@ const propTypes = {
   fetchUrl: PropTypes.string,
   fetchParams: PropTypes.object,
   currentPage: PropTypes.number,
-  rowSelector: PropTypes.string,
+  rowSelector: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+  ]),
   actionBar: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.object,
