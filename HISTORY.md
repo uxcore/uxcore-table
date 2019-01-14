@@ -1,4 +1,7 @@
 # History
+## 10.4.15
+* `FIXED` fix a bug in messageIcon when break lines
+
 ## 10.4.14
 * `CHANGED` optimize list action bar
 

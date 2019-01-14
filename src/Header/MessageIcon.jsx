@@ -5,16 +5,18 @@ import PropTypes from 'prop-types';
 
 const getMessage = (message) => {
   if (!message || typeof message !== 'string') return null;
-  const lines = message.split(/(\n|\r|\t)/);
+  const lines = message.split(/(\n|\r|\t)/gi).filter(line => {
+    return /\w/gi.test(line)
+  });
   return (
     <div style={{
       textAlign: lines.length > 1 ? 'left' : 'center'
     }}>
       {
         lines.map(line => {
-          return (
+          return line ? (
             <p>{line}</p>
-          )
+          ) : null
         })
       }
     </div>
