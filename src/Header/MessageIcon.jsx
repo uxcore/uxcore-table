@@ -13,9 +13,9 @@ const getMessage = (message) => {
       textAlign: lines.length > 1 ? 'left' : 'center'
     }}>
       {
-        lines.map(line => {
+        lines.map((line, index) => {
           return line ? (
-            <p>{line}</p>
+            <p key={'message_' + index}>{line}</p>
           ) : null
         })
       }
