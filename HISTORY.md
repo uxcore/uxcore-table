@@ -1,4 +1,7 @@
 # History
+## 10.4.16
+* `NEW` add a new prop defaultEditable
+
 ## 10.4.15
 * `FIXED` fix a bug in messageIcon when break lines
 
