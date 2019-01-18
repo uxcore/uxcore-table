@@ -17,8 +17,8 @@ import Demo5 from './TableGroup';
 import Demo6 from './TableRowGroup';
 import '../style';
 
-ReactDOM.render(<Demo />, document.getElementById('UXCoreDemo'));
-// ReactDOM.render(<Demo2 />, document.getElementById('UXCoreDemo2'));
+// ReactDOM.render(<Demo />, document.getElementById('UXCoreDemo'));
+ReactDOM.render(<Demo2 />, document.getElementById('UXCoreDemo2'));
 // ReactDOM.render(<Demo3 />, document.getElementById('UXCoreDemo3'));
 // ReactDOM.render(<Demo4 />, document.getElementById('UXCoreDemo4'));
 // ReactDOM.render(<Demo5 />, document.getElementById('UXCoreDemo5'));

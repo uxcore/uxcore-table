@@ -45,7 +45,7 @@ function addValuesInData(objAux, operation) {
     const node = data[i];
     node.jsxid = me.uid;
     me.uid += 1;
-    node.__mode__ = node.__mode__ || Const.MODE.VIEW;
+    node.__mode__ = node.__mode__ || (!me.props.defaultEditable ? 'view' : 'edit') || Const.MODE.VIEW;
     node.__treeId__ = objAux.__treeId__ ? `${objAux.__treeId__}-${i}` : `${i}`;
     me.addValuesInData(node);
   }

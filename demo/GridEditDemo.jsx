@@ -383,6 +383,7 @@ class Demo extends React.Component {
         return newData;
       },
       processData: data => data,
+      // defaultEditable: true,
       onChange: me.handleTableChange,
       showPagerSizeChanger: false,
       onFilter: (filterColumns) => { console.log(filterColumns); },

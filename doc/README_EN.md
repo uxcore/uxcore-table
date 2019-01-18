@@ -25,7 +25,7 @@ $ gulp server
 	    { dataKey: 'id', title: 'ID', width: 50,hidden:true},
 	    { dataKey: 'country', title:'国家', width: 200,ordered:true},
 	    { dataKey: 'city',title:'城市', width: 150,ordered:true },
-	    { dataKey: 'firstName',title:"FristName" },  
+	    { dataKey: 'firstName',title:"FristName" },
 	    { dataKey: 'lastName' ,title:"LastName"},
 	    { dataKey: 'email',title:"Email",width: 200,ordered:true }
 	];
@@ -51,7 +51,7 @@ $ gulp server
         subComp:(<Table {...renderSubProps}  ref="subTable"/>),
         rowSelection: rowSelection
 	},
-	
+
 	renderSubProps={
         jsxcolumns:columns,
         fetchUrl:"http://localhost:3000/demo/data.json",
@@ -77,7 +77,7 @@ $ gulp server
 |showHeader      |boolean             |optional  |true   ||
 |headerHeight    |number              |optional  |40     ||
 |showMask        |boolean             |optional  |true   ||
-|showSearch      |boolean             |optional  |false  || 
+|showSearch      |boolean             |optional  |false  ||
 |pageSize        |number              |optional  |10     ||
 |queryKeys       |array               |optional  |[]     |in subComp mode, it filters the data which will be passed to the sub component.|
 |jsxdata         |object              |optional  |-      |used as the default data when ajax has not been done|
@@ -87,15 +87,15 @@ $ gulp server
 |beforeFetch     |function(data, from)|optional  |noop   |invoked before the table fetch data, two params `data` and `from`, `data` is the one which will be passed as querys in ajax, `from` means where the fetch is invoked containing 3 preset values `search`,`order` & `pagination`.return the data you really want ajax to send.|
 |processData     |function(data)      |optional  |noop   |sometimes the data fetched via ajax is not the one which you or table want, you can use this method to change the data and return it to table. the param is the data which table is ready to use for rendering|
 |addRowClassName |function(rowData)   |optional  |noop   |user can use this to add className to the Row, in order to custom the specific row.|
-|renderModel     |string              |optional  |'tree' | render to tree model |
-|levels          |number              |optional  |1      | tree model, default expand level number |
-
+|renderModel     |string              |optional  |'tree' |render to tree model |
+|levels          |number              |optional  |1      |tree model, default expand level number |
+|defaultEditable |boolean             |optional  |false  | |
 
 ### Props you should not define by yourself
 
-> Parent will pass this props to his child  
+> Parent will pass this props to his child
 
-|props name       |  defalut Value  |  Note   | 
+|props name       |  defalut Value  |  Note   |
 |-----------      |  ------         |  -----    |
 |passedData       |  null           |  Data passed from parent|
 
@@ -104,10 +104,10 @@ $ gulp server
 ### Columns Config
 
 
-|Key Name       |  Require  |  Type       | Note   | 
+|Key Name       |  Require  |  Type       | Note   |
 |-----------    |  ------   |  ---------- | -----  |
 |dataKey        |  required |  string     | which key in data will be shown in view mode |
-|editKey        |  optional |  string     | which key in data will be used in edit mode, equal to dataKey if not specified | 
+|editKey        |  optional |  string     | which key in data will be used in edit mode, equal to dataKey if not specified |
 |title          |  required |  string     | table head name |
 |width          |  required |  number     |        |
 |hidden         |  optional |  boolean    |        |
@@ -119,7 +119,7 @@ $ gulp server
 |fixed          |  optional |  boolean    | set the column fixed or not |
 |delimiter      |  optional |  string     | delimiter used in type 'money', 'card', 'cnmobile' formating|
 |align          |  optional |  string     | text-align, default: 'left' |
- 
+
 
 ```javascript
 
@@ -127,7 +127,7 @@ let columns = [
         { dataKey: 'check', type: 'checkbox', disable: false}, // custom checkbox column, dataKey can be anyone, true means checked.
         { dataKey: 'country', title:'国家', width: 200,ordered:true},
         { dataKey: 'city',title:'城市', width: 150,ordered:true },
-        { dataKey: 'firstName',title:"FristName" },  
+        { dataKey: 'firstName',title:"FristName" },
         { dataKey: 'lastName' ,title:"LastName"},
         { dataKey: 'email',title:"Email",width: 200, ordered:true },
         { dataKey: 'action1', title:'操作1', width:100, type:"action",actions: [
@@ -157,7 +157,7 @@ let columns = [
 
 ## Rules
 
-* return data format [here](http://gitlab.alibaba-inc.com/alinw/yosemite/issues/18) 
+* return data format [here](http://gitlab.alibaba-inc.com/alinw/yosemite/issues/18)
 
 
 
@@ -165,7 +165,7 @@ let columns = [
    {
 	"content":{
 		"data":[
-			{	
+			{
 				"id":'1'
 				"grade":"grade1",
 				"email":"email1",
@@ -176,7 +176,7 @@ let columns = [
 				"city":"city1"
 			}
 			...
-	
+
 		],
 		"currentPage":1,
 		"totalCount":30
@@ -193,7 +193,7 @@ let columns = [
 ```javascript
 {
     "data":[
-        {   
+        {
             "id":'1'
             "grade":"grade1",
             "email":"email1",
@@ -213,7 +213,7 @@ let columns = [
 
 ## API
 
-### Row Editing 
+### Row Editing
 
 * getData(): return cellData & do Validation
 * addEmptyRow(): add an empty Row in 'edit' mode
@@ -226,7 +226,7 @@ let columns = [
 
 ### Data Fetching
 
-* fetchData(from): call this method when you want the table to fetch Data via ajax again. 
+* fetchData(from): call this method when you want the table to fetch Data via ajax again.
     * @param from {string} {optional}: this param will be passed to props.beforeFetch.
 
 ### Other
