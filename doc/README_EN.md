@@ -89,7 +89,7 @@ $ gulp server
 |addRowClassName |function(rowData)   |optional  |noop   |user can use this to add className to the Row, in order to custom the specific row.|
 |renderModel     |string              |optional  |'tree' |render to tree model |
 |levels          |number              |optional  |1      |tree model, default expand level number |
-|defaultEditable |boolean             |optional  |false  | |
+|defaultEditable |boolean             |optional  |false  |if true, row edit mode is on by default|
 
 ### Props you should not define by yourself
 

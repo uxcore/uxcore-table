@@ -64,6 +64,7 @@ const defaultProps = {
   onSave: () => {},
   shouldResetExpandedKeys: () => {},
   showColumnPickerCheckAll: false,
+  defaultEditable: false,
 };
 
 // http://facebook.github.io/react/docs/reusable-components.html
@@ -133,6 +134,7 @@ const propTypes = {
   levels: PropTypes.number,
   footer: PropTypes.func,
   showColumnPickerCheckAll: PropTypes.bool,
+  defaultEditable: PropTypes.bool
 };
 
 export {
