@@ -1,4 +1,7 @@
 # History
+## 10.4.17
+* `FIXED` fix a messageIcon filter Regex bug
+
 ## 10.4.16
 * `NEW` add a new prop defaultEditable
 
