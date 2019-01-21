@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 
 const getMessage = (message) => {
   if (!message || typeof message !== 'string') return null;
-  const lines = message.split(/(\n|\r|\t)/gi).filter(line => {
-    return /\w/gi.test(line)
+  const lines = message.split(/[\n\r\t]+/gi).filter(line => {
+    return /[\/\-\w\u4e00-\u9fa5]+/gi.test(line)
   });
   return (
     <div style={{
