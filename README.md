@@ -6,7 +6,7 @@
 [![build status][travis-image]][travis-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
 [![Dependency Status][dep-image]][dep-url]
-[![devDependency Status][devdep-image]][devdep-url] 
+[![devDependency Status][devdep-image]][devdep-url]
 [![NPM downloads][downloads-image]][npm-url]
 
 [![Sauce Test Status][sauce-image]][sauce-url]
@@ -39,7 +39,7 @@ $ npm start
 
 ## API
 
-### 行内编辑用 
+### 行内编辑用
 
 * getData(): 返回表格的数据，并作校验。
 * addEmptyRow(): 添加一个空的新行。
@@ -67,7 +67,7 @@ $ npm start
 
 * createCellField(options)
 
-|Name                |Type                |Require   |Default     |Since Ver. |Note | 
+|Name                |Type                |Require   |Default     |Since Ver. |Note |
 |---                 |---                 |---       |---         |---        |---|
 |options.component           |React Element       |yes       |input       |1.12.8     |被包裹的组件，需要提供 value 和 onChange，或相同功能的 API |
 |options.valuePropName       |string              |No        |value       |1.12.8     |与 value 对应的 prop 名字 |
@@ -87,7 +87,7 @@ $ npm start
 
 ## Props
 
-|Name                |Type                |Require   |Default     |Since Ver. |Note | 
+|Name                |Type                |Require   |Default     |Since Ver. |Note |
 |---                 |---                 |---       |---         |---        |---|
 |jsxcolumns          |array               |required  |null        | -         |表格列配置项，具体见[这里](#jsxcolumns)|
 |width               |number              |optional  |1000        | -         |表格的宽度|
@@ -100,7 +100,7 @@ $ npm start
 |showHeader          |boolean             |optional  |true        | -         |是否显示表格头部|
 |showHeaderBorder    |boolean             |optional  |false       | 1.3.6     |是否显示头部列之间的分割线|
 |showMask            |boolean             |optional  |true        | -         |是否在 loading 的时候显示蒙层|
-|showSearch          |boolean             |optional  |false       | -         |是否显示内置的搜索栏| 
+|showSearch          |boolean             |optional  |false       | -         |是否显示内置的搜索栏|
 |doubleClickToEdit   |boolean             |optional  |true        | -         |是否开启双击编辑|
 |fetchDataOnMount    |boolean             |optional  |true        | 1.3.18    |是否在组件 Mount 时立刻获取一次数据|
 |rowSelector         |string              |optional  |复选        | 1.3.20    |行选择是复选还是单选，支持 checkboxSelector 和 radioSelector|
@@ -126,9 +126,9 @@ $ npm start
 |onColumnPick        |function(columns)   |optional  |noop        | 7.6.0     |勾选自定义列时触发，参数为勾选后的 columns |
 |onFilter            |function(filters)   |optional  |noop        | 9.0.0     |未配置 fetchUrl 的情况下触发，传回需要进行过滤的参数|
 |addRowClassName     |function(rowData)   |optional  |noop        | -         |用于为特定的某几行添加特殊的 class，用于样式定制|
-|rowSelection        |object              |optional  |noop        | -         |选中复选框时触发的回调，rowSelection 是由回调函数组成的对象，包括 onSelect 和 onSelectAll，例子见此| 
+|rowSelection        |object              |optional  |noop        | -         |选中复选框时触发的回调，rowSelection 是由回调函数组成的对象，包括 onSelect 和 onSelectAll，例子见此|
 |rowGroupKey         |string              |optional  |            | 8.2.0     |用于行分组，可选值为 columns 设置中 dataKey，使用对应的列内容做行分组 |
-
+|defaultEditable     |bool                |optional  |false       | 9.4.10    |用于设置默认行内编辑状态
 
 ### 折叠展开专用
 |Name            |Type                |Require   |Since Ver. |Default|Note |
@@ -167,10 +167,10 @@ $ npm start
 
 ### 列配置项(jsxcolumns)
 
-|Key Name        |Type              |Since Ver.|Require  |Note   | 
+|Key Name        |Type              |Since Ver.|Require  |Note   |
 |-----------     |----------        |---       |------   |-----  |
 |dataKey         |string            |-         |required |表格的数据中用于查看模式展示的字段|
-|editKey         |string            |-         |optional |表格的数据中用于编辑模式的字段，如对于 select 来说，此项应为选项里的 key| 
+|editKey         |string            |-         |optional |表格的数据中用于编辑模式的字段，如对于 select 来说，此项应为选项里的 key|
 |align           |string            |-         |optional |文字居中方式，默认 'left'|
 |title           |string/func       |-         |required |列头标题，可以是个函数，根据返回值进行渲染|
 |width           |number            |-         |required |列宽，支持 100px, 100, '30%'(7.7.0 之后支持)|
@@ -189,9 +189,9 @@ $ npm start
 |isDisable       |function(rowData) |1.3.1     |optional |在 tpye 为 checkboxSelector 时使用，为一个回调函数，用于根据 rowData 去判断是否禁用该行的 checkbox|
 |canEdit         |function(rowData) |1.3.3     |optional |在 type 为可编辑表格的类别时使用，为一个回调函数，用于根据 rowData 去判断该行该列是否可以编辑|
 |config          |object            |1.5.0     |optional |在 type 为 text/select/radio 时使用，传入对应的配置项，配置项与对应的组件(uxcore-selelct2)相同|
-|renderChildren  |function          |1.5.0     | -       |在 type 为 select/radio 时使用，通过返回 jsx 传入选项。| 
-|filters         |array             |9.0.0     |optional |表头的筛选菜单项。具体格式见下方|        
- 
+|renderChildren  |function          |1.5.0     | -       |在 type 为 select/radio 时使用，通过返回 jsx 传入选项。|
+|filters         |array             |9.0.0     |optional |表头的筛选菜单项。具体格式见下方|
+
 
 
 ### 列配置项的例子
@@ -199,7 +199,7 @@ $ npm start
 
 let columns = [
     // 定制 checkbox 列，dataKey 对应的应是一个 bool 值，表明是否被选中，可以用于控制行选中。
-    { dataKey: 'check', type: 'checkbox' }, 
+    { dataKey: 'check', type: 'checkbox' },
     // 定制渲染的例子
     { dataKey: 'name', render: (cellData) => (<a>{cellData}</a>) },
     // filters 配置的例子
@@ -269,13 +269,13 @@ let rowSelection = {
 
 ## 返回的数据格式
 
-* 数据格式的约定[见此](http://gitlab.alibaba-inc.com/alinw/yosemite/issues/18) 
+* 数据格式的约定[见此](http://gitlab.alibaba-inc.com/alinw/yosemite/issues/18)
 
 ```javascript
    {
 	"content":{
 		"data":[
-			{	
+			{
 				"id":'1'
 				"grade":"grade1",
 				"email":"email1",
@@ -286,7 +286,7 @@ let rowSelection = {
 				"city":"city1"
 			}
 			...
-	
+
 		],
 		"currentPage":1,
 		"totalCount":30
@@ -303,7 +303,7 @@ let rowSelection = {
 ```javascript
 {
     "data":[
-        {   
+        {
             "id":'1'
             "grade":"grade1",
             "email":"email1",
@@ -358,7 +358,7 @@ actionBar: [
             me.refs.grid.saveAllRow();
         }
     }
-    
+
 ]
 ```
 

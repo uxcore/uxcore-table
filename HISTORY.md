@@ -2,6 +2,9 @@
 
 ---
 
+## 9.4.10
+* `CHANGED` add new prop defaultEditable
+
 ## 9.5.0
 
 * `CHANGED` remove `doValidate` logic in method `resetRow`
@@ -92,11 +95,11 @@
 
 ## 8.0.1
 
-* `FIXED` default action type should be `link` 
+* `FIXED` default action type should be `link`
 
 ## 8.0.0
 
-* `CHANGED` replace inner `CollapsedButton` with `uxcore-button-group` 
+* `CHANGED` replace inner `CollapsedButton` with `uxcore-button-group`
 
 ## 7.8.0
 
@@ -123,7 +126,7 @@
 
 * `CHANGED` add new prop `showUnknownTotalPager`
 * `CHANGED` adjust column picker style
-* `FIXED` unexpected space between body and header 
+* `FIXED` unexpected space between body and header
 * `NEW` support new prop `onColumnPick`
 
 ## 7.5.0
@@ -137,7 +140,7 @@
 
 ## 7.4.3
 
-* `FIXED` toggling column's visibility fails to toggle rightFixed table correctly 
+* `FIXED` toggling column's visibility fails to toggle rightFixed table correctly
 
 ## 7.4.0
 
@@ -167,7 +170,7 @@
 * `CHANGED` use popover instead of column picker dropdown
 * `CHANGED` new column picker trigger icon
 * `CHANGED` style: mask color & fixed table box-shadow
-* `CHANGED` add animation when toggling sub component 
+* `CHANGED` add animation when toggling sub component
 
 ## 6.5.0
 
@@ -240,7 +243,7 @@
 
 ## 2.0.2
 
-* `FIXED` remove useless code in `Cell` componentDidMount 
+* `FIXED` remove useless code in `Cell` componentDidMount
 
 ## 2.0.1
 
@@ -355,7 +358,7 @@
 
 ## 1.12.1
 
-* `CHANGED` set default labelInValue in SelectCellField 
+* `CHANGED` set default labelInValue in SelectCellField
 
 ## 1.12.0
 
@@ -408,7 +411,7 @@
 
 ## 1.9.5
 
-* `CHANGED` change default fitResponse 
+* `CHANGED` change default fitResponse
 
 ## 1.9.4
 
@@ -431,7 +434,7 @@
 
 * `FIXED` jsxdata.currentPage bug (#153)
 * `FIXED` table will fetch data from previous url instead of new url. (#153)
-* `FIXED` mask style (break change)  
+* `FIXED` mask style (break change)
 
 ## 1.8.7
 
@@ -464,7 +467,7 @@
 ## 1.8.0
 
 * `NEW` support column group
-* `NEW` support column tilte custom render 
+* `NEW` support column tilte custom render
 
 ## 1.7.0
 
@@ -544,7 +547,7 @@
 
 ## 1.4.7
 
-* `CHANGED` merge feature/style branch 
+* `CHANGED` merge feature/style branch
 
 ## 1.4.6
 
@@ -573,7 +576,7 @@
 
 ## 1.4.0
 
-* `CHANGED` new style 
+* `CHANGED` new style
 
 ## 1.3.21
 
@@ -618,7 +621,7 @@
 ## 1.3.6
 
 * `FIXED` fix action split bug
-* `CHANGED` add props showHeaderBorder 
+* `CHANGED` add props showHeaderBorder
 
 ## 1.3.5
 
@@ -627,7 +630,7 @@
 ## 1.3.4
 
 * `FIXED` fix BUG #103
-* `CHANGED` issue #99 #100 #101 #102 
+* `CHANGED` issue #99 #100 #101 #102
 
 ## 1.3.3
 
@@ -647,7 +650,7 @@
 ## 1.3.0
 
 * `NEW` add support for column group
-* `CHANGED` column picker rebuild using uxcore-tree 
+* `CHANGED` column picker rebuild using uxcore-tree
 
 ## 1.2.4
 
@@ -664,7 +667,7 @@
 
 ## 1.2.1
 
-* `FIXED` fix issue #52 #59 #61 #72 #75 #78 #79 
+* `FIXED` fix issue #52 #59 #61 #72 #75 #78 #79
 * `CHANGED` actionBar config now support custom render
 * `CHANGED` getData() will only send saved data
 * `NEW` add api saveAllRow & editAllRow，add new config getSavedData to tell getData() which data should be sent.
@@ -729,7 +732,7 @@
 ## 1.0.2
 
 * `CHANGE` __rowData change to passedData
-* `ISSUE` #6 #8 #9 #11 #12 #13 #14 #15 
+* `ISSUE` #6 #8 #9 #11 #12 #13 #14 #15
 
 ## 1.0.1
 

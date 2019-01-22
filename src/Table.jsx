@@ -1390,6 +1390,7 @@ Table.defaultProps = {
   onChange: () => { },
   onSave: () => {},
   shouldResetExpandedKeys: () => {},
+  defaultEditable: false
 };
 
 // http://facebook.github.io/react/docs/reusable-components.html
@@ -1458,6 +1459,7 @@ Table.propTypes = {
   renderModel: PropTypes.string,
   levels: PropTypes.number,
   footer: PropTypes.func,
+  defaultEditable: PropTypes.bool
 };
 
 Table.displayName = 'Table';

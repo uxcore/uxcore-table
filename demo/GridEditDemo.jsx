@@ -372,6 +372,7 @@ class Demo extends React.Component {
       onChange: me.handleTableChange,
       showPagerSizeChanger: false,
       onFilter: (filterColumns) => { console.log(filterColumns); },
+      defaultEditable: true
     };
 
     return (
