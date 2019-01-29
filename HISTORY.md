@@ -1,6 +1,8 @@
 # History
 
 ---
+## 9.4.11
+* `CHANGED` cell validate tooltip container change to document.body when defaultEditable is true
 
 ## 9.4.10
 * `CHANGED` add new prop defaultEditable
