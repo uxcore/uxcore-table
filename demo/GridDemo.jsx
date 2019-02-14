@@ -120,7 +120,6 @@ class Demo extends React.Component {
           callback: () => { },
         }],
       },
-
     ];
     const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
     const renderProps = {
@@ -133,12 +132,11 @@ class Demo extends React.Component {
       className: 'kuma-uxtable-split-line',
       pagerSizeOptions: [5, 10, 15, 20],
       rowSelection,
-      showColumnPicker: true,
+      showColumnPicker: false,
       showColumnPickerCheckAll: true,
+      useListActionBar: true,
       actionBar: {
         className: 'my-list-action-bar',
-        // 是否使用list-action-bar模式
-        useListActionBar: true,
         // 是否显示全选
         showSelectAll: true,
         // 按钮配置
@@ -158,7 +156,7 @@ class Demo extends React.Component {
             },
           },
           {
-            title: '123123',
+            title: '按钮',
             keepActiveInCustomView: false,
             // size: 'large',
             type: 'primary',
@@ -171,26 +169,28 @@ class Demo extends React.Component {
         // 文案提示
         actionBarTip: '已经为您找到记录123条',
         // 自定义内容
-        // renderCustomBarItem() {
-        //   return (
-        //     <p>自定义内容</p>
-        //   )
-        // },
+        customBarItem: {
+          render() {
+            return (
+              <p style={{color: 'red'}} onClick={(e) => {console.log(e)}}>自定义内容</p>
+            )
+          }
+        },
         // 行排序
         rowOrder: {
           iconName: 'paixu-jiangxu',
           // keepActiveInCustomView: true,
           defaultValue: {
-            text: '行排序',
+            text: '排序方式一',
             value: '123'
           },
           items: [
             {
-              text: '行排序',
+              text: '排序方式一',
               value: '123'
             },
             {
-              text: '排序方式',
+              text: '排序方式二',
               value: '456'
             }
           ],
@@ -212,27 +212,49 @@ class Demo extends React.Component {
         columnsPicker: {
           iconName: 'zidingyilie',
           title: '列选择器',
-          // keepActiveInCustomView: true,
+          keepActiveInCustomView: true,
           onChange(data) {
             console.log(data)
           }
         },
         // 自定义视图，支持返回promise和component
-        renderCustomView(data, currentPage) {
-          console.log(data, currentPage);
-          // return (
-          //   <Test name={'1231323123'}/>
-          // )
-          return new Promise(function(resolve) {
-            setTimeout(() => {
-              resolve(<Test name={'1231323123'}/>)
+        customView: {
+          render(data, currentPage) {
+            console.log(data, currentPage);
+            // return (
+            //   <Test name={'1231323123'}/>
+            // )
+            return new Promise(function(resolve) {
+              setTimeout(() => {
+                resolve(<Test name={'1231323123'}/>)
+              })
             })
-          })
+          }
         },
         // 是否显示翻页器
-        showPager: true,
-        // 在自定义视图下是否显示翻页器
-        removePagerInCustomView: false
+        showMiniPager: true,
+        search: {
+          placeholder: '请输入搜索关键字',
+          onSearch() {
+            console.log(234234)
+          }
+        },
+        // 在自定义视图下移出翻页器
+        removePagerInCustomView: true,
+        linkBar: [
+          {
+            title: '操作外链一',
+            callback: () => {
+              alert(1);
+            },
+          },
+          {
+            title: '操作外链二',
+            callback: () => {
+              alert(2);
+            },
+          },
+        ],
       },
       // actionBar: [
       //   {
@@ -262,6 +284,20 @@ class Demo extends React.Component {
       //     console.log(123123)
       //   }
       // },
+      // linkBar: [
+      //   {
+      //     title: '操作外链一',
+      //     callback: () => {
+      //       alert(1);
+      //     },
+      //   },
+      //   {
+      //     title: '操作外链二',
+      //     callback: () => {
+      //       alert(2);
+      //     },
+      //   },
+      // ],
       onSearch: (searchTxt) => {
         console.log(searchTxt);
       },
@@ -271,7 +307,7 @@ class Demo extends React.Component {
       onPagerChange: (current, pageSize) => {
         console.log(current, pageSize);
       },
-      showSearch: true,
+      showSearch: false,
       fetchUrl,
       beforeFetch: (data, from, config) => {
         console.log(data, from, config);
