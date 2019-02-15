@@ -230,7 +230,7 @@ function getData(validate) {
     };
   }
   return {
-    data: me.state.data,
+    data: deepcopy(me.state.data),
     pass,
   };
 }
