@@ -20,6 +20,7 @@ class ColumnPicker extends React.Component {
     this.state = {
       visible: false,
       columnsInfo,
+      preColumns: props.columns,
       selectedKeys: getSelectedKeys(props.columns).selectedKeys
     };
   }
@@ -38,6 +39,17 @@ class ColumnPicker extends React.Component {
         : 1000;
       dropDownDOMNode.style.width = `${width <= maxWidth ? width : maxWidth}px`;
     }
+  }
+
+  static getDerivedStateFromProps = (props, state) => {
+    if (props.columns !== state.preColumns) {
+      return {
+        selectedKeys: getSelectedKeys(props.columns).selectedKeys,
+        columnsInfo: util.getColumnsInfo(props.columns),
+        preColumns: props.columns
+      };
+    }
+    return null;
   }
 
   getDropDownDOMNOde() {
@@ -233,7 +245,7 @@ class ColumnPicker extends React.Component {
     return (
       <div style={{ position: 'relative'}}>
         <div className={`${prefixCls}-groups`}>
-          <div className={`${prefixCls}-header`}>以下内容为可选字段</div>
+          <div className={`${prefixCls}-header`}>{i18n[locale].columnPickerTip}</div>
           <div className={`${prefixCls}-content`}>
             {groups.map(group => {
               return this.renderPickerGroup(group)
@@ -294,6 +306,9 @@ class ColumnPicker extends React.Component {
           'kuma-popover-hidden': disabled
         })}
         onOk={this.handleOk}
+        okText={i18n[p.locale].okText}
+        cancelText={i18n[p.locale].cancelText}
+        locale={p.locale}
         showButton
       >
         <div className={classnames('picker-title', {

@@ -19,6 +19,8 @@ import RowOrder from './RowOrder'
 import ColumnOrder from './ColumnOrder'
 import Icon from 'uxcore-icon'
 import Promise from 'lie'
+import i18n from '../i18n';
+
 
 class ActionBar extends React.Component {
   /**
@@ -102,7 +104,7 @@ class ActionBar extends React.Component {
         config.onSearch(value)
       },
       key: 'searchbar',
-      placeholder: config.placeholder,
+      placeholder: config.placeholder || i18n[this.props.locale].searchPlaceholder,
       prefixCls: `${me.props.tablePrefixCls}-searchbar`,
     };
     return <SearchBar {...searchBarProps} />;
@@ -148,6 +150,7 @@ class ActionBar extends React.Component {
 
   renderSelectAll() {
     const me = this;
+    const { locale } = this.props
     return (
       <span className={`${me.props.tablePrefixCls}-select-all`}>
         <CheckBox
@@ -156,7 +159,7 @@ class ActionBar extends React.Component {
           halfChecked={me.props.checkStatus.isHalfChecked}
           disable={me.props.checkStatus.isAllDisabled}
           onChange={me.handleCheckBoxChange}
-          text={'全选'}
+          text={i18n[locale].check_all}
         />
       </span>
     )
@@ -291,6 +294,7 @@ class ActionBar extends React.Component {
       showColumnPicker,
       onColumnPicker,
       linkBar,
+      locale,
       actionBarConfig,
       useListActionBar
     } = this.props;
@@ -313,7 +317,7 @@ class ActionBar extends React.Component {
       if (!barConfig.columnsPicker) {
         barConfig.columnsPicker = {
           iconName: 'zidingyilie',
-          title: '列选择器',
+          title: i18n[locale].templated_column,
           keepActiveInCustomView: true,
           onChange(data) {
             console.log(data)
@@ -326,7 +330,7 @@ class ActionBar extends React.Component {
     if (showSearch) {
       if (!barConfig.search) {
         barConfig.search = {
-          placeholder: searchBarPlaceholder || '请输入搜索关键字',
+          placeholder: searchBarPlaceholder || i18n[locale].searchPlaceholder,
           onSearch: (value) => {
             onSearch && onSearch(value)
           }
@@ -351,15 +355,6 @@ class ActionBar extends React.Component {
           'fn-clear': true,
         })}
       >
-        {/*{*/}
-          {/*!useListActionBar ? ActionBar.getActionItem(actionBarConfig).map((item, index) => {*/}
-            {/*return me.renderActionBtn(item, index)*/}
-          {/*}): null*/}
-        {/*}*/}
-        {/*{!useListActionBar ? me.renderSearchBar() : null}*/}
-        {/*{!useListActionBar ? me.renderColumnPicker() : null}*/}
-        {/*{!useListActionBar ? me.renderLinkBar() : null}*/}
-        {/*{useListActionBar ? me.renderListActionBar() : null}*/}
         {this.renderListActionBar(actionBarConfig)}
       </div>
     );
