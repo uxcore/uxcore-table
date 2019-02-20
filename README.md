@@ -129,7 +129,7 @@ $ npm start
 |rowSelection        |object              |optional  |noop        | -         |选中复选框时触发的回调，rowSelection 是由回调函数组成的对象，包括 onSelect 和 onSelectAll，例子见此|
 |rowGroupKey         |string              |optional  |            | 8.2.0     |用于行分组，可选值为 columns 设置中 dataKey，使用对应的列内容做行分组 |
 |defaultEditable     |boolean             |optional  |false       | 10.4.16   |默认开启行编辑模式|
-
+|useListActionBar    |boolean             |optional  |false       | 10.5.0    |新版listActionBar开关，actionBar配置，详细[见此](#actionbar)|
 
 ### 折叠展开专用
 |Name            |Type                |Require   |Since Ver. |Default|Note |
@@ -361,7 +361,138 @@ actionBar: [
     }
 
 ]
+
+// 当启用useListActionBar时，actionBar上的所有功能将在`actionBar`内完成
+actionBar: {
+    className: 'my-list-action-bar',
+    // 是否显示全选
+    showSelectAll: true,
+    // 按钮配置
+    buttons: [
+      {
+        title: 'Action Button',
+        render() {
+          return (
+            <Button type={'primary'}>切换子表格状态</Button>
+          )
+        },
+        keepActiveInCustomView: false,
+        callback: () => {
+          this.forceUpdate();
+          console.log(me.table.getData());
+          me.table.toggleSubComp(me.table.getData().data.datas);
+        },
+      },
+      {
+        title: '按钮',
+        keepActiveInCustomView: false,
+        // size: 'large',
+        type: 'primary',
+        // className: 'xxxxx',
+        callback: () => {
+          me.table.selectAll(true);
+        }
+      }
+    ],
+    // 文案提示
+    actionBarTip: '已经为您找到记录123条',
+    // 自定义内容
+    customBarItem: {
+      render() {
+        return (
+          <p style={{color: 'red'}} onClick={(e) => {console.log(e)}}>自定义内容</p>
+        )
+      }
+    },
+    // 行排序
+    rowOrder: {
+      iconName: 'paixu-jiangxu',
+      // keepActiveInCustomView: true,
+      defaultValue: {
+        text: '排序方式一',
+        value: '123'
+      },
+      items: [
+        {
+          text: '排序方式一',
+          value: '123'
+        },
+        {
+          text: '排序方式二',
+          value: '456'
+        }
+      ],
+      onChange(data) {
+        console.log(data)
+      }
+    },
+    // 列排序
+    columnsOrder: {
+      iconName: 'huxiangguanzhu',
+      // keepActiveInCustomView: true,
+      title: '列排序',
+      includeActionColumn: false,  // 优先级低于fixed和rightFixed
+      onChange(dragInfo, data) {
+        console.log(data)
+      }
+    },
+    // 列选择
+    columnsPicker: {
+      iconName: 'zidingyilie',
+      title: '自定义列',
+      keepActiveInCustomView: true,
+      onChange(data) {
+        console.log(data)
+      }
+    },
+    // 自定义视图，支持返回promise和component
+    customView: {
+      render(data, currentPage) {
+        console.log(data, currentPage);
+        // return (
+        //   <Test name={'自定义的View'}/>
+        // )
+        return new Promise(function(resolve) {
+          setTimeout(() => {
+            resolve(<Test name={'自定义的View'}/>)
+          })
+        })
+      }
+    },
+    // 是否显示翻页器
+    showMiniPager: true,
+    search: {
+      // placeholder: '请输入搜索关键字',
+      onSearch() {
+        console.log(234234)
+      }
+    },
+    // 在自定义视图下移出翻页器
+    removePagerInCustomView: true,
+    linkBar: [
+      {
+        title: '修改columns',
+        callback: () => {
+          this.setState({
+            columns: this.state.columns.filter(item => {
+              return item.title === 'LastName'
+                || item.title === 'Email'
+                || item.title === '操作1'
+            })
+          })
+        },
+      },
+      {
+        title: '操作外链二',
+        callback: () => {
+          alert(2);
+        },
+      },
+    ],
+}
 ```
+
+
 
 
 ### actions 配置的例子
