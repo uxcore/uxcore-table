@@ -205,7 +205,7 @@ class Demo extends React.Component {
           iconName: 'huxiangguanzhu',
           // keepActiveInCustomView: true,
           title: '列排序',
-          includeActionColumn: true,  // 优先级低于fixed和rightFixed
+          includeActionColumn: false,  // 优先级低于fixed和rightFixed
           onChange(dragInfo, data) {
             console.log(data)
           }
