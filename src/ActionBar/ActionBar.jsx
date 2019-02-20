@@ -19,14 +19,16 @@ import RowOrder from './RowOrder'
 import ColumnOrder from './ColumnOrder'
 import Icon from 'uxcore-icon'
 import Promise from 'lie'
+import i18n from '../i18n';
+
 
 class ActionBar extends React.Component {
   /**
    *  convert ActionBar config from hash to array
    */
-  static getActionItem(config, isListActionBar) {
+  static getActionItem(config, useListActionBar) {
     let items = [];
-    if (isListActionBar) {
+    if (useListActionBar) {
       return config.buttons || []
     }
     if (config instanceof Array) {
@@ -49,6 +51,7 @@ class ActionBar extends React.Component {
     super(props)
     this.state = {
       activatedView: 'table',
+      removeMiniPagerInCustomView: false
     }
   }
 
@@ -58,70 +61,68 @@ class ActionBar extends React.Component {
 
   renderActionBtn(item, index) {
     const me = this;
+    const isCustomRender = !!item.render && typeof item.render === 'function'
+    const isDisabled = (me.state.activatedView !== 'table' || item.disabled) && !item.keepActiveInCustomView;
     const itemProps = {
       className: `${me.props.prefixCls}-item ${item.className || ''}`,
-      onClick: item.callback || (() => {}),
+      onClick: isDisabled ? () => {} : (item.callback || (() => {})),
       type: item.type || 'secondary',
       key: index,
     };
-    if (!!item.render && typeof item.render === 'function') {
+    if (isCustomRender) {
       return (
         <div {...itemProps} style={{cursor: 'pointer'}}>
           {item.render(item.title)}
         </div>
       );
     }
-    if (index === 0 && !me.props.actionBarConfig.useListActionBar) {
+    if (index === 0 && !me.props.useListActionBar) {
       itemProps.type = 'outline';
     }
     return (
       <Button
         {...itemProps}
         size={item.size || 'small'}
-        disabled={(me.state.activatedView !== 'table' || item.disabled) && !item.keepActiveInCustomView}
+        disabled={isDisabled}
       >
         {item.title}
       </Button>
     );
   }
 
-  renderLinkBar() {
+  renderLinkBar(config) {
     const me = this;
-    const { linkBar, tablePrefixCls } = me.props;
-    return <LinkBar config={linkBar} prefixCls={`${tablePrefixCls}-linkbar`} />;
+    const { tablePrefixCls } = me.props;
+    return <LinkBar config={config} prefixCls={`${tablePrefixCls}-linkbar`} />;
   }
 
-  renderSearchBar() {
-    if (this.props.showSearch) {
-      const me = this;
-      const searchBarProps = {
-        onSearch: me.handleSearch.bind(me),
-        key: 'searchbar',
-        placeholder: me.props.searchBarPlaceholder,
-        prefixCls: `${me.props.tablePrefixCls}-searchbar`,
-      };
-      return <SearchBar {...searchBarProps} />;
-    }
-    return null;
+  renderSearchBar(config) {
+    const me = this;
+    const searchBarProps = {
+      onSearch: (value) => {
+        me.handleSearch(value)
+        config.onSearch(value)
+      },
+      key: 'searchbar',
+      placeholder: config.placeholder || i18n[this.props.locale].searchPlaceholder,
+      prefixCls: `${me.props.tablePrefixCls}-searchbar`,
+    };
+    return <SearchBar {...searchBarProps} />;
   }
 
-  renderColumnPicker() {
+  renderColumnPicker(config) {
     const me = this;
     const {
       columns,
       handleColumnPickerChange,
       handleColumnPickerCheckAll,
       checkboxColumnKey,
-      showColumnPicker,
       showColumnPickerCheckAll,
       width,
       locale,
       tablePrefixCls,
-      actionBarConfig,
+      useListActionBar
     } = me.props;
-    if (!showColumnPicker) {
-      return null;
-    }
     const commonRenders = {
       columns,
       locale,
@@ -132,14 +133,11 @@ class ActionBar extends React.Component {
       showColumnPickerCheckAll,
       prefixCls: `${tablePrefixCls}-column-picker`
     };
-    if (!actionBarConfig || !actionBarConfig.useListActionBar) {
-      return <ColumnPicker {...commonRenders}/>
-    }
-    const  { columnsPicker, useListActionBar } = actionBarConfig;
+
     return (
       <ColumnPicker
         {...commonRenders}
-        {...columnsPicker}
+        {...config}
         isTableView={me.state.activatedView === 'table'}
         useListActionBar={useListActionBar}
       />
@@ -152,6 +150,7 @@ class ActionBar extends React.Component {
 
   renderSelectAll() {
     const me = this;
+    const { locale } = this.props
     return (
       <span className={`${me.props.tablePrefixCls}-select-all`}>
         <CheckBox
@@ -160,7 +159,7 @@ class ActionBar extends React.Component {
           halfChecked={me.props.checkStatus.isHalfChecked}
           disable={me.props.checkStatus.isAllDisabled}
           onChange={me.handleCheckBoxChange}
-          text={'全选'}
+          text={i18n[locale].check_all}
         />
       </span>
     )
@@ -168,7 +167,7 @@ class ActionBar extends React.Component {
 
   changeView = (e) => {
     const { useCustomView, actionBarConfig, data, currentPage } = this.props
-    const { renderCustomView, removePagerInCustomView } = actionBarConfig
+    const { customView, removePagerInCustomView } = actionBarConfig
     const target = e.target;
     const name = target.getAttribute('data-name');
     if (!name) {
@@ -178,7 +177,10 @@ class ActionBar extends React.Component {
       activatedView: name
     })
     if (name === 'custom') {
-      const view = renderCustomView(data, currentPage);
+      this.setState({
+        removeMiniPagerInCustomView: true
+      })
+      const view = customView.render(data, currentPage);
       if (typeof view.$$typeof === 'symbol') {
         useCustomView(view, removePagerInCustomView)
       } else if (view.constructor.name === 'Promise') {
@@ -194,30 +196,32 @@ class ActionBar extends React.Component {
       // }
     } else {
       useCustomView(null)
+      this.setState({
+        removeMiniPagerInCustomView: false
+      })
     }
   }
 
-  renderListActionBar() {
+  renderListActionBar(config) {
     const me = this;
+    const { activatedView } = me.state;
     const {
-      useListActionBar,
+      columns,
+      handleColumnOrderChange,
+    } = me.props;
+    const {
       className,
       showSelectAll,
       actionBarTip,
-      renderCustomBarItem,
+      customBarItem,
       rowOrder,
       columnsOrder,
       columnsPicker,
-      showPager,
-      renderCustomView
-    } = me.props.actionBarConfig;
-
-    const { activatedView } = me.state;
-    const { columns, handleColumnOrderChange } = me.props;
-
-    if (!useListActionBar) {
-      return null
-    }
+      showMiniPager,
+      customView,
+      linkBar,
+      search
+    } = config;
     return (
       <div className={classnames(`${me.props.tablePrefixCls}-list-action-bar`, {
         [className]: className
@@ -225,7 +229,7 @@ class ActionBar extends React.Component {
         <div className={'left'}>
           {showSelectAll ? me.renderSelectAll() : null}
           {
-            ActionBar.getActionItem(me.props.actionBarConfig, true).map((item, index) => {
+            config.buttons.map((item, index) => {
               return me.renderActionBtn(item, index)
             })
           }
@@ -238,14 +242,13 @@ class ActionBar extends React.Component {
           }
         </div>
         {
-          renderCustomBarItem ? <div style={{ display: 'inline-block' }}>
-            {
-              typeof renderCustomBarItem === 'string' ? renderCustomBarItem : typeof renderCustomBarItem === 'function' ? renderCustomBarItem() : null
-            }
+          customBarItem && customBarItem.render ? <div style={{ display: 'inline-block' }}>
+            {customBarItem.render()}
           </div> : null
         }
         <div className={'right'}>
-          {renderCustomView ? <div onClick={this.changeView}>
+          {search ? this.renderSearchBar(search) : null}
+          {customView ? <div onClick={this.changeView}>
             <Icon usei className={classnames({
               active: activatedView === 'table'
             })} data-name={'table'} name={'renwufull'} />
@@ -254,14 +257,14 @@ class ActionBar extends React.Component {
             })} data-name={'custom'} name={'biaoge1'} />
           </div> : null }
           {
-            showPager ? <div style={{ paddingTop: '5px'}}>
+            showMiniPager && !this.state.removeMiniPagerInCustomView ? <div style={{ paddingTop: '5px'}}>
               {
                 this.props.renderPager(true)
               }
             </div> : null
           }
           {
-            columnsPicker ? this.renderColumnPicker() : null
+            columnsPicker ? this.renderColumnPicker(columnsPicker) : null
           }
           {
             columnsOrder ? <ColumnOrder
@@ -277,31 +280,82 @@ class ActionBar extends React.Component {
               isTableView={activatedView === 'table'}
             /> : null
           }
+          {linkBar ? this.renderLinkBar(linkBar) : null}
         </div>
       </div>
     )
   }
 
+  fixActionBarConfig() { // when useListActionBar is false or undefined
+    const {
+      showSearch,
+      onSearch, // 此处的onSearch并非table上的onSearch，而是handleActionBarSearch，未对外暴露
+      searchBarPlaceholder,
+      showColumnPicker,
+      onColumnPicker,
+      linkBar,
+      locale,
+      actionBarConfig,
+      useListActionBar
+    } = this.props;
+    let barConfig = {}
+    if (useListActionBar) {
+      if (!actionBarConfig || typeof actionBarConfig !== 'object') {
+        console.error('当useListActionBar为true时，actionBar参数不可省略')
+      }
+      barConfig = {
+        ...actionBarConfig
+      }
+      if (!barConfig.buttons || !barConfig.buttons.splice) {
+        barConfig.buttons = []
+      }
+    } else {
+      barConfig.buttons = ActionBar.getActionItem(actionBarConfig)
+    }
+
+    if (showColumnPicker) {
+      if (!barConfig.columnsPicker) {
+        barConfig.columnsPicker = {
+          iconName: 'zidingyilie',
+          title: i18n[locale].templated_column,
+          keepActiveInCustomView: true,
+          onChange(data) {
+            console.log(data)
+            onColumnPicker && onColumnPicker(data)
+          }
+        }
+      }
+    }
+
+    if (showSearch) {
+      if (!barConfig.search) {
+        barConfig.search = {
+          placeholder: searchBarPlaceholder || i18n[locale].searchPlaceholder,
+          onSearch: (value) => {
+            onSearch && onSearch(value)
+          }
+        }
+      }
+    }
+
+    if (linkBar) {
+      if (!barConfig.linkBar) {
+        barConfig.linkBar = linkBar
+      }
+    }
+    return barConfig;
+  }
+
   render() {
-    const me = this;
-    const { props } = me;
-    const actionBarConfig = props.actionBarConfig;
-    const useListActionBar = actionBarConfig && actionBarConfig.useListActionBar
+    const { props } = this;
+    const actionBarConfig = this.fixActionBarConfig();
     return (
       <div
         className={classnames(`${props.tablePrefixCls}-actionbar`, {
           'fn-clear': true,
         })}
       >
-        {
-          !useListActionBar ? ActionBar.getActionItem(actionBarConfig).map((item, index) => {
-            return me.renderActionBtn(item, index)
-          }): null
-        }
-        {!useListActionBar ? me.renderSearchBar() : null}
-        {!useListActionBar ? me.renderColumnPicker() : null}
-        {!useListActionBar ? me.renderLinkBar() : null}
-        {useListActionBar ? me.renderListActionBar() : null}
+        {this.renderListActionBar(actionBarConfig)}
       </div>
     );
   }

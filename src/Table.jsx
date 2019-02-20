@@ -1283,13 +1283,38 @@ class Table extends React.Component {
   renderActionBar() {
     const shouldRenderActionBar = (config) => {
       let shouldRenderAction = false;
-      if (config.actionBar) {
-        if (Array.isArray(config.actionBar)) {
-          if (config.actionBar.length) {
-            shouldRenderAction = true;
+      if (!config.useListActionBar) {
+        if (config.actionBar) {
+          if (Array.isArray(config.actionBar)) {
+            if (config.actionBar.length) {
+              shouldRenderAction = true;
+            }
+          } else if (typeof config.actionBar === 'object') {
+            for (let i in config.actionBar) if (config.actionBar.hasOwnProperty(i)) {
+              if (typeof config.actionBar[i] === 'function') {
+                shouldRenderAction = true;
+                break;
+              }
+            }
           }
-        } else if (typeof config.actionBar === 'object') {
-          shouldRenderAction = true;
+        }
+      } else {
+        const actionBar = config.actionBar
+        if (actionBar) {
+          if (actionBar.showSelectAll
+            || actionBar.buttons && actionBar.buttons.length
+            || actionBar.actionBarTip
+            || actionBar.customBarItem
+            || actionBar.rowOrder
+            || actionBar.columnsOrder
+            || actionBar.columnsPicker
+            || actionBar.customView
+            || actionBar.showMiniPager
+            || actionBar.search
+            || actionBar.linkBar
+          ) {
+            shouldRenderAction = true
+          }
         }
       }
       return shouldRenderAction
@@ -1299,35 +1324,36 @@ class Table extends React.Component {
     };
 
     const me = this;
-    const { state } = me;
+    const { state, props } = me;
     const data = state.data ? (state.data.datas || state.data.data) : [];
     const checkStatus = me.getCheckStatus(data);
 
-    if (shouldRenderActionBar(this.props)) {
+    if (shouldRenderActionBar(props)) {
       const renderActionProps = {
-        actionBarConfig: this.props.actionBar,
-        showColumnPicker: this.props.showColumnPicker,
-        locale: this.props.locale,
-        linkBar: this.props.linkBar,
+        actionBarConfig: props.actionBar,
+        useListActionBar: props.useListActionBar,
+        showColumnPicker: props.showColumnPicker,
+        locale: props.locale,
+        linkBar: props.linkBar,
         checkStatus,
         data,
         currentPage: state.currentPage,
-        selectAll: this.selectAll.bind(this),
-        checkboxColumnKey: this.state.checkboxColumnKey,
-        showSearch: this.props.showSearch,
-        searchBarPlaceholder: this.props.searchBarPlaceholder,
-        columns: this.state.columns,
-        width: this.props.width,
-        onSearch: this.handleActionBarSearch,
-        showColumnPickerCheckAll: this.props.showColumnPickerCheckAll,
-        handleColumnPickerChange: this.handleColumnPickerChange,
-        handleColumnPickerCheckAll: this.handleColumnPickerCheckAll,
-        handleColumnOrderChange: this.handleColumnOrderChange,
+        selectAll: me.selectAll.bind(me),
+        checkboxColumnKey: me.state.checkboxColumnKey,
+        showSearch: props.showSearch,
+        searchBarPlaceholder: props.searchBarPlaceholder,
+        columns: me.state.columns,
+        width: props.width,
+        onSearch: me.handleActionBarSearch,
+        showColumnPickerCheckAll: props.showColumnPickerCheckAll,
+        handleColumnPickerChange: me.handleColumnPickerChange,
+        handleColumnPickerCheckAll: me.handleColumnPickerCheckAll,
+        handleColumnOrderChange: me.handleColumnOrderChange,
         key: 'grid-actionbar',
-        prefixCls: `${this.props.prefixCls}-actionbar`,
-        tablePrefixCls: this.props.prefixCls,
-        renderPager: this.renderPager.bind(this),
-        useCustomView: this.useCustomView.bind(this)
+        prefixCls: `${props.prefixCls}-actionbar`,
+        tablePrefixCls: props.prefixCls,
+        renderPager: me.renderPager.bind(me),
+        useCustomView: me.useCustomView.bind(me),
       };
       return <ActionBar {...renderActionProps} />;
     }

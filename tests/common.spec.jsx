@@ -185,6 +185,15 @@ describe('Table', () => {
       const wrapper1 = mount(
         <Table
           {...common}
+          showColumnPicker={true}
+          linkBar={[
+            {
+              title: '操作外链二',
+              callback: () => {
+                alert(2);
+              },
+            }
+          ]}
           actionBar={[
             {
               title: '新增行',
@@ -202,100 +211,121 @@ describe('Table', () => {
         />,
       );
 
-      const wrapper2 = mount(
-        <Table
-          {...common}
-          actionBar={
+      let options2 = {
+        useListActionBar: true,
+        showSearch: true,
+        actionBar: {
+          // useListActionBar: true,
+          showSelectAll: true,
+          buttons: [
             {
-              useListActionBar: true,
-              showSelectAll: true,
-              buttons: [
-                {
-                  title: 'Action Button',
-                  keepActiveInCustomView: true,
-                  callback: () => {
-                    this.forceUpdate();
-                    console.log(me.table.getData());
-                    me.table.toggleSubComp(me.table.getData().data.datas);
-                  },
-                },
-                {
-                  title: '123123',
-                  // type: 'secondary',
-                  keepActiveInCustomView: true,
-                  size: 'small',
-                  callback: () => {
-                    me.table.selectAll(true);
-                  }
-                }
-              ],
-              actionBarTip: '已经为您找到记录123条',
-              // renderCustomBarItem() {
-              //   return (
-              //     <p>自定义内容</p>
-              //   )
-              // },
-              rowOrder: {
-                iconName: 'paixu-jiangxu',
-                // keepActiveInCustomView: true,
-                defaultValue: {
-                  text: '行排序',
-                  value: '123'
-                },
-                items: [
-                  {
-                    text: '行排序',
-                    value: '123'
-                  },
-                  {
-                    text: '排序方式',
-                    value: '456'
-                  }
-                ],
-                onChange(data) {
-                  console.log(data)
-                }
+              title: 'Action Button',
+              keepActiveInCustomView: true,
+              callback: () => {
+                this.forceUpdate();
+                console.log(me.table.getData());
+                me.table.toggleSubComp(me.table.getData().data.datas);
               },
-              columnsOrder: {
-                iconName: 'huxiangguanzhu',
-                // keepActiveInCustomView: true,
-                title: '列排序',
-                includeActionColumn: true,
-                onChange(dragInfo, data) {
-                  console.log(data)
-                }
-              },
-              columnsPicker: {
-                iconName: 'zidingyilie',
-                title: '列选择器',
-                // keepActiveInCustomView: true,
-                onChange(data) {
-                  console.log(data)
-                }
-              },
-              // 支持返回promise
-              renderCustomView(data, currentPage) {
-                console.log(data, currentPage)
-                return (
-                  <Test name={'123123123'}/>
-                )
-              },
-              showPager: true,
-              removePagerInCustomView: false
+            },
+            {
+              title: '123123',
+              // type: 'secondary',
+              keepActiveInCustomView: true,
+              size: 'small',
+              callback: () => {
+                me.table.selectAll(true);
+              }
             }
-          }
-        />,
+          ],
+          actionBarTip: '已经为您找到记录123条',
+          // renderCustomBarItem() {
+          //   return (
+          //     <p>自定义内容</p>
+          //   )
+          // },
+          rowOrder: {
+            iconName: 'paixu-jiangxu',
+            // keepActiveInCustomView: true,
+            defaultValue: {
+              text: '行排序',
+              value: '123'
+            },
+            items: [
+              {
+                text: '行排序',
+                value: '123'
+              },
+              {
+                text: '排序方式',
+                value: '456'
+              }
+            ],
+            onChange(data) {
+              console.log(data)
+            }
+          },
+          columnsOrder: {
+            iconName: 'huxiangguanzhu',
+            // keepActiveInCustomView: true,
+            title: '列排序',
+            includeActionColumn: true,
+            onChange(dragInfo, data) {
+              console.log(data)
+            }
+          },
+          columnsPicker: {
+            iconName: 'zidingyilie',
+            title: '列选择器',
+            // keepActiveInCustomView: true,
+            onChange(data) {
+              console.log(data)
+            }
+          },
+          // 支持返回promise
+          customView: {
+            render(data, currentPage) {
+              console.log(data, currentPage)
+              return (
+                <Test name={'123123123'}/>
+              )
+            }
+          },
+          showMiniPager: true,
+          removePagerInCustomView: false
+        }
+      }
+
+      const wrapper2 = mount(
+        <Table {...common} {...options2} />,
       );
       expect(wrapper1.find('button.kuma-uxtable-actionbar-item')).to.have.length(3);
+      expect(wrapper1.find('.kuma-uxtable-column-picker-trigger')).to.have.length(1);
+      expect(wrapper1.find('.kuma-uxtable-linkbar-item')).to.have.length(1);
+
       expect(wrapper2.find('.kuma-uxtable-select-all')).to.have.length(1);
       expect(wrapper2.find('button.kuma-uxtable-actionbar-item')).to.have.length(2);
       expect(wrapper2.find('.kuma-page-simple')).to.have.length(1);
       const orderTitle = wrapper2.find('.order-title')
       const columnOrderTitle = wrapper2.find('.column-order-title')
       const biaoge1 = wrapper2.find('.uxcore-icon.uxicon-biaoge1')
+      const searchBar = wrapper2.find('.kuma-uxtable-searchbar')
+      const picker = wrapper2.find('.picker-title')
+      // const searchBar = wrapper2.find('.kuma-uxtable-searchbar')
       expect(orderTitle).to.have.length(1);
       expect(columnOrderTitle).to.have.length(1);
       expect(biaoge1).to.have.length(1)
+      expect(searchBar).to.have.length(1)
+      expect(picker).to.have.length(1)
+
+      options2.showColumnPicker = true
+      options2.actionBar.columnsPicker = undefined
+      options2.showSearch = false
+
+      const wrapper3 = mount(<Table {...common} {...options2} />)
+
+      expect(wrapper3.find('.picker-title')).to.have.length(1)
+      expect(wrapper3.find('.kuma-uxtable-searchbar')).to.have.length(0)
+
       // biaoge1.at(4).simulate('click');
       // setTimeout(function () {
       //   // wrapper2.update();

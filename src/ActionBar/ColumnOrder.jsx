@@ -22,8 +22,18 @@ class ColumnOrder extends React.Component {
     super(props)
     this.state = {
       value: props.defaultValue,
+      preColumns: props.columns,
       checkAbleColumns: getColumnsInfo(props.columns, props.includeActionColumn),
     }
+  }
+  static getDerivedStateFromProps = (props, state) => {
+    if (props.columns !== state.preColumns) {
+      return {
+        checkAbleColumns: getColumnsInfo(props.columns, props.includeActionColumn),
+        preColumns: props.columns
+      };
+    }
+    return null;
   }
   onDrop = (data, dragInfo) => {
     const { otherColumns, actionColumnPos, actionColumn, fixedColumns } = this.state.checkAbleColumns

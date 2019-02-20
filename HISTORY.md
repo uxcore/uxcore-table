@@ -1,4 +1,7 @@
 # History
+## 10.5.0
+* `CHANGE` Update ListActionBar for compatibility with older versions
+
 ## 10.4.17
 * `FIXED` fix a messageIcon filter Regex bug
 

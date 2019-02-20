@@ -230,7 +230,7 @@ class Demo extends React.Component {
         customField: createCellField(),
         rules: {
           validator: Validator.isEmail,
-          errMsg: '出错',
+          errMsg: '出错1111',
         },
         config: {
           onBlur(e) {
@@ -354,6 +354,7 @@ class Demo extends React.Component {
         {
           title: '恢复所有行',
           callback: () => {
+            debugger
             me.table.resetAllRow();
           },
         },
@@ -372,6 +373,7 @@ class Demo extends React.Component {
           },
         },
       ],
+      useListActionBar: false,
       // fetchUrl:"http://demo.nwux.taobao.net/file/getGridJson.jsonp",
       // fetchUrl: "http://10.1.159.52:3002/demo/data.json",
       jsxcolumns: columns,

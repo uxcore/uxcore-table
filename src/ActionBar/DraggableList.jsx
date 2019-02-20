@@ -103,7 +103,7 @@ class DraggableList extends React.Component {
                 onDrop={function(e){e.preventDefault()}}
               >
                 {itemRender(item)}
-                {draggable ? <Icon usei name="paixu-jiangxu" /> : null}
+                {draggable ? <Icon usei name="drag" /> : null}
               </div>
             )
           })

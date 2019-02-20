@@ -29,6 +29,76 @@ class Demo extends React.Component {
     this.state = {
       text: 1,
       showTable: true,
+      columns: [
+        {
+          dataKey: 'firstName',
+          title: <span>自定义列头</span>,
+          // fixed: true,
+          // width: '15%',
+          filters: [{
+            text: 'Joe',
+            value: 'Joe',
+          }, {
+            text: 'Jimmmmmmmmmmmmmmmmmmmmmmmmmmmmm',
+            value: 'Jim',
+          }, {
+            text: 'Submenu',
+            value: 'Submenu',
+            children: [{
+              text: 'Green',
+              value: 'Green',
+            }, {
+              text: 'Black',
+              value: 'Black',
+            }],
+          }],
+          message: '这是一个提示',
+          ordered: true,
+        },
+
+        {
+          dataKey: 'lastName',
+          title: 'LastName',
+          message: 'nihao',
+          isDisable: function() {
+            return true
+          },
+          // fixed: true,
+          // rightFixed: true
+          // width: '55%',
+        },
+        {
+          dataKey: 'email',
+          title: 'Email',
+          // width: '30%',
+          ordered: true,
+          message: `sadfsdf\nnsafdasdfasdf`
+        },
+        {
+          title: '操作1',
+          width: '200px',
+          type: 'action',
+          // fixed: false,
+          actions: [{
+            title: 'click',
+            callback: () => {
+            },
+            mode: 'edit',
+          }, {
+            title: '删除',
+            callback: () => {
+            },
+            mode: 'view',
+          }, {
+            title: 'view',
+            callback: () => { },
+            mode: 'edit',
+          }, {
+            title: 'view',
+            callback: () => { },
+          }],
+        },
+      ]
     };
     this.toggleShowTable = this.toggleShowTable.bind(this);
   }
@@ -51,77 +121,7 @@ class Demo extends React.Component {
       },
       // isDisabled: rowData => true,
     };
-    const columns = [
-      {
-        dataKey: 'firstName',
-        title: <span>123123123</span>,
-        // fixed: true,
-        // width: '15%',
-        filters: [{
-          text: 'Joe',
-          value: 'Joe',
-        }, {
-          text: 'Jimmmmmmmmmmmmmmmmmmmmmmmmmmmmm',
-          value: 'Jim',
-        }, {
-          text: 'Submenu',
-          value: 'Submenu',
-          children: [{
-            text: 'Green',
-            value: 'Green',
-          }, {
-            text: 'Black',
-            value: 'Black',
-          }],
-        }],
-        message: '这是一个提示',
-        ordered: true,
-      },
-
-      {
-        dataKey: 'lastName',
-        title: 'LastName',
-        message: 'nihao',
-        isDisable: function() {
-          return true
-        },
-        // fixed: true,
-        // rightFixed: true
-        // width: '55%',
-      },
-      {
-        dataKey: 'email',
-        title: 'Email',
-        // width: '30%',
-        ordered: true,
-        message: `sadfsdf\nnsafdasdfasdf`
-      },
-      {
-        title: '操作1',
-        width: '200px',
-        type: 'action',
-        // fixed: false,
-        actions: [{
-          title: 'click',
-          callback: () => {
-          },
-          mode: 'edit',
-        }, {
-          title: '删除',
-          callback: () => {
-          },
-          mode: 'view',
-        }, {
-          title: 'view',
-          callback: () => { },
-          mode: 'edit',
-        }, {
-          title: 'view',
-          callback: () => { },
-        }],
-      },
-
-    ];
+    const columns = this.state.columns
     const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
     const renderProps = {
       actionColumn: {
@@ -133,12 +133,12 @@ class Demo extends React.Component {
       className: 'kuma-uxtable-split-line',
       pagerSizeOptions: [5, 10, 15, 20],
       rowSelection,
+      // locale:'en-us',
       showColumnPicker: true,
       showColumnPickerCheckAll: true,
+      useListActionBar: true,
       actionBar: {
         className: 'my-list-action-bar',
-        // 是否使用list-action-bar模式
-        useListActionBar: true,
         // 是否显示全选
         showSelectAll: true,
         // 按钮配置
@@ -147,7 +147,7 @@ class Demo extends React.Component {
             title: 'Action Button',
             render() {
               return (
-                <p>123123</p>
+                <Button type={'primary'}>切换子表格状态</Button>
               )
             },
             keepActiveInCustomView: false,
@@ -158,7 +158,7 @@ class Demo extends React.Component {
             },
           },
           {
-            title: '123123',
+            title: '按钮',
             keepActiveInCustomView: false,
             // size: 'large',
             type: 'primary',
@@ -171,26 +171,28 @@ class Demo extends React.Component {
         // 文案提示
         actionBarTip: '已经为您找到记录123条',
         // 自定义内容
-        // renderCustomBarItem() {
-        //   return (
-        //     <p>自定义内容</p>
-        //   )
-        // },
+        customBarItem: {
+          render() {
+            return (
+              <p style={{color: 'red'}} onClick={(e) => {console.log(e)}}>自定义内容</p>
+            )
+          }
+        },
         // 行排序
         rowOrder: {
           iconName: 'paixu-jiangxu',
           // keepActiveInCustomView: true,
           defaultValue: {
-            text: '行排序',
+            text: '排序方式一',
             value: '123'
           },
           items: [
             {
-              text: '行排序',
+              text: '排序方式一',
               value: '123'
             },
             {
-              text: '排序方式',
+              text: '排序方式二',
               value: '456'
             }
           ],
@@ -203,7 +205,7 @@ class Demo extends React.Component {
           iconName: 'huxiangguanzhu',
           // keepActiveInCustomView: true,
           title: '列排序',
-          includeActionColumn: true,  // 优先级低于fixed和rightFixed
+          includeActionColumn: false,  // 优先级低于fixed和rightFixed
           onChange(dragInfo, data) {
             console.log(data)
           }
@@ -211,57 +213,57 @@ class Demo extends React.Component {
         // 列选择
         columnsPicker: {
           iconName: 'zidingyilie',
-          title: '列选择器',
-          // keepActiveInCustomView: true,
+          title: '自定义列',
+          keepActiveInCustomView: true,
           onChange(data) {
             console.log(data)
           }
         },
         // 自定义视图，支持返回promise和component
-        renderCustomView(data, currentPage) {
-          console.log(data, currentPage);
-          // return (
-          //   <Test name={'1231323123'}/>
-          // )
-          return new Promise(function(resolve) {
-            setTimeout(() => {
-              resolve(<Test name={'1231323123'}/>)
+        customView: {
+          render(data, currentPage) {
+            console.log(data, currentPage);
+            // return (
+            //   <Test name={'自定义的View'}/>
+            // )
+            return new Promise(function(resolve) {
+              setTimeout(() => {
+                resolve(<Test name={'自定义的View'}/>)
+              })
             })
-          })
+          }
         },
         // 是否显示翻页器
-        showPager: true,
-        // 在自定义视图下是否显示翻页器
-        removePagerInCustomView: false
+        showMiniPager: true,
+        search: {
+          // placeholder: '请输入搜索关键字',
+          onSearch() {
+            console.log(234234)
+          }
+        },
+        // 在自定义视图下移出翻页器
+        removePagerInCustomView: true,
+        linkBar: [
+          {
+            title: '修改columns',
+            callback: () => {
+              this.setState({
+                columns: this.state.columns.filter(item => {
+                  return item.title === 'LastName'
+                    || item.title === 'Email'
+                    || item.title === '操作1'
+                })
+              })
+            },
+          },
+          {
+            title: '操作外链二',
+            callback: () => {
+              alert(2);
+            },
+          },
+        ],
       },
-      // actionBar: [
-      //   {
-      //     title: 'Action Button',
-      //     callback: () => {
-      //       this.forceUpdate();
-      //       console.log(me.table.getData());
-      //       me.table.toggleSubComp(me.table.getData().data.datas);
-      //     },
-      //   },
-      //   {
-      //     title: '123123',
-      //     callback: () => {
-      //       me.table.selectAll(true);
-      //       console.log(123123)
-      //     }
-      //   }
-      // ],
-      // actionBar: {
-      //   'Action Button': () => {
-      //     this.forceUpdate();
-      //     console.log(me.table.getData());
-      //     me.table.toggleSubComp(me.table.getData().data.datas);
-      //   },
-      //   '123123': () => {
-      //     me.table.selectAll(true);
-      //     console.log(123123)
-      //   }
-      // },
       onSearch: (searchTxt) => {
         console.log(searchTxt);
       },
@@ -271,7 +273,7 @@ class Demo extends React.Component {
       onPagerChange: (current, pageSize) => {
         console.log(current, pageSize);
       },
-      showSearch: true,
+      showSearch: false,
       fetchUrl,
       beforeFetch: (data, from, config) => {
         console.log(data, from, config);
