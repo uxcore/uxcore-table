@@ -1,4 +1,10 @@
 # History
+## 10.5.2
+* `FIX` fix styles
+
+## 10.5.1
+* `FIX` fix styles & add setPickerGroups prop for group columns
+
 ## 10.5.0
 * `CHANGE` Update ListActionBar for compatibility with older versions
 
