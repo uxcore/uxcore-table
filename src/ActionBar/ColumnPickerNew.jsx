@@ -215,9 +215,9 @@ class ColumnPicker extends React.Component {
     const { prefixCls } = this.props;
     return (
       <div className={`${prefixCls}-group`} key={group.title}>
-        {/*{*/}
-          {/*group.title ? <p style={{ width: '100%'}}> {group.title}</p> : null*/}
-        {/*}*/}
+        {
+          group.title ? <p style={{ width: '100%', lineHeight: 2 }}> {group.title}</p> : null
+        }
         { group.columns.map(column => {
           return (
             column.dataKey ?
@@ -265,10 +265,15 @@ class ColumnPicker extends React.Component {
   }
 
   getPickerGroups() {
+    const { setPickerGroups } = this.props;
     const { columns } = this.state.columnsInfo;
+    const groups = setPickerGroups(columns);
+    if (groups && groups.length) {
+      return groups
+    }
     return [
       {
-        title: '分组名称',
+        title: '',
         columns
       }
     ]
@@ -363,7 +368,8 @@ ColumnPicker.defaultProps = {
   columns: [],
   handleColumnPickerChange: () => {},
   handleColumnPickerCheckAll: () => {},
-  onChange: () => {}
+  onChange: () => {},
+  setPickerGroups: () => { return null }
 };
 ColumnPicker.propTypes = {
   prefixCls: PropTypes.string,
@@ -372,7 +378,8 @@ ColumnPicker.propTypes = {
   columns: PropTypes.array,
   handleColumnPickerChange: PropTypes.func,
   handleColumnPickerCheckAll: PropTypes.func,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  setPickerGroups: PropTypes.func
 };
 
 ColumnPicker.displayName = 'ColumnPicker';

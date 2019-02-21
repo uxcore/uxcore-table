@@ -242,7 +242,7 @@ class ActionBar extends React.Component {
           }
         </div>
         {
-          customBarItem && customBarItem.render ? <div style={{ display: 'inline-block' }}>
+          customBarItem && customBarItem.render ? <div className={'custom'}>
             {customBarItem.render()}
           </div> : null
         }

@@ -214,7 +214,19 @@ class Demo extends React.Component {
         columnsPicker: {
           iconName: 'zidingyilie',
           title: '自定义列',
-          keepActiveInCustomView: true,
+          keepActiveInCustomView: false,
+          // setPickerGroups(columns) {
+          //   return [
+          //     {
+          //       title: '分组1',
+          //       columns: columns.filter((item, index) => {return index >= 1})
+          //     },
+          //     {
+          //       title: '分组2',
+          //       columns: columns.filter((item, index) => {return index <= 0})
+          //     }
+          //   ]
+          // },
           onChange(data) {
             console.log(data)
           }
