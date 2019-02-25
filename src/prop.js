@@ -65,6 +65,7 @@ const defaultProps = {
   shouldResetExpandedKeys: () => {},
   showColumnPickerCheckAll: false,
   defaultEditable: false,
+  getTooltipContainer: null,
 };
 
 // http://facebook.github.io/react/docs/reusable-components.html
@@ -134,7 +135,8 @@ const propTypes = {
   levels: PropTypes.number,
   footer: PropTypes.func,
   showColumnPickerCheckAll: PropTypes.bool,
-  defaultEditable: PropTypes.bool
+  defaultEditable: PropTypes.bool,
+  getTooltipContainer: PropTypes.func
 };
 
 export {

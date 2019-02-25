@@ -338,6 +338,7 @@ class Row extends React.Component {
               showSubCompCallback: me.showSubCompFunc.bind(me),
               rowLength: props.data.length,
               prefixCls: `${props.tablePrefixCls}-cell`,
+              getTooltipContainer: props.getTooltipContainer
             };
 
             if (firstVisableColumn === 1) {

@@ -1401,6 +1401,7 @@ class Table extends React.Component {
       checkboxColumnKey: me.state.checkboxColumnKey,
       leftFixedMaxWidth: props.leftFixedMaxWidth,
       tablePrefixCls: props.prefixCls,
+      getTooltipContainer: props.getTooltipContainer
     };
 
     const renderBodyProps = {
