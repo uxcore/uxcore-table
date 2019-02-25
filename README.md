@@ -130,7 +130,7 @@ $ npm start
 |rowGroupKey         |string              |optional  |            | 8.2.0     |用于行分组，可选值为 columns 设置中 dataKey，使用对应的列内容做行分组 |
 |defaultEditable     |boolean             |optional  |false       | 10.4.16   |默认开启行编辑模式|
 |useListActionBar    |boolean             |optional  |false       | 10.5.0    |新版listActionBar开关，actionBar配置，详细[见此](#actionbar)|
-|getTooltipContainer |function()          |optional  |null        | 10.5.2    |编辑状态下，tooltip位置可控
+|getTooltipContainer |function()          |optional  |null        | 10.5.2    |单元格编辑状态下，tooltip位置可控
 
 ### 折叠展开专用
 |Name            |Type                |Require   |Since Ver. |Default|Note |
