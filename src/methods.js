@@ -242,7 +242,7 @@ function changeTreeExpandState({ tableData, rowData }, cb = () => {}) {
   if (tableData) {
     const newData = {
       ...this.state.data,
-      data: [...tableData]
+      ...tableData
     }
     this.data = newData;
     this.setState({
