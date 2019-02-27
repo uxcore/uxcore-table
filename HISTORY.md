@@ -1,4 +1,8 @@
+
 # History
+## 10.5.4
+* `FIX` fix tree mode table logic
+
 ## 10.5.2
 * `FIX` fix styles
 
