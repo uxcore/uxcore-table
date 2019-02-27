@@ -239,12 +239,17 @@ function changeTreeExpandState({ tableData, rowData }, cb = () => {}) {
   const expandedKeys = deepcopy(this.state.expandedKeys);
   util.toggleItemInArr(rowData.jsxid, expandedKeys);
   const filteredTreeLoadingIds = this.state.treeLoadingIds.filter(id => id !== rowData.__treeId__);
+
   if (tableData) {
-    this.data = tableData;
+    const newData = {
+      ...this.state.data,
+      data: tableData
+    };
+    this.data = newData;
     this.setState({
       treeLoadingIds: filteredTreeLoadingIds,
       expandedKeys,
-      data: tableData,
+      data: newData,
     }, () => {
       cb();
     });
