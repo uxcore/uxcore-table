@@ -309,7 +309,7 @@ function addDataToSelectedRow(content, rowData) {
     newRowData,
   } = this.addDataInRow(me.state.data, rowData.__treeId__, content.data);
   const processedData = me.addValuesInData({ data: tableData }, 'reset') || {};
-  return { tableData: processedData, newRowData };
+  return { tableData: {...me.state.data, data: processedData}, newRowData };
 }
 
 export default {
