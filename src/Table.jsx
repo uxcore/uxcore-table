@@ -1303,7 +1303,8 @@ class Table extends React.Component {
         if (actionBar) {
           if (actionBar.showSelectAll
             || actionBar.buttons && actionBar.buttons.length
-            || actionBar.actionBarTip
+            || typeof actionBar.actionBarTip === 'string' && actionBar.actionBarTip
+            || typeof actionBar.actionBarTip === 'function' && actionBar.actionBarTip()
             || actionBar.customBarItem
             || actionBar.rowOrder
             || actionBar.columnsOrder
