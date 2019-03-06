@@ -1,5 +1,7 @@
 
 # History
+## 10.5.8
+* `FIXED` fix a bug when multiple table instances exist on a page in rowOrder & DraggableList
 
 ## 10.5.7
 * `FIXED` hide action bar when actionBar is empty
