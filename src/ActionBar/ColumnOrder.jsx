@@ -40,7 +40,7 @@ class ColumnOrder extends React.Component {
     const { includeActionColumn } = this.props
     this.props.onChange(dragInfo, data, otherColumns)
     // 如果不允许排序操作列，则此处需要添加回去
-    if (!includeActionColumn) {
+    if (!includeActionColumn && actionColumn) {
       data.splice(actionColumnPos - otherColumns.length, 0, actionColumn);
     }
     // 同样也要将fixedColumns和othersColumns添加回去
