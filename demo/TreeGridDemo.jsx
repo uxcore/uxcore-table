@@ -97,7 +97,7 @@ class Demo extends React.Component {
         {
           title: '操作',
           type: 'action',
-          fixedRight: true,
+          rightFixed: true,
           width: '300px',
           collapseNum: 5,
           actions: [
@@ -162,6 +162,7 @@ class Demo extends React.Component {
         return data
       },
       useListActionBar: true,
+      showColumnPickerCheckAll: true,
       showColumnPicker: true,
       actionBar: {
         columnsOrder: {
@@ -198,10 +199,25 @@ class Demo extends React.Component {
               this.setState({
                 columns: [
                   {
+                    dataKey: 'id',
+                    title: 'ID',
+                    width: '50px',
+                    hidden: true,
+                  },
+                  {
+                    dataKey: 'country',
+                    title: '国家',
+                    width: '200px',
+                    ordered: true,
+                    align: 'left',
+                    type: 'money',
+                    delimiter: ',',
+                  },
+                  {
                     title: '操作',
                     type: 'action',
-                    fixedRight: true,
                     width: '300px',
+                    rightFixed: true,
                     collapseNum: 5,
                     actions: [
                       {
@@ -248,6 +264,8 @@ class Demo extends React.Component {
                     ],
                   },
                 ]
+              }, () => {
+                this.table.checkRightFixed(true)
               })
             }
           },
