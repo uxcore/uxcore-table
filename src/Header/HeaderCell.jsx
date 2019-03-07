@@ -288,7 +288,7 @@ class HeaderCell extends React.Component {
       );
     }
 
-    if (noBorderColumn.indexOf(column.dataKey) !== -1 || last) {
+    if (noBorderColumn.indexOf(column.dataKey) !== -1 || last && !column.fixed) {
       assign(style, {
         borderRight: 'none',
       });

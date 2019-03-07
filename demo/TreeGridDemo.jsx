@@ -74,6 +74,7 @@ class Demo extends React.Component {
           align: 'left',
           type: 'money',
           delimiter: ',',
+          fixed: true,
         },
         {
           dataKey: 'city',
@@ -124,13 +125,6 @@ class Demo extends React.Component {
               callback: (rowData) => {
                 this.table.moveRowUp(rowData);
               },
-            },
-            {
-              title: '编辑',
-              callback: (rowData) => {
-                this.table.editRow(rowData);
-              },
-              mode: Constants.MODE.VIEW,
             },
             {
               title: '删除',
@@ -194,7 +188,7 @@ class Demo extends React.Component {
             }
           },
           {
-            title: '清空columns',
+            title: '变更columns',
             callback: () => {
               this.setState({
                 columns: [
@@ -217,7 +211,6 @@ class Demo extends React.Component {
                     title: '操作',
                     type: 'action',
                     width: '300px',
-                    rightFixed: true,
                     collapseNum: 5,
                     actions: [
                       {
@@ -268,85 +261,6 @@ class Demo extends React.Component {
                 this.table.checkRightFixed(true)
               })
             }
-          },
-          {
-            title: '恢复columns',
-            callback: () => {
-              this.setState({
-                columns: [
-                  {
-                    dataKey: 'id',
-                    title: 'ID',
-                    width: '50px',
-                    hidden: true,
-                  },
-                  {
-                    dataKey: 'country',
-                    title: '国家',
-                    width: '200px',
-                    ordered: true,
-                    align: 'left',
-                    type: 'money',
-                    delimiter: ',',
-                  },
-                  {
-                    dataKey: 'city',
-                    title: '城市',
-                    width: '150px',
-                  },
-                  {
-                    title: '操作',
-                    type: 'action',
-                    fixedRight: true,
-                    width: '300px',
-                    collapseNum: 5,
-                    actions: [
-                      {
-                        title: '新增',
-                        callback: (rowData) => {
-                          this.table.addSubRow({
-                            "id": `${setTimeout(0)}`,
-                            "check": true,
-                            "grade": "2grade3",
-                            "email": "2email",
-                            "firstName": "2firstName3",
-                            "lastName": "2lastName3",
-                            "birthDate": "2birthDate3",
-                            "country": `country_${setTimeout(0)}`,
-                            "city": "2city3"
-                          }, rowData.jsxid, () => {
-                            console.log(this.table.getData())
-                          })
-                        }
-                      },
-                      {
-                        title: '上移',
-                        callback: (rowData) => {
-                          this.table.moveRowUp(rowData);
-                        },
-                      },
-                      {
-                        title: '编辑',
-                        callback: (rowData) => {
-                          this.table.editRow(rowData);
-                        },
-                        mode: Constants.MODE.VIEW,
-                      },
-                      {
-                        title: '删除',
-                        callback: (rowData) => {
-                          this.table.delRow(rowData);
-                        },
-                      },
-                      {
-                        title: '下移',
-                        callback: (rowData) => { this.table.moveRowDown(rowData); },
-                      },
-                    ],
-                  },
-                ]
-              })
-            }
           }
         ]
       },
@@ -363,7 +277,7 @@ class Demo extends React.Component {
         this.table = c;
       },
     };
-    return (<Table ref={c => {this.table = c}} {...renderProps} />);
+    return (<Table ref={c => {this.table = c}} {...renderProps} className={'kuma-uxtable-border-line'} />);
   }
 }
 
