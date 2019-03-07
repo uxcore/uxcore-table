@@ -300,7 +300,8 @@ class ColumnPicker extends React.Component {
   renderListActionBar() {
     const me = this;
     const p = me.props;
-    const disabled = !p.keepActiveInCustomView && !p.isTableView;
+    const { columnsInfo } = this.state
+    const disabled = !p.keepActiveInCustomView && !p.isTableView || !columnsInfo.columns.length
     return (
       <Popover
         placement={'bottomRight'}

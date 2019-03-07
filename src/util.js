@@ -337,7 +337,7 @@ const dropFunc = (obj) => {
   return obj;
 };
 
-const getColumnsInfo = (columns, includeActionColumn) => {
+const getColumnsInfo = (columns, includeActionColumn, excludeHiddenColumn) => {
   const blackList = {'jsxchecked': 1, 'jsxtreeIcon': 1, 'jsxwhite': 1};
   let columnsKey = [];
   let actionColumn = null;
@@ -347,7 +347,7 @@ const getColumnsInfo = (columns, includeActionColumn) => {
   let fixedColumns = [];
   return {
     columns: columns.filter((column, index) => {
-      if (column.dataKey in blackList) {
+      if (column.dataKey in blackList || excludeHiddenColumn && column.hidden) {
         otherColumns.push(column)
         return false
       }
