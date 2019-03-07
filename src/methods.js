@@ -18,6 +18,18 @@ function addRowFromTop(rowData, cb) {
   this.insertRecords(rowData, true, cb);
 }
 
+function addSubRow(rowData, jsxid, cb) {
+  if (jsxid >= 0) {
+    this.insertRecords(rowData, false, cb, jsxid)
+  }
+}
+
+function addSubRowFromTop(rowData, jsxid, cb) {
+  if (jsxid >= 0) {
+    this.insertRecords(rowData, true, cb, jsxid)
+  }
+}
+
 function resetRow(rowData, cb) {
   const me = this;
   let updateData = {};
@@ -321,6 +333,8 @@ export default {
   addEmptyRowFromTop,
   addRow,
   addRowFromTop,
+  addSubRow,
+  addSubRowFromTop,
   resetRow,
   resetAllRow,
   delRow,

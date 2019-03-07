@@ -58,7 +58,7 @@ function addValuesInData(objAux, operation) {
  * @param objAux {Array or Object} datum or data need to be inserted
  */
 
-function insertRecords(obj, reverse, cb) {
+function insertRecords(obj, reverse, cb, targetJsxId) {
   if (typeof obj !== 'object') return;
   const me = this;
   let objAux = deepcopy(obj);
@@ -66,11 +66,16 @@ function insertRecords(obj, reverse, cb) {
     objAux = [objAux];
   }
   objAux = me.addJSXIdsForRecord(objAux);
-  const content = util.mergeData(me.state.data, objAux, reverse);
-  updateTreeId(content.data);
-  me.data = content;
+  const { data, expandedKey } = util.mergeData(me.state.data, objAux, reverse, targetJsxId);
+  updateTreeId(data.data);
+  me.data = data;
+  let expandedKeys = [...this.state.expandedKeys];
+  if (expandedKey >= 0) {
+    expandedKeys.push(expandedKey)
+  }
   me.setState({
-    data: content,
+    data: data,
+    expandedKeys
   }, () => {
     if (cb) {
       cb();

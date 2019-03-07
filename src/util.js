@@ -84,8 +84,45 @@ const arrayConcat = (oldArr, newArr, reverse) => {
   return resArr;
 };
 
-const mergeData = (data, obj, reverse) => {
-  const newData = deepcopy(data);
+const findRowData = (() => {
+  let ret = null
+  return (data, jsxId) => {
+    if (!data || !data.length || jsxId === undefined) {
+      return
+    }
+    for (let i = 0, len = data.length; i < len; i++) {
+      const item = data[i]
+      if (item.jsxid === jsxId) {
+        ret = item
+        break
+      }
+      if (item.data && item.data.length) {
+        findRowData(item.data, jsxId)
+      }
+    }
+    return ret
+  }
+})()
+
+const mergeData = (data, obj, reverse, targetId) => {
+  let newData = deepcopy(data);
+  let expandedKey
+  if (targetId >= 0) {
+    let ret = findRowData(newData.data, targetId)
+    if (ret) {
+      if (ret.data && ret.data.length) {
+        ret.data = arrayConcat(ret.data, obj, reverse)
+      } else {
+        ret.data = obj
+      }
+      expandedKey = ret.jsxid
+    }
+    if (data.data.length !== newData.data.length) {
+      newData.totalCount += 1
+    }
+    return { data: newData, expandedKey }
+  }
+
   // code compatible
   if (newData.datas) {
     newData.datas = arrayConcat(newData.datas, obj, reverse);
@@ -93,7 +130,7 @@ const mergeData = (data, obj, reverse) => {
     newData.data = arrayConcat(newData.data, obj, reverse);
   }
   newData.totalCount += 1;
-  return newData;
+  return { data: newData, expandedKey };
 };
 
 /* eslint-disable no-param-reassign */
