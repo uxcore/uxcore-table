@@ -143,7 +143,7 @@ class Demo extends React.Component {
   }
   render() {
     const renderProps = {
-      height: '800px',
+      height: '600px',
       width: '1000px',
       showSearch: true,
       levels: 0,
