@@ -237,4 +237,76 @@ describe('Tree', () => {
     wrapper.find('.kuma-icon.kuma-icon-triangle-right').at(4).simulate('click');
     expect(wrapper.find('.kuma-uxtable-row').length).to.be(rowLength + 1);
   });
+
+  it('api addSubRow & addSubRowFromTop', (done) => {
+    wrapper = mount(
+      <Table
+        {...common}
+        loadTreeData={loadTreeDataWithSync}
+        renderModel="tree"
+        levels={0}
+      />
+    );
+    const table = wrapper.instance()
+    expect(table.state.expandedKeys).to.have.length(0)
+    table.addSubRow({
+      id: '9999',
+      radio: true,
+      grade: '2grade2',
+      email: '2email2',
+      firstName: '2firstName2',
+      lastName: '2lastName2',
+      birthDate: '2birthDate2',
+      country: '2country2',
+      city: '2city2'
+    }, 0, () => {
+      const data = table.getData().data.data;
+      expect(data[0].data).to.have.length(4);
+      expect(data[0].data[3].id).to.be('9999');
+      expect(data[0].data[3].__treeId__).to.be('0-3');
+      expect(table.state.expandedKeys.includes(0))
+      done();
+    });
+    table.addSubRowFromTop({
+      id: '0000',
+      radio: true,
+      grade: '2grade2',
+      email: '2email2',
+      firstName: '2firstName2',
+      lastName: '2lastName2',
+      birthDate: '2birthDate2',
+      country: '2country2',
+      city: '2city2'
+    }, 0, () => {
+      const data = table.getData().data.data;
+      expect(data[0].data).to.have.length(5);
+      expect(data[0].data[4].id).to.be('0000');
+      expect(data[0].data[4].__treeId__).to.be('0-0');
+      done();
+    });
+
+    // not tree table
+    let wrapper = mount(
+      <Table
+        {...common}
+        loadTreeData={loadTreeDataWithSync}
+        levels={0}
+      />
+    );
+    wrapper.instance().addSubRow({
+      id: '9999',
+      radio: true,
+      grade: '2grade2',
+      email: '2email2',
+      firstName: '2firstName2',
+      lastName: '2lastName2',
+      birthDate: '2birthDate2',
+      country: '2country2',
+      city: '2city2'
+    }, 0, () => {
+      const data = wrapper.instance().getData().data.data;
+      expect(data[0].data).to.have.length(3);
+      done();
+    });
+  });
 });
