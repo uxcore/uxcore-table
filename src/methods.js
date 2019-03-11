@@ -19,13 +19,13 @@ function addRowFromTop(rowData, cb) {
 }
 
 function addSubRow(rowData, jsxid, cb) {
-  if (jsxid >= 0) {
+  if (jsxid >= 0 && this.props.renderModel === 'tree') {
     this.insertRecords(rowData, false, cb, jsxid)
   }
 }
 
 function addSubRowFromTop(rowData, jsxid, cb) {
-  if (jsxid >= 0) {
+  if (jsxid >= 0 && this.props.renderModel === 'tree') {
     this.insertRecords(rowData, true, cb, jsxid)
   }
 }
