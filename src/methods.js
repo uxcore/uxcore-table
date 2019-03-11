@@ -18,15 +18,17 @@ function addRowFromTop(rowData, cb) {
   this.insertRecords(rowData, true, cb);
 }
 
-function addSubRow(rowData, jsxid, cb) {
+function addSubRow(subRowData, rowData, cb) {
+  const { jsxid } = rowData
   if (jsxid >= 0 && this.props.renderModel === 'tree') {
-    this.insertRecords(rowData, false, cb, jsxid)
+    this.insertRecords(subRowData, false, cb, jsxid)
   }
 }
 
-function addSubRowFromTop(rowData, jsxid, cb) {
+function addSubRowFromTop(subRowData, rowData, cb) {
+  const { jsxid } = rowData
   if (jsxid >= 0 && this.props.renderModel === 'tree') {
-    this.insertRecords(rowData, true, cb, jsxid)
+    this.insertRecords(subRowData, true, cb, jsxid)
   }
 }
 

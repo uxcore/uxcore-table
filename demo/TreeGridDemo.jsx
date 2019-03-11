@@ -97,7 +97,7 @@ class Demo extends React.Component {
           collapseNum: 5,
           actions: [
             {
-              title: '新增',
+              title: '新增子行',
               callback: (rowData) => {
                 this.table.addSubRow({
                   "id": `${setTimeout(0)}`,
@@ -109,7 +109,7 @@ class Demo extends React.Component {
                   "birthDate": "2birthDate3",
                   "country": `country_${setTimeout(0)}`,
                   "city": "2city3"
-                }, rowData.jsxid, () => {
+                }, rowData, () => {
                   console.log(this.table.getData())
                 })
               }
@@ -208,7 +208,7 @@ class Demo extends React.Component {
                     collapseNum: 5,
                     actions: [
                       {
-                        title: '新增',
+                        title: '新增子行',
                         callback: (rowData) => {
                           this.table.addSubRow({
                             "id": `${setTimeout(0)}`,
@@ -220,7 +220,7 @@ class Demo extends React.Component {
                             "birthDate": "2birthDate3",
                             "country": `country_${setTimeout(0)}`,
                             "city": "2city3"
-                          }, rowData.jsxid, () => {
+                          }, rowData, () => {
                             console.log(this.table.getData())
                           })
                         }
