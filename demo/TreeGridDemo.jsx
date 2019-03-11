@@ -61,12 +61,6 @@ class Demo extends React.Component {
     this.state = {
       columns: [
         {
-          dataKey: 'id',
-          title: 'ID',
-          width: '50px',
-          hidden: true,
-        },
-        {
           dataKey: 'country',
           title: '国家',
           width: '200px',

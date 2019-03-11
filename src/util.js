@@ -84,9 +84,9 @@ const arrayConcat = (oldArr, newArr, reverse) => {
   return resArr;
 };
 
-const findRowData = (() => {
+const getFindRowData = ()=> {
   let ret = null
-  return (data, jsxId) => {
+  const findRowData = (data, jsxId) => {
     if (!data || !data.length || jsxId === undefined) {
       return
     }
@@ -101,13 +101,15 @@ const findRowData = (() => {
       }
     }
     return ret
-  }
-})()
+  };
+  return findRowData
+};
 
 const mergeData = (data, obj, reverse, targetId) => {
   let newData = deepcopy(data);
   let expandedKey
   if (targetId >= 0) {
+    const findRowData = getFindRowData()
     let ret = findRowData(newData.data, targetId)
     if (ret) {
       if (ret.data && ret.data.length) {
@@ -116,9 +118,6 @@ const mergeData = (data, obj, reverse, targetId) => {
         ret.data = obj
       }
       expandedKey = ret.jsxid
-    }
-    if (data.data.length !== newData.data.length) {
-      newData.totalCount += 1
     }
     return { data: newData, expandedKey }
   }
