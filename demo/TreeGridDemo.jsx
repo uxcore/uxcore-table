@@ -40,11 +40,11 @@ class Demo extends React.Component {
       {
         dataKey: 'country',
         title: '国家',
-        width: '200px',
+        width: '300px',
         ordered: true,
         align: 'left',
         type: 'money',
-        // fixed: true,
+        fixed: true,
         delimiter: ',',
       },
       {
@@ -100,6 +100,7 @@ class Demo extends React.Component {
       loadTreeData,
       jsxcolumns: columns,
       renderModel: 'tree',
+      columnResizeable: true,
       toggleTreeExpandOnRowClick: true,
       rowSelection: {
         onSelect: (checked, selectedRow, selectedRows) => {
@@ -111,7 +112,7 @@ class Demo extends React.Component {
         this.table = c;
       },
     };
-    return (<Table {...renderProps} />);
+    return (<Table {...renderProps} className={'kuma-uxtable-border-line'} />);
   }
 }
 

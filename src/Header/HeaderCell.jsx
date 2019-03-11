@@ -10,6 +10,7 @@ import isEqual from 'lodash/isEqual';
 import { polyfill } from 'react-lifecycles-compat';
 import CheckBox from '../Cell/CheckBox';
 import MessageIcon from './MessageIcon';
+import Draggable from 'react-draggable'
 
 class HeaderCell extends React.Component {
   static displayName = 'HeaderCell';
@@ -31,6 +32,7 @@ class HeaderCell extends React.Component {
     this.state = {
       filterSelectedKeys: props.filterSelectedKeys,
       lastFilterSelectedKeys: props.filterSelectedKeys,
+      lastColumnWidth: 0
     };
   }
 
@@ -237,11 +239,18 @@ class HeaderCell extends React.Component {
     }
     return null;
   }
+  onDrag = (e, node, column) => {
+    const newWidth = node.lastX - this.state.lastColumnWidth;
+    this.props.handleColumnResize(e, newWidth, column, node.node)
+    this.setState({
+      lastColumnWidth: node.lastX
+    })
+  }
 
   render() {
     const me = this;
     const {
-      renderModel, prefixCls, column, index, hasGroup, last, tablePrefixCls,
+      renderModel, prefixCls, column, index, hasGroup, last, tablePrefixCls, columnResizeable
     } = me.props;
     const rowSelectorInTreeMode = (['checkboxSelector', 'radioSelector'].indexOf(column.type) !== -1)
       && (renderModel === 'tree');
@@ -253,6 +262,7 @@ class HeaderCell extends React.Component {
     const style = {
       width: column.width ? column.width : '100px',
       textAlign: column.align ? column.align : 'left',
+      position: 'relative'
     };
     let v;
     if (hasGroup) {
@@ -287,13 +297,11 @@ class HeaderCell extends React.Component {
         </span>
       );
     }
-
-    if (noBorderColumn.indexOf(column.dataKey) !== -1 || last) {
+    if (noBorderColumn.indexOf(column.dataKey) !== -1 || last && !column.fixed) {
       assign(style, {
         borderRight: 'none',
       });
     }
-
 
     return (
       <div
@@ -312,6 +320,22 @@ class HeaderCell extends React.Component {
         {me.renderOrderIcon(column)}
         {me.renderFilterIcon(column)}
         <MessageIcon message={column.message} prefixCls={`${prefixCls}-msg`} />
+        {
+          columnResizeable
+           & column.type !== 'treeIcon'
+          && column.type !== 'checkboxSelector'
+          && column.type !== 'radioSelector'
+          && !column.fixed
+          && !column.rightFixed
+          && !column.hidden
+          && !last
+            ? <Draggable
+                axis="x"
+                onDrag={(e, dragNode) => {this.onDrag(e, dragNode, column)}}
+              >
+              <div style={{height: '50px', right: '0', width: '10px', background: 'rgba(0,0,0,0)', cursor: 'ew-resize', position: 'absolute', zIndex: 99}} />
+            </Draggable>
+            : null }
       </div>
     );
   }

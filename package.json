@@ -59,6 +59,7 @@
     "prop-types": "15.x",
     "rc-util": "4.x",
     "react-lifecycles-compat": "^3.0.4",
+    "react-resizable": "^1.7.5",
     "uxcore-animate": "^0.2.0",
     "uxcore-button": "^0.4.0",
     "uxcore-button-group": "^0.2.0",

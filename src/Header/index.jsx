@@ -106,6 +106,8 @@ class Header extends React.Component {
       checkStatus,
       filterColumns,
       tablePrefixCls,
+      columnResizeable,
+      handleColumnResize
     } = me.props;
     const cellProps = {
       column: item,
@@ -124,6 +126,8 @@ class Header extends React.Component {
       onCheckboxChange: (e) => { this.handleCheckBoxChange(e); },
       onColumnOrder: () => { this.handleColumnOrder(item); },
       onFilter: (filterKeys) => { this.handleColumnFilter(filterKeys, item); },
+      columnResizeable: columnResizeable,
+      handleColumnResize: handleColumnResize
     };
     return (
       <HeaderCell {...cellProps} key={index} />

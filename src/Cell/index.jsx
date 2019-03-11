@@ -223,6 +223,7 @@ class Cell extends React.Component {
     } else if (column.type === 'checkbox' || column.type === 'checkboxSelector') {
       style.paddingRight = '4px';
       style.paddingLeft = '12px';
+      style.borderRight = 'none'
 
       const checked = me.getCellData();
       let disable = props.rowSelection.isDisabled
@@ -244,6 +245,7 @@ class Cell extends React.Component {
     } else if (column.type === 'radioSelector') {
       style.paddingRight = '4px';
       style.paddingLeft = '12px';
+      style.borderRight = 'none'
 
       const checked = me.getCellData();
       let disable = props.rowSelection.isDisabled

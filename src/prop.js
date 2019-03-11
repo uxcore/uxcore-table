@@ -66,6 +66,7 @@ const defaultProps = {
   showColumnPickerCheckAll: false,
   defaultEditable: false,
   getTooltipContainer: null,
+  columnResizeable: false,
 };
 
 // http://facebook.github.io/react/docs/reusable-components.html
@@ -136,7 +137,8 @@ const propTypes = {
   footer: PropTypes.func,
   showColumnPickerCheckAll: PropTypes.bool,
   defaultEditable: PropTypes.bool,
-  getTooltipContainer: PropTypes.func
+  getTooltipContainer: PropTypes.func,
+  columnResizeable: PropTypes.bool,
 };
 
 export {
