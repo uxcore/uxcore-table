@@ -287,7 +287,7 @@ class Table extends React.Component {
     let columns = deepcopy(this.state.columns)
     columns.map(col => {
       if (col.dataKey === column.dataKey) {
-        col.width = (col.width || 100) + changeWidth
+        col.width = (parseInt(col.width, 10) || 100) + changeWidth
       }
     })
     this.setState({

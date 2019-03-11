@@ -100,7 +100,7 @@ class Demo extends React.Component {
       loadTreeData,
       jsxcolumns: columns,
       renderModel: 'tree',
-      columnResizeable: true,
+      columnResizeable: false,
       toggleTreeExpandOnRowClick: true,
       rowSelection: {
         onSelect: (checked, selectedRow, selectedRows) => {
