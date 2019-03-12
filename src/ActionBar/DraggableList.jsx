@@ -69,7 +69,7 @@ class DraggableList extends React.Component {
       dragElement: null,
       isDragging: false
     })
-    const resultNodes = document.querySelectorAll(`.${prefixCls}-item`)
+    const resultNodes = (dragElement.parentNode ? dragElement.parentNode : document).querySelectorAll(`.${prefixCls}-item`)
     let newData = []
     for (let i = 0; i < resultNodes.length; i++) {
       const node = resultNodes[i]

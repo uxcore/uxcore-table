@@ -354,7 +354,6 @@ class Demo extends React.Component {
         {
           title: '恢复所有行',
           callback: () => {
-            debugger
             me.table.resetAllRow();
           },
         },

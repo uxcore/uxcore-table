@@ -18,6 +18,20 @@ function addRowFromTop(rowData, cb) {
   this.insertRecords(rowData, true, cb);
 }
 
+function addSubRow(subRowData, rowData, cb) {
+  const { jsxid } = rowData
+  if (jsxid >= 0 && this.props.renderModel === 'tree') {
+    this.insertRecords(subRowData, false, cb, jsxid)
+  }
+}
+
+function addSubRowFromTop(subRowData, rowData, cb) {
+  const { jsxid } = rowData
+  if (jsxid >= 0 && this.props.renderModel === 'tree') {
+    this.insertRecords(subRowData, true, cb, jsxid)
+  }
+}
+
 function resetRow(rowData, cb) {
   const me = this;
   let updateData = {};
@@ -240,11 +254,15 @@ function changeTreeExpandState({ tableData, rowData }, cb = () => {}) {
   util.toggleItemInArr(rowData.jsxid, expandedKeys);
   const filteredTreeLoadingIds = this.state.treeLoadingIds.filter(id => id !== rowData.__treeId__);
   if (tableData) {
-    this.data = tableData;
+    const newData = {
+      ...this.state.data,
+      ...tableData
+    }
+    this.data = newData;
     this.setState({
       treeLoadingIds: filteredTreeLoadingIds,
       expandedKeys,
-      data: tableData,
+      data: newData,
     }, () => {
       cb();
     });
@@ -317,6 +335,8 @@ export default {
   addEmptyRowFromTop,
   addRow,
   addRowFromTop,
+  addSubRow,
+  addSubRowFromTop,
   resetRow,
   resetAllRow,
   delRow,

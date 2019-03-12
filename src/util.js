@@ -84,8 +84,44 @@ const arrayConcat = (oldArr, newArr, reverse) => {
   return resArr;
 };
 
-const mergeData = (data, obj, reverse) => {
-  const newData = deepcopy(data);
+const getFindRowData = ()=> {
+  let ret = null
+  const findRowData = (data, jsxId) => {
+    if (!data || !data.length || jsxId === undefined) {
+      return
+    }
+    for (let i = 0, len = data.length; i < len; i++) {
+      const item = data[i]
+      if (item.jsxid === jsxId) {
+        ret = item
+        break
+      }
+      if (item.data && item.data.length) {
+        findRowData(item.data, jsxId)
+      }
+    }
+    return ret
+  };
+  return findRowData
+};
+
+const mergeData = (data, obj, reverse, targetId) => {
+  let newData = deepcopy(data);
+  let expandedKey
+  if (targetId >= 0) {
+    const findRowData = getFindRowData()
+    let ret = findRowData(newData.data, targetId)
+    if (ret) {
+      if (ret.data && ret.data.length) {
+        ret.data = arrayConcat(ret.data, obj, reverse)
+      } else {
+        ret.data = obj
+      }
+      expandedKey = ret.jsxid
+    }
+    return { data: newData, expandedKey }
+  }
+
   // code compatible
   if (newData.datas) {
     newData.datas = arrayConcat(newData.datas, obj, reverse);
@@ -93,7 +129,7 @@ const mergeData = (data, obj, reverse) => {
     newData.data = arrayConcat(newData.data, obj, reverse);
   }
   newData.totalCount += 1;
-  return newData;
+  return { data: newData, expandedKey };
 };
 
 /* eslint-disable no-param-reassign */
@@ -300,7 +336,7 @@ const dropFunc = (obj) => {
   return obj;
 };
 
-const getColumnsInfo = (columns, includeActionColumn) => {
+const getColumnsInfo = (columns, includeActionColumn, excludeHiddenColumn) => {
   const blackList = {'jsxchecked': 1, 'jsxtreeIcon': 1, 'jsxwhite': 1};
   let columnsKey = [];
   let actionColumn = null;
@@ -310,7 +346,7 @@ const getColumnsInfo = (columns, includeActionColumn) => {
   let fixedColumns = [];
   return {
     columns: columns.filter((column, index) => {
-      if (column.dataKey in blackList) {
+      if (column.dataKey in blackList || excludeHiddenColumn && column.hidden) {
         otherColumns.push(column)
         return false
       }

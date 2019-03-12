@@ -1,9 +1,25 @@
+
 # History
+## 10.5.8
+* `FIXED` fix a bug when multiple table instances exist on a page in rowOrder & DraggableList
+
+## 10.5.7
+* `FIXED` hide action bar when actionBar is empty
+
+## 10.5.6
+* `FIXED`fix tree mode table logic
+
+## 10.5.5
+* `REVERT` revert to 10.5.2
+
+## 10.5.4
+* `FIXED` fix tree mode table logic
+
 ## 10.5.2
-* `FIX` fix styles
+* `FIXED` fix styles
 
 ## 10.5.1
-* `FIX` fix styles & add setPickerGroups prop for group columns
+* `FIXED` fix styles & add setPickerGroups prop for group columns
 
 ## 10.5.0
 * `CHANGE` Update ListActionBar for compatibility with older versions

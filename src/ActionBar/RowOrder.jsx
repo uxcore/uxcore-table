@@ -23,7 +23,8 @@ class RowOrder extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: props.defaultValue
+      value: props.defaultValue,
+      overlayId: `overlay_${setTimeout(0)}`
     }
   }
   handleSelect = (data) => {
@@ -35,7 +36,7 @@ class RowOrder extends React.Component {
     this.setState({
       value,
     })
-    const overlay = document.querySelector('.list-action-bar-order-overlay')
+    const overlay = document.querySelector(`.${this.state.overlayId}`)
     if (overlay) {
       overlay.classList.add('kuma-popover-hidden')
     }
@@ -70,6 +71,7 @@ class RowOrder extends React.Component {
         trigger={'click'}
         overlayClassName={classnames({
           'list-action-bar-order-overlay': true,
+          [this.state.overlayId]: true,
           'kuma-popover-hidden': disabled
         })}
         placement={'bottomRight'}
