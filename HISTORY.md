@@ -1,3 +1,10 @@
+# History
+## 10.6.0
+* `NEW` column resizeable;
+* `NEW` add two methods addSubRow & addSubRowFromTop for tree table
+* `FIXED` hidden column will not appear in ColumnOrder; if jsxcolumns change to empty, ColumnPicker & ColumnOrder will be disabled
+* `FIXED` a bug when rightFixed is true in tree mode(expandButton, header cell border)
+* `CHANGED` head cell text-overflow change to ellipsis
 
 # History
 ## 10.5.8

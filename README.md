@@ -133,7 +133,7 @@ $ npm start
 |defaultEditable     |boolean             |optional  |false       | 10.4.16   |默认开启行编辑模式|
 |useListActionBar    |boolean             |optional  |false       | 10.5.0    |新版listActionBar开关，actionBar配置，详细[见此](#actionbar)|
 |getTooltipContainer |function()          |optional  |null        | 10.5.2    |单元格编辑状态下，tooltip位置可控
-|columnResizeable    |boolean             |optional  |false       | 10.5.3    |表格列可拖拽
+|columnResizeable    |boolean             |optional  |false       | 10.5.9    |表格列可拖拽
 
 
 ### 折叠展开专用
