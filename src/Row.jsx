@@ -340,8 +340,8 @@ class Row extends React.Component {
               prefixCls: `${props.tablePrefixCls}-cell`,
               getTooltipContainer: props.getTooltipContainer
             };
-
-            if (firstVisableColumn === 1) {
+            //修复树形表格操作列右固定时会出现选择框
+            if (firstVisableColumn === 1 && props.fixedColumn !== 'rightFixed') {
               return (
                 <Cell {...renderProps}>
                   {me.renderIndent()}

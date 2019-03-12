@@ -23,13 +23,13 @@ class ColumnOrder extends React.Component {
     this.state = {
       value: props.defaultValue,
       preColumns: props.columns,
-      checkAbleColumns: getColumnsInfo(props.columns, props.includeActionColumn),
+      checkAbleColumns: getColumnsInfo(props.columns, props.includeActionColumn, true),
     }
   }
   static getDerivedStateFromProps = (props, state) => {
     if (props.columns !== state.preColumns) {
       return {
-        checkAbleColumns: getColumnsInfo(props.columns, props.includeActionColumn),
+        checkAbleColumns: getColumnsInfo(props.columns, props.includeActionColumn, true),
         preColumns: props.columns
       };
     }
@@ -76,7 +76,8 @@ class ColumnOrder extends React.Component {
   }
   render() {
     const p = this.props;
-    const disabled = !p.keepActiveInCustomView && !p.isTableView
+    const { checkAbleColumns } = this.state;
+    const disabled = !p.keepActiveInCustomView && !p.isTableView || !checkAbleColumns.columns.length;
     return (
       <Popover
         overlay={!disabled ? this.renderDragList() : <div/>}

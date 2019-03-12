@@ -213,6 +213,10 @@ let columns = [
 
 ## API
 
+* addSubRow(rowData, jsxid, cb): add an sub row with specified data in tree table from bottom
+* addSubRowFromTop(rowData, jsxid, cb): add an sub row with specified data in tree table from top
+
+
 ### Row Editing
 
 * getData(): return cellData & do Validation
