@@ -10,6 +10,7 @@ import isEqual from 'lodash/isEqual';
 import { polyfill } from 'react-lifecycles-compat';
 import CheckBox from '../Cell/CheckBox';
 import MessageIcon from './MessageIcon';
+import Draggable from 'react-draggable'
 
 class HeaderCell extends React.Component {
   static displayName = 'HeaderCell';
@@ -31,6 +32,7 @@ class HeaderCell extends React.Component {
     this.state = {
       filterSelectedKeys: props.filterSelectedKeys,
       lastFilterSelectedKeys: props.filterSelectedKeys,
+      lastColumnWidth: 0
     };
   }
 
@@ -237,11 +239,32 @@ class HeaderCell extends React.Component {
     }
     return null;
   }
+  onDrag = (e, data, column) => {
+    const changeWidth = data.lastX - this.state.lastColumnWidth;
+    // console.log(data.lastX, this.state.lastColumnWidth, changeWidth)
+
+    this.props.handleColumnResize(e, changeWidth, column, data.node)
+    this.setState({
+      lastColumnWidth: data.lastX
+    })
+  }
+
+  needResize(column) {
+    const { columnResizeable, last } = this.props
+    return columnResizeable
+      && column.type !== 'treeIcon'
+      && column.type !== 'checkboxSelector'
+      && column.type !== 'radioSelector'
+      // && !column.fixed
+      && !column.rightFixed
+      && !column.hidden
+      && !last
+  }
 
   render() {
     const me = this;
     const {
-      renderModel, prefixCls, column, index, hasGroup, last, tablePrefixCls,
+      renderModel, prefixCls, column, index, hasGroup, last, tablePrefixCls
     } = me.props;
     const rowSelectorInTreeMode = (['checkboxSelector', 'radioSelector'].indexOf(column.type) !== -1)
       && (renderModel === 'tree');
@@ -253,6 +276,7 @@ class HeaderCell extends React.Component {
     const style = {
       width: column.width ? column.width : '100px',
       textAlign: column.align ? column.align : 'left',
+      position: 'relative'
     };
     let v;
     if (hasGroup) {
@@ -287,13 +311,18 @@ class HeaderCell extends React.Component {
         </span>
       );
     }
-
     if (noBorderColumn.indexOf(column.dataKey) !== -1 || last && !column.fixed) {
       assign(style, {
         borderRight: 'none',
       });
     }
 
+    const needResize = this.needResize(column)
+    if (needResize) {
+      assign(style, {
+        borderRight: '1px solid rgba(31, 56, 88, 0.1)'
+      })
+    }
 
     return (
       <div
@@ -312,6 +341,16 @@ class HeaderCell extends React.Component {
         {me.renderOrderIcon(column)}
         {me.renderFilterIcon(column)}
         <MessageIcon message={column.message} prefixCls={`${prefixCls}-msg`} />
+        {
+
+          needResize
+            ? <Draggable
+                axis="x"
+                onDrag={(e, dragNode) => {this.onDrag(e, dragNode, column)}}
+              >
+              <span className={`${tablePrefixCls}-cell-resize-icon`} style={{width: '10px', right: '0'}} />
+            </Draggable>
+            : null }
       </div>
     );
   }

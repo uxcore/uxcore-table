@@ -283,6 +283,20 @@ class Table extends React.Component {
     });
   }
 
+  handleColumnResize = (e, changeWidth, column, node) => {
+    let columns = deepcopy(this.state.columns)
+    columns.map(col => {
+      if (col.dataKey === column.dataKey) {
+        col.width = (parseInt(col.width, 10) || 100) + changeWidth
+      }
+    })
+    this.setState({
+      columns
+    }, () => {
+      this.checkRightFixed(true)
+      node && (node.style.right = parseInt(node.style.right, 10) + changeWidth + 'px')
+    })
+  }
   /**
    * change SelectedRows data via checkbox, this function will pass to the Cell
    * @param checked {boolean} the checkbox status
@@ -1452,6 +1466,8 @@ class Table extends React.Component {
       orderColumnCB: this.handleOrderColumnCB,
       onColumnFilter: this.handleFilter,
       key: 'table-header',
+      columnResizeable: props.columnResizeable,
+      handleColumnResize: this.handleColumnResize
     };
 
     const renderFooterProps = {

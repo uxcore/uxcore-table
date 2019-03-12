@@ -47,7 +47,7 @@ $ npm start
 * addRow(rowData): 以指定数据添加一个新行。
 * addRowFromTop(rowData): 以指定数据从顶部添加一个新行。
 * addSubRow(subRowData, rowData, cb): 树形表格模式下从底部插入一个子树节点行
-* addSubRomFromTop(subRowData, rowData, cb): 树形表格模式下从顶部插入一个子树节点行
+* addSubRowFromTop(subRowData, rowData, cb): 树形表格模式下从顶部插入一个子树节点行
 * delRow(rowData): 删除一个新行。
 * editRow(rowData): 使指定的行切换到编辑模式。
 * editAllRow(): 使所有行切换到编辑模式。
@@ -133,6 +133,8 @@ $ npm start
 |defaultEditable     |boolean             |optional  |false       | 10.4.16   |默认开启行编辑模式|
 |useListActionBar    |boolean             |optional  |false       | 10.5.0    |新版listActionBar开关，actionBar配置，详细[见此](#actionbar)|
 |getTooltipContainer |function()          |optional  |null        | 10.5.2    |单元格编辑状态下，tooltip位置可控
+|columnResizeable    |boolean             |optional  |false       | 10.5.3    |表格列可拖拽
+
 
 ### 折叠展开专用
 |Name            |Type                |Require   |Since Ver. |Default|Note |

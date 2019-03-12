@@ -260,6 +260,7 @@ class Demo extends React.Component {
       },
       jsxcolumns: this.state.columns,
       renderModel: 'tree',
+      columnResizeable: false,
       toggleTreeExpandOnRowClick: true,
       rowSelection: {
         onSelect: (checked, selectedRow, selectedRows) => {

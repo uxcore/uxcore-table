@@ -729,4 +729,24 @@ describe('Table', () => {
     );
     expect(wrapper.find('.kuma-uxtable-body').find('.kuma-uxtable-cell').at(0).text()).to.be('1565 2963 333');
   });
+
+  it('column resizeable', () => {
+    let wrapper = mount(
+      <Table
+        {...common}
+        columnResizeable={false}
+      />,
+    );
+    expect(wrapper.find('.react-draggable')).to.have.length(0)
+    wrapper = mount(
+      <Table
+        {...common}
+        columnResizeable={true}
+      />,
+    );
+    expect(wrapper.find('.react-draggable')).to.have.length(3)
+    const table = wrapper.instance()
+    table.handleColumnResize({}, 30, { dataKey: 'country', title: '国家', width: 200 }, wrapper.find('.react-draggable').at(1).getDOMNode())
+    expect(table.state.columns[1].width).to.be(230)
+  })
 });

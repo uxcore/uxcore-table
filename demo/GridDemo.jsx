@@ -34,7 +34,7 @@ class Demo extends React.Component {
           dataKey: 'firstName',
           title: <span>自定义列头</span>,
           // fixed: true,
-          // width: '15%',
+          width: '15%',
           filters: [{
             text: 'Joe',
             value: 'Joe',
@@ -65,12 +65,12 @@ class Demo extends React.Component {
           },
           // fixed: true,
           // rightFixed: true
-          // width: '55%',
+          width: '25%',
         },
         {
           dataKey: 'email',
           title: 'Email',
-          // width: '30%',
+          width: '20%',
           ordered: true,
           message: `sadfsdf\nnsafdasdfasdf`
         },
@@ -78,23 +78,23 @@ class Demo extends React.Component {
           title: '操作1',
           width: '200px',
           type: 'action',
-          // fixed: false,
           actions: [{
-            title: 'click',
+            title: '点击',
             callback: () => {
             },
             mode: 'edit',
           }, {
             title: '删除',
-            callback: () => {
+            callback: (rowData) => {
+              this.table.delRow(rowData)
             },
             mode: 'view',
           }, {
-            title: 'view',
+            title: '查看',
             callback: () => { },
             mode: 'edit',
           }, {
-            title: 'view',
+            title: '查看',
             callback: () => { },
           }],
         },
@@ -128,9 +128,11 @@ class Demo extends React.Component {
         edit: () => { },
         del: () => { },
       },
+      columnResizeable: true,
       toggleSubCompOnRowClick: true,
       // width: 800,
-      className: 'kuma-uxtable-split-line',
+      // className: 'kuma-uxtable-split-line',
+      className: 'kuma-uxtable-border-line',
       pagerSizeOptions: [5, 10, 15, 20],
       rowSelection,
       // locale:'en-us',
