@@ -317,6 +317,13 @@ class HeaderCell extends React.Component {
       });
     }
 
+    const needResize = this.needResize(column)
+    if (needResize) {
+      assign(style, {
+        borderRight: '1px solid rgba(31, 56, 88, 0.1)'
+      })
+    }
+
     return (
       <div
         key={index}
@@ -336,7 +343,7 @@ class HeaderCell extends React.Component {
         <MessageIcon message={column.message} prefixCls={`${prefixCls}-msg`} />
         {
 
-          this.needResize(column)
+          needResize
             ? <Draggable
                 axis="x"
                 onDrag={(e, dragNode) => {this.onDrag(e, dragNode, column)}}
