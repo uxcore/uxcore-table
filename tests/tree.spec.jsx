@@ -259,7 +259,7 @@ describe('Tree', () => {
       birthDate: '2birthDate2',
       country: '2country2',
       city: '2city2'
-    }, 0, () => {
+    }, {jsxid: 0}, () => {
       const data = table.getData().data.data;
       expect(data[0].data).to.have.length(4);
       expect(data[0].data[3].id).to.be('9999');
@@ -277,7 +277,7 @@ describe('Tree', () => {
       birthDate: '2birthDate2',
       country: '2country2',
       city: '2city2'
-    }, 0, () => {
+    }, {jsxid: 0}, () => {
       const data = table.getData().data.data;
       expect(data[0].data).to.have.length(5);
       expect(data[0].data[4].id).to.be('0000');
@@ -303,7 +303,7 @@ describe('Tree', () => {
       birthDate: '2birthDate2',
       country: '2country2',
       city: '2city2'
-    }, 0, () => {
+    }, {jsxid: 0}, () => {
       const data = wrapper.instance().getData().data.data;
       expect(data[0].data).to.have.length(3);
       done();
