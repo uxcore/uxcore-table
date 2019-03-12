@@ -239,18 +239,32 @@ class HeaderCell extends React.Component {
     }
     return null;
   }
-  onDrag = (e, node, column) => {
-    const changeWidth = node.lastX - this.state.lastColumnWidth;
-    this.props.handleColumnResize(e, changeWidth, column, node.node)
+  onDrag = (e, data, column) => {
+    const changeWidth = data.lastX - this.state.lastColumnWidth;
+    // console.log(data.lastX, this.state.lastColumnWidth, changeWidth)
+
+    this.props.handleColumnResize(e, changeWidth, column, data.node)
     this.setState({
-      lastColumnWidth: node.lastX
+      lastColumnWidth: data.lastX
     })
+  }
+
+  needResize(column) {
+    const { columnResizeable, last } = this.props
+    return columnResizeable
+      && column.type !== 'treeIcon'
+      && column.type !== 'checkboxSelector'
+      && column.type !== 'radioSelector'
+      // && !column.fixed
+      && !column.rightFixed
+      && !column.hidden
+      && !last
   }
 
   render() {
     const me = this;
     const {
-      renderModel, prefixCls, column, index, hasGroup, last, tablePrefixCls, columnResizeable
+      renderModel, prefixCls, column, index, hasGroup, last, tablePrefixCls
     } = me.props;
     const rowSelectorInTreeMode = (['checkboxSelector', 'radioSelector'].indexOf(column.type) !== -1)
       && (renderModel === 'tree');
@@ -321,19 +335,13 @@ class HeaderCell extends React.Component {
         {me.renderFilterIcon(column)}
         <MessageIcon message={column.message} prefixCls={`${prefixCls}-msg`} />
         {
-          columnResizeable
-          && column.type !== 'treeIcon'
-          && column.type !== 'checkboxSelector'
-          && column.type !== 'radioSelector'
-          // && !column.fixed
-          && !column.rightFixed
-          && !column.hidden
-          && !last
+
+          this.needResize(column)
             ? <Draggable
                 axis="x"
                 onDrag={(e, dragNode) => {this.onDrag(e, dragNode, column)}}
               >
-              <div style={{height: '50px', right: '0', width: '10px', background: 'rgba(0,0,0,0)', cursor: 'ew-resize', position: 'absolute', zIndex: 99}} />
+              <span className={`${tablePrefixCls}-cell-resize-icon`} style={{width: '10px', right: '0'}} />
             </Draggable>
             : null }
       </div>
