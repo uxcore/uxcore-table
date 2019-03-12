@@ -294,7 +294,7 @@ class Table extends React.Component {
       columns
     }, () => {
       this.checkRightFixed(true)
-      node.style.right = parseInt(node.style.right, 10) + changeWidth + 'px'
+      node && (node.style.right = parseInt(node.style.right, 10) + changeWidth + 'px')
     })
   }
   /**

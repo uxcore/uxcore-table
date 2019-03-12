@@ -240,8 +240,8 @@ class HeaderCell extends React.Component {
     return null;
   }
   onDrag = (e, node, column) => {
-    const newWidth = node.lastX - this.state.lastColumnWidth;
-    this.props.handleColumnResize(e, newWidth, column, node.node)
+    const changeWidth = node.lastX - this.state.lastColumnWidth;
+    this.props.handleColumnResize(e, changeWidth, column, node.node)
     this.setState({
       lastColumnWidth: node.lastX
     })
