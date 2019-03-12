@@ -322,10 +322,10 @@ class HeaderCell extends React.Component {
         <MessageIcon message={column.message} prefixCls={`${prefixCls}-msg`} />
         {
           columnResizeable
-           & column.type !== 'treeIcon'
+          && column.type !== 'treeIcon'
           && column.type !== 'checkboxSelector'
           && column.type !== 'radioSelector'
-          && !column.fixed
+          // && !column.fixed
           && !column.rightFixed
           && !column.hidden
           && !last

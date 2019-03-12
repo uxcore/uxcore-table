@@ -78,7 +78,6 @@ class Demo extends React.Component {
           title: '操作1',
           width: '200px',
           type: 'action',
-          rightFixed: true,
           actions: [{
             title: '点击',
             callback: () => {
