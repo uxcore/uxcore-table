@@ -1074,17 +1074,8 @@ class Table extends React.Component {
       newData.hasFixed = util.hasFixColumn(props);
 
       // jsxcolumns变更时需要检查activeColumn是否还存在
-      let flag = false
-      const columns = props.jsxcolumns
-
-      for(let i = 0, len = columns.length; i < len; i++) {
-        if (columns[i].dataKey === state.activeColumn.dataKey) {
-          flag = true
-          break
-        }
-      }
-
-      if (!flag) {
+      const exist = util.checkColumnExist(props.jsxcolumns, state.activeColumn)
+      if (!exist) {
         newData.activeColumn = undefined
       }
     }
