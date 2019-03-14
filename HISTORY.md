@@ -1,4 +1,7 @@
 # History
+## 10.6.1
+* `FIXED` delete activeColumn when jsxcolumns didn't contain that column
+
 ## 10.6.0
 * `NEW` column resizeable;
 * `NEW` add two methods addSubRow & addSubRowFromTop for tree table
