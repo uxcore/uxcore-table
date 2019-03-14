@@ -749,4 +749,33 @@ describe('Table', () => {
     table.handleColumnResize({}, 30, { dataKey: 'country', title: '国家', width: 200 }, wrapper.find('.react-draggable').at(1).getDOMNode())
     expect(table.state.columns[1].width).to.be(230)
   })
+
+  it('util.checkColumnExist', () => {
+    const columns = [
+      {
+        dataKey: 'a',
+        name: 'a'
+      },
+      {
+        dataKey: 'b',
+        name: 'b'
+      },
+      {
+        dataKey: 'c',
+        name: 'c'
+      },
+      {
+        dataKey: 'd',
+        name: 'd'
+      },
+    ]
+    const ret1 = util.checkColumnExist(columns, {dataKey: 'b'})
+    const ret2 = util.checkColumnExist(columns, {dataKey: 'f'})
+    const ret3 = util.checkColumnExist([], {dataKey: 'a'})
+    const ret4 = util.checkColumnExist(columns)
+    expect(ret1).to.be(true)
+    expect(ret2).to.be(false)
+    expect(ret3).to.be(false)
+    expect(ret4).to.be(false)
+  })
 });

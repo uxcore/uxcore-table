@@ -380,6 +380,20 @@ const getColumnsInfo = (columns, includeActionColumn, excludeHiddenColumn) => {
   }
 }
 
+const checkColumnExist = (columns, column) => {
+  if (!columns || !columns.length || !column) {
+    return false
+  }
+  let flag = false
+  for(let i = 0, len = columns.length; i < len; i++) {
+    if (columns[i].dataKey === column.dataKey) {
+      flag = true
+      break
+    }
+  }
+  return flag
+}
+
 /* eslint-enable no-param-reassign */
 
 const utils = {
@@ -399,6 +413,7 @@ const utils = {
   toggleHeightAnim,
   dropFunc,
   getColumnsInfo,
+  checkColumnExist,
 };
 
 export default utils;
