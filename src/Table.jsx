@@ -1072,6 +1072,21 @@ class Table extends React.Component {
         forceToCheckRight: true,
       };
       newData.hasFixed = util.hasFixColumn(props);
+
+      // jsxcolumns变更时需要检查activeColumn是否还存在
+      let flag = false
+      const columns = props.jsxcolumns
+
+      for(let i = 0, len = columns.length; i < len; i++) {
+        if (columns[i].dataKey === state.activeColumn.dataKey) {
+          flag = true
+          break
+        }
+      }
+
+      if (!flag) {
+        newData.activeColumn = undefined
+      }
     }
     if (props.showMask !== state.lastShowMask) {
       newData.showMask = props.showMask;
