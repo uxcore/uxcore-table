@@ -1,4 +1,7 @@
 # History
+## 10.6.2
+* `FIXED` add text-overflow style in headerCell for compatibility in legao
+
 ## 10.6.1
 * `FIXED` delete activeColumn when jsxcolumns didn't contain that column
 
