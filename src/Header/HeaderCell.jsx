@@ -276,7 +276,8 @@ class HeaderCell extends React.Component {
     const style = {
       width: column.width ? column.width : '100px',
       textAlign: column.align ? column.align : 'left',
-      position: 'relative'
+      position: 'relative',
+      textOverflow: column.textOverflow || 'inherit'
     };
     let v;
     if (hasGroup) {

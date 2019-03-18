@@ -35,6 +35,7 @@ class Demo extends React.Component {
           title: <span>自定义列头</span>,
           // fixed: true,
           width: '15%',
+          textOverflow: 'ellipse',
           filters: [{
             text: 'Joe',
             value: 'Joe',
