@@ -59,7 +59,7 @@ class Demo extends React.Component {
 
         {
           dataKey: 'lastName',
-          title: 'LastName',
+          title: '自定义猎头',
           message: 'nihao',
           isDisable: function() {
             return true

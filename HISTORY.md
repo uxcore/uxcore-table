@@ -1,4 +1,7 @@
 # History
+## 10.6.3
+* `FIXED` change columnPicker options from dataKey to title
+
 ## 10.6.2
 * `FIXED` add text-overflow style in headerCell for compatibility in legao
 

@@ -219,6 +219,7 @@ class ColumnPicker extends React.Component {
           group.title ? <p style={{ width: '100%', lineHeight: 2 }}> {group.title}</p> : null
         }
         { group.columns.map(column => {
+          const title = typeof column.title === 'function' ? column.title() : column.title
           return (
             column.dataKey ?
             <CheckBox
@@ -227,7 +228,7 @@ class ColumnPicker extends React.Component {
               disable={column.disable || column.isDisable && column.isDisable()}
               onChange={(e) => {this.handleCheck(e, column.dataKey)}}
             >
-              <span>{column.dataKey}</span>
+              <span>{title || column.dataKey}</span>
             </CheckBox> : null
           )
         })}
