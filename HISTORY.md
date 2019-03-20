@@ -1,4 +1,8 @@
 # History
+## 10.6.4
+* `CHANGED` keep jsxid steady when load tree data
+* `NEW` add new method `updateRow` in tree mode
+
 ## 10.6.3
 * `FIXED` change columnPicker options from dataKey to title
 
