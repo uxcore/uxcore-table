@@ -38,12 +38,15 @@ function addValuesInData(objAux, operation) {
   if (!objAux || (!objAux.datas && !objAux.data)) return null;
   const me = this;
   const data = objAux.datas || objAux.data;
-  if (operation === 'reset') {
-    me.uid = 0;
-  }
+  // if (operation === 'reset') {
+  //   me.uid = 0;
+  // }
+  const isAsyncTree = operation === 'reset';
   for (let i = 0; i < data.length; i++) {
     const node = data[i];
-    node.jsxid = me.uid;
+    // node.jsxid = me.uid;
+    // from async tree data
+    node.jsxid = isAsyncTree ? (node.jsxid || me.uid) : me.uid
     me.uid += 1;
     node.__mode__ = node.__mode__ || (!me.props.defaultEditable ? 'view' : 'edit') || Const.MODE.VIEW;
     node.__treeId__ = objAux.__treeId__ ? `${objAux.__treeId__}-${i}` : `${i}`;

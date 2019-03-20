@@ -238,7 +238,7 @@ describe('Tree', () => {
     expect(wrapper.find('.kuma-uxtable-row').length).to.be(rowLength + 1);
   });
 
-  it('api addSubRow & addSubRowFromTop', (done) => {
+  it('api addSubRow & addSubRowFromTop & updateRow', (done) => {
     wrapper = mount(
       <Table
         {...common}
@@ -293,7 +293,8 @@ describe('Tree', () => {
         levels={0}
       />
     );
-    wrapper.instance().addSubRow({
+    const instance = wrapper.instance()
+    instance.addSubRow({
       id: '9999',
       radio: true,
       grade: '2grade2',
@@ -304,9 +305,19 @@ describe('Tree', () => {
       country: '2country2',
       city: '2city2'
     }, {jsxid: 0}, () => {
-      const data = wrapper.instance().getData().data.data;
+      const data = instance.getData().data.data;
       expect(data[0].data).to.have.length(3);
       done();
     });
+    let rowData = instance.getData().data.data[0]
+    expect(rowData.firstName).to.be('firstName1')
+    expect(rowData.email).to.be('email')
+    rowData.email = 'xxxx@126.com'
+    delete rowData.firstName
+    instance.updateRow(rowData, () => {
+      const data = instance.getData().data
+      expect(data[0].email).to.be('xxxx@126.com')
+      expect(data[0].firstName).to.be(undefined)
+    })
   });
 });

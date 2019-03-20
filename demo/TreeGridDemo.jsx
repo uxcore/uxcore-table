@@ -94,10 +94,10 @@ class Demo extends React.Component {
           type: 'action',
           rightFixed: true,
           width: '300px',
-          collapseNum: 5,
+          collapseNum: 6,
           actions: [
             {
-              title: '新增子行',
+              title: '新增子树',
               callback: (rowData) => {
                 this.table.addSubRow({
                   "id": `${setTimeout(0)}`,
@@ -115,15 +115,28 @@ class Demo extends React.Component {
               }
             },
             {
-              title: '上移',
-              callback: (rowData) => {
-                this.table.moveRowUp(rowData);
-              },
-            },
-            {
               title: '删除',
               callback: (rowData) => {
                 this.table.delRow(rowData);
+              },
+            },
+            {
+              title: '更新',
+              callback: (rowData) => {
+                rowData.city = '杭州'
+                if (rowData.data && rowData.data.length) {
+                  rowData.data[0].city = '嘉兴'
+                }
+                this.table.updateRow(rowData, () => {
+                  const data = this.table.getData()
+                  console.log(data)
+                });
+              },
+            },
+            {
+              title: '上移',
+              callback: (rowData) => {
+                this.table.moveRowUp(rowData);
               },
             },
             {

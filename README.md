@@ -46,8 +46,6 @@ $ npm start
 * addEmptyRowFromTop(): 从顶部添加一个空的新行。
 * addRow(rowData): 以指定数据添加一个新行。
 * addRowFromTop(rowData): 以指定数据从顶部添加一个新行。
-* addSubRow(subRowData, rowData, cb): 树形表格模式下从底部插入一个子树节点行
-* addSubRowFromTop(subRowData, rowData, cb): 树形表格模式下从顶部插入一个子树节点行
 * delRow(rowData): 删除一个新行。
 * editRow(rowData): 使指定的行切换到编辑模式。
 * editAllRow(): 使所有行切换到编辑模式。
@@ -76,6 +74,11 @@ $ npm start
 |options.changePropName      |string              |No        |onChange    |1.12.8     |与 onChange 对应的 prop 名字|
 |options.processValue        |func                |No        | -          |1.12.8     |针对 value（editKey 对应字段）的处理函数|
 |options.processText         |func                |No        | -          |1.12.8     |针对 text (dataKey 对应字段) 的处理函数|
+
+### 树形表格用
+* addSubRow(subRowData, rowData, cb): 树形表格模式下从底部插入一个子树节点行
+* addSubRowFromTop(subRowData, rowData, cb): 树形表格模式下从顶部插入一个子树节点行
+* updateRow(rowData, cb): 树形表格模式下更新当前行
 
 ### 其他
 
@@ -116,6 +119,7 @@ $ npm start
 |queryKeys           |array               |optional  |[]          | -         |有哪些数据会传递给 subComp|
 |jsxdata             |object              |optional  |-           | -         |在远端数据还没有返回时用作默认数据|
 |fetchUrl            |string              |optional  |""          | -         |表格的数据源|
+|fetchMethod         |string              |optional  |""          | -         |远程数据源请求方式|
 |fetchParams         |object              |optional  |-           | -         |表格在请求数据时，会额外附带的参数，具有最高的优先级|
 |fetchWithCredentials|bool                |optional  |-   | 7.8.0     | 同 [NattyFetch](https://github.com/jias/natty-fetch/blob/master/docs/options.md#withcredentials) 配置
 |actionBar           |object/array        |optional  |null        | -         |表格内置的操作条配置，详细[见此](#actionbar)|

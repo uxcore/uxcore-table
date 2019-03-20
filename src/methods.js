@@ -116,6 +116,32 @@ function saveRow(rowData, cb) {
   this.syncRecord(newRowData, cb);
 }
 
+function updateRow(rowData, cb) {
+  const findRowData = util.getFindRowData()
+  const stateData = deepcopy(this.state.data || this.state.datas)
+  let ret = findRowData(stateData.data || stateData.datas, rowData.jsxid)
+  if (ret.rowData) {
+    ret.parent[ret.index] = {
+      ...rowData,
+      jsxid: ret.rowData.jsxid,
+      __treeId__: ret.rowData.__treeId__,
+      __mode__: ret.rowData.__mode__
+    };
+
+    ['radio', 'check', 'jsxchecked', '__edited__'].forEach(item => {
+      if (ret.rowData[item] !== undefined) {
+        ret.parent[ret.index][item] = ret.rowData[item]
+      }
+    })
+    this.data = stateData
+    this.setState({
+      data: stateData
+    }, () => {
+      cb && cb(ret.rowData)
+    })
+  }
+}
+
 function saveAllRow(cb) {
   const me = this;
   const data = deepcopy(me.state.data.data || me.state.data.datas);
@@ -356,4 +382,5 @@ export default {
   getData,
   moveRowUp,
   moveRowDown,
+  updateRow
 };
