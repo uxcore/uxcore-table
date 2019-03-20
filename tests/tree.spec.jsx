@@ -238,7 +238,7 @@ describe('Tree', () => {
     expect(wrapper.find('.kuma-uxtable-row').length).to.be(rowLength + 1);
   });
 
-  it('api addSubRow & addSubRowFromTop & updateRow', (done) => {
+  it('api addSubRow', (done) => {
     wrapper = mount(
       <Table
         {...common}
@@ -265,8 +265,20 @@ describe('Tree', () => {
       expect(data[0].data[3].id).to.be('9999');
       expect(data[0].data[3].__treeId__).to.be('0-3');
       expect(table.state.expandedKeys.includes(0))
-      done();
+      done()
     });
+  });
+
+  it('api addSubRowFromTop', (done) => {
+    wrapper = mount(
+      <Table
+        {...common}
+        loadTreeData={loadTreeDataWithSync}
+        renderModel="tree"
+        levels={0}
+      />
+    );
+    const table = wrapper.instance()
     table.addSubRowFromTop({
       id: '0000',
       radio: true,
@@ -279,17 +291,20 @@ describe('Tree', () => {
       city: '2city2'
     }, {jsxid: 0}, () => {
       const data = table.getData().data.data;
-      expect(data[0].data).to.have.length(5);
-      expect(data[0].data[4].id).to.be('0000');
-      expect(data[0].data[4].__treeId__).to.be('0-0');
-      done();
+      expect(data[0].data).to.have.length(4);
+      expect(data[0].data[0].id).to.be('0000');
+      expect(data[0].data[0].__treeId__).to.be('0-0');
+      done()
     });
+  });
 
-    // not tree table
+  it('api updateRow', (done) => {
+
     let wrapper = mount(
       <Table
         {...common}
         loadTreeData={loadTreeDataWithSync}
+        renderModel={'tree'}
         levels={0}
       />
     );
@@ -305,19 +320,21 @@ describe('Tree', () => {
       country: '2country2',
       city: '2city2'
     }, {jsxid: 0}, () => {
-      const data = instance.getData().data.data;
-      expect(data[0].data).to.have.length(3);
-      done();
+      let rowData = instance.getData().data.data[0]
+      expect(rowData.data).to.have.length(4);
+      expect(rowData.firstName).to.be('firstName1')
+      expect(rowData.email).to.be('email')
+      rowData.email = 'xxxx@126.com'
+      rowData.lastName = ''
+      delete rowData.firstName
+      instance.updateRow(rowData, () => {
+        const data = instance.getData().data.data
+        expect(data[0].email).to.be('xxxx@126.com')
+        expect(data[0].firstName).to.be(undefined)
+        expect(data[0].lastName).to.be('')
+        done()
+      })
     });
-    let rowData = instance.getData().data.data[0]
-    expect(rowData.firstName).to.be('firstName1')
-    expect(rowData.email).to.be('email')
-    rowData.email = 'xxxx@126.com'
-    delete rowData.firstName
-    instance.updateRow(rowData, () => {
-      const data = instance.getData().data
-      expect(data[0].email).to.be('xxxx@126.com')
-      expect(data[0].firstName).to.be(undefined)
-    })
+
   });
 });
