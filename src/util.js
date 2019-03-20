@@ -85,22 +85,26 @@ const arrayConcat = (oldArr, newArr, reverse) => {
 };
 
 const getFindRowData = ()=> {
-  let ret = null
+  let rowData = null
+  let parent = null
+  let index = -1
   const findRowData = (data, jsxId) => {
     if (!data || !data.length || jsxId === undefined) {
-      return
+      return {rowData, parent, index}
     }
     for (let i = 0, len = data.length; i < len; i++) {
       const item = data[i]
       if (item.jsxid === jsxId) {
-        ret = item
+        rowData = item
+        parent = data
+        index = i
         break
       }
       if (item.data && item.data.length) {
         findRowData(item.data, jsxId)
       }
     }
-    return ret
+    return { rowData, parent, index }
   };
   return findRowData
 };
@@ -110,14 +114,14 @@ const mergeData = (data, obj, reverse, targetId) => {
   let expandedKey
   if (targetId >= 0) {
     const findRowData = getFindRowData()
-    let ret = findRowData(newData.data, targetId)
-    if (ret) {
-      if (ret.data && ret.data.length) {
-        ret.data = arrayConcat(ret.data, obj, reverse)
+    let { rowData } = findRowData(newData.data, targetId)
+    if (rowData) {
+      if (rowData.data && rowData.data.length) {
+        rowData.data = arrayConcat(rowData.data, obj, reverse)
       } else {
-        ret.data = obj
+        rowData.data = obj
       }
-      expandedKey = ret.jsxid
+      expandedKey = rowData.jsxid
     }
     return { data: newData, expandedKey }
   }
@@ -414,6 +418,7 @@ const utils = {
   dropFunc,
   getColumnsInfo,
   checkColumnExist,
+  getFindRowData,
 };
 
 export default utils;
