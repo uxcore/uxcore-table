@@ -1,6 +1,6 @@
 # History
 ## 10.6.5
-
+* `FIXED` fix some bugs in tree table
 
 ## 10.6.4
 * `CHANGED` keep jsxid steady when load tree data
