@@ -1,4 +1,7 @@
 # History
+## 10.6.5
+
+
 ## 10.6.4
 * `CHANGED` keep jsxid steady when load tree data
 * `NEW` add new method `updateRow` in tree mode

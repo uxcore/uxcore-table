@@ -121,6 +121,7 @@ function updateRow(rowData, cb) {
   const stateData = deepcopy(this.state.data || this.state.datas)
   let ret = findRowData(stateData.data || stateData.datas, rowData.jsxid)
   if (ret.rowData) {
+    // 新字段及必须字段还原
     ret.parent[ret.index] = {
       ...rowData,
       jsxid: ret.rowData.jsxid,
@@ -128,11 +129,18 @@ function updateRow(rowData, cb) {
       __mode__: ret.rowData.__mode__
     };
 
+    // 附加控制参数还原
     ['radio', 'check', 'jsxchecked', '__edited__'].forEach(item => {
       if (ret.rowData[item] !== undefined) {
         ret.parent[ret.index][item] = ret.rowData[item]
       }
     })
+
+    // 子树还原
+    if (ret.rowData.data) {
+      ret.parent[ret.index].data = ret.rowData.data
+    }
+
     this.data = stateData
     this.setState({
       data: stateData
