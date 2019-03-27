@@ -165,6 +165,7 @@ class Demo extends React.Component {
       useListActionBar: true,
       showColumnPickerCheckAll: true,
       showColumnPicker: true,
+      columnResizeable: true,
       actionBar: {
         columnsOrder: {
           iconName: 'huxiangguanzhu',
@@ -273,7 +274,6 @@ class Demo extends React.Component {
       },
       jsxcolumns: this.state.columns,
       renderModel: 'tree',
-      columnResizeable: false,
       toggleTreeExpandOnRowClick: true,
       rowSelection: {
         onSelect: (checked, selectedRow, selectedRows) => {

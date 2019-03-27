@@ -269,7 +269,7 @@ class Tbody extends React.Component {
       tablePrefixCls: props.tablePrefixCls,
       visible: true,
       bodyNode: this.root,
-      getTooltipContainer: props.getTooltipContainer
+      getTooltipContainer: props.getTooltipContainer,
     };
     let needEmptyIconIntree = false;
     if (props.renderModel === 'tree') {
