@@ -1,4 +1,9 @@
 # History
+
+## 10.6.6
+
+* `FIXED` fix last class bug under tree mode
+
 ## 10.6.5
 * `FIXED` fix some bugs in tree table
 
