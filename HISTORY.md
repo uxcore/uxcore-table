@@ -1,5 +1,9 @@
 # History
 
+## 11.0.0
+
+* `CHANGED` upgrade uxcore-pagination to 0.8.x
+
 ## 10.6.6
 
 * `FIXED` fix last class bug under tree mode
