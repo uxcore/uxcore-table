@@ -275,8 +275,17 @@ class Tbody extends React.Component {
     if (props.renderModel === 'tree') {
       needEmptyIconIntree = !!data.filter(rowData => rowData.data).length;
     }
+
     if (!this.props.rowGroupKey) {
       rows = data.map((item, index) => {
+        const isLastItem = index === data.length - 1;
+
+        // 如果是树形模式并且当前行有子行且子行属于展开状态，不要加 last 样式
+        let last = isLastItem;
+        if ({}.hasOwnProperty.call(item, 'data') && item.data.length > 0) {
+          last = false;
+        }
+
         const renderProps = {
           ...commonProps,
           index,
@@ -287,7 +296,8 @@ class Tbody extends React.Component {
           ref: (c) => {
             this[`row${index}`] = c;
           },
-          last: (index === data.length - 1),
+          last,
+          isParentLast: isLastItem,
           needEmptyIconIntree,
         };
         return <Row {...renderProps} />;
@@ -316,11 +326,20 @@ class Tbody extends React.Component {
         }
         this.rowGroupMap[rowGroupName].items.push(item);
       }
+
       rows = (
         <Collapse activeKey={props.rowGroupActiveKey || '0'} className={`${props.prefixCls}-collapse`} onChange={(key, activeKey) => { props.onCollapseChange(activeKey); }}>
           {this.rowGroupArr.map((rowGroupName, i) => (
             <Collapse.Panel header={this.getRowGroupName(rowGroupName)} key={i}>
               {this.rowGroupMap[rowGroupName].items.map((item, j) => {
+                const isLastItem = i === this.rowGroupArr.length - 1 && j === this.rowGroupMap[rowGroupName].items.length - 1;
+
+                // 如果是树形模式并且当前行有子行且子行属于展开状态，不要加 last 样式
+                let last = isLastItem;
+                if ({}.hasOwnProperty.call(item, 'data') && item.data.length > 0) {
+                  last = false;
+                }
+
                 const index = `${i}-${j}`;
                 const renderProps = {
                   ...commonProps,
@@ -332,8 +351,8 @@ class Tbody extends React.Component {
                   ref: (c) => {
                     this[`row${index}`] = c;
                   },
-                  last: i === this.rowGroupArr.length - 1
-                    && j === this.rowGroupMap[rowGroupName].length - 1,
+                  last,
+                  isParentLast: isLastItem,
                 };
                 return <Row {...renderProps} />;
               })}
@@ -343,6 +362,7 @@ class Tbody extends React.Component {
         </Collapse>
       );
     }
+
     return (
       <div className={bodyWrapClassName} ref={this.saveRef('root')} style={style}>
         {this.renderEmptyData()}
