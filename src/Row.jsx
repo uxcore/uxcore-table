@@ -136,7 +136,7 @@ class Row extends React.Component {
         const isLastItem = index === subRowData.length - 1;
 
         let last = props.isParentLast && isLastItem;
-        if ({}.hasOwnProperty.call(node, 'data') && node.data.length > 0) {
+        if ({}.hasOwnProperty.call(node, 'data') && Array.isArray(node.data) && node.data.length > 0) {
           last = false;
         }
 

@@ -282,7 +282,7 @@ class Tbody extends React.Component {
 
         // 如果是树形模式并且当前行有子行且子行属于展开状态，不要加 last 样式
         let last = isLastItem;
-        if ({}.hasOwnProperty.call(item, 'data') && item.data.length > 0) {
+        if ({}.hasOwnProperty.call(item, 'data') && Array.isArray(item.data) && item.data.length > 0) {
           last = false;
         }
 
@@ -336,7 +336,7 @@ class Tbody extends React.Component {
 
                 // 如果是树形模式并且当前行有子行且子行属于展开状态，不要加 last 样式
                 let last = isLastItem;
-                if ({}.hasOwnProperty.call(item, 'data') && item.data.length > 0) {
+                if ({}.hasOwnProperty.call(item, 'data') && Array.isArray(item.data) && item.data.length > 0) {
                   last = false;
                 }
 

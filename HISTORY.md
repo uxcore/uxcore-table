@@ -1,8 +1,8 @@
 # History
 
-## 11.0.0
+## 10.6.8
 
-* `CHANGED` upgrade uxcore-pagination to 0.8.x
+* `FIXED` fix last checking logic bug
 
 ## 10.6.6
 
