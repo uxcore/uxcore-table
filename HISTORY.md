@@ -1,5 +1,13 @@
 # History
 
+## 11.0.1
+
+* `FIXED` merge 10.6.8 fix
+
+## 11.0.0
+
+* `CHANGED` upgrade uxcore-pagination to 0.8.x
+
 ## 10.6.8
 
 * `FIXED` fix last checking logic bug
