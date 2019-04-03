@@ -180,8 +180,8 @@ class Table extends React.Component {
     this.handleColumnPickerChange = this.handleColumnPickerChange.bind(this);
     this.handleActionBarSearch = this.handleActionBarSearch.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
-    props.needCheckRightFixed && this.rightFixedTable && setInterval(() => {
-      this.checkRightFixed(true)
+    props.needCheckRightFixed && setInterval(() => {
+      this.rightFixedTable && this.checkRightFixed(true)
     }, 300)
   }
 
