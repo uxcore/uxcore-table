@@ -67,6 +67,8 @@ const defaultProps = {
   defaultEditable: false,
   getTooltipContainer: null,
   columnResizeable: false,
+  defaultRowGroupActiveKeys: undefined,
+  onRowGroupOpenChange: undefined
 };
 
 // http://facebook.github.io/react/docs/reusable-components.html
@@ -139,6 +141,11 @@ const propTypes = {
   defaultEditable: PropTypes.bool,
   getTooltipContainer: PropTypes.func,
   columnResizeable: PropTypes.bool,
+  defaultRowGroupActiveKeys: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.number
+  ]),
+  onRowGroupOpenChange: PropTypes.func
 };
 
 export {

@@ -54,13 +54,13 @@ class Demo extends React.Component {
     const tableProps = {
       jsxcolumns: [
         {
-          dataKey: 'company', title: '公司', width: '20%', render: () => 'aaa',
+          dataKey: 'company', title: '公司', width: '20%'
         },
         {
           dataKey: 'title', title: '标题', width: '20%', fixed: true,
         },
         {
-          dataKey: 'money', title: '金额', width: '20%', type: 'money',
+          dataKey: 'money', title: '金额', width: '20%', type: 'money', rightFixed: true
         },
         { dataKey: 'entity', title: '支付实体', width: '50%' },
         { dataKey: 'institution', title: '金融机构', width: '20%' },
@@ -81,7 +81,7 @@ class Demo extends React.Component {
         if (column.dataKey === 'money') {
           let total = 0;
           if (from === 'rowGroup') {
-            rowGroupData.forEach((rowData) => {
+            rowGroupData.items.forEach((rowData) => {
               total += parseInt(rowData.money, 10);
             });
           } else {
@@ -99,7 +99,7 @@ class Demo extends React.Component {
       rowSelection,
       size: 'small',
       showRowGroupFooter: true,
-      height: 300,
+      // height: 300,
     };
     return (
       <Table {...tableProps} />

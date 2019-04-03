@@ -316,8 +316,19 @@ class Tbody extends React.Component {
         }
         this.rowGroupMap[rowGroupName].items.push(item);
       }
+
+      let defaultKeys = ['0']
+      let ds = props.defaultRowGroupActiveKeys
+      if (ds) {
+        if (typeof ds === 'number' && ds > 0) {
+          defaultKeys = [...Array(ds)].map((item, index) => `${index}`)
+        } else if (ds.length && ds.splice) {
+          defaultKeys = ds.map(item => `${item}`)
+        }
+      }
+
       rows = (
-        <Collapse activeKey={props.rowGroupActiveKey || '0'} className={`${props.prefixCls}-collapse`} onChange={(key, activeKey) => { props.onCollapseChange(activeKey); }}>
+        <Collapse activeKey={props.rowGroupActiveKey || defaultKeys} className={`${props.prefixCls}-collapse`} onChange={(key, activeKey) => {props.onCollapseChange(activeKey, key, props.root); }}>
           {this.rowGroupArr.map((rowGroupName, i) => (
             <Collapse.Panel header={this.getRowGroupName(rowGroupName)} key={i}>
               {this.rowGroupMap[rowGroupName].items.map((item, j) => {

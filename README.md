@@ -138,13 +138,16 @@ $ npm start
 |useListActionBar    |boolean             |optional  |false       | 10.5.0    |新版listActionBar开关，actionBar配置，详细[见此](#actionbar)|
 |getTooltipContainer |function()          |optional  |null        | 10.5.2    |单元格编辑状态下，tooltip位置可控
 |columnResizeable    |boolean             |optional  |false       | 10.5.9    |表格列可拖拽
+|defaultRowGroupActiveKeys    |number/array             |optional  |undefined       |10.6.6    |行分组默认展开设置，可设置指定分组展开或者设置总展开分组数
+|onRowGroupOpenChange|function(activeKeys, key) |optional  |undefined   |10.6.6   |行分组展开状态变更回调
+
 
 
 ### 折叠展开专用
 |Name            |Type                |Require   |Since Ver. |Default|Note |
 |---             |---                 |---       |---        |---    |---|
 |renderSubComp   |function(rowData)   |optional  |1.3.15     | -     |传入二级组件，该函数需要返回值，返回 false，表示不渲染二级，返回 jsx，则渲染该 jsx|
-| toggleSubCompOnRowClick | boolean   |optional  |8.5.0      |false  |在点击行的时候，展开和收起折叠面板，操作列不受影响。其他区域如果不想触发需要自行 stopPropagation |
+|toggleSubCompOnRowClick | boolean   |optional  |8.5.0      |false  |在点击行的时候，展开和收起折叠面板，操作列不受影响。其他区域如果不想触发需要自行 stopPropagation |
 
 
 ### Tree 模式专用

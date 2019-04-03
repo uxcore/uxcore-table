@@ -778,4 +778,34 @@ describe('Table', () => {
     expect(ret3).to.be(false)
     expect(ret4).to.be(false)
   })
+
+  it('rowGroup', () => {
+    let wrapper = mount(
+      <Table
+        {...common}
+        jsxdata={
+          {
+            data: [
+              {
+                id: '1',
+                country: 'country1',
+                city: 'city1',
+                firstName: 'firstName1',
+                money: 10000,
+                card: '20000000',
+                mobile: '15652963333',
+              }
+            ],
+            currentPage: 1,
+            totalCount: 30,
+          }
+        }
+        rowGroupKey={'country'}
+        defaultRowGroupActiveKeys={['0']}
+      />,
+    );
+    expect(wrapper.find('.kuma-collapse-header')).to.have.length(1)
+    expect(wrapper.find('.kuma-collapse-header').at(0).text()).to.be('country1')
+    expect(wrapper.find('.kuma-collapse-header').find('.arrow-active')).to.have.length(1)
+  })
 });
