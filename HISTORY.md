@@ -1,4 +1,7 @@
 # History
+## 11.1.0
+* `NEW` add new prop needCheckRightFixed & onRowGroupOpenChange & defaultRowGroupActiveKeys
+
 
 ## 11.0.1
 

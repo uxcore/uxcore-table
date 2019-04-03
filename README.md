@@ -138,9 +138,9 @@ $ npm start
 |useListActionBar    |boolean             |optional  |false       | 10.5.0    |新版listActionBar开关，actionBar配置，详细[见此](#actionbar)|
 |getTooltipContainer |function()          |optional  |null        | 10.5.2    |单元格编辑状态下，tooltip位置可控
 |columnResizeable    |boolean             |optional  |false       | 10.5.9    |表格列可拖拽
-|defaultRowGroupActiveKeys    |number/array             |optional  |undefined       |10.6.6    |行分组默认展开设置，可设置指定分组展开或者设置总展开分组数
-|onRowGroupOpenChange|function(activeKeys, key) |optional  |undefined   |10.6.6   |行分组展开状态变更回调
-
+|defaultRowGroupActiveKeys    |number/array             |optional  |undefined       |11.1.0    |行分组默认展开设置，可设置指定分组展开或者设置总展开分组数
+|onRowGroupOpenChange|function(activeKeys, key) |optional  |undefined   |11.1.0   |行分组展开状态变更回调
+|needCheckRightFixed |boolean             |optional  |false       | 11.1.0     |是否开启右固定列检查，用于解决可能产生两个右固定列的场景
 
 
 ### 折叠展开专用
