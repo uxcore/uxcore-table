@@ -1052,7 +1052,6 @@ class Table extends React.Component {
     });
   }
 
-
   static getDerivedStateFromProps = (props, state) => {
     let newData = {};
     if (props.pageSize !== state.lastPageSize) {
@@ -1187,10 +1186,7 @@ class Table extends React.Component {
     );
   }
 
-
-
   renderPager(miniType) {
-
     const me = this;
     const { data, currentPage, pageSize } = this.state;
     const {
@@ -1479,7 +1475,7 @@ class Table extends React.Component {
       onColumnFilter: this.handleFilter,
       key: 'table-header',
       columnResizeable: props.columnResizeable,
-      handleColumnResize: this.handleColumnResize
+      handleColumnResize: this.handleColumnResize,
     };
 
     const renderFooterProps = {

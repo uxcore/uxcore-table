@@ -130,8 +130,16 @@ class Row extends React.Component {
       return children;
     }
     if (props.rowData.data) {
-      const needEmptyIconIntree = !!props.rowData.data.filter(item => item.data).length;
-      props.rowData.data.forEach((node, index) => {
+      const subRowData = props.rowData.data;
+      const needEmptyIconIntree = !!subRowData.filter(item => item.data).length;
+      subRowData.forEach((node, index) => {
+        const isLastItem = index === subRowData.length - 1;
+
+        let last = props.isParentLast && isLastItem;
+        if ({}.hasOwnProperty.call(node, 'data') && Array.isArray(node.data) && node.data.length > 0) {
+          last = false;
+        }
+
         const renderProps = assign({}, props, {
           level: me.props.level + 1,
           index,
@@ -141,6 +149,8 @@ class Row extends React.Component {
           key: node.jsxid,
           showSubComp: false,
           visible: (props.expandedKeys.indexOf(props.rowData.jsxid) !== -1),
+          last,
+          isParentLast: isLastItem,
           needEmptyIconIntree,
         });
         children.push(<Row {...renderProps} />);
@@ -379,6 +389,7 @@ Row.propTypes = {
   rowSelection: PropTypes.object,
   showSubComp: PropTypes.bool,
   last: PropTypes.bool,
+  isParentLast: PropTypes.bool,
   visible: PropTypes.bool,
   isHover: PropTypes.bool,
   level: PropTypes.number,
@@ -406,6 +417,7 @@ Row.defaultProps = {
   isHover: undefined,
   visible: undefined,
   last: undefined,
+  isParentLast: undefined,
   rowSelection: undefined,
   rowData: undefined,
   root: undefined,
