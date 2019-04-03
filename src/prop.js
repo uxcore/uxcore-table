@@ -68,7 +68,8 @@ const defaultProps = {
   getTooltipContainer: null,
   columnResizeable: false,
   defaultRowGroupActiveKeys: undefined,
-  onRowGroupOpenChange: undefined
+  onRowGroupOpenChange: undefined,
+  needCheckRightFixed: false,
 };
 
 // http://facebook.github.io/react/docs/reusable-components.html
@@ -145,7 +146,8 @@ const propTypes = {
     PropTypes.array,
     PropTypes.number
   ]),
-  onRowGroupOpenChange: PropTypes.func
+  onRowGroupOpenChange: PropTypes.func,
+  needCheckRightFixed: PropTypes.bool
 };
 
 export {
