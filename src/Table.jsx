@@ -180,6 +180,9 @@ class Table extends React.Component {
     this.handleColumnPickerChange = this.handleColumnPickerChange.bind(this);
     this.handleActionBarSearch = this.handleActionBarSearch.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
+    props.needCheckRightFixed && this.rightFixedTable && setInterval(() => {
+      this.checkRightFixed(true)
+    }, 300)
   }
 
   componentDidMount() {
@@ -1448,12 +1451,18 @@ class Table extends React.Component {
       footer: props.footer,
       showRowGroupFooter: props.showRowGroupFooter,
       root: this,
-      onCollapseChange: (activeKey) => { this.setState({ rowGroupActiveKey: activeKey }); },
+      onCollapseChange: (activeKeys, key, table) => {
+        this.setState({ rowGroupActiveKey: activeKeys });
+        setTimeout(()=> {
+          props.onRowGroupOpenChange && props.onRowGroupOpenChange(activeKeys, key, table)
+        }, 310)
+      },
       changeSelected: this.changeSelected,
       handleDataChange: this.handleDataChange,
       attachCellField: this.attachCellField,
       detachCellField: this.detachCellField,
       key: 'table-body',
+      defaultRowGroupActiveKeys: props.defaultRowGroupActiveKeys,
     };
     const renderHeaderProps = {
       ...commonProps,
