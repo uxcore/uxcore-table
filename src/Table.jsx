@@ -1155,7 +1155,7 @@ class Table extends React.Component {
     );
   }
 
-  renderHeader(renderHeaderProps, fixedColumn) {
+  renderHeader(renderHeaderProps, fixedColumn, isFixedHeader) {
     const { prefixCls, showHeader } = this.props;
     if (!showHeader) {
       return null;
@@ -1167,6 +1167,7 @@ class Table extends React.Component {
           fixedColumn={fixedColumn}
           ref={util.saveRef(`header${upperFirst(fixedColumn)}`, this)}
           onScroll={this.handleHeaderScroll}
+          isFixedHeader={isFixedHeader}
         />
       </div>
     );
@@ -1510,6 +1511,22 @@ class Table extends React.Component {
           style={style}
           ref={util.saveRef('root', this)}
         >
+          {
+            props.fixHeaderToTop && !util.hasFixColumn(props) ?
+              <div
+                ref={c => this.extraHeader = c}
+                style={{
+                  position: 'fixed',
+                  width: props.width && props.width !== 'auto' ? props.width : '100%',
+                  zIndex: '1000' /*n eed under tip or popup */,
+                  background: '#fff',
+                  top: 0,
+                  borderLeft: '1px solid rgba(0,0,0,0)'
+                }}
+              >
+                {this.renderHeader(renderHeaderProps, 'scroll', true) }
+              </div> : null
+          }
           {this.renderActionBar()}
           {
             !this.state.customView ? <div
