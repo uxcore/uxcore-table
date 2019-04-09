@@ -808,4 +808,31 @@ describe('Table', () => {
     expect(wrapper.find('.kuma-collapse-header').at(0).text()).to.be('country1')
     expect(wrapper.find('.kuma-collapse-header').find('.arrow-active')).to.have.length(1)
   })
+
+  it('fixHeader', () => {
+    let wrapper = mount(
+      <Table
+        {...common}
+        fixHeaderToTop={true}
+        jsxdata={
+          {
+            data: [
+              {
+                id: '1',
+                country: 'country1',
+                city: 'city1',
+                firstName: 'firstName1',
+                money: 10000,
+                card: '20000000',
+                mobile: '15652963333',
+              }
+            ],
+            currentPage: 1,
+            totalCount: 30,
+          }
+        }
+      />,
+    );
+    expect(wrapper.find('.kuma-uxtable-fixed-header')).to.have.length(1)
+  })
 });

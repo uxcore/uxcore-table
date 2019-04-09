@@ -107,7 +107,8 @@ class Header extends React.Component {
       filterColumns,
       tablePrefixCls,
       columnResizeable,
-      handleColumnResize
+      handleColumnResize,
+      isFixedHeader
     } = me.props;
     const cellProps = {
       column: item,
@@ -122,6 +123,7 @@ class Header extends React.Component {
       filterSelectedKeys: filterColumns[item.dataKey],
       checkStatus,
       tablePrefixCls,
+      isFixedHeader,
       ref: (c) => { if (Header.isFixedColumn(item)) { this[`fixedCell${index}`] = c; } },
       onCheckboxChange: (e) => { this.handleCheckBoxChange(e); },
       onColumnOrder: () => { this.handleColumnOrder(item); },
@@ -254,6 +256,7 @@ Header.propTypes = {
   prefixCls: PropTypes.string,
   onColumnFilter: PropTypes.func,
   filterColumns: PropTypes.object,
+  isFixedHeader: PropTypes.bool
 };
 
 Header.defaultProps = {
@@ -262,6 +265,7 @@ Header.defaultProps = {
   prefixCls: 'kuma-uxtable-header',
   onColumnFilter: () => {},
   filterColumns: {},
+  isFixedHeader: false
 };
 
 export default Header;
