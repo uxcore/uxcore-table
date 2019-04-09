@@ -1,7 +1,9 @@
 # History
-## 11.1.0
-* `NEW` add new prop needCheckRightFixed & onRowGroupOpenChange & defaultRowGroupActiveKeys
+## 11.2.0
+* `NEW` add new prop fixHeaderToTop for scroll check
 
+## 11.1.1
+* `NEW` add new prop needCheckRightFixed & onRowGroupOpenChange & defaultRowGroupActiveKeys
 
 ## 11.0.1
 
