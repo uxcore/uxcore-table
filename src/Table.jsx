@@ -1514,7 +1514,8 @@ class Table extends React.Component {
           {
             props.fixHeaderToTop && !util.hasFixColumn(props) ?
               <div
-                ref={c => this.extraHeader = c}
+                ref={c => this.fixedHeader = c}
+                className={`${props.prefixCls}-fixed-header`}
                 style={{
                   position: 'fixed',
                   width: props.width && props.width !== 'auto' ? props.width : '100%',

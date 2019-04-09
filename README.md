@@ -141,7 +141,7 @@ $ npm start
 |defaultRowGroupActiveKeys    |number/array             |optional  |undefined       |11.1.0    |行分组默认展开设置，可设置指定分组展开或者设置总展开分组数
 |onRowGroupOpenChange|function(activeKeys, key) |optional  |undefined   |11.1.0   |行分组展开状态变更回调
 |needCheckRightFixed |boolean             |optional  |false       | 11.1.0     |是否开启右固定列检查，用于解决可能产生两个右固定列的场景
-|fixHeaderToTop      |boolean             |optional  |false       | 11.2.0     |是否显示一个固定顶部的header，用于外部在处理滚动等状态下的标题贴顶功能。存在固定列时该配置无效。
+|fixHeaderToTop      |boolean             |optional  |false       | 11.2.0     |是否显示一个固定顶部的header，用于外部在处理滚动等状态下的标题贴顶功能。存在固定列或者表格宽度超出视窗宽度时该配置无效。
 
 
 ### 折叠展开专用
