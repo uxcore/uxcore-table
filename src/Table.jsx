@@ -167,7 +167,8 @@ class Table extends React.Component {
       lastJsxcolumns: props.jsxcolumns,
       lastShowMask: props.showMask,
       customView: null,
-      removeCustomPager: false
+      removeCustomPager: false,
+      fixHeaderToTop: false
     };
     this.handleBodyScroll = this.handleBodyScroll.bind(this);
     this.handleHeaderScroll = this.handleHeaderScroll.bind(this);
@@ -204,6 +205,19 @@ class Table extends React.Component {
     this.resizeListener = this.listenWindowResize();
     if (this.root) {
       this.rootWidth = this.root.clientWidth;
+    }
+
+    if (this.props.fixHeaderToTop) {
+      document.addEventListener('scroll', () => {
+        const table = this.getDom()
+        const tablePos = table.getBoundingClientRect()
+        const isShow = (pos) => {
+          return (pos.top < (this.actionBar ? -56 : 0) + me.props.fixHeaderOffset) && (-pos.top < pos.height - (this.actionBar ? 56 : 0) - me.props.fixHeaderOffset)
+        }
+        this.setState({
+          fixHeaderToTop: isShow(tablePos),
+        })
+      })
     }
   }
 
@@ -1376,7 +1390,7 @@ class Table extends React.Component {
         renderPager: me.renderPager.bind(me),
         useCustomView: me.useCustomView.bind(me),
       };
-      return <ActionBar {...renderActionProps} />;
+      return <ActionBar {...renderActionProps} ref={c => this.actionBar = c} />;
     }
     return null;
   }
@@ -1386,7 +1400,7 @@ class Table extends React.Component {
     const { props, state } = this;
     // if table is in sub mode, people always want to align the parent
     // and the sub table, so width should not be cared.
-    const { headerHeight } = props;
+    const { headerHeight, fixHeaderOffset } = props;
     const data = state.data ? (state.data.datas || state.data.data) : [];
     const checkStatus = me.getCheckStatus(data);
 
@@ -1512,7 +1526,7 @@ class Table extends React.Component {
           ref={util.saveRef('root', this)}
         >
           {
-            props.fixHeaderToTop && !util.hasFixColumn(props) ?
+            this.state.fixHeaderToTop && !util.hasFixColumn(props) ?
               <div
                 ref={c => this.fixedHeader = c}
                 className={`${props.prefixCls}-fixed-header`}
@@ -1521,7 +1535,7 @@ class Table extends React.Component {
                   width: props.width && props.width !== 'auto' ? props.width : '100%',
                   zIndex: '1000' /*n eed under tip or popup */,
                   background: '#fff',
-                  top: 0,
+                  top: `${fixHeaderOffset}px`,
                   borderLeft: '1px solid rgba(0,0,0,0)'
                 }}
               >

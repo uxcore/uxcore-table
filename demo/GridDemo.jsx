@@ -280,6 +280,7 @@ class Demo extends React.Component {
           },
         ],
       },
+      fixHeaderToTop: true,
       onSearch: (searchTxt) => {
         console.log(searchTxt);
       },

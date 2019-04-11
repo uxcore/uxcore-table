@@ -70,7 +70,8 @@ const defaultProps = {
   defaultRowGroupActiveKeys: undefined,
   onRowGroupOpenChange: undefined,
   needCheckRightFixed: false,
-  fixHeaderToTop: false
+  fixHeaderToTop: false,
+  fixHeaderOffset: 0
 };
 
 // http://facebook.github.io/react/docs/reusable-components.html
@@ -149,7 +150,8 @@ const propTypes = {
   ]),
   onRowGroupOpenChange: PropTypes.func,
   needCheckRightFixed: PropTypes.bool,
-  fixHeaderToTop: PropTypes.bool
+  fixHeaderToTop: PropTypes.bool,
+  fixHeaderOffset: PropTypes.number
 };
 
 export {
