@@ -1,4 +1,8 @@
 # History
+
+## 11.2.1
+* `NEW` add new prop fixHeaderOffset for scroll check
+
 ## 11.2.0
 * `NEW` add new prop fixHeaderToTop for scroll check
 
