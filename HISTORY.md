@@ -1,4 +1,6 @@
 # History
+## 11.2.2
+* `FIXED` fixHeader will spill out of table
 
 ## 11.2.1
 * `NEW` add new prop fixHeaderOffset for scroll check
