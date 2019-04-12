@@ -1532,7 +1532,7 @@ class Table extends React.Component {
                 className={`${props.prefixCls}-fixed-header`}
                 style={{
                   position: 'fixed',
-                  width: props.width && props.width !== 'auto' ? props.width : '100%',
+                  width: props.width && props.width !== 'auto' ? props.width : (this.state.tableWidth || '100%'),
                   zIndex: '1000' /*n eed under tip or popup */,
                   background: '#fff',
                   top: `${fixHeaderOffset}px`,
