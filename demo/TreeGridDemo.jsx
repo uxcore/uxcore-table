@@ -47,7 +47,8 @@ function loadTreeData(rowData) {
             "lastName": "2lastName3",
             "birthDate": "2birthDate3",
             "country": "2country3",
-            "city": "2city3"
+            "city": "2city3",
+            "data": []
           }
         ]
       })

@@ -1,4 +1,7 @@
 # History
+## 11.2.3
+* `FIXED` fix a border lost err in tree mode table
+
 ## 11.2.2
 * `FIXED` fixHeader will spill out of table
 
