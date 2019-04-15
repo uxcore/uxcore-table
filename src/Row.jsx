@@ -150,7 +150,7 @@ class Row extends React.Component {
           showSubComp: false,
           visible: (props.expandedKeys.indexOf(props.rowData.jsxid) !== -1),
           last,
-          isParentLast: isLastItem,
+          isParentLast: props.isParentLast,
           needEmptyIconIntree,
         });
         children.push(<Row {...renderProps} />);

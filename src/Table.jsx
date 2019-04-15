@@ -208,17 +208,19 @@ class Table extends React.Component {
     }
 
     if (this.props.fixHeaderToTop) {
-      document.addEventListener('scroll', () => {
-        const table = this.getDom()
-        const tablePos = table.getBoundingClientRect()
-        const isShow = (pos) => {
-          return (pos.top < (this.actionBar ? -56 : 0) + me.props.fixHeaderOffset) && (-pos.top < pos.height - (this.actionBar ? 56 : 0) - me.props.fixHeaderOffset)
-        }
-        this.setState({
-          fixHeaderToTop: isShow(tablePos),
-        })
-      })
+      document.addEventListener('scroll', this.onScroll)
     }
+  }
+
+  onScroll = () => {
+    const table = this.getDom()
+    const tablePos = table.getBoundingClientRect()
+    const isShow = (pos) => {
+      return (pos.top < (this.actionBar ? -56 : 0) + this.props.fixHeaderOffset) && (-pos.top < pos.height - (this.actionBar ? 56 : 0) - this.props.fixHeaderOffset)
+    }
+    this.setState({
+      fixHeaderToTop: isShow(tablePos),
+    })
   }
 
   componentDidUpdate(prevProps) {
@@ -262,6 +264,9 @@ class Table extends React.Component {
   componentWillUnmount() {
     if (this.resizeListener) {
       this.resizeListener.remove();
+    }
+    if (this.props.fixHeaderToTop) {
+      document.removeEventListener('scroll', this.onScroll)
     }
   }
 
