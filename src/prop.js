@@ -71,7 +71,8 @@ const defaultProps = {
   onRowGroupOpenChange: undefined,
   needCheckRightFixed: false,
   fixHeaderToTop: false,
-  fixHeaderOffset: 0
+  fixHeaderOffset: 0,
+  expandIconType: undefined
 };
 
 // http://facebook.github.io/react/docs/reusable-components.html
@@ -151,7 +152,8 @@ const propTypes = {
   onRowGroupOpenChange: PropTypes.func,
   needCheckRightFixed: PropTypes.bool,
   fixHeaderToTop: PropTypes.bool,
-  fixHeaderOffset: PropTypes.number
+  fixHeaderOffset: PropTypes.number,
+  expandIconType: PropTypes.string
 };
 
 export {

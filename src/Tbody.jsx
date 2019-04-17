@@ -270,11 +270,12 @@ class Tbody extends React.Component {
       visible: true,
       bodyNode: this.root,
       getTooltipContainer: props.getTooltipContainer,
+      expandIconType: props.expandIconType
     };
-    let needEmptyIconIntree = false;
-    if (props.renderModel === 'tree') {
-      needEmptyIconIntree = !!data.filter(rowData => rowData.data).length;
-    }
+    // let needEmptyIconIntree = false;
+    // if (props.renderModel === 'tree') {
+    //   needEmptyIconIntree = !!data.filter(rowData => {console.log(setTimeout(0));return rowData.data}).length;
+    // }
 
     if (!this.props.rowGroupKey) {
       rows = data.map((item, index) => {
@@ -298,7 +299,6 @@ class Tbody extends React.Component {
           },
           last,
           isParentLast: isLastItem,
-          needEmptyIconIntree,
         };
         return <Row {...renderProps} />;
       });

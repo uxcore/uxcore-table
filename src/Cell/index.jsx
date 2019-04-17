@@ -18,7 +18,7 @@ import TextField from '../CellField/TextField';
 import SelectField from '../CellField/SelectField';
 import RadioField from '../CellField/RadioField';
 import util from '../util';
-
+import Icon from 'uxcore-icon'
 
 const fieldsMap = {
   select: SelectField,
@@ -180,20 +180,25 @@ class Cell extends React.Component {
   }
 
   renderTreeIcon() {
-    if (this.props.cellIndex === 0 && this.props.hasSubComp) {
-      const open = this.props.rowData.showSubComp;
+    const { cellIndex, hasSubComp, rowData, expandIconType } = this.props
+    if (cellIndex === 0 && hasSubComp) {
+      const open = rowData.showSubComp;
       return (
         <span
           className="kuma-uxtable-tree-icon"
           onClick={this.showSubComp}
         >
-          <i
-            className={classnames({
-              'kuma-icon': true,
-              'kuma-icon-triangle-right': true,
-              'kuma-icon-triangle-right__open': open,
-            })}
-          />
+          {
+            expandIconType === 'adderSubtractor' ?
+              <Icon usei name={open ? 'zhedie' : 'zhankai1'} /> :
+              <i
+                className={classnames({
+                  'kuma-icon': true,
+                  'kuma-icon-triangle-right': true,
+                  'kuma-icon-triangle-right__open': open,
+                })}
+              />
+          }
         </span>
       );
     }

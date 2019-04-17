@@ -163,6 +163,7 @@ class Demo extends React.Component {
         });
         return data
       },
+      expandIconType: 'adderSubtractor',
       useListActionBar: true,
       showColumnPickerCheckAll: true,
       showColumnPicker: true,

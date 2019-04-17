@@ -143,6 +143,8 @@ $ npm start
 |needCheckRightFixed |boolean             |optional  |false       | 11.1.0     |是否开启右固定列检查，用于解决可能产生两个右固定列的场景
 |fixHeaderToTop      |boolean             |optional  |false       | 11.2.0     |是否显示一个固定顶部的header，用于滚动等状态下的标题贴顶功能。存在固定列或者表格宽度超出视窗宽度时该配置无效。
 |fixHeaderOffset     |number              |optional  |0           | 11.2.1     |fixed 状态下的header距离顶部的偏移量
+|expandIconType      |string              |optional  |undefined   | 11.3.0     |树形和子表格模式下的展开按钮增加加减号样式 'adderSubtractor'
+
 
 ### 折叠展开专用
 |Name            |Type                |Require   |Since Ver. |Default|Note |
