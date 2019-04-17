@@ -1,4 +1,8 @@
 # History
+## 11.3.0
+* `NEW` add new prop expandIconType
+* `CHANGED` emptyIcon in tree mode will always exist for format & performance
+
 ## 11.2.3
 * `FIXED` fix a border lost err in tree mode table
 
