@@ -131,7 +131,7 @@ class Row extends React.Component {
     }
     if (props.rowData.data) {
       const subRowData = props.rowData.data;
-      const needEmptyIconIntree = !!subRowData.filter(item => item.data).length;
+      // const needEmptyIconIntree = !!subRowData.filter(item => {console.log(setTimeout(0));return item.data}).length;
       subRowData.forEach((node, index) => {
         const isLastItem = index === subRowData.length - 1;
 
@@ -151,7 +151,6 @@ class Row extends React.Component {
           visible: (props.expandedKeys.indexOf(props.rowData.jsxid) !== -1),
           last,
           isParentLast: props.isParentLast,
-          needEmptyIconIntree,
         });
         children.push(<Row {...renderProps} />);
       });
@@ -189,10 +188,11 @@ class Row extends React.Component {
         </span>
       );
     } else if (props.rowData.data) {
+      const expanded = (props.expandedKeys.indexOf(props.rowData.jsxid) !== -1)
       _expandIconClass = {
         'kuma-icon': true,
         'kuma-icon-triangle-right': true,
-        expanded: (props.expandedKeys.indexOf(props.rowData.jsxid) !== -1),
+        expanded: expanded,
       };
       expandCollapseIcon = (
         <span
@@ -201,11 +201,12 @@ class Row extends React.Component {
           data-index={rowIndex}
           onClick={this.toggleExpanded.bind(this)}
         >
-          <i className={classnames(_expandIconClass)} />
+          {
+            props.expandIconType === 'adderSubtractor' ?
+              <Icon usei name={expanded ? 'zhedie' : 'zhankai1'} /> : <i className={classnames(_expandIconClass)} />
+          }
         </span>
       );
-    } else if (!props.needEmptyIconIntree) {
-      expandCollapseIcon = null;
     } else {
       expandCollapseIcon = (
         <span className="kuma-uxtable-emptyicon" />
@@ -348,7 +349,8 @@ class Row extends React.Component {
               showSubCompCallback: me.showSubCompFunc.bind(me),
               rowLength: props.data.length,
               prefixCls: `${props.tablePrefixCls}-cell`,
-              getTooltipContainer: props.getTooltipContainer
+              getTooltipContainer: props.getTooltipContainer,
+              expandIconType: props.expandIconType
             };
             //修复树形表格操作列右固定时会出现选择框
             if (firstVisableColumn === 1 && props.fixedColumn !== 'rightFixed') {
