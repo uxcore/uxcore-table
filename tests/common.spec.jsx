@@ -809,7 +809,7 @@ describe('Table', () => {
     expect(wrapper.find('.kuma-collapse-header').find('.arrow-active')).to.have.length(1)
   })
 
-  it('fixHeader', () => {
+  it('fixHeader', (done) => {
     let wrapper = mount(
       <Table
         {...common}
@@ -833,6 +833,13 @@ describe('Table', () => {
         }
       />,
     );
-    expect(wrapper.find('.kuma-uxtable-fixed-header')).to.have.length(1)
+    expect(wrapper.instance().fixedHeader).to.be(undefined)
+    wrapper.instance().setState({
+      fixHeaderToTop: true
+    }, () => {
+      const fixedHeader = wrapper.instance().fixedHeader
+      expect(fixedHeader.innerText).to.be('ID国家城市FristName')
+      done()
+    })
   })
 });
