@@ -150,17 +150,21 @@ class ActionBar extends React.Component {
 
   renderSelectAll() {
     const me = this;
-    const { locale } = this.props
+    const { locale, checkStatus } = me.props
+    const { isHalfChecked, isAllChecked, isAllDisabled } = checkStatus
     return (
       <span className={`${me.props.tablePrefixCls}-select-all`}>
         <CheckBox
           key={'actionBarSelectAll'}
-          checked={me.props.checkStatus.isAllChecked}
-          halfChecked={me.props.checkStatus.isHalfChecked}
-          disable={me.props.checkStatus.isAllDisabled}
+          checked={isAllChecked}
+          halfChecked={isHalfChecked}
+          disable={isAllDisabled}
           onChange={me.handleCheckBoxChange}
           text={i18n[locale].check_all}
         />
+        {
+          isHalfChecked ? <span style={{verticalAlign: 'middle'}}>{' '+ i18n[locale].check_all}</span>: ''
+        }
       </span>
     )
   }
@@ -320,7 +324,6 @@ class ActionBar extends React.Component {
           title: i18n[locale].templated_column,
           keepActiveInCustomView: true,
           onChange(data) {
-            console.log(data)
             onColumnPicker && onColumnPicker(data)
           }
         }

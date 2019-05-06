@@ -137,6 +137,12 @@ class Demo extends React.Component {
       className: 'kuma-uxtable-border-line',
       pagerSizeOptions: [5, 10, 15, 20],
       rowSelection,
+      processData(content) {
+        content.datas.map(item => {
+          item.jsxchecked = true
+        })
+        return content
+      },
       // locale:'en-us',
       showColumnPicker: true,
       showColumnPickerCheckAll: true,
