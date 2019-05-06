@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import Button from 'uxcore-button';
 import React from 'react';
 import SearchBar from './SearchBar';
-import ColumnPicker from './ColumnPickerNew';
+import ColumnPicker from './ColumnPicker';
 import LinkBar from './LinkBar';
 import CheckBox from "../Cell/CheckBox";
 import RowOrder from './RowOrder'
