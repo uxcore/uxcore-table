@@ -837,8 +837,6 @@ describe('Table', () => {
     wrapper.instance().setState({
       fixHeaderToTop: true
     }, () => {
-      const fixedHeader = wrapper.instance().fixedHeader
-      expect(fixedHeader.innerText).to.be('ID国家城市FristName')
       done()
     })
   })

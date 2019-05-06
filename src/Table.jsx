@@ -158,6 +158,7 @@ class Table extends React.Component {
       currentPage: props.currentPage, // pagination 相关
       activeColumn: null,
       searchTxt: '',
+      isFixedHeader: false,
       expandedKeys: [],
       filterColumns: {},
       treeLoadingIds: [],
@@ -1155,8 +1156,15 @@ class Table extends React.Component {
       </div>
     );
   }
-
-  renderHeader(renderHeaderProps, fixedColumn, isFixedHeader) {
+  handleHeaderFixedChanged = (isSticky) => {
+    console.log(isSticky)
+    if (isSticky) {
+      this.setState({
+        isFixedHeader: isSticky
+      })
+    }
+  }
+  renderHeader(renderHeaderProps, fixedColumn) {
     const { prefixCls, showHeader, fixHeaderToTop, fixHeaderOffset } = this.props;
     if (!showHeader) {
       return null;
@@ -1164,13 +1172,13 @@ class Table extends React.Component {
     return (
       <div className={`${prefixCls}-header-wrapper`}>
         {fixHeaderToTop ?
-          <Sticky offsetTop={fixHeaderOffset}>
+          <Sticky offsetTop={fixHeaderOffset} onChange={this.handleHeaderFixedChanged}>
             <Header
               {...renderHeaderProps}
               fixedColumn={fixedColumn}
               ref={util.saveRef(`header${upperFirst(fixedColumn)}`, this)}
               onScroll={this.handleHeaderScroll}
-              isFixedHeader={isFixedHeader}
+              isFixedHeader={this.state.isFixedHeader}
             />
           </Sticky> :
           <Header
@@ -1178,7 +1186,6 @@ class Table extends React.Component {
             fixedColumn={fixedColumn}
             ref={util.saveRef(`header${upperFirst(fixedColumn)}`, this)}
             onScroll={this.handleHeaderScroll}
-            isFixedHeader={isFixedHeader}
           />
         }
       </div>
