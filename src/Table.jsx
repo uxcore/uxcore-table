@@ -169,7 +169,6 @@ class Table extends React.Component {
       lastShowMask: props.showMask,
       customView: null,
       removeCustomPager: false,
-      fixHeaderToTop: false
     };
     this.handleBodyScroll = this.handleBodyScroll.bind(this);
     this.handleHeaderScroll = this.handleHeaderScroll.bind(this);
@@ -207,21 +206,6 @@ class Table extends React.Component {
     if (this.root) {
       this.rootWidth = this.root.clientWidth;
     }
-
-    if (this.props.fixHeaderToTop) {
-      document.addEventListener('scroll', this.onScroll)
-    }
-  }
-
-  onScroll = () => {
-    const table = this.getDom()
-    const tablePos = table.getBoundingClientRect()
-    const isShow = (pos) => {
-      return (pos.top < (this.actionBar ? -56 : 0) + this.props.fixHeaderOffset) && (-pos.top < pos.height - (this.actionBar ? 56 : 0) - this.props.fixHeaderOffset)
-    }
-    this.setState({
-      fixHeaderToTop: isShow(tablePos),
-    })
   }
 
   componentDidUpdate(prevProps) {
@@ -265,9 +249,6 @@ class Table extends React.Component {
   componentWillUnmount() {
     if (this.resizeListener) {
       this.resizeListener.remove();
-    }
-    if (this.props.fixHeaderToTop) {
-      document.removeEventListener('scroll', this.onScroll)
     }
   }
 
@@ -1176,19 +1157,30 @@ class Table extends React.Component {
   }
 
   renderHeader(renderHeaderProps, fixedColumn, isFixedHeader) {
-    const { prefixCls, showHeader } = this.props;
+    const { prefixCls, showHeader, fixHeaderToTop, fixHeaderOffset } = this.props;
     if (!showHeader) {
       return null;
     }
     return (
       <div className={`${prefixCls}-header-wrapper`}>
-        <Header
-          {...renderHeaderProps}
-          fixedColumn={fixedColumn}
-          ref={util.saveRef(`header${upperFirst(fixedColumn)}`, this)}
-          onScroll={this.handleHeaderScroll}
-          isFixedHeader={isFixedHeader}
-        />
+        {fixHeaderToTop ?
+          <Sticky offsetTop={fixHeaderOffset}>
+            <Header
+              {...renderHeaderProps}
+              fixedColumn={fixedColumn}
+              ref={util.saveRef(`header${upperFirst(fixedColumn)}`, this)}
+              onScroll={this.handleHeaderScroll}
+              isFixedHeader={isFixedHeader}
+            />
+          </Sticky> :
+          <Header
+            {...renderHeaderProps}
+            fixedColumn={fixedColumn}
+            ref={util.saveRef(`header${upperFirst(fixedColumn)}`, this)}
+            onScroll={this.handleHeaderScroll}
+            isFixedHeader={isFixedHeader}
+          />
+        }
       </div>
     );
   }
@@ -1540,23 +1532,6 @@ class Table extends React.Component {
           style={style}
           ref={util.saveRef('root', this)}
         >
-          {
-            this.state.fixHeaderToTop && !util.hasFixColumn(props) ?
-              <div
-                ref={c => this.fixedHeader = c}
-                className={`${props.prefixCls}-fixed-header`}
-                style={{
-                  position: 'fixed',
-                  width: props.width && props.width !== 'auto' ? props.width : (this.state.tableWidth || this.getDom().getBoundingClientRect().width || '100%'),
-                  zIndex: '1000' /*n eed under tip or popup */,
-                  background: '#fff',
-                  top: `${fixHeaderOffset}px`,
-                  borderLeft: '1px solid rgba(0,0,0,0)'
-                }}
-              >
-                {this.renderHeader(renderHeaderProps, 'scroll', true) }
-              </div> : null
-          }
           {this.renderActionBar()}
           {
             !this.state.customView ? <div

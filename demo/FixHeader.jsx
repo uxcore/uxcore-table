@@ -132,6 +132,8 @@ class Demo extends React.Component {
       },
       columnResizeable: true,
       fixHeaderToTop: true,
+      // fixHeaderOffset: 54,
+      // fixActionBarToTop: true,
       toggleSubCompOnRowClick: true,
       // width: 800,
       // className: 'kuma-uxtable-split-line',
@@ -190,7 +192,8 @@ class Demo extends React.Component {
           },
           columnResizeable: true,
           fixHeaderToTop: true,
-
+          // fixHeaderOffset: 54,
+          // fixActionBarToTop: true,
           toggleSubCompOnRowClick: true,
           // width: 800,
           // className: 'kuma-uxtable-split-line',
