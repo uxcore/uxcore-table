@@ -1,4 +1,9 @@
 # History
+## 11.4.0
+* `NEW` new demo code for row select between different pages
+* `NEW` add new prop fixActionBarToTop, fixActionBarOffset
+* `CHANGED` refactor header sticky
+
 ## 11.3.0
 * `NEW` add new prop expandIconType
 * `CHANGED` emptyIcon in tree mode will always exist for format & performance
