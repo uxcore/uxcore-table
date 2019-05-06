@@ -72,6 +72,8 @@ const defaultProps = {
   needCheckRightFixed: false,
   fixHeaderToTop: false,
   fixHeaderOffset: 0,
+  fixActionBarToTop: false,
+  fixActionBarOffset: 0,
   expandIconType: undefined
 };
 
@@ -153,6 +155,8 @@ const propTypes = {
   needCheckRightFixed: PropTypes.bool,
   fixHeaderToTop: PropTypes.bool,
   fixHeaderOffset: PropTypes.number,
+  fixActionBarToTop: PropTypes.bool,
+  fixActionBarOffset: PropTypes.number,
   expandIconType: PropTypes.string
 };
 

@@ -309,7 +309,10 @@ class Demo extends React.Component {
           },
         ],
       },
-      fixHeaderToTop: true,
+      // fixHeaderToTop: true,
+      // fixHeaderOffset: 54,
+      fixActionBarToTop: true,
+      fixActionBarOffset: 0,
       onSearch: (searchTxt) => {
         console.log(searchTxt);
       },

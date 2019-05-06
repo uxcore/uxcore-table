@@ -22,6 +22,7 @@ import { addClass, removeClass } from 'rc-util/lib/Dom/class';
 import { get } from 'rc-util/lib/Dom/css';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import { polyfill } from 'react-lifecycles-compat';
+import Sticky from 'uxcore-sticky'
 
 import Mask from './Mask';
 import util from './util';
@@ -1395,7 +1396,15 @@ class Table extends React.Component {
         renderPager: me.renderPager.bind(me),
         useCustomView: me.useCustomView.bind(me),
       };
-      return <ActionBar {...renderActionProps} ref={c => this.actionBar = c} />;
+      return (
+        props.fixActionBarToTop
+          ? <Sticky
+              offsetTop={props.fixActionBarOffset}
+            >
+              <ActionBar {...renderActionProps} ref={c => this.actionBar = c} />
+            </Sticky>
+          : <ActionBar {...renderActionProps} ref={c => this.actionBar = c} />
+      )
     }
     return null;
   }

@@ -78,6 +78,7 @@
     "uxcore-popover": "^0.6.0",
     "uxcore-radiogroup": "^1.2.0",
     "uxcore-select2": "^0.5.0",
+    "uxcore-sticky": "^0.1.0",
     "uxcore-tooltip": "^0.4.0",
     "uxcore-tree": "^0.4.0"
   },

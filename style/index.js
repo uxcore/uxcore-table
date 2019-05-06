@@ -15,3 +15,4 @@ import 'uxcore-radiogroup/style';
 import 'uxcore-select2/style';
 import 'uxcore-tooltip/style';
 import 'uxcore-tree/style';
+import 'uxcore-sticky/style'
