@@ -29,6 +29,7 @@ class Demo extends React.Component {
     this.state = {
       text: 1,
       showTable: true,
+      allSelectedRows: ['0', '3', '4', '11'],
       columns: [
         {
           dataKey: 'firstName',
@@ -113,12 +114,32 @@ class Demo extends React.Component {
 
   render() {
     const me = this;
+    const { allSelectedRows } = this.state
     // 通过 rowSelection 对象表明需要行选择
     const rowSelection = {
-      onSelect(record, selected, selectedRows) {
-        console.log(record, selected, selectedRows);
+      onSelect(selected, record, selectedRows) {
+        const hasSelected = allSelectedRows.indexOf(record.id) !== -1
+        if (hasSelected) {
+          if (!selected) {
+            me.setState({
+              allSelectedRows: allSelectedRows.filter(row => {
+                return row !== record.id
+              })
+            })
+          }
+        } else {
+          if (selected) {
+            me.setState({
+              allSelectedRows: [...allSelectedRows, record.id]
+            })
+          }
+        }
+        console.log(selected, record, selectedRows);
       },
       onSelectAll(selected, selectedRows) {
+        // me.setState({
+        //   allSelectedRows: ['11','12','13','14','15']
+        // })
         console.log(selected, selectedRows);
       },
       // isDisabled: rowData => true,
@@ -139,7 +160,9 @@ class Demo extends React.Component {
       rowSelection,
       processData(content) {
         content.datas.map(item => {
-          item.jsxchecked = true
+          if (me.state.allSelectedRows.indexOf(item.id) !== -1) {
+            item.jsxchecked = true
+          }
         })
         return content
       },
