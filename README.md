@@ -281,6 +281,16 @@ let rowSelection = {
 };
 
 ```
+通过rowSelection以及processData两个回调的配合，即可实现业务上可能会碰到的跨页行选择等功能。
+
+基本思路是：
+
+1、设置一个记录当前选中行的数据结构，如allSelectedRows；
+
+2、在processData中过滤出所有该数据结构中包含的行数据，并将jsxchecked属性设置为true；
+
+3、在rowSelection.onSelect中判断当前选中项的状态，并修改allSelectedRows中的数据即可
+
 
 
 ## 返回的数据格式
