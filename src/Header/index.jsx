@@ -108,7 +108,9 @@ class Header extends React.Component {
       tablePrefixCls,
       columnResizeable,
       handleColumnResize,
-      isFixedHeader
+      isStickyHeader,
+      fixedColumn,
+      size
     } = me.props;
     const cellProps = {
       column: item,
@@ -123,13 +125,15 @@ class Header extends React.Component {
       filterSelectedKeys: filterColumns[item.dataKey],
       checkStatus,
       tablePrefixCls,
-      isFixedHeader,
+      isStickyHeader,
       ref: (c) => { if (Header.isFixedColumn(item)) { this[`fixedCell${index}`] = c; } },
       onCheckboxChange: (e) => { this.handleCheckBoxChange(e); },
       onColumnOrder: () => { this.handleColumnOrder(item); },
       onFilter: (filterKeys) => { this.handleColumnFilter(filterKeys, item); },
       columnResizeable: columnResizeable,
-      handleColumnResize: handleColumnResize
+      handleColumnResize: handleColumnResize,
+      isFixedHeader: fixedColumn === 'fixed' || fixedColumn === 'rightFixed',
+      size
     };
     return (
       <HeaderCell {...cellProps} key={index} />
@@ -138,7 +142,7 @@ class Header extends React.Component {
 
   renderColumns(_columns) {
     const me = this;
-    const { prefixCls } = this.props;
+    const { prefixCls, hasGroup, size } = this.props;
     const columns = _columns.map((item, index) => {
       const last = (index === _columns.length - 1);
       if ({}.hasOwnProperty.call(item, 'columns') && typeof item.columns === 'object') {
@@ -155,6 +159,9 @@ class Header extends React.Component {
                 className={classnames(`${prefixCls}-group-name`, {
                   last,
                 })}
+                style={{
+                  lineHeight: size === 'small' ? '40px' : '50px'
+                }}
               >
                 {item.group}
               </div>
@@ -167,7 +174,7 @@ class Header extends React.Component {
         }
         return null;
       }
-      return me.renderColumn(item, index, me.hasGroup, last);
+      return me.renderColumn(item, index, hasGroup, last);
     });
     return columns;
   }
@@ -233,13 +240,6 @@ class Header extends React.Component {
       ({ columns } = props);
       headerWrapClassName = `${props.prefixCls}-no`;
     }
-    me.hasGroup = false;
-    for (let i = 0; i < columns.length; i++) {
-      if ('group' in columns[i]) {
-        me.hasGroup = true;
-        break;
-      }
-    }
     return (
       <div className={headerWrapClassName} style={headerStyle} ref={me.saveRef('root')}>
         <div className={props.prefixCls} ref={(c) => { this.scroller = c; }}>
@@ -256,7 +256,7 @@ Header.propTypes = {
   prefixCls: PropTypes.string,
   onColumnFilter: PropTypes.func,
   filterColumns: PropTypes.object,
-  isFixedHeader: PropTypes.bool
+  isStickyHeader: PropTypes.bool
 };
 
 Header.defaultProps = {
@@ -265,7 +265,7 @@ Header.defaultProps = {
   prefixCls: 'kuma-uxtable-header',
   onColumnFilter: () => {},
   filterColumns: {},
-  isFixedHeader: false
+  isStickyHeader: false
 };
 
 export default Header;
