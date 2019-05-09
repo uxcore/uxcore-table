@@ -58,27 +58,22 @@ class Demo extends React.Component {
           ordered: true,
         },
         {
-          group: '123123',
-          columns: [
-            {
-              dataKey: 'lastName',
-              title: '自定义猎头',
-              message: 'nihao',
-              isDisable: function() {
-                return true
-              },
-              // fixed: true,
-              // rightFixed: true
-              // width: '25%',
-            },
-            {
-              dataKey: 'email',
-              title: 'Email',
-              // width: '20%',
-              ordered: true,
-              message: `sadfsdf\nnsafdasdfasdf`
-            }
-          ]
+          dataKey: 'lastName',
+          title: '自定义猎头',
+          message: 'nihao',
+          isDisable: function() {
+            return true
+          },
+          // fixed: true,
+          // rightFixed: true
+          width: '25%',
+        },
+        {
+          dataKey: 'email',
+          title: 'Email',
+          width: '20%',
+          ordered: true,
+          message: `sadfsdf\nnsafdasdfasdf`
         },
         {
           title: '操作1',

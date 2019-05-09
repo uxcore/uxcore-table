@@ -1,4 +1,8 @@
 # History
+## 11.4.1
+* `FIXED` fix a column group in tree mode
+* `CHANGED` optimize the performance
+
 ## 11.4.0
 * `NEW` new demo code for row select between different pages
 * `NEW` add new prop fixActionBarToTop, fixActionBarOffset
