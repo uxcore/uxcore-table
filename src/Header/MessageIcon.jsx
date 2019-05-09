@@ -33,7 +33,7 @@ const MessageIcon = (props) => {
           {getMessage(props.message)}
         </div>
       )}
-      placement={props.isFixedHeader ? 'bottom' : 'top'}
+      placement={props.isStickyHeader ? 'bottom' : 'top'}
     >
       <Icon usei name="xinxitishicopy" className={`${props.prefixCls}-icon`} />
     </Tooltip>

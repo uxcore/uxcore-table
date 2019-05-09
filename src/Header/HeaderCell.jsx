@@ -264,7 +264,7 @@ class HeaderCell extends React.Component {
   render() {
     const me = this;
     const {
-      renderModel, prefixCls, column, index, hasGroup, last, tablePrefixCls, isFixedHeader
+      renderModel, prefixCls, column, index, hasGroup, last, tablePrefixCls, isStickyHeader, isFixedHeader, size
     } = me.props;
     const rowSelectorInTreeMode = (['checkboxSelector', 'radioSelector'].indexOf(column.type) !== -1)
       && (renderModel === 'tree');
@@ -282,8 +282,8 @@ class HeaderCell extends React.Component {
     let v;
     if (hasGroup) {
       assign(style, {
-        height: '100px',
-        lineHeight: '100px',
+        height: !isFixedHeader ? (size === 'small' ? '80px' : '100px') : (size === 'small' ? '81px' : '101px') ,
+        lineHeight: !isFixedHeader ? (size === 'small' ? '80px' : '100px') : (size === 'small' ? '81px' : '101px') ,
       });
     }
 
@@ -341,7 +341,7 @@ class HeaderCell extends React.Component {
         {v}
         {me.renderOrderIcon(column)}
         {me.renderFilterIcon(column)}
-        <MessageIcon message={column.message} prefixCls={`${prefixCls}-msg`} isFixedHeader={isFixedHeader} />
+        <MessageIcon message={column.message} prefixCls={`${prefixCls}-msg`} isStickyHeader={isStickyHeader} />
         {
 
           needResize

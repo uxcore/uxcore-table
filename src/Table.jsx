@@ -38,6 +38,8 @@ import TableContext from './context';
 const { createCellField } = CellField;
 const getStyle = get;
 
+let hasGroup = false;
+
 class Table extends React.Component {
   static processColumn = (props, state = {}, extra = {}) => {
     const actualProps = props;
@@ -75,6 +77,9 @@ class Table extends React.Component {
           const trueTableWidth = tableWidth - scrollBarWidth;
           item.width = (parseFloat(item.width) * trueTableWidth) / 100;
         }
+      }
+      if (item.group) {
+        hasGroup = true
       }
     }
     // filter the column which has a dataKey 'jsxchecked' & 'jsxtreeIcon'
@@ -158,7 +163,7 @@ class Table extends React.Component {
       currentPage: props.currentPage, // pagination 相关
       activeColumn: null,
       searchTxt: '',
-      isFixedHeader: false,
+      isStickyHeader: false,
       expandedKeys: [],
       filterColumns: {},
       treeLoadingIds: [],
@@ -1157,10 +1162,9 @@ class Table extends React.Component {
     );
   }
   handleHeaderFixedChanged = (isSticky) => {
-    console.log(isSticky)
     if (isSticky) {
       this.setState({
-        isFixedHeader: isSticky
+        isStickyHeader: isSticky
       })
     }
   }
@@ -1178,7 +1182,7 @@ class Table extends React.Component {
               fixedColumn={fixedColumn}
               ref={util.saveRef(`header${upperFirst(fixedColumn)}`, this)}
               onScroll={this.handleHeaderScroll}
-              isFixedHeader={this.state.isFixedHeader}
+              isStickyHeader={this.state.isStickyHeader}
             />
           </Sticky> :
           <Header
@@ -1424,15 +1428,6 @@ class Table extends React.Component {
     const actionBarHeight = (props.actionBar || props.showSearch) ? props.actionBarHeight : 0;
     const pagerHeight = (props.showPager && this.state.data && this.state.data.totalCount) ? 67 : 0;
 
-    // decide whether the table has column groups
-    let hasGroup = false;
-    for (let i = 0; i < this.state.columns.length; i++) {
-      if ('group' in this.state.columns[i]) {
-        hasGroup = true;
-        break;
-      }
-    }
-
     let bodyHeight;
     if (props.height === 'auto' || props.height === '100%') {
       bodyHeight = props.height;
@@ -1450,7 +1445,8 @@ class Table extends React.Component {
       leftFixedMaxWidth: props.leftFixedMaxWidth,
       tablePrefixCls: props.prefixCls,
       getTooltipContainer: props.getTooltipContainer,
-      expandIconType: props.expandIconType
+      expandIconType: props.expandIconType,
+      size: props.size
     };
 
     const renderBodyProps = {
@@ -1502,6 +1498,7 @@ class Table extends React.Component {
       showHeaderBorder: props.showHeaderBorder,
       headerHeight: props.headerHeight,
       checkStatus,
+      hasGroup,
       selectAll: this.selectAll,
       orderColumnCB: this.handleOrderColumnCB,
       onColumnFilter: this.handleFilter,

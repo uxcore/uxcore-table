@@ -72,13 +72,18 @@ class Demo extends React.Component {
           fixed: true,
         },
         {
-          dataKey: 'city',
-          title: '城市',
-          width: '150px',
-        },
-        {
-          dataKey: 'firstName',
-          title: 'FristName',
+          group: '打开街道口附近',
+          columns: [
+            {
+              dataKey: 'city',
+              title: '城市',
+              width: '150px',
+            },
+            {
+              dataKey: 'firstName',
+              title: 'FristName',
+            },
+          ]
         },
         {
           dataKey: 'lastName',
@@ -168,6 +173,7 @@ class Demo extends React.Component {
       showColumnPickerCheckAll: true,
       showColumnPicker: true,
       columnResizeable: true,
+      // size: 'small',
       actionBar: {
         columnsOrder: {
           iconName: 'huxiangguanzhu',
@@ -277,6 +283,7 @@ class Demo extends React.Component {
       jsxcolumns: this.state.columns,
       renderModel: 'tree',
       toggleTreeExpandOnRowClick: true,
+      className: 'kuma-uxtable-split-line',
       rowSelection: {
         onSelect: (checked, selectedRow, selectedRows) => {
           console.log(checked, selectedRow, selectedRows);
