@@ -598,6 +598,9 @@ class Table extends React.Component {
       if (resetExpandedKeys) {
         updateObj.expandedKeys = util.getDefaultExpandedKeys(processedData.data, props.levels);
       }
+      if (from === 'search') {
+        updateObj.currentPage = 1
+      }
       if (processedData.currentPage !== undefined) {
         updateObj.currentPage = processedData.currentPage;
       }
