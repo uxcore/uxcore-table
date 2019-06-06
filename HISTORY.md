@@ -1,6 +1,9 @@
 # History
+## 14.4.2
+* `FIXED` column group support in multiple instances
+
 ## 11.4.1
-* `FIXED` fix a column group in tree mode
+* `FIXED` fix a column group bug in tree mode
 * `CHANGED` optimize the performance
 
 ## 11.4.0
