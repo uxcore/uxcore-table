@@ -38,8 +38,6 @@ import TableContext from './context';
 const { createCellField } = CellField;
 const getStyle = get;
 
-let hasGroup = false;
-
 class Table extends React.Component {
   static processColumn = (props, state = {}, extra = {}) => {
     const actualProps = props;
@@ -77,9 +75,6 @@ class Table extends React.Component {
           const trueTableWidth = tableWidth - scrollBarWidth;
           item.width = (parseFloat(item.width) * trueTableWidth) / 100;
         }
-      }
-      if (item.group) {
-        hasGroup = true
       }
     }
     // filter the column which has a dataKey 'jsxchecked' & 'jsxtreeIcon'
@@ -176,6 +171,7 @@ class Table extends React.Component {
       customView: null,
       removeCustomPager: false,
     };
+    this.hasGroup = this.checkHasGroup(props.jsxcolumns)
     this.handleBodyScroll = this.handleBodyScroll.bind(this);
     this.handleHeaderScroll = this.handleHeaderScroll.bind(this);
     this.changeSelected = this.changeSelected.bind(this);
@@ -190,6 +186,17 @@ class Table extends React.Component {
     props.needCheckRightFixed && setInterval(() => {
       this.rightFixedTable && this.checkRightFixed(true)
     }, 300)
+  }
+
+  checkHasGroup(columns) {
+    let ret = false
+    for (let i = 0; i < columns.length; i++) {
+      if (columns[i].group) {
+        ret = true;
+        break;
+      }
+    }
+    return ret;
   }
 
   componentDidMount() {
@@ -1435,7 +1442,7 @@ class Table extends React.Component {
     if (props.height === 'auto' || props.height === '100%') {
       bodyHeight = props.height;
     } else {
-      bodyHeight = parseInt(props.height, 10) - (headerHeight || (hasGroup ? 100 : 50))
+      bodyHeight = parseInt(props.height, 10) - (headerHeight || (this.hasGroup ? 100 : 50))
           - actionBarHeight - pagerHeight;
     }
 
@@ -1501,7 +1508,7 @@ class Table extends React.Component {
       showHeaderBorder: props.showHeaderBorder,
       headerHeight: props.headerHeight,
       checkStatus,
-      hasGroup,
+      hasGroup: this.hasGroup,
       selectAll: this.selectAll,
       orderColumnCB: this.handleOrderColumnCB,
       onColumnFilter: this.handleFilter,
