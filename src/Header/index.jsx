@@ -110,7 +110,8 @@ class Header extends React.Component {
       handleColumnResize,
       isStickyHeader,
       fixedColumn,
-      size
+      size,
+      tooltipPlacement
     } = me.props;
     const cellProps = {
       column: item,
@@ -126,6 +127,7 @@ class Header extends React.Component {
       checkStatus,
       tablePrefixCls,
       isStickyHeader,
+      tooltipPlacement,
       ref: (c) => { if (Header.isFixedColumn(item)) { this[`fixedCell${index}`] = c; } },
       onCheckboxChange: (e) => { this.handleCheckBoxChange(e); },
       onColumnOrder: () => { this.handleColumnOrder(item); },

@@ -26,6 +26,7 @@ const MessageIcon = (props) => {
   if (!props.message) {
     return <noscript />;
   }
+  const placement = props.tooltipPlacement ? props.tooltipPlacement : props.isStickyHeader ? 'bottom' : 'top';
   return (
     <Tooltip
       overlay={(
@@ -33,7 +34,7 @@ const MessageIcon = (props) => {
           {getMessage(props.message)}
         </div>
       )}
-      placement={props.isStickyHeader ? 'bottom' : 'top'}
+      placement={placement}
     >
       <Icon usei name="xinxitishicopy" className={`${props.prefixCls}-icon`} />
     </Tooltip>

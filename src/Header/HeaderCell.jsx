@@ -264,7 +264,17 @@ class HeaderCell extends React.Component {
   render() {
     const me = this;
     const {
-      renderModel, prefixCls, column, index, hasGroup, last, tablePrefixCls, isStickyHeader, isFixedHeader, size
+      renderModel,
+      prefixCls,
+      column,
+      index,
+      hasGroup,
+      last,
+      tablePrefixCls,
+      isStickyHeader,
+      isFixedHeader,
+      size,
+      tooltipPlacement
     } = me.props;
     const rowSelectorInTreeMode = (['checkboxSelector', 'radioSelector'].indexOf(column.type) !== -1)
       && (renderModel === 'tree');
@@ -341,7 +351,7 @@ class HeaderCell extends React.Component {
         {v}
         {me.renderOrderIcon(column)}
         {me.renderFilterIcon(column)}
-        <MessageIcon message={column.message} prefixCls={`${prefixCls}-msg`} isStickyHeader={isStickyHeader} />
+        <MessageIcon message={column.message} prefixCls={`${prefixCls}-msg`} tooltipPlacement={tooltipPlacement} isStickyHeader={isStickyHeader} />
         {
 
           needResize

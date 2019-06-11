@@ -150,6 +150,7 @@ class Demo extends React.Component {
         edit: () => { },
         del: () => { },
       },
+      tooltipPlacement: 'bottomLeft',
       columnResizeable: true,
       toggleSubCompOnRowClick: true,
       // width: 800,

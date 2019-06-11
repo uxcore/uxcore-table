@@ -1515,6 +1515,7 @@ class Table extends React.Component {
       key: 'table-header',
       columnResizeable: props.columnResizeable,
       handleColumnResize: this.handleColumnResize,
+      tooltipPlacement: props.tooltipPlacement
     };
 
     const renderFooterProps = {
