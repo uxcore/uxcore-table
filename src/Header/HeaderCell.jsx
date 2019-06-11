@@ -351,7 +351,7 @@ class HeaderCell extends React.Component {
         {v}
         {me.renderOrderIcon(column)}
         {me.renderFilterIcon(column)}
-        <MessageIcon message={column.message} prefixCls={`${prefixCls}-msg`} tooltipPlacement={tooltipPlacement} isStickyHeader={isStickyHeader} />
+        <MessageIcon message={column.message} prefixCls={`${prefixCls}-msg`} tooltipPlacement={column.tooltipPlacement || tooltipPlacement} isStickyHeader={isStickyHeader} />
         {
 
           needResize

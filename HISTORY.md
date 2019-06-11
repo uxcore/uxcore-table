@@ -1,4 +1,7 @@
 # History
+## 14.5.1
+* `NEW` add new prop tooltipPlacement in column setter
+
 ## 14.4.2
 * `FIXED` column group support in multiple instances
 

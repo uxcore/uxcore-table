@@ -61,6 +61,7 @@ class Demo extends React.Component {
           dataKey: 'lastName',
           title: '自定义猎头',
           message: 'nihao',
+          tooltipPlacement: 'bottomRight',
           isDisable: function() {
             return true
           },
