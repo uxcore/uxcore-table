@@ -1,4 +1,7 @@
 # History
+## 14.6.0
+* `NEW` add new prop fetchHeader
+
 ## 14.5.1
 * `NEW` add new prop tooltipPlacement in column setter
 

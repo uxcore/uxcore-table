@@ -42,6 +42,7 @@ const defaultProps = {
   pagerSizeOptions: [10, 20, 30, 40],
   rowHeight: 76,
   fetchParams: {},
+  fetchHeader: {},
   currentPage: 1,
   searchBarPlaceholder: '搜索表格内容',
   loadingText: 'loading',
@@ -121,6 +122,8 @@ const propTypes = {
   jsxdata: PropTypes.object,
   fetchUrl: PropTypes.string,
   fetchParams: PropTypes.object,
+  fetchMethod: PropTypes.string,
+  fetchHeader: PropTypes.object,
   currentPage: PropTypes.number,
   rowSelector: PropTypes.string,
   actionBar: PropTypes.oneOfType([
