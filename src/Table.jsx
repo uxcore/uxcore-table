@@ -114,7 +114,7 @@ class Table extends React.Component {
       }].concat(columns);
     }
     if ((actualProps.subComp || actualProps.renderSubComp)
-      && actualProps.renderModel !== 'tree' && !state.hasFixed) {
+      && actualProps.renderModel !== 'tree' && (!state.hasFixed || !state.hasFixed.hasLeft)) {
       columns = [{
         dataKey: 'jsxtreeIcon',
         width: '36px',
@@ -1478,7 +1478,7 @@ class Table extends React.Component {
       addRowClassName: props.addRowClassName,
       locale: props.locale,
       emptyText: props.emptyText,
-      renderSubComp: this.state.hasFixed ? null : props.renderSubComp,
+      renderSubComp: this.state.hasFixed && this.state.hasFixed.hasLeft ? null : props.renderSubComp,
       rowHeight: props.rowHeight,
       loadingText: props.loadingText,
       height: bodyHeight,

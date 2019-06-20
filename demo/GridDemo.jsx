@@ -29,7 +29,7 @@ class Demo extends React.Component {
     this.state = {
       text: 1,
       showTable: true,
-      allSelectedRows: ['0', '3', '4', '11'],
+      allSelectedRows: [],
       columns: [
         {
           dataKey: 'firstName',
@@ -66,8 +66,43 @@ class Demo extends React.Component {
             return true
           },
           // fixed: true,
-          // rightFixed: true
+          // rightFixed: true,
           width: '25%',
+        },
+        {
+          dataKey: 'email',
+          title: 'Email',
+          width: '20%',
+          ordered: true,
+          message: `sadfsdf\nnsafdasdfasdf`
+        },
+        {
+          dataKey: 'email',
+          title: 'Email',
+          width: '20%',
+          ordered: true,
+          message: `sadfsdf\nnsafdasdfasdf`
+        },
+        {
+          dataKey: 'email',
+          title: 'Email',
+          width: '20%',
+          ordered: true,
+          message: `sadfsdf\nnsafdasdfasdf`
+        },
+        {
+          dataKey: 'email',
+          title: 'Email',
+          width: '20%',
+          ordered: true,
+          message: `sadfsdf\nnsafdasdfasdf`
+        },
+        {
+          dataKey: 'email',
+          title: 'Email',
+          width: '20%',
+          ordered: true,
+          message: `sadfsdf\nnsafdasdfasdf`
         },
         {
           dataKey: 'email',
@@ -80,7 +115,7 @@ class Demo extends React.Component {
           title: '操作1',
           width: '200px',
           type: 'action',
-          // rightFixed: true,
+          rightFixed: true,
           actions: [{
             title: '点击',
             callback: () => {
@@ -145,7 +180,8 @@ class Demo extends React.Component {
       // isDisabled: rowData => true,
     };
     const columns = this.state.columns
-    const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
+    // const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
+    const fetchUrl =  `http://30.5.152.173:3000//demo/data.json`
     const renderProps = {
       actionColumn: {
         edit: () => { },
@@ -160,7 +196,7 @@ class Demo extends React.Component {
       pagerSizeOptions: [5, 10, 15, 20],
       rowSelection,
       processData(content) {
-        content.datas.map(item => {
+        (content.data || content.datas).map(item => {
           if (me.state.allSelectedRows.indexOf(item.id) !== -1) {
             item.jsxchecked = true
           }

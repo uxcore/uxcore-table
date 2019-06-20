@@ -1,4 +1,7 @@
 # History
+## 14.7.0
+* `CHANGED` subComp support rightFixed column
+
 ## 14.6.0
 * `NEW` add new prop fetchHeader
 
