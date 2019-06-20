@@ -1,14 +1,14 @@
 # History
-## 14.7.0
+## 11.7.0
 * `CHANGED` subComp support rightFixed column
 
-## 14.6.0
+## 11.6.0
 * `NEW` add new prop fetchHeader
 
-## 14.5.1
+## 11.5.1
 * `NEW` add new prop tooltipPlacement in column setter
 
-## 14.4.2
+## 11.4.2
 * `FIXED` column group support in multiple instances
 
 ## 11.4.1
