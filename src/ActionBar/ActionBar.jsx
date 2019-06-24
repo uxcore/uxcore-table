@@ -212,6 +212,7 @@ class ActionBar extends React.Component {
     const {
       columns,
       handleColumnOrderChange,
+      locale
     } = me.props;
     const {
       className,
@@ -273,6 +274,7 @@ class ActionBar extends React.Component {
           {
             columnsOrder ? <ColumnOrder
               {...columnsOrder}
+              locale={locale}
               handleColumnOrderChange={handleColumnOrderChange}
               columns={columns}
               isTableView={activatedView === 'table'}

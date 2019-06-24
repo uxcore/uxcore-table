@@ -181,7 +181,7 @@ class Demo extends React.Component {
     };
     const columns = this.state.columns
     // const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
-    const fetchUrl =  `http://30.5.152.173:3000//demo/data.json`
+    const fetchUrl =  `http://30.5.152.99:3001/demo/data.json`
     const renderProps = {
       actionColumn: {
         edit: () => { },
@@ -274,7 +274,7 @@ class Demo extends React.Component {
         columnsOrder: {
           iconName: 'huxiangguanzhu',
           // keepActiveInCustomView: true,
-          title: '列排序',
+          // title: '列排序',
           includeActionColumn: false,  // 优先级低于fixed和rightFixed
           onChange(dragInfo, data) {
             console.log(data)
@@ -283,7 +283,7 @@ class Demo extends React.Component {
         // 列选择
         columnsPicker: {
           iconName: 'zidingyilie',
-          title: '自定义列',
+          // title: '自定义列',
           keepActiveInCustomView: false,
           setPickerGroups(columns) {
             return [

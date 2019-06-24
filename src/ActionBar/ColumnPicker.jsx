@@ -322,7 +322,7 @@ class ColumnPicker extends React.Component {
           'disabled': disabled
         })}>
           <Icon usei name={p.iconName} />
-          <span>{p.title}</span>
+          <span>{p.title || i18n[p.locale].templated_column}</span>
         </div>
       </Popover>
     );
