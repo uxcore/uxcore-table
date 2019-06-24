@@ -1,4 +1,7 @@
 # History
+## 11.7.2
+* `FIXED` i18n for columnOrder & columnPicker
+
 ## 11.7.0
 * `CHANGED` subComp support rightFixed column
 
