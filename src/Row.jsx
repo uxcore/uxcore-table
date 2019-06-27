@@ -110,7 +110,7 @@ class Row extends React.Component {
       let subRowStyle = {}
       if (props.fixedColumn === 'rightFixed') {
         subRowStyle.width = 0
-        subComp && (subComp.props.style.opacity = 0)
+        subComp && subComp.props && subComp.props.style && (subComp.props.style.opacity = 0)
       }
       if (subComp && props.rowData.showSubComp) {
         sub = (

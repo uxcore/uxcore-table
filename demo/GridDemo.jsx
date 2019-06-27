@@ -181,7 +181,7 @@ class Demo extends React.Component {
     };
     const columns = this.state.columns
     // const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
-    const fetchUrl =  `http://30.5.152.99:3001/demo/data.json`
+    const fetchUrl =  `http://30.5.152.122:3000/demo/data.json`
     const renderProps = {
       actionColumn: {
         edit: () => { },
