@@ -1,5 +1,8 @@
 # History
 
+## 10.6.9
+* `NEW` support renderSubComp when rightFixed is true
+
 ## 10.6.8
 
 * `FIXED` fix last checking logic bug
