@@ -107,9 +107,16 @@ class Row extends React.Component {
       }
     } else if (props.renderSubComp) {
       const subComp = props.renderSubComp(deepcopy(props.rowData));
+      let subRowStyle = {}
+      if (props.fixedColumn === 'rightFixed') {
+        subRowStyle.width = 0
+        if (subComp && subComp.props && subComp.props.style) {
+          subComp.props.style.opacity = 0
+        }
+      }
       if (subComp && props.rowData.showSubComp) {
         sub = (
-          <div className="kuma-uxtable-subrow">
+          <div className="kuma-uxtable-subrow" style={{...subRowStyle}}>
             {subComp}
           </div>
         );

@@ -76,9 +76,45 @@ class Demo extends React.Component {
           message: `sadfsdf\nnsafdasdfasdf`
         },
         {
+          dataKey: 'email',
+          title: 'Email',
+          width: '20%',
+          ordered: true,
+          message: `sadfsdf\nnsafdasdfasdf`
+        },
+        {
+          dataKey: 'email',
+          title: 'Email',
+          width: '20%',
+          ordered: true,
+          message: `sadfsdf\nnsafdasdfasdf`
+        },
+        {
+          dataKey: 'email',
+          title: 'Email',
+          width: '20%',
+          ordered: true,
+          message: `sadfsdf\nnsafdasdfasdf`
+        },
+        {
+          dataKey: 'email',
+          title: 'Email',
+          width: '20%',
+          ordered: true,
+          message: `sadfsdf\nnsafdasdfasdf`
+        },
+        {
+          dataKey: 'email',
+          title: 'Email',
+          width: '20%',
+          ordered: true,
+          message: `sadfsdf\nnsafdasdfasdf`
+        },
+        {
           title: '操作1',
           width: '200px',
           type: 'action',
+          rightFixed: true,
           actions: [{
             title: '点击',
             callback: () => {
@@ -123,7 +159,7 @@ class Demo extends React.Component {
       // isDisabled: rowData => true,
     };
     const columns = this.state.columns
-    const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
+    const fetchUrl = 'http://30.5.152.188:3000/demo/data.json';
     const renderProps = {
       actionColumn: {
         edit: () => { },
