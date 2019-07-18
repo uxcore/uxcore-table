@@ -380,45 +380,52 @@ class Demo extends React.Component {
       },
       onToggleSubComp: (isOpen, rowData, table) => {
         setTimeout(() => {
-          rowData.customContent = rowData.firstName
+          rowData.customContent = {
+            data: [
+              {
+                id: `${rowData.id}-${setTimeout(0)}`, class: rowData.firstName, dep: '用户体验平台', person: '张三'
+              },
+              {
+                id: `${rowData.id}-${setTimeout(0)}`, class: rowData.firstName, dep: '用户体验平台', person: '李思'
+              },
+              {
+                id: `${rowData.id}-${setTimeout(0)}`, class: rowData.firstName, dep: '用户体验平台', person: '王武'
+              }
+            ]
+          }
           isOpen && table.updateRow(rowData)
-        }, 1000)
+        }, 100)
       },
       renderSubComp: (rowData) => {
+        const subProps = {
+          jsxcolumns: [
+            {
+              dataKey: 'id',
+              title: '序号',
+            },
+            {
+              dataKey: 'class',
+              title: '分类',
+              width: '200px',
+            },
+            {
+              dataKey: 'dep',
+              title: '部门',
+              width: '200px',
+            },
+            {
+              dataKey: 'person',
+              title: '采购员',
+              width: '200px',
+            },
+          ],
+          className: 'kuma-uxtable-ghost',
+        };
         return (
-          <div>
-            {rowData.customContent ? rowData.customContent : 'loading'}
+          <div style={{ padding: '0 24px', background: 'rgba(31,56,88,0.04)' }}>
+            <Table {...subProps} jsxdata={rowData.customContent || {data: []}} />
           </div>
-        )
-        // const subProps = {
-        //   jsxcolumns: [
-        //     {
-        //       dataKey: 'id',
-        //       title: '序号',
-        //     },
-        //     {
-        //       dataKey: 'class',
-        //       title: '分类',
-        //       width: '200px',
-        //     },
-        //     {
-        //       dataKey: 'dep',
-        //       title: '部门',
-        //       width: '200px',
-        //     },
-        //     {
-        //       dataKey: 'person',
-        //       title: '采购员',
-        //       width: '200px',
-        //     },
-        //   ],
-        //   className: 'kuma-uxtable-ghost',
-        // };
-        // return (
-        //   <div style={{ padding: '0 24px', background: 'rgba(31,56,88,0.04)' }}>
-        //     <Table {...subProps} jsxdata={rowData.subCompData} />
-        //   </div>
-        // );
+        );
       },
     };
     return (
