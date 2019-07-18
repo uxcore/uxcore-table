@@ -278,7 +278,12 @@ class Row extends React.Component {
     });
 
     let firstVisableColumn = 0;
-
+    let hasSubComp = !!props.subComp;
+    if (!hasSubComp) {
+      hasSubComp = props.renderSubComp
+        ? !!props.renderSubComp(deepcopy(props.rowData))
+        : false;
+    }
     return (
       <li
         className={classnames({
@@ -325,12 +330,6 @@ class Row extends React.Component {
               return null;
             }
             firstVisableColumn += 1;
-            let hasSubComp = !!props.subComp;
-            if (!hasSubComp) {
-              hasSubComp = props.renderSubComp
-                ? !!props.renderSubComp(deepcopy(props.rowData))
-                : false;
-            }
             const renderProps = {
               key: `cell${index}`,
               column: item,
