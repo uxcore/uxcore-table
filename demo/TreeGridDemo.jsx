@@ -22,34 +22,35 @@ function loadTreeData(rowData) {
   //   Promise,
   // });
   // return request();
-  return {
-    data: [
-      {
-        "id": `${setTimeout(0)}`,
-        "radio": true,
-        "grade": "2grade2",
-        "email": "2email2",
-        "firstName": "2firstName2",
-        "lastName": "2lastName2",
-        "birthDate": "2birthDate2",
-        "country": "2country2",
-        "city": "2city2",
-        "data": []
-      },
-      {
-        "id": `${setTimeout(0)}`,
-        "check": true,
-        "grade": "2grade3",
-        "email": "2email3",
-        "firstName": "2firstName3",
-        "lastName": "2lastName3",
-        "birthDate": "2birthDate3",
-        "country": "2country3",
-        "city": "2city3",
-        "data": []
-      }
-    ]
-  }
+  console.log(12113)
+  // return {
+  //   data: [
+  //     {
+  //       "id": `${setTimeout(0)}`,
+  //       "radio": true,
+  //       "grade": "2grade2",
+  //       "email": "2email2",
+  //       "firstName": "2firstName2",
+  //       "lastName": "2lastName2",
+  //       "birthDate": "2birthDate2",
+  //       "country": "2country2",
+  //       "city": "2city2",
+  //       "data": []
+  //     },
+  //     {
+  //       "id": `${setTimeout(0)}`,
+  //       "check": true,
+  //       "grade": "2grade3",
+  //       "email": "2email3",
+  //       "firstName": "2firstName3",
+  //       "lastName": "2lastName3",
+  //       "birthDate": "2birthDate3",
+  //       "country": "2country3",
+  //       "city": "2city3",
+  //       "data": []
+  //     }
+  //   ]
+  // }
   return new Promise(resolve => {
     setTimeout(() => {
       resolve({

@@ -20,29 +20,26 @@ function addRowFromTop(rowData, cb) {
 
 function addSubRow(subRowData, rowData, cb) {
   const { loadTreeData, renderModel } = this.props
-  this.toggleTreeExpanded(rowData, () => {
-    // 异步加载时数据的一致性由loadTreeData保证
-    if (loadTreeData ){
-      return
-    }
+  if (loadTreeData && (!rowData.data || !rowData.data.length)) {
+    this.toggleTreeExpanded(rowData)
+  } else {
     const { jsxid } = rowData
     if (jsxid >= 0 && renderModel === 'tree') {
       this.insertRecords(subRowData, false, cb, jsxid)
     }
-  })
+  }
 }
 
 function addSubRowFromTop(subRowData, rowData, cb) {
   const { loadTreeData, renderModel } = this.props
-  this.toggleTreeExpanded(rowData, () => {
-    if (loadTreeData ){
-      return
-    }
+  if (loadTreeData && (!rowData.data || !rowData.data.length)) {
+    this.toggleTreeExpanded(rowData)
+  } else {
     const { jsxid } = rowData
     if (jsxid >= 0 && renderModel === 'tree') {
       this.insertRecords(subRowData, true, cb, jsxid)
     }
-  })
+  }
 }
 
 function resetRow(rowData, cb) {
