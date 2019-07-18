@@ -19,17 +19,21 @@ function addRowFromTop(rowData, cb) {
 }
 
 function addSubRow(subRowData, rowData, cb) {
-  const { jsxid } = rowData
-  if (jsxid >= 0 && this.props.renderModel === 'tree') {
-    this.insertRecords(subRowData, false, cb, jsxid)
-  }
+  this.toggleTreeExpanded(rowData, () => {
+    const { jsxid } = rowData
+    if (jsxid >= 0 && this.props.renderModel === 'tree') {
+      this.insertRecords(subRowData, false, cb, jsxid)
+    }
+  })
 }
 
 function addSubRowFromTop(subRowData, rowData, cb) {
-  const { jsxid } = rowData
-  if (jsxid >= 0 && this.props.renderModel === 'tree') {
-    this.insertRecords(subRowData, true, cb, jsxid)
-  }
+  this.toggleTreeExpanded(rowData, () => {
+    const { jsxid } = rowData
+    if (jsxid >= 0 && this.props.renderModel === 'tree') {
+      this.insertRecords(subRowData, true, cb, jsxid)
+    }
+  })
 }
 
 function resetRow(rowData, cb) {
