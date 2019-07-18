@@ -175,19 +175,25 @@ function toggleSubComp(rowData, cb) {
   const content = deepcopy(this.state.data);
   const data = content.data || content.datas;
   const rows = Array.isArray(rowData) ? rowData : [rowData];
-
-
+  let changedRows = []
   if (data) {
     rows.forEach((row) => {
       for (let i = 0; i < data.length; i++) {
         const item = data[i];
         if (item.jsxid === row.jsxid) {
           item.showSubComp = !item.showSubComp;
+          changedRows.push(item)
           break;
         }
       }
     });
-    this.syncRecord(data, cb);
+    this.syncRecord(data, () => {
+      cb && typeof cb === 'function' && cb()
+      const { onToggleSubComp } = this.props
+      changedRows.forEach(row => {
+        onToggleSubComp && typeof onToggleSubComp === 'function' && onToggleSubComp(row.showSubComp, row, this)
+      })
+    });
   }
 }
 

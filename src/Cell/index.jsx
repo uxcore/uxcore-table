@@ -125,7 +125,10 @@ class Cell extends React.Component {
     }
   }
 
-  showSubComp() {
+  showSubComp(e) {
+    if (e.target.classList.contains('kuma-icon') && this.props.toggleSubCompOnRowClick) {
+      return
+    }
     this.props.showSubCompCallback.apply();
   }
 

@@ -70,6 +70,7 @@ const defaultProps = {
   columnResizeable: false,
   defaultRowGroupActiveKeys: undefined,
   onRowGroupOpenChange: undefined,
+  onToggleSubComp: () => {},
   needCheckRightFixed: false,
   fixHeaderToTop: false,
   fixHeaderOffset: 0,
@@ -155,6 +156,7 @@ const propTypes = {
     PropTypes.array,
     PropTypes.number
   ]),
+  onToggleSubComp: PropTypes.func,
   onRowGroupOpenChange: PropTypes.func,
   needCheckRightFixed: PropTypes.bool,
   fixHeaderToTop: PropTypes.bool,
