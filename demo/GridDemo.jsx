@@ -181,7 +181,7 @@ class Demo extends React.Component {
     };
     const columns = this.state.columns
     // const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
-    const fetchUrl =  `http://30.5.152.122:3000/demo/data.json`
+    const fetchUrl =  `http://30.5.152.191:3000/demo/data.json`
     const renderProps = {
       actionColumn: {
         edit: () => { },
@@ -224,7 +224,7 @@ class Demo extends React.Component {
             callback: () => {
               this.forceUpdate();
               console.log(me.table.getData());
-              me.table.toggleSubComp(me.table.getData().data.datas);
+              me.table.toggleSubComp(me.table.getData().data.data[0]);
             },
           },
           {
@@ -378,6 +378,24 @@ class Demo extends React.Component {
       onColumnPick: (columns) => {
         console.log(columns);
       },
+      onToggleSubComp: (isOpen, rowData, table) => {
+        setTimeout(() => {
+          rowData.customContent = {
+            data: [
+              {
+                id: `${rowData.id}-${setTimeout(0)}`, class: rowData.firstName, dep: '用户体验平台', person: '张三'
+              },
+              {
+                id: `${rowData.id}-${setTimeout(0)}`, class: rowData.firstName, dep: '用户体验平台', person: '李思'
+              },
+              {
+                id: `${rowData.id}-${setTimeout(0)}`, class: rowData.firstName, dep: '用户体验平台', person: '王武'
+              }
+            ]
+          }
+          isOpen && table.updateRow(rowData)
+        }, 100)
+      },
       renderSubComp: (rowData) => {
         const subProps = {
           jsxcolumns: [
@@ -401,27 +419,11 @@ class Demo extends React.Component {
               width: '200px',
             },
           ],
-          jsxdata: {
-            data: [
-              {
-                id: '001', class: 'API管理系统', dep: '用户体验部', person: '大圣',
-              },
-              {
-                id: '002', class: 'API管理系统', dep: '用户体验部', person: '大圣',
-              },
-              {
-                id: '003', class: 'API管理系统', dep: '用户体验部', person: '大圣',
-              },
-              {
-                id: '004', class: 'API管理系统', dep: '用户体验部', person: '大圣',
-              },
-            ],
-          },
           className: 'kuma-uxtable-ghost',
         };
         return (
           <div style={{ padding: '0 24px', background: 'rgba(31,56,88,0.04)' }}>
-            <Table {...subProps} />
+            <Table {...subProps} jsxdata={rowData.customContent || {data: []}} />
           </div>
         );
       },

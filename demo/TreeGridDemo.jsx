@@ -113,7 +113,7 @@ class Demo extends React.Component {
                   "firstName": "2firstName3",
                   "lastName": "2lastName3",
                   "birthDate": "2birthDate3",
-                  "country": `country_${setTimeout(0)}`,
+                  "country": `中国_${setTimeout(0)}`,
                   "city": "2city3"
                 }, rowData, () => {
                   console.log(this.table.getData())
