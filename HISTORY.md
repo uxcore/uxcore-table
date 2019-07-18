@@ -1,4 +1,9 @@
 # History
+## 11.8.0
+* `NEW` add new prop onToggleSubComp for async loading
+* `CHANGED` optimize the check of `hasSubComp`
+* `CHANGED` addSubRow & addSubRowFromTop will wait for async data loaded
+
 ## 11.7.2
 * `FIXED` i18n for columnOrder & columnPicker
 

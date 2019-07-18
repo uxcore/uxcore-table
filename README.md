@@ -147,12 +147,12 @@ $ npm start
 |fixActionBarOffset     |number              |optional  |0        | 11.4.0     |fixed 状态下的actionBar距离顶部的偏移量
 |expandIconType      |string              |optional  |undefined   | 11.3.0     |树形和子表格模式下的展开按钮增加加减号样式 'adderSubtractor'
 
-
 ### 折叠展开专用
 |Name            |Type                |Require   |Since Ver. |Default|Note |
 |---             |---                 |---       |---        |---    |---|
 |renderSubComp   |function(rowData)   |optional  |1.3.15     | -     |传入二级组件，该函数需要返回值，返回 false，表示不渲染二级，返回 jsx，则渲染该 jsx|
 |toggleSubCompOnRowClick | boolean   |optional  |8.5.0      |false  |在点击行的时候，展开和收起折叠面板，操作列不受影响。其他区域如果不想触发需要自行 stopPropagation |
+|onToggleSubComp     |function(isOpen, rowData, table) | optional | noop| 11.8.0 |折叠面板状态变更时触发
 
 
 ### Tree 模式专用
