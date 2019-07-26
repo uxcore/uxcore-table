@@ -1,4 +1,7 @@
 # History
+## 11.9.0
+* `NEW` add new param `changedRows` in OnSelectAll callback
+
 ## 11.8.0
 * `NEW` add new prop onToggleSubComp for async loading
 * `CHANGED` optimize the check of `hasSubComp`

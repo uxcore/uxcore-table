@@ -171,7 +171,7 @@ class Demo extends React.Component {
         }
         console.log(selected, record, selectedRows);
       },
-      onSelectAll(selected, selectedRows) {
+      onSelectAll(selected, selectedRows, changedRows) {
         // me.setState({
         //   allSelectedRows: ['11','12','13','14','15']
         // })
@@ -181,7 +181,7 @@ class Demo extends React.Component {
     };
     const columns = this.state.columns
     // const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
-    const fetchUrl =  `http://30.5.152.191:3000/demo/data.json`
+    const fetchUrl =  `http://30.5.152.177:3000/demo/data.json`
     const renderProps = {
       actionColumn: {
         edit: () => { },
