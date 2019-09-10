@@ -1,4 +1,8 @@
 # History
+
+## 11.9.1
+* `FIXED` fix tree table lost border bottom
+
 ## 11.9.0
 * `NEW` add new param `changedRows` in OnSelectAll callback
 

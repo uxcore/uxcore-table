@@ -298,7 +298,7 @@ class Tbody extends React.Component {
             this[`row${index}`] = c;
           },
           last,
-          isParentLast: isLastItem,
+          isParentLast: last,
         };
         return <Row {...renderProps} />;
       });
