@@ -1,5 +1,8 @@
 # History
 
+## 10.7.0
+* `NEW` add third param for callback `onSelectAll`
+
 ## 10.6.9
 * `NEW` support renderSubComp when rightFixed is true
 

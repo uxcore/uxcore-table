@@ -153,13 +153,13 @@ class Demo extends React.Component {
       onSelect(record, selected, selectedRows) {
         console.log(record, selected, selectedRows);
       },
-      onSelectAll(selected, selectedRows) {
-        console.log(selected, selectedRows);
+      onSelectAll(selected, selectedRows, changedRows) {
+        console.log(selected, selectedRows, changedRows);
       },
       // isDisabled: rowData => true,
     };
     const columns = this.state.columns
-    const fetchUrl = 'http://30.5.152.188:3000/demo/data.json';
+    const fetchUrl = 'http://30.5.152.236:3000/demo/data.json';
     const renderProps = {
       actionColumn: {
         edit: () => { },

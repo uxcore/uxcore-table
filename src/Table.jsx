@@ -1103,20 +1103,25 @@ class Table extends React.Component {
     const data = content.datas || content.data;
     const { rowSelection } = me.props;
 
-    const selectedRows = [];
+
+    let selectedRows = [];
+    let changedRows = [];
     for (let i = 0; i < data.length; i++) {
       const column = me.state.checkboxColumn;
       const key = me.state.checkboxColumnKey;
       const item = data[i];
       if ((!('isDisable' in column) || !column.isDisable(item)) && !column.disable
-      && !(typeof rowSelection === 'object' && rowSelection.isDisabled && rowSelection.isDisabled(item))) {
+        && !(typeof rowSelection === 'object' && rowSelection.isDisabled && rowSelection.isDisabled(item))) {
+        if (!item[key] !== !checked) {
+          changedRows.push(item)
+        }
         item[key] = checked;
         selectedRows.push(item);
       }
     }
 
     if (!!rowSelection && !!rowSelection.onSelectAll) {
-      rowSelection.onSelectAll.apply(null, [checked, checked ? selectedRows : []]);
+      rowSelection.onSelectAll.apply(null, [checked, checked ? selectedRows : [], changedRows]);
     }
     me.setState({
       data: content,
