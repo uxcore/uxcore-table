@@ -77,35 +77,35 @@ class Demo extends React.Component {
           message: `sadfsdf\nnsafdasdfasdf`
         },
         {
-          dataKey: 'email',
+          dataKey: 'email1',
           title: 'Email',
           width: '20%',
           ordered: true,
           message: `sadfsdf\nnsafdasdfasdf`
         },
         {
-          dataKey: 'email',
+          dataKey: 'email2',
           title: 'Email',
           width: '20%',
           ordered: true,
           message: `sadfsdf\nnsafdasdfasdf`
         },
         {
-          dataKey: 'email',
+          dataKey: 'email3',
           title: 'Email',
           width: '20%',
           ordered: true,
           message: `sadfsdf\nnsafdasdfasdf`
         },
         {
-          dataKey: 'email',
+          dataKey: 'email4',
           title: 'Email',
           width: '20%',
           ordered: true,
           message: `sadfsdf\nnsafdasdfasdf`
         },
         {
-          dataKey: 'email',
+          dataKey: 'email5',
           title: 'Email',
           width: '20%',
           ordered: true,

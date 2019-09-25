@@ -228,7 +228,7 @@ class ColumnPicker extends React.Component {
               disable={column.disable || column.isDisable && column.isDisable()}
               onChange={(e) => {this.handleCheck(e, column.dataKey)}}
             >
-              <span>{title || column.dataKey}</span>
+              <span title={typeof title === 'string' ? title : column.dataKey}>{title || column.dataKey}</span>
             </CheckBox> : null
           )
         })}
