@@ -6,11 +6,12 @@ const Row = require('./Row');
 const util = require('./util');
 const deepcopy = require('lodash/cloneDeep');
 const React = require('react');
-const addEventListener = require('rc-util/lib/Dom/addEventListener');
+let addEventListener = require('rc-util/lib/Dom/addEventListener');
 // const throttle = require('lodash/throttle');
 const EmptyData = require('uxcore-empty-data');
 // const QueueAnim = require('rc-queue-anim');
 
+addEventListener = addEventListener.default || addEventListener
 
 class Tbody extends React.Component {
 

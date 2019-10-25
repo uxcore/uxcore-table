@@ -6,10 +6,10 @@ const Tooltip = require('uxcore-tooltip');
 const Icon = require('uxcore-icon');
 const classnames = require('classnames');
 const React = require('react');
-const addEventListener = require('rc-util/lib/Dom/addEventListener');
-
+let addEventListener = require('rc-util/lib/Dom/addEventListener');
 const CheckBox = require('../Cell/CheckBox');
 const util = require('../util');
+addEventListener = addEventListener.default || addEventListener
 
 class Header extends React.Component {
 
