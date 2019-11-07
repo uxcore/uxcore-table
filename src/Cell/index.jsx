@@ -311,7 +311,7 @@ class Cell extends React.Component {
         </div>
       );
     } else if (column.render) {
-      content = column.render.apply(null, [me.getCellData(), content]);
+      content = column.render.apply(null, [me.getCellData(), content, props.index]);
     } else {
       content = (
         <div className="default-cell" title={me.getCellData()}>
