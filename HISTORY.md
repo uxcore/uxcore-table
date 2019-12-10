@@ -1,4 +1,6 @@
 # History
+## 11.9.6
+* `FIXED` fix tree table overflow bug
 
 ## 11.9.1
 * `FIXED` fix tree table lost border bottom
