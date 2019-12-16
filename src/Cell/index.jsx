@@ -109,8 +109,13 @@ class Cell extends React.Component {
   }
 
   handleActionClick(cb, e) {
-    e.stopPropagation();
-    e.preventDefault();
+    const { allowActionEventDefault } = this.props
+    if (!allowActionEventDefault) {
+      e.stopPropagation();
+      e.preventDefault();
+    } else {
+      console.warn('allowActionEventDefault 为真时与树形表格存在冲突，请谨慎选择使用!')
+    }
     if (cb) {
       cb();
     }

@@ -77,7 +77,8 @@ const defaultProps = {
   fixActionBarToTop: false,
   fixActionBarOffset: 0,
   expandIconType: undefined,
-  tooltipPlacement: ''
+  tooltipPlacement: '',
+  allowActionEventDefault: false
 };
 
 // http://facebook.github.io/react/docs/reusable-components.html
@@ -164,7 +165,8 @@ const propTypes = {
   fixActionBarToTop: PropTypes.bool,
   fixActionBarOffset: PropTypes.number,
   expandIconType: PropTypes.string,
-  tooltipPlacement: PropTypes.oneOf(['topLeft', 'top', 'topRight', 'bottomLeft', 'bottom', 'bottomRight'])
+  tooltipPlacement: PropTypes.oneOf(['topLeft', 'top', 'topRight', 'bottomLeft', 'bottom', 'bottomRight']),
+  allowActionEventDefault: PropTypes.bool
 };
 
 export {

@@ -1503,6 +1503,7 @@ class Table extends React.Component {
       detachCellField: this.detachCellField,
       key: 'table-body',
       defaultRowGroupActiveKeys: props.defaultRowGroupActiveKeys,
+      allowActionEventDefault: props.allowActionEventDefault
     };
     const renderHeaderProps = {
       ...commonProps,

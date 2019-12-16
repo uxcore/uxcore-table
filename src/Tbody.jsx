@@ -299,6 +299,7 @@ class Tbody extends React.Component {
           },
           last,
           isParentLast: last,
+          allowActionEventDefault: props.allowActionEventDefault
         };
         return <Row {...renderProps} />;
       });

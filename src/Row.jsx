@@ -156,6 +156,7 @@ class Row extends React.Component {
           visible: (props.expandedKeys.indexOf(props.rowData.jsxid) !== -1),
           last,
           isParentLast: last,
+          allowActionEventDefault: props.allowActionEventDefault
         });
         children.push(<Row {...renderProps} />);
       });
@@ -354,7 +355,8 @@ class Row extends React.Component {
               rowLength: props.data.length,
               prefixCls: `${props.tablePrefixCls}-cell`,
               getTooltipContainer: props.getTooltipContainer,
-              expandIconType: props.expandIconType
+              expandIconType: props.expandIconType,
+              allowActionEventDefault: props.allowActionEventDefault
             };
             //修复树形表格操作列右固定时会出现选择框
             if (firstVisableColumn === 1 && props.fixedColumn !== 'rightFixed') {

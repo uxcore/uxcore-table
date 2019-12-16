@@ -197,6 +197,7 @@ class Demo extends React.Component {
         });
         return data
       },
+      // allowActionEventDefault: true,
       expandIconType: 'adderSubtractor',
       useListActionBar: true,
       showColumnPickerCheckAll: true,

@@ -1,4 +1,7 @@
 # History
+## 11.10.0
+* `NEW` add new prop `allowActionEventDefault` for action column(except tree mode table) to allow event propagation
+
 ## 11.9.6
 * `FIXED` fix tree table overflow bug
 
