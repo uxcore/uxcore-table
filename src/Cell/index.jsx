@@ -220,7 +220,7 @@ class Cell extends React.Component {
     const { width } = column;
     const mode = props.rowData.__mode__;
     const style = {
-      width: width || '100px',
+      width: parseInt(width, 10) || '100px',
       textAlign: props.column.align ? props.column.align : 'left',
     };
     let content = deepcopy(props.rowData);
