@@ -16,9 +16,10 @@ import Demo4 from './GridViewModeDemo';
 import Demo5 from './TableGroup';
 import Demo6 from './TableRowGroup';
 import Demo7 from './FixHeader'
+import Demo8 from './TreeInlineEdit'
 import '../style';
 
-ReactDOM.render(<Demo />, document.getElementById('UXCoreDemo'));
+ReactDOM.render(<Demo8 />, document.getElementById('UXCoreDemo'));
 // ReactDOM.render(<Demo2 />, document.getElementById('UXCoreDemo2'));
 // ReactDOM.render(<Demo3 />, document.getElementById('UXCoreDemo3'));
 // ReactDOM.render(<Demo4 />, document.getElementById('UXCoreDemo4'));

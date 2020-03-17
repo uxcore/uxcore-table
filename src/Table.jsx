@@ -1027,13 +1027,23 @@ class Table extends React.Component {
     const editKey = column.editKey || dataKey;
     const data = deepcopy(me.state.data);
     let changedData = {};
-    for (let i = 0; i < data.data.length; i++) {
-      if (data.data[i].jsxid === jsxid) {
-        data.data[i][dataKey] = text;
-        data.data[i][editKey] = value;
-        changedData = data.data[i];
+
+    const setData = (list) => {
+      if (list) {
+        const changedItem = list.find(e => e.jsxid === jsxid);
+        if (changedItem) {
+          changedItem[dataKey] = text;
+          changedItem[editKey] = value;
+          changedData = changedItem;
+        } else {
+          list.forEach(v => {
+            setData(v.data)
+          })
+        }
       }
     }
+
+    setData(data.data)
 
     me.setState({
       data,
