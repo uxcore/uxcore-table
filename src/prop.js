@@ -100,6 +100,7 @@ const propTypes = {
   queryKeys: PropTypes.array,
   fetchDataOnMount: PropTypes.bool,
   doubleClickToEdit: PropTypes.bool,
+  enableInlineEditInTreeMode: PropTypes.bool,
   showColumnPicker: PropTypes.bool,
   showPager: PropTypes.bool,
   showFooter: PropTypes.bool,
