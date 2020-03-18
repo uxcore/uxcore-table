@@ -1035,7 +1035,7 @@ class Table extends React.Component {
           changedItem[dataKey] = text;
           changedItem[editKey] = value;
           changedData = changedItem;
-        } else {
+        } else if (me.props.enableInlineEditInTreeMode) {
           list.forEach(v => {
             setData(v.data)
           })

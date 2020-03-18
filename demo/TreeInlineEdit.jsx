@@ -233,6 +233,7 @@ class Demo extends React.Component {
       // toggleTreeExpandOnRowClick: true,
       defaultEditable: true,
       enableInlineEdit: true,
+      enableInlineEditInTreeMode: true,
       getSavedData: false,
       dataSourceType: 'data',
       onChange: function(changed) {
