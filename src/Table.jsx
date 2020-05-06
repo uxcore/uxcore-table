@@ -760,7 +760,7 @@ class Table extends React.Component {
     const me = this;
     const { rowSelection } = me.props;
     const column = me.state.checkboxColumn;
-    if (!column || data.length === 0) {
+    if (!column || !data || data.length === 0) {
       return false;
     }
     const { checkboxColumnKey } = me.state;
