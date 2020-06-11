@@ -30,6 +30,8 @@ class Demo extends React.Component {
       text: 1,
       showTable: true,
       allSelectedRows: [],
+      // 通过 rowSelection 对象表明需要行选择
+      rowSelection: undefined,
       columns: [
         {
           dataKey: 'firstName',
@@ -151,37 +153,9 @@ class Demo extends React.Component {
     const me = this;
     const { allSelectedRows } = this.state
     // 通过 rowSelection 对象表明需要行选择
-    const rowSelection = {
-      onSelect(selected, record, selectedRows) {
-        const hasSelected = allSelectedRows.indexOf(record.id) !== -1
-        if (hasSelected) {
-          if (!selected) {
-            me.setState({
-              allSelectedRows: allSelectedRows.filter(row => {
-                return row !== record.id
-              })
-            })
-          }
-        } else {
-          if (selected) {
-            me.setState({
-              allSelectedRows: [...allSelectedRows, record.id]
-            })
-          }
-        }
-        console.log(selected, record, selectedRows);
-      },
-      onSelectAll(selected, selectedRows, changedRows) {
-        // me.setState({
-        //   allSelectedRows: ['11','12','13','14','15']
-        // })
-        console.log(selected, selectedRows);
-      },
-      // isDisabled: rowData => true,
-    };
+
     const columns = this.state.columns
-    // const fetchUrl = 'http://eternalsky.me:8122/file/getGridJson.jsonp';
-    const fetchUrl =  `http://30.5.152.117:3000/demo/data.json`
+    const fetchUrl = `${location.href}demo/data.json`;
     const renderProps = {
       actionColumn: {
         edit: () => { },
@@ -194,7 +168,7 @@ class Demo extends React.Component {
       // className: 'kuma-uxtable-split-line',
       className: 'kuma-uxtable-border-line',
       pagerSizeOptions: [5, 10, 15, 20],
-      rowSelection,
+      rowSelection: this.state.rowSelection,
       processData(content) {
         (content.data || content.datas).map(item => {
           if (me.state.allSelectedRows.indexOf(item.id) !== -1) {
@@ -228,13 +202,49 @@ class Demo extends React.Component {
             },
           },
           {
-            title: '按钮',
+            title: '全选',
             keepActiveInCustomView: false,
             // size: 'large',
             type: 'primary',
             // className: 'xxxxx',
             callback: () => {
               me.table.selectAll(true);
+            }
+          },
+          {
+            title: '变更checkbox',
+            type: 'primary',
+            callback: () => {
+              this.setState({
+                rowSelection: this.state.rowSelection ? undefined : {
+                  onSelect(selected, record, selectedRows) {
+                    const hasSelected = allSelectedRows.indexOf(record.id) !== -1
+                    if (hasSelected) {
+                      if (!selected) {
+                        me.setState({
+                          allSelectedRows: allSelectedRows.filter(row => {
+                            return row !== record.id
+                          })
+                        })
+                      }
+                    } else {
+                      if (selected) {
+                        me.setState({
+                          allSelectedRows: [...allSelectedRows, record.id]
+                        })
+                      }
+                    }
+                    console.log(selected, record, selectedRows);
+                  },
+                  onSelectAll(selected, selectedRows, changedRows) {
+                    // me.setState({
+                    //   allSelectedRows: ['11','12','13','14','15']
+                    // })
+                    console.log(selected, selectedRows);
+                  },
+                  // isDisabled: rowData => true,
+                }
+              })
             }
           }
         ],

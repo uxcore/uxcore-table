@@ -168,6 +168,7 @@ class Table extends React.Component {
       lastCurrentPage: props.currentPage,
       lastJsxcolumns: props.jsxcolumns,
       lastShowMask: props.showMask,
+      lastRowSelection: props.rowSelection,
       customView: null,
       removeCustomPager: false,
     };
@@ -1094,11 +1095,12 @@ class Table extends React.Component {
       newData.lastCurrentPage = props.currentPage;
     }
     if (!!props.jsxcolumns
-      && !Table.isColumnsEqual(props.jsxcolumns, state.lastJsxcolumns)) {
+      && !Table.isColumnsEqual(props.jsxcolumns, state.lastJsxcolumns) || props.rowSelection !== state.lastRowSelection) {
       newData = {
         ...newData,
         ...Table.processColumn(props, state),
         lastJsxcolumns: props.jsxcolumns,
+        lastRowSelection: props.rowSelection,
         forceToCheckRight: true,
       };
       newData.hasFixed = util.hasFixColumn(props);
