@@ -20,7 +20,6 @@
 }
 .@{uxtable-prefix}-column-picker-title {
     vertical-align: middle;
-    color: @brand-link;
 }
 
 .@{uxtable-prefix}-column-picker-trigger {
@@ -28,6 +27,18 @@
     z-index: 12;
     position: relative;
     background: white;
+    &.@{uxtable-prefix}-column-picker-trigger__dropdown-visible {
+        box-shadow:0px 0px 4px 0px rgba(0,0,0,0.20);
+        &:after {
+            background-color: #fff;
+            height: 4px;
+            content: "";
+            position: absolute;
+            bottom: -4px;
+            left: 0px;
+            right: 0px;
+        }
+    }
     
 }
 
@@ -63,12 +74,12 @@
     .kuma-icon-search{
         position: absolute;
         line-height: 16px;
-        color: @normal-alpha-4;
+        color: @text-thirdary-color;
         right: 8px;
         top: 8px;
         cursor:pointer;
         &:hover {
-            color: @normal-alpha-3;
+            color: @text-primary-color;
         }
     }
 }
@@ -83,10 +94,10 @@
 }
 
 .@{uxtable-prefix}-linkbar-cutoff {
-    border-right: 2px solid @split-line-color;
+    border-right: 1px solid @border-disabled-color;
     height: 14px;
     display: inline-block;
-    margin: 0 12px;
+    margin: 0 5px;
     vertical-align: middle;
 }
 

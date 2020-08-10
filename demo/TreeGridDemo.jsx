@@ -59,7 +59,6 @@ class Demo extends React.Component {
       {
         title: '操作',
         type: 'action',
-        width: 200,
         actions: [
           {
             title: '上移',

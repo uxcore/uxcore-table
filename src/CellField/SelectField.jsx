@@ -61,10 +61,6 @@ class SelectField extends CellField {
     me.fetchData();
   }
 
-  addSpecificClass() {
-    return 'kuma-uxtable-select-cell-field';
-  }
-
   getConfig(props) {
     const me = this;
     return (props || me.props).column.config || {};
@@ -88,9 +84,9 @@ class SelectField extends CellField {
         : (/\.jsonp/.test(config.fetchUrl)),
       data: (config.beforeFetch || defaultBeforeFetch)({
         q: value,
-      }, me.props.rowData),
+      }),
       fit: (response) => {
-        const content = response.content === undefined ? response : response.content;
+        const content = response.content || response;
         let success = true;
         if (response.success !== undefined) {
           success = response.success;
@@ -105,7 +101,7 @@ class SelectField extends CellField {
       Promise,
     });
     me.fetch().then((content) => {
-      const fetchData = (config.afterFetch || defaultAfterFetch)(content, me.props.rowData);
+      const fetchData = (config.afterFetch || defaultAfterFetch)(content);
       me.setState({
         data: fetchData,
       });
@@ -144,7 +140,7 @@ class SelectField extends CellField {
           } else {
             const onSearch = me.getConfig().onSearch;
             if (typeof onSearch === 'function') {
-              onSearch(key, me.props.rowData);
+              onSearch(key);
             }
           }
         }, me.getConfig().searchDelay || 100);

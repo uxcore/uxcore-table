@@ -2,12 +2,12 @@
  * Created by xy on 15/4/13.
  */
 const assign = require('object-assign');
+// const Const = require('uxcore-const');
 const Tooltip = require('uxcore-tooltip');
-const Icon = require('uxcore-icon');
 const classnames = require('classnames');
 const React = require('react');
-const addEventListener = require('rc-util/lib/Dom/addEventListener');
-
+let addEventListener = require('rc-util/lib/Dom/addEventListener');
+addEventListener = addEventListener.default || addEventListener
 const CheckBox = require('../Cell/CheckBox');
 const util = require('../util');
 
@@ -118,7 +118,7 @@ class Header extends React.Component {
         </div>}
         placement="top"
       >
-        <Icon name="tishi-full" />
+        <i className="kuma-icon kuma-icon-information" />
       </Tooltip>
     );
   }

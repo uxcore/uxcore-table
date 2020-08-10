@@ -39,9 +39,8 @@ class Table extends React.Component {
     this.fields = {};
     this.copyData = deepcopy(this.props.jsxdata);
     this.hasFixed = util.hasFixColumn(props);
-    this.data = this.addValuesInData(deepcopy(this.props.jsxdata));
     this.state = {
-      data: this.data, // checkbox 内部交互
+      data: this.addValuesInData(this.copyData), // checkbox 内部交互
       columns: this.processColumn(), // column 内部交互
       showMask: props.showMask, // fetchData 时的内部状态改变
       pageSize: props.pageSize, // pagination 相关
@@ -243,7 +242,7 @@ class Table extends React.Component {
     for (let i = 0; i < data.length; i++) {
       const item = data[i];
       if (!column.disable && !(column.isDisable && column.isDisable(item))
-        && !(typeof rowSelection === 'object' && rowSelection.isDisabled && rowSelection.isDisabled(item))) {
+      && !(typeof rowSelection === 'object' && rowSelection.isDisabled && rowSelection.isDisabled(item))) {
         isAllDisabled = false;
         enabledColumn += 1;
         if (item[checkboxColumnKey]) {
@@ -495,7 +494,7 @@ class Table extends React.Component {
     if (!!actualProps.rowSelection && !hasCheckboxColumn) {
       me.checkboxColumn = {
         dataKey: 'jsxchecked',
-        width: (/kuma-uxtable-border-line/.test(actualProps.className) ? 40 : 32),
+        width: 46,
         type: actualProps.rowSelector,
         align: 'right',
       };
@@ -505,7 +504,7 @@ class Table extends React.Component {
       // no rowSelection but has parentHasCheckbox, render placeholder
       columns = [{
         dataKey: 'jsxwhite',
-        width: (/kuma-uxtable-border-line/.test(actualProps.className) ? 40 : 32),
+        width: 46,
         type: 'empty',
       }].concat(columns);
     }
@@ -776,7 +775,6 @@ class Table extends React.Component {
       pagerSizeOptions,
       isMiniPager,
       showPagerSizeChanger,
-      showPagerQuickJumper,
     } = me.props;
     if (showPager && data && data.totalCount) {
       return (
@@ -788,7 +786,6 @@ class Table extends React.Component {
             ref={util.saveRef('pager', me)}
             locale={locale}
             showSizeChanger={showPagerSizeChanger}
-            showQuickJumper={showPagerQuickJumper}
             showTotal={showPagerTotal}
             total={data.totalCount}
             onShowSizeChange={me.handleShowSizeChange.bind(me)}
@@ -1157,10 +1154,9 @@ Table.defaultProps = {
   showPager: true,
   isMiniPager: false,
   showPagerSizeChanger: true,
-  showPagerQuickJumper: true,
   showColumnPicker: false,
   showHeaderBorder: false,
-  showPagerTotal: true,
+  showPagerTotal: false,
   showMask: false,
   showSearch: false,
   getSavedData: true,
@@ -1189,7 +1185,6 @@ Table.defaultProps = {
   },
   addRowClassName: () => { },
   onChange: () => { },
-  onSave: () => {},
 };
 
 // http://facebook.github.io/react/docs/reusable-components.html
@@ -1214,7 +1209,6 @@ Table.propTypes = {
   showPager: React.PropTypes.bool,
   isMiniPager: React.PropTypes.bool,
   showPagerTotal: React.PropTypes.bool,
-  showPagerQuickJumper: React.PropTypes.bool,
   pagerSizeOptions: React.PropTypes.array,
   showHeader: React.PropTypes.bool,
   showMask: React.PropTypes.bool,

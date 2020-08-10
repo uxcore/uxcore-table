@@ -109,7 +109,6 @@ class CollapsedButton extends React.Component {
         className={classnames({
           action: true,
           disabled: !!item.props.disabled,
-          'first-action': index === 0,
         })}
       >
         {item.props.children}
@@ -132,7 +131,7 @@ class CollapsedButton extends React.Component {
       </Menu>
     );
 
-    const offsetY = me.props.type === 'button' ? 0 : -20;
+    const offsetY = me.props.type === 'button' ? -5 : -20;
     const dropdownOptions = {
       key: 'icon',
       overlay: menu,
@@ -141,15 +140,12 @@ class CollapsedButton extends React.Component {
         offset: [0, offsetY],
       },
       visible: me.state.dropdownVisible,
-      overlayClassName: classnames({
-        [`${me.props.prefixCls}-collapsed-button-more-dropdown`]: true,
-        [`${me.props.prefixCls}-collapsed-button-more-link-dropdown`]: me.props.type === 'link',
-      }),
+      overlayClassName: `${me.props.prefixCls}-collapsed-button-more-dropdown`,
       onVisibleChange: me.handleDropdownVisibleChange,
     };
     const content = (
       <span>
-        <span className={`${me.props.prefixCls}-collapsed-button-text`}>{i18n[me.props.locale].more}</span>
+        {i18n[me.props.locale].more}
         <i
           className={classnames({
             'kuma-icon': true,
@@ -168,7 +164,7 @@ class CollapsedButton extends React.Component {
     }
     return (
       <Dropdown {...dropdownOptions}>
-        <a className="action more-action" onClick={me.handleMoreClick}>
+        <a className="action" onClick={me.handleMoreClick}>
           {content}
         </a>
       </Dropdown>
@@ -184,7 +180,7 @@ class CollapsedButton extends React.Component {
       if (index === 0) {
         const triggerContent = (
           <span>
-            <span className={`${me.props.prefixCls}-collapsed-button-text`}>{child.props.children}</span>
+            {child.props.children}
             <i
               className={classnames({
                 'kuma-icon': true,
@@ -207,7 +203,7 @@ class CollapsedButton extends React.Component {
           );
         } else {
           trigger = (
-            <a className="action" ref={me.saveRef('triggerInstance')}>
+            <a className="action collapse-one" ref={me.saveRef('triggerInstance')}>
               {triggerContent}
             </a>
           );
@@ -227,7 +223,7 @@ class CollapsedButton extends React.Component {
       </Menu>
     );
 
-    const offsetY = type === 'button' ? -33 : -45;
+    const offsetY = type === 'button' ? -31 : -44;
 
     const dropdownOptions = {
       key: 'icon',
@@ -239,10 +235,7 @@ class CollapsedButton extends React.Component {
         offset: [0, offsetY],
       },
       visible: me.state.dropdownVisible,
-      overlayClassName: classnames({
-        [`${me.props.prefixCls}-collapsed-button-more-dropdown`]: true,
-        [`${me.props.prefixCls}-collapsed-button-more-link-dropdown`]: type === 'link',
-      }),
+      overlayClassName: `${me.props.prefixCls}-collapsed-button-more-dropdown`,
       onVisibleChange: me.handleDropdownVisibleChange,
     };
 
@@ -255,7 +248,7 @@ class CollapsedButton extends React.Component {
 
   render() {
     const me = this;
-    const { children, maxLength, type } = me.props;
+    const { children, maxLength } = me.props;
     const buttons = [];
     const options = [];
     if (parseInt(maxLength, 10) === 1 && React.Children.count(children) > 1) {
@@ -265,18 +258,12 @@ class CollapsedButton extends React.Component {
     }
     if (React.Children.count(children) <= parseInt(maxLength, 10)) {
       React.Children.forEach(children, (item, index) => {
-        if (index !== 0 && type === 'link') {
-          buttons.push(<span key={`button${index}`} className={`${me.props.prefixCls}-collapsed-button-split-line`}>|</span>);
-        }
         buttons.push(me.renderItem(item, index));
       });
     } else {
       React.Children.forEach(children, (item, index) => {
         if (index < parseInt(maxLength, 10) - 1) {
           buttons.push(me.renderItem(item, index));
-          if (type === 'link') {
-            buttons.push(<span key={`button${index}`} className={`${me.props.prefixCls}-collapsed-button-split-line`}>|</span>);
-          }
         } else {
           options.push(item);
         }
@@ -305,7 +292,6 @@ CollapsedButton.propTypes = {
 CollapsedButton.defaultProps = {
   maxLength: 3,
   onClick: () => {},
-  type: 'link',
 };
 
 export default CollapsedButton;
