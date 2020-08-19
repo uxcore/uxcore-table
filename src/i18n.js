@@ -23,4 +23,16 @@ export default {
     searchPlaceholder: '请输入搜索关键字',
     columnOrder: '列排序'
   },
+  'zh-hk': {
+    templated_column: '自定義列',
+    more: '更多',
+    default_empty_text: '暫無數據',
+    __others__: '其它',
+    check_all: '全選',
+    columnPickerTip: '以下內容為可選字段',
+    okText: '確認',
+    cancelText: '取消',
+    searchPlaceholder: '請輸入搜索關鍵詞',
+    columnOrder: '列排序'
+  },
 };
