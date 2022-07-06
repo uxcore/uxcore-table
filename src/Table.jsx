@@ -184,6 +184,7 @@ class Table extends React.Component {
     this.handleColumnPickerChange = this.handleColumnPickerChange.bind(this);
     this.handleActionBarSearch = this.handleActionBarSearch.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
+    this.processPercentCount = 0;
     props.needCheckRightFixed && setInterval(() => {
       this.rightFixedTable && this.checkRightFixed(true)
     }, 300)
@@ -238,19 +239,26 @@ class Table extends React.Component {
 
     if (this.state.hasPercentWidth
       && this.root && this.root.clientWidth !== this.state.tableWidth) {
-      /* eslint-disable react/no-did-update-set-state */
-      this.setState((state) => {
-        const newState = {
-          tableWidth: this.root.clientWidth,
-          ...Table.processColumn(this.props, state, { tableWidth: this.root.clientWidth }),
-        };
-        if (state.forceToCheckRight) {
-          this.checkRightFixed(true);
-          newState.forceToCheckRight = false;
-        }
-        return newState;
-      });
-      /* eslint-enable react/no-did-update-set-state */
+      // 这里有死循环的风险，clientWidth 和 tableWidth 在某种特殊的情况下会一直不相等，
+      // 因此必须有其他退出的方式
+      if (this.processPercentCount >= 2) {
+        this.processPercentCount = 0;
+      } else {
+        this.processPercentCount += 1;
+        /* eslint-disable react/no-did-update-set-state */
+        this.setState((state) => {
+          const newState = {
+            tableWidth: this.root.clientWidth,
+            ...Table.processColumn(this.props, state, { tableWidth: this.root.clientWidth }),
+          };
+          if (state.forceToCheckRight) {
+            this.checkRightFixed(true);
+            newState.forceToCheckRight = false;
+          }
+          return newState;
+        });
+        /* eslint-enable react/no-did-update-set-state */
+      }
     }
     // TODO: performance need to be cared
     this.checkBodyVScroll();
@@ -564,7 +572,7 @@ class Table extends React.Component {
     }
   }
 
-  fetchRemoteData(from, props, cb = () => {}) {
+  fetchRemoteData(from, props, cb = () => { }) {
     const me = this;
     if (me.request) {
       me.request.abort();
@@ -626,7 +634,7 @@ class Table extends React.Component {
     });
   }
 
-  fetchPassedData(props, cb = () => {}) {
+  fetchPassedData(props, cb = () => { }) {
     console.warn('props subComp is deprecated, use renderSubComp instead.');
     const me = this;
     if (!props.queryKeys) {
@@ -652,7 +660,7 @@ class Table extends React.Component {
     }
   }
 
-  fetchLocalData(from, props, cb = () => {}) {
+  fetchLocalData(from, props, cb = () => { }) {
     const me = this;
     // Data has changed, so uid which is used to mark the data should be reset.
     me.uid = 0;
@@ -1143,7 +1151,7 @@ class Table extends React.Component {
       const key = me.state.checkboxColumnKey;
       const item = data[i];
       if ((!('isDisable' in column) || !column.isDisable(item)) && !column.disable
-      && !(typeof rowSelection === 'object' && rowSelection.isDisabled && rowSelection.isDisabled(item))) {
+        && !(typeof rowSelection === 'object' && rowSelection.isDisabled && rowSelection.isDisabled(item))) {
         if (!item[key] !== !checked) {
           changedRows.push(item)
         }
@@ -1389,9 +1397,9 @@ class Table extends React.Component {
         }
       }
       return shouldRenderAction
-      || (config.linkBar && config.linkBar.length)
-      || config.showSearch
-      || config.showColumnPicker;
+        || (config.linkBar && config.linkBar.length)
+        || config.showSearch
+        || config.showColumnPicker;
     };
 
     const me = this;
@@ -1429,10 +1437,10 @@ class Table extends React.Component {
       return (
         props.fixActionBarToTop
           ? <Sticky
-              offsetTop={props.fixActionBarOffset}
-            >
-              <ActionBar {...renderActionProps} ref={c => this.actionBar = c} />
-            </Sticky>
+            offsetTop={props.fixActionBarOffset}
+          >
+            <ActionBar {...renderActionProps} ref={c => this.actionBar = c} />
+          </Sticky>
           : <ActionBar {...renderActionProps} ref={c => this.actionBar = c} />
       )
     }
@@ -1460,7 +1468,7 @@ class Table extends React.Component {
       bodyHeight = props.height;
     } else {
       bodyHeight = parseInt(props.height, 10) - (headerHeight || (this.hasGroup ? 100 : 50))
-          - actionBarHeight - pagerHeight;
+        - actionBarHeight - pagerHeight;
     }
 
     const commonProps = {
@@ -1505,7 +1513,7 @@ class Table extends React.Component {
       root: this,
       onCollapseChange: (activeKeys, key, table) => {
         this.setState({ rowGroupActiveKey: activeKeys });
-        setTimeout(()=> {
+        setTimeout(() => {
           props.onRowGroupOpenChange && props.onRowGroupOpenChange(activeKeys, key, table)
         }, 310)
       },
