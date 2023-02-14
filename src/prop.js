@@ -13,6 +13,7 @@ const defaultProps = {
   prefixCls: 'kuma-uxtable',
   jsxcolumns: [],
   locale: 'zh-cn',
+  localePack: undefined,
   size: 'middle',
   showHeader: true,
   showFooter: true,
@@ -85,6 +86,7 @@ const defaultProps = {
 const propTypes = {
   prefixCls: PropTypes.string,
   locale: PropTypes.string,
+  localePack: PropTypes.object,
   size: PropTypes.oneOf(['small', 'middle']),
   jsxcolumns: PropTypes.arrayOf(PropTypes.object),
   width: PropTypes.oneOfType([

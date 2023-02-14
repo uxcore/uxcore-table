@@ -76,6 +76,7 @@ class ColumnPicker extends React.Component {
   renderCheckAll() {
     const {
       locale, prefixCls, columns, showColumnPickerCheckAll,
+      localePack,
     } = this.props;
     if (!showColumnPickerCheckAll) {
       return false;
@@ -89,7 +90,7 @@ class ColumnPicker extends React.Component {
           checked={selectedKeys.length !== 0}
           halfChecked={selectedKeys.length !== 0 ? isHalfChecked : false}
         />
-        {i18n[locale].check_all}
+        {localePack.check_all}
         <div className={`${prefixCls}-check-all-split-line`} />
       </div>
     );
@@ -237,7 +238,7 @@ class ColumnPicker extends React.Component {
   }
 
   renderPickerGroups() {
-    const { prefixCls, locale, showColumnPickerCheckAll } = this.props;
+    const { prefixCls, locale, showColumnPickerCheckAll, localePack } = this.props;
     const { selectedKeys, columnsInfo } = this.state;
     const { columns }  = columnsInfo;
     const isChecked = selectedKeys.length === columns.length
@@ -246,7 +247,7 @@ class ColumnPicker extends React.Component {
     return (
       <div style={{ position: 'relative'}}>
         <div className={`${prefixCls}-groups`}>
-          <div className={`${prefixCls}-header`}>{i18n[locale].columnPickerTip}</div>
+          <div className={`${prefixCls}-header`}>{localePack.columnPickerTip}</div>
           <div className={`${prefixCls}-content`}>
             {groups.map(group => {
               return this.renderPickerGroup(group)
@@ -259,7 +260,7 @@ class ColumnPicker extends React.Component {
             checked={isChecked}
             halfChecked={isHalfChecked}
             onChange={this.handleCheckAll}
-          > {i18n[locale].check_all}</CheckBox> : null
+          > {localePack.check_all}</CheckBox> : null
         }
       </div>
     )
@@ -313,8 +314,8 @@ class ColumnPicker extends React.Component {
           'kuma-popover-hidden': disabled
         })}
         onOk={this.handleOk}
-        okText={i18n[p.locale].okText}
-        cancelText={i18n[p.locale].cancelText}
+        okText={p.localePack.okText}
+        cancelText={p.localePack.cancelText}
         locale={p.locale}
         showButton
       >
@@ -322,7 +323,7 @@ class ColumnPicker extends React.Component {
           'disabled': disabled
         })}>
           <Icon usei name={p.iconName} />
-          <span>{p.title || i18n[p.locale].templated_column}</span>
+          <span>{p.title || p.localePack.templated_column}</span>
         </div>
       </Popover>
     );
@@ -334,7 +335,7 @@ class ColumnPicker extends React.Component {
     if (p.useListActionBar) {
       return this.renderListActionBar()
     }
-    const { prefixCls, locale } = p;
+    const { prefixCls, locale, localePack } = p;
     return (
       <Popover
         placement="bottomRight"
@@ -354,7 +355,7 @@ class ColumnPicker extends React.Component {
           >
             <Icon usei name="zidingyilie" className={`${prefixCls}-icon`} />
             <span className={`${prefixCls}-title`}>
-              {i18n[locale].templated_column}
+              {localePack.templated_column}
             </span>
           </div>
         </div>
@@ -367,6 +368,7 @@ ColumnPicker.defaultProps = {
   prefixCls: 'kuma-uxtable-column-picker',
   showColumnPickerCheckAll: false,
   locale: 'zh-cn',
+  localePack: {},
   columns: [],
   handleColumnPickerChange: () => {},
   handleColumnPickerCheckAll: () => {},
@@ -377,6 +379,7 @@ ColumnPicker.propTypes = {
   prefixCls: PropTypes.string,
   showColumnPickerCheckAll: PropTypes.bool,
   locale: PropTypes.string,
+  localePack: PropTypes.object,
   columns: PropTypes.array,
   handleColumnPickerChange: PropTypes.func,
   handleColumnPickerCheckAll: PropTypes.func,

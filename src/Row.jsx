@@ -25,7 +25,7 @@ class Row extends React.Component {
 
     ['rowIndex', 'index', 'mode', 'renderModel', 'fixedColumn',
       'levels', 'addRowClassName', 'renderSubComp', 'visible',
-      'checkboxColumnKey', 'locale', 'isHover', 'treeLoadingIds'].forEach((item) => {
+      'checkboxColumnKey', 'locale', 'localePack', 'isHover', 'treeLoadingIds'].forEach((item) => {
       if (me.props[item] !== nextProps[item]) {
         shouldUpdate = true;
       }
@@ -336,6 +336,7 @@ class Row extends React.Component {
               column: item,
               root: props.root,
               locale: props.locale,
+              localePack: props.localePack,
               rowData: props.rowData,
               rowIndex: props.rowIndex,
               index: props.index,
@@ -410,6 +411,7 @@ Row.propTypes = {
   ]),
   height: PropTypes.number,
   addRowClassName: PropTypes.func,
+  localePack: PropTypes.object,
 };
 
 Row.defaultProps = {
@@ -431,6 +433,7 @@ Row.defaultProps = {
   root: undefined,
   checkboxColumnKey: undefined,
   renderModel: undefined,
+  localePack: {}
 };
 
 export default Row;

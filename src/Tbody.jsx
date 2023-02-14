@@ -66,10 +66,10 @@ class Tbody extends React.Component {
   }
 
   getRowGroupName(name) {
-    const { rowGroupColumn = {}, locale } = this.props;
+    const { rowGroupColumn = {}, localePack } = this.props;
     const data = this.rowGroupMap[name];
     if (name === '__others__') {
-      return i18n[locale][name];
+      return localePack[name];
     }
     return rowGroupColumn.render ? rowGroupColumn.render(name, deepcopy(data)) : name;
   }
@@ -134,7 +134,7 @@ class Tbody extends React.Component {
       }
       const defaultEmptyText = (
         <div style={{ lineHeight: 2 }}>
-          {i18n[this.props.locale].default_empty_text}
+          {this.props.localePack.default_empty_text}
         </div>
       );
       return (
@@ -248,6 +248,7 @@ class Tbody extends React.Component {
       toggleTreeExpandOnRowClick: props.toggleTreeExpandOnRowClick,
       root: props.root,
       locale: props.locale,
+      localePack: props.localePack,
       subComp: props.subComp,
       actions: props.actions,
       mode: props.mode,
@@ -409,6 +410,7 @@ Tbody.propTypes = {
   showRowGroupFooter: PropTypes.bool,
   footer: PropTypes.func,
   rowGroupColumn: PropTypes.object,
+  localePack: PropTypes.object,
 };
 
 Tbody.defaultProps = {
@@ -427,6 +429,7 @@ Tbody.defaultProps = {
   showRowGroupFooter: undefined,
   footer: undefined,
   rowGroupColumn: undefined,
+  localePack: {},
 };
 
 export default Tbody;

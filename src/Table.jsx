@@ -18,12 +18,14 @@ import NattyFetch from 'natty-fetch';
 import Promise from 'lie';
 import React from 'react';
 import Animate from 'uxcore-animate';
+import PropTypes from 'prop-types';
 import { addClass, removeClass } from 'rc-util/lib/Dom/class';
 import { get } from 'rc-util/lib/Dom/css';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import { polyfill } from 'react-lifecycles-compat';
 import Sticky from 'uxcore-sticky'
 
+import i18n from './i18n';
 import Mask from './Mask';
 import util from './util';
 import Header from './Header';
@@ -1358,7 +1360,7 @@ class Table extends React.Component {
     );
   }
 
-  renderActionBar() {
+  renderActionBar(mergedLang) {
     const shouldRenderActionBar = (config) => {
       let shouldRenderAction = false;
       if (!config.useListActionBar) {
@@ -1413,6 +1415,7 @@ class Table extends React.Component {
         useListActionBar: props.useListActionBar,
         showColumnPicker: props.showColumnPicker,
         locale: props.locale,
+        localePack: mergedLang,
         linkBar: props.linkBar,
         checkStatus,
         data,
@@ -1452,7 +1455,10 @@ class Table extends React.Component {
     const { props, state } = this;
     // if table is in sub mode, people always want to align the parent
     // and the sub table, so width should not be cared.
-    const { headerHeight, fixHeaderOffset } = props;
+    const { headerHeight, fixHeaderOffset, locale } = props;
+    const { context = {} } = this;
+    const { localePack = {} } = context;
+    const mergedLang = { ...i18n[locale], ...localePack.Table, ...this.props.localePack };
     const data = state.data ? (state.data.datas || state.data.data) : [];
     const checkStatus = me.getCheckStatus(data);
 
@@ -1501,6 +1507,7 @@ class Table extends React.Component {
       rowSelection: props.rowSelection,
       addRowClassName: props.addRowClassName,
       locale: props.locale,
+      localePack: mergedLang,
       emptyText: props.emptyText,
       renderSubComp: this.state.hasFixed && this.state.hasFixed.hasLeft ? null : props.renderSubComp,
       rowHeight: props.rowHeight,
@@ -1573,7 +1580,7 @@ class Table extends React.Component {
           style={style}
           ref={util.saveRef('root', this)}
         >
-          {this.renderActionBar()}
+          {this.renderActionBar(mergedLang)}
           {
             !this.state.customView ? <div
               className={`${props.prefixCls}-content`}
@@ -1602,5 +1609,9 @@ Table.Constants = Const;
 Table.createCellField = createCellField;
 
 polyfill(Table);
+
+Table.contextTypes = {
+  localePack: PropTypes.object
+}
 
 export default Table;

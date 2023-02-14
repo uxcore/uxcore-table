@@ -12,12 +12,14 @@ class ColumnOrder extends React.Component {
   static propTypes = {
     iconName: PropTypes.string,
     onChange: PropTypes.func,
-    isTableView: PropTypes.bool
+    isTableView: PropTypes.bool,
+    localePack: PropTypes.object,
   }
   static defaultProps = {
     iconName: 'paixu-jiangxu',
     onChange: () => {},
-    isTableView: true
+    isTableView: true,
+    localePack: {}
   }
   constructor(props) {
     super(props)
@@ -93,7 +95,7 @@ class ColumnOrder extends React.Component {
           'disabled': disabled
         })}>
           <Icon usei name={p.iconName} />
-          <span>{p.title || i18n[p.locale].columnOrder}</span>
+          <span>{p.title || p.localePack.columnOrder}</span>
         </div>
       </Popover>
     )
