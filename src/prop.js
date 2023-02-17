@@ -13,7 +13,7 @@ const defaultProps = {
   prefixCls: 'kuma-uxtable',
   jsxcolumns: [],
   locale: 'zh-cn',
-  localePack: undefined,
+  localePack: {},
   size: 'middle',
   showHeader: true,
   showFooter: true,
