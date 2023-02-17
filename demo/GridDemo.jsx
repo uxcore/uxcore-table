@@ -444,11 +444,11 @@ class Demo extends React.Component {
       <UxcoreConfigProvider localePack={
         {
           Table: {
-            check_all: '自定义全选',
-            searchPlaceholder: '自定义占位符',
-            templated_column: '自定义自定义列',
-            columnOrder: '自定义列排序',
-            default_empty_text: '自定义暂无数据'
+            // check_all: '自定义全选',
+            // searchPlaceholder: '自定义占位符',
+            // templated_column: '自定义自定义列',
+            // columnOrder: '自定义列排序',
+            // default_empty_text: '自定义暂无数据'
           }
         }
       }>
