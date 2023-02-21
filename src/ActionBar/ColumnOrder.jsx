@@ -5,7 +5,6 @@ import Icon from 'uxcore-icon'
 import classnames from 'classnames'
 import { getColumnsInfo } from '../util'
 import DraggableList from './DraggableList'
-import i18n from '../i18n';
 
 
 class ColumnOrder extends React.Component {

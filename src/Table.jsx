@@ -1278,6 +1278,7 @@ class Table extends React.Component {
         }),
         ref: util.saveRef('pager', me),
         locale,
+        localePack: this.localePack,
         showSizeChanger: showPagerSizeChanger,
         showQuickJumper: showPagerQuickJumper,
         showTotal: showPagerTotal,
@@ -1459,6 +1460,7 @@ class Table extends React.Component {
     const { context = {} } = this;
     const { localePack = {} } = context;
     const mergedLang = { ...i18n[locale], ...localePack.Table, ...this.props.localePack };
+    this.localePack = mergedLang;
     const data = state.data ? (state.data.datas || state.data.data) : [];
     const checkStatus = me.getCheckStatus(data);
 
@@ -1548,7 +1550,8 @@ class Table extends React.Component {
       key: 'table-header',
       columnResizeable: props.columnResizeable,
       handleColumnResize: this.handleColumnResize,
-      tooltipPlacement: props.tooltipPlacement
+      tooltipPlacement: props.tooltipPlacement,
+      localePack: this.localePack
     };
 
     const renderFooterProps = {

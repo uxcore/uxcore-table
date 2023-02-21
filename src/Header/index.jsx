@@ -111,9 +111,11 @@ class Header extends React.Component {
       isStickyHeader,
       fixedColumn,
       size,
-      tooltipPlacement
+      tooltipPlacement,
+      localePack
     } = me.props;
     const cellProps = {
+      localePack,
       column: item,
       index,
       hasGroup,
@@ -258,7 +260,8 @@ Header.propTypes = {
   prefixCls: PropTypes.string,
   onColumnFilter: PropTypes.func,
   filterColumns: PropTypes.object,
-  isStickyHeader: PropTypes.bool
+  isStickyHeader: PropTypes.bool,
+  localePack: PropTypes.object,
 };
 
 Header.defaultProps = {
@@ -267,7 +270,8 @@ Header.defaultProps = {
   prefixCls: 'kuma-uxtable-header',
   onColumnFilter: () => {},
   filterColumns: {},
-  isStickyHeader: false
+  isStickyHeader: false,
+  localePack: {}
 };
 
 export default Header;

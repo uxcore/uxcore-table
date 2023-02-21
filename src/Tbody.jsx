@@ -12,7 +12,6 @@ import EmptyData from 'uxcore-empty-data';
 import Collapse from 'uxcore-collapse';
 import Row from './Row';
 import util from './util';
-import i18n from './i18n';
 import Footer from './Footer';
 
 

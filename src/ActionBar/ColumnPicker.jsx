@@ -4,7 +4,6 @@ import classnames from 'classnames';
 import Tree from 'uxcore-tree';
 import Popover from 'uxcore-popover';
 import Icon from 'uxcore-icon';
-import i18n from '../i18n';
 import util from '../util';
 import CellCheckbox from '../Cell/CheckBox';
 import CheckBox from './CheckBox'
@@ -74,10 +73,7 @@ class ColumnPicker extends React.Component {
   }
 
   renderCheckAll() {
-    const {
-      locale, prefixCls, columns, showColumnPickerCheckAll,
-      localePack,
-    } = this.props;
+    const { locale, prefixCls, columns, showColumnPickerCheckAll, localePack } = this.props;
     if (!showColumnPickerCheckAll) {
       return false;
     }

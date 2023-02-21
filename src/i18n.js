@@ -9,7 +9,8 @@ export default {
     okText: 'OK',
     cancelText: 'Cancel',
     searchPlaceholder: 'Please enter search keywords',
-    columnOrder: 'Column Order'
+    columnOrder: 'Column Order',
+    reset: 'reset',
   },
   'zh-cn': {
     templated_column: '自定义列',
@@ -21,7 +22,8 @@ export default {
     okText: '确认',
     cancelText: '取消',
     searchPlaceholder: '请输入搜索关键字',
-    columnOrder: '列排序'
+    columnOrder: '列排序',
+    reset: '重置',
   },
   'zh-hk': {
     templated_column: '自定義列',
@@ -33,6 +35,7 @@ export default {
     okText: '確認',
     cancelText: '取消',
     searchPlaceholder: '請輸入搜索關鍵詞',
-    columnOrder: '列排序'
+    columnOrder: '列排序',
+    reset: '重置'
   },
 };

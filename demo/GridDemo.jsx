@@ -65,7 +65,7 @@ class Demo extends React.Component {
           title: '自定义猎头',
           message: 'nihao',
           tooltipPlacement: 'bottomRight',
-          isDisable: function() {
+          isDisable: function () {
             return true
           },
           // fixed: true,
@@ -255,7 +255,7 @@ class Demo extends React.Component {
         customBarItem: {
           render() {
             return (
-              <p style={{color: 'red'}} onClick={(e) => {console.log(e)}}>自定义内容</p>
+              <p style={{ color: 'red' }} onClick={(e) => { console.log(e) }}>自定义内容</p>
             )
           }
         },
@@ -300,11 +300,11 @@ class Demo extends React.Component {
             return [
               {
                 title: '分组1',
-                columns: columns.filter((item, index) => {return index >= 1})
+                columns: columns.filter((item, index) => { return index >= 1 })
               },
               {
                 title: '分组2',
-                columns: columns.filter((item, index) => {return index <= 0})
+                columns: columns.filter((item, index) => { return index <= 0 })
               }
             ]
           },
@@ -319,9 +319,9 @@ class Demo extends React.Component {
             // return (
             //   <Test name={'自定义的View'}/>
             // )
-            return new Promise(function(resolve) {
+            return new Promise(function (resolve) {
               setTimeout(() => {
-                resolve(<Test name={'自定义的View'}/>)
+                resolve(<Test name={'自定义的View'} />)
               })
             })
           }
@@ -435,7 +435,7 @@ class Demo extends React.Component {
         };
         return (
           <div style={{ padding: '0 24px', background: 'rgba(31,56,88,0.04)' }}>
-            <Table {...subProps} jsxdata={rowData.customContent || {data: []}} />
+            <Table {...subProps} jsxdata={rowData.customContent || { data: [] }} />
           </div>
         );
       },
@@ -452,21 +452,21 @@ class Demo extends React.Component {
           }
         }
       }>
-      <div className="demo1">
-        {me.state.showTable
-          ? <Table {...renderProps} ref={function saveRef(c) { me.table = c; }} />
-          : null}
-        <Button
-          onClick={() => {
-            me.table.fetchData();
-          }}
-        >
-          重新获取数据
-        </Button>
-        <Button onClick={this.toggleShowTable}>
-          卸载/恢复组件
-        </Button>
-      </div>
+        <div className="demo1">
+          {me.state.showTable
+            ? <Table {...renderProps} ref={function saveRef(c) { me.table = c; }} />
+            : null}
+          <Button
+            onClick={() => {
+              me.table.fetchData();
+            }}
+          >
+            重新获取数据
+          </Button>
+          <Button onClick={this.toggleShowTable}>
+            卸载/恢复组件
+          </Button>
+        </div>
       </UxcoreConfigProvider>
     );
   }

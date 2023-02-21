@@ -19,7 +19,6 @@ import RowOrder from './RowOrder'
 import ColumnOrder from './ColumnOrder'
 import Icon from 'uxcore-icon'
 import Promise from 'lie'
-import i18n from '../i18n';
 
 
 class ActionBar extends React.Component {
