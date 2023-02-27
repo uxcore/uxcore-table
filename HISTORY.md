@@ -1,4 +1,9 @@
 # History
+
+## 11.10.17
+* `NEW` support localePack
+
+
 ## 11.10.0
 * `NEW` add new prop `allowActionEventDefault` for action column(except tree mode table) to allow event propagation
 
