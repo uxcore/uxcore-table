@@ -20,11 +20,13 @@ class HeaderCell extends React.Component {
     onCheckboxChange: PropTypes.func,
     onFilter: PropTypes.func,
     filterSelectedKeys: PropTypes.array,
+    localePack: PropTypes.object,
   }
 
   static defaultProps = {
     onFilter: () => { },
     filterSelectedKeys: [],
+    localePack: {}
   }
 
   constructor(props) {
@@ -177,14 +179,14 @@ class HeaderCell extends React.Component {
               className={`${prefixCls}-item-filter-action-button ${prefixCls}-item-filter-action-button-reset`}
               onClick={() => { this.handleFilterActionReset(); }}
             >
-              重置
+              {this.props.localePack.reset}
 
             </div>
             <div
               className={`${prefixCls}-item-filter-action-button ${prefixCls}-item-filter-action-button-confirm`}
               onClick={() => { this.handleFilterActionConfirm(); }}
             >
-              确认
+              {this.props.localePack.okText}
 
             </div>
           </div>

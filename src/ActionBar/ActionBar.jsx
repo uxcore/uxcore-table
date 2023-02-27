@@ -19,7 +19,6 @@ import RowOrder from './RowOrder'
 import ColumnOrder from './ColumnOrder'
 import Icon from 'uxcore-icon'
 import Promise from 'lie'
-import i18n from '../i18n';
 
 
 class ActionBar extends React.Component {
@@ -104,7 +103,7 @@ class ActionBar extends React.Component {
         config.onSearch(value)
       },
       key: 'searchbar',
-      placeholder: config.placeholder || i18n[this.props.locale].searchPlaceholder,
+      placeholder: config.placeholder || this.props.localePack.searchPlaceholder,
       prefixCls: `${me.props.tablePrefixCls}-searchbar`,
     };
     return <SearchBar {...searchBarProps} />;
@@ -120,12 +119,14 @@ class ActionBar extends React.Component {
       showColumnPickerCheckAll,
       width,
       locale,
+      localePack,
       tablePrefixCls,
       useListActionBar
     } = me.props;
     const commonRenders = {
       columns,
       locale,
+      localePack,
       dropdownMaxWidth: width,
       checkboxColumnKey,
       handleColumnPickerChange,
@@ -150,7 +151,7 @@ class ActionBar extends React.Component {
 
   renderSelectAll() {
     const me = this;
-    const { locale, checkStatus } = me.props
+    const { checkStatus, localePack } = me.props
     const { isHalfChecked, isAllChecked, isAllDisabled } = checkStatus
     return (
       <span className={`${me.props.tablePrefixCls}-select-all`}>
@@ -160,10 +161,10 @@ class ActionBar extends React.Component {
           halfChecked={isHalfChecked}
           disable={isAllDisabled}
           onChange={me.handleCheckBoxChange}
-          text={i18n[locale].check_all}
+          text={localePack.check_all}
         />
         {
-          isHalfChecked ? <span style={{verticalAlign: 'middle'}}>{' '+ i18n[locale].check_all}</span>: ''
+          isHalfChecked ? <span style={{verticalAlign: 'middle'}}>{' '+ localePack.check_all}</span>: ''
         }
       </span>
     )
@@ -212,7 +213,8 @@ class ActionBar extends React.Component {
     const {
       columns,
       handleColumnOrderChange,
-      locale
+      locale,
+      localePack
     } = me.props;
     const {
       className,
@@ -275,6 +277,7 @@ class ActionBar extends React.Component {
             columnsOrder ? <ColumnOrder
               {...columnsOrder}
               locale={locale}
+              localePack={localePack}
               handleColumnOrderChange={handleColumnOrderChange}
               columns={columns}
               isTableView={activatedView === 'table'}
@@ -300,7 +303,7 @@ class ActionBar extends React.Component {
       showColumnPicker,
       onColumnPicker,
       linkBar,
-      locale,
+      localePack,
       actionBarConfig,
       useListActionBar
     } = this.props;
@@ -323,7 +326,7 @@ class ActionBar extends React.Component {
       if (!barConfig.columnsPicker) {
         barConfig.columnsPicker = {
           iconName: 'zidingyilie',
-          title: i18n[locale].templated_column,
+          title: localePack.templated_column,
           keepActiveInCustomView: true,
           onChange(data) {
             onColumnPicker && onColumnPicker(data)
@@ -335,7 +338,7 @@ class ActionBar extends React.Component {
     if (showSearch) {
       if (!barConfig.search) {
         barConfig.search = {
-          placeholder: searchBarPlaceholder || i18n[locale].searchPlaceholder,
+          placeholder: searchBarPlaceholder || localePack.searchPlaceholder,
           onSearch: (value) => {
             onSearch && onSearch(value)
           }
@@ -369,11 +372,13 @@ class ActionBar extends React.Component {
 ActionBar.propTypes = {
   showSearch: PropTypes.bool,
   onSearch: PropTypes.func,
+  localePack: PropTypes.object,
 };
 
 ActionBar.defaultProps = {
   showSearch: false,
   onSearch: () => {},
+  localePack: {},
 };
 
 export default ActionBar;

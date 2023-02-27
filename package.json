@@ -43,6 +43,7 @@
     "react-test-renderer": "16.x",
     "uxcore-kuma": "*",
     "uxcore-tools": "^0.3.0",
+    "uxcore-config-provider": "^0.1.0",
     "uxcore-validator": "^0.2.4",
     "babel-polyfill": "6.x",
     "enzyme-adapter-react-16": "1.x"

@@ -8,6 +8,7 @@
 
 import Button from 'uxcore-button';
 import React from 'react';
+import UxcoreConfigProvider from 'uxcore-config-provider';
 import Table from '../src';
 import Promise from 'lie'
 
@@ -440,7 +441,18 @@ class Demo extends React.Component {
       },
     };
     return (
-      <div className="demo1">
+      <UxcoreConfigProvider localePack={
+        {
+          Table: {
+            // check_all: '自定义全选',
+            // searchPlaceholder: '自定义占位符',
+            // templated_column: '自定义自定义列',
+            // columnOrder: '自定义列排序',
+            // default_empty_text: '自定义暂无数据'
+          }
+        }
+      }>
+        <div className="demo1">
         {me.state.showTable
           ? <Table {...renderProps} ref={function saveRef(c) { me.table = c; }} />
           : null}
@@ -454,7 +466,8 @@ class Demo extends React.Component {
         <Button onClick={this.toggleShowTable}>
           卸载/恢复组件
         </Button>
-      </div>
+        </div>
+      </UxcoreConfigProvider>
     );
   }
 }
