@@ -1,4 +1,4 @@
-export default {
+const LANG_PACK = {
   'en-us': {
     templated_column: 'Column Picker',
     more: 'more',
@@ -39,3 +39,7 @@ export default {
     reset: '重置'
   },
 };
+
+LANG_PACK['en_US'] = LANG_PACK['en-us'];
+LANG_PACK['zh_CN'] = LANG_PACK['zh-cn'];
+export default LANG_PACK;
