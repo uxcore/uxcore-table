@@ -1,5 +1,8 @@
 # History
 
+## 11.10.18
+* `NEW` 新增 locale key en_US zh_CN (#279)
+
 ## 11.10.17
 * `NEW` support localePack
 
